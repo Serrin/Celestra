@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Celestra</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="Author" content="Czigler Ferenc"/>
+<meta name="Copyright" content="(C) Copyright Czigler Ferenc"/>
+<script src="celestra.min.js"></script>
+<style>
+
+*,:before,:after { box-sizing: border-box; word-break: break-all; word-wrap: break-word;}
+button { word-break: normal; word-wrap: normal; }
+
+html {background-color: darkgrey;}
+
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  margin: 0 auto;
+  max-width: 1170px;
+  padding: 15px;
+}
+
+header,footer { text-align: center; }
+
+h1,h2,h3,h4,h5,h6 { font-weight: normal; }
+h2 { background-color: #ccc; padding: 3px; margin-top: 50px; }
+h3 { margin-top: 50px; }
+h3,h4,h5,h6 { background-color: #eee; padding: 3px; }
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+
+code {
+  background-color: slategrey;
+  /*background-color: #333;*/
+  color: white;
+  display: inline-block;
+  padding: 2px 5px 2px 5px;
+  margin-top: 2px;
+}
+
+code,pre {
+  font-size: 14.5px !important;
+  font-family: consolas, monospace;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+a,a:visited,a:active { color: steelblue; text-decoration: none; }
+a:hover { color: steelblue; text-decoration: underline; }
+
+/* table { margin: 0 auto; } */
+td { vertical-align: top; }
+
+#fsdiv { padding: 20px; }
+
+.deprecated, .removed, .info { display: inline-block; padding: 3px; }
+.deprecated { background-color: darkorange; color: white; }
+.removed { background-color: crimson; color: white; }
+.info { background-color: lightblue; color: black; }
+
+#eventtestarea {
+  background-color: lightblue;
+  padding: 10px;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Celestra (ex minquery.js)</h1>
+  <nav><b>
+    <a href="#download">Download</a>
+    &nbsp;//&nbsp;
+    <a href="#variables">Variables</a>
+    &nbsp;//&nbsp;
+    <a href="#functions">Functions</a>
+    &nbsp;//&nbsp;
+    <a href="#samples">Samples</a>
+    &nbsp;//&nbsp;
+    <a href="#license">License</a>
+    &nbsp;//&nbsp;
+    <a href="#footer">Contact</a>
+  </b></nav>
+</header>
+
+<h2 id="download">Download</h2>
+
+<p><strong>A helper ES5 library for those who like the Vanilla JS.</strong></p>
+<p>Only some functions and polyfills.</p>
+
+<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Browser, Chrome, Firefox and W10M Edge).</p>
+<p>Latest version: 1.15.0</p>
+<p>Date: 2017-11-21T20:05:22.070Z</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (15245 byte)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (12057 byte)</p>
+
+<h3>Plugins</h3>
+
+<p>Classic plugin for Celestra - Read more on the <a href="celestra-classic.html" target="_blank">separated page</a>.</p>
+
+<h2 id="variables">Variables</h2>
+
+<div>
+  <table>
+    <tr>
+      <td><code>doc</code></td>
+      <td>Short name for the global document object.</td>
+    </tr>
+  </table>
+</div>
+
+<h2 id="functions">Functions</h2>
+
+<div>
+  <table>
+    <tr>
+      <td><code>qsa(&#60;selector&#62;[,context]);</code></td>
+      <td>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.</td>
+    </tr>
+    <tr>
+      <td><code>qsa(&#60;selector&#62;[,context]).each( fn(el,i) { el.arguments;} );</code></td>
+      <td>Exec a function on all elements.</td>
+    </tr>
+    <tr>
+      <td><code>qs(&#60;selector&#62;[,context]).argument;</code></td>
+      <td>Get the first matched HTML element. The context is optional and can be an element or a selector string.</td>
+    </tr>
+    <tr>
+      <td><code>domReady(&#60;fn&#62;);</code></td>
+      <td>Set the document ready (content fully loaded) event.</td>
+    </tr>
+    <tr>
+      <td><code>inherit(&#60;subclass&#62;,&#60;superclass&#62;);</code></td>
+      <td>Prototype inheritance.</td>
+    </tr>
+    <tr>
+      <td><code>random(&#60;max&#62;);</code></td>
+      <td>Get a random number value within 0 and max value.</td>
+    </tr>
+    <tr>
+      <td><code>random(&#60;min&#62;,&#60;max&#62;);</code></td>
+      <td>Get a random number value within min and max value.</td>
+    </tr>
+    <tr>
+      <td><code>getScript(&#60;url&#62;[,success]);</code></td>
+      <td>
+        <p>Load a JavaScript file and then execute it. The url parameter is mandatory and can be a string. The success is optional and can be a function.</p>
+        <p><b>Tip:</b> To prevent the caching of a js/css file use versioning in the file url. Example: <code>mylib.js?version=1.10.0</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>getScripts(&#60;scripts&#62;);</code></td>
+      <td>Load more JavaScript files (modules) and then execute it. The scripts parameter is mandatory and can be an array with object elements. The element.url property is mandatory can can be a string. The element.success property is optional and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>getStyle(&#60;href&#62;[,success]);</code></td>
+      <td>
+        <p>Load a CSS file. The href parameter is mandatory and can be a string. The success is optional and can be a function.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>getStyles(&#60;styles&#62;);</code></td>
+      <td>Load more CSS files (modules). The styles parameter is mandatory and can be an array with object elements. The element.href property is mandatory can can be a string. The element.success property is optional and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>getUrlVar([name]);</code></td>
+      <td>Get the value of a url search variable or all url variables in an object. The variable name is optional and can be a string.</td>
+    </tr>
+    <tr>
+      <td><code>getType(&#60;variable&#62;[, type]);</code></td>
+      <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.</td>
+    </tr>
+    <tr>
+      <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
+      <td>This is an enhanced version of the <code>Object.assign</code> method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. In addition, the <code>extend</code> function doesn't use the <code>hasOwnProperty</code> method and copies all of the properties.</td>
+    </tr>
+    <tr>
+      <td><code>getFullscreen();</code></td>
+      <td>
+        Get the fullscreen element. If this isn't set, then the return value is undefined.
+        <br/>Please check the incompatibility issues on the <a href="http://caniuse.com/#search=fullscreen" target="_blank">http://caniuse.com/#search=fullscreen</a> page.
+      </td>
+    </tr>
+    <tr>
+      <td><code>setFullscreenOn(&#60;selector&#62;);</code></td>
+      <td>Set the fullscreen element. The selector can be a css selector string or an element.</td>
+    </tr>
+    <tr>
+      <td><code>setFullscreenOff();</code></td>
+      <td>Set off the fullscreen.</td>
+    </tr>
+    <tr>
+      <td><code>getLocation(&#60;success&#62;[,error]);</code></td>
+      <td>Get the current location as an object with the coordinates. The success is mandatory and can be a function. The error is optional and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>getDoNotTrack();</code></td>
+      <td>Return the DoNotTrack setting (boolean) of the browser.</td>
+    </tr>
+    <tr>
+      <td><code>constant(&#60;value&#62;);</code></td>
+      <td>A one time assingment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: <code>f(x)=x</code>)</td>
+    </tr>
+    <tr>
+      <td><code>noop();</code></td>
+      <td>It's an empty function (no operation) that returns undefined and usable for optional callback arguments.<td>
+    </tr>
+    <tr>
+      <td><code>repeat(&#60;iteration&#62;,&#60;callback&#62;);</code></td>
+      <td>Repeat the callback function. The iteration is mandatory and sets the number of the repeats and can be an integer. The callback is mandatory and can be a function. This function will be called with the iterator counter as parameter.<td>
+    </tr>
+  </table>
+</div>
+
+<h3>DOM functions</h3>
+
+<p>Aliases for the <code>FadeIn</code>, <code>FadeOut</code> and <code>FadeToggle</code> functions are available in the <a href="migrate-1.12.1.js" target="_blank">migrate-1.12.1.js</a> file. Please use the new names, because the aliases will be removed in the version 1.15.0.</p>
+
+<div>
+  <table>
+    <tr>
+      <td><code>domCreate(&#60;type&#62;[,properties[,innerHTML]]);</code></td>
+      <td>Create a new HTML element. The type is mandatory and can be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.<td>
+    </tr>
+    <tr>
+      <td><code>domGetCSS(&#60;element&#62;,&#60;property&#62;);</code></td>
+      <td>
+        Get a CSS property value of an element. The function uses the <code>getComputedStyle</code> method, if it is available. The element is mandatory and can be a HTML element. The property is mandatory and can be a string.
+      <td>
+    </tr>
+    <tr>
+      <td><code>domsetCSS(&#60;element&#62;,&#60;property&#62;,&#60;value&#62;);</code></td>
+      <td>
+        Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be a string. The value is mandatory and can be a string.
+      <td>
+    </tr>
+    
+    <tr>
+      <td><code>domsetCSS(&#60;element&#62;,&#60;properties&#62;);</code></td>
+      <td>
+        Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be an object. The object properties can be the CSS properties and the property values will be applied to the element.
+      <td>
+    </tr>
+    
+    <tr>
+      <td><code>domFadeIn(&#60;element&#62;[, duration[,display]]);</code></td>
+      <td>
+        <span class="info">Renamed in 1.11.0 from fadeIn to domFadeIn</span>&nbsp;
+        Fade in and show animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
+      <td>
+    </tr>
+    <tr>
+      <td><code>domFadeOut(&#60;element&#62;[,duration]);</code></td>
+      <td>
+        <span class="info">Renamed in 1.11.0 from fadeToggle to domFadeToggle</span>&nbsp;
+        Fade out and hide animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms).
+      <td>
+    </tr>
+    <tr>
+      <td><code>domFadeToggle(&#60;element&#62;[,duration[,display]]);</code></td>
+      <td>
+        <span class="info">Renamed in 1.11.0 from FadeToggle</span>&nbsp;
+        Fade in or fade out animation which depends on the state of the element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
+      <td>
+    </tr>
+    <tr>
+      <td><code>domShow(&#60;element&#62;[,display]);</code></td>
+      <td>Show an element. The element is mandatory and can be a HTML element. The display is optional and can be a string (CSS display values).<td>
+    </tr>    
+    <tr>
+      <td><code>domHide(&#60;element&#62;);</code></td>
+      <td>Hide an element. The element is mandatory and can be a HTML element.<td>
+    </tr>    
+    <tr>
+      <td><code>domToggle(&#60;element&#62;[,display]);</code></td>
+      <td>Show or hide an element. The element is mandatory and can be a HTML element. The display is optional and can be a string (CSS display values).<td>
+    </tr>
+      <td><code>domOn(&#60;eventTarget&#62;,&#60;eventType&#62;,&#60;callback&#62;);</code></td>
+      <td>Add a callback to the eventType of the eventTarget.</td>
+    </tr>
+    <tr>
+      <td><code>domOff(&#60;eventTarget&#62;,&#60;eventType&#62;,&#60;callback&#62;);</code></td>
+      <td>Remove a callback to the eventType of the eventTarget.</td>
+    </tr>
+    <tr>
+      <td><code>domTrigger(&#60;eventTarget&#62;,&#60;eventType&#62;);</code></td>
+      <td>Trigger an eventType of the eventTarget.</td>
+    </tr>    
+  </table>
+</div>
+
+<h3>Functional programming</h3>
+
+<p>These functions help you write quick functional programming Javascript code.</p>
+
+<div>
+  <table>
+    <tr>
+      <td><code>toFunction(&#60;function&#62;);</code></td>
+      <td>Return a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
+    </tr>
+    <tr>
+      <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
+      <td>Return a function from an object method. The returned function is bind to the context.</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <p><b>Sample codes</b></p>
+        <p><button onclick='var forEach2 = toFunction([].forEach); var log = bind(console.log, console); forEach2(document.querySelectorAll("h3"), log);'>Try</button></p>
+        <p><code>var forEach2 = toFunction([].forEach);<br/>var log = bind(console.log, console);<br/>forEach2(document.querySelectorAll("h3"), log);</code></p>
+        <p><button onclick='var slice = toFunction([].slice); alert( Array.isArray(slice(document.querySelectorAll("h3"))) );'>Try</button></p>
+        <p><code>var slice = toFunction([].slice);<br/>alert( Array.isArray(slice(document.querySelectorAll("h3"))) );</code></p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div>
+  <table>
+    <tr>
+      <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>The forEach() method executes a provided function once for each array or nodelist element. The collection is mandatory and can be an array or nodelist. The callback is mandatory and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>The map() method creates a new array with the results of calling a provided function on every element in the calling array or nodelist. The collection is mandatory and can be an array or nodelist. The callback is mandatory and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
+      <td>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and can be an object (not array and nodelist). The callback is mandatory and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>mapIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
+      <td>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and can be an object (not array and nodelist). The callback is mandatory and can be a function.</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <p><b>Sample codes</b></p>
+        <p><button onclick='var arr1 = [1,2,3]; forEach ( arr1, function (v) { alert( v*2 ); } );'>forEach</button></p>
+        <p><code>var arr1 = [1,2,3];<br/>forEach ( arr1, function (v) { alert( v*2 ); } );</code></p>
+        <p><button onclick='var arr2a = [1,2,3]; var arr2b = map ( arr2a, function (v) { return v*3; } ); alert(arr2a+"\n"+arr2b);'>map</button></p>
+        <p><code>var arr2a = [1,2,3];<br/>var arr2b = map ( arr2a, function (v) { return v*3; } );<br/>alert(arr2a+"\n"+arr2b);</code></p>
+        
+        <p><button onclick='var o1 = {a:1,b:2,c:3}; forIn ( o1, function (v) { alert( v*4 ); } );'>forIn</button></p>
+        <p><code>var o1 = {a:1,b:2,c:3};<br/>forIn ( o1, function (v) { alert( v*4 ); } );</code></p>
+        <p><button onclick='var o2a = {a:1,b:2,c:3}; var o2b = mapIn ( o2a, function(v) { return v*5; } ); alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);'>mapIn</button></p>
+        <p><code>var o2a = {a:1,b:2,c:3};<br/>var o2b = mapIn ( o2a, function(v) { return v*5; } );<br/>alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>toArray(&#60;object&#62;);</code></td>
+      <td>
+        <p>Convert an object (array like objects) to array or clone an array. This function is same as the <code>Array.from</code>, if that is available. If not, then the <code>Array.prototype.slice</code> will be called.</p>
+        <p><button onclick='alert( Array.isArray( toArray(document.querySelectorAll("td")) ) );'>Try</button></p>
+        <p><code>alert( Array.isArray( toArray(document.querySelectorAll("td")) ) );</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>toObject(&#60;array&#62;);</code></td>
+      <td>
+         <p>Convert an array to iterable object.</p>
+        <p><button onclick='var a1=["a","b","c"]; var o1=toObject(a1); alert(typeof o1); for(var i=0,len=o1.length; i<len; i++) { alert(o1[i]); }'>Try</button></p>
+        <p><code>var a1=["a","b","c"];<br/>var o1=toObject(a1);<br/>alert(typeof o1);<br/>for(var i=0,len=o1.length; i&#60;len; i++) { alert(o1[i]); }</code></p>      </td>
+    </tr>   
+  </table>
+</div>
+
+<h3>AJAX and CORS</h3>
+
+<div style="overflow-x:auto;">
+	<table>
+		<tr>
+			<td><code>getJson (&#60;url&#62;,&#60;success&#62;);</code></td>
+			<td>Get TEXT content via AJAX. A shorthand function to the getAjax() function.</td>
+		</tr>
+		<tr>
+			<td><code>getText (&#60;url&#62;,&#60;success&#62;);</code></td>
+			<td>Get JSON content via AJAX. A shorthand function to the getAjax() function.</td>
+		</tr>
+		<tr>
+			<td><code>getAjax (&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error][,user&#60;,password&#62;]);</code></td>
+			<td>Get content via AJAX.</td>
+		</tr>
+		<tr>
+			<td><code>postAjax (&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error][,user&#60;,password&#62;]);</code></td>
+			<td>
+        Post data and get the response content via AJAX.</td>
+		</tr>
+		<tr>
+			<td><code>getCors (&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error][,user&#60;,password&#62;]);</code></td>
+			<td>
+        Get content via cross domain AJAX.</td>
+		</tr>
+		<tr>
+			<td><code>postCors (&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error][,user&#60;,password&#62;]);</code></td>
+			<td>Post data and get the response content via cross domain AJAX.</td>
+		</tr>
+	</table>
+</div>
+
+<p><b>Parameters:</b></p>
+<ul>
+  <li>The url is mandatory and has to be a string.</li>
+  <li>The data is mandatory in the <code>postAjax</code> and <code>postCors</code> functions and has to be a string.</li>
+  <li>The format is mandatory and has to be a string: "text"/"json"/"xml". If any other value is set, then the default "text" content is requested.</li>
+  <li>The success is mandatory and has to be a function.</li>
+  <li>The error is optional and has to be a function.</li>
+  <li>The user is optional and has to be a string.</li>
+  <li>The user is optional, but mandatory if the user is set. This parameter has to be a string.</li>
+</ul>
+
+<h3>Deprecated and removed functions</h3>
+
+<p>The <b>migrate-1.12.1.js</b> file were finally removed in 1.15.0.</p>
+
+<div>
+  <table>
+    <tr>
+      <td><code>$(&#60;selector&#62;[,context]);</code></td>
+      <td>
+        <span class="removed">Finally removed in 1.15.0</span>&nbsp;
+        <span class="removed">Removed in 1.10.0</span>&nbsp;
+        <span class="deprecated">Deprecated in 1.7.1</span>&nbsp;
+        Same as <code>qsa(&#60;selector&#62;[,context]);</code>.
+      </td>
+    </tr>
+    <tr>
+      <td><code>$1(&#60;selector&#62;[,context]).argument;</code></td>
+      <td>
+        <span class="removed">Finally removed in 1.15.0</span>&nbsp;
+        <span class="removed">Removed in 1.10.0</span>&nbsp;
+        <span class="deprecated">Deprecated in 1.7.1</span>&nbsp;
+        Same as <code>qs(&#60;selector&#62;[,context]);</code>.
+      </td>
+    </tr>
+    <tr>
+      <td><code>$$(&#60;fn&#62;);</code></td>
+      <td>
+        <span class="removed">Finally removed in 1.15.0</span>&nbsp;
+        <span class="removed">Removed in 1.10.0</span>&nbsp;
+        <span class="deprecated">Deprecated in 1.7.1</span>&nbsp;
+        Same as <code>domReady(&#60;fn&#62;);</code>.
+      </td>
+    </tr>
+    <tr>
+      <td><code>$id(&#60;selector&#62;).argument;</code></td>
+      <td>
+        <span class="removed">Finally removed in 1.15.0</span>&nbsp;
+        <span class="removed">Removed in 1.10.0</span>&nbsp;
+        <span class="deprecated">Deprecated in 1.7.0</span>&nbsp;
+        Get the ID matched HTML element. Please use the <code>qs(&#60;selector&#62;[,context]);</code> instead of this!
+      </td>
+    </tr>
+    <tr>
+      <td><code>$A(&#60;object&#62;);</code></td>
+      <td>
+        <span class="removed">Finally removed in 1.15.0</span>&nbsp;
+        <span class="removed">Removed in 1.10.0</span>&nbsp;
+        <span class="deprecated">Deprecated in 1.7.0</span>&nbsp;
+        Convert an object (array like objects) to array or clone an array. Please use the <code>Array.from()</code> instead of this!
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h3 id="polyfills">Polyfills</h3>
+
+<div>
+  <table>
+    <tr>
+      <td><code>Array.from()</code></td>
+      <td>The Array.from() method creates a new Array instance from an array-like or iterable object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from?v=example" target="_blank">MDN Article!</a></td>
+    </tr>
+    <tr>
+      <td><code>Array.of()</code></td>
+      <td>The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of?v=example" target="_blank">MDN Article!</a></td>
+    </tr>
+    <tr>
+      <td><code>Object.create()</code></td>
+      <td>The Object.create() method creates a new object with the specified prototype object and properties. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create" target="_blank">MDN Article</a> and <a href="http://javascript.crockford.com/prototypal.html" target="_blank">Douglas Crockford's site</a>!</td>
+    </tr>
+    <tr>
+      <td>ChildNode API</td>
+      <td>For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td>ParentNode API</td>
+      <td>For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Object.assign()</code></td>
+      <td>The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>ChildNode.after()</code></td>
+      <td>The ChildNode.after() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just after this ChildNode. DOMString objects are inserted as equivalent Text nodes. It will return the target object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/after" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>ChildNode.before()</code></td>
+      <td>The ChildNode.before method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just before this ChildNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/before" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>ChildNode.remove()</code></td>
+      <td>The ChildNode.remove() method removes the object from the tree it belongs to. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>ChildNode.replaceWith()</code></td>
+      <td>The ChildNode.replaceWith() method replaces this ChildNode in the children list of its parent with a set of Node or DOMString objects. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/replaceWith" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>ParentNode.append()</code></td>
+      <td>The ParentNode.append method inserts a set of Node objects or DOMString objects after the last child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>ParentNode.prepend()</code></td>
+      <td>The ParentNode.prepend method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.includes()</code></td>
+      <td>The includes() method determines whether an array includes a certain element, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.includes()</code></td>
+      <td>The includes() method determines whether one string may be found within another string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>NodeList.prototype.forEach()</code></td>
+      <td>The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.MIN_SAFE_INTEGER</code></td>
+      <td>he Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
+    </tr>  
+    <tr>
+      <td><code>Number.MAX_SAFE_INTEGER</code></td>
+      <td>The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.EPSILON</code></td>
+      <td>The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/EPSILON" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.isNaN()</code></td>
+      <td>The Number.isNaN() method determines whether the passed value is NaN and its type is Number. It is a more robust version of the original, global isNaN(). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN" target="_blank">MDN Article</a>!</td>
+    </tr> 
+    <tr>
+      <td><code>isNaN()</code></td>
+      <td>he isNaN() function determines whether a value is NaN or not. Note: coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.isInteger()</code></td>
+      <td>The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.isFinite()</code></td>
+      <td>The Number.isFinite() method determines whether the passed value is a finite number. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.isSafeInteger()</code></td>
+      <td>The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger" target="_blank">MDN Article</a>!</td>
+    </tr>
+  </table>
+</div>
+
+<h2 id="samples">Samples</h2>
+
+<h3>domReady(fn) sample</h3>
+
+<pre><code>domReady(function(){
+  qsa("p",qs("#div1")).each(function fn(el,i) {
+    el.style.color="red";
+  });
+});
+</code></pre>
+
+<h3>Testarea</h3>
+
+<p id="p1">p1</p>
+<p id="p2">p2</p>
+
+<div id="div1">
+  <p id="div3">div1 p3</p>
+  <div>div1 divs1</div>
+  <div>div1 divs2</div>
+</div>
+
+<div id="div2">
+  <p id="div2">div2</p>
+</div>
+
+<h3>Samples</h3>
+
+<p><span class="removed">Removed</span> and <span class="deprecated">Deprecated</span> labels: Don't use these in production.</p>
+
+<div>
+  <table>
+    
+    <tr>
+      <td><b>domCreate(type,properties,innerHTML);</b></td>
+      <td><button onclick='var el1 = domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum"); var el2 = domCreate("p", {}, "Sample created paragraph"); var el3 = domCreate("br"); var el4 = domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url"); qs("#div2").append(el1); el2.append(el3); el2.append(el4); qs("#div2").append(el2);;'>Try</button></td>
+      <td><code>var el1 = domCreate(<br/> "h3",<br/> {style: "background-color: lightblue; font-weight: bold;"},<br/> "H3 Lorem ipsum");<br/>var el2 = domCreate("p", {}, "Sample created paragraph");<br/>var el3 = domCreate("br");<br/>var el4 = domCreate(<br/> "a",<br/> {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"},<br/> "MDN Sample url"<br/>);<br/>qs("#div2").append(el1);<br/>el2.append(el3);<br/>el2.append(el4);<br/>qs("#div2").append(el2);</code></td>
+    </tr>
+    <tr>
+      <td><b>doc.getElementById("samples").style</b></td>
+      <td><button onclick='doc.getElementById("samples").style["background-color"]="red";'>Try</button></td>
+      <td><code>doc.getElementById("samples").style["background-color"]="red";</code></td>
+    </tr>
+    <tr>
+      <td><b>qs(selector).innerHTML</b></td>
+      <td><button onclick='qs("#p1").innerHTML="p1 new content";'>Try</button></td>
+      <td><code>qs("#p1").innerHTML="p1 new content";</code></td>
+    </tr>
+    <tr>
+      <td><b>qsa(selector).each( fn(el,i) );</b></td>
+      <td><button onclick='qsa("p").each(function fn(el,i) { el.innerHTML+=" new content all";});'>Try</button></td>
+      <td><code>qsa("p").each(<br/>function fn(el,i) { el.innerHTML+=" new content all";}<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>qs(selector,qs(selector)).innerHTML</b></td>
+      <td><button onclick='qs("div",qs("#div1")).innerHTML+=" new content for inner first div";'>Try</button></td>
+      <td><code>qs("div",qs("#div1")).innerHTML+=" new content for inner first div";</code></td>
+    </tr>
+    <tr>
+      <td><b>qsa(selector,qs(selector)).innerHTML</b></td>
+      <td><button onclick='qsa("div",qs("#div1")).each(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
+      <td><code>qsa("div",qs("#div1")).each(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>qs(selector,context).innerHTML</b></td>
+      <td><button onclick='qs("div","#div1").innerHTML+=" new content for inner first div";'>Try</button></td>
+      <td><code>qs("div","#div1").innerHTML+=" new content for inner first div";</code></td>
+    </tr>
+    <tr>
+      <td><b>qsa(selector,context).innerHTML</b></td>
+      <td><button onclick='qsa("div","#div1").each(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
+      <td><code>qsa("div","#div1").each(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>qs(selector).style</b></td>
+      <td><button onclick='qs("#samples").style["background-color"]="lightblue";'>Try</button></td>
+      <td><code>qs("#samples").style["background-color"]="lightblue";</code></td>
+    </tr>
+    <tr>
+      <td><b>random(max)</b></td>
+      <td><button onclick='alert( random(30) );'>Try</button></td>
+      <td><code>alert( random(30) );</code></td>
+    </tr>
+    <tr>
+      <td><b>random(min,max)</b></td>
+      <td><button onclick='alert( random(51,55) );'>Try</button></td>
+      <td><code>alert( random(51,55) );</code></td>
+    </tr>
+    <tr>
+      <td><b>Array.from()</b></td>
+      <td><button onclick='alert( Array.isArray( Array.from(document.querySelectorAll("td")) ) );'>Try</button></td>
+      <td><code>alert( Array.isArray( Array.from(document.querySelectorAll("td")) ) );</code></td>
+    </tr>
+    <tr>
+      <td><b>Array.from() with mapFn</b></td>
+      <td><button onclick='alert( String( Array.from( {0:1,1:2,2:3,length:3} , function(item) { return item*3; } ) ) );'>Try</button></td>
+      <td><code>alert( String(<br/>Array.from( {0:1,1:2,2:3,length:3} , function(item) { return item*3; } )<br/>) );</code></td>
+    </tr>
+    <tr>
+      <td><b>Array.of()</b></td>
+      <td><button onclick='alert( Array.isArray( Array.of(1,3,2,8,23) ) );'>Try</button></td>
+      <td><code>alert( Array.isArray( Array.of(1,3,2,8,23) ) );</code></td>
+    </tr>
+    <tr>
+      <td><b>Array.prototype.includes()</b></td>
+      <td><button onclick='var arr = [6,2,93,31]; alert( "array true: " + arr.includes(2) + "\narray false: " + arr.includes(42) + "\narray true + fromIndex: " + arr.includes(31, 3) + "\narray false + fromIndex: " + arr.includes(2, 3) );'>Try</button></td>
+      <td><code>var arr = [6,2,93,31];<br/>alert(<br/> "array true: " + arr.includes(2)<br/> + "\narray false: " + arr.includes(42)<br/> + "\narray true + fromIndex: " + arr.includes(31, 3)<br/> + "\narray false + fromIndex: " + arr.includes(2, 3)<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.includes()</b></td>
+      <td><button onclick='var str = "lorem ipsum"; alert( "string true: " + str.includes("ipsum") + "\nstring false: " + str.includes("agradzsag") + "\nstring true + fromIndex: " + str.includes("ipsum", 3) + "\nstring false + fromIndex: " + str.includes("ipsum", 8) );'>Try</button></td>
+      <td><code>var str = "lorem ipsum";<br/>alert(<br/> "string true: " + str.includes("ipsum")<br/> + "\nstring false: " + str.includes("agradzsag")<br/> + "\nstring true + fromIndex: " + str.includes("ipsum", 3)<br/> + "\nstring false + fromIndex: " + str.includes("ipsum", 8)<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>getScript(url)</b></td>
+      <td><button onclick='getScript("module1.js");'>Try</button></td>
+      <td><code>getScript("module1.js");</code></td>
+    </tr>
+    <tr>
+      <td id="url"><b>getScript(url,success)</b></td>
+      <td><button onclick='getScript("module1.js",function(){ alert("External file is loaded."); });'>Try</button></td>
+      <td><code>getScript("module1.js",function(){ alert("External file is loaded."); });</code></td>
+    </tr>
+    <tr>
+      <td id="url"><b>getScript(url,success) with error</b></td>
+      <td><button onclick='getScript("test2.js",function(){ alert("External file is loaded."); });'>Try</button></td>
+      <td><code>getScript("test2.js",function(){ alert("External file is loaded."); });</code></td>
+    </tr>
+    <tr>
+      <td><b>getScripts(scripts)</b></td>
+      <td><button onclick='var scripts=[ { url: "module1.js" } , { url: "module2.js" } ]; getScripts(scripts);'>Try</button></td>
+      <td><code>var scripts=[ { url: "module1.js" } , { url: "module2.js" } ];<br/>getScripts(scripts);</code></td>
+    </tr>
+    <tr>
+      <td><b>getScripts(scripts) with error</b></td>
+      <td><button onclick='var scripts=[ { url: "module1.js" } , { url: "module0.js" }, { url: "module2.js" } ]; getScripts(scripts);'>Try</button></td>
+      <td><code>var scripts=[ { url: "module1.js" } , { url: "module0.js" } , { url: "module2.js" } ];<br/>getScripts(scripts);</code></td>
+    </tr>
+    <tr>
+      <td><b>getScripts(scripts) with successs</b></td>
+      <td><button onclick='var scripts=[{ url: "module1.js", success: function () { alert("Module 1 success function is executed.") } } , { url: "module2.js", success: function () { alert("Module 2 success function is executed.") } } ]; getScripts(scripts);'>Try</button></td>
+      <td><code>var scripts=[<br/> { url: "module1.js", success: function () { alert("Module 1 success function is executed.") } } ,<br/> { url: "module2.js", success: function () { alert("Module 2 success function is executed.") } }<br/>];<br/>getScripts(scripts);</code></td>
+    </tr>
+    <tr>
+      <td><b>getScripts(scripts) with successs with error</b></td>
+      <td><button onclick='var scripts=[ { url: "module1.js", success: function () { alert("Module 1 success function is executed.") } } , { url: "module0.js", success: function () { alert("Module 0 success function is executed.") } } , { url: "module2.js", success: function () { alert("Module 2 success function is executed.") } } ]; getScripts(scripts);'>Try</button></td>
+      <td><code>var scripts=[<br/> { url: "module1.js", success: function () { alert("Module 1 success function is executed.") } } ,<br/> { url: "module0.js", success: function () { alert("Module 0 success function is executed.") } } ,<br/> { url: "module2.js", success: function () { alert("Module 2 success function is executed.") } }<br/>];<br/>getScripts(scripts);</code></td>
+    </tr>
+    <tr>
+      <td><b>getUrlVar(name)</b></td>
+      <td><p><a href="?foo=fooValue%20Lorem%20Ipsum%202017%20%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%20%C3%89%C3%81%C5%B0%C5%90%C3%9A%C3%96%C3%9C%C3%93%C3%8D&bar=barValue#url">Test page</a></p><button onclick='alert( getUrlVar("foo") );'>Try</button></td>
+      <td><code>alert( getUrlVar("foo") );</code></td>
+    </tr>
+    <tr>
+      <td><b>getUrlVar()</b></td>
+      <td><button onclick='var params=getUrlVar(); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
+      <td><code>var params=getUrlVar();<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
+    </tr>
+    <tr>
+      <td><b>getType()</b></td>
+      <td><button onclick='alert ( getType([1,2,3])+"  "+getType(1998)+"  "+getType("hello world")+"  " +getType({a:1,b:2})+"  "+getType(document)+"  "+getType(true) ); alert(getType(doc.querySelectorAll("div"))+"  "+getType(doc.querySelector("#polyfills"))+"  "+getType(null)+"  "+getType(undefined)+"  "+getType(function(){}));'>Try</button></td>
+      <td><code>alert (<br/> getType([1,2,3])<br/> +"  "+getType(1998)<br/> +"  "+getType("hello world")<br/> +"  "+getType({a:1,b:2})<br/> +"  "+getType(document)<br/> +"  "+getType(true)<br/>);<br/>alert(<br/> getType(doc.querySelectorAll("div"))<br/> +"  "+getType(doc.querySelector("#polyfills"))<br/> +"  "+getType(null)<br/> +"  "+getType(undefined)<br/> +"  "+getType(function(){})<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>getType() with type equals</b></td>
+      <td><button onclick='alert ( getType([1,2,3], "array")+"  "+getType(1998, "number")+"  "+getType("hello world", "string")+"  " +getType({a:1,b:2}, "object")+"  "+getType(document, "htmldocument")+"  "+getType(true, "boolean")); alert(getType(doc.querySelectorAll("div"), "nodelist")+"  "+getType(doc.querySelector("#polyfills"), "htmlheadingelement")+"  "+getType(null, "null")+"  "+getType(undefined, "undefined")+"  "+getType(function(){}, "function"));'>Try</button></td>
+      <td><code>alert (<br/> getType([1,2,3], "array")<br/> +"  "+getType(1998, "number")<br/> +"  "+getType("hello world", "string")<br/> +"  "+getType({a:1,b:2}, "object")<br/> +"  "+getType(document, "htmldocument")<br/> +"  "+getType(true, "boolean")<br/>);<br/>alert(<br/> getType(doc.querySelectorAll("div"), "nodelist")<br/> +"  "+getType(doc.querySelector("#polyfills"), "htmlheadingelement")<br/> +"  "+getType(null, "null")<br/> +"  "+getType(undefined, "undefined")<br/> +"  "+getType(function(){}, "function")<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>getType() with type not equals</b></td>
+      <td><button onclick='alert ( getType([1,2,3], "number")+"  "+getType(1998, "array")+"  "+getType("hello world", "object")+"  " +getType({a:1,b:2}, "string")+"  "+getType(document, "boolean")+"  "+getType(true, "htmldocument")); alert(getType(doc.querySelectorAll("div"), "htmlheadingelement")+"  "+getType(doc.querySelector("#polyfills"), "nodelist")+"  "+getType(null, "undefined")+"  "+getType(undefined, "null")+"  "+getType(function(){}, "object"));'>Try</button></td>
+      <td><code>alert (<br/> getType([1,2,3], "number")<br/> +"  "+getType(1998, "array")<br/> +"  "+getType("hello world", "object")<br/> +"  "+getType({a:1,b:2}, "string")<br/> +"  "+getType(document, "boolean")<br/> +"  "+getType(true, "htmldocument")<br/>);<br/>alert(<br/> getType(doc.querySelectorAll("div"), "htmlheadingelement")<br/> +"  "+getType(doc.querySelector("#polyfills"), "nodelist")<br/> +"  "+getType(null, "undefined")<br/> +"  "+getType(undefined, "null")<br/> +"  "+getType(function(){}, "object")<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>getDoNotTrack()</b></td>
+      <td><button onclick='alert( getDoNotTrack() );'>Try</button></td>
+      <td><code>alert( getDoNotTrack() );</code></td>
+    </tr>
+    <tr>
+      <td><b>constant(value)</b></td>
+      <td><button onclick='var c1 = constant (60); var c2 = constant (40); alert ( c1() + c2() );'>Try</button></td>
+      <td><code>var c1 = constant (60);<br/>var c2 = constant (40);<br/>alert ( c1() + c2() );</code></td>
+    </tr>
+    <tr>
+      <td><b>noop()</b></td>
+      <td><button onclick='alert ( noop() );'>Try</button></td>
+      <td><code>alert ( noop() );</code></td>
+    </tr>
+    <tr>
+      <td><b>repeat(iteration,callback)</b></td>
+      <td><button onclick='repeat(3, function (i) { alert("repeat test: "+i) } );'>Try</button></td>
+      <td><code>repeat(3, function (i) { alert("repeat test: "+i) } );</code></td>
+    </tr>
+    <tr>
+      <td><b>extend()</b></td>
+      <td>
+        <button onclick='var foo1 = { a : "1", b : "2" }; var bar1 = { c : "3", d : "4", baz : { e : 5, fn : function(num) { return num*num; } } }; var extObj1 = extend(true,{},foo1,bar1); alert( extObj1.a+"  "+extObj1.b+"  "+extObj1.c+"  "+extObj1.d+"  "+extObj1.baz.e+"  "+extObj1.baz.fn(11) );'>Try (true) </button><br/>
+      </td>
+      <td>
+        <p><code>var foo1 = { a : "1", b : "2" };<br/>var bar1 = { c : "3", d : "4",<br/>baz : { e : 5, fn : function(num) { return num*num; } }<br/>};<br/>var extObj1 = extend(true,{},foo1,bar1);<br/>alert(<br/> extObj1.a<br/> +"  "+extObj1.b<br/> +"  "+extObj1.c<br/> +"  "+extObj1.d<br/> +"  "+extObj1.baz.e<br/> +"  "+extObj1.baz.fn(11)<br/>);</code></p>
+        <p>The <code>extObj1.baz</code> object is the copy of the <code>bar1.baz</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><b></b></td>
+      <td>
+        <button onclick='var foo2 = { a : "1", b : "2" }; var bar2 = { c : "3", d : "4", baz : { e : 5, fn : function(num) { return num*num; } } }; var extObj2 = extend(false,{},foo2,bar2); alert( extObj2.a+"  "+extObj2.b+"  "+extObj2.c+"  "+extObj2.d+"  "+extObj2.baz.e+"  "+extObj2.baz.fn(11) );'>Try (false 1) </button><br/>
+      </td>
+      <td>
+        <p><code>var foo2 = { a : "1", b : "2" };<br/>var bar2 = { c : "3", d : "4",<br/>baz : { e : 5, fn : function(num) { return num*num; } }<br/>};<br/>var extObj2 = extend(false,{},foo2,bar2);<br/>alert(<br/> extObj2.a<br/> +"  "+extObj2.b<br/> +"  "+extObj2.c<br/> +"  "+extObj2.d<br/> +"  "+extObj2.baz.e<br/> +"  "+extObj2.baz.fn(11)<br/>);</code></p>
+        <p>The <code>extObj2.baz</code> object is same as the <code>bar2.baz</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><b></b></td>
+      <td>
+        <button onclick='var foo3 = { a : "1", b : "2" }; var bar3 = { c : "3", d : "4", baz : { e : 5, fn : function(num) { return num*num; } } }; var extObj3 = extend({},foo3,bar3); alert( extObj3.a+"  "+extObj3.b+"  "+extObj3.c+"  "+extObj3.d+"  "+extObj3.baz.e+"  "+extObj3.baz.fn(11) );'>Try (false 2) </button>
+      </td>
+      <td>
+        <p><code>var foo3 = { a : "1", b : "2" };<br/>var bar3 = { c : "3", d : "4",<br/>baz : { e : 5, fn : function(num) { return num*num; } }<br/>};<br/>var extObj3 = extend({},foo3,bar3);<br/>alert(<br/> extObj3.a<br/> +"  "+extObj3.b<br/> +"  "+extObj3.c<br/> +"  "+extObj3.d<br/> +"  "+extObj3.baz.e<br/> +"  "+extObj3.baz.fn(11)<br/>);</code></p>
+        <p>The <code>extObj3.baz</code> object is same as the <code>bar3.baz</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><b>getLocation()</b></td>
+      <td>
+        <button onclick='getLocation(function (loc){
+            qs("#location").innerHTML = "latitude: "+loc.coords.latitude+"<br/>longitude: "+loc.coords.longitude+"<br/>"+"<img src=\"https://maps.googleapis.com/maps/api/staticmap?center="+loc.coords.latitude + "," + loc.coords.longitude+"&zoom=14&size="+"400"+"x"+"400"+"&sensor=false\" alt=\"map\">";},function (errorMessage) { qs("#location").innerHTML = errorMessage; });'>Try</button>
+      </td>
+      <td>
+        <p><code>getLocation(<br/>function (loc){<br/>qs("#location").innerHTML = "latitude: "+loc.coords.latitude<br/>+"&#60;br/&#62;longitude: "+loc.coords.longitude<br/>+"&#60;br/&#62;"+"&#60;img src=\"https://maps.googleapis.com/maps/api/staticmap?center="<br/>+loc.coords.latitude + "," + loc.coords.longitude<br/>+"&#38;zoom=14&#38;size="+"400"+"x"+"400"+"&#38;sensor=false\" alt=\"map\"&#62;";},<br/>function (errorMessage) { qs("#location").innerHTML = errorMessage; }<br/>);</code></p>
+        <p id="location"></p>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Fullscreen functions</b></td>
+      <td></td>
+      <td>
+        <div id="fsdiv">
+          <p>
+            <button onclick='alert( getFullscreen() );'>getFullscreen</button>
+            <br/>
+            <code>alert( getFullscreen() );</code>
+          </p>
+          <p>
+            <button onclick='setFullscreenOn("#fsdiv");'>setFullscreen fsdiv string</button>
+            <br/>
+            <code>setFullscreenOn("#fsdiv");</code>
+          </p>
+          <p>
+            <button onclick='setFullscreenOn( qs("#fsdiv") );'>setFullscreen fsdiv element</button>
+            <br/>
+            <code>setFullscreenOn( qs("#fsdiv") );</code>
+          </p>
+          <p>
+            <button onclick='setFullscreenOn(document.documentElement);'>setFullscreen document.documentElement</button>
+            <br/>
+            <code>setFullscreenOn(document.documentElement);</code>
+          </p>
+          <p>
+            <button onclick='setFullscreenOff();'>setFullscreenOff</button>
+            <br/>
+            <code>setFullscreenOff();</code>
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><b>domFade functions</b></td>
+      <td></td>
+      <td>
+        <div>
+          <div id="domFadetest"><i>This is the fade test area.</i></div><span>This is a span.</span>
+          <hr/>
+          <p>
+            <button onclick='domFadeIn( qs("#domFadetest") );'>domFadeIn</button>
+            <code>domFadeIn( qs("#domFadetest") );</code>
+          </p>
+          <p>
+            <button onclick='domFadeIn( qs("#domFadetest"), 2000 );'>domFadeIn duration</button>
+            <code>domFadeIn( qs("#domFadetest"), 2000 );</code>
+          </p>
+          <p>
+            <button onclick='domFadeIn( qs("#domFadetest"), 2000, "inline-block" );'>domFadeIn duration display</button>
+            <code>domFadeIn( qs("#domFadetest"), 2000, "inline-block" );</code>
+          </p>
+          <p>
+            <button onclick='domFadeOut( qs("#domFadetest") );'>domFadeOut</button>
+            <code>domFadeOut( qs("#domFadetest") );</code>
+          </p>
+          <p>
+            <button onclick='domFadeOut( qs("#domFadetest"), 2000 );'>domFadeOut duration</button>
+            <code>domFadeOut( qs("#domFadetest"), 2000 );</code>
+          </p>
+          <p>
+            <button onclick='domFadeToggle( qs("#domFadetest") );'>domFadeToggle</button>
+            <code>domFadeToggle( qs("#domFadetest") );</code>
+          </p>
+          <p>
+            <button onclick='domFadeToggle( qs("#domFadetest"), 2000 );'>domFadeToggle duration</button>
+            <code>domFadeToggle( qs("#domFadetest"), 2000 );</code>
+          </p>
+          <p>
+            <button onclick='domFadeToggle( qs("#domFadetest"), 2000, "inline-block" );'>domFadeToggle duration display</button>
+            <code>domFadeToggle( qs("#domFadetest"), 2000, "inline-block" );</code>
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><b>domHide/Show/Toggle functions</b></td>
+      <td></td>
+      <td>
+        <div>
+          <div id="domhidetest"><i>This is the hide/show/toggle test area.</i></div><span>This is a span.</span>
+          <hr/>
+          <p>
+            <button onclick='domShow( qs("#domhidetest") );'>domShow</button>
+            <code>domShow( qs("#domhidetest") );</code>
+          </p>
+          <p>
+            <button onclick='domShow( qs("#domhidetest"), "inline-block" );'>domShow display</button>
+            <code>domShow( qs("#domhidetest"), "inline-block" );</code>
+          </p>
+          <p>
+            <button onclick='domHide( qs("#domhidetest") );'>domHide</button>
+            <code>domHide( qs("#domhidetest") );</code>
+          </p>
+          <p>
+            <button onclick='domToggle( qs("#domhidetest") );'>domToggle</button>
+            <code>domToggle( qs("#domhidetest") );</code>
+          </p>
+          <p>
+            <button onclick='domToggle( qs("#domhidetest"), "inline-block" );'>domToggle display</button>
+            <code>domToggle( qs("#domhidetest"), "inline-block" );</code>
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><b>ChildNode and ParentNode methods</b></td>
+      <td></td>
+      <td>
+        <div>
+          <div id="childnode"><i>This is the test area.</i></div>
+          <p>
+            <button onclick='var newEl=document.createElement("b"); newEl.innerHTML="after element"; qs("#childnode").after(newEl);'>ChildNode.after() element</button>
+            <br/>
+            <code>var newEl=document.createElement("b");<br/>newEl.innerHTML="after element";<br/>qs("#childnode").after(newEl);</code>
+          </p>
+          <p>
+            <button onclick='qs("#childnode").after("after text");'>ChildNode.after() text</button>
+            <br/>
+            <code>qs("#childnode").after("after text");</code>
+          </p>
+          <p>
+            <button onclick='var newEl=document.createElement("b"); newEl.innerHTML="before element"; qs("#childnode").before(newEl);'>ChildNode.before() element</button>
+            <br/>
+            <code>var newEl=document.createElement("b");<br/>newEl.innerHTML="before element";<br/>qs("#childnode").before(newEl);</code>
+          </p>
+          <p>
+            <button onclick='qs("#childnode").before("before text");'>ChildNode.before() text</button>
+            <br/>
+            <code>qs("#childnode").before("before text");</code>
+          </p>
+          <p>
+            <button onclick='var newEl=document.createElement("b"); newEl.innerHTML="append element"; qs("#childnode").append(newEl);'>ParentNode.append() element</button>
+            <br/>
+            <code>var newEl=document.createElement("b");<br/>newEl.innerHTML="append element";<br/>qs("#childnode").append(newEl);</code>
+          </p>
+          <p>
+            <button onclick='qs("#childnode").append("append text");'>ParentNode.append() text</button>
+            <br/>
+            <code>qs("#childnode").append("append text");</code>
+          </p>
+          <p>
+            <button onclick='var newEl=document.createElement("b"); newEl.innerHTML="prepend element"; qs("#childnode").prepend(newEl);'>ParentNode.prepend() element</button>
+            <br/>
+            <code>var newEl=document.createElement("b");<br/>newEl.innerHTML="prepend element";<br/>qs("#childnode").prepend(newEl);</code>
+          </p>
+          <p>
+            <button onclick='qs("#childnode").prepend("prepend text");'>ParentNode.prepend() text</button>
+            <br/>
+            <code>qs("#childnode").prepend("prepend text");</code>
+          </p>
+          <p>
+            <button onclick='var newEl=document.createElement("div"); newEl.innerHTML="replaceWith element"; qs("#childnode").replaceWith(newEl);'>ChildNode.replaceWith() element</button>
+            <br/>
+            <code>var newEl=document.createElement("div");<br/>newEl.innerHTML="replaceWith element";<br/>qs("#childnode").replaceWith(newEl);</code>
+          </p>
+          <p>
+            <button onclick='qs("#childnode").replaceWith("replaceWith text");'>ChildNode.replaceWith() text</button>
+            <br/>
+            <code>qs("#childnode").replaceWith("replaceWith text");</code>
+          </p>
+          <p>
+            <button onclick='qs("#childnode").remove();'>ChildNode.remove()</button>
+            <br/>
+            <code>qs("#childnode").remove();</code>
+          </p>
+        </div>
+      </td>
+    <tr>
+      <td>
+        <b>NodeList.prototype.forEach()</b>
+      </td>
+      <td>
+        <button onclick='var list = document.querySelectorAll("#feTestArea > p"); list.forEach( function (item) { item.style.color = "red"; } );'>try</button>
+      </td>
+      <td>
+        <p>
+          <code>var list = document.querySelectorAll("#feTestArea > p");<br/>list.forEach( function (item) { item.style.color = "red"; } );</code>
+        </p>
+        <div id="feTestArea">
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
+          <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Number ES6 polyfills</b></td>
+      <td></td>
+      <td>
+        <div>
+          <p>
+            <button onclick='alert( Number.MIN_SAFE_INTEGER );'>Number.MIN_SAFE_INTEGER</button>
+            <br/><code>alert( Number.MIN_SAFE_INTEGER );</code>
+          </p>
+          <p>
+            <button onclick='alert( Number.MAX_SAFE_INTEGER );'>Number.MAX_SAFE_INTEGER</button>
+            <br/><code>alert( Number.MAX_SAFE_INTEGER );</code>
+          </p>
+          <p>
+            <button onclick='alert( Number.EPSILON );'>Number.EPSILON</button>
+            <br/><code>alert( Number.EPSILON );</code>
+          </p>
+          <p>
+            <button onclick='alert( Number.isNaN(42)+"  "+Number.isNaN(3.14)+"  "+ Number.isNaN(-42)+"  "+Number.isNaN(-3.14)+"  "+Number.isNaN(0)+"  "+Number.isNaN(null)+"  "+Number.isNaN(undefined)+"  "+Number.isNaN(NaN)+"  "+Number.isNaN("The life")+"  "+Number.isNaN(true) );'>Number.isNaN()</button>
+            <br/><code>alert(<br/> Number.isNaN(42)<br/> +"  "+Number.isNaN(3.14)<br/> +"  "+Number.isNaN(-42)<br/> +"  "+Number.isNaN(-3.14)<br/> +"  "+Number.isNaN(0)<br/> +"  "+Number.isNaN(null)<br/> +"  "+Number.isNaN(undefined)<br/> +"  "+Number.isNaN(NaN)<br/> +"  "+Number.isNaN("The life")<br/> +"  "+Number.isNaN(true)<br/>);</code>
+          </p>
+          <p>
+            <button onclick='alert( isNaN(42)+"  "+isNaN(3.14)+"  "+ isNaN(-42)+"  "+isNaN(-3.14)+"  "+isNaN(0)+"  "+isNaN(null)+"  "+isNaN(undefined)+"  "+isNaN(NaN)+"  "+isNaN("The life")+"  "+isNaN(true) );'>isNaN()</button>
+            <br/><code>alert(<br/> isNaN(42)<br/> +"  "+isNaN(3.14)<br/> +"  "+isNaN(-42)<br/> +"  "+isNaN(-3.14)<br/> +"  "+isNaN(0)<br/> +"  "+isNaN(null)<br/> +"  "+isNaN(undefined)<br/> +"  "+isNaN(NaN)<br/> +"  "+isNaN("The life")<br/> +"  "+isNaN(true)<br/>);</code>
+          </p>
+          <p>
+            <button onclick='alert( Number.isInteger(42)+"  "+Number.isInteger(3.14)+"  "+ Number.isInteger(-42)+"  "+Number.isInteger(-3.14)+"  "+Number.isInteger(0)+"  "+Number.isInteger(null)+"  "+Number.isInteger(undefined)+"  "+Number.isInteger(NaN)+"  "+Number.isInteger("The life")+"  "+Number.isInteger(true) );'>Number.isInteger()</button>
+            <br/><code>alert(<br/> Number.isInteger(42)<br/> +"  "+Number.isInteger(3.14)<br/> +"  "+Number.isInteger(-42)<br/> +"  "+Number.isInteger(-3.14)<br/> +"  "+Number.isInteger(0)<br/> +"  "+Number.isInteger(null)<br/> +"  "+Number.isInteger(undefined)<br/> +"  "+Number.isInteger(NaN)<br/> +"  "+Number.isInteger("The life")<br/> +"  "+Number.isInteger(true)<br/>);</code>
+          </p>
+          <p>
+            <button onclick='alert( Number.isFinite(42)+"  "+Number.isFinite(3.14)+"  "+ Number.isFinite(-42)+"  "+Number.isFinite(-3.14)+"  "+Number.isFinite(0)+"  "+Number.isFinite(null)+"  "+Number.isFinite(undefined)+"  "+Number.isFinite(NaN)+"  "+Number.isFinite("The life")+"  "+Number.isFinite(true) );'>Number.isFinite()</button>
+            <br/><code>alert(<br/> Number.isFinite(42)<br/> +"  "+Number.isFinite(3.14)<br/> +"  "+Number.isFinite(-42)<br/> +"  "+Number.isFinite(-3.14)<br/> +"  "+Number.isFinite(0)<br/> +"  "+Number.isFinite(null)<br/> +"  "+Number.isFinite(undefined)<br/> +"  "+Number.isFinite(NaN)<br/> +"  "+Number.isFinite("The life")<br/> +"  "+Number.isFinite(true)<br/>);</code>
+          </p>
+          <p>
+            <button onclick='alert( Number.isSafeInteger(42)+"  "+Number.isSafeInteger(3.14)+"  "+ Number.isSafeInteger(-42)+"  "+Number.isSafeInteger(-3.14)+"  "+Number.isSafeInteger(0)+"  "+Number.isSafeInteger(null)+"  "+Number.isSafeInteger(undefined)+"  "+Number.isSafeInteger(NaN)+"  "+Number.isSafeInteger("The life")+"  "+Number.isSafeInteger(true) );'>Number.isSafeInteger()</button>
+            <br/><code>alert(<br/> Number.isSafeInteger(42)<br/> +"  "+Number.isSafeInteger(3.14)<br/> +"  "+Number.isSafeInteger(-42)<br/> +"  "+Number.isSafeInteger(-3.14)<br/> +"  "+Number.isSafeInteger(0)<br/> +"  "+Number.isSafeInteger(null)<br/> +"  "+Number.isSafeInteger(undefined)<br/> +"  "+Number.isSafeInteger(NaN)<br/> +"  "+Number.isSafeInteger("The life")<br/> +"  "+Number.isSafeInteger(true)<br/>);</code>
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><b>domGetCSS and domSetCSS</b></td>
+      <td></td>
+      <td>
+        <div>
+          <p id="csstest1" style="color: red; border: 1px solid red;">Testarea</p>
+          <p>
+            <button onclick='alert( domGetCSS( qs("#csstest1"), "width" ) );'>domGetCSS</button>
+            <br/><code>alert( domGetCSS( qs("#csstest1"), "width" ) );</code>
+          </p>
+          <p>
+            <button onclick='domSetCSS( qs("#csstest1"), "width", "100px" );'>domSetCSS</button>
+            <br/><code>domSetCSS( qs("#csstest1"), "width", "100px" );</code>
+          </p>
+          <p>
+            <button onclick='domSetCSS( qs("#csstest1"), { color: "green", fontWeight: "bold" } );'>domSetCSS with object</button>
+            <br/><code>domSetCSS(<br/> qs("#csstest1"),<br/> { color: "green", fontWeight: "bold" }<br/>);</code>
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><b>getStyle and getStyles</b></td>
+      <td></td>
+      <td>
+        <div>
+          <p id="csstest2" style="color: braun; border: 1px solid braun;">Testarea</p>
+          <p>
+            <button onclick='getStyle("module1.css");'>getStyle</button>
+            <br/><code>getStyle("module1.css");</code>
+          </p>
+          <p>
+            <button onclick='getStyle("module2.css", function () { alert("module2.css is loaded.") } );'>getStyle with success</button>
+            <br/><code>getStyle("module2.css", function () { alert("module2.css is loaded.") } );</code>
+          </p>
+          <p>
+            <button onclick='getStyle("module3.css", function () { alert("module3.css is loaded.") } );'>getStyle with error</button>
+            <br/><code>getStyle("module3.css", function () { alert("module3.css is loaded.") } );</code>
+          </p>
+          
+          <p>
+            <button onclick='getStyles( [ { href: "module1.css" }, { href: "module2.css" } ] );'>getStyles</button>
+            <br/><code>getStyles( [ { href: "module1.css" }, { href: "module2.css" } ] );</code>
+          </p>
+          <p>
+            <button onclick='getStyles( [ { href: "module1.css", success: function () { alert("module1.css is loaded.") } }, { href: "module2.css", success: function () { alert("module2.css is loaded.") } } ] );'>getStyles with success</button>
+            <br/><code>getStyles( [<br/> { href: "module1.css", success: function () { alert("module1.css is loaded.") } },<br/> { href: "module2.css", success: function () { alert("module2.css is loaded.") } }<br/>] );</code>
+          </p>
+          <p>
+            <button onclick='getStyles( [ { href: "module1.css", success: function () { alert("module1.css is loaded.") } }, { href: "module3.css", success: function () { alert("module3.css is loaded.") } } ] );'>getStyles with error</button>
+            <br/><code>getStyles( [<br/> { href: "module1.css", success: function () { alert("module1.css is loaded.") } },<br/> { href: "module3.css", success: function () { alert("module3.css is loaded.") } }<br/>] );</code>
+          </p>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><b>DOM event functions</b></td>
+      <td></td>
+      <td>
+        <p id="eventtestarea">Click here</p>
+<script>
+function clicked () { alert("clicked"); }
+var eventtestarea = document.querySelector("#eventtestarea");
+</script>
+<pre><code>function clicked () { alert("clicked"); }
+var eventtestarea = document.querySelector("#eventtestarea");</pre></code>
+        <table>
+          <tr>
+            <td><b>domOn();</b></td>
+            <td><button onclick='domOn(eventtestarea, "click", clicked);'>Try</button></td>
+            <td><code>domOn(eventtestarea, "click", clicked);</code></td>
+          </tr>
+          <tr>
+            <td><b>domOff();</b></td>
+            <td><button onclick='domOff(eventtestarea, "click", clicked);'>Try</button></td>
+            <td><code>domOff(eventtestarea, "click", clicked);</code></td>
+          </tr>
+          <tr>
+            <td><b>domTrigger();</b></td>
+            <td><button onclick='domTrigger(eventtestarea, "click");'>Try</button></td>
+            <td><code>domTrigger(eventtestarea, "click");</code></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+		<tr>
+      <td><b>AJAX and CORS</b></td>
+      <td></td>
+      <td></td>
+		</tr>
+		<tr>
+			<td><b>getJson</b></td>
+			<td><button onclick='getJson("testdata.json",function(r) { alert("ajax json test (has value):\n"+r[0].image); } );'>Try</button></td>
+			<td><code>getJson("testdata.json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>getText</b></td>
+			<td><button onclick='getText("testdata.txt",function(r) {alert("ajax text test:\n"+r); },function(e){ alert(e); } );'>Try</button></td>
+			<td><code>getText("testdata.txt",<br/>function(r) {alert("ajax text test:\n"+r); },<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>getAjax text</b></td>
+			<td><button onclick='getAjax("testdata.txt","text",function(r) { alert("ajax text test:\n"+r); },function(e){ alert(e); } );'>Try</button></td>
+			<td><code>getAjax("testdata.txt","text",<br/>function(r) {alert("ajax text test:\n"+r); },<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>getAjax json</b></td>
+			<td><button onclick='getAjax("testdata.json","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); } );'>Try</button></td>
+			<td><code>getAjax("testdata.json","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>getAjax xml</b></td>
+			<td><button onclick='getAjax("testdata.xml","xml",function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); } );'>Try</button></td>
+			<td><code>getAjax("testdata.xml","xml",<br/>function(r) { var xa = r.getElementsByTagName("picture"); <br/>var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;<br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>postAjax text</b></td>
+			<td><button onclick='postAjax( "testdata.txt","a=foo&b=bar baz","text",function(data){ alert(data); },function(e){ alert(e); } );'>Try</button></td>
+			<td><code>postAjax( "testdata.txt","a=foo&b=bar baz","text",<br/>function(data){ alert(data); },<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>postAjax json</b></td>
+			<td><button onclick='postAjax( "testdata.json","a=foo&b=bar baz","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); } );'>Try</button></td>
+			<td><code>postAjax( "testdata.json","a=foo&b=bar baz","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>postAjax xml</b></td>
+			<td><button onclick='postAjax( "testdata.xml","a=foo&b=bar baz","xml", function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); } );  '>Try</button></td>
+			<td><code>postAjax( "testdata.xml","a=foo&b=bar baz","xml", <br/>function(r) { var xa = r.getElementsByTagName("picture"); <br/>var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; <br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); } <br/>);  </code></td>
+		</tr>
+		<tr>
+			<td><b>getCors text</b></td>
+			<td><button onclick='getCors( "testdata.txt","text",function(response){alert("success: "+response);},function(e){ alert(e); } );'>Try</button></td>
+			<td><code>getCors( "testdata.txt","text",<br/>function(response){ alert("success: "+response);},<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>getCors json</b></td>
+			<td><button onclick='getCors( "testdata.json","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); } );'>Try</button></td>
+			<td><code>getCors( "testdata.json","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>getCors xml</b></td>
+			<td><button onclick='getCors( "testdata.xml","xml",function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); } );'>Try</button></td>
+			<td><code>getCors( "testdata.xml","xml",<br/>function(r) { var xa = r.getElementsByTagName("picture");<br/> var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; <br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>postCors text</b></td>
+			<td><button onclick='postCors( "testdata.txt","text","a=foo&b=bar baz",function(response){alert("success: "+response);},function(e){ alert(e); } );'>Try</button></td>
+			<td><code>postCors( "testdata.txt","text","a=foo&b=bar baz",<br/>function(response){alert("success: "+response);},function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>postCors json</b></td>
+			<td><button onclick='postCors( "testdata.json","a=foo&b=bar baz","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); } );'>Try</button></td>
+			<td><code>postCors( "testdata.json","a=foo&b=bar baz","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>postCors xml</b></td>
+			<td><button onclick='postCors( "testdata.xml","a=foo&b=bar baz","xml",function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); } );'>Try</button></td>
+			<td><code>postCors( "testdata.xml","a=foo&b=bar baz","xml",<br/>function(r) { var xa = r.getElementsByTagName("picture"); <br/>var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; <br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); } <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>getAjax text + password</b></td>
+			<td><button onclick='getAjax("testdata.txt","text",function(r) { alert("ajax text test:\n"+r); },function(e){ alert(e); },"user","password" );'>Try</button></td>
+			<td><code>getAjax("testdata.txt","text",<br/>function(r) {alert("ajax text test:\n"+r); },<br/>function(e){ alert(e); },"user","password" <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>postAjax json + password</b></td>
+			<td><button onclick='postAjax( "testdata.json","a=foo&b=bar baz","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); },"user","password" );'>Try</button></td>
+			<td><code>postAjax( "testdata.json","a=foo&b=bar baz","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); },"user","password" <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>getCors xml + password</b></td>
+			<td><button onclick='getCors( "testdata.xml","xml",function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); },"user","password" );'>Try</button></td>
+			<td><code>getCors( "testdata.xml","xml",<br/>function(r) { var xa = r.getElementsByTagName("picture");<br/> var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; <br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); },"user","password" <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>postCors json + password</b></td>
+			<td><button onclick='postCors( "testdata.json","a=foo&b=bar baz","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); },"user","password" );'>Try</button></td>
+			<td><code>postCors( "testdata.json","a=foo&b=bar baz","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); },"user","password" <br/>);</code></td>
+		</tr>
+		<tr>
+			<td><b>Include a text/html file</b></td>
+			<td><button onclick='getAjax ("testdata.txt","text", function(res) { document.querySelector("#include").innerHTML = res; } );'>Try</button></td>
+			<td>
+        <p><strong>How to include an external file content</strong></p>
+        <p>This is an alternative to the jQuery <code>.load()</code> method.</p>
+        <code>getAjax ("testdata.txt","text",<br/>function(res) { document.querySelector("#include").innerHTML = res; }<br/>);</code>
+        <p id="include"></p>
+      </td>
+		</tr>    
+    <tr>
+      <td><b>Object.assign()</b></td>
+      <td></td>
+      <td>
+        <p>Test results:</p>
+        <code id="output2"></code>
+        <p>Test Code:</p>
+        <code><pre>function echo2 (str) {
+  qs("#output2").innerHTML += str + "&#60;br/>";
+}
+
+var obj1 = { a : "1", b : "2" };
+var obj2 = { c : "3", d : "4" };
+var obj3 = { e : "5", f : "6" };
+
+Object.assign(obj1,obj2,obj3);
+for (var a in obj1) { echo2(a+": "+obj1[a]); }
+</pre></code>
+      </td>
+    </tr>
+    <tr>
+      <td><b>inherit(subclass,superclass);</b></td>
+      <td></td>
+      <td>
+        <p>Test results:</p>
+        <code id="output"></code>
+        <p>Test Code:</p>
+        <code><pre>function echo (str) {
+  qs("#output").innerHTML += str + "&#60;br/>";
+}
+
+function Human (name,age) {
+  this.name = name;
+  this.age = age;
+}
+Human.prototype.getName = function () { return this.name;}
+Human.prototype.getAge = function () { return this.age;}
+
+function Worker (name,age,job) {
+  this.name = name;
+  this.age = age;
+  this.job = job;
+}
+
+inherit(Worker,Human);
+
+Worker.prototype.setJob = function (job) { this.job = job;}
+Worker.prototype.getJob = function () { return this.job;}
+
+var David = new Human("David",27);
+var Amy = new Worker ("Amy",25,"Engineer");
+
+echo(David.getName()+", "+David.getAge());
+echo(Amy.getName()+", "+Amy.getAge()+", "+Amy.getJob());
+
+echo("David instanceof Human: " + (David instanceof Human));
+echo("David instanceof Worker: " + (David instanceof Worker));
+echo("&#60;b>// Single inheritance:&#60;/b>");
+echo("Amy instanceof Human: " + (Amy instanceof Human));
+echo("Amy instanceof Worker: " + (Amy instanceof Worker));</pre></code>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h2 id="license">License</h2>
+
+<div>
+  <p><a href="https://opensource.org/licenses/MIT" target="_blank">https://opensource.org/licenses/MIT</a></p>
+
+  <h3>MIT License</h3>
+
+  <p><b>SPDX short identifier: MIT</b></p>
+
+  <p>Copyright (c) 2017 Ferenc Czigler</p>
+
+  <p>Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:</p>
+
+  <p>The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.</p>
+
+  <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.</p>
+</div>
+
+<hr/>
+
+<footer id="footer"><small>
+  <p>
+    <a href="#download">Download</a>
+    &nbsp;//&nbsp;
+    <a href="#variables">Variables</a>
+    &nbsp;//&nbsp;
+    <a href="#functions">Functions</a>
+    &nbsp;//&nbsp;
+    <a href="#samples">Samples</a>
+    &nbsp;//&nbsp;
+    <a href="#license">License</a>
+    &nbsp;//&nbsp;
+    <a href="http://github.com/Serrin" target="_blank">Github</a>
+  </p>
+  <p>&copy; Copyright 2017 Ferenc Czigler</p>
+</small></footer>
+
+
+<script>
+
+domReady(function(){
+  qsa("p",qs("#div1")).each(function fn(el,i) { el.style.color="red";});
+
+  // inherit
+
+  function echo (str) {
+   qs("#output").innerHTML += str + "<br/>";
+  }
+
+  function Human (name,age) {
+    this.name = name;
+    this.age = age;
+  }
+  Human.prototype.getName = function () { return this.name;}
+  Human.prototype.getAge = function () { return this.age;}
+
+  function Worker (name,age,job) {
+    this.name = name;
+    this.age = age;
+    this.job = job;
+  }
+
+  inherit(Worker,Human);
+
+  Worker.prototype.setJob = function (job) { this.job = job;}
+  Worker.prototype.getJob = function () { return this.job;}
+
+  var David = new Human("David",27);
+  var Amy = new Worker ("Amy",25,"Engineer");
+
+  echo(David.getName()+", "+David.getAge());
+  echo(Amy.getName()+", "+Amy.getAge()+", "+Amy.getJob());
+
+  echo("David instanceof Human: " + (David instanceof Human));
+  echo("David instanceof Worker: " + (David instanceof Worker));
+  echo("<b>// Single inheritance:</b>");
+  echo("Amy instanceof Human: " + (Amy instanceof Human));
+  echo("Amy instanceof Worker: " + (Amy instanceof Worker));
+
+  // Object.assign()
+
+  function echo2 (str) {
+    qs("#output2").innerHTML += str + "<br/>";
+  }
+
+  var obj1 = { a : "1", b : "2" };
+  var obj2 = { c : "3", d : "4" };
+  var obj3 = { e : "5", f : "6" };
+
+  Object.assign(obj1,obj2,obj3);
+  for (var a in obj1) { echo2(a+": "+obj1[a]); }
+
+});
+
+</script>
+
+</body>
+</html>
