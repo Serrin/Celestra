@@ -7,13 +7,13 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Browser, Chrome, Firefox and W10M Edge).
 
-Latest version: 1.15.0
+Latest version: 1.15.1
 
-Date: 2017-11-21T20:05:22.070Z
+Date: 2017-11-27T20:53:48.458Z
 
-Development version: celestra.js (15245 byte)
+Development version: celestra.js (15279 byte)
 
-Minimal version: celestra.min.js (12057 byte)
+Minimal version: celestra.min.js (12090 byte)
 
 ### Plugins
 
@@ -54,6 +54,7 @@ Name | Description
 `getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and can be a function. The error is optional and can be a function.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
 `constant(<value>);` | A one time assingment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
+`identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `repeat(<iteration>,<callback>);` | Repeat the callback function. The iteration is mandatory and sets the number of the repeats and can be an integer. The callback is mandatory and can be a function. This function will be called with the iterator counter as parameter.
 
