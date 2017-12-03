@@ -1,4 +1,4 @@
-# Celestra  (ex minquery.js)
+# Celestra (ex minquery.js)
 
 ## Download
 
@@ -7,13 +7,13 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Browser, Chrome, Firefox and W10M Edge).
 
-Latest version: 1.15.1
+Latest version: 1.15.2
 
-Date: 2017-11-27T20:53:48.458Z
+Date: 2017-12-03T15:17:46.768Z
 
-Development version: celestra.js (15279 byte)
+Development version: celestra.js (15278 byte)
 
-Minimal version: celestra.min.js (12090 byte)
+Minimal version: celestra.min.js (12089 byte)
 
 ### Plugins
 
@@ -51,7 +51,6 @@ Name | Description
 `setFullscreenOn(<selector>);` | Set the fullscreen element. The selector can be a css selector string or an element.
 `setFullscreenOff();` | Set off the fullscreen.
 `getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and can be a function. The error is optional and can be a function.
-`getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and can be a function. The error is optional and can be a function.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
 `constant(<value>);` | A one time assingment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
@@ -66,9 +65,9 @@ Name | Description
 `domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and can be a HTML element. The property is mandatory and can be a string.
 `domsetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be a string. The value is mandatory and can be a string.
 `domsetCSS(<element>,<properties>);` | Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be an object. The object properties can be the CSS properties and the property values will be applied to the element.
-`domFadeIn(<element>[,duration[,display]]);` | __Renamed in 1.11.0 from fadeIn to domFadeIn__ - Fade in and show animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
-`domFadeOut(<element>[,duration]);` | __Renamed in 1.11.0 from fadeOut to domFadeOut__Fade out and hide animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms).
-`domFadeToggle(<element>[,duration[,display]]);` | __Renamed in 1.11.0 from fadeToggle to domFadeToggle__ - Fade in or fade out animation which depends on the state of the element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
+`domFadeIn(<element>[,duration[,display]]);` | Fade in and show animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
+`domFadeToggle(<element>[,duration[,display]]);` | Fade in or fade out animation which depends on the state of the element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
+`domFadeOut(<element>[,duration]);` | Fade out and hide animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms).
 `domShow(<element>[,display]);` | Show an element. The element is mandatory and can be a HTML element. The display is optional and can be a string (CSS display values).
 `domHide(<element>);` | Hide an element. The element is mandatory and can be a HTML element.
 `domToggle(<element>[,display]);` | Show or hide an element. The element is mandatory and can be a HTML element. The display is optional and can be a string (CSS display values).
@@ -145,7 +144,7 @@ __Parameters:__
   - The success is mandatory and has to be a function.
   - The error is optional and has to be a function.
   - The user is optional and has to be a string.
-  - The user is optional, but mandatory if the user is set. This parameter has to be a string.
+  - The password is optional, but mandatory if the user is set. This parameter has to be a string.
 
 ### Deprecated and removed functions
 
