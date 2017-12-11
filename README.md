@@ -5,13 +5,13 @@
 A helper ES5 library for those who like the Vanilla JS.
 Only some functions and polyfills.
 
-Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Browser, Chrome, Firefox and W10M Edge).
+Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.15.2
+Latest version: 1.15.3
 
-Date: 2017-12-03T15:17:46.768Z
+Date: 2017-12-11T20:32:08.582Z
 
-Development version: celestra.js (15278 byte)
+Development version: celestra.js (15307 byte)
 
 Minimal version: celestra.min.js (12089 byte)
 
