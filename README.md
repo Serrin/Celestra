@@ -7,13 +7,13 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.15.3
+Latest version: 1.15.4
 
-Date: 2017-12-11T20:32:08.582Z
+Date: 2017-12-19T20:19:35.553Z
 
-Development version: celestra.js (15307 byte)
+Development version: celestra.js (15807 byte)
 
-Minimal version: celestra.min.js (12089 byte)
+Minimal version: celestra.min.js (12471 byte)
 
 ### Plugins
 
@@ -44,7 +44,9 @@ Name | Description
 `getScripts(<scripts>);` | Load more JavaScript files (modules) and then execute it. The scripts parameter is mandatory and can be an array with object elements. The element.url property is mandatory can can be a string. The element.success property is optional and can be a function.
 `getStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and can be a string. The success is optional and can be a function.
 `getStyles(<styles>);` | Load more CSS files (modules). The styles parameter is mandatory and can be an array with object elements. The element.href property is mandatory can can be a string. The element.success property is optional and can be a function.
-`getUrlVar([name]);` | Get the value of a url search variable or all url variables in an object. The variable name is optional and can be a string.
+`getUrlVar([name]);` | Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
+`getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
+`obj2string(<object>);` | Convert object to query string. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. In addition, the `extend` function doesn't use the `hasOwnProperty` method and copies all of the properties.
 `getFullscreen();` | Get the fullscreen element. If this isn't set, then the return value is undefined. Please check the incompatibility issues on the [http://caniuse.com/#search=fullscreen](http://caniuse.com/#search=fullscreen) page.
@@ -52,7 +54,7 @@ Name | Description
 `setFullscreenOff();` | Set off the fullscreen.
 `getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and can be a function. The error is optional and can be a function.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
-`constant(<value>);` | A one time assingment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
+`constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `repeat(<iteration>,<callback>);` | Repeat the callback function. The iteration is mandatory and sets the number of the repeats and can be an integer. The callback is mandatory and can be a function. This function will be called with the iterator counter as parameter.
@@ -65,9 +67,9 @@ Name | Description
 `domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and can be a HTML element. The property is mandatory and can be a string.
 `domsetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be a string. The value is mandatory and can be a string.
 `domsetCSS(<element>,<properties>);` | Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be an object. The object properties can be the CSS properties and the property values will be applied to the element.
-`domFadeIn(<element>[,duration[,display]]);` | Fade in and show animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
-`domFadeToggle(<element>[,duration[,display]]);` | Fade in or fade out animation which depends on the state of the element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
-`domFadeOut(<element>[,duration]);` | Fade out and hide animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms).
+`domFadeIn(<element>[,duration[,display]]);` | Fade in and show animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
+`domFadeToggle(<element>[,duration[,display]]);` | Fade in or fade out animation which depends on the state of the element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
+`domFadeOut(<element>[,duration]);` | Fade out and hide animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms).
 `domShow(<element>[,display]);` | Show an element. The element is mandatory and can be a HTML element. The display is optional and can be a string (CSS display values).
 `domHide(<element>);` | Hide an element. The element is mandatory and can be a HTML element.
 `domToggle(<element>[,display]);` | Show or hide an element. The element is mandatory and can be a HTML element. The display is optional and can be a string (CSS display values).
@@ -130,7 +132,7 @@ Name | Description
 Name | Description
 ---- | -----------
 `getJson (<url>,<success>);` | Get JSON content via AJAX. A shorthand function to the getAjax() function.
-`getText (<ur>,<success>);` | Get TEXT content via AJAX. A shorthand function to the getAjax() function.
+`getText (<url>,<success>);` | Get TEXT content via AJAX. A shorthand function to the getAjax() function.
 `getAjax (<url>,<format>,<success>[,error][,user<,password>]);` | Get content via AJAX.
 `postAjax (<url>,<data>,<format>,<success>[,error][,user<,password>]);` | Post data and get the response content via AJAX.
 `getCors (<url>,<format>,<success>[,error][,user<,password>]);` | Get content via cross domain AJAX.
