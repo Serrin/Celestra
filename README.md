@@ -9,7 +9,7 @@ Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) an
 
 Latest version: 1.15.5
 
-Date: 2017-12-23T19:04:34.841Z
+Date: 2017-12-22T19:04:34.841Z
 
 Development version: celestra.js (15806 byte)
 
