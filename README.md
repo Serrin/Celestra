@@ -7,13 +7,13 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.15.4
+Latest version: 1.15.5
 
-Date: 2017-12-19T20:19:35.553Z
+Date: 2017-12-23T19:04:34.841Z
 
-Development version: celestra.js (15807 byte)
+Development version: celestra.js (15806 byte)
 
-Minimal version: celestra.min.js (12471 byte)
+Minimal version: celestra.min.js (12470 byte)
 
 ### Plugins
 
