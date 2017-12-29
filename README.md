@@ -1,4 +1,4 @@
-# Celestra (ex minquery.js)
+# Celestra
 
 ## Download
 
@@ -7,13 +7,13 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.15.5
+Latest version: 1.15.6
 
-Date: 2017-12-22T19:04:34.841Z
+Date: 2017-12-29T18:55:01.289Z
 
 Development version: celestra.js (15806 byte)
 
-Minimal version: celestra.min.js (12470 byte)
+Minimal version: celestra.min.js (12468 byte)
 
 ### Plugins
 
