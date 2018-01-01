@@ -7,13 +7,15 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.15.6
+Latest version: 1.16.0
 
-Date: 2017-12-29T18:55:01.289Z
+Date: 2017-12-31T19:26:57.066Z
 
-Development version: celestra.js (15806 byte)
+Development version: celestra.js (17395 byte)
 
-Minimal version: celestra.min.js (12468 byte)
+Minimal version: celestra.min.js (13800 byte)
+
+Cheatsheet: celestra-cheatsheet.pdf
 
 ### Plugins
 
@@ -147,6 +149,30 @@ __Parameters:__
   - The error is optional and has to be a function.
   - The user is optional and has to be a string.
   - The password is optional, but mandatory if the user is set. This parameter has to be a string.
+
+### Type checking functions
+
+Name | Description
+---- | -----------
+`isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
+`isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. The return value is boolean.
+`isNumber(<value>);` | This function determines whether the provided value is a number. The return value is boolean.
+`isInteger(<value>);` | Same as `Number.isInteger()`. This function determines whether the provided value is an integer number. The return value is boolean.
+`isFloat(<value>);` | This function determines whether the provided value is a float number. The return value is boolean.
+`isBoolean(<value>);` | This function determines whether the provided value is a boolean. The return value is boolean.
+`isObject(<value>);` | This function determines whether the provided value is an object. The return value is boolean.
+`isEmptyObject(<value>);` | This function determines whether the provided value is an empty object (without properties). The return value is boolean.
+`isFunction(<value>);` | This function determines whether the provided value is a function. The return value is boolean.
+`isArray(<value>);` | Same as `Array.isArray()`. This function determines whether the provided value is an array. The return value is boolean.
+`isEmptyArray(<value>);` | This function determines whether the provided value is an empty array (without values). The return value is boolean.
+`isArraylike(<value>);` | This function determines whether the provided value is an iterable object. The return value is boolean.
+`isNull(<value>);` | This function determines whether the provided value is null. The return value is boolean.
+`isUndefined(<value>);` | This function determines whether the provided value is undefined. The return value is boolean.
+`isNullOrUndefined(<value>);` | This function determines whether the provided value is null or undefined. The return value is boolean.
+`isPrimitive(<value>);` | This function determines whether the provided value is not null, not object and not function. The return value is boolean.
+`isSymbol(<value>);` | `ES6` This function determines whether the provided value is a symbol. The return value is boolean.
+`isMap(<value>);` | `ES6` This function determines whether the provided value is a map. The return value is boolean.
+`isSet(<value>);` | `ES6` This function determines whether the provided value is a set. The return value is boolean.
 
 ### Deprecated and removed functions
 
