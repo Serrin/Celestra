@@ -7,9 +7,9 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.16.0
+Latest version: 1.16.1
 
-Date: 2017-12-31T19:26:57.066Z
+Date: 2018-01-02T13:19:08.919Z
 
 Development version: celestra.js (17395 byte)
 
@@ -33,10 +33,12 @@ Name | Description
 
 ## Functions
 
+### Basic API
+
 Name | Description
 ---- | -----------
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
-`qsa(<selector>[,context]).each( fn(el,i) { el.arguments;} );` | Exec a function on all elements.
+`qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements.
 `qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
 `domReady(<fn>);` | Set the document ready (content fully loaded) event.
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
@@ -67,8 +69,8 @@ Name | Description
 ---- | -----------
 `domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and can be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.
 `domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and can be a HTML element. The property is mandatory and can be a string.
-`domsetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be a string. The value is mandatory and can be a string.
-`domsetCSS(<element>,<properties>);` | Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be an object. The object properties can be the CSS properties and the property values will be applied to the element.
+`domSetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be a string. The value is mandatory and can be a string.
+`domSetCSS(<element>,<properties>);` | Set CSS property values of an element. The element is mandatory and can be a HTML element. The properties object is mandatory. The object properties can be the CSS properties and the property values will be applied to the element.
 `domFadeIn(<element>[,duration[,display]]);` | Fade in and show animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
 `domFadeToggle(<element>[,duration[,display]]);` | Fade in or fade out animation which depends on the state of the element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
 `domFadeOut(<element>[,duration]);` | Fade out and hide animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms).
@@ -173,18 +175,6 @@ Name | Description
 `isSymbol(<value>);` | `ES6` This function determines whether the provided value is a symbol. The return value is boolean.
 `isMap(<value>);` | `ES6` This function determines whether the provided value is a map. The return value is boolean.
 `isSet(<value>);` | `ES6` This function determines whether the provided value is a set. The return value is boolean.
-
-### Deprecated and removed functions
-
-The __migrate-1.12.1.js__ file were finally removed in 1.15.0.
-
-Name | Description
----- | -----------
-`$(<selector>[,context]);` | __Finally removed in 1.15.0__ - __Removed in 1.10.0__ - __Deprecated in 1.7.1__ - Same as `qsa(<selector>[,context]);`.
-`$1(<selector>[,context]).argument;` | __Finally removed in 1.15.0__ - __Removed in 1.10.0__ - __Deprecated in 1.7.1__ - Same as `qs(<selector>[,context]);`.
-`$$(<fn>);` | __Finally removed in 1.15.0__ - __Removed in 1.10.0__ - __Deprecated in 1.7.1__ - Same as `domReady(<fn>);`.
-`$id(<selector>);` | __Finally removed in 1.15.0__ - __Removed in 1.10.0__ - __Deprecated in 1.7.0__ - Get the ID matched HTML element. Please use the `qs(<selector>[,context]);` instead of this!
-`$A(<object>);` | __Finally removed in 1.15.0__ - __Removed in 1.10.0__ - __Deprecated in 1.7.0__ - Convert an object (array like objects) to array or clone an array. Please use the `Array.from()` instead of this!
 
 ### Polyfills
 
