@@ -7,13 +7,13 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.16.1
+Latest version: 1.16.2
 
-Date: 2018-01-02T13:19:08.919Z
+Date: 2018-01-07T17:41:26.766Z
 
-Development version: celestra.js (17395 byte)
+Development version: celestra.js (17403 byte)
 
-Minimal version: celestra.min.js (13800 byte)
+Minimal version: celestra.min.js (13819 byte)
 
 Cheatsheet: celestra-cheatsheet.pdf
 
@@ -102,6 +102,7 @@ __Sample code:__
 Name | Description
 ---- | -----------
 `forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each array or nodelist element. The collection is mandatory and can be an array or nodelist. The callback is mandatory and can be a function.
+`each(<collection>,<callback>);` | A shorthand to the function `forEach(<collection>,<callback>);`.
 `map(<collection>,<callback>);` | The map() method creates a new array with the results of calling a provided function on every element in the calling array or nodelist. The collection is mandatory and can be an array or nodelist. The callback is mandatory and can be a function.
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and can be an object (not array and nodelist). The callback is mandatory and can be a function.
 `mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and can be an object (not array and nodelist). The callback is mandatory and can be a function.
@@ -110,6 +111,10 @@ __Sample code:__
 
     var arr1 = [1,2,3];
     forEach ( arr1, function (v) { alert( v*2 ); } );
+    // 2, 4, 6
+    
+    var arr1 = [1,2,3];
+    each ( arr1, function (v) { alert( v*2 ); } );
     // 2, 4, 6
     
     var arr2a = [1,2,3];
