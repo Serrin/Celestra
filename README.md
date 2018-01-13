@@ -7,9 +7,9 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.16.2
+Latest version: 1.16.3
 
-Date: 2018-01-07T17:41:26.766Z
+Date: 2018-01-11T19:53:54.716Z
 
 Development version: celestra.js (17403 byte)
 
