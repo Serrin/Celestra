@@ -7,25 +7,56 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.16.3
+Latest version: 1.17.0
 
-Date: 2018-01-11T19:53:54.716Z
+Date: 2018-01-14T17:41:26.766Z
 
-Development version: celestra.js (17403 byte)
+From the v1.17.0 (milestone Caprica, API17 ) there are two variants.
 
-Minimal version: celestra.min.js (13819 byte)
+
+### Main variant
+
+The functions are available in the `Celestra` and/or `_` object.
+
+Development version: celestra.js (15983 byte)
+
+Minimal version: celestra.min.js (15481 byte)
 
 Cheatsheet: celestra-cheatsheet.pdf
 
+The testcases of the main variant are on this page.
+
+CommonJS (`Celestra`) and AMD (`{ Celestra: Celestra }`) compatible, but isn't compatible with Node.JS.
+
+If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
+
+
+### Functional programming (FP) variant
+
+The functions are available in the global namespace (`window`) like in earlier versions before v1.17.0.
+
+Development version: celestra-fp.js (17406 byte)
+
+Minimal version: celestra-fp.min.js (13822 byte)
+
+Cheatsheet: celestra-fp-cheatsheet.pdf
+
+Celestra FP testpage: celestra-fp.html
+
+This variant isn't compatible with Node.JS, CommonJS and AMD.
+
+
 ### Plugins
 
-Classic plugin for Celestra - Read more on the __celestra-classic.html__ page.
+Classic plugin for Celestra FP - Read more on the __celestra-fp-classic.html__ page.
 
 ## How to clone
 
     $ git clone https://github.com/Serrin/Celestra/
 
 ## Variables
+
+This is global in both variant.
 
 Name | Description
 ---- | -----------
@@ -35,8 +66,16 @@ Name | Description
 
 ### Basic API
 
+__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+
+Example: `_.qsa()`
+
+__FP version:__ These functions are available in the global namespace (`window`).
+
 Name | Description
 ---- | -----------
+`Celestra.version` | _Only in the Main version._ - The library version.
+`Celestra.noConflict();` | _Only in the Main version._ - Restore the previous `_` object value and return the `Celestra` object to create a new alias. Tip: You can make a new alias without this function too. Example: `var _cel = Celestra;`
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
 `qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements.
 `qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
@@ -65,6 +104,12 @@ Name | Description
 
 ### DOM functions
 
+__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+
+Example: `_.domCreate()`
+
+__FP version:__ These functions are available in the global namespace (`window`).
+
 Name | Description
 ---- | -----------
 `domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and can be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.
@@ -84,6 +129,12 @@ Name | Description
 ### Functional programming
 
 These functions help you write quick functional programming Javascript code.
+
+__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+
+Example: `_.toFunction()`
+
+__FP version:__ These functions are available in the global namespace (`window`).
 
 Name | Description
 ---- | -----------
@@ -138,6 +189,12 @@ Name | Description
 
 ### AJAX and CORS
 
+__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+
+Example: `_.getJson()`
+
+__FP version:__ These functions are available in the global namespace (`window`).
+
 Name | Description
 ---- | -----------
 `getJson (<url>,<success>);` | Get JSON content via AJAX. A shorthand function to the getAjax() function.
@@ -158,6 +215,12 @@ __Parameters:__
   - The password is optional, but mandatory if the user is set. This parameter has to be a string.
 
 ### Type checking functions
+
+__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+
+Example: `_.isString()`
+
+__FP version:__ These functions are available in the global namespace (`window`).
 
 Name | Description
 ---- | -----------
