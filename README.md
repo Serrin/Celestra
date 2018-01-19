@@ -7,9 +7,11 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.17.0
+Latest version: 1.17.1
 
-Date: 2018-01-14T17:41:26.766Z
+Date: 2018-01-18T20:48:04.806Z
+
+The Classic plugin has been removed in v1.17.1.
 
 From the v1.17.0 (milestone Caprica, API17 ) there are two variants.
 
@@ -46,10 +48,6 @@ Celestra FP testpage: celestra-fp.html
 This variant isn't compatible with Node.JS, CommonJS and AMD.
 
 
-### Plugins
-
-Classic plugin for Celestra FP - Read more on the __celestra-fp-classic.html__ page.
-
 ## How to clone
 
     $ git clone https://github.com/Serrin/Celestra/
@@ -83,10 +81,10 @@ Name | Description
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `random(<max>);` | Get a random number value within 0 and max value.
 `random(<min>,<max>);` | Get a random number value within min and max value.
-`getScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and can be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
-`getScripts(<scripts>);` | Load more JavaScript files (modules) and then execute it. The scripts parameter is mandatory and can be an array with object elements. The element.url property is mandatory can can be a string. The element.success property is optional and can be a function.
-`getStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and can be a string. The success is optional and can be a function.
-`getStyles(<styles>);` | Load more CSS files (modules). The styles parameter is mandatory and can be an array with object elements. The element.href property is mandatory can can be a string. The element.success property is optional and can be a function.
+`getScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
+`getScripts(<scripts>);` | Load more JavaScript files (modules) and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
+`getStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.
+`getStyles(<styles>);` | Load more CSS files (modules). The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.
 `getUrlVar([name]);` | Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to query string. The return value is the string. The object parameter is mandatory.
@@ -95,12 +93,12 @@ Name | Description
 `getFullscreen();` | Get the fullscreen element. If this isn't set, then the return value is undefined. Please check the incompatibility issues on the [http://caniuse.com/#search=fullscreen](http://caniuse.com/#search=fullscreen) page.
 `setFullscreenOn(<selector>);` | Set the fullscreen element. The selector can be a css selector string or an element.
 `setFullscreenOff();` | Set off the fullscreen.
-`getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and can be a function. The error is optional and can be a function.
+`getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and has to be a function. The error is optional and can be a function.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
-`repeat(<iteration>,<callback>);` | Repeat the callback function. The iteration is mandatory and sets the number of the repeats and can be an integer. The callback is mandatory and can be a function. This function will be called with the iterator counter as parameter.
+`repeat(<iteration>,<callback>);` | Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
 
 ### DOM functions
 
@@ -112,16 +110,16 @@ __FP version:__ These functions are available in the global namespace (`window`)
 
 Name | Description
 ---- | -----------
-`domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and can be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.
-`domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and can be a HTML element. The property is mandatory and can be a string.
-`domSetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and can be a HTML element. The property is mandatory and can be a string. The value is mandatory and can be a string.
-`domSetCSS(<element>,<properties>);` | Set CSS property values of an element. The element is mandatory and can be a HTML element. The properties object is mandatory. The object properties can be the CSS properties and the property values will be applied to the element.
-`domFadeIn(<element>[,duration[,display]]);` | Fade in and show animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
-`domFadeToggle(<element>[,duration[,display]]);` | Fade in or fade out animation which depends on the state of the element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
-`domFadeOut(<element>[,duration]);` | Fade out and hide animation for an element. The element is mandatory and can be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms).
-`domShow(<element>[,display]);` | Show an element. The element is mandatory and can be a HTML element. The display is optional and can be a string (CSS display values).
-`domHide(<element>);` | Hide an element. The element is mandatory and can be a HTML element.
-`domToggle(<element>[,display]);` | Show or hide an element. The element is mandatory and can be a HTML element. The display is optional and can be a string (CSS display values).
+`domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.
+`domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string.
+`domSetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string. The value is mandatory and has to be a string.
+`domSetCSS(<element>,<properties>);` | Set CSS property values of an element. The element is mandatory and has to be a HTML element. The properties object is mandatory. The object properties can be the CSS properties and the property values will be applied to the element.
+`domFadeIn(<element>[,duration[,display]]);` | Fade in and show animation for an element. The element is mandatory and has to be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
+`domFadeToggle(<element>[,duration[,display]]);` | Fade in or fade out animation which depends on the state of the element. The element is mandatory and has to be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
+`domFadeOut(<element>[,duration]);` | Fade out and hide animation for an element. The element is mandatory and has to be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms).
+`domShow(<element>[,display]);` | Show an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).
+`domHide(<element>);` | Hide an element. The element is mandatory and has to be a HTML element.
+`domToggle(<element>[,display]);` | Show or hide an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).
 `domOn(<eventTarget>,<eventType>,<callback>);` | Add a callback to the eventType of the eventTarget.
 `domOff(<eventTarget>,<eventType>,<callback>);` | Remove a callback to the eventType of the eventTarget.
 `domTrigger(<eventTarget>,<eventType>);` | Trigger an eventType of the eventTarget.
@@ -152,11 +150,11 @@ __Sample code:__
 
 Name | Description
 ---- | -----------
-`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each array or nodelist element. The collection is mandatory and can be an array or nodelist. The callback is mandatory and can be a function.
+`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each array or nodelist element. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.
 `each(<collection>,<callback>);` | A shorthand to the function `forEach(<collection>,<callback>);`.
-`map(<collection>,<callback>);` | The map() method creates a new array with the results of calling a provided function on every element in the calling array or nodelist. The collection is mandatory and can be an array or nodelist. The callback is mandatory and can be a function.
-`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and can be an object (not array and nodelist). The callback is mandatory and can be a function.
-`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and can be an object (not array and nodelist). The callback is mandatory and can be a function.
+`map(<collection>,<callback>);` | The map() method creates a new array with the results of calling a provided function on every element in the calling array or nodelist. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.
+`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.
+`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.
 
 __Sample code:__
 
