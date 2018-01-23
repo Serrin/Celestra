@@ -7,9 +7,9 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.17.1
+Latest version: 1.17.2
 
-Date: 2018-01-18T20:48:04.806Z
+Date: 2018-01-23T19:21:14.147Z
 
 The Classic plugin has been removed in v1.17.1.
 
