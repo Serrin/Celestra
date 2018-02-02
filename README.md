@@ -7,22 +7,22 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.17.2
+Latest version: 1.18.0
 
-Date: 2018-01-23T19:21:14.147Z
+Date: 2018-01-31T19:21:13.793Z
 
 The Classic plugin has been removed in v1.17.1.
 
-From the v1.17.0 (milestone Caprica, API17 ) there are two variants.
+From the v1.17.0 (milestone Caprica, API17) there are two variants.
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (15983 byte)
+Development version: celestra.js (17620 byte)
 
-Minimal version: celestra.min.js (15481 byte)
+Minimal version: celestra.min.js (17090 byte)
 
 Cheatsheet: celestra-cheatsheet.pdf
 
@@ -37,9 +37,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`) like in earlier versions before v1.17.0.
 
-Development version: celestra-fp.js (17406 byte)
+Development version: celestra-fp.js (19327 byte)
 
-Minimal version: celestra-fp.min.js (13822 byte)
+Minimal version: celestra-fp.min.js (15313 byte)
 
 Cheatsheet: celestra-fp-cheatsheet.pdf
 
@@ -144,7 +144,7 @@ __Sample code:__
     var forEach2 = toFunction([].forEach);
     var log = bind(console.log, console);
     forEach2(document.querySelectorAll("h3"), log);
-    
+
     var slice = toFunction([].slice);
     alert( Array.isArray(slice(document.querySelectorAll("h3"))) ); // true
 
@@ -161,20 +161,20 @@ __Sample code:__
     var arr1 = [1,2,3];
     forEach ( arr1, function (v) { alert( v*2 ); } );
     // 2, 4, 6
-    
+
     var arr1 = [1,2,3];
     each ( arr1, function (v) { alert( v*2 ); } );
     // 2, 4, 6
-    
+
     var arr2a = [1,2,3];
     var arr2b = map ( arr2a, function (v) { return v*3; } );
     alert(arr2a+"\n"+arr2b);
     // 1,2,4 \n 3,6,9
-    
+
     var o1 = {a:1,b:2,c:3};
     forIn ( o1, function (v) { alert( v*4 ); } );
     //4, 8, 12
-    
+
     var o2a = {a:1,b:2,c:3};
     var o2b = mapIn(o2a, function(v) { return v*5; } );
     alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);
@@ -182,7 +182,7 @@ __Sample code:__
 
 Name | Description
 ---- | -----------
-`toArray(<object>);` | Convert an object (array like objects) to array or clone an array. This function is same as the `Array.from`, if that is available. If not, then the `Array.prototype.slice` will be called. 
+`toArray(<object>);` | Convert an object (array like objects) to array or clone an array. This function is same as the `Array.from`, if that is available. If not, then the `Array.prototype.slice` will be called.
 `toObject(<array>);` | Convert an array to iterable object.
 
 ### AJAX and CORS
@@ -241,6 +241,24 @@ Name | Description
 `isSymbol(<value>);` | `ES6` This function determines whether the provided value is a symbol. The return value is boolean.
 `isMap(<value>);` | `ES6` This function determines whether the provided value is a map. The return value is boolean.
 `isSet(<value>);` | `ES6` This function determines whether the provided value is a set. The return value is boolean.
+`isDate(<value>);` | This function determines whether the provided value is a date. The return value is boolean.
+`isRegexp(<value>);` | This function determines whether the provided value is a regexp. The return value is boolean.
+`isElement(<value>);` | This function determines whether the provided value is a HTML element. The return value is boolean.
+
+### Cookie functions
+
+__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+
+Example: `_.setCookie()`
+
+__FP version:__ These functions are available in the global namespace (`window`).
+
+Name | Description
+---- | -----------
+`setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` | Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number. The path is optional and can be a string. The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean.
+`getCookie([name]);` | Get a cookie value or all cookies in an object. With the name parameter (string) the return value is the current cookie value or null. Without the parameter the return value is an object with the values or an empty object.
+`hasCookie(<name>);` | This function determines whether the cookie is set with the name. The return value is boolean.
+`removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` | Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
 
 ### Polyfills
 
