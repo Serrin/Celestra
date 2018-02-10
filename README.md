@@ -7,9 +7,9 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.18.0
+Latest version: 1.18.1
 
-Date: 2018-01-31T19:21:13.793Z
+Date: 2018-02-08T19:29:30.816Z
 
 The Classic plugin has been removed in v1.17.1.
 
@@ -20,9 +20,9 @@ From the v1.17.0 (milestone Caprica, API17) there are two variants.
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (17620 byte)
+Development version: celestra.js (18371 byte)
 
-Minimal version: celestra.min.js (17090 byte)
+Minimal version: celestra.min.js (17837 byte)
 
 Cheatsheet: celestra-cheatsheet.pdf
 
@@ -39,7 +39,7 @@ The functions are available in the global namespace (`window`) like in earlier v
 
 Development version: celestra-fp.js (19327 byte)
 
-Minimal version: celestra-fp.min.js (15313 byte)
+Minimal version: celestra-fp.min.js (16010 byte)
 
 Cheatsheet: celestra-fp-cheatsheet.pdf
 
@@ -87,7 +87,7 @@ Name | Description
 `getStyles(<styles>);` | Load more CSS files (modules). The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.
 `getUrlVar([name]);` | Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
-`obj2string(<object>);` | Convert object to query string. The return value is the string. The object parameter is mandatory.
+`obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. In addition, the `extend` function doesn't use the `hasOwnProperty` method and copies all of the properties.
 `getFullscreen();` | Get the fullscreen element. If this isn't set, then the return value is undefined. Please check the incompatibility issues on the [http://caniuse.com/#search=fullscreen](http://caniuse.com/#search=fullscreen) page.
@@ -95,6 +95,8 @@ Name | Description
 `setFullscreenOff();` | Set off the fullscreen.
 `getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and has to be a function. The error is optional and can be a function.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
+`form2array(<form>);` | Convert (serialize) form input tag names and values to an array. The return value is the array. The form parameter is mandatory and has to be a html element.
+`form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html element.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
