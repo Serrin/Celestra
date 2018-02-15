@@ -7,11 +7,13 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.18.1
+Latest version: 1.18.2
 
-Date: 2018-02-08T19:29:30.816Z
+Date: 2018-02-11T20:19:39.807Z
 
 The Classic plugin has been removed in v1.17.1.
+
+JavaScript cheatsheet: js-cheatsheet.pdf
 
 From the v1.17.0 (milestone Caprica, API17) there are two variants.
 
@@ -20,9 +22,9 @@ From the v1.17.0 (milestone Caprica, API17) there are two variants.
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (18371 byte)
+Development version: celestra.js (18368 byte)
 
-Minimal version: celestra.min.js (17837 byte)
+Minimal version: celestra.min.js (17833 byte)
 
 Cheatsheet: celestra-cheatsheet.pdf
 
@@ -37,9 +39,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`) like in earlier versions before v1.17.0.
 
-Development version: celestra-fp.js (19327 byte)
+Development version: celestra-fp.js (20270 byte)
 
-Minimal version: celestra-fp.min.js (16010 byte)
+Minimal version: celestra-fp.min.js (16008 byte)
 
 Cheatsheet: celestra-fp-cheatsheet.pdf
 
