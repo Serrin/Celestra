@@ -7,9 +7,9 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.18.2
+Latest version: 1.18.3
 
-Date: 2018-02-11T20:19:39.807Z
+Date: 2018-02-21T10:44:13.984Z
 
 The Classic plugin has been removed in v1.17.1.
 
@@ -22,9 +22,9 @@ From the v1.17.0 (milestone Caprica, API17) there are two variants.
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (18368 byte)
+Development version: celestra.js (18650 bytes)
 
-Minimal version: celestra.min.js (17833 byte)
+Minimal version: celestra.min.js (18105 bytes)
 
 Cheatsheet: celestra-cheatsheet.pdf
 
@@ -39,9 +39,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`) like in earlier versions before v1.17.0.
 
-Development version: celestra-fp.js (20270 byte)
+Development version: celestra-fp.js (20470 bytes)
 
-Minimal version: celestra-fp.min.js (16008 byte)
+Minimal version: celestra-fp.min.js (16184 bytes)
 
 Cheatsheet: celestra-fp-cheatsheet.pdf
 
@@ -103,6 +103,11 @@ Name | Description
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `repeat(<iteration>,<callback>);` | Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
+`initArray();` | Return an empty array.
+`initObject();` | Return an empty object.
+`initString();` | Return an empty string.
+`initTrue();` | Return true.
+`initFalse();` | Return false.
 
 ### DOM functions
 
