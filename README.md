@@ -1,3 +1,10 @@
+    
+        ___  ____  __    ____  ___  ____  ____    __     
+       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\    
+      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\   
+       \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)  
+    
+
 # Celestra
 
 ## Download
@@ -7,15 +14,9 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.18.3
+Latest version: 1.18.4
 
-Date: 2018-02-21T10:44:13.984Z
-
-The Classic plugin has been removed in v1.17.1.
-
-JavaScript cheatsheet: js-cheatsheet.pdf
-
-From the v1.17.0 (milestone Caprica, API17) there are two variants.
+Date: 2018-02-26T19:51:55.962Z
 
 
 ### Main variant
@@ -26,7 +27,7 @@ Development version: celestra.js (18650 bytes)
 
 Minimal version: celestra.min.js (18105 bytes)
 
-Cheatsheet: celestra-cheatsheet.pdf
+
 
 The testcases of the main variant are on this page.
 
@@ -43,11 +44,16 @@ Development version: celestra-fp.js (20470 bytes)
 
 Minimal version: celestra-fp.min.js (16184 bytes)
 
-Cheatsheet: celestra-fp-cheatsheet.pdf
-
 Celestra FP testpage: celestra-fp.html
 
 This variant isn't compatible with Node.JS, CommonJS and AMD.
+
+
+### Cheatsheets
+
+Celestra cheatsheet: celestra-cheatsheet.pdf
+
+JavaScript cheatsheet: js-cheatsheet.pdf
 
 
 ## How to clone
