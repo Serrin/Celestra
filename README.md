@@ -14,20 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.18.4
+Latest version: 1.19.0
 
-Date: 2018-02-26T19:51:55.962Z
+Date: 2018-03-04T19:11:49.662Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (18650 bytes)
+Development version: celestra.js (18634 bytes)
 
-Minimal version: celestra.min.js (18105 bytes)
-
-
+Minimal version: celestra.min.js (18089 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -40,9 +38,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`) like in earlier versions before v1.17.0.
 
-Development version: celestra-fp.js (20470 bytes)
+Development version: celestra-fp.js (20419 bytes)
 
-Minimal version: celestra-fp.min.js (16184 bytes)
+Minimal version: celestra-fp.min.js (16168 bytes)
 
 Celestra FP testpage: celestra-fp.html
 
@@ -54,6 +52,17 @@ This variant isn't compatible with Node.JS, CommonJS and AMD.
 Celestra cheatsheet: celestra-cheatsheet.pdf
 
 JavaScript cheatsheet: js-cheatsheet.pdf
+
+
+### Demo pages
+
+Bricks - Main: testgame1.html
+
+Bricks - FP: testgame1-fp.html
+
+RPG dice roller - Main: testgame2.html
+
+RPG dice roller - FP: testgame2-fp.html
 
 
 ## How to clone
