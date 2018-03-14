@@ -14,18 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.19.0
+Latest version: 1.19.1
 
-Date: 2018-03-04T19:11:49.662Z
+Date: 2018-03-13T19:21:47.338Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (18634 bytes)
+Development version: celestra.js (18636 bytes)
 
-Minimal version: celestra.min.js (18089 bytes)
+Minimal version: celestra.min.js (18091 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -38,9 +38,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`) like in earlier versions before v1.17.0.
 
-Development version: celestra-fp.js (20419 bytes)
+Development version: celestra-fp.js (20421 bytes)
 
-Minimal version: celestra-fp.min.js (16168 bytes)
+Minimal version: celestra-fp.min.js (16170 bytes)
 
 Celestra FP testpage: celestra-fp.html
 
@@ -279,10 +279,10 @@ __FP version:__ These functions are available in the global namespace (`window`)
 
 Name | Description
 ---- | -----------
-`setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` | Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number. The path is optional and can be a string. The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean.
+`setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` | Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number. The path is optional and can be a string. Note: From the v1.19.1 the default path is  the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean.
 `getCookie([name]);` | Get a cookie value or all cookies in an object. With the name parameter (string) the return value is the current cookie value or null. Without the parameter the return value is an object with the values or an empty object.
 `hasCookie(<name>);` | This function determines whether the cookie is set with the name. The return value is boolean.
-`removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` | Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
+`removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` | Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. Note: From the v1.19.1 the default path is  the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
 
 ### Polyfills
 
