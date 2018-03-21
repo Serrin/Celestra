@@ -14,18 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.19.1
+Latest version: 1.19.2
 
-Date: 2018-03-13T19:21:47.338Z
+Date: 2018-03-16T19:46:51.982Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (18636 bytes)
+Development version: celestra.js (18594 bytes)
 
-Minimal version: celestra.min.js (18091 bytes)
+Minimal version: celestra.min.js (18049 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -38,9 +38,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`) like in earlier versions before v1.17.0.
 
-Development version: celestra-fp.js (20421 bytes)
+Development version: celestra-fp.js (20423 bytes)
 
-Minimal version: celestra-fp.min.js (16170 bytes)
+Minimal version: celestra-fp.min.js (16128 bytes)
 
 Celestra FP testpage: celestra-fp.html
 
@@ -106,7 +106,7 @@ Name | Description
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
-`extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. In addition, the `extend` function doesn't use the `hasOwnProperty` method and copies all of the properties.
+`extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. __Note:__ From the v1.19.2 this function uses the ´hasOwnProperty´ method.
 `getFullscreen();` | Get the fullscreen element. If this isn't set, then the return value is undefined. Please check the incompatibility issues on the [http://caniuse.com/#search=fullscreen](http://caniuse.com/#search=fullscreen) page.
 `setFullscreenOn(<selector>);` | Set the fullscreen element. The selector can be a css selector string or an element.
 `setFullscreenOff();` | Set off the fullscreen.
@@ -279,10 +279,10 @@ __FP version:__ These functions are available in the global namespace (`window`)
 
 Name | Description
 ---- | -----------
-`setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` | Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number. The path is optional and can be a string. Note: From the v1.19.1 the default path is  the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean.
+`setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` | Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number. The path is optional and can be a string. __Note:__ From the v1.19.1 the default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean.
 `getCookie([name]);` | Get a cookie value or all cookies in an object. With the name parameter (string) the return value is the current cookie value or null. Without the parameter the return value is an object with the values or an empty object.
 `hasCookie(<name>);` | This function determines whether the cookie is set with the name. The return value is boolean.
-`removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` | Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. Note: From the v1.19.1 the default path is  the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
+`removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` | Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. __Note:__ From the v1.19.1 the default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
 
 ### Polyfills
 
@@ -305,7 +305,7 @@ Name | Description
 `Number.MAX_SAFE_INTEGER` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991)
 `Number.EPSILON` | The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16)
 `Number.isNaN()` | The Number.isNaN() method determines whether the passed value is NaN and its type is Number. It is a more robust version of the original, global isNaN().
-`isNaN()` | The isNaN() function determines whether a value is NaN or not. Note: coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015.
+`isNaN()` | The isNaN() function determines whether a value is NaN or not. __Note:__ coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015.
 `Number.isInteger()` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
 `Number.isFinite()` | The Number.isFinite() method determines whether the passed value is a finite number.
 `Number.isSafeInteger()` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
