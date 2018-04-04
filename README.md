@@ -14,18 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.19.2
+Latest version: 1.20.0
 
-Date: 2018-03-16T19:46:51.982Z
+Date: 2018-04-03T19:39:26.578Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (18594 bytes)
+Development version: celestra.js (18870 bytes)
 
-Minimal version: celestra.min.js (18049 bytes)
+Minimal version: celestra.min.js (18338 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -36,11 +36,11 @@ If the `_` global variable is used before the loading of the library, then the v
 
 ### Functional programming (FP) variant
 
-The functions are available in the global namespace (`window`) like in earlier versions before v1.17.0.
+The functions are available in the global namespace (`window`).
 
-Development version: celestra-fp.js (20423 bytes)
+Development version: celestra-fp.js (20865 bytes)
 
-Minimal version: celestra-fp.min.js (16128 bytes)
+Minimal version: celestra-fp.min.js (16397 bytes)
 
 Celestra FP testpage: celestra-fp.html
 
@@ -107,6 +107,7 @@ Name | Description
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. __Note:__ From the v1.19.2 this function uses the ´hasOwnProperty´ method.
+`deepAssign(<target>,<source1>, ...sources);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
 `getFullscreen();` | Get the fullscreen element. If this isn't set, then the return value is undefined. Please check the incompatibility issues on the [http://caniuse.com/#search=fullscreen](http://caniuse.com/#search=fullscreen) page.
 `setFullscreenOn(<selector>);` | Set the fullscreen element. The selector can be a css selector string or an element.
 `setFullscreenOff();` | Set off the fullscreen.
