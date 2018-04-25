@@ -14,18 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.20.0
+Latest version: 1.20.1
 
-Date: 2018-04-03T19:39:26.578Z
+Date: 2018-04-23T19:44:40.870Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (18870 bytes)
+Development version: celestra.js (18996 bytes)
 
-Minimal version: celestra.min.js (18338 bytes)
+Minimal version: celestra.min.js (18462 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -38,9 +38,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`).
 
-Development version: celestra-fp.js (20865 bytes)
+Development version: celestra-fp.js (20992 bytes)
 
-Minimal version: celestra-fp.min.js (16397 bytes)
+Minimal version: celestra-fp.min.js (16502 bytes)
 
 Celestra FP testpage: celestra-fp.html
 
@@ -252,6 +252,7 @@ Name | Description
 `isNumber(<value>);` | This function determines whether the provided value is a number. The return value is boolean.
 `isInteger(<value>);` | Same as `Number.isInteger()`. This function determines whether the provided value is an integer number. The return value is boolean.
 `isFloat(<value>);` | This function determines whether the provided value is a float number. The return value is boolean.
+`isNumeric(<value>);` | This function determines whether the provided value is a number or can be converted to number. The return value is boolean.
 `isBoolean(<value>);` | This function determines whether the provided value is a boolean. The return value is boolean.
 `isObject(<value>);` | This function determines whether the provided value is an object. The return value is boolean.
 `isEmptyObject(<value>);` | This function determines whether the provided value is an empty object (without properties). The return value is boolean.
