@@ -14,18 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.20.1
+Latest version: 1.20.2
 
-Date: 2018-04-23T19:44:40.870Z
+Date: 2018-05-15T20:41:49.998Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (18996 bytes)
+Development version: celestra.js (19484 bytes)
 
-Minimal version: celestra.min.js (18462 bytes)
+Minimal version: celestra.min.js (18948 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -38,9 +38,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`).
 
-Development version: celestra-fp.js (20992 bytes)
+Development version: celestra-fp.js (21613 bytes)
 
-Minimal version: celestra-fp.min.js (16502 bytes)
+Minimal version: celestra-fp.min.js (16968 bytes)
 
 Celestra FP testpage: celestra-fp.html
 
@@ -119,6 +119,7 @@ Name | Description
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `repeat(<iteration>,<callback>);` | Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
+`createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. _Doesn't work in iOS Safari and W10M Edge._
 `initArray();` | Return an empty array.
 `initObject();` | Return an empty object.
 `initString();` | Return an empty string.
