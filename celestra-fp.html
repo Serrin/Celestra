@@ -85,6 +85,16 @@
         <p><code>var o1 = {a:1,b:2,c:3};<br/>forIn ( o1, function (v) { alert( v*4 ); } );</code></p>
         <p><button onclick='var o2a = {a:1,b:2,c:3}; var o2b = mapIn ( o2a, function(v) { return v*5; } ); alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);'>mapIn</button></p>
         <p><code>var o2a = {a:1,b:2,c:3};<br/>var o2b = mapIn ( o2a, function(v) { return v*5; } );<br/>alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);</code></p>
+        <p><b>hasOwn</b></p>
+        <pre>var o1 = { a: 1 };
+var o2 = Object.create(o1);
+o2.b = 2;
+
+alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
+  + "\r\no2.a=" + o2.a+" - " + hasOwn(o2,"a") + " - false"
+  + "\r\no2.b=" + o2.b+" - " + hasOwn(o2,"b") + " - true");</pre>
+        <p><button onclick='var o1={a:1};var o2=Object.create(o1);o2.b=2;alert("o1.a="+o1.a+" - "+hasOwn(o1,"a")+" - true"+"\r\no2.a="+o2.a+" - "+hasOwn(o2,"a")+" - false"+"\r\no2.b="+o2.b+" - "+hasOwn(o2,"b")+" - true");'>try</button></p>
+      </td>
       </td>
     </tr>
     <tr>

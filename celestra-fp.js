@@ -1,6 +1,6 @@
 /**
  * @name Celestra FP
- * @version 1.20.4
+ * @version 1.20.5
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -433,6 +433,8 @@ function mapIn (o, fn) {
   }
   return r;
 }
+
+var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
 /* DOM */
 

@@ -59,14 +59,14 @@
 <p>Only some functions and polyfills.</p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).</p>
-<p>Latest version: 1.20.4</p>
-<p>Date: 2018-06-03T19:18:25.400Z</p>
+<p>Latest version: 1.20.5</p>
+<p>Date: 2018-07-01T19:06:59.600Z</p>
 
 <h3>Main variant</h3>
 
 <p>The functions are available in the <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (19484 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (18948 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (19566 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (19028 bytes)</p>
 <p>The testcases of the main variant are on this page.</p>
 <p>CommonJS (<code>Celestra</code>) and AMD (<code>{ Celestra: Celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
@@ -74,8 +74,8 @@
 <h3>Functional programming (FP) variant</h3>
 
 <p>The functions are available in the global namespace (<code>window</code>).</p>
-<p>Development version: <a href="celestra-fp.js" target="_blank">celestra-fp.js</a> (21613 bytes)</p>
-<p>Minimal version: <a href="celestra-fp.min.js" target="_blank">celestra-fp.min.js</a> (16968 bytes)</p>
+<p>Development version: <a href="celestra-fp.js" target="_blank">celestra-fp.js</a> (21692 bytes)</p>
+<p>Minimal version: <a href="celestra-fp.min.js" target="_blank">celestra-fp.min.js</a> (17043 bytes)</p>
 <p>Celestra FP testpage: <a href="celestra-fp.html" target="_blank">celestra-fp.html</a></p>
 <p>This variant isn't compatible with Node.JS, CommonJS and AMD.</p>
 
@@ -87,10 +87,8 @@
 
 <h3>Demo pages</h3>
 
-<p>Bricks - Main: <a href="testgame1.html" target="_blank">testgame1.html</a></p>
-<p>Bricks - FP: <a href="testgame1-fp.html" target="_blank">testgame1-fp.html</a></p>
-<p>RPG dice roller - Main: <a href="testgame2.html" target="_blank">testgame2.html</a></p>
-<p>RPG dice roller - FP: <a href="testgame2-fp.html" target="_blank">testgame2-fp.html</a></p>
+<p>RPG dice roller - Main: <a href="testgame.html" target="_blank">testgame.html</a></p>
+<p>RPG dice roller - FP: <a href="testgame-fp.html" target="_blank">testgame-fp.html</a></p>
 
 
 <h2 id="variables">Variables</h2>
@@ -413,6 +411,10 @@
       <td>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.</td>
     </tr>
     <tr>
+      <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td> Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
+    </tr>
+    <tr>
       <td></td>
       <td>
         <p><b>Sample codes</b></p>
@@ -427,6 +429,15 @@
         <p><code>var o1 = {a:1,b:2,c:3};<br/>_.forIn ( o1, function (v) { alert( v*4 ); } );</code></p>
         <p><button onclick='var o2a = {a:1,b:2,c:3}; var o2b = _.mapIn ( o2a, function(v) { return v*5; } ); alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);'>mapIn</button></p>
         <p><code>var o2a = {a:1,b:2,c:3};<br/>var o2b = _.mapIn ( o2a, function(v) { return v*5; } );<br/>alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);</code></p>
+        <p><b>hasOwn</b></p>
+        <pre>var o1 = { a: 1 };
+var o2 = Object.create(o1);
+o2.b = 2;
+
+alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
+  + "\r\no2.a=" + o2.a+" - " + _.hasOwn(o2,"a") + " - false"
+  + "\r\no2.b=" + o2.b+" - " + _.hasOwn(o2,"b") + " - true");</pre>
+        <p><button onclick='var o1={a:1};var o2=Object.create(o1);o2.b=2;alert("o1.a="+o1.a+" - "+_.hasOwn(o1,"a")+" - true"+"\r\no2.a="+o2.a+" - "+_.hasOwn(o2,"a")+" - false"+"\r\no2.b="+o2.b+" - "+_.hasOwn(o2,"b")+" - true");'>try</button></p>
       </td>
     </tr>
     <tr>
@@ -456,29 +467,29 @@
 <div style="overflow-x:auto;">
   <table>
     <tr>
-      <td><code>getJson (&#60;url&#62;,&#60;success&#62;);</code></td>
+      <td><code>getJson(&#60;url&#62;,&#60;success&#62;);</code></td>
       <td>Get TEXT content via AJAX. A shorthand function to the getAjax() function.</td>
     </tr>
     <tr>
-      <td><code>getText (&#60;url&#62;,&#60;success&#62;);</code></td>
+      <td><code>getText(&#60;url&#62;,&#60;success&#62;);</code></td>
       <td>Get JSON content via AJAX. A shorthand function to the getAjax() function.</td>
     </tr>
     <tr>
-      <td><code>getAjax (&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error][,user&#60;,password&#62;]);</code></td>
+      <td><code>getAjax(&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
       <td>Get content via AJAX.</td>
     </tr>
     <tr>
-      <td><code>postAjax (&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error][,user&#60;,password&#62;]);</code></td>
+      <td><code>postAjax(&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
       <td>
         Post data and get the response content via AJAX.</td>
     </tr>
     <tr>
-      <td><code>getCors (&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error][,user&#60;,password&#62;]);</code></td>
+      <td><code>getCors(&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
       <td>
         Get content via cross domain AJAX.</td>
     </tr>
     <tr>
-      <td><code>postCors (&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error][,user&#60;,password&#62;]);</code></td>
+      <td><code>postCors(&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
       <td>Post data and get the response content via cross domain AJAX.</td>
     </tr>
   </table>

@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 1.20.4
+ * @version 1.20.5
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -10,7 +10,7 @@
 /* wrapper object */
 var Celestra = {};
 
-Celestra.version = "Celestra v1.20.4";
+Celestra.version = "Celestra v1.20.5";
 
 Celestra.noConflict = function () {
   window._ = Celestra._prevUnderscore;
@@ -79,6 +79,7 @@ Celestra.each = Celestra.forEach;
 Celestra.map = Function.prototype.call.bind(Array.prototype.map);
 Celestra.forIn = function forIn(o,fn){for(var p in o){if(o.hasOwnProperty(p)){fn(o[p],p,o);}}}
 Celestra.mapIn = function mapIn(o,fn){var r={};for(var p in o){if(o.hasOwnProperty(p)){r[p]=fn(o[p],p,o);}}return r;}
+Celestra.hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 /* DOM */
 Celestra.domCreate = function domCreate(t,ps,iH){var el=document.createElement(t);if(ps){for(var p in ps){if(p!=="style"){el[p]=ps[p];}else{for(var s in ps[p]){el.style[s]=ps[p][s];}}}}if(iH){el.innerHTML=iH;}return el;}
 Celestra.domGetCSS = function domGetCSS(e,p){return (window.getComputedStyle?getComputedStyle(e,null):e.currentStyle)[p];}

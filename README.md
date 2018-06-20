@@ -14,18 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.20.4
+Latest version: 1.20.5
 
-Date: 2018-06-03T19:18:25.400Z
+Date: 2018-07-01T19:06:59.600Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (19484 bytes)
+Development version: celestra.js (19566 bytes)
 
-Minimal version: celestra.min.js (18948 bytes)
+Minimal version: celestra.min.js (19028 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -38,9 +38,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`).
 
-Development version: celestra-fp.js (21613 bytes)
+Development version: celestra-fp.js (21692 bytes)
 
-Minimal version: celestra-fp.min.js (16968 bytes)
+Minimal version: celestra-fp.min.js (17043 bytes)
 
 Celestra FP testpage: celestra-fp.html
 
@@ -56,13 +56,9 @@ JavaScript cheatsheet: js-cheatsheet.pdf
 
 ### Demo pages
 
-Bricks - Main: testgame1.html
+RPG dice roller - Main: testgame.html
 
-Bricks - FP: testgame1-fp.html
-
-RPG dice roller - Main: testgame2.html
-
-RPG dice roller - FP: testgame2-fp.html
+RPG dice roller - FP: testgame-fp.html
 
 
 ## How to clone
@@ -181,6 +177,7 @@ Name | Description
 `map(<collection>,<callback>);` | The map() method creates a new array with the results of calling a provided function on every element in the calling array or nodelist. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.
 `mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.
+`hasOwn(<object>,<property>);` | Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
 
 __Sample code:__
 
@@ -206,6 +203,15 @@ __Sample code:__
     alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);
     // 1  2  3 \n 5  10  15
 
+    var o1 = { a: 1 };
+    var o2 = Object.create(o1);
+    o2.b = 2;
+
+    alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
+    + "\r\no2.a=" + o2.a+" - " + hasOwn(o2,"a") + " - false"
+    + "\r\no2.b=" + o2.b+" - " + hasOwn(o2,"b") + " - true");
+    
+    
 Name | Description
 ---- | -----------
 `toArray(<object>);` | Convert an object (array like objects) to array or clone an array. This function is same as the `Array.from`, if that is available. If not, then the `Array.prototype.slice` will be called.
@@ -221,12 +227,12 @@ __FP version:__ These functions are available in the global namespace (`window`)
 
 Name | Description
 ---- | -----------
-`getJson (<url>,<success>);` | Get JSON content via AJAX. A shorthand function to the getAjax() function.
-`getText (<url>,<success>);` | Get TEXT content via AJAX. A shorthand function to the getAjax() function.
-`getAjax (<url>,<format>,<success>[,error][,user<,password>]);` | Get content via AJAX.
-`postAjax (<url>,<data>,<format>,<success>[,error][,user<,password>]);` | Post data and get the response content via AJAX.
-`getCors (<url>,<format>,<success>[,error][,user<,password>]);` | Get content via cross domain AJAX.
-`postCors (<url>,<data>,<format>,<success>[,error][,user<,password>]);` | Post data and get the response content via cross domain AJAX.
+`getJson(<url>,<success>);` | Get JSON content via AJAX. A shorthand function to the getAjax() function.
+`getText(<url>,<success>);` | Get TEXT content via AJAX. A shorthand function to the getAjax() function.
+`getAjax(<url>,<format>,<success>[,error[,user,<password>]]);` | Get content via AJAX.
+`postAjax(<url>,<data>,<format>,<success>[,error[,user,<password>]]);` | Post data and get the response content via AJAX.
+`getCors(<url>,<format>,<success>[,error[,user,<password>]]);` | Get content via cross domain AJAX.
+`postCors(<url>,<data>,<format>,<success>[,error[,user,<password>]]);` | Post data and get the response content via cross domain AJAX.
 
 __Parameters:__
 
