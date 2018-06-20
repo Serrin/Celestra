@@ -16,7 +16,7 @@ Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) an
 
 Latest version: 1.20.5
 
-Date: 2018-07-01T19:06:59.600Z
+Date: 2018-06-20T19:06:59.600Z
 
 
 ### Main variant
