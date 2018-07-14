@@ -14,18 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.20.5
+Latest version: 1.20.6
 
-Date: 2018-06-20T19:06:59.600Z
+Date: 2018-07-13T19:03:41.478Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (19566 bytes)
+Development version: celestra.js (19545 bytes)
 
-Minimal version: celestra.min.js (19028 bytes)
+Minimal version: celestra.min.js (19007 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -38,9 +38,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`).
 
-Development version: celestra-fp.js (21692 bytes)
+Development version: celestra-fp.js (21665 bytes)
 
-Minimal version: celestra-fp.min.js (17043 bytes)
+Minimal version: celestra-fp.min.js (17022 bytes)
 
 Celestra FP testpage: celestra-fp.html
 

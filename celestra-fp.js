@@ -1,6 +1,6 @@
 /**
  * @name Celestra FP
- * @version 1.20.5
+ * @version 1.20.6
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -215,7 +215,7 @@ function getStyles (s) {
 
 function getUrlVar (n) {
   var r = {}, w = window.location.search.substring(1).split("&");
-  for(var i = 0, l = w.length; i < l; i++) {
+  for (var i = 0, l = w.length; i < l; i++) {
     var e = w[i].split("=");
     r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
   }
@@ -224,7 +224,7 @@ function getUrlVar (n) {
 
 function getUrlVarFromString (qstr,n) {
   var r = {}, w = qstr.substring(1).split("&");
-  for(var i = 0, l = w.length; i < l; i++) {
+  for (var i = 0, l = w.length; i < l; i++) {
     var e = w[i].split("=");
     r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
   }
@@ -330,7 +330,7 @@ function getLocation (s, e) {
 }
 
 function getDoNotTrack () {
-  if (
+  return (
     navigator.doNotTrack === true // FF
     || navigator.doNotTrack === 1
     || navigator.doNotTrack === "1"
@@ -340,8 +340,7 @@ function getDoNotTrack () {
     || navigator.msDoNotTrack === true // IE9-10
     || navigator.msDoNotTrack === 1
     || navigator.msDoNotTrack === "1"
-  ) { return true; }
-  return false;
+  );
 }
 
 function form2array (f) {

@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
 <title>Celestra</title>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<meta name="Author" content="Czigler Ferenc"/>
-<meta name="Copyright" content="(C) Copyright Czigler Ferenc"/>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="Author" content="Czigler Ferenc" />
+<meta name="Copyright" content="(C) Copyright Czigler Ferenc" />
 <link rel="stylesheet" href="u87.css" type="text/css" />
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+
 <script>
   var _ = {};
   _.version = "This is another sample library.";
@@ -59,14 +61,14 @@
 <p>Only some functions and polyfills.</p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).</p>
-<p>Latest version: 1.20.5</p>
-<p>Date: 2018-06-20T19:06:59.600Z</p>
+<p>Latest version: 1.20.6</p>
+<p>Date: 2018-07-13T19:03:41.478Z</p>
 
 <h3>Main variant</h3>
 
 <p>The functions are available in the <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (19566 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (19028 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (19545 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (19007 bytes)</p>
 <p>The testcases of the main variant are on this page.</p>
 <p>CommonJS (<code>Celestra</code>) and AMD (<code>{ Celestra: Celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
@@ -74,8 +76,8 @@
 <h3>Functional programming (FP) variant</h3>
 
 <p>The functions are available in the global namespace (<code>window</code>).</p>
-<p>Development version: <a href="celestra-fp.js" target="_blank">celestra-fp.js</a> (21692 bytes)</p>
-<p>Minimal version: <a href="celestra-fp.min.js" target="_blank">celestra-fp.min.js</a> (17043 bytes)</p>
+<p>Development version: <a href="celestra-fp.js" target="_blank">celestra-fp.js</a> (21665 bytes)</p>
+<p>Minimal version: <a href="celestra-fp.min.js" target="_blank">celestra-fp.min.js</a> (17022 bytes)</p>
 <p>Celestra FP testpage: <a href="celestra-fp.html" target="_blank">celestra-fp.html</a></p>
 <p>This variant isn't compatible with Node.JS, CommonJS and AMD.</p>
 
@@ -1667,7 +1669,7 @@ var eventtestarea = document.querySelector("#eventtestarea");</code></pre>
         </p>
         <hr/>
         <p>
-          isNumeric() true
+          isNumeric()
           <button onclick='alert(
   _.isNumeric(-42)    +" (true)\n"+
   _.isNumeric(-1.42)  +" (true)\n"+
