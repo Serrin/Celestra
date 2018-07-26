@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 1.20.6
+ * @version 1.21.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -10,10 +10,10 @@
 /* wrapper object */
 var Celestra = {};
 
-Celestra.version = "Celestra v1.20.6";
+Celestra.version = "Celestra v1.21.0";
 
 Celestra.noConflict = function () {
-  window._ = Celestra._prevUnderscore;
+  window._ = Celestra.__prevUnderscore__;
   return Celestra;
 };
 
@@ -57,8 +57,8 @@ Celestra.setFullscreenOn = function setFullscreenOn(s){if(typeof s==="string"){v
 Celestra.setFullscreenOff = function setFullscreenOff(){if(document.exitFullscreen){document.exitFullscreen();}else if(document.mozCancelFullScreen){document.mozCancelFullScreen();}else if(document.webkitExitFullscreen){document.webkitExitFullscreen();}else if(document.msExitFullscreen){document.msExitFullscreen();}}
 Celestra.getLocation = function getLocation(s,e){if(!e){var e=function(){};}function getE(error){e("ERROR("+error.code+"): "+error.message);}if(navigator.geolocation){navigator.geolocation.getCurrentPosition(s,getE);}else{getE("Geolocation is not supported in this browser.");}}
 Celestra.getDoNotTrack = function getDoNotTrack(){return (navigator.doNotTrack===true||navigator.doNotTrack===1||navigator.doNotTrack==="1"||window.doNotTrack===true||window.doNotTrack===1||window.doNotTrack==="1"||navigator.msDoNotTrack===true||navigator.msDoNotTrack===1||navigator.msDoNotTrack==="1");}
-Celestra.form2array = function form2array(f){var fld,a=[];if(typeof f==="object"&&f.nodeName.toLowerCase()==="form"){for(var i=0,len=f.elements.length;i<len;i++){fld=f.elements[i];if(fld.name&&!fld.disabled&&fld.type!=="file"&&fld.type!=="reset"&&fld.type!=="submit"&&fld.type!=="button"){if(fld.type==="select-multiple"){for(var j=0,l=f.elements[i].options.length;j<l;j++){if(fld.options[j].selected){ a.push(encodeURIComponent(fld.name)+"="+encodeURIComponent(fld.options[j].value));}}}else if((fld.type!=="checkbox"&&fld.type!=="radio")||fld.checked){a.push(encodeURIComponent(fld.name)+"="+encodeURIComponent(fld.value));}}}}return a;}
-Celestra.form2string = function form2string(f){return Celestra.form2array(f).join("&").replace(/%20/g,"+");}
+Celestra.form2array = function form2array(f){var fld,a=[];if(typeof f==="object"&&f.nodeName.toLowerCase()==="form"){for(var i=0,len=f.elements.length;i<len;i++){fld=f.elements[i];if(fld.name&&!fld.disabled&&fld.type!=="file"&&fld.type!=="reset"&&fld.type!=="submit"&&fld.type!=="button"){if(fld.type==="select-multiple"){for(var j=0,l=f.elements[i].options.length;j<l;j++){if(fld.options[j].selected){a.push({"name":encodeURIComponent(fld.name),"value":encodeURIComponent(fld.options[j].value)});}}}else if((fld.type!=="checkbox"&&fld.type!=="radio")||fld.checked){a.push({"name":encodeURIComponent(fld.name),"value":encodeURIComponent(fld.value)});}}}}return a;}
+Celestra.form2string = function form2string(f){var fld,a=[];if(typeof f==="object"&&f.nodeName.toLowerCase()==="form"){for(var i=0,len=f.elements.length;i<len;i++){fld=f.elements[i];if(fld.name&&!fld.disabled&&fld.type!=="file"&&fld.type!=="reset"&&fld.type!=="submit"&&fld.type!=="button"){if(fld.type==="select-multiple"){for(var j=0,l=f.elements[i].options.length;j<l;j++){if(fld.options[j].selected){a.push(encodeURIComponent(fld.name)+"="+encodeURIComponent(fld.options[j].value));}}}else if((fld.type!=="checkbox"&&fld.type!=="radio")||fld.checked){a.push(encodeURIComponent(fld.name)+"="+encodeURIComponent(fld.value));}}}}return a.join("&").replace(/%20/g,"+");}
 Celestra.constant = function constant(v){return function(){return v;};}
 Celestra.identity = function identity(v){return v;}
 Celestra.noop = function noop(){return undefined;}
@@ -145,7 +145,7 @@ if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
 /* global scope */
 if (typeof window !== "undefined") {
   window.Celestra = Celestra;
-  Celestra._prevUnderscore = window._;
+  Celestra.__prevUnderscore__ = window._;
   window._ = Celestra;
 }
 

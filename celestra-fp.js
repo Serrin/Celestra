@@ -1,6 +1,6 @@
 /**
  * @name Celestra FP
- * @version 1.20.6
+ * @version 1.21.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -352,6 +352,27 @@ function form2array (f) {
         if (fld.type === "select-multiple") {
           for (var j=0, l=f.elements[i].options.length; j<l; j++) {
             if(fld.options[j].selected) {
+              a.push({"name": encodeURIComponent(fld.name), "value": encodeURIComponent(fld.options[j].value)});
+            }
+          }
+        } else if ((fld.type !== "checkbox" && fld.type !== "radio") || fld.checked) {
+          a.push({"name": encodeURIComponent(fld.name), "value": encodeURIComponent(fld.value)});
+        }
+      }
+    }
+  }
+  return a;
+}
+
+function form2string (f) {
+  var fld, a = [];
+  if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
+    for (var i=0, len=f.elements.length; i<len; i++) {
+      fld = f.elements[i];
+      if (fld.name && !fld.disabled && fld.type !== "file" && fld.type !== "reset" && fld.type !== "submit" && fld.type !== "button") {
+        if (fld.type === "select-multiple") {
+          for (var j=0, l=f.elements[i].options.length; j<l; j++) {
+            if(fld.options[j].selected) {
               a.push(encodeURIComponent(fld.name) + "=" + encodeURIComponent(fld.options[j].value));
             }
           }
@@ -361,10 +382,8 @@ function form2array (f) {
       }
     }
   }
-  return a;
+  return a.join("&").replace(/%20/g, "+");
 }
-
-function form2string (f) { return form2array(f).join("&").replace(/%20/g, "+"); }
 
 function constant (v) { return function () { return v; }; }
 

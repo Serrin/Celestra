@@ -109,8 +109,8 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
       <td><code>toObject(&#60;array&#62;);</code></td>
       <td>
          <p>Convert an array to iterable object.</p>
-        <p><button onclick='var a1=["a","b","c"]; var o1=toObject(a1); alert(typeof o1); for(var i=0,len=o1.length; i<len; i++) { alert(o1[i]); }'>Try</button></p>
-        <p><code>var a1=["a","b","c"];<br/>var o1=toObject(a1);<br/>alert(typeof o1);<br/>for(var i=0,len=o1.length; i&#60;len; i++) { alert(o1[i]); }</code></p>      </td>
+        <p><button onclick='var a1=["a","b","c"]; var o1=toObject(a1); alert( getType(o1) ); for(var i=0,len=o1.length; i<len; i++) { alert(o1[i]); }'>Try</button></p>
+        <p><code>var a1 = ["a","b","c"];<br/>var o1 = toObject(a1);<br/>alert( getType(o1) );<br/>for(var i=0, len=o1.length; i&#60; len; i++) { alert(o1[i]); }</code></p>      </td>
     </tr>
   </table>
 </div>
@@ -160,7 +160,10 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
     <tr>
       <td><b>doc.getElementById("samples").style</b></td>
       <td><button onclick='doc.getElementById("samples").style["background-color"]="red";'>Try</button></td>
-      <td><code>doc.getElementById("samples").style["background-color"]="red";</code></td>
+      <td>
+        <span class="deprecated">Deprecated in v1.21.0</span> 
+        <code>doc.getElementById("samples").style["background-color"]="red";</code>
+      </td>
     </tr>
     <tr>
       <td><b>qs(selector).innerHTML</b></td>
@@ -316,11 +319,11 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
     <tr>
       <td><b>form2array(); and form2string();</b></td>
       <td>
-        <button onclick='qs("#formresults").innerHTML = "<p><b>Array</b>: " + String(form2array( qs("#form1") )) + "</p>"; qs("#formresults").innerHTML += "<p><b>String</b>: " + form2string( qs("#form1") ) + "</p>" ;'>try</button>
+        <button onclick='qs("#formresults").innerHTML = "<p><b>Array</b>: " + JSON.stringify (form2array( qs("#form1") )) + "</p>"; qs("#formresults").innerHTML += "<p><b>String</b>: " + form2string( qs("#form1") ) + "</p>" ;'>try</button>
       </td>
       <td>
         <p>
-          <code>qs("#formresults").innerHTML = "&#60;p&#62;&#60;b&#62;Array&#60;/b&#62;: " + String(form2array( qs("#form1") )) + "&#60;/p&#62;";<br/>qs("#formresults").innerHTML += "&#60;p&#62;&#60;b&#62;String&#60;/b&#62;: " + form2string( qs("#form1") ) + "&#60;/p&#62;" ;</code>
+          <code>qs("#formresults").innerHTML = "&#60;p&#62;&#60;b&#62;Array&#60;/b&#62;: " + JSON.stringify(form2array( qs("#form1") )) + "&#60;/p&#62;";<br/>qs("#formresults").innerHTML += "&#60;p&#62;&#60;b&#62;String&#60;/b&#62;: " + form2string( qs("#form1") ) + "&#60;/p&#62;" ;</code>
         </p>
         <p><code id="formresults">results</code></p>
         <div>

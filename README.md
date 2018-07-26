@@ -14,18 +14,18 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.20.6
+Latest version: 1.21.0
 
-Date: 2018-07-13T19:03:41.478Z
+Date: 2018-07-25T19:46:45.900Z
 
 
 ### Main variant
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (19545 bytes)
+Development version: celestra.js (20138 bytes)
 
-Minimal version: celestra.min.js (19007 bytes)
+Minimal version: celestra.min.js (19600 bytes)
 
 The testcases of the main variant are on this page.
 
@@ -38,9 +38,9 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The functions are available in the global namespace (`window`).
 
-Development version: celestra-fp.js (21665 bytes)
+Development version: celestra-fp.js (22489 bytes)
 
-Minimal version: celestra-fp.min.js (17022 bytes)
+Minimal version: celestra-fp.min.js (17618 bytes)
 
 Celestra FP testpage: celestra-fp.html
 
@@ -71,7 +71,7 @@ This is global in both variant.
 
 Name | Description
 ---- | -----------
-`doc` | Short name for the global document object.
+`doc` | __Deprecated in v1.21.0__ Short name for the global document object.
 
 ## Functions
 
@@ -109,8 +109,8 @@ Name | Description
 `setFullscreenOff();` | Set off the fullscreen.
 `getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and has to be a function. The error is optional and can be a function.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
-`form2array(<form>);` | Convert (serialize) form input tag names and values to an array. The return value is the array. The form parameter is mandatory and has to be a html element.
-`form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html element.
+`form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element. __The result has changed in v1.21.0: The array elements are objects instead of strings.__
+`form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
