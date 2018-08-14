@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 1.21.0
+ * @version 1.21.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -10,7 +10,7 @@
 /* wrapper object */
 var Celestra = {};
 
-Celestra.version = "Celestra v1.21.0";
+Celestra.version = "Celestra v1.21.1";
 
 Celestra.noConflict = function () {
   window._ = Celestra.__prevUnderscore__;

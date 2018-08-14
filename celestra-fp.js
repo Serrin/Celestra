@@ -1,6 +1,6 @@
 /**
  * @name Celestra FP
- * @version 1.21.0
+ * @version 1.21.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */

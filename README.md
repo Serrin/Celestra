@@ -14,9 +14,9 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.21.0
+Latest version: 1.21.1
 
-Date: 2018-07-25T19:46:45.900Z
+Date: 2018-08-14T18:47:02.200Z
 
 
 ### Main variant
@@ -71,7 +71,7 @@ This is global in both variant.
 
 Name | Description
 ---- | -----------
-`doc` | __Deprecated in v1.21.0__ Short name for the global document object.
+`doc` | __Deprecated in v1.21.0 -__ Short name for the global document object.
 
 ## Functions
 
@@ -114,13 +114,13 @@ Name | Description
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
-`repeat(<iteration>,<callback>);` | Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
+`repeat(<iteration>,<callback>);` | __Deprecated in v1.21.1 -__ Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
-`initArray();` | Return an empty array.
-`initObject();` | Return an empty object.
-`initString();` | Return an empty string.
-`initTrue();` | Return true.
-`initFalse();` | Return false.
+`initArray();` | __Deprecated in v1.21.1 -__ Return an empty array.
+`initObject();` | __Deprecated in v1.21.1 -__ Return an empty object.
+`initString();` | __Deprecated in v1.21.1 -__ Return an empty string.
+`initTrue();` | __Deprecated in v1.21.1 -__ Return true.
+`initFalse();` | __Deprecated in v1.21.1 -__ Return false.
 
 ### DOM functions
 

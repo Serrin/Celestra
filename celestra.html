@@ -61,8 +61,8 @@
 <p>Only some functions and polyfills.</p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).</p>
-<p>Latest version: 1.21.0</p>
-<p>Date: 2018-07-25T19:46:45.900Z</p>
+<p>Latest version: 1.21.1</p>
+<p>Date: 2018-08-14T18:47:02.200Z</p>
 
 <h3>Main variant</h3>
 
@@ -255,7 +255,10 @@
     </tr>
     <tr>
       <td><code>repeat(&#60;iteration&#62;,&#60;callback&#62;);</code></td>
-      <td>Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.<td>
+      <td>
+        <span class="deprecated">Deprecated in v1.21.1</span>
+        <p>Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.</p>
+      <td>
     </tr>
     <tr>
       <td><code>createFile(&#60;filename&#62;,&#60;content&#62;[,dataType]);</code></td>
@@ -266,23 +269,23 @@
     </tr>
     <tr>
       <td><code>initArray();</code></td>
-      <td>Return an empty array.<td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> Return an empty array.<td>
     </tr>
     <tr>
       <td><code>initObject();</code></td>
-      <td>Return an empty object.<td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> Return an empty object.<td>
     </tr>
     <tr>
       <td><code>initString();</code></td>
-      <td>Return an empty string.<td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> Return an empty string.<td>
     </tr>
     <tr>
       <td><code>initTrue();</code></td>
-      <td>Return true.<td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> Return true.<td>
     </tr>
     <tr>
       <td><code>initFalse();</code></td>
-      <td>Return false.<td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> Return false.<td>
     </tr>
   </table>
 </div>
@@ -614,7 +617,7 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td>
         This function determines whether the provided value is a HTML element. The return value is boolean.
         <p>
-          For other node type (document, text, comment, etc.) checking please read this MDN page:
+          For other node types (document, text, comment, etc.) checking please read this MDN page:
           <br/><a href=" https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType" target="_blank"> https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType</a>
         </p>
       </td>
@@ -874,7 +877,7 @@ alert( _.version );</code></pre></td>
       <td><code>_.qs("div",_.qs("#div1")).innerHTML+=" new content for inner first div";</code></td>
     </tr>
     <tr>
-      <td><b>qsa(selector,qs(selector)).innerHTML</b></td>
+      <td><b>qsa(selector,qs(selector)).each (innerHTML)</b></td>
       <td><button onclick='_.qsa("div",_.qs("#div1")).each(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
       <td><code>_.qsa("div",_.qs("#div1")).each(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
     </tr>
@@ -884,12 +887,12 @@ alert( _.version );</code></pre></td>
       <td><code>_.qs("div","#div1").innerHTML+=" new content for inner first div";</code></td>
     </tr>
     <tr>
-      <td><b>_.qsa(selector,context).innerHTML</b></td>
+      <td><b>qsa(selector,context).each (innerHTML)</b></td>
       <td><button onclick='_.qsa("div","#div1").each(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
       <td><code>_.qsa("div","#div1").each(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
     </tr>
     <tr>
-      <td><b>_.qs(selector).style</b></td>
+      <td><b>qs(selector).style</b></td>
       <td><button onclick='_.qs("#samples").style["background-color"]="lightblue";'>Try</button></td>
       <td><code>_.qs("#samples").style["background-color"]="lightblue";</code></td>
     </tr>
@@ -1073,7 +1076,7 @@ alert( _.version );</code></pre></td>
     <tr>
       <td><b>repeat(iteration,callback)</b></td>
       <td><button onclick='_.repeat(3, function (i) { alert("repeat test: "+i) } );'>Try</button></td>
-      <td><code>_.repeat(3, function (i) { alert("repeat test: "+i) } );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>_.repeat(3, function (i) { alert("repeat test: "+i) } );</code></td>
     </tr>
 <script>
 var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<>\"\'\/#&@{}[]€ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM"
@@ -1108,27 +1111,27 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     <tr>
       <td><b>initArray();</b></td>
       <td><button onclick='alert( Array.isArray(_.initArray()) );'>Try</button></td>
-      <td><code>alert( Array.isArray(_.initArray()) );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( Array.isArray(_.initArray()) );</code></td>
     </tr>
     <tr>
       <td><b>initObject();</b></td>
       <td><button onclick='alert( _.isEmptyObject(_.initObject()) );'>Try</button></td>
-      <td><code>alert( _.isEmptyObject(_.initObject()) );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( _.isEmptyObject(_.initObject()) );</code></td>
     </tr>
     <tr>
       <td><b>initString();</b></td>
       <td><button onclick='alert( _.initString() === "" );'>Try</button></td>
-      <td><code>alert( _.initString() === "" );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( _.initString() === "" );</code></td>
     </tr>
     <tr>
       <td><b>initTrue();</b></td>
       <td><button onclick='alert( _.initTrue() );'>Try</button></td>
-      <td><code>alert( _.initTrue() );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( _.initTrue() );</code></td>
     </tr>
     <tr>
       <td><b>initFalse();</b></td>
       <td><button onclick='alert( _.initFalse() );'>Try</button></td>
-      <td><code>alert( _.initFalse() );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( _.initFalse() );</code></td>
     </tr> 
     
     <tr>
@@ -2023,8 +2026,8 @@ alert(
       <td colspan="2">
         <p>
           setCookie();
-          <button onclick='_.setCookie("ctest3","test éáűőúöüóíÉÁŰŐÚÖÜÓÍ");'>try</button>
-          <code>_.setCookie("ctest3","test éáűőúöüóíÉÁŰŐÚÖÜÓÍ");</code>
+          <button onclick='_.setCookie("ctest3",cookieTestStr);'>try</button>
+          <code>_.setCookie("ctest3",cookieTestStr);</code>
         </p>
         <p>
           hasCookie();
@@ -2033,8 +2036,8 @@ alert(
         </p>
         <p>
           getCookie();
-          <button onclick='alert( _.getCookie("ctest3") );'>try</button>
-          <code>alert( _.getCookie("ctest3") );</code>
+          <button onclick='alert( "\""+_.getCookie("ctest3")+"\"" );'>try</button>
+          <code>alert( "\""+_.getCookie("ctest3")+"\"" );</code>
         </p>
         <p>
           removeCookie();
@@ -2042,11 +2045,12 @@ alert(
           <code>alert( _.removeCookie("ctest3") );</code>
         </p>
         <p>Test Code:</p>
-        <pre><code>var cookiestr = "";
+        <pre><code>var cookieTestStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\&#60;&#62; \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
+var cookiestr = "";
 
 cookiestr += "\ndocument.cookie: \""+document.cookie+"\"";
-_.setCookie("ctest1","álfsjsfnőőÉÉÁ");
-_.setCookie("ctest2","álfsjsfnőőÉÉÁjnkllnkéá34");
+_.setCookie("ctest1",cookieTestStr);
+_.setCookie("ctest2",cookieTestStr);
 cookiestr += "document.cookie: \""+document.cookie+"\"";
 cookiestr += "\n"+(_.getCookie("ctest1"))+" - (cookie value)"; // cookie value
 cookiestr += "\n"+(_.getCookie("ctest2"))+" - (cookie value)"; // cookie value
@@ -2073,11 +2077,12 @@ _.qs("#cookieresults").innerHTML = cookiestr;</code></pre>
       <p>Test results:</p>
       <pre><code id="cookieresults">cookieresults</code></pre>
 <script>
+var cookieTestStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
 var cookiestr = "";
 
 cookiestr += "\ndocument.cookie: \""+document.cookie+"\"";
-_.setCookie("ctest1","álfsjsfnőőÉÉÁ");
-_.setCookie("ctest2","álfsjsfnőőÉÉÁjnkllnkéá34");
+_.setCookie("ctest1",cookieTestStr);
+_.setCookie("ctest2",cookieTestStr);
 cookiestr += "document.cookie: \""+document.cookie+"\"";
 cookiestr += "\n"+(_.getCookie("ctest1"))+" - (cookie value)"; // cookie value
 cookiestr += "\n"+(_.getCookie("ctest2"))+" - (cookie value)"; // cookie value

@@ -181,7 +181,7 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
       <td><code>qs("div",qs("#div1")).innerHTML+=" new content for inner first div";</code></td>
     </tr>
     <tr>
-      <td><b>qsa(selector,qs(selector)).innerHTML</b></td>
+      <td><b>qsa(selector,qs(selector)).each (innerHTML)</b></td>
       <td><button onclick='qsa("div",qs("#div1")).each(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
       <td><code>qsa("div",qs("#div1")).each(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
     </tr>
@@ -191,7 +191,7 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
       <td><code>qs("div","#div1").innerHTML+=" new content for inner first div";</code></td>
     </tr>
     <tr>
-      <td><b>qsa(selector,context).innerHTML</b></td>
+      <td><b>qsa(selector,context).each (innerHTML)</b></td>
       <td><button onclick='qsa("div","#div1").each(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
       <td><code>qsa("div","#div1").each(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
     </tr>
@@ -381,7 +381,7 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
     <tr>
       <td><b>repeat(iteration,callback)</b></td>
       <td><button onclick='repeat(3, function (i) { alert("repeat test: "+i) } );'>Try</button></td>
-      <td><code>repeat(3, function (i) { alert("repeat test: "+i) } );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>repeat(3, function (i) { alert("repeat test: "+i) } );</code></td>
     </tr>
 <script>
 var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<>\"\'\/#&@{}[]€ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM"
@@ -416,27 +416,27 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     <tr>
       <td><b>initArray();</b></td>
       <td><button onclick='alert( Array.isArray(initArray()) );'>Try</button></td>
-      <td><code>alert( Array.isArray(initArray()) );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( Array.isArray(initArray()) );</code></td>
     </tr>
     <tr>
       <td><b>initObject();</b></td>
       <td><button onclick='alert( isEmptyObject(initObject()) );'>Try</button></td>
-      <td><code>alert( isEmptyObject(initObject()) );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( isEmptyObject(initObject()) );</code></td>
     </tr>
     <tr>
       <td><b>initString();</b></td>
       <td><button onclick='alert( initString() === "" );'>Try</button></td>
-      <td><code>alert( initString() === "" );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( initString() === "" );</code></td>
     </tr>
     <tr>
       <td><b>initTrue();</b></td>
       <td><button onclick='alert( initTrue() );'>Try</button></td>
-      <td><code>alert( initTrue() );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( initTrue() );</code></td>
     </tr>
     <tr>
       <td><b>initFalse();</b></td>
       <td><button onclick='alert( initFalse() );'>Try</button></td>
-      <td><code>alert( initFalse() );</code></td>
+      <td><span class="deprecated">Deprecated in v1.21.1</span> <code>alert( initFalse() );</code></td>
     </tr>
     <tr>
       <td><b>extend()</b></td>
@@ -1330,8 +1330,8 @@ alert(
       <td colspan="2">
         <p>
           setCookie();
-          <button onclick='setCookie("ctest3","test éáűőúöüóíÉÁŰŐÚÖÜÓÍ");'>try</button>
-          <code>setCookie("ctest3","test éáűőúöüóíÉÁŰŐÚÖÜÓÍ");</code>
+          <button onclick='setCookie("ctest3",cookieTestStr);'>try</button>
+          <code>setCookie("ctest3",cookieTestStr);</code>
         </p>
         <p>
           hasCookie();
@@ -1340,8 +1340,8 @@ alert(
         </p>
         <p>
           getCookie();
-          <button onclick='alert( getCookie("ctest3") );'>try</button>
-          <code>alert( getCookie("ctest3") );</code>
+          <button onclick='alert( "\""+getCookie("ctest3")+"\"" );'>try</button>
+          <code>alert( "\""+getCookie("ctest3")+"\"" );</code>
         </p>
         <p>
           removeCookie();
@@ -1349,11 +1349,12 @@ alert(
           <code>alert( removeCookie("ctest3") );</code>
         </p>
         <p>Test Code:</p>
-        <pre><code>var cookiestr = "";
+        <pre><code>var cookieTestStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\&#60;&#62; \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
+var cookiestr = "";
 
 cookiestr += "\ndocument.cookie: \""+document.cookie+"\"";
-setCookie("ctest1","álfsjsfnőőÉÉÁ");
-setCookie("ctest2","álfsjsfnőőÉÉÁjnkllnkéá34");
+setCookie("ctest1",cookieTestStr);
+setCookie("ctest2",cookieTestStr);
 cookiestr += "document.cookie: \""+document.cookie+"\"";
 cookiestr += "\n"+(getCookie("ctest1"))+" - (cookie value)"; // cookie value
 cookiestr += "\n"+(getCookie("ctest2"))+" - (cookie value)"; // cookie value
@@ -1380,11 +1381,12 @@ qs("#cookieresults").innerHTML = cookiestr;</code></pre>
       <p>Test results:</p>
       <pre><code id="cookieresults">cookieresults</code></pre>
 <script>
+var cookieTestStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
 var cookiestr = "";
 
 cookiestr += "\ndocument.cookie: \""+document.cookie+"\"";
-setCookie("ctest1","álfsjsfnőőÉÉÁ");
-setCookie("ctest2","álfsjsfnőőÉÉÁjnkllnkéá34");
+setCookie("ctest1",cookieTestStr);
+setCookie("ctest2",cookieTestStr);
 cookiestr += "document.cookie: \""+document.cookie+"\"";
 cookiestr += "\n"+(getCookie("ctest1"))+" - (cookie value)"; // cookie value
 cookiestr += "\n"+(getCookie("ctest2"))+" - (cookie value)"; // cookie value
