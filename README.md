@@ -14,20 +14,15 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 1.21.1
+Latest version: 2.0.0
 
-Date: 2018-08-14T18:47:02.200Z
-
-
-### Main variant
+Date: 2018-08-25T19:57:49.800Z
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (20138 bytes)
+Development version: celestra.js (26491 bytes)
 
-Minimal version: celestra.min.js (19600 bytes)
-
-The testcases of the main variant are on this page.
+Minimal version: celestra.min.js (20506 bytes)
 
 CommonJS (`Celestra`) and AMD (`{ Celestra: Celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -36,15 +31,11 @@ If the `_` global variable is used before the loading of the library, then the v
 
 ### Functional programming (FP) variant
 
-The functions are available in the global namespace (`window`).
+This variant has been removed in v2.0.0.
 
-Development version: celestra-fp.js (22489 bytes)
-
-Minimal version: celestra-fp.min.js (17618 bytes)
+With the `celToWindow();` function the other functions are available in the global namespace (`window`).
 
 Celestra FP testpage: celestra-fp.html
-
-This variant isn't compatible with Node.JS, CommonJS and AMD.
 
 
 ### Cheatsheets
@@ -56,7 +47,7 @@ JavaScript cheatsheet: js-cheatsheet.pdf
 
 ### Demo pages
 
-RPG dice roller - Main: testgame.html
+RPG dice roller: testgame.html
 
 RPG dice roller - FP: testgame-fp.html
 
@@ -67,32 +58,29 @@ RPG dice roller - FP: testgame-fp.html
 
 ## Variables
 
-This is global in both variant.
-
 Name | Description
 ---- | -----------
-`doc` | __Deprecated in v1.21.0 -__ Short name for the global document object.
+`doc` | __Removed in v2.0.0__ - __Deprecated in v1.21.0__ - Short name for the global document object.
 
 ## Functions
 
 ### Basic API
 
-__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `Celestra` and/or `_` objects.
 
 Example: `_.qsa()`
 
-__FP version:__ These functions are available in the global namespace (`window`).
-
 Name | Description
 ---- | -----------
-`Celestra.version` | _Only in the Main version._ - The library version.
-`Celestra.noConflict();` | _Only in the Main version._ - Restore the previous `_` object value and return the `Celestra` object to create a new alias. Tip: You can make a new alias without this function too. Example: `var _cel = Celestra;`
+`Celestra.version;` | The library version.
+`Celestra.noConflict();` | Restore the previous `_` object value and return the `Celestra` object to create a new alias. Tip: You can make a new alias without this function too. Example: `var _cel = Celestra;`
+`Celestra.celToWindow();` | Make the functions available in the global namespace (`window`), except these: `version;`, `noConflict();`, `celToWindow();`
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
 `qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements.
 `qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
 `domReady(<fn>);` | Set the document ready (content fully loaded) event.
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
-`random(<max>);` | Get a random number value within 0 and max value.
+`random([max]);` | Get a random number value within 0 and max value. Without parameter the maximum value is 100.
 `random(<min>,<max>);` | Get a random number value within min and max value.
 `getScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
 `getScripts(<scripts>);` | Load more JavaScript files (modules) and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
@@ -114,21 +102,19 @@ Name | Description
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
-`repeat(<iteration>,<callback>);` | __Deprecated in v1.21.1 -__ Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
+`repeat(<iteration>,<callback>);` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
-`initArray();` | __Deprecated in v1.21.1 -__ Return an empty array.
-`initObject();` | __Deprecated in v1.21.1 -__ Return an empty object.
-`initString();` | __Deprecated in v1.21.1 -__ Return an empty string.
-`initTrue();` | __Deprecated in v1.21.1 -__ Return true.
-`initFalse();` | __Deprecated in v1.21.1 -__ Return false.
+`initArray();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return an empty array.
+`initObject();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return an empty object.
+`initString();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return an empty string.
+`initTrue();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return true.
+`initFalse();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return false.
 
 ### DOM functions
 
-__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `Celestra` and/or `_` objects.
 
 Example: `_.domCreate()`
-
-__FP version:__ These functions are available in the global namespace (`window`).
 
 Name | Description
 ---- | -----------
@@ -150,11 +136,9 @@ Name | Description
 
 These functions help you write quick functional programming Javascript code.
 
-__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `Celestra` and/or `_` objects.
 
 Example: `_.toFunction()`
-
-__FP version:__ These functions are available in the global namespace (`window`).
 
 Name | Description
 ---- | -----------
@@ -219,11 +203,9 @@ Name | Description
 
 ### AJAX and CORS
 
-__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `Celestra` and/or `_` objects.
 
 Example: `_.getJson()`
-
-__FP version:__ These functions are available in the global namespace (`window`).
 
 Name | Description
 ---- | -----------
@@ -246,11 +228,9 @@ __Parameters:__
 
 ### Type checking functions
 
-__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `Celestra` and/or `_` objects.
 
 Example: `_.isString()`
-
-__FP version:__ These functions are available in the global namespace (`window`).
 
 Name | Description
 ---- | -----------
@@ -280,11 +260,9 @@ Name | Description
 
 ### Cookie functions
 
-__Main version__: These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `Celestra` and/or `_` objects.
 
 Example: `_.setCookie()`
-
-__FP version:__ These functions are available in the global namespace (`window`).
 
 Name | Description
 ---- | -----------
@@ -315,7 +293,7 @@ Name | Description
 `Number.EPSILON` | The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16)
 `Number.isNaN()` | The Number.isNaN() method determines whether the passed value is NaN and its type is Number. It is a more robust version of the original, global isNaN().
 `isNaN()` | The isNaN() function determines whether a value is NaN or not. __Note:__ coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015.
-`Number.isInteger()` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
+`Number.isInteger()` | The Number.isInteger() method determines whether the passed value is an integer. 
 `Number.isFinite()` | The Number.isFinite() method determines whether the passed value is a finite number.
 `Number.isSafeInteger()` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
 

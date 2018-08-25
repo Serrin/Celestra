@@ -1,0 +1,186 @@
+/**
+ * @name u87.css
+ * @version 0.9.5
+ * @see https://github.com/Serrin/
+ * @license MIT https://opensource.org/licenses/MIT
+ * This is the default css for my code documentations.
+ * Usage: <link rel="stylesheet" href="u87.css" type="text/css" />
+ */
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, main {
+	display: block;
+} 
+
+*,:before,:after { 
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word;  
+}
+  
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+  overflow-x: visible;
+  overflow-y: visible;
+  overflow: visible;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;  
+  -ms-overflow-style: scrollbar;
+  -webkit-tap-highlight-color: transparent;  
+  padding: 0;
+  margin: 0;
+  /*background-color: darkgrey;*/
+  background-color: #cccccc;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+}
+
+body {
+  background-color: #fff;
+  font-size: 1rem;
+  color: #333;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 15px;
+  min-height: 100vh;
+  text-align: left;
+}
+
+:hover, :active, :visited, :focus { outline: 0; }
+
+header,footer { text-align: center; }
+
+p,h1,h2,h3,h4,h5,h6 { margin: 1rem 0 1rem 0; }
+h1,h2,h3,h4,h5,h6 { font-weight: normal; }
+h2,h3,h4,h5,h6 { padding: 3px; }
+h2 { background-color: #ddd; }
+h2,h3 { margin-top: 50px; }
+h3,h4,h5,h6 { background-color: #eee; }
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.2rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+code {
+  display: inline-block;
+  margin-top: 2px;
+}
+
+code,pre {
+  background-color: slategrey;
+  color: white;
+  padding: 3px 5px 3px 5px;
+  font-size: 14.5px !important;
+  font-family: consolas, monospace;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
+  white-space: pre-wrap;
+}
+
+a, a:visited, a:active { color: steelblue; text-decoration: none; }
+a:hover { color: steelblue; text-decoration: underline; }
+
+/* table { margin: 0 auto; } */
+td { vertical-align: top; }
+
+button { word-break: normal; word-wrap: normal; }
+
+img, video, .img-responsive, .video-responsive {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  outline: 0;
+  page-break-inside: avoid;
+}
+
+small { display: inline-block; }
+small, .small { font-size: 0.8em; }
+.big { font-size: 1.2em; }
+
+.img-fluid, .video-fluid { width: 100%; height: auto; }
+
+.deprecated, .removed, .info { display: inline-block; padding: 3px; }
+.deprecated { background-color: darkorange; color: white; }
+.removed { background-color: crimson; color: white; }
+.info { background-color: lightblue; color: black; }
+
+.left { text-align: left; }
+.right { text-align: right; }
+.center { text-align: center; }
+.justify { text-align: justify; }
+.centered { margin: 0 auto; }
+
+
+/** u87.css grid * @version 0.8.0 * @see https://github.com/Serrin/ */
+/*
+To use the grid add a container class to the body:
+<body class="container">
+or
+<body class="container-fluid">
+*/
+
+.container { display: block; width: 100%;  max-width: 1200px; margin: 0 auto; }
+.container-fluid { display: block; width: 100%; max-width: 100%; margin: 0; }
+
+.row:before, .row:after { content: ""; display: table; }
+.row:after { clear: both; }
+.row { width: 100%; clear: both; padding: 0; margin: 0; zoom: 1; /* IE6-7 */ }
+
+[class*="col-"] { display: inline-block; float: left; margin: 0.5% 1% 0.5% 1%; padding: 1%;}
+
+.col-1-1 { width: 98%; }
+.col-1-2 { width: 48%; }
+.col-1-3 { width: 31.33333%; }
+.col-2-3 { width: 64.66666%; }
+.col-1-4 { width: 23%; }
+.col-3-4 { width: 73%; }
+.col-1-5 { width: 18%; }
+.col-2-5 { width: 38%; }
+.col-3-5 { width: 58%; }
+.col-4-5 { width: 78%; }
+.col-1-8 { width: 10.5%; }
+
+.col-1 { width: 6.33333%; }
+.col-2 { width: 14.66666%; }
+.col-3 { width: 23%; }
+.col-4 { width: 31.33333%; }
+.col-5 { width: 39.66666%; }
+.col-6 { width: 48%; }
+.col-7 { width: 56.33333%; }
+.col-8 { width: 64.66666%; }
+.col-9 { width: 73%; }
+.col-10 { width: 81.33333%; }
+.col-11 { width: 89.66666%; }
+.col-12 { width: 98%; }
+
+@media only screen and (max-width: 768px) {
+  [class*="col-"] { width: 100% !important; margin: 0; }
+  .hide-on-mobile { display: none; }
+}
+
+@media only screen and (min-width: 769px) {
+  .hide-on-desktop { display: none; }
+}
+
+[class*="col-"], .container, .container-fluid, .row {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.nopadding { padding: 0; }
+.padding { padding: 1%; }
