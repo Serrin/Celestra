@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.0
+ * @version 2.0.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -51,6 +51,24 @@ if (!Object.assign) {
       for (var a in s) { if (s.hasOwnProperty(a)) { t[a] = s[a]; } }
     }
     return t;
+  };
+}
+
+if (!Array.prototype.find) {
+  Array.prototype.find = function (fn) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (fn(this[i],i,this)) { return this[i]; }
+    }
+    return undefined;
+  };
+}
+
+if (!Array.prototype.findIndex) {
+  Array.prototype.findIndex = function (fn) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (fn(this[i],i,this)) { return i; }
+    }
+    return -1;
   };
 }
 
@@ -154,7 +172,7 @@ if (!Number.isSafeInteger) {
   };
 }
 
-/* basic api */
+/* core api */
 
 function qsa (s, c) {
   if (c) { var ic = (typeof c === "string") ? document.querySelector(c) : c; }
@@ -412,6 +430,10 @@ function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
 
 function noop () { return undefined; }
+
+function removeTags (s) {
+  return (""+s).replace(/<[^>]*>/g," ").replace(/\s{2,}/g," ").trim();
+}
 
 function createFile (fln, c, dt) {
   var l = arguments.length;
@@ -754,7 +776,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var Celestra = {};
 
-Celestra.version = "Celestra v2.0.0";
+Celestra.version = "Celestra v2.0.1";
 
 Celestra.noConflict = function () {
   window._ = Celestra.__prevUnderscore__;
@@ -772,7 +794,7 @@ Celestra.celToWindow = function () {
 
 /* object content */
 
-/* basic api */
+/* core api */
 Celestra.qsa = qsa;
 Celestra.qs = qs;
 Celestra.domReady = domReady;
@@ -798,6 +820,7 @@ Celestra.form2string = form2string;
 Celestra.constant = constant;
 Celestra.identity = identity;
 Celestra.noop = noop;
+Celestra.removeTags = removeTags;
 Celestra.createFile = createFile;
 /* FP */
 Celestra.toFunction = toFunction;

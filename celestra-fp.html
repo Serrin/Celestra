@@ -116,10 +116,6 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
   </table>
 </div>
 
-<h3 id="typechecking">Type checking functions</h3>
-
-
-
 <h2 id="samples">Samples</h2>
 
 <h3>domReady(fn) sample</h3>
@@ -375,6 +371,11 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
       <td><b>noop()</b></td>
       <td><button onclick='alert ( noop() );'>Try</button></td>
       <td><code>alert ( noop() );</code></td>
+    </tr>
+    <tr>
+      <td><b>removeTags(string)</b></td>
+      <td><button onclick='alert("\""+removeTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")+"\"");'>Try</button></td>
+      <td><code>alert("\""+removeTags("&#60;p&#62;&#60;img src=\"x.js\" /&#62;&#60;img src=\"x.js\"/&#62;&#60;img src=\"x.js\"&#62;lorem&#60;/p&#62;&#60;p&#62;&#60;a href=\"#\"&#62;&#60;b&#62;ipsum&#60;br /&#62;&#60;br/&#62;&#60;br&#62;dolor&#60;/b&#62;&#60;/a&#62;&#60;script src=\"x.js\"&#62;&#60;/script&#62;&#60;/p&#62;&#60; p&#62;&#60; img src=\"x.js\" /&#62;&#60; img src=\"x.js\"/&#62;&#60; img src=\"x.js\"&#62;sit&#60; /p&#62;&#60; p&#62;&#60; a href=\"#\"&#62;&#60; b&#62;amet&#60; br /&#62;&#60; br/&#62;&#60; br&#62;, consectetuer&#60; /b&#62;&#60; / b&#62;&#60; /a&#62;&#60; script src=\"x.js\"&#62;&#60; /script&#62;&#60; /p&#62;")+"\"");</code></td>
     </tr>
 <script>
 var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<>\"\'\/#&@{}[]€ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM"
@@ -1291,6 +1292,24 @@ alert(
           <code>alert( isElement([]) );</code>
         </p>
         <hr/>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Array.prototype.find and Array.prototype.findIndex</b></td>
+      <td colspan="2">
+        <p><button onclick='var testArrayFI=[66,7,135,75,190,89];var testArrayString="";testArrayString+=testArrayFI.find(function(e){return e>100;})+" - 135";testArrayString+="\n"+testArrayFI.find(function(e){return e>200;})+" - undefined";testArrayString+="\n"+testArrayFI.findIndex(function(e){return e>100;})+ " - 2";testArrayString+="\n"+testArrayFI.findIndex(function(e){return e>200;})+" - -1";alert(testArrayString);'>try</button></p>
+        <pre>var testArrayFI = [66, 7, 135, 75, 190, 89];
+var testArrayString = "";
+
+testArrayString += testArrayFI.find(function (e) { return e > 100; }) + " - 135"; 
+
+testArrayString += "\n" + testArrayFI.find(function (e) { return e > 200; }) + " - undefined"; 
+
+testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 100; }) + " - 2";
+
+testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 200; }) + " - -1";
+
+alert(testArrayString);</pre>
       </td>
     </tr>
     <tr>

@@ -14,15 +14,15 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
 
-Latest version: 2.0.0
+Latest version: 2.0.1
 
-Date: 2018-08-25T19:57:49.800Z
+Date: 2018-09-10T19:01:12.300Z
 
 The functions are available in the `Celestra` and/or `_` object.
 
-Development version: celestra.js (26491 bytes)
+Development version: celestra.js (27057 bytes)
 
-Minimal version: celestra.min.js (20506 bytes)
+Minimal version: celestra.min.js (20944 bytes)
 
 CommonJS (`Celestra`) and AMD (`{ Celestra: Celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -33,7 +33,7 @@ If the `_` global variable is used before the loading of the library, then the v
 
 This variant has been removed in v2.0.0.
 
-With the `celToWindow();` function the other functions are available in the global namespace (`window`).
+With the `celToWindow();` function the functions are available in the global namespace (`window`).
 
 Celestra FP testpage: celestra-fp.html
 
@@ -52,6 +52,13 @@ RPG dice roller: testgame.html
 RPG dice roller - FP: testgame-fp.html
 
 
+### Celestra unit tester
+
+Celestra test results: unittest.html
+
+Celestra FP test results: unittest-fp.html
+
+
 ## How to clone
 
     $ git clone https://github.com/Serrin/Celestra/
@@ -64,7 +71,7 @@ Name | Description
 
 ## Functions
 
-### Basic API
+### Core API
 
 These functions are available in the `Celestra` and/or `_` objects.
 
@@ -102,6 +109,7 @@ Name | Description
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
+`removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
 `repeat(<iteration>,<callback>);` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
 `initArray();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return an empty array.
@@ -277,6 +285,8 @@ Name | Description
 ---- | -----------
 `Array.from()` | The Array.from() method creates a new Array instance from an array-like or iterable object.
 `Array.of()` | The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
+`Array.prototype.find()` | The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned.
+`Array.prototype.findIndex()` | The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise -1 is returned.
 `Object.create()` | The Object.create() method creates a new object with the specified prototype object and properties.
 `Object.assign()` | The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
 `ChildNode.after()` | The ChildNode.after() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just after this ChildNode. DOMString objects are inserted as equivalent Text nodes.

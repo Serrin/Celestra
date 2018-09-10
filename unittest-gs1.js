@@ -1,0 +1,1 @@
+_ct.addTest("getScript() (core api) - first script loaded", true, true );

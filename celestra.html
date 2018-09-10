@@ -61,19 +61,19 @@
 <p>Only some functions and polyfills.</p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).</p>
-<p>Latest version: 2.0.0</p>
-<p>Date: 2018-08-25T19:57:49.800Z</p>
+<p>Latest version: 2.0.1</p>
+<p>Date: 2018-09-10T19:01:12.300Z</p>
 
 <p>The functions are available in the <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (26491 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (20506 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (27057 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (20944 bytes)</p>
 <p>CommonJS (<code>Celestra</code>) and AMD (<code>{ Celestra: Celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
 <h3>Functional programming (FP) variant</h3>
 
 <p>This variant has been removed in v2.0.0.</p>
-<p>With the <code>celToWindow();</code> function the other functions are available in the global namespace (<code>window</code>).</p>
+<p>With the <code>celToWindow();</code> function the functions are available in the global namespace (<code>window</code>).</p>
 <p>Celestra FP testpage: <a href="celestra-fp.html" target="_blank">celestra-fp.html</a></p>
 
 <h3>Cheatsheets</h3>
@@ -81,12 +81,15 @@
 <p>Celestra cheatsheet: <a href="celestra-cheatsheet.pdf" target="_blank">celestra-cheatsheet.pdf</a></p>
 <p>JavaScript cheatsheet: <a href="js-cheatsheet.pdf" target="_blank">js-cheatsheet.pdf</a></p>
 
-
 <h3>Demo pages</h3>
 
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
 <p>RPG dice roller - FP: <a href="testgame-fp.html" target="_blank">testgame-fp.html</a></p>
 
+<h3>Celestra unit tester</h3>
+
+<p>Celestra test results: <a href="unittest.html" target="_blank">unittest.html</a></p>
+<p>Celestra FP test results: <a href="unittest-fp.html" target="_blank">unittest-fp.html</a></p>
 
 <h2 id="variables">Variables</h2>
 
@@ -101,7 +104,7 @@
 
 <h2 id="functions">Functions</h2>
 
-<h3>Basic API</h3>
+<h3>Core API</h3>
 
 <p>These functions are available in the <code>Celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.qsa()</code></p>
@@ -248,6 +251,10 @@
     <tr>
       <td><code>noop();</code></td>
       <td>It's an empty function (no operation) that returns undefined and usable for optional callback arguments.</td>
+    </tr>
+    <tr>
+      <td><code>removeTags(&#60;string&#62;);</code></td>
+      <td>Remove HTML tags from a string. The return value is the shorter string.</td>
     </tr>
     <tr>
       <td><code>repeat(&#60;iteration&#62;,&#60;callback&#62;);</code></td>
@@ -700,6 +707,15 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td><code>Array.of()</code></td>
       <td>The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of?v=example" target="_blank">MDN Article!</a></td>
     </tr>
+
+    <tr>
+      <td><code>Array.prototype.find()</code></td>
+      <td>The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank">MDN Article!</a></td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.findIndex()</code></td>
+      <td>The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise -1 is returned. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex" target="_blank">MDN Article!</a></td>
+    </tr>
     <tr>
       <td><code>Object.create()</code></td>
       <td>The Object.create() method creates a new object with the specified prototype object and properties. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create" target="_blank">MDN Article</a> and <a href="http://javascript.crockford.com/prototypal.html" target="_blank">Douglas Crockford's site</a>!</td>
@@ -1088,6 +1104,11 @@ alert( _.version );</code></pre></td>
       <td><b>noop()</b></td>
       <td><button onclick='alert ( _.noop() );'>Try</button></td>
       <td><code>alert ( _.noop() );</code></td>
+    </tr>
+    <tr>
+      <td><b>removeTags(string)</b></td>
+      <td><button onclick='alert("\""+_.removeTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")+"\"");'>Try</button></td>
+      <td><code>alert("\""+_.removeTags("&#60;p&#62;&#60;img src=\"x.js\" /&#62;&#60;img src=\"x.js\"/&#62;&#60;img src=\"x.js\"&#62;lorem&#60;/p&#62;&#60;p&#62;&#60;a href=\"#\"&#62;&#60;b&#62;ipsum&#60;br /&#62;&#60;br/&#62;&#60;br&#62;dolor&#60;/b&#62;&#60;/a&#62;&#60;script src=\"x.js\"&#62;&#60;/script&#62;&#60;/p&#62;&#60; p&#62;&#60; img src=\"x.js\" /&#62;&#60; img src=\"x.js\"/&#62;&#60; img src=\"x.js\"&#62;sit&#60; /p&#62;&#60; p&#62;&#60; a href=\"#\"&#62;&#60; b&#62;amet&#60; br /&#62;&#60; br/&#62;&#60; br&#62;, consectetuer&#60; /b&#62;&#60; / b&#62;&#60; /a&#62;&#60; script src=\"x.js\"&#62;&#60; /script&#62;&#60; /p&#62;")+"\"");</code></td>
     </tr>
 <script>
 var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<>\"\'\/#&@{}[]€ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM"
@@ -2004,6 +2025,24 @@ alert(
           <code>alert( _.isElement([]) );</code>
         </p>
         <hr/>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Array.prototype.find and Array.prototype.findIndex</b></td>
+      <td colspan="2">
+        <p><button onclick='var testArrayFI=[66,7,135,75,190,89];var testArrayString="";testArrayString+=testArrayFI.find(function(e){return e>100;})+" - 135";testArrayString+="\n"+testArrayFI.find(function(e){return e>200;})+" - undefined";testArrayString+="\n"+testArrayFI.findIndex(function(e){return e>100;})+ " - 2";testArrayString+="\n"+testArrayFI.findIndex(function(e){return e>200;})+" - -1";alert(testArrayString);'>try</button></p>
+        <pre>var testArrayFI = [66, 7, 135, 75, 190, 89];
+var testArrayString = "";
+
+testArrayString += testArrayFI.find(function (e) { return e > 100; }) + " - 135"; 
+
+testArrayString += "\n" + testArrayFI.find(function (e) { return e > 200; }) + " - undefined"; 
+
+testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 100; }) + " - 2";
+
+testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 200; }) + " - -1";
+
+alert(testArrayString);</pre>
       </td>
     </tr>
     <tr>
