@@ -92,7 +92,7 @@ span { padding: 0px 10px 0px 10px; }
 <script src="celestra.min.js"></script>
 <script>
 
-Celestra.celToWindow();
+celestra.celToWindow();
 
 domReady(function () {
 
@@ -103,8 +103,7 @@ domReady(function () {
   function getResults () {
     qsa("span",results).each(function (e) { e.remove(); });
     //results.innerHTML = "";
-    var 
-      diceValue = parseInt(dice.value),
+    var diceValue = parseInt(dice.value),
       repeat = parseInt(rolls.value);
     for (var i=0; i<repeat; i++) {
       results.append( domCreate("span",{},"<i>#"+(i+1)+":</i> <b>"+random(1,diceValue)+"</b>") );

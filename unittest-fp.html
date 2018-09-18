@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Celestra FP unit tester</title>
+<title>Celestra Unit Tester FP (CUT)</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -30,7 +30,7 @@
 <body>
 
 <header>
-  <h1>Celestra FP unit tester</h1>
+  <h1>Celestra Unit Tester FP (CUT)</h1>
   <nav><b>
      <a href="#license">License</a>
     &nbsp;//&nbsp;
@@ -90,7 +90,7 @@
 
 var celTest = {};
 
-celTest.version = "Celestra unit tester v0.8.1";
+celTest.version = "Celestra Unit Tester (CUT) v0.8.2";
 celTest.__results__ = document.querySelector("#results");
 
 celTest.isNotIE11 = function isNotIE11 () {
@@ -127,11 +127,11 @@ celTest.addElement = function addElement (type, iHtml) {
   }
 };
 
-var _ct = celTest;
+var _cut = celTest;
 
-_ct.addElement("p", Celestra.version);
-_ct.addElement("p", _ct.version);
-_ct.addElement("p", Date());
+_cut.addElement("p", celestra.version);
+_cut.addElement("p", _cut.version);
+_cut.addElement("p", Date());
 
 
 function saveResults () {

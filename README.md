@@ -12,21 +12,30 @@
 A helper ES5 library for those who like the Vanilla JS.
 Only some functions and polyfills.
 
-Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).
+Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).
 
-Latest version: 2.0.1
+Latest version: 2.0.2
 
-Date: 2018-09-10T19:01:12.300Z
+Date: 2018-09-18T19:42:14.846
 
-The functions are available in the `Celestra` and/or `_` object.
+The functions are available in the `celestra` and `Celestra` and/or `_` object.
 
-Development version: celestra.js (27057 bytes)
+Development version: celestra.js (28496 bytes)
 
-Minimal version: celestra.min.js (20944 bytes)
+Minimal version: celestra.min.js (22100 bytes)
 
-CommonJS (`Celestra`) and AMD (`{ Celestra: Celestra }`) compatible, but isn't compatible with Node.JS.
+CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
 If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
+
+
+### Object name changes
+
+The name of the object changed from `Celestra` to `celestra` in v2.0.2.
+
+For compatiblity reasons, the old alias (`Celestra`) remains until __Celestra v3.0__.
+
+This change affects the CommonJS and AMD module systems as well.
 
 
 ### Functional programming (FP) variant
@@ -52,7 +61,7 @@ RPG dice roller: testgame.html
 RPG dice roller - FP: testgame-fp.html
 
 
-### Celestra unit tester
+### Celestra Unit Tester (CUT)
 
 Celestra test results: unittest.html
 
@@ -63,25 +72,20 @@ Celestra FP test results: unittest-fp.html
 
     $ git clone https://github.com/Serrin/Celestra/
 
-## Variables
-
-Name | Description
----- | -----------
-`doc` | __Removed in v2.0.0__ - __Deprecated in v1.21.0__ - Short name for the global document object.
 
 ## Functions
 
 ### Core API
 
-These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `_` objects.
 
 Example: `_.qsa()`
 
 Name | Description
 ---- | -----------
-`Celestra.version;` | The library version.
-`Celestra.noConflict();` | Restore the previous `_` object value and return the `Celestra` object to create a new alias. Tip: You can make a new alias without this function too. Example: `var _cel = Celestra;`
-`Celestra.celToWindow();` | Make the functions available in the global namespace (`window`), except these: `version;`, `noConflict();`, `celToWindow();`
+`celestra.version;` | The library version.
+`celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`
+`celestra.celToWindow();` | Make the functions available in the global namespace (`window`), except these: `version;`, `noConflict();`, `celToWindow();`
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
 `qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements.
 `qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
@@ -110,17 +114,11 @@ Name | Description
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
-`repeat(<iteration>,<callback>);` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
-`initArray();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return an empty array.
-`initObject();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return an empty object.
-`initString();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return an empty string.
-`initTrue();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return true.
-`initFalse();` | __Removed in v2.0.0__ - __Deprecated in v1.21.1__ - Return false.
 
 ### DOM functions
 
-These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `_` objects.
 
 Example: `_.domCreate()`
 
@@ -144,7 +142,7 @@ Name | Description
 
 These functions help you write quick functional programming Javascript code.
 
-These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `_` objects.
 
 Example: `_.toFunction()`
 
@@ -211,7 +209,7 @@ Name | Description
 
 ### AJAX and CORS
 
-These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `_` objects.
 
 Example: `_.getJson()`
 
@@ -236,7 +234,7 @@ __Parameters:__
 
 ### Type checking functions
 
-These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `_` objects.
 
 Example: `_.isString()`
 
@@ -268,7 +266,7 @@ Name | Description
 
 ### Cookie functions
 
-These functions are available in the `Celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `_` objects.
 
 Example: `_.setCookie()`
 
@@ -285,6 +283,7 @@ Name | Description
 ---- | -----------
 `Array.from()` | The Array.from() method creates a new Array instance from an array-like or iterable object.
 `Array.of()` | The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
+`Array.prototype.fill()` | The fill() method fills all the elements of an array from a start index to an end index with a static value. The end index is not included.
 `Array.prototype.find()` | The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned.
 `Array.prototype.findIndex()` | The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise -1 is returned.
 `Object.create()` | The Object.create() method creates a new object with the specified prototype object and properties.
@@ -297,6 +296,12 @@ Name | Description
 `ParentNode.prepend()` | The ParentNode.prepend method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
 `Array.prototype.includes()` | The includes() method determines whether an array includes a certain element, returning true or false as appropriate.
 `String.prototype.includes()` | The includes() method determines whether one string may be found within another string, returning true or false as appropriate.
+`String.prototype.trimStart()` | The trimStart() method removes whitespace from the beginning of a string.
+`String.prototype.trimLeft()` | Alias of the String.prototype.trimStart() method.
+`String.prototype.trimEnd()` | The trimEnd() method removes whitespace from the end of a string.
+`String.prototype.trimRight()` | Alias of the String.prototype.trimEnd() method.
+`String.prototype.startsWith()` | The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate.
+`String.prototype.endsWith()` | The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate.
 `NodeList.prototype.forEach()` | The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order.
 `Number.MIN_SAFE_INTEGER` | The Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991)
 `Number.MAX_SAFE_INTEGER` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991)

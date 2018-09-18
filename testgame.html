@@ -101,8 +101,7 @@ _.domReady(function () {
   function getResults () {
     _.qsa("span",results).each(function (e) { e.remove(); });
     //results.innerHTML = "";
-    var 
-      diceValue = parseInt(dice.value),
+    var diceValue = parseInt(dice.value),
       repeat = parseInt(rolls.value);
     for (var i=0; i<repeat; i++) {
       results.append( _.domCreate("span",{},"<i>#"+(i+1)+":</i> <b>"+_.random(1,diceValue)+"</b>") );

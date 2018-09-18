@@ -43,8 +43,6 @@
   <nav><b>
     <a href="#download">Download</a>
     &nbsp;//&nbsp;
-    <a href="#variables">Variables</a>
-    &nbsp;//&nbsp;
     <a href="#functions">Functions</a>
     &nbsp;//&nbsp;
     <a href="#samples">Samples</a>
@@ -60,15 +58,21 @@
 <p><strong>A helper ES5 library for those who like the Vanilla JS.</strong></p>
 <p>Only some functions and polyfills.</p>
 
-<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox and W10M Edge).</p>
-<p>Latest version: 2.0.1</p>
-<p>Date: 2018-09-10T19:01:12.300Z</p>
+<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).</p>
+<p>Latest version: 2.0.2</p>
+<p>Date: 2018-09-18T19:42:14.846</p>
 
-<p>The functions are available in the <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (27057 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (20944 bytes)</p>
-<p>CommonJS (<code>Celestra</code>) and AMD (<code>{ Celestra: Celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
+<p>The functions are available in the <code>celestra</code> and <code>Celestra</code> and/or <code>_</code> object.</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (28496 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (22100 bytes)</p>
+<p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
+
+<h3>Object name changes</h3>
+
+<p>The name of the object changed from <code>Celestra</code> to <code>celestra</code> in v2.0.2.</p>
+<p>For compatiblity reasons, the old alias (<code>Celestra</code>) remains until <b>Celestra v3.0</b>.</p>
+<p>This change affects the CommonJS and AMD module systems as well.</p>
 
 <h3>Functional programming (FP) variant</h3>
 
@@ -86,46 +90,35 @@
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
 <p>RPG dice roller - FP: <a href="testgame-fp.html" target="_blank">testgame-fp.html</a></p>
 
-<h3>Celestra unit tester</h3>
+<h3>Celestra Unit Tester (CUT)</h3>
 
 <p>Celestra test results: <a href="unittest.html" target="_blank">unittest.html</a></p>
 <p>Celestra FP test results: <a href="unittest-fp.html" target="_blank">unittest-fp.html</a></p>
-
-<h2 id="variables">Variables</h2>
-
-<div>
-  <table>
-    <tr>
-      <td><code>doc</code></td>
-      <td><span class="removed">Removed in v2.0.0</span> <span class="deprecated">Deprecated in v1.21.0</span> Short name for the global document object.</td>
-    </tr>
-  </table>
-</div>
 
 <h2 id="functions">Functions</h2>
 
 <h3>Core API</h3>
 
-<p>These functions are available in the <code>Celestra</code> and/or <code>_</code> objects.
+<p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.qsa()</code></p>
 
 <div>
   <table>
     <tr>
-      <td><code>Celestra.version;</code></td>
+      <td><code>celestra.version;</code></td>
       <td>
         The library version.
       </td>
     </tr>
     <tr>
-      <td><code>Celestra.noConflict();</code></td>
+      <td><code>celestra.noConflict();</code></td>
       <td>
-        Restore the previous <code>_</code> object value and return the <code>Celestra</code> object to create a new alias.<br/>
-        Tip: You can make a new alias without this function too. Example: <code>var _cel = Celestra;</code>
+        Restore the previous <code>_</code> object value and return the <code>celestra</code> object to create a new alias.<br/>
+        Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code>
       </td>
     </tr>
     <tr>
-      <td><code>Celestra.celToWindow();</code></td>
+      <td><code>celestra.celToWindow();</code></td>
       <td>
         Make the functions available in the global namespace (<code>window</code>), except these: <code>version;</code>, <code>noConflict();</code>, <code>celToWindow();</code>
       </td>
@@ -257,57 +250,10 @@
       <td>Remove HTML tags from a string. The return value is the shorter string.</td>
     </tr>
     <tr>
-      <td><code>repeat(&#60;iteration&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <span class="removed">Removed in v2.0.0</span><br/>
-        <span class="deprecated">Deprecated in v1.21.1</span>
-        <p>Repeat the callback function. The iteration is mandatory and sets the number of the repeats and has to be an integer. The callback is mandatory and has to be a function. This function will be called with the iterator counter as parameter.</p>
-      </td>
-    </tr>
-    <tr>
       <td><code>createFile(&#60;filename&#62;,&#60;content&#62;[,dataType]);</code></td>
       <td>
         <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
         <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>initArray();</code></td>
-      <td>
-        <span class="removed">Removed in v2.0.0</span><br/>
-        <span class="deprecated">Deprecated in v1.21.1</span><br/>
-        Return an empty array.
-      </td>
-    </tr>
-    <tr>
-      <td><code>initObject();</code></td>
-      <td>
-        <span class="deprecated">Deprecated in v1.21.1</span>
-        Return an empty object.
-      </td>
-    </tr>
-    <tr>
-      <td><code>initString();</code></td>
-      <td>
-        <span class="removed">Removed in v2.0.0</span><br/>
-        <span class="deprecated">Deprecated in v1.21.1</span><br/>
-        Return an empty string.
-      </td>
-    </tr>
-    <tr>
-      <td><code>initTrue();</code></td>
-      <td>
-        <span class="removed">Removed in v2.0.0</span><br/>
-        <span class="deprecated">Deprecated in v1.21.1</span><br/>
-        Return true.
-      </td>
-    </tr>
-    <tr>
-      <td><code>initFalse();</code></td>
-      <td>
-        <span class="removed">Removed in v2.0.0</span><br/>
-        <span class="deprecated">Deprecated in v1.21.1</span><br/>
-        Return false.
       </td>
     </tr>
   </table>
@@ -315,7 +261,7 @@
 
 <h3>DOM functions</h3>
 
-<p>These functions are available in the <code>Celestra</code> and/or <code>_</code> objects.
+<p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.domCreate()</code></p>
 
 <div>
@@ -393,7 +339,7 @@
 
 <p>These functions help you write quick functional programming Javascript code.</p>
 
-<p>These functions are available in the <code>Celestra</code> and/or <code>_</code> objects.
+<p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.toFunction()</code></p>
 
 <div>
@@ -491,7 +437,7 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
 
 <h3>AJAX and CORS</h3>
 
-<p>These functions are available in the <code>Celestra</code> and/or <code>_</code> objects.
+<p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.getJson()</code></p>
 
 <div style="overflow-x:auto;">
@@ -538,7 +484,7 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
 
 <h3 id="typechecking">Type checking functions</h3>
 
-<p>These functions are available in the <code>Celestra</code> and/or <code>_</code> objects.
+<p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.isString()</code></p>
 
 <div>
@@ -646,7 +592,7 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
 
 <h3 id="cookie">Cookie functions</h3>
 
-<p>These functions are available in the <code>Celestra</code> and/or <code>_</code> objects.
+<p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.setCookie()</code></p>
 
 <div>
@@ -707,7 +653,10 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td><code>Array.of()</code></td>
       <td>The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of?v=example" target="_blank">MDN Article!</a></td>
     </tr>
-
+    <tr>
+      <td><code>Array.prototype.fill()</code></td>
+      <td>The fill() method fills all the elements of an array from a start index to an end index with a static value. The end index is not included. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill" target="_blank">MDN Article!</a></td>
+    </tr>
     <tr>
       <td><code>Array.prototype.find()</code></td>
       <td>The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank">MDN Article!</a></td>
@@ -764,6 +713,31 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td><code>String.prototype.includes()</code></td>
       <td>The includes() method determines whether one string may be found within another string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes" target="_blank">MDN Article</a>!</td>
     </tr>
+
+    <tr>
+      <td><code>String.prototype.trimStart()</code></td>
+      <td>The trimStart() method removes whitespace from the beginning of a string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.trimLeft()</code></td>
+      <td>Alias of the String.prototype.trimStart() method.</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.trimEnd()</code></td>
+      <td>The trimEnd() method removes whitespace from the end of a string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.trimRight()</code></td>
+      <td>Alias of the String.prototype.trimEnd() method.</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.startsWith()</code></td>
+      <td>The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.endsWith()</code></td>
+      <td>The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith" target="_blank">MDN Article</a>!</td>
+    </tr>
     <tr>
       <td><code>NodeList.prototype.forEach()</code></td>
       <td>The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach" target="_blank">MDN Article</a>!</td>
@@ -808,6 +782,23 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
 <div>
   <table>
     <tr>
+      <td><b>Object name: "celestra"</b></td>
+      <td><button onclick='alert( celestra.random(100,200) );'>Try</button></td>
+      <td><code>alert( celestra.random(100,200) );</code></td>
+    </tr>
+    <tr>
+      <td><b>Object name: "Celestra"</b></td>
+      <td><button onclick='alert( Celestra.random(100,200) );'>Try</button></td>
+      <td><code>alert( Celestra.random(100,200) );</code></td>
+    </tr>
+    <tr>
+      <td><b>Object name: "_"</b></td>
+      <td><button onclick='alert( _.random(100,200) );'>Try</button></td>
+      <td><code>alert( _.random(100,200) );</code></td>
+    </tr>
+
+
+    <tr>
       <td><b>_.celToWindow();</b></td>
       <td><button onclick='_.celToWindow();'>Try</button></td>
       <td><code>_.celToWindow();</code></td>
@@ -823,29 +814,29 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td><code>alert( _.version );</code></td>
     </tr>
     <tr>
-      <td><b>Celestra.noConflict();</b></td>
+      <td><b>celestra.noConflict();</b></td>
       <script>
         var _C = {};
       </script>
-      <td><button onclick='_C = Celestra.noConflict(); alert( _C.version ); alert( _C.getType( document.querySelectorAll("div")) ); alert( _.version );'>Try</button></td>
+      <td><button onclick='_C = celestra.noConflict(); alert( _C.version ); alert( _C.getType( document.querySelectorAll("div")) ); alert( _.version );'>Try</button></td>
       <td><pre><code>// in the head before the loading of Celestra:
 var _ = {};
 _.version = "This is another sample library.";
 
 // in the body:
 var _C = {};
-_C = Celestra.noConflict();
+_C = celestra.noConflict();
 alert( _C.version );
 alert( _C.getType( document.querySelectorAll("div")) );
 alert( _.version );</code></pre></td>
     </tr>
     <tr>
-      <td><b>Create an alias without Celestra.noConflict();</b></td>
+      <td><b>Create an alias without celestra.noConflict();</b></td>
       <script>
-        var _cel = Celestra;
+        var _cel = celestra;
       </script>
-      <td><button onclick='_cel = Celestra; alert( _cel.version ); alert( _cel.random(40,70) ); alert( _.version );'>Try</button></td>
-      <td><pre><code>var _cel = Celestra;
+      <td><button onclick='_cel = celestra; alert( _cel.version ); alert( _cel.random(40,70) ); alert( _.version );'>Try</button></td>
+      <td><pre><code>var _cel = celestra;
 alert( _cel.version );
 alert( _cel.random(40,70) );
 alert( _.version );</code></pre></td>
@@ -952,6 +943,35 @@ alert( _.version );</code></pre></td>
       <td><b>Array.of()</b></td>
       <td><button onclick='alert( Array.isArray( Array.of(1,3,2,8,23) ) );'>Try</button></td>
       <td><code>alert( Array.isArray( Array.of(1,3,2,8,23) ) );</code></td>
+    </tr>
+    <tr>
+      <td><b>Array.prototype.fill()</b></td>
+      <td><button onclick='var testArrayFill1 = [1, 2, 3, 4];var testArrayFillStr = JSON.stringify(testArrayFill1); testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(3.14, 3, 4) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(42, 2) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(56) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill({}) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFill1[0].p1 = "lorem";testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);var testArrayFill2 = Array(5).fill();testArrayFillStr += "\n" + JSON.stringify(testArrayFill2);var testArrayFill3 = Array(3).fill("ipsum");testArrayFillStr += "\n" + JSON.stringify(testArrayFill3);alert(testArrayFillStr);'>Try</button></td>
+      <td><pre>var testArrayFill1 = [1, 2, 3, 4];
+
+var testArrayFillStr = JSON.stringify(testArrayFill1);      
+      
+testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(3.14, 3, 4) );
+testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
+
+testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(42, 2) );
+testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
+
+testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(56) );
+testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
+
+testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill({}) );
+testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
+testArrayFill1[0].p1 = "lorem";
+testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
+
+var testArrayFill2 = Array(5).fill();
+testArrayFillStr += "\n" + JSON.stringify(testArrayFill2);
+
+var testArrayFill3 = Array(3).fill("ipsum");
+testArrayFillStr += "\n" + JSON.stringify(testArrayFill3);
+
+alert(testArrayFillStr);</pre></td>
     </tr>
     <tr>
       <td><b>Array.prototype.includes()</b></td>
@@ -1189,6 +1209,55 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       <td>
         <p><code>_.getLocation(<br/>function (loc){<br/>_.qs("#location").innerHTML = "latitude: "+loc.coords.latitude<br/>+"&#60;br/&#62;longitude: "+loc.coords.longitude<br/>+"&#60;br/&#62;"+"&#60;img src=\"https://maps.googleapis.com/maps/api/staticmap?center="<br/>+loc.coords.latitude + "," + loc.coords.longitude<br/>+"&#38;zoom=14&#38;size="+"400"+"x"+"400"+"&#38;sensor=false\" alt=\"map\"&#62;";},<br/>function (errorMessage) { _.qs("#location").innerHTML = errorMessage; }<br/>);</code></p>
         <p id="location"></p>
+      </td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.trimStart()</b></td>
+      <td><button onclick='alert("\"" + trimStr.trimStart() + "\"");'>try</button></td>
+      <td>
+        <script>var trimStr = "\n \t   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.   \t \n";</script>
+        <code>var trimStr = "\n \t   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.   \t \n";</code>
+        <br/>
+        <code>alert("\"" + trimStr.trimStart() + "\"");</code>
+      </td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.trimLeft()</b></td>
+      <td><button onclick='alert("\"" + trimStr.trimLeft() + "\"");'>try</button></td>
+      <td><code>alert("\"" + trimStr.trimLeft() + "\"");</code></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.trimEnd()</b></td>
+      <td><button onclick='alert("\"" + trimStr.trimEnd() + "\"");'>try</button></td>
+      <td><code>alert("\"" + trimStr.trimEnd() + "\"");</code></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.trimRight()</b></td>
+      <td><button onclick='alert("\"" + trimStr.trimRight() + "\"");'>try</button></td>
+      <td><code>alert("\"" + trimStr.trimRight() + "\"");</code></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.startsWith()</b></td>
+      <td colspan="2">
+        <script>var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";</script>
+        <code>var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";</code>      
+        <p><button onclick='alert(startStr.startsWith("Lorem ipsum dolor") + " - true\n" + startStr.startsWith("consectetuer adipiscing elit") + " - false\n" + startStr.startsWith("consectetuer adipiscing elit", 28) + " - true\n" + startStr.startsWith("consectetuer adipiscing elit", 57) + " - false\n");'>try</button></p>
+        <pre>alert(startStr.startsWith("Lorem ipsum dolor") + " - true\n"
+  + startStr.startsWith("consectetuer adipiscing elit") + " - false\n"
+  + startStr.startsWith("consectetuer adipiscing elit", 28) + " - true\n"
+  + startStr.startsWith("consectetuer adipiscing elit", 57) + " - false\n"
+);</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.endsWith()</b></td>
+      <td colspan="2">     
+        <p><button onclick='alert(startStr.endsWith("Aenean commodo ligula eget dolor.") + " - true\n" + startStr.endsWith("Lorem ipsum dolor sit amet") + " - false\n" + startStr.endsWith("consectetuer adipiscing elit.", 57) + " - true\n" + startStr.endsWith("consectetuer adipiscing elit.", 47) + " - false" );'>try</button></p>
+        <pre>alert(startStr.endsWith("Aenean commodo ligula eget dolor.") + " - true\n"
+  + startStr.endsWith("Lorem ipsum dolor sit amet") + " - false\n"
+  + startStr.endsWith("consectetuer adipiscing elit.", 57) + " - true\n"
+  + startStr.endsWith("consectetuer adipiscing elit.", 47) + " - false"
+);</pre>
       </td>
     </tr>
     <tr>
@@ -2235,8 +2304,6 @@ echo("Amy instanceof Worker: " + (Amy instanceof Worker));</pre></code>
 <footer id="footer"><small>
   <p>
     <a href="#download">Download</a>
-    &nbsp;//&nbsp;
-    <a href="#variables">Variables</a>
     &nbsp;//&nbsp;
     <a href="#functions">Functions</a>
     &nbsp;//&nbsp;

@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.1
+ * @version 2.0.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -72,6 +72,21 @@ if (!Array.prototype.findIndex) {
   };
 }
 
+if (!Array.prototype.fill) {
+  Array.prototype.fill = function (value, start, end) {
+    if (arguments.length === 2) {
+      end = this.length;
+    } else if (arguments.length < 2 ) {
+      start = 0;
+      end = this.length;
+    }
+    if (start < 0) { start = this.length + start; }
+    if (end < 0) { end = this.length + end; }
+    for (var i = start; i < end; i++) { this[i] = value; }
+    return this;
+  }
+}
+
 if (!Array.prototype.includes) {
   Array.prototype.includes = function (v, f) {
     if (!f) { var f = 0; }
@@ -84,6 +99,35 @@ if (!String.prototype.includes) {
     if (!f) { var f = 0; }
     return (this.indexOf(v,f) > -1);
   };
+}
+
+if (!String.prototype.trimStart) {
+  String.prototype.trimStart = function () { return this.replace(/^\s+/,""); };
+}
+if (!String.prototype.trimLeft) {
+  String.prototype.trimLeft = function () { return this.replace(/^\s+/,""); };
+}
+
+if (!String.prototype.trimEnd) {
+  String.prototype.trimEnd = function () { return this.replace(/\s+$/,""); };
+}
+if (!String.prototype.trimRight) {
+  String.prototype.trimRight = function () { return this.replace(/\s+$/,""); };
+}
+
+if (!String.prototype.startsWith) {
+	String.prototype.startsWith = function(searchString, position) {
+    if (position === undefined) { position = 0; }
+		return this.indexOf(searchString) === position;
+	};
+}
+
+if (!String.prototype.endsWith) {
+	String.prototype.endsWith = function(searchString, length) {
+    if (length === undefined) { length = this.length; }
+    var subs = this.substring(0, length);
+		return subs.indexOf(searchString) === (subs.length - searchString.length);
+	};
 }
 
 [Element.prototype, CharacterData.prototype, DocumentType.prototype].forEach(function (p) {
@@ -221,9 +265,9 @@ function getScripts (s) {
   if (Array.isArray(s)) {
     s.forEach(function (e) {
       if (e.success) {
-        Celestra.getScript(e.url, e.success);
+        celestra.getScript(e.url, e.success);
       } else {
-        Celestra.getScript(e.url);
+        celestra.getScript(e.url);
       }
     });
   }
@@ -245,9 +289,9 @@ function getStyles (s) {
   if (Array.isArray(s)) {
     s.forEach(function (e) {
       if (e.success) {
-        Celestra.getStyle(e.href, e.success);
+        celestra.getStyle(e.href, e.success);
       } else {
-        Celestra.getStyle(e.href);
+        celestra.getStyle(e.href);
       }
     });
   }
@@ -303,7 +347,7 @@ function extend () {
       for (var a in so) {
         if (so.hasOwnProperty(a)) {
           if (typeof so[a] === "object" && d) {
-            t[a] = Celestra.extend(true, {}, so[a]);
+            t[a] = celestra.extend(true, {}, so[a]);
           } else {
             t[a] = so[a];
           }
@@ -322,7 +366,7 @@ function deepAssign () {
       for (var a in s) {
         if (s.hasOwnProperty(a)) {
           if (typeof s[a] === "object") {
-            t[a] = Celestra.deepAssign({}, s[a]);
+            t[a] = celestra.deepAssign({}, s[a]);
           } else {
             t[a] = s[a];
           }
@@ -533,9 +577,9 @@ function domFadeOut (e, dur) {
 
 function domFadeToggle (e, dur, d) {
   if ((window.getComputedStyle ? getComputedStyle(e, null) : e.currentStyle).display === "none") {
-    Celestra.domFadeIn(e, dur, (d || ""));
+    celestra.domFadeIn(e, dur, (d || ""));
   } else {
-    Celestra.domFadeOut(e, dur);
+    celestra.domFadeOut(e, dur);
   }
 }
 
@@ -563,9 +607,9 @@ function domTrigger (el, et) { return el[et](); }
 
 /* AJAX */
 
-function getJson (url, success) { Celestra.getAjax(url, "json", success); }
+function getJson (url, success) { celestra.getAjax(url, "json", success); }
 
-function getText (url, success) { Celestra.getAjax(url, "text", success); }
+function getText (url, success) { celestra.getAjax(url, "text", success); }
 
 function getAjax (url, format, success, error, user, password) {
   var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
@@ -774,20 +818,20 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 /* object header */
 
-var Celestra = {};
+var celestra = {};
 
-Celestra.version = "Celestra v2.0.1";
+celestra.version = "Celestra v2.0.2";
 
-Celestra.noConflict = function () {
-  window._ = Celestra.__prevUnderscore__;
-  return Celestra;
+celestra.noConflict = function () {
+  window._ = celestra.__prevUnderscore__;
+  return celestra;
 };
 
-Celestra.celToWindow = function () {
+celestra.celToWindow = function () {
   var filter = ["version", "noConflict", "__prevUnderscore__", "celToWindow"];
-  for (var p in Celestra) {
-    if (Celestra.hasOwnProperty(p) && filter.indexOf(p) === -1 ) {
-      window[p] = Celestra[p];
+  for (var p in celestra) {
+    if (celestra.hasOwnProperty(p) && filter.indexOf(p) === -1 ) {
+      window[p] = celestra[p];
     }
   }
 };
@@ -795,111 +839,112 @@ Celestra.celToWindow = function () {
 /* object content */
 
 /* core api */
-Celestra.qsa = qsa;
-Celestra.qs = qs;
-Celestra.domReady = domReady;
-Celestra.random = random;
-Celestra.inherit = inherit;
-Celestra.getScript = getScript;
-Celestra.getScripts = getScripts;
-Celestra.getStyle = getStyle;
-Celestra.getStyles = getStyles;
-Celestra.getUrlVar = getUrlVar;
-Celestra.getUrlVarFromString = getUrlVarFromString;
-Celestra.obj2string = obj2string;
-Celestra.getType = getType;
-Celestra.extend = extend;
-Celestra.deepAssign = deepAssign;
-Celestra.getFullscreen = getFullscreen;
-Celestra.setFullscreenOn = setFullscreenOn;
-Celestra.setFullscreenOff = setFullscreenOff;
-Celestra.getLocation = getLocation;
-Celestra.getDoNotTrack = getDoNotTrack;
-Celestra.form2array = form2array;
-Celestra.form2string = form2string;
-Celestra.constant = constant;
-Celestra.identity = identity;
-Celestra.noop = noop;
-Celestra.removeTags = removeTags;
-Celestra.createFile = createFile;
+celestra.qsa = qsa;
+celestra.qs = qs;
+celestra.domReady = domReady;
+celestra.random = random;
+celestra.inherit = inherit;
+celestra.getScript = getScript;
+celestra.getScripts = getScripts;
+celestra.getStyle = getStyle;
+celestra.getStyles = getStyles;
+celestra.getUrlVar = getUrlVar;
+celestra.getUrlVarFromString = getUrlVarFromString;
+celestra.obj2string = obj2string;
+celestra.getType = getType;
+celestra.extend = extend;
+celestra.deepAssign = deepAssign;
+celestra.getFullscreen = getFullscreen;
+celestra.setFullscreenOn = setFullscreenOn;
+celestra.setFullscreenOff = setFullscreenOff;
+celestra.getLocation = getLocation;
+celestra.getDoNotTrack = getDoNotTrack;
+celestra.form2array = form2array;
+celestra.form2string = form2string;
+celestra.constant = constant;
+celestra.identity = identity;
+celestra.noop = noop;
+celestra.removeTags = removeTags;
+celestra.createFile = createFile;
 /* FP */
-Celestra.toFunction = toFunction;
-Celestra.bind = bind;
-Celestra.toArray = toArray;
-Celestra.toObject = toObject;
-Celestra.forEach = forEach;
-Celestra.each = each;
-Celestra.map = map;
-Celestra.forIn = forIn;
-Celestra.mapIn = mapIn;
-Celestra.hasOwn = hasOwn;
+celestra.toFunction = toFunction;
+celestra.bind = bind;
+celestra.toArray = toArray;
+celestra.toObject = toObject;
+celestra.forEach = forEach;
+celestra.each = each;
+celestra.map = map;
+celestra.forIn = forIn;
+celestra.mapIn = mapIn;
+celestra.hasOwn = hasOwn;
 /* DOM */
-Celestra.domCreate = domCreate;
-Celestra.domGetCSS = domGetCSS;
-Celestra.domSetCSS = domSetCSS;
-Celestra.domFadeIn = domFadeIn;
-Celestra.domFadeOut = domFadeOut;
-Celestra.domFadeToggle = domFadeToggle;
-Celestra.domHide = domHide;
-Celestra.domShow = domShow;
-Celestra.domToggle = domToggle;
-Celestra.domOn = domOn;
-Celestra.domOff = domOff;
-Celestra.domTrigger = domTrigger;
+celestra.domCreate = domCreate;
+celestra.domGetCSS = domGetCSS;
+celestra.domSetCSS = domSetCSS;
+celestra.domFadeIn = domFadeIn;
+celestra.domFadeOut = domFadeOut;
+celestra.domFadeToggle = domFadeToggle;
+celestra.domHide = domHide;
+celestra.domShow = domShow;
+celestra.domToggle = domToggle;
+celestra.domOn = domOn;
+celestra.domOff = domOff;
+celestra.domTrigger = domTrigger;
 /* AJAX */
-Celestra.getJson = getJson;
-Celestra.getText = getText;
-Celestra.getAjax = getAjax;
-Celestra.postAjax = postAjax;
-Celestra.getCors = getCors;
-Celestra.postCors = postCors;
+celestra.getJson = getJson;
+celestra.getText = getText;
+celestra.getAjax = getAjax;
+celestra.postAjax = postAjax;
+celestra.getCors = getCors;
+celestra.postCors = postCors;
 /* type checking */
-Celestra.isString = isString;
-Celestra.isChar = isChar;
-Celestra.isNumber = isNumber;
-Celestra.isInteger = isInteger;
-Celestra.isFloat = isFloat;
-Celestra.isNumeric = isNumeric;
-Celestra.isBoolean = isBoolean;
-Celestra.isObject = isObject;
-Celestra.isEmptyObject = isEmptyObject;
-Celestra.isFunction = isFunction;
-Celestra.isArray = isArray;
-Celestra.isEmptyArray = isEmptyArray;
-Celestra.isArraylike = isArraylike;
-Celestra.isNull = isNull;
-Celestra.isUndefined = isUndefined;
-Celestra.isNullOrUndefined = isNullOrUndefined;
-Celestra.isPrimitive = isPrimitive;
-Celestra.isSymbol = isSymbol;
-Celestra.isMap = isMap;
-Celestra.isSet = isSet;
-Celestra.isDate = isDate;
-Celestra.isRegexp = isRegexp;
-Celestra.isElement = isElement;
+celestra.isString = isString;
+celestra.isChar = isChar;
+celestra.isNumber = isNumber;
+celestra.isInteger = isInteger;
+celestra.isFloat = isFloat;
+celestra.isNumeric = isNumeric;
+celestra.isBoolean = isBoolean;
+celestra.isObject = isObject;
+celestra.isEmptyObject = isEmptyObject;
+celestra.isFunction = isFunction;
+celestra.isArray = isArray;
+celestra.isEmptyArray = isEmptyArray;
+celestra.isArraylike = isArraylike;
+celestra.isNull = isNull;
+celestra.isUndefined = isUndefined;
+celestra.isNullOrUndefined = isNullOrUndefined;
+celestra.isPrimitive = isPrimitive;
+celestra.isSymbol = isSymbol;
+celestra.isMap = isMap;
+celestra.isSet = isSet;
+celestra.isDate = isDate;
+celestra.isRegexp = isRegexp;
+celestra.isElement = isElement;
 /* cookie */
-Celestra.setCookie = setCookie;
-Celestra.getCookie = getCookie;
-Celestra.hasCookie = hasCookie;
-Celestra.removeCookie = removeCookie;
+celestra.setCookie = setCookie;
+celestra.getCookie = getCookie;
+celestra.hasCookie = hasCookie;
+celestra.removeCookie = removeCookie;
 
 /* AMD loader */
 if (typeof define === "function" && define.amd) {
   define(function () {
-    return { Celestra: Celestra };
+    return { celestra: celestra };
   });
 }
 
 /* CommonJS loader */
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
-  module.exports = Celestra;
+  module.exports = celestra;
 }
 
 /* global scope */
 if (typeof window !== "undefined") {
-  window.Celestra = Celestra;
-  Celestra.__prevUnderscore__ = window._;
-  window._ = Celestra;
+  window.celestra = celestra;
+  window.Celestra = celestra;
+  celestra.__prevUnderscore__ = window._;
+  window._ = celestra;
 }
 
 }(window,document));
