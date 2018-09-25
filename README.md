@@ -14,15 +14,15 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).
 
-Latest version: 2.0.2
+Latest version: 2.0.3
 
-Date: 2018-09-18T19:42:14.846
+Date: 2018-09-25T19:45:00.192Z
 
 The functions are available in the `celestra` and `Celestra` and/or `_` object.
 
-Development version: celestra.js (28496 bytes)
+Development version: celestra.js (30532 bytes)
 
-Minimal version: celestra.min.js (22100 bytes)
+Minimal version: celestra.min.js (23534 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -115,6 +115,7 @@ Name | Description
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
+`fromEntries(<entries>);` | The Object.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object. __In IE11 doesn't work with the Map type. __
 
 ### DOM functions
 
@@ -303,6 +304,11 @@ Name | Description
 `String.prototype.startsWith()` | The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate.
 `String.prototype.endsWith()` | The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate.
 `NodeList.prototype.forEach()` | The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order.
+`Object.values()` | The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
+`Object.entries()` | The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
+`Object.is()` | The Object.is() method determines whether two values are the same value.
+`Array.prototype.flat()` | __Stage 3 Draft / May 23, 2018 - ES2019 candidate__ - The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+`Array.prototype.flatMap()` | __Stage 3 Draft / May 23, 2018 - ES2019 candidate__ - A new array with each element being the result of the callback function and flattened to a depth of 1.
 `Number.MIN_SAFE_INTEGER` | The Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991)
 `Number.MAX_SAFE_INTEGER` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991)
 `Number.EPSILON` | The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16)

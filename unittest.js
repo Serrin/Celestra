@@ -384,6 +384,58 @@ _cut.addTest(
 
 _cut.addTest("version", true, _.version.includes("Celestra v") );
 
+/* celestra.fromEntries() */
+_cut.addElement("h4", "_.fromEntries()");
+
+var qsaList = document.querySelectorAll("p");
+_cut.addTest("_.fromEntries() step 1 nodelist","{}", JSON.stringify(_.fromEntries(qsaList)));
+_cut.addElement("p", JSON.stringify(_.fromEntries(qsaList)) );
+
+var arr = [ ["0", "a"], ["1", "b"], ["2", "c"] ];
+_cut.addTest("_.fromEntries() step 2 array",'{"0":"a","1":"b","2":"c"}', JSON.stringify(_.fromEntries(arr)));
+_cut.addElement("p", JSON.stringify(_.fromEntries(arr)) );
+
+var obj = {"a":1,"b":2,"c":3}; 
+_cut.addTest("_.fromEntries() step 3 Object.entries",'{"a":1,"b":2,"c":3}', JSON.stringify(_.fromEntries(Object.entries(obj))));
+_cut.addElement("p", JSON.stringify(_.fromEntries(Object.entries(obj))) );
+
+var mapList = {0: ["foo","lorem ipsum"], 1: ["bar", 42], 2: ["baz", true], length: 3};
+_cut.addTest("_.fromEntries() step 4 map like object",'{"foo":"lorem ipsum","bar":42,"baz":true}', JSON.stringify(_.fromEntries(mapList)));
+_cut.addElement("p", JSON.stringify(_.fromEntries(mapList)) );
+
+mapList = { 0: "foo", 1: "bar", 2: true, length: 3 };
+_cut.addTest("_.fromEntries() step 5 array like object with string - string elements as arrayLike",'{"f":"o","b":"a"}', JSON.stringify(_.fromEntries(mapList)));
+_cut.addElement("p", JSON.stringify(_.fromEntries(mapList)) );
+
+if (_cut.isNotIE11()) {
+  var fromEntriesMap = new Map([ ["foo", "bar"], ["baz", 42] ]);
+  /*
+  var map = new Map();
+  map.set("foo", "bar");
+  map.set("baz", 42);
+  */
+  _cut.addTest("_.fromEntries() step 6 Map - doesn't work in IE11",'{"foo":"bar","baz":42}', JSON.stringify(_.fromEntries(fromEntriesMap)));
+  _cut.addElement("p", JSON.stringify(_.fromEntries(fromEntriesMap)) );
+}
+
+/*
+_cut.addElement("p", "<b>step 6a (string) + 6b (number) + 6c (boolean)</b>: These have to be not present in the results. These have to throw an error. You can check the first error message in the console.")
+
+var entriesStr2 = "lorem ipsum";
+_cut.addTest("_.fromEntries() step 7a string - you should not see this","x", JSON.stringify(_.fromEntries(entriesStr2)));
+_cut.addElement("p", JSON.stringify(_.fromEntries(entriesStr2)) );
+//  Error: TypeError: iterable for Celestra.fromEntries should have array-like objects - "lorem ipsum"
+
+_cut.addTest("_.fromEntries() step 7b number - you should not see this","x", JSON.stringify(_.fromEntries(3.14)));
+_cut.addElement("p", JSON.stringify(_.fromEntries(3.14)) );
+// TypeError: iterable for Celestra.fromEntries should have array-like objects - 3.14
+
+_cut.addTest("_.fromEntries() step 7c boolean - you should not see this","x", JSON.stringify(_.fromEntries(true)));
+_cut.addElement("p", JSON.stringify(_.fromEntries(true)) );
+// Error: TypeError: iterable for Celestra.fromEntries should have array-like objects - true
+*/
+/* / celestra.fromEntries() */
+
 
 /* DOM */
 /*
@@ -497,6 +549,54 @@ _cut.addTest("getCookie() undefined", undefined, _.getCookie()["ctest3"] );
 
 /* polyfills */
 _cut.addElement("h3", "polyfills");
+
+var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
+objIsStr += Object.is("lorem", "lorem");
+objIsStr += Object.is(-0, -0);
+objIsStr += Object.is(0, 0);
+objIsStr += Object.is(NaN, 0/0);
+objIsStr += Object.is(NaN, NaN);
+objIsStr += Object.is(42, 42);
+objIsStr += Object.is(3.14, 3.14);
+objIsStr += Object.is(true, true);
+objIsStr += Object.is(false, false);
+objIsStr += Object.is(undefined, undefined);
+objIsStr += Object.is(null, null);
+objIsStr += Object.is(isArr, isArr);
+objIsStr += Object.is(isTest, isTest);
+objIsStr += Object.is(window, window);
+objIsStr += Object.is([], []);
+objIsStr += Object.is([1,2], [1,2]);
+objIsStr += Object.is(isArr, [1,2]);
+objIsStr += Object.is(isTest, { x: 12 });
+objIsStr += Object.is("lorem", "ipsum");
+objIsStr += Object.is("lorem", "Lorem");
+objIsStr += Object.is("lorem", "dolorem");
+objIsStr += Object.is(0, -0);
+_cut.addTest(
+  "Object.is()",
+  "truetruetruetruetruetruetruetruetruetruetruetruetruetruefalsefalsefalsefalsefalsefalsefalsefalse",
+  objIsStr
+);
+
+var entriesObj = {a: 1, b:2, c: 3};
+var entriesStr = JSON.stringify( Object.entries(entriesObj) );
+var valuesStr = JSON.stringify( Object.values(entriesObj) );
+entriesObj = {name: "John Smith", age:42, male: true};
+entriesStr += JSON.stringify( Object.entries(entriesObj) ),
+valuesStr += JSON.stringify( Object.values(entriesObj) );
+_cut.addTest(
+  "Object.entries()",
+  '[["a",1],["b",2],["c",3]]'
+  + '[["name","John Smith"],["age",42],["male",true]]',
+  entriesStr
+);
+_cut.addTest(
+  "Object.values()",
+  '[1,2,3]'
+  + '["John Smith",42,true]',
+  valuesStr
+);
 
 var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";
 _cut.addTest(
@@ -644,6 +744,64 @@ _cut.addTest("ChildNode.replaceWith() element", null, _.qs("#testNodeP2") );
 
 testDivNode.remove();
 _cut.addTest("ChildNode.remove()", null, _.qs("#testDivNode") );
+
+
+/* Array.prototype.flat() */
+_cut.addElement("h4", "Array.prototype.flat()");
+
+var flatArr = [1, 2, 3, 4];
+_cut.addTest("step 1", "[1,2,3,4]", JSON.stringify( flatArr.flat() ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat() ));
+_cut.addTest("step 2a", "[1,2,3,4]", JSON.stringify( flatArr.flat(1000) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(1000) ));
+_cut.addTest("step 2b", "[1,2,3,4]", JSON.stringify( flatArr.flat(Infinity) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(Infinity) ));
+
+flatArr = [1, 2, [3, 4]];
+_cut.addTest("step 3", "[1,2,3,4]", JSON.stringify( flatArr.flat() ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat() ));
+
+flatArr = [1,2,[3,4,[5,6]]];
+_cut.addTest("step 4", "[1,2,3,4,[5,6]]", JSON.stringify( flatArr.flat() ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat() ));
+_cut.addTest("step 5", "[1,2,3,4,[5,6]]", JSON.stringify( flatArr.flat(1) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(1) ));
+_cut.addTest("step 6", "[1,2,3,4,5,6]", JSON.stringify( flatArr.flat(2) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(2) ));
+_cut.addTest("step 7a", "[1,2,3,4,5,6]", JSON.stringify( flatArr.flat(1000) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(1000) ));
+_cut.addTest("step 7b", "[1,2,3,4,5,6]", JSON.stringify( flatArr.flat(Infinity) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(Infinity) ));
+_cut.addTest("step 8", "[1,2,[3,4,[5,6]]]", JSON.stringify( flatArr.flat(0) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(0) ));
+_cut.addTest("step 9", "[1,2,[3,4,[5,6]]]", JSON.stringify( flatArr.flat(-1) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(-1) ));
+_cut.addTest("step 10", "[1,2,[3,4,[5,6]]]", JSON.stringify( flatArr.flat("a2") ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat("a2") ));
+_cut.addTest("step 11", "[1,2,[3,4,[5,6]]]", JSON.stringify( flatArr.flat(false) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(false) ));
+_cut.addTest("step 12", "[1,2,3,4,[5,6]]", JSON.stringify( flatArr.flat(true) ) );
+_cut.addElement("p",JSON.stringify( flatArr.flat(true) ));
+
+
+/* Array.prototype.flatMap(callback) */
+_cut.addElement("h4", "Array.prototype.flatMap(callback)");
+
+var flatMapArr = [1, 2, 3, 4];
+
+_cut.addTest("step 13", "[[2],[4],[6],[8]]", JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) ) );
+_cut.addElement("p", JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) ) );
+_cut.addTest("step 14", "[2,4,6,8]", JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) ) );
+_cut.addElement("p", JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) ) );
+_cut.addTest("step 15", "[[2],[4],[6],[8]]", JSON.stringify( flatMapArr.flatMap(function (x) { return [[x * 2]]; }) ) );
+_cut.addElement("p", JSON.stringify( flatMapArr.flatMap(function (x) { return [[x * 2]]; }) ) );
+
+flatMapArr = ["lorem ipsum dolor", "", "sit"];
+_cut.addTest("step 16", '[["lorem","ipsum","dolor"],[""],["sit"]]', JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) ) );
+_cut.addElement("p", JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) ) );
+
+_cut.addTest("step 17", '["lorem","ipsum","dolor","","sit"]', JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) ) );
+_cut.addElement("p", JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) ) );
 
 
 /* Number ES6 */

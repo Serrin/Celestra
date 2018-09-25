@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.2
+ * @version 2.0.3
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -177,6 +177,69 @@ if (!String.prototype.endsWith) {
 if (!NodeList.prototype.forEach) {
   NodeList.prototype.forEach = function (f) {
     for (var i = 0, l = this.length; i < l; i++) { f(this[i], i, this); }
+  };
+}
+
+if (!Array.prototype.flat) {
+  Array.prototype.flat = function (depth) {
+    if (depth === undefined) {
+      depth = 1;
+    } else {
+      depth = Math.floor(Number(depth));
+      if (isNaN(depth) || depth < 1) { return this; }
+    }
+    function deepFlat (a, cd) {
+      a.forEach(function(e) {
+        if (Array.isArray(e)) {
+          if (cd < depth) { deepFlat(e, cd+1); } else { res.push(e); }
+        } else {
+          res.push(e);
+        }
+      });
+    }
+    var res = [];
+    deepFlat(this, 0);
+    return res;
+  };
+}
+
+if (!Array.prototype.flatMap) {
+  Array.prototype.flatMap = function (fn) {
+    var res = [];
+    this.map(fn).forEach(function(e) {
+      if (Array.isArray(e)) {
+        res = res.concat(e);
+      } else {
+        res.push(e);
+      }
+    });
+    return res;
+  };
+}
+
+if (!Object.entries) {
+  Object.entries = function (obj) {
+    var res = [];
+    Object.keys(obj).forEach(function (e) { res.push([e, obj[e]]); });
+    return res;
+  };
+}
+
+if (!Object.values) {
+  Object.values = function (obj) {
+    var res = [];
+    Object.keys(obj).forEach(function (e) { res.push(obj[e]); });
+    return res;
+  };
+}
+
+if (!Object.is) {
+  Object.is = function(x, y) {
+    if (x === y) {
+      return x !== 0 || 1 / x === 1 / y;
+    } else {
+      return x !== x && y !== y;
+    }
   };
 }
 
@@ -500,6 +563,25 @@ function createFile (fln, c, dt) {
   }
 }
 
+function fromEntries (es) {
+  var res = {};
+  if (Array.isArray(es)) {
+    es.forEach(function (e) { res[e[0]] = e[1]; });
+  } else if (Object.prototype.toString.call(es) === "[object Map]") {
+    es.forEach(function (value, key) { res[key] = value; });
+  } else if (typeof es === "object"
+      && typeof es.length === "number"
+      && es.length >= 0
+      && es.length % 1 === 0) {
+    for (var i = 0, l = es.length; i<l; i++) {
+      res[es[i][0]] = es[i][1];
+    }
+  } else {
+    throw "TypeError: iterable for celestra.fromEntries have to be array-like objects - "+JSON.stringify(es);
+  }
+  return res;
+}
+
 /* FP */
 
 function toFunction (fn) { return Function.prototype.call.bind(fn); }
@@ -820,7 +902,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.0.2";
+celestra.version = "Celestra v2.0.3";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
@@ -866,6 +948,7 @@ celestra.identity = identity;
 celestra.noop = noop;
 celestra.removeTags = removeTags;
 celestra.createFile = createFile;
+celestra.fromEntries = fromEntries;
 /* FP */
 celestra.toFunction = toFunction;
 celestra.bind = bind;

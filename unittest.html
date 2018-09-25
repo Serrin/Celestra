@@ -89,7 +89,7 @@
 
 var celTest = {};
 
-celTest.version = "Celestra Unit Tester (CUT) v0.8.2";
+celTest.version = "Celestra Unit Tester (CUT) v0.8.3";
 celTest.__results__ = document.querySelector("#results");
 
 celTest.isNotIE11 = function isNotIE11 () {
@@ -130,7 +130,7 @@ var _cut = celTest;
 
 _cut.addElement("p", celestra.version);
 _cut.addElement("p", _cut.version);
-_cut.addElement("p", Date());
+_cut.addElement("p", (new Date()).toISOString() );
 
 
 function saveResults () {

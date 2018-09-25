@@ -59,12 +59,12 @@
 <p>Only some functions and polyfills.</p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).</p>
-<p>Latest version: 2.0.2</p>
-<p>Date: 2018-09-18T19:42:14.846</p>
+<p>Latest version: 2.0.3</p>
+<p>Date: 2018-09-25T19:45:00.192Z</p>
 
 <p>The functions are available in the <code>celestra</code> and <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (28496 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (22100 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (30532 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (23534 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -254,6 +254,13 @@
       <td>
         <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
         <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>fromEntries(&#60;entries&#62;);</code></td>
+      <td>
+        <p></p>The Object.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object.</p>
+        <p><span class="info">In IE11 doesn't work with the Map type.</span></p>
       </td>
     </tr>
   </table>
@@ -741,6 +748,32 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
     <tr>
       <td><code>NodeList.prototype.forEach()</code></td>
       <td>The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Object.Object.values()</code></td>
+      <td>The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Object.entries()</code></td>
+      <td>The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Object.is()</code></td>
+      <td>The Object.is() method determines whether two values are the same value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.flat()</code></td>
+      <td>
+        <p><span class="info">Stage 3 Draft / May 23, 2018 - ES2019 candidate</span></p>
+        <p>The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.flatMap()</code></td>
+      <td>
+        <p><span class="info">Stage 3 Draft / May 23, 2018 - ES2019 candidate</span></p>
+        <p>A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!</p>
+      </td>
     </tr>
     <tr>
       <td><code>Number.MIN_SAFE_INTEGER</code></td>
@@ -2097,7 +2130,7 @@ alert(
       </td>
     </tr>
     <tr>
-      <td><b>Array.prototype.find and Array.prototype.findIndex</b></td>
+      <td><b>Array.prototype.find() and Array.prototype.findIndex()</b></td>
       <td colspan="2">
         <p><button onclick='var testArrayFI=[66,7,135,75,190,89];var testArrayString="";testArrayString+=testArrayFI.find(function(e){return e>100;})+" - 135";testArrayString+="\n"+testArrayFI.find(function(e){return e>200;})+" - undefined";testArrayString+="\n"+testArrayFI.findIndex(function(e){return e>100;})+ " - 2";testArrayString+="\n"+testArrayFI.findIndex(function(e){return e>200;})+" - -1";alert(testArrayString);'>try</button></p>
         <pre>var testArrayFI = [66, 7, 135, 75, 190, 89];
@@ -2112,6 +2145,107 @@ testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 100; }
 testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 200; }) + " - -1";
 
 alert(testArrayString);</pre>
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>Object.values() and Object.entries()</b></td>
+      <td><button onclick='var entriesObj = {a: 1, b:2, c: 3};var objStr = JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) );entriesObj = {name: "John Smith", age:42, male: true};objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) ); alert(objStr);'>try</button></p></td>
+      <td><pre>var entriesObj = {a: 1, b:2, c: 3};
+var objStr = JSON.stringify( Object.entries(entriesObj) );
+objStr += "\n" + JSON.stringify( Object.values(entriesObj) );
+entriesObj = {name: "John Smith", age:42, male: true};
+objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );
+objStr += "\n" + JSON.stringify( Object.values(entriesObj) );
+alert(objStr);</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Object.is()</b></td>
+      <td><button onclick=' var objIsStr = "", isArr = [1,2], isTest = { x: 12 }; objIsStr += Object.is("lorem", "lorem") + " - true"; objIsStr += "\n" + Object.is(-0, -0) + " - true"; objIsStr += "\n" + Object.is(0, 0) + " - true"; objIsStr += "\n" + Object.is(NaN, 0/0) + " - true"; objIsStr += "\n" + Object.is(NaN, NaN) + " - true"; objIsStr += "\n" + Object.is(42, 42) + " - true"; objIsStr += "\n" + Object.is(3.14, 3.14) + " - true"; objIsStr += "\n" + Object.is(true, true) + " - true"; objIsStr += "\n" + Object.is(false, false) + " - true"; objIsStr += "\n" + Object.is(undefined, undefined) + " - true"; objIsStr += "\n" + Object.is(null, null) + " - true"; objIsStr += "\n" + Object.is(isArr, isArr) + " - true"; objIsStr += "\n" + Object.is(isTest, isTest) + " - true"; objIsStr += "\n" + Object.is(window, window) + " - true"; objIsStr += "\n" + Object.is([], []) + " - false"; objIsStr += "\n" + Object.is([1,2], [1,2]) + " - false"; objIsStr += "\n" + Object.is(isArr, [1,2]) + " - false"; objIsStr += "\n" + Object.is(isTest, { x: 12 }) + " - false"; objIsStr += "\n" + Object.is("lorem", "ipsum") + " - false"; objIsStr += "\n" + Object.is("lorem", "Lorem") + " - false"; objIsStr += "\n" + Object.is("lorem", "dolorem") + " - false"; objIsStr += "\n" + Object.is(0, -0) + " - false"; alert(objIsStr);'>try</button></p></td>
+      <td><pre>var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
+objIsStr += Object.is("lorem", "lorem") + " - true";
+objIsStr += "\n" + Object.is(-0, -0) + " - true";
+objIsStr += "\n" + Object.is(0, 0) + " - true";
+objIsStr += "\n" + Object.is(NaN, 0/0) + " - true";
+objIsStr += "\n" + Object.is(NaN, NaN) + " - true";
+objIsStr += "\n" + Object.is(42, 42) + " - true";
+objIsStr += "\n" + Object.is(3.14, 3.14) + " - true";
+objIsStr += "\n" + Object.is(true, true) + " - true";
+objIsStr += "\n" + Object.is(false, false) + " - true";
+objIsStr += "\n" + Object.is(undefined, undefined) + " - true";
+objIsStr += "\n" + Object.is(null, null) + " - true";
+objIsStr += "\n" + Object.is(isArr, isArr) + " - true";
+objIsStr += "\n" + Object.is(isTest, isTest) + " - true";
+objIsStr += "\n" + Object.is(window, window) + " - true";
+objIsStr += "\n" + Object.is([], []) + " - false";
+objIsStr += "\n" + Object.is([1,2], [1,2]) + " - false";
+objIsStr += "\n" + Object.is(isArr, [1,2]) + " - false";
+objIsStr += "\n" + Object.is(isTest, { x: 12 }) + " - false";
+objIsStr += "\n" + Object.is("lorem", "ipsum") + " - false";
+objIsStr += "\n" + Object.is("lorem", "Lorem") + " - false";
+objIsStr += "\n" + Object.is("lorem", "dolorem") + " - false";
+objIsStr += "\n" + Object.is(0, -0) + " - false";
+alert(objIsStr);</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Array.prototype.flat()</b></td>
+      <td><button onclick='var flatArr = [1, 2, 3, 4], flatStr = "";flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(Infinity) );flatArr = [1, 2, [3, 4]];flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatArr = [1,2,[3,4,[5,6]]];flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(1) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(2) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(Infinity) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(0) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(-1) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat("a2") );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(false) );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(true) );alert(flatStr);'>try</button></p></td>
+      <td><pre>var flatArr = [1, 2, 3, 4], flatStr = "";
+flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );
+flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );
+flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(Infinity) );
+flatArr = [1, 2, [3, 4]];
+flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );
+flatArr = [1,2,[3,4,[5,6]]];
+flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat() );
+flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(1) );
+flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(2) );
+flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(1000) );
+flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(Infinity) );
+flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(0) );
+flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(-1) );
+flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat("a2") );
+flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(false) );
+flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(true) );
+alert(flatStr);</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Array.prototype.flatMap()</b></td>
+      <td><button onclick='var flatMapArr = [1, 2, 3, 4], flatMapStr = ""; flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[2,4,6,8] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [[x * 2]]; }) ); flatMapArr = ["lorem ipsum dolor", "", "sit"]; flatMapStr += "\n" + "[[\"lorem\",\"ipsum\", \"dolor\"],[\"\"],[\"sit\"]] - \n" + JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) ); flatMapStr += "\n" + "[\"lorem\",\"ipsum\",\"dolor\",\"\",\"sit\"] - \n" + JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) ); alert(flatMapStr);'>try</button></p></td>
+      <td><pre>var flatMapArr = [1, 2, 3, 4], flatMapStr = "";
+flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) );
+flatMapStr += "\n" + "[2,4,6,8] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) );
+flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [[x * 2]]; }) );
+flatMapArr = ["lorem ipsum dolor", "", "sit"];
+flatMapStr += "\n" + "[[\"lorem\",\"ipsum\", \"dolor\"],[\"\"],[\"sit\"]] - \n" + JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) );
+flatMapStr += "\n" + "[\"lorem\",\"ipsum\",\"dolor\",\"\",\"sit\"] - \n" + JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) );
+alert(flatMapStr);</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>fromEntries();</b></td>
+      <td colspan="2">
+        <script>function fromEntriesClick1(){var fromEntriesStr = "";fromEntriesStr += "{} - " + JSON.stringify(_.fromEntries( document.querySelectorAll("p")));fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(_.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(_.fromEntries(Object.entries({"a":1,"b":2,"c":3})));fromEntriesStr += "\n" + '{"foo":"lorem ipsum","bar":42,"baz":true} - ' + JSON.stringify(_.fromEntries({0: ["foo","lorem ipsum"], 1: ["bar", 42], 2: ["baz", true], length: 3}));fromEntriesStr += "\n" + '{"f":"o","b":"a"} - ' + JSON.stringify(_.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 }));alert(fromEntriesStr);}</script>
+        <p><button onclick="fromEntriesClick1();">try</button></p>
+        <pre>var fromEntriesStr = "";
+fromEntriesStr += "{} - " + JSON.stringify(_.fromEntries( document.querySelectorAll("p")));
+fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(_.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));
+fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(_.fromEntries(Object.entries({"a":1,"b":2,"c":3})));
+fromEntriesStr += "\n" + '{"foo":"lorem ipsum","bar":42,"baz":true} - ' + JSON.stringify(_.fromEntries({0: ["foo","lorem ipsum"], 1: ["bar", 42], 2: ["baz", true], length: 3}));
+fromEntriesStr += "\n" + '{"f":"o","b":"a"} - ' + JSON.stringify(_.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 }));
+alert(fromEntriesStr);</pre>
+        <script>function fromEntriesClick2(){alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(_.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );}</script>
+        <p><button onclick="fromEntriesClick2();">try Map</button> - Doesn't work in IE11.</p>
+        <pre>alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(_.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );</pre>
+        <p><button onclick='alert("you should not see this - " + JSON.stringify(_.fromEntries("lorem ipsum")));'>try error 1</button></p>
+        <pre>alert("you should not see this - " + JSON.stringify(_.fromEntries("lorem ipsum")));</pre>
+        <p><button onclick='alert("you should not see this - " + JSON.stringify(_.fromEntries(3.14)));'>try error 2</button></p>
+        <pre>alert("you should not see this - " + JSON.stringify(_.fromEntries(3.14)));</pre>
+        <p><button onclick='alert("you should not see this - " + JSON.stringify(_.fromEntries("true")));'>try error 3</button></p>
+        <pre>alert("you should not see this - " + JSON.stringify(_.fromEntries("true")));</pre>
       </td>
     </tr>
     <tr>
