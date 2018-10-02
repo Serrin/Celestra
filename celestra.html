@@ -59,8 +59,8 @@
 <p>Only some functions and polyfills.</p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).</p>
-<p>Latest version: 2.0.3</p>
-<p>Date: 2018-09-25T19:45:00.192Z</p>
+<p>Latest version: 2.0.4</p>
+<p>Date: 2018-10-02T19:36:42.203Z</p>
 
 <p>The functions are available in the <code>celestra</code> and <code>Celestra</code> and/or <code>_</code> object.</p>
 <p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (30532 bytes)</p>
@@ -89,6 +89,11 @@
 
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
 <p>RPG dice roller - FP: <a href="testgame-fp.html" target="_blank">testgame-fp.html</a></p>
+
+<h3>Demo plugin</h3>
+
+<p>Documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
+<p>Source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
@@ -191,11 +196,11 @@
     <tr>
       <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
       <td>This is an enhanced version of the <code>Object.assign</code> method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
-      <br/><span class="info">Note:</span> From the v1.19.2 this function uses the <code>hasOwnProperty</code> method.
+      <br/><span class="info">Note:</span> From the v1.19.2 this function uses the <code>hasOwnProperty</code> method.</td>
     </tr>
     <tr>
       <td><code>deepAssign(&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
-      <td>This is another enhanced version of the <code>Object.assign</code> method and create an always deep copy (recursive) of the sources.
+      <td>This is another enhanced version of the <code>Object.assign</code> method and create an always deep copy (recursive) of the sources.</td>
     </tr>
     <tr>
       <td><code>getFullscreen();</code></td>
@@ -259,7 +264,7 @@
     <tr>
       <td><code>fromEntries(&#60;entries&#62;);</code></td>
       <td>
-        <p></p>The Object.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object.</p>
+        <p>The Object.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object.</p>
         <p><span class="info">In IE11 doesn't work with the Map type.</span></p>
       </td>
     </tr>
@@ -275,57 +280,57 @@
   <table>
     <tr>
       <td><code>domCreate(&#60;type&#62;[,properties[,innerHTML]]);</code></td>
-      <td>Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.<td>
+      <td>Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.</td>
     </tr>
     <tr>
       <td><code>domGetCSS(&#60;element&#62;,&#60;property&#62;);</code></td>
       <td>
         Get a CSS property value of an element. The function uses the <code>getComputedStyle</code> method, if it is available. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string.
-      <td>
+      </td>
     </tr>
     <tr>
       <td><code>domSetCSS(&#60;element&#62;,&#60;property&#62;,&#60;value&#62;);</code></td>
       <td>
         Set a CSS property value of an element. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string. The value is mandatory and has to be a string.
-      <td>
+      </td>
     </tr>
 
     <tr>
       <td><code>domSetCSS(&#60;element&#62;,&#60;properties&#62;);</code></td>
       <td>
         Set CSS property values of an element. The element is mandatory and has to be a HTML element. The properties object is mandatory. The object properties can be the CSS properties and the property values will be applied to the element.
-      <td>
+      </td>
     </tr>
 
     <tr>
       <td><code>domFadeIn(&#60;element&#62;[, duration[,display]]);</code></td>
       <td>
         Fade in and show animation for an element. The element is mandatory and has to be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms). The display is optional and can be a string (CSS display property values).
-      <td>
+      </td>
     </tr>
     <tr>
       <td><code>domFadeOut(&#60;element&#62;[,duration]);</code></td>
       <td>
         Fade out and hide animation for an element. The element is mandatory and has to be a HTML element. The duration parameter is optional and sets the animation time in milisec (the default is 500ms).
-      <td>
+      </td>
     </tr>
     <tr>
       <td><code>domFadeToggle(&#60;element&#62;[,duration[,display]]);</code></td>
       <td>
         Fade in or fade out animation which depends on the state of the element. The element is mandatory and has to be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
-      <td>
+      </td>
     </tr>
     <tr>
       <td><code>domShow(&#60;element&#62;[,display]);</code></td>
-      <td>Show an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).<td>
+      <td>Show an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).</td>
     </tr>
     <tr>
       <td><code>domHide(&#60;element&#62;);</code></td>
-      <td>Hide an element. The element is mandatory and has to be a HTML element.<td>
+      <td>Hide an element. The element is mandatory and has to be a HTML element.</td>
     </tr>
     <tr>
       <td><code>domToggle(&#60;element&#62;[,display]);</code></td>
-      <td>Show or hide an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).<td>
+      <td>Show or hide an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).</td>
     </tr>
     <tr>
       <td><code>domOn(&#60;eventTarget&#62;,&#60;eventType&#62;,&#60;callback&#62;);</code></td>
@@ -898,7 +903,7 @@ alert( _.version );</code></pre></td>
 </div>
 
 <div id="div2">
-  <p id="div2">div2</p>
+  <p id="div2p">div2</p>
 </div>
 
 <h3>Samples</h3>
@@ -1372,7 +1377,6 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       <td><b>domHide/Show/Toggle functions</b></td>
       <td></td>
       <td>
-        <div>
           <div id="domhidetest"><i>This is the hide/show/toggle test area.</i></div><span>This is a span.</span>
           <hr/>
           <p>
@@ -1395,7 +1399,6 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
             <button onclick='_.domToggle( _.qs("#domhidetest"), "inline-block" );'>domToggle display</button>
             <code>_.domToggle( _.qs("#domhidetest"), "inline-block" );</code>
           </p>
-        </div>
       </td>
     </tr>
     <tr>
@@ -1461,6 +1464,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
           </p>
         </div>
       </td>
+    </tr>
     <tr>
       <td>
         <b>NodeList.prototype.forEach()</b>
@@ -1470,7 +1474,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       </td>
       <td>
         <p>
-          <code>var list = document.querySelectorAll("#feTestArea > p");<br/>list.forEach( function (item) { item.style.color = "red"; } );</code>
+          <code>var list = document.querySelectorAll("#feTestArea &#62; p");<br/>list.forEach( function (item) { item.style.color = "red"; } );</code>
         </p>
         <div id="feTestArea">
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
@@ -2136,13 +2140,13 @@ alert(
         <pre>var testArrayFI = [66, 7, 135, 75, 190, 89];
 var testArrayString = "";
 
-testArrayString += testArrayFI.find(function (e) { return e > 100; }) + " - 135"; 
+testArrayString += testArrayFI.find(function (e) { return e &#62; 100; }) + " - 135"; 
 
-testArrayString += "\n" + testArrayFI.find(function (e) { return e > 200; }) + " - undefined"; 
+testArrayString += "\n" + testArrayFI.find(function (e) { return e &#62; 200; }) + " - undefined"; 
 
-testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 100; }) + " - 2";
+testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e &#62; 100; }) + " - 2";
 
-testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 200; }) + " - -1";
+testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e &#62; 200; }) + " - -1";
 
 alert(testArrayString);</pre>
       </td>
@@ -2150,7 +2154,7 @@ alert(testArrayString);</pre>
     
     <tr>
       <td><b>Object.values() and Object.entries()</b></td>
-      <td><button onclick='var entriesObj = {a: 1, b:2, c: 3};var objStr = JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) );entriesObj = {name: "John Smith", age:42, male: true};objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) ); alert(objStr);'>try</button></p></td>
+      <td><button onclick='var entriesObj = {a: 1, b:2, c: 3};var objStr = JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) );entriesObj = {name: "John Smith", age:42, male: true};objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) ); alert(objStr);'>try</button></td>
       <td><pre>var entriesObj = {a: 1, b:2, c: 3};
 var objStr = JSON.stringify( Object.entries(entriesObj) );
 objStr += "\n" + JSON.stringify( Object.values(entriesObj) );
@@ -2162,7 +2166,7 @@ alert(objStr);</pre>
     </tr>
     <tr>
       <td><b>Object.is()</b></td>
-      <td><button onclick=' var objIsStr = "", isArr = [1,2], isTest = { x: 12 }; objIsStr += Object.is("lorem", "lorem") + " - true"; objIsStr += "\n" + Object.is(-0, -0) + " - true"; objIsStr += "\n" + Object.is(0, 0) + " - true"; objIsStr += "\n" + Object.is(NaN, 0/0) + " - true"; objIsStr += "\n" + Object.is(NaN, NaN) + " - true"; objIsStr += "\n" + Object.is(42, 42) + " - true"; objIsStr += "\n" + Object.is(3.14, 3.14) + " - true"; objIsStr += "\n" + Object.is(true, true) + " - true"; objIsStr += "\n" + Object.is(false, false) + " - true"; objIsStr += "\n" + Object.is(undefined, undefined) + " - true"; objIsStr += "\n" + Object.is(null, null) + " - true"; objIsStr += "\n" + Object.is(isArr, isArr) + " - true"; objIsStr += "\n" + Object.is(isTest, isTest) + " - true"; objIsStr += "\n" + Object.is(window, window) + " - true"; objIsStr += "\n" + Object.is([], []) + " - false"; objIsStr += "\n" + Object.is([1,2], [1,2]) + " - false"; objIsStr += "\n" + Object.is(isArr, [1,2]) + " - false"; objIsStr += "\n" + Object.is(isTest, { x: 12 }) + " - false"; objIsStr += "\n" + Object.is("lorem", "ipsum") + " - false"; objIsStr += "\n" + Object.is("lorem", "Lorem") + " - false"; objIsStr += "\n" + Object.is("lorem", "dolorem") + " - false"; objIsStr += "\n" + Object.is(0, -0) + " - false"; alert(objIsStr);'>try</button></p></td>
+      <td><button onclick=' var objIsStr = "", isArr = [1,2], isTest = { x: 12 }; objIsStr += Object.is("lorem", "lorem") + " - true"; objIsStr += "\n" + Object.is(-0, -0) + " - true"; objIsStr += "\n" + Object.is(0, 0) + " - true"; objIsStr += "\n" + Object.is(NaN, 0/0) + " - true"; objIsStr += "\n" + Object.is(NaN, NaN) + " - true"; objIsStr += "\n" + Object.is(42, 42) + " - true"; objIsStr += "\n" + Object.is(3.14, 3.14) + " - true"; objIsStr += "\n" + Object.is(true, true) + " - true"; objIsStr += "\n" + Object.is(false, false) + " - true"; objIsStr += "\n" + Object.is(undefined, undefined) + " - true"; objIsStr += "\n" + Object.is(null, null) + " - true"; objIsStr += "\n" + Object.is(isArr, isArr) + " - true"; objIsStr += "\n" + Object.is(isTest, isTest) + " - true"; objIsStr += "\n" + Object.is(window, window) + " - true"; objIsStr += "\n" + Object.is([], []) + " - false"; objIsStr += "\n" + Object.is([1,2], [1,2]) + " - false"; objIsStr += "\n" + Object.is(isArr, [1,2]) + " - false"; objIsStr += "\n" + Object.is(isTest, { x: 12 }) + " - false"; objIsStr += "\n" + Object.is("lorem", "ipsum") + " - false"; objIsStr += "\n" + Object.is("lorem", "Lorem") + " - false"; objIsStr += "\n" + Object.is("lorem", "dolorem") + " - false"; objIsStr += "\n" + Object.is(0, -0) + " - false"; alert(objIsStr);'>try</button></td>
       <td><pre>var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
 objIsStr += Object.is("lorem", "lorem") + " - true";
 objIsStr += "\n" + Object.is(-0, -0) + " - true";
@@ -2191,7 +2195,7 @@ alert(objIsStr);</pre>
     </tr>
     <tr>
       <td><b>Array.prototype.flat()</b></td>
-      <td><button onclick='var flatArr = [1, 2, 3, 4], flatStr = "";flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(Infinity) );flatArr = [1, 2, [3, 4]];flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatArr = [1,2,[3,4,[5,6]]];flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(1) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(2) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(Infinity) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(0) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(-1) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat("a2") );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(false) );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(true) );alert(flatStr);'>try</button></p></td>
+      <td><button onclick='var flatArr = [1, 2, 3, 4], flatStr = "";flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(Infinity) );flatArr = [1, 2, [3, 4]];flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatArr = [1,2,[3,4,[5,6]]];flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(1) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(2) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(Infinity) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(0) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(-1) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat("a2") );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(false) );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(true) );alert(flatStr);'>try</button></td>
       <td><pre>var flatArr = [1, 2, 3, 4], flatStr = "";
 flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );
 flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );
@@ -2214,7 +2218,7 @@ alert(flatStr);</pre>
     </tr>
     <tr>
       <td><b>Array.prototype.flatMap()</b></td>
-      <td><button onclick='var flatMapArr = [1, 2, 3, 4], flatMapStr = ""; flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[2,4,6,8] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [[x * 2]]; }) ); flatMapArr = ["lorem ipsum dolor", "", "sit"]; flatMapStr += "\n" + "[[\"lorem\",\"ipsum\", \"dolor\"],[\"\"],[\"sit\"]] - \n" + JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) ); flatMapStr += "\n" + "[\"lorem\",\"ipsum\",\"dolor\",\"\",\"sit\"] - \n" + JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) ); alert(flatMapStr);'>try</button></p></td>
+      <td><p><button onclick='var flatMapArr = [1, 2, 3, 4], flatMapStr = ""; flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[2,4,6,8] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [[x * 2]]; }) ); flatMapArr = ["lorem ipsum dolor", "", "sit"]; flatMapStr += "\n" + "[[\"lorem\",\"ipsum\", \"dolor\"],[\"\"],[\"sit\"]] - \n" + JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) ); flatMapStr += "\n" + "[\"lorem\",\"ipsum\",\"dolor\",\"\",\"sit\"] - \n" + JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) ); alert(flatMapStr);'>try</button></p></td>
       <td><pre>var flatMapArr = [1, 2, 3, 4], flatMapStr = "";
 flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) );
 flatMapStr += "\n" + "[2,4,6,8] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) );
@@ -2348,7 +2352,7 @@ _.qs("#cookieresults").innerHTML = cookiestr;
         <code id="output2"></code>
         <p>Test Code:</p>
         <code><pre>function echo2 (str) {
-  _.qs("#output2").innerHTML += str + "&#60;br/>";
+  _.qs("#output2").innerHTML += str + "&#60;br/&#62;";
 }
 
 var obj1 = { a : "1", b : "2" };
@@ -2366,7 +2370,7 @@ for (var a in obj1) { echo2(a+": "+obj1[a]); }</pre></code>
         <code id="output"></code>
         <p>Test Code:</p>
         <code><pre>function echo (str) {
-  _.qs("#output").innerHTML += str + "&#60;br/>";
+  _.qs("#output").innerHTML += str + "&#60;br/&#62;";
 }
 
 function Human (name,age) {
@@ -2395,7 +2399,7 @@ echo(Amy.getName()+", "+Amy.getAge()+", "+Amy.getJob());
 
 echo("David instanceof Human: " + (David instanceof Human));
 echo("David instanceof Worker: " + (David instanceof Worker));
-echo("&#60;b>// Single inheritance:&#60;/b>");
+echo("&#60;b&#62;// Single inheritance:&#60;/b&#62;");
 echo("Amy instanceof Human: " + (Amy instanceof Human));
 echo("Amy instanceof Worker: " + (Amy instanceof Worker));</pre></code>
       </td>

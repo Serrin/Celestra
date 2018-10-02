@@ -2,8 +2,8 @@
 
 // Celestra 2.x testcases
 
-/* _cut.addTest("step", true, expr ); */
-/* _cut.addTest("step", true, expr, true ); */
+/* _cut.addTest("step", value, expr ); */
+/* _cut.addTest("step", value, expr, true ); */
 
 
 /* Sample testcases */

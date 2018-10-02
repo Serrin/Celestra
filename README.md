@@ -14,9 +14,9 @@ Only some functions and polyfills.
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).
 
-Latest version: 2.0.3
+Latest version: 2.0.4
 
-Date: 2018-09-25T19:45:00.192Z
+Date: 2018-10-02T19:36:42.203Z
 
 The functions are available in the `celestra` and `Celestra` and/or `_` object.
 
@@ -33,7 +33,7 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The name of the object changed from `Celestra` to `celestra` in v2.0.2.
 
-For compatiblity reasons, the old alias (`Celestra`) remains until __Celestra v3.0__.
+For compatibility reasons, the old alias (`Celestra`) remains until __Celestra v3.0__.
 
 This change affects the CommonJS and AMD module systems as well.
 
@@ -59,6 +59,13 @@ JavaScript cheatsheet: js-cheatsheet.pdf
 RPG dice roller: testgame.html
 
 RPG dice roller - FP: testgame-fp.html
+
+
+### Demo plugin
+
+Documentation: celestra-demo-plugin.html
+
+Source: celestra-demo-plugin.js
 
 
 ### Celestra Unit Tester (CUT)

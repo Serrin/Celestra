@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.3
+ * @version 2.0.4
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -902,7 +902,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.0.3";
+celestra.version = "Celestra v2.0.4";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;

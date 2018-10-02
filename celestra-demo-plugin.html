@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Celestra demo plugin</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="Author" content="Czigler Ferenc"/>
+<meta name="Copyright" content="(C) Copyright Czigler Ferenc"/>
+<link rel="stylesheet" href="u87.css" type="text/css"/>
+<script src="celestra.min.js"></script>
+<script src="celestra-demo-plugin.js"></script>
+
+</head>
+<body>
+
+<header>
+  <h1>Celestra demo plugin</h1>
+  <nav><b>
+    <a href="#license">License</a>
+    &nbsp;//&nbsp;
+    <a href="#footer">Contact</a>
+  </b></nav>
+</header>
+
+<h2>Download and informations</h2>
+
+<p>This is a Celestra demo plugin. The added function is the <code>addNumbers()</code>.</p>
+
+<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).</p>
+
+<p>Latest version: 2.0.4</p>
+
+<p>Download: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
+
+<h2>Source of the plugin</h2>
+
+<pre>
+
+/**
+ * @name Celestra demo plugin
+ * @version 2.0.4
+ * @see https://github.com/Serrin/Celestra
+ * @license MIT https://opensource.org/licenses/MIT
+ * Minimal required Celestra version: 2.0.4
+ */
+
+(function(celestra){
+"use strict";
+
+celestra.addNumbers = function () {
+  if (arguments.length>0) {
+    var sum = 0;
+    for (var i=0, l=arguments.length; i&#60;l; i++) {
+      if ( celestra.getType(arguments[i], "number") ) {
+        sum += arguments[i];
+      } else {
+        throw "celestra.addNumbers() error: all parameters have to be number - "
+          + JSON.stringify(arguments[i]);
+      }
+    }
+    return sum;
+  } else {
+    throw "celestra.addNumbers() error: no parameters";
+  }
+};
+
+}(celestra));
+
+</pre>
+
+<h2>Functions</h2>
+
+<div>
+  <table>
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>addNumbers()</code></td>
+      <td>Make a sum from the numbers in the parameter values. The return value is a the sum. The function throwns an error, if there is no parameter or the type of a parameter isn't a number.</td>
+    </tr>
+  </table>
+</div>
+
+<h2>Samples</h2>
+
+<div>
+  <table>
+    <tr>
+      <td><b>addNumbers() valid values</b></td>
+      <td>
+        <button onclick="alert( _.addNumbers(3) );">try 1</button>
+        <pre>alert( _.addNumbers(3) );</pre>
+        <button onclick="alert( _.addNumbers(3, 5) );">try 2</button>
+        <pre>alert( _.addNumbers(3, 5) );</pre>
+        <button onclick="alert( _.addNumbers(3.14, -5) );">try 3</button>
+        <pre>alert( _.addNumbers(3.14, -5) );</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>addNumbers() with erros</b></td>
+      <td>
+        <button onclick="alert( _.addNumbers() );">try no parameter</button>
+        <pre>alert( _.addNumbers() );</pre>
+        <button onclick='alert( _.addNumbers(3, "string") );'>try wrong parameter type</button>
+        <pre>alert( _.addNumbers(3, "string") );</pre>
+        <p>You can check the error messages in the browser console.</p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h3>Samples FP</h3>
+
+<p>
+  First call the <code>_.celToWindow();</code> function:
+  <button onclick='_.celToWindow();'>try</button>
+</p>
+
+<div>
+  <table>
+    <tr>
+      <td><b>addNumbers() valid values</b></td>
+      <td>
+        <button onclick="alert( addNumbers(3) );">try 1</button>
+        <pre>alert( addNumbers(3) );</pre>
+        <button onclick="alert( addNumbers(3, 5) );">try 2</button>
+        <pre>alert( addNumbers(3, 5) );</pre>
+        <button onclick="alert( addNumbers(3.14, -5) );">try 3</button>
+        <pre>alert( addNumbers(3.14, -5) );</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>addNumbers() with erros</b></td>
+      <td>
+        <button onclick="alert( addNumbers() );">try no parameter</button>
+        <pre>alert( addNumbers() );</pre>
+        <button onclick='alert( addNumbers(3, "string") );'>try wrong parameter type</button>
+        <pre>alert( addNumbers(3, "string") );</pre>
+        <p>You can check the error messages in the browser console.</p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h2 id="license">License</h2>
+
+<div>
+  <p><a href="https://opensource.org/licenses/MIT" target="_blank">https://opensource.org/licenses/MIT</a></p>
+
+  <h3>MIT License</h3>
+
+  <p><b>SPDX short identifier: MIT</b></p>
+
+  <p>Copyright (c) 2018 Ferenc Czigler</p>
+
+  <p>Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:</p>
+
+  <p>The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.</p>
+
+  <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.</p>
+</div>
+
+<hr/>
+
+<footer id="footer"><small>
+  <p>
+    <a href="#license">License</a>
+    &nbsp;//&nbsp;
+    <a href="http://github.com/Serrin" target="_blank">Github</a>
+  </p>
+  <p>&copy; Copyright 2018 Ferenc Czigler</p>
+</small></footer>
+
+</body>
+</html>

@@ -96,7 +96,6 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
   + "\r\no2.b=" + o2.b+" - " + hasOwn(o2,"b") + " - true");</pre>
         <p><button onclick='var o1={a:1};var o2=Object.create(o1);o2.b=2;alert("o1.a="+o1.a+" - "+hasOwn(o1,"a")+" - true"+"\r\no2.a="+o2.a+" - "+hasOwn(o2,"a")+" - false"+"\r\no2.b="+o2.b+" - "+hasOwn(o2,"b")+" - true");'>try</button></p>
       </td>
-      </td>
     </tr>
     <tr>
       <td><code>toArray(&#60;object&#62;);</code></td>
@@ -139,7 +138,7 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
 </div>
 
 <div id="div2">
-  <p id="div2">div2</p>
+  <p id="div2p">div2</p>
 </div>
 
 <h3>Samples</h3>
@@ -269,7 +268,7 @@ alert(testArrayFillStr);</pre></td>
       <td><code>getScript("testmodule1.js",function(){ alert("External file is loaded."); });</code></td>
     </tr>
     <tr>
-      <td id="url"><b>getScript(url,success) with error</b></td>
+      <td><b>getScript(url,success) with error</b></td>
       <td><button onclick='getScript("test2.js",function(){ alert("External file is loaded."); });'>Try</button></td>
       <td><code>getScript("test2.js",function(){ alert("External file is loaded."); });</code></td>
     </tr>
@@ -704,6 +703,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
           </p>
         </div>
       </td>
+    </tr>
     <tr>
       <td>
         <b>NodeList.prototype.forEach()</b>
@@ -713,7 +713,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       </td>
       <td>
         <p>
-          <code>var list = document.querySelectorAll("#feTestArea > p");<br/>list.forEach( function (item) { item.style.color = "red"; } );</code>
+          <code>var list = document.querySelectorAll("#feTestArea &#62; p");<br/>list.forEach( function (item) { item.style.color = "red"; } );</code>
         </p>
         <div id="feTestArea">
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
@@ -1379,20 +1379,20 @@ alert(
         <pre>var testArrayFI = [66, 7, 135, 75, 190, 89];
 var testArrayString = "";
 
-testArrayString += testArrayFI.find(function (e) { return e > 100; }) + " - 135"; 
+testArrayString += testArrayFI.find(function (e) { return e &#62; 100; }) + " - 135"; 
 
-testArrayString += "\n" + testArrayFI.find(function (e) { return e > 200; }) + " - undefined"; 
+testArrayString += "\n" + testArrayFI.find(function (e) { return e &#62; 200; }) + " - undefined"; 
 
-testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 100; }) + " - 2";
+testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e &#62; 100; }) + " - 2";
 
-testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e > 200; }) + " - -1";
+testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e &#62; 200; }) + " - -1";
 
 alert(testArrayString);</pre>
       </td>
     </tr>
     <tr>
       <td><b>Object.values() and Object.entries()</b></td>
-      <td><button onclick='var entriesObj = {a: 1, b:2, c: 3};var objStr = JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) );entriesObj = {name: "John Smith", age:42, male: true};objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) ); alert(objStr);'>try</button></p></td>
+      <td><button onclick='var entriesObj = {a: 1, b:2, c: 3};var objStr = JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) );entriesObj = {name: "John Smith", age:42, male: true};objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) ); alert(objStr);'>try</button></td>
       <td><pre>var entriesObj = {a: 1, b:2, c: 3};
 var objStr = JSON.stringify( Object.entries(entriesObj) );
 objStr += "\n" + JSON.stringify( Object.values(entriesObj) );
@@ -1404,7 +1404,7 @@ alert(objStr);</pre>
     </tr>
     <tr>
       <td><b>Object.is()</b></td>
-      <td><button onclick=' var objIsStr = "", isArr = [1,2], isTest = { x: 12 }; objIsStr += Object.is("lorem", "lorem") + " - true"; objIsStr += "\n" + Object.is(-0, -0) + " - true"; objIsStr += "\n" + Object.is(0, 0) + " - true"; objIsStr += "\n" + Object.is(NaN, 0/0) + " - true"; objIsStr += "\n" + Object.is(NaN, NaN) + " - true"; objIsStr += "\n" + Object.is(42, 42) + " - true"; objIsStr += "\n" + Object.is(3.14, 3.14) + " - true"; objIsStr += "\n" + Object.is(true, true) + " - true"; objIsStr += "\n" + Object.is(false, false) + " - true"; objIsStr += "\n" + Object.is(undefined, undefined) + " - true"; objIsStr += "\n" + Object.is(null, null) + " - true"; objIsStr += "\n" + Object.is(isArr, isArr) + " - true"; objIsStr += "\n" + Object.is(isTest, isTest) + " - true"; objIsStr += "\n" + Object.is(window, window) + " - true"; objIsStr += "\n" + Object.is([], []) + " - false"; objIsStr += "\n" + Object.is([1,2], [1,2]) + " - false"; objIsStr += "\n" + Object.is(isArr, [1,2]) + " - false"; objIsStr += "\n" + Object.is(isTest, { x: 12 }) + " - false"; objIsStr += "\n" + Object.is("lorem", "ipsum") + " - false"; objIsStr += "\n" + Object.is("lorem", "Lorem") + " - false"; objIsStr += "\n" + Object.is("lorem", "dolorem") + " - false"; objIsStr += "\n" + Object.is(0, -0) + " - false"; alert(objIsStr);'>try</button></p></td>
+      <td><button onclick=' var objIsStr = "", isArr = [1,2], isTest = { x: 12 }; objIsStr += Object.is("lorem", "lorem") + " - true"; objIsStr += "\n" + Object.is(-0, -0) + " - true"; objIsStr += "\n" + Object.is(0, 0) + " - true"; objIsStr += "\n" + Object.is(NaN, 0/0) + " - true"; objIsStr += "\n" + Object.is(NaN, NaN) + " - true"; objIsStr += "\n" + Object.is(42, 42) + " - true"; objIsStr += "\n" + Object.is(3.14, 3.14) + " - true"; objIsStr += "\n" + Object.is(true, true) + " - true"; objIsStr += "\n" + Object.is(false, false) + " - true"; objIsStr += "\n" + Object.is(undefined, undefined) + " - true"; objIsStr += "\n" + Object.is(null, null) + " - true"; objIsStr += "\n" + Object.is(isArr, isArr) + " - true"; objIsStr += "\n" + Object.is(isTest, isTest) + " - true"; objIsStr += "\n" + Object.is(window, window) + " - true"; objIsStr += "\n" + Object.is([], []) + " - false"; objIsStr += "\n" + Object.is([1,2], [1,2]) + " - false"; objIsStr += "\n" + Object.is(isArr, [1,2]) + " - false"; objIsStr += "\n" + Object.is(isTest, { x: 12 }) + " - false"; objIsStr += "\n" + Object.is("lorem", "ipsum") + " - false"; objIsStr += "\n" + Object.is("lorem", "Lorem") + " - false"; objIsStr += "\n" + Object.is("lorem", "dolorem") + " - false"; objIsStr += "\n" + Object.is(0, -0) + " - false"; alert(objIsStr);'>try</button></td>
       <td><pre>var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
 objIsStr += Object.is("lorem", "lorem") + " - true";
 objIsStr += "\n" + Object.is(-0, -0) + " - true";
@@ -1433,7 +1433,7 @@ alert(objIsStr);</pre>
     </tr>
     <tr>
       <td><b>Array.prototype.flat()</b></td>
-      <td><button onclick='var flatArr = [1, 2, 3, 4], flatStr = "";flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(Infinity) );flatArr = [1, 2, [3, 4]];flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatArr = [1,2,[3,4,[5,6]]];flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(1) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(2) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(Infinity) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(0) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(-1) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat("a2") );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(false) );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(true) );alert(flatStr);'>try</button></p></td>
+      <td><button onclick='var flatArr = [1, 2, 3, 4], flatStr = "";flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(Infinity) );flatArr = [1, 2, [3, 4]];flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatArr = [1,2,[3,4,[5,6]]];flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(1) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(2) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(Infinity) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(0) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(-1) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat("a2") );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(false) );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(true) );alert(flatStr);'>try</button></td>
       <td><pre>var flatArr = [1, 2, 3, 4], flatStr = "";
 flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );
 flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );
@@ -1456,7 +1456,7 @@ alert(flatStr);</pre>
     </tr>
     <tr>
       <td><b>Array.prototype.flatMap()</b></td>
-      <td><button onclick='var flatMapArr = [1, 2, 3, 4], flatMapStr = ""; flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[2,4,6,8] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [[x * 2]]; }) ); flatMapArr = ["lorem ipsum dolor", "", "sit"]; flatMapStr += "\n" + "[[\"lorem\",\"ipsum\", \"dolor\"],[\"\"],[\"sit\"]] - \n" + JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) ); flatMapStr += "\n" + "[\"lorem\",\"ipsum\",\"dolor\",\"\",\"sit\"] - \n" + JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) ); alert(flatMapStr);'>try</button></p></td>
+      <td><button onclick='var flatMapArr = [1, 2, 3, 4], flatMapStr = ""; flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[2,4,6,8] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) ); flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [[x * 2]]; }) ); flatMapArr = ["lorem ipsum dolor", "", "sit"]; flatMapStr += "\n" + "[[\"lorem\",\"ipsum\", \"dolor\"],[\"\"],[\"sit\"]] - \n" + JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) ); flatMapStr += "\n" + "[\"lorem\",\"ipsum\",\"dolor\",\"\",\"sit\"] - \n" + JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) ); alert(flatMapStr);'>try</button></td>
       <td><pre>var flatMapArr = [1, 2, 3, 4], flatMapStr = "";
 flatMapStr += "\n" + "[[2],[4],[6],[8]] - " + JSON.stringify( flatMapArr.map(function (x) { return [x * 2]; }) );
 flatMapStr += "\n" + "[2,4,6,8] - " + JSON.stringify( flatMapArr.flatMap(function (x) { return [x * 2]; }) );
@@ -1590,7 +1590,7 @@ qs("#cookieresults").innerHTML = cookiestr;
         <code id="output2"></code>
         <p>Test Code:</p>
         <code><pre>function echo2 (str) {
-  qs("#output2").innerHTML += str + "&#60;br/>";
+  qs("#output2").innerHTML += str + "&#60;br/&#62;";
 }
 
 var obj1 = { a : "1", b : "2" };
@@ -1608,7 +1608,7 @@ for (var a in obj1) { echo2(a+": "+obj1[a]); }</pre></code>
         <code id="output"></code>
         <p>Test Code:</p>
         <code><pre>function echo (str) {
-  qs("#output").innerHTML += str + "&#60;br/>";
+  qs("#output").innerHTML += str + "&#60;br/&#62;";
 }
 
 function Human (name,age) {
@@ -1637,7 +1637,7 @@ echo(Amy.getName()+", "+Amy.getAge()+", "+Amy.getJob());
 
 echo("David instanceof Human: " + (David instanceof Human));
 echo("David instanceof Worker: " + (David instanceof Worker));
-echo("&#60;b>// Single inheritance:&#60;/b>");
+echo("&#60;b&#62;// Single inheritance:&#60;/b&#62;");
 echo("Amy instanceof Human: " + (Amy instanceof Human));
 echo("Amy instanceof Worker: " + (Amy instanceof Worker));</pre></code>
       </td>
