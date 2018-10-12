@@ -90,7 +90,7 @@
 
 var celTest = {};
 
-celTest.version = "Celestra Unit Tester (CUT) v0.8.3";
+celTest.version = "Celestra Unit Tester (CUT) v0.8.4";
 celTest.__results__ = document.querySelector("#results");
 
 celTest.isNotIE11 = function isNotIE11 () {
@@ -114,6 +114,31 @@ celTest.addTest = function addTest (step, expected, expression, strict) {
   }
 };
 
+/* isTrue("step", expr ); */
+celTest.isTrue = function isTrue (step, expression) {
+  celTest.addTest(step, true, expression, true);
+};
+
+/* isFalse("step", expr ); */
+celTest.isFalse = function isFalse (step, expression) {
+  celTest.addTest(step, false, expression, true);
+};
+
+/* isEqual("step", true, expr ); */
+/* isEqual("step", true, expr, true|false ); */
+celTest.isEqual = celTest.addTest;
+
+/* isNotEqual("step", true, expr ); */
+/* isNotEqual("step", true, expr, true|false ); */
+celTest.isNotEqual = function (step, notExpected, expression, strict) {
+  if (strict === undefined) { strict = true; }
+  celTest.addTest(
+    step,
+    true,
+    (strict ? notExpected !== expression : notExpected != expression),
+    true
+  );
+};
 
 /* addElement(<element>); */
 /* addElement(<type>,<innerHTML>); */
@@ -145,6 +170,29 @@ function saveResults () {
     "text/html"
   );
 }
+
+/* Selftest */
+
+_cut.addElement("h3", "CUT Selftest");
+
+_cut.addTest( "addTest() passed", true, 1 < 10);
+_cut.addTest( "addTest() failed", false, 1 < 10);
+
+_cut.isTrue("isTrue() success", 1 < 10);
+_cut.isTrue("isTrue() failed", 1 > 10);
+
+_cut.isFalse("isFalse() success", 1 > 10);
+_cut.isFalse("isFalse() failed", 1 < 10);
+
+_cut.isEqual("isEqual() success", 1, 1);
+_cut.isEqual("isEqual() failed", 1, 2);
+_cut.isEqual("isEqual() success non-strict", 0, false, false);
+_cut.isEqual("isEqual() failed strict", 0, false, true);
+
+_cut.isNotEqual("isNotEqual() success", 1, 2);
+_cut.isNotEqual("isNotEqual() failed", 1, 1);
+_cut.isNotEqual("isNotEqual() success strict", 0, false, true);
+_cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 
 </script>
 <script src="unittest-fp.js"></script>

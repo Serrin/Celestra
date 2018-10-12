@@ -55,16 +55,16 @@
 
 <h2 id="download">Download</h2>
 
-<p><strong>A helper ES5 library for those who like the Vanilla JS.</strong></p>
-<p>Only some functions and polyfills.</p>
+<p><strong>A helper library for those who like the Vanilla JS.</strong></p>
+<p><strong>Just a few functions and ES6 polyfills.</strong></p>
 
-<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).</p>
-<p>Latest version: 2.0.4</p>
-<p>Date: 2018-10-02T19:36:42.203Z</p>
+<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
+<p>Latest version: 2.0.5</p>
+<p>Date: 2018-10-11T19:51:33.982Z</p>
 
 <p>The functions are available in the <code>celestra</code> and <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (30532 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (23534 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (34020 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (26165 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -156,6 +156,22 @@
       <td><code>random(&#60;min&#62;,&#60;max&#62;);</code></td>
       <td>Get a random number value within min and max value.</td>
     </tr>
+    <tr>
+      <td><code>randomString([length[,specialCharactersEnabled]]);</code></td>
+      <td>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.</td>
+    </tr>
+    <tr>
+      <td><code>b64Encode(&#60;string&#62;);</code></td>
+      <td>Unicode compatible string to base64 converter. Return the encoded string.</td>
+    </tr>
+    <tr>
+      <td><code>b64Decode(&#60;string&#62;);</code></td>
+      <td>Unicode compatible base64 to string converter. Return the original string.</td>
+    </tr>
+    <tr>
+      <td><code>javaHash(&#60;data&#62;[,hexa]);</code></td>
+      <td>Java <code>String.hashCode()</code> implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.</td>
+    </tr>    
     <tr>
       <td><code>getScript(&#60;url&#62;[,success]);</code></td>
       <td>
@@ -280,7 +296,26 @@
   <table>
     <tr>
       <td><code>domCreate(&#60;type&#62;[,properties[,innerHTML]]);</code></td>
-      <td>Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.</td>
+      <td>Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, <b>style object/string - since v2.0.5 - <span class="info">in IE11 and W10M Edge 14 the style string doesn't work</span></b>, data-*, etc.) The innerHTML is optional and can be a string.</td>
+    </tr>   
+    <tr>
+      <td><code>domCreate(&#60;element descriptive object&#62;);</code></td>
+      <td>
+        <p>Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The <code>style</code> can be a subobject or a string. <span class="info">In IE11 and W10M Edge 14 the style string doesn't work.</span></p>
+        </p>
+          <b>Sample code:</b>
+          <pre>_.domCreate({
+  elementType: "a",
+  href: "https://developer.mozilla.org/en-US/",
+  target: "_blank",
+  style: {
+    "background-color": "red",
+    "color": "white"
+  },
+  innerHTML: "MDN Sample url"
+});</pre>
+        </p>
+      </td>
     </tr>
     <tr>
       <td><code>domGetCSS(&#60;element&#62;,&#60;property&#62;);</code></td>
@@ -751,6 +786,18 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td>The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
+      <td><code>String.prototype.padStart()</code></td>
+      <td>The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.padEnd()</code></td>
+      <td>The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.repeat()</code></td>
+      <td>The repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
       <td><code>NodeList.prototype.forEach()</code></td>
       <td>The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach" target="_blank">MDN Article</a>!</td>
     </tr>
@@ -913,9 +960,52 @@ alert( _.version );</code></pre></td>
 <div>
   <table>
     <tr>
-      <td><b>domCreate(type,properties,innerHTML);</b></td>
-      <td><button onclick='var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum"); var el2 = _.domCreate("p", {}, "Sample created paragraph"); var el3 = _.domCreate("br"); var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url"); _.qs("#div2").append(el1); el2.append(el3); el2.append(el4); _.qs("#div2").append(el2);;'>Try</button></td>
-      <td><code>var el1 = _.domCreate(<br/> "h3",<br/> {style: "background-color: lightblue; font-weight: bold;"},<br/> "H3 Lorem ipsum"<br/>);<br/>var el2 = _.domCreate("p", {}, "Sample created paragraph");<br/>var el3 = _.domCreate("br");<br/>var el4 = _.domCreate(<br/> "a",<br/> {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"},<br/> "MDN Sample url"<br/>);<br/>_.qs("#div2").append(el1);<br/>el2.append(el3);<br/>el2.append(el4);<br/>_.qs("#div2").append(el2);</code></td>
+      <td><b>domCreate(type,properties,innerHTML); with style object</b></td>
+      <td><button onclick='var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style object");  var el2 = _.domCreate("p", {}, "Sample created paragraph"); var el3 = _.domCreate("br");  var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url"); _.qs("#div2").append(el1); el2.append(el3); el2.append(el4); _.qs("#div2").append(el2);'>Try</button></td>
+      <td><pre>var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style object"); 
+var el2 = _.domCreate("p", {}, "Sample created paragraph");
+var el3 = _.domCreate("br"); 
+var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url");
+_.qs("#div2").append(el1);
+el2.append(el3);
+el2.append(el4);
+_.qs("#div2").append(el2);</pre></td>
+    </tr>
+    <tr>
+      <td><b>domCreate(type,properties,innerHTML); with style string</b></td>
+      <td><button onclick='var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style string");  var el2 = _.domCreate("p", {}, "Sample created paragraph"); var el3 = _.domCreate("br");  var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"}, "MDN Sample url"); _.qs("#div2").append(el1); el2.append(el3); el2.append(el4); _.qs("#div2").append(el2);'>Try</button></td>
+      <td><pre>var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style string"); 
+var el2 = _.domCreate("p", {}, "Sample created paragraph");
+var el3 = _.domCreate("br"); 
+var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"}, "MDN Sample url");
+_.qs("#div2").append(el1);
+el2.append(el3);
+el2.append(el4);
+_.qs("#div2").append(el2);</pre></td>
+    </tr>
+    <tr>
+      <td><b>domCreate(object); with style object</b></td>
+      <td><button onclick='var el1 = _.domCreate({elementType: "h3", style: {"background-color": "lightblue", "font-weight": "bold"}, innerHTML: "H3 Lorem ipsum from object with style object"}); var el2 = _.domCreate({elementType: "p", innerHTML: "Sample created paragraph"}); var el3 = _.domCreate("br"); var el4 = _.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"}); _.qs("#div2").append(el1); el2.append(el3); el2.append(el4); _.qs("#div2").append(el2);'>Try</button></td>
+      <td><pre>var el1 = _.domCreate({elementType: "h3", style: {"background-color": "lightblue", "font-weight": "bold"}, innerHTML: "H3 Lorem ipsum from object with style object"});
+var el2 = _.domCreate({elementType: "p", innerHTML: "Sample created paragraph"});
+var el3 = _.domCreate("br");
+var el4 = _.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});
+_.qs("#div2").append(el1);
+el2.append(el3);
+el2.append(el4);
+_.qs("#div2").append(el2);</pre></td>
+    </tr>
+    <tr>
+      <td><b>domCreate(object); with styles string</b></td>
+      <td><button onclick='var el1 = _.domCreate({elementType: "h3", style: {"background-color": "lightblue", "font-weight": "bold"}, innerHTML: "H3 Lorem ipsum from object with style string"}); var el2 = _.domCreate({elementType: "p", innerHTML: "Sample created paragraph"}); var el3 = _.domCreate("br"); var el4 = _.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;", innerHTML: "MDN Sample url"}); _.qs("#div2").append(el1); el2.append(el3); el2.append(el4); _.qs("#div2").append(el2);'>Try</button></td>
+      <td><pre>var el1 = _.domCreate({elementType: "h3", style: {"background-color": "lightblue", "font-weight": "bold"}, innerHTML: "H3 Lorem ipsum from object with style string"});
+var el2 = _.domCreate({elementType: "p", innerHTML: "Sample created paragraph"});
+var el3 = _.domCreate("br");
+var el4 = _.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;", innerHTML: "MDN Sample url"});
+_.qs("#div2").append(el1);
+el2.append(el3);
+el2.append(el4);
+_.qs("#div2").append(el2);</pre></td>
     </tr>
     <tr>
       <td><b>qs(selector).innerHTML</b></td>
@@ -2407,6 +2497,122 @@ echo("Amy instanceof Worker: " + (Amy instanceof Worker));</pre></code>
   </table>
 </div>
 
+<p><b>Results:</b></p>
+<pre><code id="kayleeResults">results</code></pre>
+
+<script>
+var str = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
+
+function kayleeEcho (s) { _.qs("#kayleeResults").innerHTML = s; }
+</script>
+
+<div>
+  <table>
+    <tr>
+      <td><b>b64Encode();</b></td>
+      <td><button onclick='kayleeEcho( _.b64Encode(str) );'>Try</button></td>
+      <td><code>kayleeEcho( _.b64Encode(str) );</code></td>
+    </tr>
+    <tr>
+      <td><b>b64Decode();</b></td>
+      <td><button id="combined" onclick='kayleeEcho( _.b64Encode(str) + "<hr/>" + _.b64Decode( _.b64Encode(str) ) );'>Try</button></td>
+      <td><code>kayleeEcho( _.b64Encode(str) + "&#60;hr/&#62;" + _.b64Decode( _.b64Encode(str) ) );</code></td>
+    </tr>
+    <tr>
+      <td><b>_.randomString();</b></td>
+      <td><button onclick='kayleeEcho( "default length: " + _.randomString() + "<hr/>" + "default sc: " + _.randomString(15) + "<hr/>" + "true: " + _.randomString(15,true) + "<hr/>" + "false: " + _.randomString(15,false) + "<hr/>" + "random \"btc\" address: 1" + _.randomString(32,false) );'>Try</button></td>
+      <td><code>kayleeEcho( "default length: " + _.randomString()<br/> + "default sc: " + _.randomString(15)<br/> + "&#60;hr/&#62;" + "true: " + _.randomString(15,true)<br/> + "&#60;hr/&#62;" + "false: " + _.randomString(15,false)<br/> + "&#60;hr/&#62;" + "random \"btc\" address: 1" + _.randomString(32,false)<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>javaHash();</b></td>
+      <td><button onclick='kayleeEcho( "<b>default / hexa true / hexa false</b><hr/>"+ "-0.578: " + _.javaHash(-0.578) + " / " + _.javaHash(-0.578,true) + " / " + _.javaHash(-0.578,false) + "<br/>"+ "0: " + _.javaHash(0) + " / " + _.javaHash(0,true) + " / " + _.javaHash(0,false) + " / " + "<br/>"+ "3.14: " + _.javaHash(3.14) + " / " + _.javaHash(3.14) + " / " + _.javaHash(3.14,false) + "<br/>"+ "42: " + _.javaHash(42) + " / " + _.javaHash(42,true) + " / " + _.javaHash(42,false) + "<br/>"+ "true: " + _.javaHash(true)  + " / " + _.javaHash(true,true)  + " / " + _.javaHash(true,false) + "<br/>"+ "\"true\": " + _.javaHash("true") + " / " + _.javaHash("true",true) + " / " + _.javaHash("true",false) + "<br/>"+ "false: " + _.javaHash(false) + " / " + _.javaHash(false,true) + " / " + _.javaHash(false,false) + "<br/>"+ "\"false\": " + _.javaHash("false") + " / " + _.javaHash("false",true) + " / " + _.javaHash("false",false) + "<br/>"+ "null: " + _.javaHash(null) + _.javaHash(null) + _.javaHash(null,true,false) + "<br/>"+ "\"null\": " + _.javaHash("null") + " / " + _.javaHash("null",true) + " / " + _.javaHash("null",false) + "<br/>"+ "undefined: " + _.javaHash(undefined) + " / " + _.javaHash(undefined,true) + " / " + _.javaHash(undefined,false) + "<br/>"+ "\"undefined\": " + _.javaHash("undefined") + " / " + _.javaHash("undefined",true) + " / " + _.javaHash("undefined",false) + "<br/>"+ "\"\": " + _.javaHash("") + " / " + _.javaHash("",true) + " / " + _.javaHash("",false) + "<br/>"+ "[]: " + _.javaHash([]) + " / " + _.javaHash([],true) + " / " + _.javaHash([],false) + "<br/>"+ "[1,2]: " + _.javaHash([1,2]) + " / " + _.javaHash([1,2],true) + " / " + _.javaHash([1,2],false) + "<br/>"+ "[3,4]: " + _.javaHash([3,4]) + " / " + _.javaHash([3,4],true) + " / " + _.javaHash([3,4],false) + "<br/>"+ "{}: " + _.javaHash({}) + " / " + _.javaHash({},true) + " / " + _.javaHash({},false) + "<br/>"+ "{a:1}: " + _.javaHash({a:1}) + " / " + _.javaHash({a:1},true) + " / " + _.javaHash({a:1},false) + "<br/>"+ "{b:2}: " + _.javaHash({b:2}) + " / " + _.javaHash({b:2},true) + " / " + _.javaHash({b:2},false) + "<br/>"+ "str variable: " + _.javaHash(str) + " / " + _.javaHash(str,true) + " / " + _.javaHash(str,false) + "<br/>"+ "str variable + b64Encode: " + _.b64Encode(_.javaHash(str)) + " / " + _.b64Encode(_.javaHash(str,true)) + " / " + _.b64Encode(_.javaHash(str,false)) + "<br/>"+ "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(str))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(str,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(str,false))) );'>Try</button></td>
+      <td><pre>kayleeEcho( "&#60;b&#62;default / hexa true / hexa false&#60;/b&#62;&#60;hr/&#62;"
+ + "-0.578: " + _.javaHash(-0.578) + " / " + _.javaHash(-0.578,true) + " / " + _.javaHash(-0.578,false) + "&#60;br/&#62;"
+ + "0: " + _.javaHash(0) + " / " + _.javaHash(0,true) + " / " + _.javaHash(0,false) + " / " + "&#60;br/&#62;"
+ + "3.14: " + _.javaHash(3.14) + " / " + _.javaHash(3.14) + " / " + _.javaHash(3.14,false) + "&#60;br/&#62;"
+ + "42: " + _.javaHash(42) + " / " + _.javaHash(42,true) + " / " + _.javaHash(42,false) + "&#60;br/&#62;"
+ + "true: " + _.javaHash(true)  + " / " + _.javaHash(true,true)  + " / " + _.javaHash(true,false) + "&#60;br/&#62;"
+ + "\"true\": " + _.javaHash("true") + " / " + _.javaHash("true",true) + " / " + _.javaHash("true",false) + "&#60;br/&#62;"
+ + "false: " + _.javaHash(false) + " / " + _.javaHash(false,true) + " / " + _.javaHash(false,false) + "&#60;br/&#62;"
+ + "\"false\": " + _.javaHash("false") + " / " + _.javaHash("false",true) + " / " + _.javaHash("false",false) + "&#60;br/&#62;"
+ + "null: " + _.javaHash(null) + _.javaHash(null) + _.javaHash(null,true,false) + "&#60;br/&#62;"
+ + "\"null\": " + _.javaHash("null") + " / " + _.javaHash("null",true) + " / " + _.javaHash("null",false) + "&#60;br/&#62;"
+ + "undefined: " + _.javaHash(undefined) + " / " + _.javaHash(undefined,true) + " / " + _.javaHash(undefined,false) + "&#60;br/&#62;"
+ + "\"undefined\": " + _.javaHash("undefined") + " / " + _.javaHash("undefined",true) + " / " + _.javaHash("undefined",false) + "&#60;br/&#62;"
+ + "\"\": " + _.javaHash("") + " / " + _.javaHash("",true) + " / " + _.javaHash("",false) + "&#60;br/&#62;"
+ + "[]: " + _.javaHash([]) + " / " + _.javaHash([],true) + " / " + _.javaHash([],false) + "&#60;br/&#62;"
+ + "[1,2]: " + _.javaHash([1,2]) + " / " + _.javaHash([1,2],true) + " / " + _.javaHash([1,2],false) + "&#60;br/&#62;"
+ + "[3,4]: " + _.javaHash([3,4]) + " / " + _.javaHash([3,4],true) + " / " + _.javaHash([3,4],false) + "&#60;br/&#62;"
+ + "{}: " + _.javaHash({}) + " / " + _.javaHash({},true) + " / " + _.javaHash({},false) + "&#60;br/&#62;"
+ + "{a:1}: " + _.javaHash({a:1}) + " / " + _.javaHash({a:1},true) + " / " + _.javaHash({a:1},false) + "&#60;br/&#62;"
+ + "{b:2}: " + _.javaHash({b:2}) + " / " + _.javaHash({b:2},true) + " / " + _.javaHash({b:2},false) + "&#60;br/&#62;"
+ + "str variable: " + _.javaHash(str) + " / " + _.javaHash(str,true) + " / " + _.javaHash(str,false) + "&#60;br/&#62;"
+ + "str variable + b64Encode: " + _.b64Encode(_.javaHash(str)) + " / " + _.b64Encode(_.javaHash(str,true)) + " / " + _.b64Encode(_.javaHash(str,false)) + "&#60;br/&#62;"
+ + "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(str))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(str,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(str,false))) 
+);</pre></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.padStart()</b></td>
+      <td><button onclick='var padStr = "\"" + "lorem".padStart(10) + "\"" ;padStr += "\n\"" + "lorem".padStart(10, "foo") + "\"" ;padStr += "\n\"" + "lorem".padStart(6,"123465") + "\"" ;padStr += "\n\"" + "lorem".padStart(15,"123465") + "\"" ;padStr += "\n\"" + "lorem".padStart(8, "0") + "\"" ;padStr += "\n\"" + "lorem".padStart(1) + "\"" ;padStr += "\n\"" + "lorem".padStart(NaN) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,undefined) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,null) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,true) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,false) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,{a:1}) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,[]) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,[1,2,"c"]) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,42) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,3.14) + "\"" ;alert(padStr);'>Try</button></td>
+      <td><pre>var padStr = "\"" + "lorem".padStart(10) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(10, "foo") + "\"" ;
+padStr += "\n\"" + "lorem".padStart(6,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padStart(8, "0") + "\"" ;
+padStr += "\n\"" + "lorem".padStart(1) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(NaN) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,undefined) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,null) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,true) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,false) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,{a:1}) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,[]) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,[1,2,"c"]) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,42) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,3.14) + "\"" ;
+alert(padStr);</pre></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.padEnd()</b></td>
+      <td><button onclick='var padStr = "\"" + "lorem".padEnd(10) + "\"" ; padStr += "\n\"" + "lorem".padEnd(10, "foo") + "\"" ; padStr += "\n\"" + "lorem".padEnd(6,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,"123465") + "\"" ; padStr += "\n\"" + "lorem".padEnd(8, "0") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(1) + "\"" ; padStr += "\n\"" + "lorem".padEnd(NaN) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,undefined) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,null) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,true) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,false) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,{a:1}) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,[]) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,[1,2,"c"]) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,42) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,3.14) + "\"" ; alert(padStr);'>Try</button></td>
+      <td><pre>var padStr = "\"" + "lorem".padEnd(10) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(10, "foo") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(6,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(8, "0") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(1) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(NaN) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,undefined) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,null) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,true) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,false) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,{a:1}) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,[]) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,[1,2,"c"]) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,42) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,3.14) + "\"" ;
+alert(padStr);</pre></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.repeat()</b></td>
+      <td colspan="2">
+        <button onclick='var padStr = "\"" + "ipsum".repeat(0) + "\""; padStr += "\n\"" + "ipsum".repeat(1) + "\""; padStr += "\n\"" + "ipsum".repeat(2) + "\""; padStr += "\n\"" + "ipsum".repeat(3.5) + "\""; alert(padStr);'>Try</button>
+        <pre>var padStr = "\"" + "ipsum".repeat(0) + "\"";
+padStr += "\n\"" + "ipsum".repeat(1) + "\"";
+padStr += "\n\"" + "ipsum".repeat(2) + "\"";
+padStr += "\n\"" + "ipsum".repeat(3.5) + "\"";
+alert(padStr);</pre>
+        <button onclick='alert( "ipsum".repeat(-1) );'>Try RangeError -1</button>
+        <pre>alert( "ipsum".repeat(-1) );</pre>
+        <button onclick='alert( "ipsum".repeat(1/0) );'>Try RangeError 1/0</button>
+        <pre>alert( "ipsum".repeat(1/0) );</pre>
+      </td>
+    </tr>
+  </table>
+</div>
+    
 <h2 id="license">License</h2>
 
 <div>

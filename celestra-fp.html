@@ -147,11 +147,53 @@ alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
 
 <div>
   <table>
-
     <tr>
-      <td><b>domCreate(type,properties,innerHTML);</b></td>
-      <td><button onclick='var el1 = domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum"); var el2 = domCreate("p", {}, "Sample created paragraph"); var el3 = domCreate("br"); var el4 = domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url"); qs("#div2").append(el1); el2.append(el3); el2.append(el4); qs("#div2").append(el2);;'>Try</button></td>
-      <td><code>var el1 = domCreate(<br/> "h3",<br/> {style: "background-color: lightblue; font-weight: bold;"},<br/> "H3 Lorem ipsum");<br/>var el2 = domCreate("p", {}, "Sample created paragraph");<br/>var el3 = domCreate("br");<br/>var el4 = domCreate(<br/> "a",<br/> {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"},<br/> "MDN Sample url"<br/>);<br/>qs("#div2").append(el1);<br/>el2.append(el3);<br/>el2.append(el4);<br/>qs("#div2").append(el2);</code></td>
+      <td><b>domCreate(type,properties,innerHTML); with style object</b></td>
+      <td><button onclick='var el1 = domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style object");  var el2 = domCreate("p", {}, "Sample created paragraph"); var el3 = domCreate("br");  var el4 = domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url"); qs("#div2").append(el1); el2.append(el3); el2.append(el4); qs("#div2").append(el2);'>Try</button></td>
+      <td><pre>var el1 = domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style object"); 
+var el2 = domCreate("p", {}, "Sample created paragraph");
+var el3 = domCreate("br"); 
+var el4 = domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url");
+qs("#div2").append(el1);
+el2.append(el3);
+el2.append(el4);
+qs("#div2").append(el2);</pre></td>
+    </tr>
+    <tr>
+      <td><b>domCreate(type,properties,innerHTML); with style string</b></td>
+      <td><button onclick='var el1 = domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style string");  var el2 = domCreate("p", {}, "Sample created paragraph"); var el3 = domCreate("br");  var el4 = domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"}, "MDN Sample url"); qs("#div2").append(el1); el2.append(el3); el2.append(el4); qs("#div2").append(el2);'>Try</button></td>
+      <td><pre>var el1 = domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style string"); 
+var el2 = domCreate("p", {}, "Sample created paragraph");
+var el3 = domCreate("br"); 
+var el4 = domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"}, "MDN Sample url");
+qs("#div2").append(el1);
+el2.append(el3);
+el2.append(el4);
+qs("#div2").append(el2);</pre></td>
+    </tr>
+    <tr>
+      <td><b>domCreate(object); with style object</b></td>
+      <td><button onclick='var el1 = domCreate({elementType: "h3", style: {"background-color": "lightblue", "font-weight": "bold"}, innerHTML: "H3 Lorem ipsum from object with style object"}); var el2 = domCreate({elementType: "p", innerHTML: "Sample created paragraph"}); var el3 = domCreate("br"); var el4 = domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"}); qs("#div2").append(el1); el2.append(el3); el2.append(el4); qs("#div2").append(el2);'>Try</button></td>
+      <td><pre>var el1 = domCreate({elementType: "h3", style: {"background-color": "lightblue", "font-weight": "bold"}, innerHTML: "H3 Lorem ipsum from object with style object"});
+var el2 = domCreate({elementType: "p", innerHTML: "Sample created paragraph"});
+var el3 = domCreate("br");
+var el4 = domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});
+qs("#div2").append(el1);
+el2.append(el3);
+el2.append(el4);
+qs("#div2").append(el2);</pre></td>
+    </tr>
+    <tr>
+      <td><b>domCreate(object); with styles string</b></td>
+      <td><button onclick='var el1 = domCreate({elementType: "h3", style: {"background-color": "lightblue", "font-weight": "bold"}, innerHTML: "H3 Lorem ipsum from object with style string"}); var el2 = domCreate({elementType: "p", innerHTML: "Sample created paragraph"}); var el3 = domCreate("br"); var el4 = domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;", innerHTML: "MDN Sample url"}); qs("#div2").append(el1); el2.append(el3); el2.append(el4); qs("#div2").append(el2);'>Try</button></td>
+      <td><pre>var el1 = domCreate({elementType: "h3", style: {"background-color": "lightblue", "font-weight": "bold"}, innerHTML: "H3 Lorem ipsum from object with style string"});
+var el2 = domCreate({elementType: "p", innerHTML: "Sample created paragraph"});
+var el3 = domCreate("br");
+var el4 = domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;", innerHTML: "MDN Sample url"});
+qs("#div2").append(el1);
+el2.append(el3);
+el2.append(el4);
+qs("#div2").append(el2);</pre></td>
     </tr>
     <tr>
       <td><b>qs(selector).innerHTML</b></td>
@@ -1642,6 +1684,122 @@ echo("Amy instanceof Human: " + (Amy instanceof Human));
 echo("Amy instanceof Worker: " + (Amy instanceof Worker));</pre></code>
       </td>
     </tr>
+  </table>
+</div>
+
+<p><b>Results:</b></p>
+<pre><code id="kayleeResults">results</code></pre>
+
+<script>
+var str = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
+
+function kayleeEcho (s) { qs("#kayleeResults").innerHTML = s; }
+</script>
+
+<div>
+  <table>
+    <tr>
+      <td><b>b64Encode();</b></td>
+      <td><button onclick='kayleeEcho( b64Encode(str) );'>Try</button></td>
+      <td><code>kayleeEcho( b64Encode(str) );</code></td>
+    </tr>
+    <tr>
+      <td><b>b64Decode();</b></td>
+      <td><button id="combined" onclick='kayleeEcho( b64Encode(str) + "<hr/>" + b64Decode( b64Encode(str) ) );'>Try</button></td>
+      <td><code>kayleeEcho( b64Encode(str) + "&#60;hr/&#62;" + b64Decode( b64Encode(str) ) );</code></td>
+    </tr>
+    <tr>
+      <td><b>randomString();</b></td>
+      <td><button onclick='kayleeEcho( "default length: " + randomString() + "<hr/>" + "default sc: " + randomString(15) + "<hr/>" + "true: " + randomString(15,true) + "<hr/>" + "false: " + randomString(15,false) + "<hr/>" + "random \"btc\" address: 1" + randomString(32,false) );'>Try</button></td>
+      <td><code>kayleeEcho( "default length: " + randomString()<br/> + "default sc: " + randomString(15)<br/> + "&#60;hr/&#62;" + "true: " + randomString(15,true)<br/> + "&#60;hr/&#62;" + "false: " + randomString(15,false)<br/> + "&#60;hr/&#62;" + "random \"btc\" address: 1" + randomString(32,false)<br/>);</code></td>
+    </tr>
+    <tr>
+      <td><b>javaHash();</b></td>
+      <td><button onclick='kayleeEcho( "<b>default / hexa true / hexa false</b><hr/>"+ "-0.578: " + javaHash(-0.578) + " / " + javaHash(-0.578,true) + " / " + javaHash(-0.578,false) + "<br/>"+ "0: " + javaHash(0) + " / " + javaHash(0,true) + " / " + javaHash(0,false) + " / " + "<br/>"+ "3.14: " + javaHash(3.14) + " / " + javaHash(3.14) + " / " + javaHash(3.14,false) + "<br/>"+ "42: " + javaHash(42) + " / " + javaHash(42,true) + " / " + javaHash(42,false) + "<br/>"+ "true: " + javaHash(true)  + " / " + javaHash(true,true)  + " / " + javaHash(true,false) + "<br/>"+ "\"true\": " + javaHash("true") + " / " + javaHash("true",true) + " / " + javaHash("true",false) + "<br/>"+ "false: " + javaHash(false) + " / " + javaHash(false,true) + " / " + javaHash(false,false) + "<br/>"+ "\"false\": " + javaHash("false") + " / " + javaHash("false",true) + " / " + javaHash("false",false) + "<br/>"+ "null: " + javaHash(null) + javaHash(null) + javaHash(null,true,false) + "<br/>"+ "\"null\": " + javaHash("null") + " / " + javaHash("null",true) + " / " + javaHash("null",false) + "<br/>"+ "undefined: " + javaHash(undefined) + " / " + javaHash(undefined,true) + " / " + javaHash(undefined,false) + "<br/>"+ "\"undefined\": " + javaHash("undefined") + " / " + javaHash("undefined",true) + " / " + javaHash("undefined",false) + "<br/>"+ "\"\": " + javaHash("") + " / " + javaHash("",true) + " / " + javaHash("",false) + "<br/>"+ "[]: " + javaHash([]) + " / " + javaHash([],true) + " / " + javaHash([],false) + "<br/>"+ "[1,2]: " + javaHash([1,2]) + " / " + javaHash([1,2],true) + " / " + javaHash([1,2],false) + "<br/>"+ "[3,4]: " + javaHash([3,4]) + " / " + javaHash([3,4],true) + " / " + javaHash([3,4],false) + "<br/>"+ "{}: " + javaHash({}) + " / " + javaHash({},true) + " / " + javaHash({},false) + "<br/>"+ "{a:1}: " + javaHash({a:1}) + " / " + javaHash({a:1},true) + " / " + javaHash({a:1},false) + "<br/>"+ "{b:2}: " + javaHash({b:2}) + " / " + javaHash({b:2},true) + " / " + javaHash({b:2},false) + "<br/>"+ "str variable: " + javaHash(str) + " / " + javaHash(str,true) + " / " + javaHash(str,false) + "<br/>"+ "str variable + b64Encode: " + b64Encode(javaHash(str)) + " / " + b64Encode(javaHash(str,true)) + " / " + b64Encode(javaHash(str,false)) + "<br/>"+ "str variable + b64Encode + b64Decode: " + b64Decode(b64Encode(javaHash(str))) + " / " + b64Decode(b64Encode(javaHash(str,true))) + " / " + b64Decode(b64Encode(javaHash(str,false))) );'>Try</button></td>
+      <td><pre>kayleeEcho( "&#60;b&#62;default / hexa true / hexa false&#60;/b&#62;&#60;hr/&#62;"
+ + "-0.578: " + javaHash(-0.578) + " / " + javaHash(-0.578,true) + " / " + javaHash(-0.578,false) + "&#60;br/&#62;"
+ + "0: " + javaHash(0) + " / " + javaHash(0,true) + " / " + javaHash(0,false) + " / " + "&#60;br/&#62;"
+ + "3.14: " + javaHash(3.14) + " / " + javaHash(3.14) + " / " + javaHash(3.14,false) + "&#60;br/&#62;"
+ + "42: " + javaHash(42) + " / " + javaHash(42,true) + " / " + javaHash(42,false) + "&#60;br/&#62;"
+ + "true: " + javaHash(true)  + " / " + javaHash(true,true)  + " / " + javaHash(true,false) + "&#60;br/&#62;"
+ + "\"true\": " + javaHash("true") + " / " + javaHash("true",true) + " / " + javaHash("true",false) + "&#60;br/&#62;"
+ + "false: " + javaHash(false) + " / " + javaHash(false,true) + " / " + javaHash(false,false) + "&#60;br/&#62;"
+ + "\"false\": " + javaHash("false") + " / " + javaHash("false",true) + " / " + javaHash("false",false) + "&#60;br/&#62;"
+ + "null: " + javaHash(null) + javaHash(null) + javaHash(null,true,false) + "&#60;br/&#62;"
+ + "\"null\": " + javaHash("null") + " / " + javaHash("null",true) + " / " + javaHash("null",false) + "&#60;br/&#62;"
+ + "undefined: " + javaHash(undefined) + " / " + javaHash(undefined,true) + " / " + javaHash(undefined,false) + "&#60;br/&#62;"
+ + "\"undefined\": " + javaHash("undefined") + " / " + javaHash("undefined",true) + " / " + javaHash("undefined",false) + "&#60;br/&#62;"
+ + "\"\": " + javaHash("") + " / " + javaHash("",true) + " / " + javaHash("",false) + "&#60;br/&#62;"
+ + "[]: " + javaHash([]) + " / " + javaHash([],true) + " / " + javaHash([],false) + "&#60;br/&#62;"
+ + "[1,2]: " + javaHash([1,2]) + " / " + javaHash([1,2],true) + " / " + javaHash([1,2],false) + "&#60;br/&#62;"
+ + "[3,4]: " + javaHash([3,4]) + " / " + javaHash([3,4],true) + " / " + javaHash([3,4],false) + "&#60;br/&#62;"
+ + "{}: " + javaHash({}) + " / " + javaHash({},true) + " / " + javaHash({},false) + "&#60;br/&#62;"
+ + "{a:1}: " + javaHash({a:1}) + " / " + javaHash({a:1},true) + " / " + javaHash({a:1},false) + "&#60;br/&#62;"
+ + "{b:2}: " + javaHash({b:2}) + " / " + javaHash({b:2},true) + " / " + javaHash({b:2},false) + "&#60;br/&#62;"
+ + "str variable: " + javaHash(str) + " / " + javaHash(str,true) + " / " + javaHash(str,false) + "&#60;br/&#62;"
+ + "str variable + b64Encode: " + b64Encode(javaHash(str)) + " / " + b64Encode(javaHash(str,true)) + " / " + b64Encode(javaHash(str,false)) + "&#60;br/&#62;"
+ + "str variable + b64Encode + b64Decode: " + b64Decode(b64Encode(javaHash(str))) + " / " + b64Decode(b64Encode(javaHash(str,true))) + " / " + b64Decode(b64Encode(javaHash(str,false))) 
+);</pre></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.padStart()</b></td>
+      <td><button onclick='var padStr = "\"" + "lorem".padStart(10) + "\"" ;padStr += "\n\"" + "lorem".padStart(10, "foo") + "\"" ;padStr += "\n\"" + "lorem".padStart(6,"123465") + "\"" ;padStr += "\n\"" + "lorem".padStart(15,"123465") + "\"" ;padStr += "\n\"" + "lorem".padStart(8, "0") + "\"" ;padStr += "\n\"" + "lorem".padStart(1) + "\"" ;padStr += "\n\"" + "lorem".padStart(NaN) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,undefined) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,null) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,true) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,false) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,{a:1}) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,[]) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,[1,2,"c"]) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,42) + "\"" ;padStr += "\n\"" + "lorem".padStart(15,3.14) + "\"" ;alert(padStr);'>Try</button></td>
+      <td><pre>var padStr = "\"" + "lorem".padStart(10) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(10, "foo") + "\"" ;
+padStr += "\n\"" + "lorem".padStart(6,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padStart(8, "0") + "\"" ;
+padStr += "\n\"" + "lorem".padStart(1) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(NaN) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,undefined) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,null) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,true) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,false) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,{a:1}) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,[]) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,[1,2,"c"]) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,42) + "\"" ;
+padStr += "\n\"" + "lorem".padStart(15,3.14) + "\"" ;
+alert(padStr);</pre></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.padEnd()</b></td>
+      <td><button onclick='var padStr = "\"" + "lorem".padEnd(10) + "\"" ; padStr += "\n\"" + "lorem".padEnd(10, "foo") + "\"" ; padStr += "\n\"" + "lorem".padEnd(6,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,"123465") + "\"" ; padStr += "\n\"" + "lorem".padEnd(8, "0") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(1) + "\"" ; padStr += "\n\"" + "lorem".padEnd(NaN) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,undefined) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,null) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,true) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,false) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,{a:1}) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,[]) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,[1,2,"c"]) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,42) + "\"" ; padStr += "\n\"" + "lorem".padEnd(15,3.14) + "\"" ; alert(padStr);'>Try</button></td>
+      <td><pre>var padStr = "\"" + "lorem".padEnd(10) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(10, "foo") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(6,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,"123465") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(8, "0") + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(1) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(NaN) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,undefined) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,null) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,true) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,false) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,{a:1}) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,[]) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,[1,2,"c"]) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,42) + "\"" ;
+padStr += "\n\"" + "lorem".padEnd(15,3.14) + "\"" ;
+alert(padStr);</pre></td>
+    </tr>
+    <tr>
+      <td><b>String.prototype.repeat()</b></td>
+      <td colspan="2">
+        <button onclick='var padStr = "\"" + "ipsum".repeat(0) + "\""; padStr += "\n\"" + "ipsum".repeat(1) + "\""; padStr += "\n\"" + "ipsum".repeat(2) + "\""; padStr += "\n\"" + "ipsum".repeat(3.5) + "\""; alert(padStr);'>Try</button>
+        <pre>var padStr = "\"" + "ipsum".repeat(0) + "\"";
+padStr += "\n\"" + "ipsum".repeat(1) + "\"";
+padStr += "\n\"" + "ipsum".repeat(2) + "\"";
+padStr += "\n\"" + "ipsum".repeat(3.5) + "\"";
+alert(padStr);</pre>
+        <button onclick='alert( "ipsum".repeat(-1) );'>Try RangeError -1</button>
+        <pre>alert( "ipsum".repeat(-1) );</pre>
+        <button onclick='alert( "ipsum".repeat(1/0) );'>Try RangeError 1/0</button>
+        <pre>alert( "ipsum".repeat(1/0) );</pre>
+      </td>
+    </tr>    
   </table>
 </div>
 

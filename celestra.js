@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.4
+ * @version 2.0.5
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -128,6 +128,64 @@ if (!String.prototype.endsWith) {
     var subs = this.substring(0, length);
 		return subs.indexOf(searchString) === (subs.length - searchString.length);
 	};
+}
+
+if (!String.prototype.padStart) {
+  String.prototype.padStart = function (len, str) {
+    len =  Math.floor(Number(len));
+    if (len <= this.length || len === NaN ) {
+      return String(this);
+    } else {
+      str = String(typeof str !== "undefined" ? str: " ");
+      if (str.length === 0) { return String(this); }
+      var res = "", n = Math.floor( (len - this.length) / str.length)+1;
+      for (var i = 0; i < n; i++) { res += str; }
+      return res.slice(0, len - this.length) + String(this);
+    };
+  };
+}
+
+if (!String.prototype.padEnd) {
+  String.prototype.padEnd = function (len, str) {
+    len =  Math.floor(Number(len));
+    if (len <= this.length || len === NaN ) {
+      return String(this);
+    } else {
+      str = String(typeof str !== "undefined" ? str: " ");
+      if (str.length === 0) { return String(this); }
+      var res = "", n = Math.floor( (len - this.length) / str.length)+1;
+      for (var i = 0; i < n; i++) { res += str; }
+      return String(this) + res.slice(0, len - this.length);
+    };
+  };
+}
+
+if (!String.prototype.repeat) {
+  String.prototype.repeat = function (c) {
+    "use strict";
+    if (this == null) {
+      throw new TypeError("can\"t convert " + this + " to object");
+    }
+    var str = "" + this;
+    c = +c;
+    if (c != c) { c = 0; }
+    if (c < 0) {
+      throw new RangeError("repeat count must be non-negative");
+    }
+    if (c == Infinity) {
+      throw new RangeError("repeat count must be less than infinity");
+    }
+    c = Math.floor(c);
+    if (str.length == 0 || c == 0) { return ""; }
+    if (str.length * c >= 1 << 28) {
+      throw new RangeError("repeat count must not overflow maximum string size");
+    }
+    var maxCount = str.length * c;
+    c = Math.floor(Math.log(c) / Math.log(2));
+    while (c) { str += str; c--; }
+    str += str.substring(0, maxCount - str.length);
+    return str;
+  }
 }
 
 [Element.prototype, CharacterData.prototype, DocumentType.prototype].forEach(function (p) {
@@ -305,6 +363,46 @@ function random (i, a) {
   if (i === undefined) { var i = 100; }
   if (a === undefined) { var a = i; i = 0; }
   return Math.floor(Math.random()*(a-i+1))+i;
+}
+
+function randomString(pl,sc) {
+  if (arguments.length === 1) {
+    sc = false;
+  } else if (arguments.length === 0) {
+    sc = false;
+    pl = 100;
+  }
+  var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  if (sc) { chars += ",?,.:-_*$ß¤Łł÷×¸¨˝´˙`˛°˘^ˇ~§'+!%/=()[]#<>&@{}\"\\/| éáűőúöüóíÉÁŰŐÚÖÜÓÍß"; }
+  var s = "", l = chars.length;
+  for (var i = 0; i < pl; i++) { s += chars[Math.floor(Math.random()*l)]; }
+  return s;
+}
+
+function b64Encode(str) {
+  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+    function toSolidBytes(match, p1) {
+      return String.fromCharCode('0x' + p1);
+  }));
+}
+
+function b64Decode(str) {
+  return decodeURIComponent(atob(str).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+}
+
+function javaHash (s,hx) {
+  if (s !== undefined) { s = "" + s; } else { return 0; }
+  var h = 0, l = s.length, c = "";
+  if (l == 0) { return h; }
+  for (var i = 0; i < l; i++) {
+    c = s.charCodeAt(i);
+    h = ((h<<5)-h)+c;
+    h = h & h;
+  }
+  if (hx) { return h.toString(16); }
+  return h;
 }
 
 function inherit (c, p) {
@@ -619,10 +717,18 @@ var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 /* DOM */
 
 function domCreate (t, ps, iH) {
+  if (arguments.length === 1 && typeof t === "object") {
+    var obj = t;
+    t = obj.elementType;
+    ps = {};
+    for (var p in obj) {
+      if (p !== "elementType") { ps[p] = obj[p]; }
+    }
+  }
   var el = document.createElement(t);
   if (ps) {
     for (var p in ps) {
-      if (p!=="style") {
+      if (p !== "style" || typeof ps[p] === "string") {
         el[p] = ps[p];
       } else {
         for (var s in ps[p]) { el.style[s] = ps[p][s]; }
@@ -902,7 +1008,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.0.4";
+celestra.version = "Celestra v2.0.5";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
@@ -925,6 +1031,10 @@ celestra.qsa = qsa;
 celestra.qs = qs;
 celestra.domReady = domReady;
 celestra.random = random;
+celestra.randomString = randomString;
+celestra.b64Encode = b64Encode;
+celestra.b64Decode = b64Decode;
+celestra.javaHash = javaHash;
 celestra.inherit = inherit;
 celestra.getScript = getScript;
 celestra.getScripts = getScripts;

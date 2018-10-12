@@ -6,20 +6,6 @@
 /* _cut.addTest("step", value, expr, true ); */
 
 
-/* Sample testcases */
-_cut.addElement("h3", "Sample testcases");
-_cut.addTest(
-  "Array.from() passed true",
-  true,
-  _.isArray(Array.from(document.querySelectorAll("p")))
-);
-_cut.addTest(
-  "Array.from() failed false",
-  false,
-  Array.from(_.toArray(document.querySelectorAll("p")))
-);
-
-
 /* Not tested functions */
 _cut.addElement("h3", "Not tested functions");
 _cut.addElement(
@@ -371,6 +357,59 @@ _cut.addTest("random(max)", true, _.random(30) <= 30 );
 var testRandom = _.random(51,55);
 _cut.addTest("random(min,max)", true, testRandom >= 51 && testRandom <= 55 );
 
+/* kaylee */
+
+var rndStr = _.randomString();
+_cut.addTest("randomString() default length 100, default false", true, _.isString(rndStr) && rndStr.length === 100 );
+_cut.addElement("p","<b>"+rndStr+"</b>");
+rndStr = _.randomString(10);
+_cut.addTest("randomString(10) default false", true, _.isString(rndStr) && rndStr.length === 10 );
+_cut.addElement("p","<b>"+rndStr+"</b>");
+rndStr = _.randomString(15,true);
+_cut.addTest("randomString(15,true)", true, _.isString(rndStr) && rndStr.length === 15 );
+_cut.addElement("p","<b>"+rndStr+"</b>");
+rndStr = _.randomString(20,false);
+_cut.addTest("randomString(20,false)", true, _.isString(rndStr) && rndStr.length === 20 );
+_cut.addElement("p","<b>"+rndStr+"</b>");
+rndStr = "1" + _.randomString(32,false);
+_cut.addTest("randomString() random \"btc\" address", true, _.isString(rndStr) && rndStr.length === 33 );
+_cut.addElement("p","<b>"+rndStr+"</b>");
+
+var kayleeStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
+_cut.addTest(
+  "b64Encode()", "4pyTIMOgIA0KCSDDoXJ2w616dMWxcsWRIHTDvGvDtnJmw7pyw7Nnw6lwIMOBUlbDjVpUxbBSxZAgVMOcS8OWUkbDmlLDk0fDiVAgLD87LjotXyogwqTDt8OXwqjCuMK0y5lgy5vCsMuYXsuHficrISUvPSgpfFw8PiAiIC8gIyZAe31bXeKCrCDDjcOEw63FgcOfIDAxMjM0NTY3ODkgYXNkZmdoamtscXdlcnR6dWlvcHl4Y3Zibm0gQVNERkdISktMUVdFUlRaVUlPUFlYQ1ZCTk0=", 
+  _.b64Encode(kayleeStr) 
+);
+_cut.addTest("b64Decode() + b64Encode()", kayleeStr, _.b64Decode(_.b64Encode(kayleeStr)) );
+_cut.addTest(
+  "javaHash()", 
+  "-0.578: 1334063883 / 4f84330b / 13340638830: 48 / 30 / 48 / 3.14: 1565118 / 1565118 / 156511842: 1662 / 67e / 1662true: 3569038 / 36758e / 3569038\"true\": 3569038 / 36758e / 3569038false: 97196323 / 5cb1923 / 97196323\"false\": 97196323 / 5cb1923 / 97196323null: 3392903339290333c587\"null\": 3392903 / 33c587 / 3392903undefined: 0 / 0 / 0\"undefined\": -1038130864 / -3de09eb0 / -1038130864\"\": 0 / 0 / 0[]: 0 / 0 / 0[1,2]: 48503 / bd77 / 48503[3,4]: 50427 / c4fb / 50427{}: -1074417128 / -400a4de8 / -1074417128{a:1}: -1074417128 / -400a4de8 / -1074417128{b:2}: -1074417128 / -400a4de8 / -1074417128str variable: -313568218 / -12b0abda / -313568218str variable + b64Encode: LTMxMzU2ODIxOA== / LTEyYjBhYmRh / LTMxMzU2ODIxOA==str variable + b64Encode + b64Decode: -313568218 / -12b0abda / -313568218", 
+  "-0.578: " + _.javaHash(-0.578) + " / " + _.javaHash(-0.578,true) + " / " + _.javaHash(-0.578,false)
+    + "0: " + _.javaHash(0) + " / " + _.javaHash(0,true) + " / " + _.javaHash(0,false) + " / "
+    + "3.14: " + _.javaHash(3.14) + " / " + _.javaHash(3.14) + " / " + _.javaHash(3.14,false)
+    + "42: " + _.javaHash(42) + " / " + _.javaHash(42,true) + " / " + _.javaHash(42,false)
+    + "true: " + _.javaHash(true)  + " / " + _.javaHash(true,true)  + " / " + _.javaHash(true,false)
+    + "\"true\": " + _.javaHash("true") + " / " + _.javaHash("true",true) + " / " + _.javaHash("true",false)
+    + "false: " + _.javaHash(false) + " / " + _.javaHash(false,true) + " / " + _.javaHash(false,false)
+    + "\"false\": " + _.javaHash("false") + " / " + _.javaHash("false",true) + " / " + _.javaHash("false",false)
+    + "null: " + _.javaHash(null) + _.javaHash(null) + _.javaHash(null,true,false)
+    + "\"null\": " + _.javaHash("null") + " / " + _.javaHash("null",true) + " / " + _.javaHash("null",false)
+    + "undefined: " + _.javaHash(undefined) + " / " + _.javaHash(undefined,true) + " / " + _.javaHash(undefined,false)
+    + "\"undefined\": " + _.javaHash("undefined") + " / " + _.javaHash("undefined",true) + " / " + _.javaHash("undefined",false)
+    + "\"\": " + _.javaHash("") + " / " + _.javaHash("",true) + " / " + _.javaHash("",false)
+    + "[]: " + _.javaHash([]) + " / " + _.javaHash([],true) + " / " + _.javaHash([],false)
+    + "[1,2]: " + _.javaHash([1,2]) + " / " + _.javaHash([1,2],true) + " / " + _.javaHash([1,2],false)
+    + "[3,4]: " + _.javaHash([3,4]) + " / " + _.javaHash([3,4],true) + " / " + _.javaHash([3,4],false)
+    + "{}: " + _.javaHash({}) + " / " + _.javaHash({},true) + " / " + _.javaHash({},false)
+    + "{a:1}: " + _.javaHash({a:1}) + " / " + _.javaHash({a:1},true) + " / " + _.javaHash({a:1},false)
+    + "{b:2}: " + _.javaHash({b:2}) + " / " + _.javaHash({b:2},true) + " / " + _.javaHash({b:2},false)
+    + "str variable: " + _.javaHash(kayleeStr) + " / " + _.javaHash(kayleeStr,true) + " / " + _.javaHash(kayleeStr,false)
+    + "str variable + b64Encode: " + _.b64Encode(_.javaHash(kayleeStr)) + " / " + _.b64Encode(_.javaHash(kayleeStr,true)) + " / " + _.b64Encode(_.javaHash(kayleeStr,false))
+    + "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,false))) 
+);
+
+/* / kaylee */
+
 _cut.addTest("getDoNotTrack()", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false );
 _cut.addTest("constant()", 3.14, _.constant(3.14)() );
 _cut.addTest("identity()", 100, _.identity(60) + _.identity(40) );
@@ -446,11 +485,14 @@ domFadeToggle(<element>[,duration[,display]]);
 _cut.addElement("h3", "DOM");
 
 _cut.addElement(
-  _.domCreate("p", {"id": "domTestElement", "width": "250px"}, "DOM test element")
+  _.domCreate("p", {"id": "domTestElement", style: {"width": "250px"} }, "DOM test element")
 );
 var domTestElement = _.qs("#domTestElement") ;
 
-_cut.addTest("domCreate()", true, _.isElement(domTestElement) );
+_cut.addTest("domCreate() with style object", true, _.isElement(domTestElement) );
+_cut.addTest("domCreate() with style string", true, _.isElement( _.domCreate("p", {"id": "domTestElement", style: "width: 250px; color: blue;" }, "DOM test element") ) );
+_cut.addTest("domCreate(object) with style object", true, _.isElement( _.domCreate( { elementType: "p", "id": "domTestElementObject", style: {"width": "250px"}, innerHTML: "DOM test element" } ) ) );
+_cut.addTest("domCreate(object) with style string", true, _.isElement( _.domCreate( { elementType: "p", "id": "domTestElementObject", style: "width: 250px; color: blue;", innerHTML: "DOM test element" } ) ) );
 
 _.domSetCSS(domTestElement, "width", "300px");
 _cut.addTest("domSetCSS() property and domGetCSS()", "300px", _.domGetCSS(domTestElement, "width") );
@@ -549,6 +591,60 @@ _cut.addTest("getCookie() undefined", undefined, _.getCookie()["ctest3"] );
 
 /* polyfills */
 _cut.addElement("h3", "polyfills");
+
+var padStr = "lorem".padStart(10);
+padStr += "lorem".padStart(10, "foo");
+padStr += "lorem".padStart(6,"123465");
+padStr += "lorem".padStart(15,"123465");
+padStr += "lorem".padStart(8, "0");
+padStr += "lorem".padStart(1);
+padStr += "lorem".padStart(NaN);
+padStr += "lorem".padStart(15,undefined);
+padStr += "lorem".padStart(15,null);
+padStr += "lorem".padStart(15,true);
+padStr += "lorem".padStart(15,false);
+padStr += "lorem".padStart(15,{a:1});
+padStr += "lorem".padStart(15,[]);
+padStr += "lorem".padStart(15,[1,2,"c"]);
+padStr += "lorem".padStart(15,42);
+padStr += "lorem".padStart(15,3.14);
+_cut.addTest(
+  "String.prototype.padStart()",
+  "     lorem"+"foofolorem"+"1lorem"+"1234651234lorem"+"000lorem"+"lorem"+"lorem"+"          lorem"+"nullnullnulorem"+"truetruetrlorem"+"falsefalselorem"+"[object Oblorem"+"lorem"+"1,2,c1,2,clorem"+"4242424242lorem"+"3.143.143.lorem",
+  padStr
+);
+
+padStr = "lorem".padEnd(10);
+padStr += "lorem".padEnd(10, "foo");
+padStr += "lorem".padEnd(6,"123465");
+padStr += "lorem".padEnd(15,"123465");
+padStr += "lorem".padEnd(8, "0");
+padStr += "lorem".padEnd(1);
+padStr += "lorem".padEnd(NaN);
+padStr += "lorem".padEnd(15,undefined);
+padStr += "lorem".padEnd(15,null);
+padStr += "lorem".padEnd(15,true);
+padStr += "lorem".padEnd(15,false);
+padStr += "lorem".padEnd(15,{a:1});
+padStr += "lorem".padEnd(15,[]);
+padStr += "lorem".padEnd(15,[1,2,"c"]);
+padStr += "lorem".padEnd(15,42);
+padStr += "lorem".padEnd(15,3.14);
+_cut.addTest(
+  "String.prototype.padEnd()",
+  "lorem     "+"loremfoofo"+"lorem1"+"lorem1234651234"+"lorem000"+"lorem"+"lorem"+"lorem          "+"loremnullnullnu"+"loremtruetruetr"+"loremfalsefalse"+"lorem[object Ob"+"lorem"+"lorem1,2,c1,2,c"+"lorem4242424242"+"lorem3.143.143.",
+  padStr
+);
+
+padStr = "ipsum".repeat(0);
+padStr += "ipsum".repeat(1);
+padStr += "ipsum".repeat(2);
+padStr += "ipsum".repeat(3.5);
+_cut.addTest(
+  "String.prototype.repeat()",
+  ""+"ipsum"+"ipsumipsum"+"ipsumipsumipsum",
+  padStr
+);
 
 var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
 objIsStr += Object.is("lorem", "lorem");

@@ -9,20 +9,20 @@
 
 ## Download
 
-A helper ES5 library for those who like the Vanilla JS.
-Only some functions and polyfills.
+__A helper library for those who like the Vanilla JS.__
+__Just a few functions and ES6 polyfills.__
 
-Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).
+Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.0.4
+Latest version: 2.0.5
 
-Date: 2018-10-02T19:36:42.203Z
+Date: 2018-10-11T19:51:33.982Z
 
 The functions are available in the `celestra` and `Celestra` and/or `_` object.
 
-Development version: celestra.js (30532 bytes)
+Development version: celestra.js (34020 bytes)
 
-Minimal version: celestra.min.js (23534 bytes)
+Minimal version: celestra.min.js (26165 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -100,6 +100,10 @@ Name | Description
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `random([max]);` | Get a random number value within 0 and max value. Without parameter the maximum value is 100.
 `random(<min>,<max>);` | Get a random number value within min and max value.
+`randomString([length[,specialCharactersEnabled]]);` | Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.
+`b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
+`b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
+`javaHash(<data>[,hexa]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `getScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
 `getScripts(<scripts>);` | Load more JavaScript files (modules) and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
 `getStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.
@@ -132,7 +136,8 @@ Example: `_.domCreate()`
 
 Name | Description
 ---- | -----------
-`domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, style, data-*, etc.) The innerHTML is optional and can be a string.
+`domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, __style object/string - since v2.0.5 - in IE11 and W10M Edge 14 the style string doesn't work__, data-*, etc.) The innerHTML is optional and can be a string.
+`domCreate(<element descriptive object>);` | Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The `style` can be a subobject or a string. __In IE11 and W10M Edge 14 the style string doesn't work.__ __Sample code:__ `_.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});`
 `domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string.
 `domSetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string. The value is mandatory and has to be a string.
 `domSetCSS(<element>,<properties>);` | Set CSS property values of an element. The element is mandatory and has to be a HTML element. The properties object is mandatory. The object properties can be the CSS properties and the property values will be applied to the element.
@@ -310,6 +315,9 @@ Name | Description
 `String.prototype.trimRight()` | Alias of the String.prototype.trimEnd() method.
 `String.prototype.startsWith()` | The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate.
 `String.prototype.endsWith()` | The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate.
+`String.prototype.padStart()` | The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string.
+`String.prototype.padEnd()` | The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string.
+`String.prototype.repeat()` | The repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together.
 `NodeList.prototype.forEach()` | The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order.
 `Object.values()` | The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
 `Object.entries()` | The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
