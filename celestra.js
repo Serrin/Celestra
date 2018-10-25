@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.5
+ * @version 2.0.6
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -232,6 +232,62 @@ if (!String.prototype.repeat) {
   }
 });
 
+if (!Element.prototype.toggleAttribute) {
+  Element.prototype.toggleAttribute = function (name, force) {
+    var forcePassed = (arguments.length === 2);
+    var forceOn = !!force;
+    var forceOff = (forcePassed && !force);
+    if (this.getAttribute(name) !== null) {
+      if (forceOn) { return true; }
+      this.removeAttribute(name);
+      return false;
+    } else {
+      if (forceOff) { return false; }
+      this.setAttribute(name, "");
+      return true;
+    }
+  };
+}
+
+if (!Element.prototype.matches) {
+  Element.prototype.matches =
+    Element.prototype.msMatchesSelector ||
+    Element.prototype.webkitMatchesSelector ||
+    Element.prototype.matchesSelector ||
+    Element.prototype.mozMatchesSelector ||
+    Element.prototype.oMatchesSelector ||
+    function (s) {
+      var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+        i = matches.length;
+      while (--i >= 0 && matches.item(i) !== this) {}
+      return i > -1;
+    };
+}
+
+if (!Element.prototype.closest) {
+  Element.prototype.closest = function (s) {
+    var el = this;
+    if (!document.documentElement.contains(el)) { return null; }
+    do {
+      if (el.matches(s)) { return el; }
+      el = el.parentElement || el.parentNode;
+    } while (el !== null && el.nodeType === 1);
+    return null;
+  };
+}
+
+if (!Element.prototype.getAttributeNames) {
+  Element.prototype.getAttributeNames = function () {
+    var attributes = this.attributes;
+    var length = attributes.length;
+    var result = new Array(length);
+    for (var i = 0; i < length; i++) {
+      result[i] = attributes[i].name;
+    }
+    return result;
+  };
+}
+
 if (!NodeList.prototype.forEach) {
   NodeList.prototype.forEach = function (f) {
     for (var i = 0, l = this.length; i < l; i++) { f(this[i], i, this); }
@@ -301,6 +357,17 @@ if (!Object.is) {
   };
 }
 
+if (!Object.getOwnPropertyDescriptors) {
+  Object.getOwnPropertyDescriptors = function (obj) {
+    var res = {};
+    var n = Object.getOwnPropertyNames(obj);
+    for (var i = 0, l = n.length; i < l; i++) {
+      res[n[i]] = Object.getOwnPropertyDescriptor(obj, n[i]);
+    }
+    return res;
+  };
+}
+
 /* Number ES6 */
 
 if (Number.MIN_SAFE_INTEGER === undefined) {
@@ -336,6 +403,9 @@ if (!Number.isSafeInteger) {
     return Number.isInteger(v) && Math.abs(v) <= Number.MAX_SAFE_INTEGER;
   };
 }
+
+if (!Number.parseInt) { Number.parseInt = window.parseInt; }
+if (!Number.parseFloat) { Number.parseFloat = window.parseFloat; }
 
 /* core api */
 
@@ -464,7 +534,12 @@ function getUrlVar (n) {
     var e = w[i].split("=");
     r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
   }
-  if (n) { return r[n] ? r[n] : undefined; } else { return r; }
+  if (JSON.stringify(r) === "{\"\":\"undefined\"}") { r = {}; }
+  if (n) {
+    return r[n] ? r[n] : null;
+  } else {
+    return r;
+  }
 }
 
 function getUrlVarFromString (qstr,n) {
@@ -473,7 +548,12 @@ function getUrlVarFromString (qstr,n) {
     var e = w[i].split("=");
     r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
   }
-  if (n) { return r[n] ? r[n] : undefined; } else { return r; }
+  if (JSON.stringify(r) === "{\"\":\"undefined\"}") { r = {}; }
+  if (n) {
+    return r[n] ? r[n] : null;
+  } else {
+    return r;
+  }
 }
 
 function obj2string (o) {
@@ -1008,7 +1088,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.0.5";
+celestra.version = "Celestra v2.0.6";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;

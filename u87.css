@@ -1,16 +1,22 @@
 /**
  * @name u87.css
- * @version 0.9.5
+ * @version 0.9.6
  * @see https://github.com/Serrin/
  * @license MIT https://opensource.org/licenses/MIT
  * This is the default css for my code documentations.
  * Usage: <link rel="stylesheet" href="u87.css" type="text/css" />
  */
 
+@-ms-viewport { width: device-width; }
+ 
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section, main {
 	display: block;
 } 
+
+[hidden], .hidden { display: none !important; }
+
+template { display: none; }
 
 *,:before,:after { 
   -webkit-box-sizing: border-box;
@@ -39,7 +45,8 @@ html {
   /*background-color: darkgrey;*/
   background-color: #cccccc;
   text-align: center;
-  font-family: Helvetica, Arial, sans-serif;
+  /*font-family: Helvetica, Arial, sans-serif;*/
+  font-family: Helvetica, Arial, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 15px;
 }
 
@@ -58,31 +65,52 @@ body {
 
 header,footer { text-align: center; }
 
-p,h1,h2,h3,h4,h5,h6 { margin: 1rem 0 1rem 0; }
-h1,h2,h3,h4,h5,h6 { font-weight: normal; }
-h2,h3,h4,h5,h6 { padding: 3px; }
-h2 { background-color: #ddd; }
+p { margin: 1rem 0 1rem 0; }
+
+h1,h2,h3,h4,h5,h6 {
+  margin: 1rem 0 1rem 0;
+  font-weight: normal;
+  padding: 3px;
+}
 h2,h3 { margin-top: 50px; }
+h2 { background-color: #ddd; }
 h3,h4,h5,h6 { background-color: #eee; }
 
-h1 { font-size: 2.2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.5rem; }
-h4 { font-size: 1.2rem; }
-h5 { font-size: 1.1rem; }
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
 h6 { font-size: 1rem; }
 
-code {
-  display: inline-block;
-  margin-top: 2px;
-}
-
-code,pre {
+pre, code, output, kbd, samp, var,
+.pre, .code, .output, .kbd, .samp, .var {
   background-color: slategrey;
   color: white;
   padding: 3px 5px 3px 5px;
   font-size: 14.5px !important;
-  font-family: consolas, monospace;
+  font-family: consolas, "Courier New", monospace;
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word; 
+  white-space: pre-wrap;
+}
+var, .var { font-style: italic; }
+code, output, kbd, samp, var,
+.code, .output, .kbd, .samp, .var {
+  display: inline-block;
+  margin-top: 2px;
+}
+pre, .pre { display: block; }
+
+.tt {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 3px 5px 3px 5px;
+  font-size: 14.5px !important;
+  font-family: consolas, "Courier New", monospace;
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
@@ -94,6 +122,19 @@ code,pre {
 a, a:visited, a:active { color: steelblue; text-decoration: none; }
 a:hover { color: steelblue; text-decoration: underline; }
 
+small { display: inline-block; }
+small, .small { font-size: 0.8em; }
+.big { font-size: 1.25em; }
+b, strong, .b, .strong { font-weight: bold; }
+i, em, .i, .em { font-style: italic; }
+
+mark, .mark {
+  background-color: yellow;
+  color: black;
+  padding: 3px 5px 3px 5px;
+}
+mark { display: inline-block; }
+
 /* table { margin: 0 auto; } */
 td { vertical-align: top; }
 
@@ -102,15 +143,10 @@ button { word-break: normal; word-wrap: normal; }
 img, video, .img-responsive, .video-responsive {
   max-width: 100%;
   height: auto;
-  border: 0;
+  border: 0 none;
   outline: 0;
   page-break-inside: avoid;
 }
-
-small { display: inline-block; }
-small, .small { font-size: 0.8em; }
-.big { font-size: 1.2em; }
-
 .img-fluid, .video-fluid { width: 100%; height: auto; }
 
 .deprecated, .removed, .info { display: inline-block; padding: 3px; }
@@ -140,7 +176,12 @@ or
 .row:after { clear: both; }
 .row { width: 100%; clear: both; padding: 0; margin: 0; zoom: 1; /* IE6-7 */ }
 
-[class*="col-"] { display: inline-block; float: left; margin: 0.5% 1% 0.5% 1%; padding: 1%;}
+[class*="col-"] { 
+  display: inline-block;
+  float: left;
+  margin: 0.5% 1% 0.5% 1%;
+  padding: 1%;
+}
 
 .col-1-1 { width: 98%; }
 .col-1-2 { width: 48%; }

@@ -59,12 +59,12 @@
 <p><strong>Just a few functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.0.5</p>
-<p>Date: 2018-10-11T19:51:33.982Z</p>
+<p>Latest version: 2.0.6</p>
+<p>Date: 2018-10-25T19:33:45.300Z</p>
 
 <p>The functions are available in the <code>celestra</code> and <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (34020 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (26165 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (36287 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (27885 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -329,14 +329,12 @@
         Set a CSS property value of an element. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string. The value is mandatory and has to be a string.
       </td>
     </tr>
-
     <tr>
       <td><code>domSetCSS(&#60;element&#62;,&#60;properties&#62;);</code></td>
       <td>
         Set CSS property values of an element. The element is mandatory and has to be a HTML element. The properties object is mandatory. The object properties can be the CSS properties and the property values will be applied to the element.
       </td>
     </tr>
-
     <tr>
       <td><code>domFadeIn(&#60;element&#62;[, duration[,display]]);</code></td>
       <td>
@@ -753,6 +751,10 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td>The ParentNode.prepend method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
+      <td><code>Element.prototype.toggleAttribute()</code></td>
+      <td>Toggle a boolean attribute (removing it if it is present and adding it if it is not present) on the specified element. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
       <td><code>Array.prototype.includes()</code></td>
       <td>The includes() method determines whether an array includes a certain element, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes" target="_blank">MDN Article</a>!</td>
     </tr>
@@ -828,6 +830,30 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       </td>
     </tr>
     <tr>
+      <td><code>Element.prototype.closest()</code></td>
+      <td>
+        <p>The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest" target="_blank">MDN Article</a>!</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>Element.prototype.matches()</code></td>
+      <td>
+        <p>The Element.matches() method returns true if the element would be selected by the specified selector string; otherwise, returns false. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches">MDN Article</a>!</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>Element.prototype.getAttributeNames()</code></td>
+      <td>
+        <p>Element.getAttributeNames() returns the attribute names of the element as an Array of strings. If the element has no attributes it returns an empty array. Using getAttributeNames() along with getAttribute(), is a memory efficient and performant alternative to accessing Element.attributes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttributeNames" target="_blank">MDN Article</a>!</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>Object.getOwnPropertyDescriptors()</code></td>
+      <td>
+        <p>The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors" target="_blank">MDN Article</a>!</p>
+      </td>
+    </tr>   
+    <tr>
       <td><code>Number.MIN_SAFE_INTEGER</code></td>
       <td>he Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
     </tr>
@@ -858,6 +884,14 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
     <tr>
       <td><code>Number.isSafeInteger()</code></td>
       <td>The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.parseInt()</code></td>
+      <td>The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseInt" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.parseFloat()</code></td>
+      <td>The Number.parseFloat() method parses a string argument and returns a floating point number. This method behaves identically to the global function parseFloat() and is part of ECMAScript 2015 (its purpose is modularization of globals). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat" target="_blank">MDN Article</a>!</td>
     </tr>
   </table>
 </div>
@@ -1153,8 +1187,23 @@ alert(testArrayFillStr);</pre></td>
     </tr>
     <tr>
       <td><b>getUrlVar()</b></td>
-      <td><button onclick='var params=_.getUrlVar(); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
-      <td><code>var params=_.getUrlVar();<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
+      <td><button onclick='var params = _.getUrlVar(); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
+      <td><code>var params = _.getUrlVar();<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
+    </tr>
+    <tr>
+      <td><b>getUrlVar() not found</b></td>
+      <td><button onclick='alert( _.getUrlVar("foobarbaznotfound") );'>Try</button></td>
+      <td><code>alert( _.getUrlVar("foobarbaznotfound") );</code></td>
+    </tr>
+    <tr>
+      <td><b>getUrlVarFromString() not found</b></td>
+      <td><button onclick='alert( _.getUrlVarFromString("?testa=a1&testb=b2", "foobarbaznotfound") );'>Try</button></td>
+      <td><code>alert( _.getUrlVarFromString("?testa=a1&amp;testb=b2", "foobarbaznotfound") );</code></td>
+    </tr>
+    <tr>
+      <td><b>getUrlVarFromString() not found object</b></td>
+      <td><button onclick='alert( JSON.stringify( _.getUrlVarFromString("?") ) );'>Try</button></td>
+      <td><code>alert( JSON.stringify( _.getUrlVarFromString("?") ) );</code></td>
     </tr>
     <tr>
       <td><b>getUrlVarFromString(querystr,name)</b></td>
@@ -1163,8 +1212,8 @@ alert(testArrayFillStr);</pre></td>
     </tr>
     <tr>
       <td><b>getUrlVarFromString(querystr)</b></td>
-      <td><button onclick='var params=_.getUrlVarFromString("?testa=a1&testb=b2"); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
-      <td><code>var params=_.getUrlVarFromString("?testa=a1&amp;testb=b2");<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
+      <td><button onclick='var params = _.getUrlVarFromString("?testa=a1&testb=b2"); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
+      <td><code>var params = _.getUrlVarFromString("?testa=a1&amp;testb=b2");<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
     </tr>
     <tr>
       <td><b>obj2string(object);</b></td>
@@ -2610,9 +2659,117 @@ alert(padStr);</pre>
         <pre>alert( "ipsum".repeat(1/0) );</pre>
       </td>
     </tr>
+    <tr>
+      <td><b>Element.prototype.toggleAttribute()</b></td>
+      <td colspan="2">     
+        <p><input id="etgi1" value="etgi1"></p>
+        <p><input id="etgi2" value="etgi2"></p>
+        <p><input id="etgi3" value="etgi3"></p>
+        <p><input id="etgi4" value="etgi4 readonly" readonly></p>
+        <p><input id="etgi5" value="etgi5 readonly" readonly></p>
+        <p><input id="etgi6" value="etgi6 readonly" readonly></p>
+        <p><button onclick='var   etgStr = "",  etgi1 = document.querySelector("#etgi1"),  etgi2 = document.querySelector("#etgi2"),  etgi3 = document.querySelector("#etgi3"),  etgi4 = document.querySelector("#etgi4"),  etgi5 = document.querySelector("#etgi5"),  etgi6 = document.querySelector("#etgi6");  etgStr += etgi1.toggleAttribute("readonly"); etgStr += " " + etgi1.hasAttribute("readonly"); etgStr += " " + etgi1.toggleAttribute("readonly"); etgStr += " " + etgi1.hasAttribute("readonly");alert(etgStr);etgStr = etgi2.toggleAttribute("readonly", false); etgStr += " " + etgi2.hasAttribute("readonly", false); etgStr += " " + etgi2.toggleAttribute("readonly", false); etgStr += " " + etgi2.hasAttribute("readonly", false);alert(etgStr);etgStr = etgi3.toggleAttribute("readonly", true); etgStr += " " + etgi3.hasAttribute("readonly", true); etgStr += " " + etgi3.toggleAttribute("readonly", true); etgStr += " " + etgi3.hasAttribute("readonly", true); alert(etgStr);etgStr = etgi4.toggleAttribute("readonly"); etgStr += " " + etgi4.hasAttribute("readonly"); etgStr += " " + etgi4.toggleAttribute("readonly"); etgStr += " " + etgi4.hasAttribute("readonly"); alert(etgStr);etgStr = etgi5.toggleAttribute("readonly", false); etgStr += " " + etgi5.hasAttribute("readonly", false); etgStr += " " + etgi5.toggleAttribute("readonly", false); etgStr += " " + etgi5.hasAttribute("readonly", false); alert(etgStr);etgStr = etgi6.toggleAttribute("readonly", true); etgStr += " " + etgi6.hasAttribute("readonly", true); etgStr += " " + etgi6.toggleAttribute("readonly", true); etgStr += " " + etgi6.hasAttribute("readonly", true);   alert(etgStr);'>Try</button></p>
+        <pre>var 
+  etgStr = "",
+  etgi1 = document.querySelector("#etgi1"),
+  etgi2 = document.querySelector("#etgi2"),
+  etgi3 = document.querySelector("#etgi3"),
+  etgi4 = document.querySelector("#etgi4"),
+  etgi5 = document.querySelector("#etgi5"),
+  etgi6 = document.querySelector("#etgi6");
+  
+etgStr += etgi1.toggleAttribute("readonly"); 
+etgStr += " " + etgi1.hasAttribute("readonly"); 
+etgStr += " " + etgi1.toggleAttribute("readonly"); 
+etgStr += " " + etgi1.hasAttribute("readonly");
+alert(etgStr);
+
+etgStr = etgi2.toggleAttribute("readonly", false); 
+etgStr += " " + etgi2.hasAttribute("readonly", false); 
+etgStr += " " + etgi2.toggleAttribute("readonly", false); 
+etgStr += " " + etgi2.hasAttribute("readonly", false);
+alert(etgStr);
+
+etgStr = etgi3.toggleAttribute("readonly", true); 
+etgStr += " " + etgi3.hasAttribute("readonly", true); 
+etgStr += " " + etgi3.toggleAttribute("readonly", true); 
+etgStr += " " + etgi3.hasAttribute("readonly", true); 
+alert(etgStr);
+
+etgStr = etgi4.toggleAttribute("readonly"); 
+etgStr += " " + etgi4.hasAttribute("readonly"); 
+etgStr += " " + etgi4.toggleAttribute("readonly"); 
+etgStr += " " + etgi4.hasAttribute("readonly"); 
+alert(etgStr);
+
+etgStr = etgi5.toggleAttribute("readonly", false); 
+etgStr += " " + etgi5.hasAttribute("readonly", false); 
+etgStr += " " + etgi5.toggleAttribute("readonly", false); 
+etgStr += " " + etgi5.hasAttribute("readonly", false); 
+alert(etgStr);
+
+etgStr = etgi6.toggleAttribute("readonly", true); 
+etgStr += " " + etgi6.hasAttribute("readonly", true); 
+etgStr += " " + etgi6.toggleAttribute("readonly", true); 
+etgStr += " " + etgi6.hasAttribute("readonly", true);   
+alert(etgStr);</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Number.parseInt() and Number.parseFloat()</b></td>
+      <td colspan="2">
+        <button onclick='alert( parseInt("44.83") + "\n" + Number.parseInt("44.83") + "\n" + parseFloat("44.83") + "\n" + Number.parseFloat("44.83") );'>Try</button>
+        <pre>alert(
+  parseInt("44.83")
+  + "\n" + Number.parseInt("44.83")
+  + "\n" + parseFloat("44.83")
+  + "\n" + Number.parseFloat("44.83")
+);</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Object.getOwnPropertyDescriptors()</b></td>
+      <td colspan="2">
+        <p><button onclick='var objA = {a:1,b:2}; var objB = Object.create(objA); objB.c = 3; objB.d = 4; var objC = Object.create(objB); var objStr = JSON.stringify( Object.getOwnPropertyDescriptors(objA) ); objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objB) ); objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objC) ); alert(objStr);'>Try</button></p>
+        <pre>var objA = {a:1,b:2};
+var objB = Object.create(objA);
+objB.c = 3;
+objB.d = 4;
+var objC = Object.create(objB);
+
+// objA.a 1          own
+// objA.b 2          own
+// objA.c undefined  not own
+// objA.d undefined  not own
+
+// objB.a 1          not own
+// objB.b 2          not own
+// objB.c 3          own
+// objB.d 4          own
+
+// objC.a 1          not own
+// objC.b 2          not own
+// objC.c 3          not own
+// objC.d 4          not own
+
+var objStr = JSON.stringify( Object.getOwnPropertyDescriptors(objA) );
+objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objB) );
+objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objC) );
+alert(objStr);
+
+/*
+objStr: 
+'
+{"a":{"value":1,"writable":true,"enumerable":true,"configurable":true},"b":{"value":2,"writable":true,"enumerable":true,"configurable":true}}
+{"c":{"value":3,"writable":true,"enumerable":true,"configurable":true},"d":{"value":4,"writable":true,"enumerable":true,"configurable":true}}
+{}
+'
+*/</pre>
+      </td>      
+    </tr>
   </table>
 </div>
-    
+
 <h2 id="license">License</h2>
 
 <div>
@@ -2641,6 +2798,14 @@ alert(padStr);</pre>
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.</p>
+</div>
+
+<hr/>
+
+<div class="center">
+  <a title="Fast For Good"rel="nofollow" target="_blank" href="https://www.mozilla.org/firefox/this-browser-comes-highly-recommended/?utm_source=devs-for.firefox.com&utm_medium=referral&utm_campaign=devs-for-firefox&utm_content=Fast-For-Good">
+    <img style="border:0 none;" alt="Fast For Good" srcset="https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good.png, https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good-2x.png 2x" src="https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good.png"/>
+  </a>
 </div>
 
 <hr/>

@@ -1,1 +1,1 @@
-_cut.addTest("getScript() (core api) - first script loaded", true, true );
+_cut.isEqual("getScript() (core api) - first script loaded", true, true );

@@ -14,15 +14,15 @@ __Just a few functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.0.5
+Latest version: 2.0.6
 
-Date: 2018-10-11T19:51:33.982Z
+Date: 2018-10-25T19:33:45.300Z
 
 The functions are available in the `celestra` and `Celestra` and/or `_` object.
 
-Development version: celestra.js (34020 bytes)
+Development version: celestra.js (36287 bytes)
 
-Minimal version: celestra.min.js (26165 bytes)
+Minimal version: celestra.min.js (27885 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -307,6 +307,7 @@ Name | Description
 `ChildNode.replaceWith()` | The ChildNode.replaceWith() method replaces this ChildNode in the children list of its parent with a set of Node or DOMString objects. DOMString objects are inserted as equivalent Text nodes.
 `ParentNode.append()` | The ParentNode.append method inserts a set of Node objects or DOMString objects after the last child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
 `ParentNode.prepend()` | The ParentNode.prepend method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
+`Element.prototype.toggleAttribute()` | Toggle a boolean attribute (removing it if it is present and adding it if it is not present) on the specified element.
 `Array.prototype.includes()` | The includes() method determines whether an array includes a certain element, returning true or false as appropriate.
 `String.prototype.includes()` | The includes() method determines whether one string may be found within another string, returning true or false as appropriate.
 `String.prototype.trimStart()` | The trimStart() method removes whitespace from the beginning of a string.
@@ -324,6 +325,10 @@ Name | Description
 `Object.is()` | The Object.is() method determines whether two values are the same value.
 `Array.prototype.flat()` | __Stage 3 Draft / May 23, 2018 - ES2019 candidate__ - The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
 `Array.prototype.flatMap()` | __Stage 3 Draft / May 23, 2018 - ES2019 candidate__ - A new array with each element being the result of the callback function and flattened to a depth of 1.
+`Element.prototype.closest()` | The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null.
+`Element.prototype.matches()` | The Element.matches() method returns true if the element would be selected by the specified selector string; otherwise, returns false.
+`Element.prototype.getAttributeNames()` | Element.getAttributeNames() returns the attribute names of the element as an Array of strings. If the element has no attributes it returns an empty array. Using getAttributeNames() along with getAttribute(), is a memory efficient and performant alternative to accessing Element.attributes.
+`Object.getOwnPropertyDescriptors()` | The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object.
 `Number.MIN_SAFE_INTEGER` | The Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991)
 `Number.MAX_SAFE_INTEGER` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991)
 `Number.EPSILON` | The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16)
@@ -332,6 +337,8 @@ Name | Description
 `Number.isInteger()` | The Number.isInteger() method determines whether the passed value is an integer. 
 `Number.isFinite()` | The Number.isFinite() method determines whether the passed value is a finite number.
 `Number.isSafeInteger()` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
+`Number.parseInt()` | The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base.
+`Number.parseFloat()` | The Number.parseFloat() method parses a string argument and returns a floating point number. This method behaves identically to the global function parseFloat() and is part of ECMAScript 2015 (its purpose is modularization of globals).
 
 ## Samples
 

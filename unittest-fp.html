@@ -90,49 +90,52 @@
 
 var celTest = {};
 
-celTest.version = "Celestra Unit Tester (CUT) v0.8.4";
+celTest.version = "Celestra Unit Tester (CUT) v0.8.5";
 celTest.__results__ = document.querySelector("#results");
 
 celTest.isNotIE11 = function isNotIE11 () {
   return navigator.userAgent.toLowerCase().indexOf("trident") === -1;
 };
 
-/* addTest("step", true, expr ); */
-/* addTest("step", true, expr, true|false ); */
-celTest.addTest = function addTest (step, expected, expression, strict) {
-  if (strict === undefined) { strict = true; }
-  function append (str) {
-    var p = document.createElement("p");
-    p.innerHTML=str;
-    celTest.__results__.append(p);
-  }
+celTest.isNotEdge = function isNotEdge () {
+  return navigator.userAgent.toLowerCase().indexOf("edge") === -1;
+};
 
+/* __addTest__("step", true, expr ); */
+/* __addTest__("step", true, expr, true|false ); */
+/* only for inner calls and selftest */
+celTest.__addTest__ = function __addTest__ (step, expected, expression, strict) {
+  if (strict === undefined) { strict = true; }
+  var el = document.createElement("p");
   if (strict ? expected === expression : expected == expression) {
-    append("["+Date.now().toString(36)+"] <span class='passed'>[passed]</span> "+step);
+    el.innerHTML = "["+Date.now().toString(36)+"] <span class='passed'>[passed]</span> "+step;
   } else {
-    append("["+Date.now().toString(36)+"] <span class='failed'>[failed]</span> "+step);
+    el.innerHTML = "["+Date.now().toString(36)+"] <span class='failed'>[failed]</span> "+step;
   }
+  celTest.__results__.append(el);
 };
 
 /* isTrue("step", expr ); */
 celTest.isTrue = function isTrue (step, expression) {
-  celTest.addTest(step, true, expression, true);
+  celTest.__addTest__(step, true, expression, true);
 };
 
 /* isFalse("step", expr ); */
 celTest.isFalse = function isFalse (step, expression) {
-  celTest.addTest(step, false, expression, true);
+  celTest.__addTest__(step, false, expression, true);
 };
 
 /* isEqual("step", true, expr ); */
 /* isEqual("step", true, expr, true|false ); */
-celTest.isEqual = celTest.addTest;
+celTest.isEqual = function isEqual (step, expected, expression, strict) {
+  celTest.__addTest__(step, expected, expression, strict);
+};
 
 /* isNotEqual("step", true, expr ); */
 /* isNotEqual("step", true, expr, true|false ); */
 celTest.isNotEqual = function (step, notExpected, expression, strict) {
   if (strict === undefined) { strict = true; }
-  celTest.addTest(
+  celTest.__addTest__(
     step,
     true,
     (strict ? notExpected !== expression : notExpected != expression),
@@ -141,21 +144,20 @@ celTest.isNotEqual = function (step, notExpected, expression, strict) {
 };
 
 /* addElement(<element>); */
-/* addElement(<type>,<innerHTML>); */
+/* addElement(<type>[,innerHTML]); */
 celTest.addElement = function addElement (type, iHtml) {
-  if (_.isElement(type)) {
+  if (typeof type === "object" && type.nodeType === 1) {
     celTest.__results__.append(type);
   } else {
-    var p = document.createElement(type);
-    p.innerHTML=iHtml;
-    celTest.__results__.append(p);
+    var el = document.createElement(type);
+    if (iHtml) { el.innerHTML = iHtml; }
+    celTest.__results__.append(el);
   }
 };
 
 var _cut = celTest;
 
 _cut.addElement("p", celestra.version);
-_cut.addElement("p", _cut.version);
 _cut.addElement("p", (new Date()).toISOString() );
 
 
@@ -175,8 +177,12 @@ function saveResults () {
 
 _cut.addElement("h3", "CUT Selftest");
 
-_cut.addTest( "addTest() passed", true, 1 < 10);
-_cut.addTest( "addTest() failed", false, 1 < 10);
+_cut.addElement("p", _cut.version);
+
+_cut.__addTest__("__addTest__() success", 1, 1);
+_cut.__addTest__("__addTest__() failed", 1, 2);
+_cut.__addTest__("__addTest__() success non-strict", 0, false, false);
+_cut.__addTest__("__addTest__() failed strict", 0, false, true);
 
 _cut.isTrue("isTrue() success", 1 < 10);
 _cut.isTrue("isTrue() failed", 1 > 10);
@@ -193,6 +199,20 @@ _cut.isNotEqual("isNotEqual() success", 1, 2);
 _cut.isNotEqual("isNotEqual() failed", 1, 1);
 _cut.isNotEqual("isNotEqual() success strict", 0, false, true);
 _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
+
+/*
+
+How to make and run a testsuite:
+
+var sampleTestsuite1 = function () {
+  // your testcases
+  _cut.isTrue("isString() true", _.isString("str") );
+  _cut.isFalse("isString() false", _.isString(533) );
+};
+
+sampleTestsuite1();
+
+*/
 
 </script>
 <script src="unittest-fp.js"></script>
