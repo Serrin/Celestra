@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.6
+ * @version 2.0.7
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -132,7 +132,7 @@ if (!String.prototype.endsWith) {
 
 if (!String.prototype.padStart) {
   String.prototype.padStart = function (len, str) {
-    len =  Math.floor(Number(len));
+    len = Math.floor(Number(len));
     if (len <= this.length || len === NaN ) {
       return String(this);
     } else {
@@ -288,9 +288,12 @@ if (!Element.prototype.getAttributeNames) {
   };
 }
 
-if (!NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = function (f) {
-    for (var i = 0, l = this.length; i < l; i++) { f(this[i], i, this); }
+if (window.NodeList && !NodeList.prototype.forEach) {
+  NodeList.prototype.forEach = function (callback, thisArg) {
+    thisArg = thisArg || window;
+    for (var i = 0; i < this.length; i++) {
+      callback.call(thisArg, this[i], i, this);
+    }
   };
 }
 
@@ -368,6 +371,158 @@ if (!Object.getOwnPropertyDescriptors) {
   };
 }
 
+if (!Array.prototype.copyWithin) {
+  Array.prototype.copyWithin = function(target, start) {
+    if (this == null) {
+      throw new TypeError('this is null or not defined');
+    }
+    var O = Object(this);
+    var len = O.length >>> 0;
+    var relativeTarget = target >> 0;
+    var to = relativeTarget < 0 ?
+      Math.max(len + relativeTarget, 0) :
+      Math.min(relativeTarget, len);
+    var relativeStart = start >> 0;
+    var fr = relativeStart < 0 ?
+      Math.max(len + relativeStart, 0) :
+      Math.min(relativeStart, len);
+    var end = arguments[2];
+    var relativeEnd = end === undefined ? len : end >> 0;
+    var final = relativeEnd < 0 ?
+      Math.max(len + relativeEnd, 0) :
+      Math.min(relativeEnd, len);
+    var count = Math.min(final - fr, len - to);
+    var direction = 1;
+    if (fr < to && to < (fr + count)) {
+      direction = -1;
+      fr += count - 1;
+      to += count - 1;
+    }
+    while (count > 0) {
+      if (fr in O) {
+        O[to] = O[fr];
+      } else {
+        delete O[to];
+      }
+      fr += direction;
+      to += direction;
+      count--;
+    }
+    return O;
+  };
+}
+
+/*! https://mths.be/fromcodepoint v0.2.1 by @mathias */
+if (!String.fromCodePoint) {
+  (function() {
+    var defineProperty = (function() {
+      try {
+        var object = {};
+        var $defineProperty = Object.defineProperty;
+        var result = $defineProperty(object, object, object) && $defineProperty;
+      } catch(error) {}
+      return result;
+    }());
+    var stringFromCharCode = String.fromCharCode;
+    var floor = Math.floor;
+    var fromCodePoint = function(_) {
+      var MAX_SIZE = 0x4000;
+      var codeUnits = [];
+      var highSurrogate;
+      var lowSurrogate;
+      var index = -1;
+      var length = arguments.length;
+      if (!length) {
+        return "";
+      }
+      var result = "";
+      while (++index < length) {
+        var codePoint = Number(arguments[index]);
+        if (
+          !isFinite(codePoint) ||
+            codePoint < 0 ||
+            codePoint > 0x10FFFF ||
+            floor(codePoint) != codePoint
+        ) {
+          throw RangeError("Invalid code point: " + codePoint);
+        }
+        if (codePoint <= 0xFFFF) {
+          codeUnits.push(codePoint);
+        } else {
+          codePoint -= 0x10000;
+          highSurrogate = (codePoint >> 10) + 0xD800;
+          lowSurrogate = (codePoint % 0x400) + 0xDC00;
+          codeUnits.push(highSurrogate, lowSurrogate);
+        }
+        if (index + 1 == length || codeUnits.length > MAX_SIZE) {
+          result += stringFromCharCode.apply(null, codeUnits);
+          codeUnits.length = 0;
+        }
+      }
+      return result;
+    };
+    if (defineProperty) {
+      defineProperty(String, "fromCodePoint", {
+        "value": fromCodePoint,
+        "configurable": true,
+        "writable": true
+      });
+    } else {
+      String.fromCodePoint = fromCodePoint;
+    }
+  }());
+}
+
+/*! https://mths.be/codepointat v0.2.0 by @mathias */
+if (!String.prototype.codePointAt) {
+  (function() {
+    'use strict';
+    var defineProperty = (function() {
+      try {
+        var object = {};
+        var $defineProperty = Object.defineProperty;
+        var result = $defineProperty(object, object, object) && $defineProperty;
+      } catch(error) {}
+      return result;
+    }());
+    var codePointAt = function(position) {
+      if (this == null) {
+        throw TypeError();
+      }
+      var string = String(this);
+      var size = string.length;
+      var index = position ? Number(position) : 0;
+      if (index != index) {
+        index = 0;
+      }
+      if (index < 0 || index >= size) {
+        return undefined;
+      }
+      var first = string.charCodeAt(index);
+      var second;
+      if (
+        first >= 0xD800 && first <= 0xDBFF &&
+        size > index + 1
+      ) {
+        second = string.charCodeAt(index + 1);
+        if (second >= 0xDC00 && second <= 0xDFFF) {
+          return (first - 0xD800) * 0x400 + second - 0xDC00 + 0x10000;
+        }
+      }
+      return first;
+    };
+    if (defineProperty) {
+      defineProperty(String.prototype, 'codePointAt', {
+        'value': codePointAt,
+        'configurable': true,
+        'writable': true
+      });
+    } else {
+      String.prototype.codePointAt = codePointAt;
+    }
+  }());
+}
+
 /* Number ES6 */
 
 if (Number.MIN_SAFE_INTEGER === undefined) {
@@ -406,6 +561,100 @@ if (!Number.isSafeInteger) {
 
 if (!Number.parseInt) { Number.parseInt = window.parseInt; }
 if (!Number.parseFloat) { Number.parseFloat = window.parseFloat; }
+
+/* Math ES6 */
+
+Math.acosh = Math.acosh || function(x) {
+  return Math.log(x + Math.sqrt(x * x - 1));
+};
+
+Math.asinh = Math.asinh || function(x) {
+  if (x === -Infinity) {
+    return x;
+  } else {
+    return Math.log(x + Math.sqrt(x * x + 1));
+  }
+};
+
+Math.atanh = Math.atanh || function(x) { return Math.log((1+x)/(1-x)) / 2; };
+
+if (!Math.cbrt) {
+  Math.cbrt = function(x) {
+    var y = Math.pow(Math.abs(x), 1/3);
+    return x < 0 ? -y : y;
+  };
+}
+
+if (!Math.clz32) Math.clz32 = (function(log, LN2){
+  return function(x) {
+    if (x == null || x === 0) {
+      return 32;
+    }
+    return 31 - log(x >>> 0) / LN2 | 0;
+  };
+})(Math.log, Math.LN2);
+
+Math.cosh = Math.cosh || function(x) {
+  var y = Math.exp(x);
+  return (y + 1 / y) / 2;
+};
+
+Math.expm1 = Math.expm1 || function(x) { return Math.exp(x) - 1; };
+
+Math.fround = Math.fround || (function (array) {
+  return function(x) {
+    return array[0] = x, array[0];
+  };
+})(new Float32Array(1));
+
+Math.hypot = function (x, y) {
+  var max = 0;
+  var s = 0;
+  for (var i = 0; i < arguments.length; i += 1) {
+    var arg = Math.abs(Number(arguments[i]));
+    if (arg > max) {
+      s *= (max / arg) * (max / arg);
+      max = arg;
+    }
+    s += arg === 0 && max === 0 ? 0 : (arg / max) * (arg / max);
+  }
+  return max === 1 / 0 ? 1 / 0 : max * Math.sqrt(s);
+};
+
+Math.imul = Math.imul || function(a, b) {
+  var aHi = (a >>> 16) & 0xffff;
+  var aLo = a & 0xffff;
+  var bHi = (b >>> 16) & 0xffff;
+  var bLo = b & 0xffff;
+  return ((aLo * bLo) + (((aHi * bLo + aLo * bHi) << 16) >>> 0) | 0);
+};
+
+Math.log1p = Math.log1p || function(x) { return Math.log(1 + x); };
+
+Math.log10 = Math.log10 || function(x) { return Math.log(x) * Math.LOG10E; };
+
+Math.log2 = Math.log2 || function(x) { return Math.log(x) * Math.LOG2E; };
+
+if (!Math.sign) {
+  Math.sign = function(x) { return ((x > 0) - (x < 0)) || +x; };
+}
+
+Math.sinh = Math.sinh || function(x) {
+  var y = Math.exp(x);
+  return (y - 1 / y) / 2;
+}
+
+Math.tanh = Math.tanh || function(x){
+  var a = Math.exp(+x), b = Math.exp(-x);
+  return a == Infinity ? 1 : b == Infinity ? -1 : (a - b) / (a + b);
+}
+
+if (!Math.trunc) {
+	Math.trunc = function(v) {
+		v = +v;
+		return (v - v % 1) || (!isFinite(v) || v === 0 ? v : v < 0 ? -0 : 0);
+	};
+}
 
 /* core api */
 
@@ -1088,7 +1337,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.0.6";
+celestra.version = "Celestra v2.0.7";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;

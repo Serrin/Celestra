@@ -14,15 +14,15 @@ __Just a few functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.0.6
+Latest version: 2.0.7
 
-Date: 2018-10-25T19:33:45.300Z
+Date: 2018-11-04T19:27:16.120Z
 
 The functions are available in the `celestra` and `Celestra` and/or `_` object.
 
-Development version: celestra.js (36287 bytes)
+Development version: celestra.js (43123 bytes)
 
-Minimal version: celestra.min.js (27885 bytes)
+Minimal version: celestra.min.js (32624 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -329,6 +329,9 @@ Name | Description
 `Element.prototype.matches()` | The Element.matches() method returns true if the element would be selected by the specified selector string; otherwise, returns false.
 `Element.prototype.getAttributeNames()` | Element.getAttributeNames() returns the attribute names of the element as an Array of strings. If the element has no attributes it returns an empty array. Using getAttributeNames() along with getAttribute(), is a memory efficient and performant alternative to accessing Element.attributes.
 `Object.getOwnPropertyDescriptors()` | The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object.
+`Array.prototype.copyWithin()` | The copyWithin() method shallow copies part of an array to another location in the same array and returns it, without modifying its size.
+`String.fromCodePoint()` | The static String.fromCodePoint() method returns a string created by using the specified sequence of code points.
+`String.prototype.codePointAt()` | The codePointAt() method returns a non-negative integer that is the Unicode code point value.
 `Number.MIN_SAFE_INTEGER` | The Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991)
 `Number.MAX_SAFE_INTEGER` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991)
 `Number.EPSILON` | The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16)
@@ -339,6 +342,7 @@ Name | Description
 `Number.isSafeInteger()` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
 `Number.parseInt()` | The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base.
 `Number.parseFloat()` | The Number.parseFloat() method parses a string argument and returns a floating point number. This method behaves identically to the global function parseFloat() and is part of ECMAScript 2015 (its purpose is modularization of globals).
+`Math ES6` | `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();` - [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
 
 ## Samples
 

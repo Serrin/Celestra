@@ -613,6 +613,37 @@ _cut.isEqual("getCookie() undefined", undefined, _.getCookie()["ctest3"] );
 /* polyfills */
 _cut.addElement("h3", "polyfills");
 
+_cut.isEqual(
+  "String.fromCodePoint()",
+  "*"+"AZ"+"Є",
+  String.fromCodePoint(42)
+  + String.fromCodePoint(65, 90)
+  + String.fromCodePoint(0x404)
+);
+
+_cut.isEqual(
+  "String.fromCodePointAt()",
+  "66"+"65536"+"undefined",
+  ""
+  + "ABC".codePointAt(1)
+  + "\uD800\uDC00".codePointAt(0)
+  + "XYZ".codePointAt(42)
+);
+
+_cut.isEqual(
+  "Array.prototype.copyWithin()",
+  "[1,2,3,1,2]"
+  +"[4,5,3,4,5]"
+  +"[4,2,3,4,5]"
+  +"[1,2,3,3,4]"
+  +"{\"0\":1,\"3\":1,\"length\":5}",
+  JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2))
+  +JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3))
+  +JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3, 4))
+  +JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2, -3, -1))
+  +JSON.stringify([].copyWithin.call({length: 5, 3: 1}, 0, 3))
+);
+
 var objA = {a:1,b:2};
 var objB = Object.create(objA);
 objB.c = 3;
@@ -1080,6 +1111,40 @@ _cut.isEqual("Number.isSafeInteger()",
     +"  "+Number.isSafeInteger(NaN)
     +"  "+Number.isSafeInteger("The life")
     +"  "+Number.isSafeInteger(true)
+);
+
+
+/* Math ES6 */
+_cut.addElement("h3", "Math ES6")
+
+_cut.isEqual("Math.acosh()", 0, Math.acosh(1));
+_cut.isEqual("Math.asinh()", 0, Math.asinh(0));
+_cut.isEqual("Math.atanh()", Infinity, Math.atanh(1));
+_cut.isEqual("Math.cbrt()", 1, Math.cbrt(1));
+_cut.isEqual("Math.clz32()", 26, Math.clz32(32));
+_cut.isEqual("Math.cosh()", 1, Math.cosh(0));
+_cut.isTrue("Math.expm1()", Math.expm1(1) > 1.7);
+_cut.isFalse("Math.fround()", Math.fround(1.337) === 1.337);
+_cut.isTrue("Math.hypot()", Math.hypot(3, 4, 5) > 7);
+_cut.isEqual("Math.imul()", -10, Math.imul(0xfffffffe, 5));
+_cut.isTrue("Math.log1p()", Math.log1p(1) < 7);
+_cut.isEqual("Math.log10()", 5, Math.log10(100000));
+_cut.isEqual("Math.log2()", 1, Math.log2(2));
+_cut.isEqual("Math.sign()", -1, Math.sign(-3));
+_cut.isTrue("Math.sinh()", Math.sinh(2) > 3.6);
+_cut.isEqual("Math.tanh()", 1, Math.tanh(Infinity));
+
+_cut.isEqual(
+  "Math.trunc()",
+  "3"+"-3"+"4"+"-4"+"NaN"+"1"+"0",
+  ""
+  +Math.trunc(3.5)
+  +Math.trunc(-3.5)
+  +Math.trunc("4.8")
+  +Math.trunc("-4.8")
+  +Math.trunc("fff")
+  +Math.trunc(true)
+  +Math.trunc(false)
 );
 
 
