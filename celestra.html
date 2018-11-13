@@ -59,25 +59,25 @@
 <p><strong>Just a few functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.0.7</p>
-<p>Date: 2018-11-04T19:27:16.120Z</p>
+<p>Latest version: 2.0.8</p>
+<p>Date: 2018-11-12T19:18:11.788Z</p>
 
 <p>The functions are available in the <code>celestra</code> and <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43123 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32624 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43682 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33081 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
 <h3>Object name changes</h3>
 
 <p>The name of the object changed from <code>Celestra</code> to <code>celestra</code> in v2.0.2.</p>
-<p>For compatiblity reasons, the old alias (<code>Celestra</code>) remains until <b>Celestra v3.0</b>.</p>
+<p>For compatiblity reasons, the old alias (<code>Celestra</code>) remains until <b>Celestra v2.1.0</b>.</p>
 <p>This change affects the CommonJS and AMD module systems as well.</p>
 
 <h3>Functional programming (FP) variant</h3>
 
 <p>This variant has been removed in v2.0.0.</p>
-<p>With the <code>celToWindow();</code> function the functions are available in the global namespace (<code>window</code>).</p>
+<p>With the function <code>celToWindow();</code> (<span class="deprecated">DEPRECATED in v2.0.8</span> and remains until <b>Celestra v2.1.0</b>) the functions are available in the global namespace (<code>window</code>).</p>
 <p>Celestra FP testpage: <a href="celestra-fp.html" target="_blank">celestra-fp.html</a></p>
 
 <h3>Cheatsheets</h3>
@@ -125,7 +125,8 @@
     <tr>
       <td><code>celestra.celToWindow();</code></td>
       <td>
-        Make the functions available in the global namespace (<code>window</code>), except these: <code>version;</code>, <code>noConflict();</code>, <code>celToWindow();</code>
+        <p><span class="deprecated">DEPRECATED in v2.0.8</span></p>
+        <p>Make the functions available in the global namespace (<code>window</code>), except these: <code>version;</code>, <code>noConflict();</code>, <code>celToWindow();</code></p>
       </td>
     </tr>
     <tr>
@@ -280,7 +281,9 @@
     <tr>
       <td><code>fromEntries(&#60;entries&#62;);</code></td>
       <td>
-        <p>The Object.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object.</p>
+        <p><span class="deprecated">DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!</span></p>
+        <p><b>Will be removed in v2.1.0</b></p>
+        <p>The celestra.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object.</p>
         <p><span class="info">In IE11 doesn't work with the Map type.</span></p>
       </td>
     </tr>
@@ -816,6 +819,15 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td>The Object.is() method determines whether two values are the same value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
+      <td><code>Object.fromEntries()</code></td>
+      <td>
+        <p>The Object.fromEntries() method transforms a list of key-value pairs into an object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries" target="_blank">MDN Article</a>!</p>
+        <p>Stage 3 proposal - <a href="https://tc39.github.io/proposal-object-from-entries/#sec-object.fromentries" target="_blank">https://tc39.github.io/proposal-object-from-entries/#sec-object.fromentries</a></p>
+        <p><span class="info">Celestra Object.fromEntries() polyfill supports only Array and Map parameters in the modern browsers.</span></p>
+        <p><span class="info">In IE11 only the Array parameter is supported.</span></p>
+      </td>
+    </tr>
+    <tr>
       <td><code>Array.prototype.flat()</code></td>
       <td>
         <p><span class="info">Stage 3 Draft / May 23, 2018 - ES2019 candidate</span></p>
@@ -960,7 +972,7 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
     <tr>
       <td><b>_.celToWindow();</b></td>
       <td><button onclick='_.celToWindow();'>Try</button></td>
-      <td><code>_.celToWindow();</code></td>
+      <td><span class="deprecated">DEPRECATED in v2.0.8</span> <code>_.celToWindow();</code></td>
     </tr>
     <tr>
       <td><b></b></td>
@@ -2411,6 +2423,7 @@ alert(flatMapStr);</pre>
     <tr>
       <td><b>fromEntries();</b></td>
       <td colspan="2">
+        <p><span class="deprecated">DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!</span></p>
         <script>function fromEntriesClick1(){var fromEntriesStr = "";fromEntriesStr += "{} - " + JSON.stringify(_.fromEntries( document.querySelectorAll("p")));fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(_.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(_.fromEntries(Object.entries({"a":1,"b":2,"c":3})));fromEntriesStr += "\n" + '{"foo":"lorem ipsum","bar":42,"baz":true} - ' + JSON.stringify(_.fromEntries({0: ["foo","lorem ipsum"], 1: ["bar", 42], 2: ["baz", true], length: 3}));fromEntriesStr += "\n" + '{"f":"o","b":"a"} - ' + JSON.stringify(_.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 }));alert(fromEntriesStr);}</script>
         <p><button onclick="fromEntriesClick1();">try</button></p>
         <pre>var fromEntriesStr = "";
@@ -2833,6 +2846,25 @@ res_str += "\n" + "\uD800\uDC00".codePointAt(0);  // 65536
 res_str += "\n" + "XYZ".codePointAt(42);          // undefined
 alert(res_str);</pre>
       </td>      
+    </tr>
+    <tr>
+      <td><b>Object.fromEntries();</b></td>
+      <td colspan="2">
+        <script>function testEntries1 () {var fromEntriesStr = "";
+fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(Object.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));
+fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(Object.fromEntries(Object.entries({"a":1,"b":2,"c":3})));
+alert(fromEntriesStr); } </script>
+        <p><button onclick="testEntries1();">try</button></p>
+        <pre>var fromEntriesStr = "";
+fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(Object.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));
+fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(Object.fromEntries(Object.entries({"a":1,"b":2,"c":3})));
+alert(fromEntriesStr);</pre>
+        <script>function fromEntriesClick2(){alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(Object.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );}</script>
+        <p><button onclick="fromEntriesClick2();">try Map</button> - Doesn't work in IE11.</p>
+        <pre>alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(Object.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );</pre>
+        <p><button onclick='alert( JSON.stringify(Object.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 })) );'>try error</button> - Error message is shown in the browser console.</p>
+        <pre>alert( JSON.stringify(Object.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 })) );</pre>
+      </td>
     </tr>
   </table>
 </div>

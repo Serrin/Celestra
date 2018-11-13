@@ -14,15 +14,15 @@ __Just a few functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.0.7
+Latest version: 2.0.8
 
-Date: 2018-11-04T19:27:16.120Z
+Date: 2018-11-12T19:18:11.788Z
 
 The functions are available in the `celestra` and `Celestra` and/or `_` object.
 
-Development version: celestra.js (43123 bytes)
+Development version: celestra.js (43682 bytes)
 
-Minimal version: celestra.min.js (32624 bytes)
+Minimal version: celestra.min.js (33081 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -33,7 +33,7 @@ If the `_` global variable is used before the loading of the library, then the v
 
 The name of the object changed from `Celestra` to `celestra` in v2.0.2.
 
-For compatibility reasons, the old alias (`Celestra`) remains until __Celestra v3.0__.
+For compatibility reasons, the old alias (`Celestra`) remains until __Celestra v2.1.0__.
 
 This change affects the CommonJS and AMD module systems as well.
 
@@ -42,7 +42,7 @@ This change affects the CommonJS and AMD module systems as well.
 
 This variant has been removed in v2.0.0.
 
-With the `celToWindow();` function the functions are available in the global namespace (`window`).
+With the function `celToWindow();` (__DEPRECATED in v2.0.8__ and remains until __Celestra v2.1.0__) the functions are available in the global namespace (`window`).
 
 Celestra FP testpage: celestra-fp.html
 
@@ -92,7 +92,7 @@ Name | Description
 ---- | -----------
 `celestra.version;` | The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`
-`celestra.celToWindow();` | Make the functions available in the global namespace (`window`), except these: `version;`, `noConflict();`, `celToWindow();`
+`celestra.celToWindow();` | __DEPRECATED in v2.0.8__ Make the functions available in the global namespace (`window`), except these: `version;`, `noConflict();`, `celToWindow();`
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
 `qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements.
 `qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
@@ -126,7 +126,7 @@ Name | Description
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
-`fromEntries(<entries>);` | The Object.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object. __In IE11 doesn't work with the Map type. __
+`fromEntries(<entries>);` | __DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!__ __Will be removed in v2.1.0__ The celestra.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object. __In IE11 doesn't work with the Map type.__
 
 ### DOM functions
 
@@ -323,6 +323,7 @@ Name | Description
 `Object.values()` | The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
 `Object.entries()` | The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
 `Object.is()` | The Object.is() method determines whether two values are the same value.
+`Object.fromEntries()` | The Object.fromEntries() method transforms a list of key-value pairs into an object. __Stage 3 proposal - https://tc39.github.io/proposal-object-from-entries/#sec-object.fromentries__ __Celestra Object.fromEntries() polyfill supports only Array and Map parameters in the modern browsers.__ __In IE11 only the Array parameter is supported.__
 `Array.prototype.flat()` | __Stage 3 Draft / May 23, 2018 - ES2019 candidate__ - The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
 `Array.prototype.flatMap()` | __Stage 3 Draft / May 23, 2018 - ES2019 candidate__ - A new array with each element being the result of the callback function and flattened to a depth of 1.
 `Element.prototype.closest()` | The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null.

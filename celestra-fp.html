@@ -1527,6 +1527,7 @@ alert(flatMapStr);</pre>
     <tr>
       <td><b>fromEntries();</b></td>
       <td colspan="2">
+        <p><span class="deprecated">DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!</span></p>
         <script>function fromEntriesClick1(){var fromEntriesStr = "";fromEntriesStr += "{} - " + JSON.stringify(fromEntries( document.querySelectorAll("p")));fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(fromEntries(Object.entries({"a":1,"b":2,"c":3})));fromEntriesStr += "\n" + '{"foo":"lorem ipsum","bar":42,"baz":true} - ' + JSON.stringify(fromEntries({0: ["foo","lorem ipsum"], 1: ["bar", 42], 2: ["baz", true], length: 3}));fromEntriesStr += "\n" + '{"f":"o","b":"a"} - ' + JSON.stringify(fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 }));alert(fromEntriesStr);}</script>
         <p><button onclick="fromEntriesClick1();">try</button></p>
         <pre>var fromEntriesStr = "";
@@ -1949,6 +1950,59 @@ res_str += "\n" + "\uD800\uDC00".codePointAt(0);  // 65536
 res_str += "\n" + "XYZ".codePointAt(42);          // undefined
 alert(res_str);</pre>
       </td>      
+    </tr>    <tr>
+      <td><b>String.fromCodePoint() and String.prototype.codePointAt()</b></td>
+      <td colspan="2">
+        <p><button onclick='var res_str = String.fromCodePoint(42); res_str += "\n" + String.fromCodePoint(65, 90); res_str += "\n" + String.fromCodePoint(0x404); res_str += "\n" + "ABC".codePointAt(1); res_str += "\n" + "\uD800\uDC00".codePointAt(0); res_str += "\n" + "XYZ".codePointAt(42); alert(res_str);'>Try</button></p>
+        <pre>var res_str = String.fromCodePoint(42);           // "*"
+res_str += "\n" + String.fromCodePoint(65, 90);   // "AZ"
+res_str += "\n" + String.fromCodePoint(0x404);    // "\u0404", euro
+res_str += "\n" + "ABC".codePointAt(1);           // 66
+res_str += "\n" + "\uD800\uDC00".codePointAt(0);  // 65536
+res_str += "\n" + "XYZ".codePointAt(42);          // undefined
+alert(res_str);</pre>
+      </td>      
+    </tr>    <tr>
+      <td><b>Object.fromEntries();</b></td>
+      <td colspan="2">
+        <script>function testEntries1 () {var fromEntriesStr = "";
+fromEntriesStr += "{} - " + JSON.stringify(Object.fromEntries( document.querySelectorAll("p")));
+fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(Object.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));
+fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(Object.fromEntries(Object.entries({"a":1,"b":2,"c":3})));
+alert(fromEntriesStr); } </script>
+        <p><button onclick="testEntries1();">try</button></p>
+        <pre>var fromEntriesStr = "";
+fromEntriesStr += "{} - " + JSON.stringify(Object.fromEntries( document.querySelectorAll("p")));
+fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(Object.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));
+fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(Object.fromEntries(Object.entries({"a":1,"b":2,"c":3})));
+alert(fromEntriesStr);</pre>
+
+        <script>function fromEntriesClick2(){alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(Object.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );}</script>
+        <p><button onclick="fromEntriesClick2();">try Map</button> - Doesn't work in IE11.</p>
+        <pre>alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(Object.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );</pre>
+
+        <p><button onclick='alert( JSON.stringify(Object.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 })) );'>try error</button> - Doesn't work in IE11.</p>
+        <pre>alert( JSON.stringify(Object.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 })) );</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Object.fromEntries();</b></td>
+      <td colspan="2">
+        <script>function testEntries1 () {var fromEntriesStr = "";
+fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(Object.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));
+fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(Object.fromEntries(Object.entries({"a":1,"b":2,"c":3})));
+alert(fromEntriesStr); } </script>
+        <p><button onclick="testEntries1();">try</button></p>
+        <pre>var fromEntriesStr = "";
+fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(Object.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));
+fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(Object.fromEntries(Object.entries({"a":1,"b":2,"c":3})));
+alert(fromEntriesStr);</pre>
+        <script>function fromEntriesClick2(){alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(Object.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );}</script>
+        <p><button onclick="fromEntriesClick2();">try Map</button> - Doesn't work in IE11.</p>
+        <pre>alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(Object.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );</pre>
+        <p><button onclick='alert( JSON.stringify(Object.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 })) );'>try error</button> - Error message is shown in the browser console.</p>
+        <pre>alert( JSON.stringify(Object.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 })) );</pre>
+      </td>
     </tr>
   </table>
 </div>

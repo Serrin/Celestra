@@ -443,6 +443,8 @@ _cut.isEqual(
 /* celestra.fromEntries() */
 _cut.addElement("h4", "fromEntries()");
 
+_cut.addElement("p", '<span class="deprecated">DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!</span>');
+
 var qsaList = document.querySelectorAll("p");
 _cut.isEqual("fromEntries() step 1 nodelist","{}", JSON.stringify(fromEntries(qsaList)));
 _cut.addElement("p", JSON.stringify(fromEntries(qsaList)) );
@@ -980,6 +982,29 @@ _cut.isEqual("ChildNode.replaceWith() element", null, qs("#testNodeP2") );
 
 testDivNode.remove();
 _cut.isEqual("ChildNode.remove()", null, qs("#testDivNode") );
+
+
+/* Object.fromEntries() */
+_cut.addElement("h4", "Object.fromEntries()");
+
+var arr = [ ["0", "a"], ["1", "b"], ["2", "c"] ];
+_cut.isEqual("Object.fromEntries() step 1 array",'{"0":"a","1":"b","2":"c"}', JSON.stringify(_.fromEntries(arr)));
+_cut.addElement("p", JSON.stringify(Object.fromEntries(arr)) );
+
+var obj = {"a":1,"b":2,"c":3}; 
+_cut.isEqual("Object.fromEntries() step 2 Object.entries",'{"a":1,"b":2,"c":3}', JSON.stringify(_.fromEntries(Object.entries(obj))));
+_cut.addElement("p", JSON.stringify(Object.fromEntries(Object.entries(obj))) );
+
+if (_cut.isNotIE11()) {
+  var fromEntriesMap = new Map([ ["foo", "bar"], ["baz", 42] ]);
+  /*
+  var map = new Map();
+  map.set("foo", "bar");
+  map.set("baz", 42);
+  */
+  _cut.isEqual("Object.fromEntries() step 3 Map - doesn't work in IE11",'{"foo":"bar","baz":42}', JSON.stringify(_.fromEntries(fromEntriesMap)));
+  _cut.addElement("p", JSON.stringify(Object.fromEntries(fromEntriesMap)) );
+}
 
 
 /* Array.prototype.flat() */

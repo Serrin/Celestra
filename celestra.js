@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.7
+ * @version 2.0.8
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -330,6 +330,20 @@ if (!Array.prototype.flatMap) {
         res.push(e);
       }
     });
+    return res;
+  };
+}
+
+if (!Object.fromEntries) {
+  Object.fromEntries = function (entries) {
+    var res = {};
+    if (Array.isArray(entries)) {
+      entries.forEach(function (e) { res[e[0]] = e[1]; });
+    } else if (Object.prototype.toString.call(entries) === "[object Map]") {
+      entries.forEach(function (value, key) { res[key] = value; });
+    } else {
+      throw "TypeError: Celestra Object.fromEntries() polyfill supports only Array and Map parameters in the modern browsers. In IE11 only the Array parameter is supported.";
+    }
     return res;
   };
 }
@@ -1337,7 +1351,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.0.7";
+celestra.version = "Celestra v2.0.8";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
