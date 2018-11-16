@@ -89,7 +89,7 @@
 
 var celTest = {};
 
-celTest.version = "Celestra Unit Tester (CUT) v0.8.5";
+celTest.version = "Celestra Unit Tester (CUT) v0.8.6";
 celTest.__results__ = document.querySelector("#results");
 
 celTest.isNotIE11 = function isNotIE11 () {
@@ -156,16 +156,37 @@ celTest.addElement = function addElement (type, iHtml) {
 
 var _cut = celTest;
 
+
 _cut.addElement("p", celestra.version);
 _cut.addElement("p", (new Date()).toISOString() );
 
+_cut.addElement( 
+  "table",
+  "<tr><td>navigator.appName: </td><td><code>"+navigator.appName+"</code></td></tr>"
+    + "<tr><td>navigator.appCodeName: </td><td><code>"+navigator.appCodeName+"</code></td></tr>"
+    + "<tr><td>navigator.product: </td><td><code>"+navigator.product+"</code></td></tr>"
+    + "<tr><td>navigator.appVersion: </td><td><code>"+navigator.appVersion+"</code></td></tr>"
+    + "<tr><td>navigator.userAgent: </td><td><code>"+navigator.userAgent+"</code></td></tr>"
+    + "<tr><td>navigator.platform: </td><td><code>"+navigator.platform+"</code></td></tr>"
+    + "<tr><td>navigator.language: </td><td><code>"+navigator.language+"</code></td></tr>"
+    + "<tr><td>navigator.cookieEnabled: </td><td><code>"+navigator.cookieEnabled+"</code></td></tr>"
+    + "<tr><td>navigator.javaEnabled(): </td><td><code>"+navigator.javaEnabled()+"</code></td></tr>"
+    + "<tr><td>window.innerWidth: </td><td><code>"+window.innerWidth+"</code></td></tr>"
+    + "<tr><td>window.innerHeight: </td><td><code>"+window.innerHeight+"</code></td></tr>"
+    + "<tr><td>screen.width: </td><td><code>"+screen.width+"</code></td></tr>"
+    + "<tr><td>screen.height: </td><td><code>"+screen.height+"</code></td></tr>"
+    + "<tr><td>screen.availWidth: </td><td><code>"+screen.availWidth+"</code></td></tr>"
+    + "<tr><td>screen.availHeight: </td><td><code>"+screen.availHeight+"</code></td></tr>"
+    + "<tr><td>screen.colorDepth: </td><td><code>"+screen.colorDepth+"</code></td></tr>"
+    + "<tr><td>screen.pixelDepth: </td><td><code>"+screen.pixelDepth+"</code></td></tr>"
+);
 
 function saveResults () {
   var dn = Date.now().toString(36);
   _.createFile(
     "results-"+dn+".html",
     "<!DOCTYPE html><meta charset=\"utf-8\"><title>Results "+dn+"</title>"
-      +"<style>html { -ms-word-break: break-all; word-break: break-all; word-break: break-word; word-wrap: break-word; overflow-wrap: break-word; } body { margin: 0 auto; max-width: 1200px; font-family: Helvetica, Arial, sans-serif; } h1 { text-align : center; } .passed, .failed { display: inline-block; padding: 3px; }.passed { background-color: #3d9970 !important; color: white !important; }.failed { background-color: #ff4136 !important; color: white !important; } #results { padding: 3px 5px 3px 5px; font-size: 14.5px !important; font-family: consolas, monospace; } </style>"
+      +"<style>html { -ms-word-break: break-all; word-break: break-all; word-break: break-word; word-wrap: break-word; overflow-wrap: break-word; } body { margin: 0 auto; max-width: 1200px; font-family: Helvetica, Arial, sans-serif; } h1 { text-align : center; } .passed, .failed { display: inline-block; padding: 3px; }.passed { background-color: #3d9970 !important; color: white !important; }.failed { background-color: #ff4136 !important; color: white !important; } #results { padding: 3px 5px 3px 5px; font-size: 14.5px !important; font-family: consolas, monospace; } code { background-color: slategrey; color: white; padding: 3px 5px 3px 5px; display: inline-block; margin-top: 2px; } </style>"
       +"<h1>Results "+dn+"</h1>"
       +"<div id='results'>"+celTest.__results__.innerHTML+"</div>",
     "text/html"

@@ -23,7 +23,6 @@ _cut.addElement(
   +"<li>domFadeOut(&#60;element&#62;[,duration]);</li>"
   +"<li>domFadeToggle(&#60;element&#62;[,duration[,display]]);</li>"
   +"<li>noConflict();</li>"
-  +"<li>celToWindow();</li>"
 );
 
 
@@ -31,7 +30,6 @@ _cut.addElement(
 _cut.addElement("h3", "object names");
 
 _cut.isEqual("Object name: \"celestra\"", true, celestra.random(100,200)>99 );
-_cut.isEqual("Object name: \"Celestra\"", true, Celestra.random(100,200)>99 );
 _cut.isEqual("Object name: \"_\"", true, _.random(100,200)>99 );
 
 
@@ -46,7 +44,6 @@ setFullscreenOn(<selector> or <element>);
 setFullscreenOff();
 createFile(<filename>,<content>[,dType]);
 noConflict();
-celToWindow();
 */
 _cut.addElement("h3", "core api");
 
@@ -439,61 +436,6 @@ _cut.isEqual(
 );
 
 _cut.isEqual("version", true, _.version.includes("Celestra v") );
-
-/* celestra.fromEntries() */
-_cut.addElement("h4", "_.fromEntries()");
-
-_cut.addElement("p", '<span class="deprecated">DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!</span>');
-
-var qsaList = document.querySelectorAll("p");
-_cut.isEqual("_.fromEntries() step 1 nodelist","{}", JSON.stringify(_.fromEntries(qsaList)));
-_cut.addElement("p", JSON.stringify(_.fromEntries(qsaList)) );
-
-var arr = [ ["0", "a"], ["1", "b"], ["2", "c"] ];
-_cut.isEqual("_.fromEntries() step 2 array",'{"0":"a","1":"b","2":"c"}', JSON.stringify(_.fromEntries(arr)));
-_cut.addElement("p", JSON.stringify(_.fromEntries(arr)) );
-
-var obj = {"a":1,"b":2,"c":3}; 
-_cut.isEqual("_.fromEntries() step 3 Object.entries",'{"a":1,"b":2,"c":3}', JSON.stringify(_.fromEntries(Object.entries(obj))));
-_cut.addElement("p", JSON.stringify(_.fromEntries(Object.entries(obj))) );
-
-var mapList = {0: ["foo","lorem ipsum"], 1: ["bar", 42], 2: ["baz", true], length: 3};
-_cut.isEqual("_.fromEntries() step 4 map like object",'{"foo":"lorem ipsum","bar":42,"baz":true}', JSON.stringify(_.fromEntries(mapList)));
-_cut.addElement("p", JSON.stringify(_.fromEntries(mapList)) );
-
-mapList = { 0: "foo", 1: "bar", 2: true, length: 3 };
-_cut.isEqual("_.fromEntries() step 5 array like object with string - string elements as arrayLike",'{"f":"o","b":"a"}', JSON.stringify(_.fromEntries(mapList)));
-_cut.addElement("p", JSON.stringify(_.fromEntries(mapList)) );
-
-if (_cut.isNotIE11()) {
-  var fromEntriesMap = new Map([ ["foo", "bar"], ["baz", 42] ]);
-  /*
-  var map = new Map();
-  map.set("foo", "bar");
-  map.set("baz", 42);
-  */
-  _cut.isEqual("_.fromEntries() step 6 Map - doesn't work in IE11",'{"foo":"bar","baz":42}', JSON.stringify(_.fromEntries(fromEntriesMap)));
-  _cut.addElement("p", JSON.stringify(_.fromEntries(fromEntriesMap)) );
-}
-
-/*
-_cut.addElement("p", "<b>step 6a (string) + 6b (number) + 6c (boolean)</b>: These have to be not present in the results. These have to throw an error. You can check the first error message in the console.")
-
-var entriesStr2 = "lorem ipsum";
-_cut.isEqual("_.fromEntries() step 7a string - you should not see this","x", JSON.stringify(_.fromEntries(entriesStr2)));
-_cut.addElement("p", JSON.stringify(_.fromEntries(entriesStr2)) );
-//  Error: TypeError: iterable for Celestra.fromEntries should have array-like objects - "lorem ipsum"
-
-_cut.isEqual("_.fromEntries() step 7b number - you should not see this","x", JSON.stringify(_.fromEntries(3.14)));
-_cut.addElement("p", JSON.stringify(_.fromEntries(3.14)) );
-// TypeError: iterable for Celestra.fromEntries should have array-like objects - 3.14
-
-_cut.isEqual("_.fromEntries() step 7c boolean - you should not see this","x", JSON.stringify(_.fromEntries(true)));
-_cut.addElement("p", JSON.stringify(_.fromEntries(true)) );
-// Error: TypeError: iterable for Celestra.fromEntries should have array-like objects - true
-*/
-/* / celestra.fromEntries() */
-
 
 /* DOM */
 /*
@@ -987,11 +929,11 @@ _cut.isEqual("ChildNode.remove()", null, _.qs("#testDivNode") );
 _cut.addElement("h4", "Object.fromEntries()");
 
 var arr = [ ["0", "a"], ["1", "b"], ["2", "c"] ];
-_cut.isEqual("Object.fromEntries() step 1 array",'{"0":"a","1":"b","2":"c"}', JSON.stringify(_.fromEntries(arr)));
+_cut.isEqual("Object.fromEntries() step 1 array",'{"0":"a","1":"b","2":"c"}', JSON.stringify(Object.fromEntries(arr)));
 _cut.addElement("p", JSON.stringify(Object.fromEntries(arr)) );
 
 var obj = {"a":1,"b":2,"c":3}; 
-_cut.isEqual("Object.fromEntries() step 2 Object.entries",'{"a":1,"b":2,"c":3}', JSON.stringify(_.fromEntries(Object.entries(obj))));
+_cut.isEqual("Object.fromEntries() step 2 Object.entries",'{"a":1,"b":2,"c":3}', JSON.stringify(Object.fromEntries(Object.entries(obj))));
 _cut.addElement("p", JSON.stringify(Object.fromEntries(Object.entries(obj))) );
 
 if (_cut.isNotIE11()) {
@@ -1001,7 +943,7 @@ if (_cut.isNotIE11()) {
   map.set("foo", "bar");
   map.set("baz", 42);
   */
-  _cut.isEqual("Object.fromEntries() step 3 Map - doesn't work in IE11",'{"foo":"bar","baz":42}', JSON.stringify(_.fromEntries(fromEntriesMap)));
+  _cut.isEqual("Object.fromEntries() step 3 Map - doesn't work in IE11",'{"foo":"bar","baz":42}', JSON.stringify(Object.fromEntries(fromEntriesMap)));
   _cut.addElement("p", JSON.stringify(Object.fromEntries(fromEntriesMap)) );
 }
 

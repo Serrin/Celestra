@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.0.8
+ * @version 2.1.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -1004,25 +1004,6 @@ function createFile (fln, c, dt) {
   }
 }
 
-function fromEntries (es) {
-  var res = {};
-  if (Array.isArray(es)) {
-    es.forEach(function (e) { res[e[0]] = e[1]; });
-  } else if (Object.prototype.toString.call(es) === "[object Map]") {
-    es.forEach(function (value, key) { res[key] = value; });
-  } else if (typeof es === "object"
-      && typeof es.length === "number"
-      && es.length >= 0
-      && es.length % 1 === 0) {
-    for (var i = 0, l = es.length; i<l; i++) {
-      res[es[i][0]] = es[i][1];
-    }
-  } else {
-    throw "TypeError: iterable for celestra.fromEntries have to be array-like objects - "+JSON.stringify(es);
-  }
-  return res;
-}
-
 /* FP */
 
 function toFunction (fn) { return Function.prototype.call.bind(fn); }
@@ -1351,20 +1332,11 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.0.8";
+celestra.version = "Celestra v2.1.0";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
   return celestra;
-};
-
-celestra.celToWindow = function () {
-  var filter = ["version", "noConflict", "__prevUnderscore__", "celToWindow"];
-  for (var p in celestra) {
-    if (celestra.hasOwnProperty(p) && filter.indexOf(p) === -1 ) {
-      window[p] = celestra[p];
-    }
-  }
 };
 
 /* object content */
@@ -1401,7 +1373,6 @@ celestra.identity = identity;
 celestra.noop = noop;
 celestra.removeTags = removeTags;
 celestra.createFile = createFile;
-celestra.fromEntries = fromEntries;
 /* FP */
 celestra.toFunction = toFunction;
 celestra.bind = bind;
@@ -1478,7 +1449,6 @@ if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
 /* global scope */
 if (typeof window !== "undefined") {
   window.celestra = celestra;
-  window.Celestra = celestra;
   celestra.__prevUnderscore__ = window._;
   window._ = celestra;
 }

@@ -29,7 +29,7 @@
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).</p>
 
-<p>Latest version: 2.0.8</p>
+<p>Latest version: 2.1.0</p>
 
 <p>Download: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
@@ -39,10 +39,10 @@
 
 /**
  * @name Celestra demo plugin
- * @version 2.0.8
+ * @version 2.1.0
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.0.8
+ * Minimal required Celestra version: 2.1.0
  */
 
 (function(celestra){
@@ -106,39 +106,6 @@ celestra.addNumbers = function () {
         <pre>alert( _.addNumbers() );</pre>
         <button onclick='alert( _.addNumbers(3, "string") );'>try wrong parameter type</button>
         <pre>alert( _.addNumbers(3, "string") );</pre>
-        <p>You can check the error messages in the browser console.</p>
-      </td>
-    </tr>
-  </table>
-</div>
-
-<h3>Samples FP</h3>
-
-<p>
-  First call the <code>_.celToWindow();</code> function:
-  <button onclick='_.celToWindow();'>try</button>
-</p>
-
-<div>
-  <table>
-    <tr>
-      <td><b>addNumbers() valid values</b></td>
-      <td>
-        <button onclick="alert( addNumbers(3) );">try 1</button>
-        <pre>alert( addNumbers(3) );</pre>
-        <button onclick="alert( addNumbers(3, 5) );">try 2</button>
-        <pre>alert( addNumbers(3, 5) );</pre>
-        <button onclick="alert( addNumbers(3.14, -5) );">try 3</button>
-        <pre>alert( addNumbers(3.14, -5) );</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>addNumbers() with erros</b></td>
-      <td>
-        <button onclick="alert( addNumbers() );">try no parameter</button>
-        <pre>alert( addNumbers() );</pre>
-        <button onclick='alert( addNumbers(3, "string") );'>try wrong parameter type</button>
-        <pre>alert( addNumbers(3, "string") );</pre>
         <p>You can check the error messages in the browser console.</p>
       </td>
     </tr>

@@ -59,26 +59,24 @@
 <p><strong>Just a few functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.0.8</p>
-<p>Date: 2018-11-12T19:18:11.788Z</p>
+<p>Latest version: 2.1.0</p>
+<p>Date: 2018-11-16T19:36:18.142Z</p>
 
-<p>The functions are available in the <code>celestra</code> and <code>Celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43682 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33081 bytes)</p>
+<p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42718 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32327 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
 <h3>Object name changes</h3>
 
 <p>The name of the object changed from <code>Celestra</code> to <code>celestra</code> in v2.0.2.</p>
-<p>For compatiblity reasons, the old alias (<code>Celestra</code>) remains until <b>Celestra v2.1.0</b>.</p>
-<p>This change affects the CommonJS and AMD module systems as well.</p>
+<p>The old alias (<code>Celestra</code>) has been removed in v2.1.0.</p>
 
 <h3>Functional programming (FP) variant</h3>
 
 <p>This variant has been removed in v2.0.0.</p>
-<p>With the function <code>celToWindow();</code> (<span class="deprecated">DEPRECATED in v2.0.8</span> and remains until <b>Celestra v2.1.0</b>) the functions are available in the global namespace (<code>window</code>).</p>
-<p>Celestra FP testpage: <a href="celestra-fp.html" target="_blank">celestra-fp.html</a></p>
+<p>The function <code>celToWindow();</code> and the FP testpages have been also removed in v2.1.0.</p>
 
 <h3>Cheatsheets</h3>
 
@@ -88,17 +86,12 @@
 <h3>Demo pages</h3>
 
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
-<p>RPG dice roller - FP: <a href="testgame-fp.html" target="_blank">testgame-fp.html</a></p>
-
-<h3>Demo plugin</h3>
-
-<p>Documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
-<p>Source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
+<p>Demo plugin documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
+<p>Demo plugin source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
 <p>Celestra test results: <a href="unittest.html" target="_blank">unittest.html</a></p>
-<p>Celestra FP test results: <a href="unittest-fp.html" target="_blank">unittest-fp.html</a></p>
 
 <h2 id="functions">Functions</h2>
 
@@ -126,6 +119,7 @@
       <td><code>celestra.celToWindow();</code></td>
       <td>
         <p><span class="deprecated">DEPRECATED in v2.0.8</span></p>
+        <p><span class="removed">REMOVED in v2.1.0</span></p>
         <p>Make the functions available in the global namespace (<code>window</code>), except these: <code>version;</code>, <code>noConflict();</code>, <code>celToWindow();</code></p>
       </td>
     </tr>
@@ -282,7 +276,7 @@
       <td><code>fromEntries(&#60;entries&#62;);</code></td>
       <td>
         <p><span class="deprecated">DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!</span></p>
-        <p><b>Will be removed in v2.1.0</b></p>
+        <p><span class="removed">REMOVED in v2.1.0</span></p>
         <p>The celestra.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object.</p>
         <p><span class="info">In IE11 doesn't work with the Map type.</span></p>
       </td>
@@ -958,26 +952,9 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
       <td><code>alert( celestra.random(100,200) );</code></td>
     </tr>
     <tr>
-      <td><b>Object name: "Celestra"</b></td>
-      <td><button onclick='alert( Celestra.random(100,200) );'>Try</button></td>
-      <td><code>alert( Celestra.random(100,200) );</code></td>
-    </tr>
-    <tr>
       <td><b>Object name: "_"</b></td>
       <td><button onclick='alert( _.random(100,200) );'>Try</button></td>
       <td><code>alert( _.random(100,200) );</code></td>
-    </tr>
-
-
-    <tr>
-      <td><b>_.celToWindow();</b></td>
-      <td><button onclick='_.celToWindow();'>Try</button></td>
-      <td><span class="deprecated">DEPRECATED in v2.0.8</span> <code>_.celToWindow();</code></td>
-    </tr>
-    <tr>
-      <td><b></b></td>
-      <td><button onclick='alert( random(2048) );'>Test</button></td>
-      <td><code>alert( random(2048) );</code></td>
     </tr>
     <tr>
       <td><b>version</b></td>
@@ -2418,30 +2395,6 @@ flatMapArr = ["lorem ipsum dolor", "", "sit"];
 flatMapStr += "\n" + "[[\"lorem\",\"ipsum\", \"dolor\"],[\"\"],[\"sit\"]] - \n" + JSON.stringify( flatMapArr.map(function (x) { return x.split(" "); }) );
 flatMapStr += "\n" + "[\"lorem\",\"ipsum\",\"dolor\",\"\",\"sit\"] - \n" + JSON.stringify( flatMapArr.flatMap(function (x) { return x.split(" "); }) );
 alert(flatMapStr);</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>fromEntries();</b></td>
-      <td colspan="2">
-        <p><span class="deprecated">DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!</span></p>
-        <script>function fromEntriesClick1(){var fromEntriesStr = "";fromEntriesStr += "{} - " + JSON.stringify(_.fromEntries( document.querySelectorAll("p")));fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(_.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(_.fromEntries(Object.entries({"a":1,"b":2,"c":3})));fromEntriesStr += "\n" + '{"foo":"lorem ipsum","bar":42,"baz":true} - ' + JSON.stringify(_.fromEntries({0: ["foo","lorem ipsum"], 1: ["bar", 42], 2: ["baz", true], length: 3}));fromEntriesStr += "\n" + '{"f":"o","b":"a"} - ' + JSON.stringify(_.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 }));alert(fromEntriesStr);}</script>
-        <p><button onclick="fromEntriesClick1();">try</button></p>
-        <pre>var fromEntriesStr = "";
-fromEntriesStr += "{} - " + JSON.stringify(_.fromEntries( document.querySelectorAll("p")));
-fromEntriesStr += "\n" + '{"0":"a","1":"b","2":"c"} - ' +  JSON.stringify(_.fromEntries( [ ["0", "a"], ["1", "b"], ["2", "c"] ] ));
-fromEntriesStr += "\n" + '{"a":1,"b":2,"c":3} - ' + JSON.stringify(_.fromEntries(Object.entries({"a":1,"b":2,"c":3})));
-fromEntriesStr += "\n" + '{"foo":"lorem ipsum","bar":42,"baz":true} - ' + JSON.stringify(_.fromEntries({0: ["foo","lorem ipsum"], 1: ["bar", 42], 2: ["baz", true], length: 3}));
-fromEntriesStr += "\n" + '{"f":"o","b":"a"} - ' + JSON.stringify(_.fromEntries({ 0: "foo", 1: "bar", 2: true, length: 3 }));
-alert(fromEntriesStr);</pre>
-        <script>function fromEntriesClick2(){alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(_.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );}</script>
-        <p><button onclick="fromEntriesClick2();">try Map</button> - Doesn't work in IE11.</p>
-        <pre>alert( '{"foo":"bar","baz":42} - ' + JSON.stringify(_.fromEntries(new Map([ ["foo", "bar"], ["baz", 42] ]))) );</pre>
-        <p><button onclick='alert("you should not see this - " + JSON.stringify(_.fromEntries("lorem ipsum")));'>try error 1</button></p>
-        <pre>alert("you should not see this - " + JSON.stringify(_.fromEntries("lorem ipsum")));</pre>
-        <p><button onclick='alert("you should not see this - " + JSON.stringify(_.fromEntries(3.14)));'>try error 2</button></p>
-        <pre>alert("you should not see this - " + JSON.stringify(_.fromEntries(3.14)));</pre>
-        <p><button onclick='alert("you should not see this - " + JSON.stringify(_.fromEntries("true")));'>try error 3</button></p>
-        <pre>alert("you should not see this - " + JSON.stringify(_.fromEntries("true")));</pre>
       </td>
     </tr>
     <tr>
