@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.1.0
+ * @version 2.1.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -15,6 +15,7 @@ Function      | # | Inner calls
 getScripts    | 2 | getScript, getScript
 getStyles     | 2 | getStyle,  getStyle
 domFadeToggle | 2 | domFadeIn, domFadeOut
+merge         | 1 | merge
 extend        | 1 | extend
 deepAssign    | 1 | deepAssign
 getJson       | 1 | getAjax
@@ -1000,8 +1001,30 @@ function createFile (fln, c, dt) {
       window.URL.revokeObjectURL(e.href);
     }
   } else {
-    console.log("Celestra createFile error: too few parameters.");
+    throw "Celestra createFile error: too few parameters.";
   }
+}
+
+function merge () {
+  if (typeof arguments[0] === "boolean") {
+    var t = arguments[1], d = arguments[0], s = 2;
+  } else {
+    var t = arguments[0], d = false, s = 1;
+  }
+  for(var i = s, il = arguments.length; i < il; i++) {
+    if (Array.isArray(arguments[i])) {
+      for(var j = 0, a = arguments[i], jl = a.length; j < jl; j++) {
+        if (Array.isArray(a[j]) && d) {
+          celestra.merge(true, t, a[j]);
+        } else {
+          t.push(a[j]);
+        }
+      }
+    } else {
+      t.push(arguments[i]);
+    }
+  }
+  return t;
 }
 
 /* FP */
@@ -1332,7 +1355,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.1.0";
+celestra.version = "Celestra v2.1.1";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
@@ -1373,6 +1396,7 @@ celestra.identity = identity;
 celestra.noop = noop;
 celestra.removeTags = removeTags;
 celestra.createFile = createFile;
+celestra.merge = merge;
 /* FP */
 celestra.toFunction = toFunction;
 celestra.bind = bind;

@@ -14,33 +14,19 @@ __Just a few functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.1.0
+Latest version: 2.1.1
 
-Date: 2018-11-16T19:36:18.142Z
+Date: 2018-12-01T19:28:47.304Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (42718 bytes)
+Development version: celestra.js (43327 bytes)
 
-Minimal version: celestra.min.js (32327 bytes)
+Minimal version: celestra.min.js (32712 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
 If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
-
-
-### Object name changes
-
-The name of the object changed from `Celestra` to `celestra` in v2.0.2.
-
-The old alias (`Celestra`) has been removed in v2.1.0.
-
-
-### Functional programming (FP) variant
-
-This variant has been removed in v2.0.0.
-
-The function `celToWindow();` and the FP testpages have been also removed in v2.1.0.
 
 
 ### Cheatsheets
@@ -81,7 +67,6 @@ Name | Description
 ---- | -----------
 `celestra.version;` | The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`
-`celestra.celToWindow();` | __DEPRECATED in v2.0.8__ __REMOVED in v2.1.0__ Make the functions available in the global namespace (`window`), except these: `version;`, `noConflict();`, `celToWindow();`
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
 `qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements.
 `qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
@@ -101,6 +86,7 @@ Name | Description
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
+`merge([deep,]<target>,<source1>, ...sources);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. __Note:__ From the v1.19.2 this function uses the ´hasOwnProperty´ method.
 `deepAssign(<target>,<source1>, ...sources);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
 `getFullscreen();` | Get the fullscreen element. If this isn't set, then the return value is undefined. Please check the incompatibility issues on the [http://caniuse.com/#search=fullscreen](http://caniuse.com/#search=fullscreen) page.
@@ -115,7 +101,6 @@ Name | Description
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
-`fromEntries(<entries>);` | __DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!__ __REMOVED in v2.1.0__ The celestra.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object. __In IE11 doesn't work with the Map type.__
 
 ### DOM functions
 
@@ -206,8 +191,8 @@ __Sample code:__
     
 Name | Description
 ---- | -----------
-`toArray(<object>);` | Convert an object (array like objects) to array or clone an array. This function is same as the `Array.from`, if that is available. If not, then the `Array.prototype.slice` will be called.
-`toObject(<array>);` | Convert an array to iterable object.
+`toArray(<object>);` | __DEPRECATED in v2.1.1__ __Please use the `Array.from()` instead of this!__ Convert an object (array like objects) to array or clone an array. This function is same as the `Array.from`, if that is available. If not, then the `Array.prototype.slice` will be called.
+`toObject(<array>);` | __DEPRECATED in v2.1.1__ Convert an array to iterable object.
 
 ### AJAX and CORS
 

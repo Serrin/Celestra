@@ -59,24 +59,14 @@
 <p><strong>Just a few functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.1.0</p>
-<p>Date: 2018-11-16T19:36:18.142Z</p>
+<p>Latest version: 2.1.1</p>
+<p>Date: 2018-12-01T19:28:47.304Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42718 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32327 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43327 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32712 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
-
-<h3>Object name changes</h3>
-
-<p>The name of the object changed from <code>Celestra</code> to <code>celestra</code> in v2.0.2.</p>
-<p>The old alias (<code>Celestra</code>) has been removed in v2.1.0.</p>
-
-<h3>Functional programming (FP) variant</h3>
-
-<p>This variant has been removed in v2.0.0.</p>
-<p>The function <code>celToWindow();</code> and the FP testpages have been also removed in v2.1.0.</p>
 
 <h3>Cheatsheets</h3>
 
@@ -113,14 +103,6 @@
       <td>
         Restore the previous <code>_</code> object value and return the <code>celestra</code> object to create a new alias.<br/>
         Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code>
-      </td>
-    </tr>
-    <tr>
-      <td><code>celestra.celToWindow();</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED in v2.0.8</span></p>
-        <p><span class="removed">REMOVED in v2.1.0</span></p>
-        <p>Make the functions available in the global namespace (<code>window</code>), except these: <code>version;</code>, <code>noConflict();</code>, <code>celToWindow();</code></p>
       </td>
     </tr>
     <tr>
@@ -205,6 +187,10 @@
       <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.</td>
     </tr>
     <tr>
+      <td><code>merge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
+      <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
+    </tr>
+    <tr>
       <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
       <td>This is an enhanced version of the <code>Object.assign</code> method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
       <br/><span class="info">Note:</span> From the v1.19.2 this function uses the <code>hasOwnProperty</code> method.</td>
@@ -270,15 +256,6 @@
       <td>
         <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
         <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>fromEntries(&#60;entries&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED in v2.0.8 - Please use the Object.fromEntries() instead of this!</span></p>
-        <p><span class="removed">REMOVED in v2.1.0</span></p>
-        <p>The celestra.fromEntries() method transforms a list of key-value pairs (Array, Map, arrayLike objects with Array elements) into an object.</p>
-        <p><span class="info">In IE11 doesn't work with the Map type.</span></p>
       </td>
     </tr>
   </table>
@@ -462,6 +439,7 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
     <tr>
       <td><code>toArray(&#60;object&#62;);</code></td>
       <td>
+        <p><span class="deprecated">DEPRECATED in v2.1.1</span> Please use the <code>Array.from()</code> instead of this!</p>
         <p>Convert an object (array like objects) to array or clone an array. This function is same as the <code>Array.from</code>, if that is available. If not, then the <code>Array.prototype.slice</code> will be called.</p>
         <p><button onclick='alert( Array.isArray( _.toArray(document.querySelectorAll("td")) ) );'>Try</button></p>
         <p><code>alert( Array.isArray( _.toArray(document.querySelectorAll("td")) ) );</code></p>
@@ -470,7 +448,8 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
     <tr>
       <td><code>toObject(&#60;array&#62;);</code></td>
       <td>
-         <p>Convert an array to iterable object.</p>
+        <p><span class="deprecated">DEPRECATED in v2.1.1</span></p>
+        <p>Convert an array to iterable object.</p>
         <p><button onclick='var a1=["a","b","c"]; var o1=_.toObject(a1); alert( _.getType(o1) ); for(var i=0,len=o1.length; i<len; i++) { alert(o1[i]); }'>Try</button></p>
         <p><code>var a1 = ["a","b","c"];<br/>var o1 = _.toObject(a1);<br/>alert( _.getType(o1) );<br/>for(var i=0, len=o1.length; i&#60; len; i++) { alert(o1[i]); }</code></p>      </td>
     </tr>

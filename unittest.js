@@ -47,6 +47,8 @@ noConflict();
 */
 _cut.addElement("h3", "core api");
 
+_cut.isEqual("version", true, _.version.includes("Celestra v") );
+
 _cut.addElement(
   _.domCreate(
     "div",
@@ -435,7 +437,40 @@ _cut.isEqual(
   _.removeTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
 );
 
-_cut.isEqual("version", true, _.version.includes("Celestra v") );
+var arrMerge1 = [1,2,3];
+var arrMerge2 = [4,5,6];
+var arrMerge3 = [7,8,[10,11,12,[13,14,15]],9];
+var arrMergeStr = JSON.stringify( _.merge(arrMerge1, arrMerge2) );
+arrMergeStr += JSON.stringify( arrMerge1 );
+// "[1,2,3,4,5,6]"
+arrMerge1 = [1,2,3];
+arrMergeStr += JSON.stringify( _.merge(arrMerge1, arrMerge2, arrMerge3) );
+arrMergeStr += JSON.stringify( arrMerge1 );
+// "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+arrMerge1 = [1,2,3];
+arrMergeStr += JSON.stringify( _.merge(false, arrMerge1, arrMerge2, arrMerge3) );
+arrMergeStr += JSON.stringify( arrMerge1 );
+//"[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+arrMerge1 = [1,2,3];
+arrMergeStr += JSON.stringify( _.merge(true, arrMerge1, arrMerge2, arrMerge3) );
+arrMergeStr += JSON.stringify( arrMerge1 );
+// "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
+arrMerge1 = [1,2,3];
+arrMergeStr += JSON.stringify( _.merge(true, [], arrMerge1, arrMerge3, 42, 3.14) );
+// "[1,2,3,7,8,10,11,12,13,14,15,9]"
+_cut.isEqual(
+  "merge()",
+  "[1,2,3,4,5,6]"
+    + "[1,2,3,4,5,6]"
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+    + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
+    + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
+    + "[1,2,3,7,8,10,11,12,13,14,15,9,42,3.14]",
+  arrMergeStr
+);
 
 /* DOM */
 /*
