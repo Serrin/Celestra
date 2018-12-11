@@ -14,15 +14,15 @@ __Just a few functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.1.1
+Latest version: 2.1.2
 
-Date: 2018-12-01T19:28:47.304Z
+Date: 2018-12-11T19:44:54.249Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (43327 bytes)
+Development version: celestra.js (44005 bytes)
 
-Minimal version: celestra.min.js (32712 bytes)
+Minimal version: celestra.min.js (33297 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -86,6 +86,8 @@ Name | Description
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
+`uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
+`uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `merge([deep,]<target>,<source1>, ...sources);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. __Note:__ From the v1.19.2 this function uses the ´hasOwnProperty´ method.
 `deepAssign(<target>,<source1>, ...sources);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
@@ -101,6 +103,9 @@ Name | Description
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
+`hasOwn(<object>,<property>);` | Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+`bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
+
 
 ### DOM functions
 
@@ -124,6 +129,7 @@ Name | Description
 `domOn(<eventTarget>,<eventType>,<callback>);` | Add a callback to the eventType of the eventTarget.
 `domOff(<eventTarget>,<eventType>,<callback>);` | Remove a callback to the eventType of the eventTarget.
 `domTrigger(<eventTarget>,<eventType>);` | Trigger an eventType of the eventTarget.
+`domSiblings(<element>);` | Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.
 
 ### Functional programming
 
@@ -136,13 +142,8 @@ Example: `_.toFunction()`
 Name | Description
 ---- | -----------
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
-`bind(<function>,<context>);` | Return a function from an object method. The returned function is bind to the context.
 
 __Sample code:__
-
-    var forEach2 = toFunction([].forEach);
-    var log = bind(console.log, console);
-    forEach2(document.querySelectorAll("h3"), log);
 
     var slice = toFunction([].slice);
     alert( Array.isArray(slice(document.querySelectorAll("h3"))) ); // true
@@ -150,11 +151,11 @@ __Sample code:__
 Name | Description
 ---- | -----------
 `forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each array or nodelist element. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.
-`each(<collection>,<callback>);` | A shorthand to the function `forEach(<collection>,<callback>);`.
+`each(<collection>,<callback>);` | __DEPRECATED in v2.1.2__ A shorthand to the function `forEach(<collection>,<callback>);`.
 `map(<collection>,<callback>);` | The map() method creates a new array with the results of calling a provided function on every element in the calling array or nodelist. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.
 `mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.
-`hasOwn(<object>,<property>);` | Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+
 
 __Sample code:__
 
@@ -179,14 +180,6 @@ __Sample code:__
     var o2b = mapIn(o2a, function(v) { return v*5; } );
     alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);
     // 1  2  3 \n 5  10  15
-
-    var o1 = { a: 1 };
-    var o2 = Object.create(o1);
-    o2.b = 2;
-
-    alert("o1.a="+o1.a+" - " + hasOwn(o1,"a") + " - true"
-    + "\r\no2.a=" + o2.a+" - " + hasOwn(o2,"a") + " - false"
-    + "\r\no2.b=" + o2.b+" - " + hasOwn(o2,"b") + " - true");
     
     
 Name | Description
@@ -318,10 +311,12 @@ Name | Description
 `Number.parseInt()` | The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base.
 `Number.parseFloat()` | The Number.parseFloat() method parses a string argument and returns a floating point number. This method behaves identically to the global function parseFloat() and is part of ECMAScript 2015 (its purpose is modularization of globals).
 `Math ES6` | `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();` - [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
+`window.screenLeft` | The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity.
+`window.screenTop` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
 
 ## Samples
 
-There are code samples in the __celestra.html__.
+There are code samples in the __celestra.html__ and __unittest.js__.
 
 ## License
 

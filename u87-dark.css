@@ -1,0 +1,20 @@
+/**
+ * @name u87-dark.css
+ * @version 0.9.7
+ * @see https://github.com/Serrin/u87.css
+ * @license MIT https://opensource.org/licenses/MIT
+ * This is the dark theme for the default css for my code documentations.
+ * Usage: 
+ *   <link rel="stylesheet" href="u87.css" type="text/css" />
+ *   <link rel="stylesheet" href="u87-dark.css" type="text/css" />
+ */
+
+html { background-color: #000000; }
+
+body { background-color: #333333; color: #ffffff; }
+
+h2 { background-color: #111111; color: white; }
+h3,h4,h5,h6 { background-color: #222222; color: white; }
+
+a, a:visited, a:active { color: lightblue; }
+a:hover { color: lightblue; }

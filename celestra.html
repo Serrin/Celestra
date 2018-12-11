@@ -50,6 +50,8 @@
     <a href="#license">License</a>
     &nbsp;//&nbsp;
     <a href="#footer">Contact</a>
+    &nbsp;//&nbsp;
+    <a href="#" onclick=" _.getStyle('u87-dark.css'); "><i>Dark mode</i></a>
   </b></nav>
 </header>
 
@@ -59,12 +61,12 @@
 <p><strong>Just a few functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.1.1</p>
-<p>Date: 2018-12-01T19:28:47.304Z</p>
+<p>Latest version: 2.1.2</p>
+<p>Date: 2018-12-11T19:44:54.249Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43327 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32712 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (44005 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33297 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -187,6 +189,14 @@
       <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.</td>
     </tr>
     <tr>
+      <td><code>uniqueArray(&#60;value&#62;);</code></td>
+      <td>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
+    </tr>
+    <tr>
+      <td><code>uniquePush(&#60;array&#62;,&#60;value&#62;);</code></td>
+      <td>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</td>
+    </tr>
+    <tr>
       <td><code>merge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
       <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
     </tr>
@@ -257,6 +267,14 @@
         <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
         <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.</span></p>
       </td>
+    </tr>
+    <tr>
+      <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td> Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
+      <td>Returns a function that is bound to a context. Both of the parameters are mandatory.</td>
     </tr>
   </table>
 </div>
@@ -351,6 +369,10 @@
       <td><code>domTrigger(&#60;eventTarget&#62;,&#60;eventType&#62;);</code></td>
       <td>Trigger an eventType of the eventTarget.</td>
     </tr>
+    <tr>
+      <td><code>domSiblings(&#60;element&#62;);</code></td>
+      <td>Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.</td>
+    </tr>
   </table>
 </div>
 
@@ -368,15 +390,9 @@
       <td>Return a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
     </tr>
     <tr>
-      <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
-      <td>Return a function from an object method. The returned function is bind to the context.</td>
-    </tr>
-    <tr>
       <td></td>
       <td>
         <p><b>Sample codes</b></p>
-        <p><button onclick='var forEach2 = _.toFunction([].forEach); var log = _.bind(console.log, console); forEach2(document.querySelectorAll("h3"), log);'>Try</button></p>
-        <p><code>var forEach2 = _.toFunction([].forEach);<br/>var log = _.bind(console.log, console);<br/>forEach2(document.querySelectorAll("h3"), log);</code></p>
         <p><button onclick='var slice = _.toFunction([].slice); alert( Array.isArray(slice(document.querySelectorAll("h3"))) );'>Try</button></p>
         <p><code>var slice = _.toFunction([].slice);<br/>alert( Array.isArray(slice(document.querySelectorAll("h3"))) );</code></p>
       </td>
@@ -392,7 +408,7 @@
     </tr>
     <tr>
       <td><code>each(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>A shorthand to the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>.</td>
+      <td><span class="deprecated">DEPRECATED in v2.1.2</span> A shorthand to the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>.</td>
     </tr>
     <tr>
       <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -405,10 +421,6 @@
     <tr>
       <td><code>mapIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
       <td>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.</td>
-    </tr>
-    <tr>
-      <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
-      <td> Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
     </tr>
     <tr>
       <td></td>
@@ -425,15 +437,6 @@
         <p><code>var o1 = {a:1,b:2,c:3};<br/>_.forIn ( o1, function (v) { alert( v*4 ); } );</code></p>
         <p><button onclick='var o2a = {a:1,b:2,c:3}; var o2b = _.mapIn ( o2a, function(v) { return v*5; } ); alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);'>mapIn</button></p>
         <p><code>var o2a = {a:1,b:2,c:3};<br/>var o2b = _.mapIn ( o2a, function(v) { return v*5; } );<br/>alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);</code></p>
-        <p><b>hasOwn</b></p>
-        <pre>var o1 = { a: 1 };
-var o2 = Object.create(o1);
-o2.b = 2;
-
-alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
-  + "\r\no2.a=" + o2.a+" - " + _.hasOwn(o2,"a") + " - false"
-  + "\r\no2.b=" + o2.b+" - " + _.hasOwn(o2,"b") + " - true");</pre>
-        <p><button onclick='var o1={a:1};var o2=Object.create(o1);o2.b=2;alert("o1.a="+o1.a+" - "+_.hasOwn(o1,"a")+" - true"+"\r\no2.a="+o2.a+" - "+_.hasOwn(o2,"a")+" - false"+"\r\no2.b="+o2.b+" - "+_.hasOwn(o2,"b")+" - true");'>try</button></p>
       </td>
     </tr>
     <tr>
@@ -918,10 +921,20 @@ alert("o1.a="+o1.a+" - " + _.hasOwn(o1,"a") + " - true"
         <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/trunc" target="_blank"><b>Math.trunc()</b></a></p>
       </td>
     </tr>
+    <tr>
+      <td><code>window.screenLeft</code></td>
+      <td>The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/screenLeft" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>window.screenTop</code></td>
+      <td>The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/screenTop" target="_blank">MDN Article</a>!</td>
+    </tr>
   </table>
 </div>
 
 <h2 id="samples">Samples</h2>
+
+<p class="big">There are more samples in the <a href="unittest.js" target="_blank">unittest.js</a>.</p>
 
 <div>
   <table>
@@ -2852,6 +2865,8 @@ alert(fromEntriesStr);</pre>
     <a href="#license">License</a>
     &nbsp;//&nbsp;
     <a href="http://github.com/Serrin" target="_blank">Github</a>
+    &nbsp;//&nbsp;
+    <a href="#footer" onclick=" _.getStyle('u87-dark.css'); "><i>Dark mode</i></a>
   </p>
   <p>&copy; Copyright 2017 Ferenc Czigler</p>
 </small></footer>

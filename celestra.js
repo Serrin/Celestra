@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.1.1
+ * @version 2.1.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -538,6 +538,9 @@ if (!String.prototype.codePointAt) {
   }());
 }
 
+if (!("screenLeft" in window)) { window.screenLeft = window.screenX; }
+if (!("screenTop" in window)) { window.screenTop = window.screenY; }
+
 /* Number ES6 */
 
 if (Number.MIN_SAFE_INTEGER === undefined) {
@@ -1027,11 +1030,23 @@ function merge () {
   return t;
 }
 
+function uniqueArray (a) {
+  a = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
+  return a.filter(function(e, i, arr) { return arr.indexOf(e) === i; });
+}
+
+function uniquePush (a, v) {
+  if (a.indexOf(v) === -1) { a.push(v); return true; }
+  return false;
+}
+
+var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+
+var bind = Function.prototype.call.bind(Function.prototype.bind);
+
 /* FP */
 
 function toFunction (fn) { return Function.prototype.call.bind(fn); }
-
-var bind = Function.prototype.call.bind(Function.prototype.bind);
 
 var toArray = (Array.from || Function.prototype.call.bind(Array.prototype.slice));
 
@@ -1058,8 +1073,6 @@ function mapIn (o, fn) {
   }
   return r;
 }
-
-var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
 /* DOM */
 
@@ -1139,6 +1152,12 @@ function domOff (el, et, fn) {
 }
 
 function domTrigger (el, et) { return el[et](); }
+
+function domSiblings(el) {
+  return Array.prototype.filter.call(el.parentNode.children, function (e) {
+    return (e !== el);
+  });
+}
 
 /* AJAX */
 
@@ -1355,7 +1374,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.1.1";
+celestra.version = "Celestra v2.1.2";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
@@ -1396,7 +1415,10 @@ celestra.identity = identity;
 celestra.noop = noop;
 celestra.removeTags = removeTags;
 celestra.createFile = createFile;
+celestra.uniqueArray = uniqueArray;
+celestra.uniquePush = uniquePush;
 celestra.merge = merge;
+celestra.hasOwn = hasOwn;
 /* FP */
 celestra.toFunction = toFunction;
 celestra.bind = bind;
@@ -1407,7 +1429,6 @@ celestra.each = each;
 celestra.map = map;
 celestra.forIn = forIn;
 celestra.mapIn = mapIn;
-celestra.hasOwn = hasOwn;
 /* DOM */
 celestra.domCreate = domCreate;
 celestra.domGetCSS = domGetCSS;
@@ -1421,6 +1442,7 @@ celestra.domToggle = domToggle;
 celestra.domOn = domOn;
 celestra.domOff = domOff;
 celestra.domTrigger = domTrigger;
+celestra.domSiblings = domSiblings;
 /* AJAX */
 celestra.getJson = getJson;
 celestra.getText = getText;

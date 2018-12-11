@@ -393,13 +393,13 @@ _cut.addElement("p","<b>"+rndStr+"</b>");
 
 var kayleeStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
 _cut.isEqual(
-  "b64Encode()", "4pyTIMOgIA0KCSDDoXJ2w616dMWxcsWRIHTDvGvDtnJmw7pyw7Nnw6lwIMOBUlbDjVpUxbBSxZAgVMOcS8OWUkbDmlLDk0fDiVAgLD87LjotXyogwqTDt8OXwqjCuMK0y5lgy5vCsMuYXsuHficrISUvPSgpfFw8PiAiIC8gIyZAe31bXeKCrCDDjcOEw63FgcOfIDAxMjM0NTY3ODkgYXNkZmdoamtscXdlcnR6dWlvcHl4Y3Zibm0gQVNERkdISktMUVdFUlRaVUlPUFlYQ1ZCTk0=", 
-  _.b64Encode(kayleeStr) 
+  "b64Encode()", "4pyTIMOgIA0KCSDDoXJ2w616dMWxcsWRIHTDvGvDtnJmw7pyw7Nnw6lwIMOBUlbDjVpUxbBSxZAgVMOcS8OWUkbDmlLDk0fDiVAgLD87LjotXyogwqTDt8OXwqjCuMK0y5lgy5vCsMuYXsuHficrISUvPSgpfFw8PiAiIC8gIyZAe31bXeKCrCDDjcOEw63FgcOfIDAxMjM0NTY3ODkgYXNkZmdoamtscXdlcnR6dWlvcHl4Y3Zibm0gQVNERkdISktMUVdFUlRaVUlPUFlYQ1ZCTk0=",
+  _.b64Encode(kayleeStr)
 );
 _cut.isEqual("b64Decode() + b64Encode()", kayleeStr, _.b64Decode(_.b64Encode(kayleeStr)) );
 _cut.isEqual(
-  "javaHash()", 
-  "-0.578: 1334063883 / 4f84330b / 13340638830: 48 / 30 / 48 / 3.14: 1565118 / 1565118 / 156511842: 1662 / 67e / 1662true: 3569038 / 36758e / 3569038\"true\": 3569038 / 36758e / 3569038false: 97196323 / 5cb1923 / 97196323\"false\": 97196323 / 5cb1923 / 97196323null: 3392903339290333c587\"null\": 3392903 / 33c587 / 3392903undefined: 0 / 0 / 0\"undefined\": -1038130864 / -3de09eb0 / -1038130864\"\": 0 / 0 / 0[]: 0 / 0 / 0[1,2]: 48503 / bd77 / 48503[3,4]: 50427 / c4fb / 50427{}: -1074417128 / -400a4de8 / -1074417128{a:1}: -1074417128 / -400a4de8 / -1074417128{b:2}: -1074417128 / -400a4de8 / -1074417128str variable: -313568218 / -12b0abda / -313568218str variable + b64Encode: LTMxMzU2ODIxOA== / LTEyYjBhYmRh / LTMxMzU2ODIxOA==str variable + b64Encode + b64Decode: -313568218 / -12b0abda / -313568218", 
+  "javaHash()",
+  "-0.578: 1334063883 / 4f84330b / 13340638830: 48 / 30 / 48 / 3.14: 1565118 / 1565118 / 156511842: 1662 / 67e / 1662true: 3569038 / 36758e / 3569038\"true\": 3569038 / 36758e / 3569038false: 97196323 / 5cb1923 / 97196323\"false\": 97196323 / 5cb1923 / 97196323null: 3392903339290333c587\"null\": 3392903 / 33c587 / 3392903undefined: 0 / 0 / 0\"undefined\": -1038130864 / -3de09eb0 / -1038130864\"\": 0 / 0 / 0[]: 0 / 0 / 0[1,2]: 48503 / bd77 / 48503[3,4]: 50427 / c4fb / 50427{}: -1074417128 / -400a4de8 / -1074417128{a:1}: -1074417128 / -400a4de8 / -1074417128{b:2}: -1074417128 / -400a4de8 / -1074417128str variable: -313568218 / -12b0abda / -313568218str variable + b64Encode: LTMxMzU2ODIxOA== / LTEyYjBhYmRh / LTMxMzU2ODIxOA==str variable + b64Encode + b64Decode: -313568218 / -12b0abda / -313568218",
   "-0.578: " + _.javaHash(-0.578) + " / " + _.javaHash(-0.578,true) + " / " + _.javaHash(-0.578,false)
     + "0: " + _.javaHash(0) + " / " + _.javaHash(0,true) + " / " + _.javaHash(0,false) + " / "
     + "3.14: " + _.javaHash(3.14) + " / " + _.javaHash(3.14) + " / " + _.javaHash(3.14,false)
@@ -421,7 +421,7 @@ _cut.isEqual(
     + "{b:2}: " + _.javaHash({b:2}) + " / " + _.javaHash({b:2},true) + " / " + _.javaHash({b:2},false)
     + "str variable: " + _.javaHash(kayleeStr) + " / " + _.javaHash(kayleeStr,true) + " / " + _.javaHash(kayleeStr,false)
     + "str variable + b64Encode: " + _.b64Encode(_.javaHash(kayleeStr)) + " / " + _.b64Encode(_.javaHash(kayleeStr,true)) + " / " + _.b64Encode(_.javaHash(kayleeStr,false))
-    + "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,false))) 
+    + "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,false)))
 );
 
 /* / kaylee */
@@ -471,6 +471,58 @@ _cut.isEqual(
     + "[1,2,3,7,8,10,11,12,13,14,15,9,42,3.14]",
   arrMergeStr
 );
+
+_cut.isEqual(
+  "uniqueArray() 1 ES5 - Array and Arraylike object",
+  JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+  JSON.stringify(
+    _.uniqueArray( {0:1,1:2,2:2,3:3,4:4,5:4,6:5,7:6,8:6,9:7,length:10} )
+  )
+);
+_cut.isEqual(
+  "uniqueArray() 2 ES5 - Array and String",
+  JSON.stringify( _.uniqueArray(
+    ["A","r","r","a","y","y","a","n","d","d","M","M","a","p"]
+  ) ),
+  JSON.stringify( _.uniqueArray( "ArrayyanddMMap" ) )
+);
+if (_cut.isNotIE11()) {
+  _cut.isEqual(
+    "uniqueArray() 3 ES6 - Array and Set",
+    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+    JSON.stringify(
+      _.uniqueArray( new Set( [1,2,2,3,4,4,5,6,6,7] ) )
+    )
+  );
+  _cut.isEqual(
+    "uniqueArray() 4 ES6 - Array and Map values() iterator",
+    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+    JSON.stringify(
+      _.uniqueArray(
+        (new Map([
+          ["foo1", 1], ["bar1", 2], ["baz1", 2], ["foo2", 3], ["bar2", 4],
+          ["baz2", 4], ["foo3", 5], ["bar3", 6], ["baz3", 6], ["foo4", 7]
+        ])).values()
+      )
+    )
+  );
+}
+
+var uniquePushTest = [1,2,3,5];
+_cut.isTrue("uniquePush() true", _.uniquePush(uniquePushTest, 4) );
+_cut.isFalse("uniquePush() false", _.uniquePush(uniquePushTest, 4) );
+_cut.isEqual(
+  "uniquePush() value check",
+  "[1,2,3,5,4]",
+  JSON.stringify(uniquePushTest)
+);
+
+_cut.isEqual("hasOwn() true", true, _.hasOwn( {0:1,1:2,2:3,length:3}, "length" ) );
+_cut.isEqual("hasOwn() false", false, _.hasOwn( [], "forEach" ) );
+
+var dqsa = _.bind(document.querySelectorAll, document);
+_cut.isEqual("bind()", true, dqsa("h3").length > 0 );
+
 
 /* DOM */
 /*
@@ -539,6 +591,19 @@ _.domOff(domTestElement, "click", domTestElementClick2 );
 _.domTrigger(domTestElement, "click");
 _cut.isEqual("domOff() and domTrigger()", 42, domTestVar );
 
+_cut.addElement(
+  _.domCreate(
+    "div",
+    {"id": "dsDiv"},
+    '<p><b>This is the #dsDiv</b></p>'
+      +'<p id="dsDivP1">This is the #dsDivP1</p>'
+      +'<p id="dsDivP2">This is the #dsDivP2</p>'
+      +'<p id="dsDivP3">This is the #dsDivP3</p>'
+  )
+);
+var dsArray = _.domSiblings( _.qs("#dsDivP2") );
+_cut.isTrue( "domSiblings()", (Array.isArray(dsArray) && dsArray.length === 3) );
+_.qs("#dsDiv").remove();
 
 /* FP */
 
@@ -546,9 +611,6 @@ _cut.addElement("h3", "FP");
 
 var slice = _.toFunction([].slice);
 _cut.isEqual("toFunction()", true, Array.isArray(slice(document.querySelectorAll("h3"))) );
-
-var dqsa = _.bind(document.querySelectorAll, document);
-_cut.isEqual("bind()", true, dqsa("h3").length > 0 );
 
 var FPArray = [1,2,3];
 
@@ -558,7 +620,7 @@ _cut.isEqual("forEach()", "246", forEachStr );
 
 var eachStr = "";
 _.each(FPArray, function (e) { eachStr += (e*2); } );
-_cut.isEqual("each()", "246", eachStr );
+_cut.isEqual("each() <span class='deprecated'>DEPRECATED</span>", "246", eachStr );
 
 _cut.isEqual("map()", 9, _.map(FPArray, function (e) {return e*3})[2] );
 
@@ -569,10 +631,9 @@ _.forIn(FPObject, function (e) { forInStr += (e*2); } );
 _cut.isEqual("forIn()", "468", forInStr );
 
 _cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"] );
-_cut.isEqual("toArray()", true, Array.isArray( _.toArray({0:1,1:2,2:3,length:3}) ) );
-_cut.isEqual("toObject()", true, _.isObject( _.toArray({0:1,1:2,2:3,length:3}) ) );
-_cut.isEqual("hasOwn() true", true, _.hasOwn( {0:1,1:2,2:3,length:3}, "length" ) );
-_cut.isEqual("hasOwn() false", false, _.hasOwn( FPArray, "forEach" ) );
+
+_cut.isEqual("toArray() <span class='deprecated'>DEPRECATED</span>", true, Array.isArray( _.toArray({0:1,1:2,2:3,length:3}) ) );
+_cut.isEqual("toObject() <span class='deprecated'>DEPRECATED</span>", true, _.isObject( _.toArray({0:1,1:2,2:3,length:3}) ) );
 
 
 /* cookie */
@@ -669,30 +730,30 @@ var
   etgi4 = document.querySelector("#etgi4"),
   etgi5 = document.querySelector("#etgi5"),
   etgi6 = document.querySelector("#etgi6");
-etgStr += etgi1.toggleAttribute("readonly"); 
-etgStr += etgi1.hasAttribute("readonly"); 
-etgStr += etgi1.toggleAttribute("readonly"); 
+etgStr += etgi1.toggleAttribute("readonly");
 etgStr += etgi1.hasAttribute("readonly");
-etgStr += etgi2.toggleAttribute("readonly", false); 
-etgStr += etgi2.hasAttribute("readonly", false); 
-etgStr += etgi2.toggleAttribute("readonly", false); 
+etgStr += etgi1.toggleAttribute("readonly");
+etgStr += etgi1.hasAttribute("readonly");
+etgStr += etgi2.toggleAttribute("readonly", false);
 etgStr += etgi2.hasAttribute("readonly", false);
-etgStr += etgi3.toggleAttribute("readonly", true); 
-etgStr += etgi3.hasAttribute("readonly", true); 
-etgStr += etgi3.toggleAttribute("readonly", true); 
-etgStr += etgi3.hasAttribute("readonly", true); 
-etgStr += etgi4.toggleAttribute("readonly"); 
-etgStr += etgi4.hasAttribute("readonly"); 
-etgStr += etgi4.toggleAttribute("readonly"); 
-etgStr += etgi4.hasAttribute("readonly"); 
-etgStr += etgi5.toggleAttribute("readonly", false); 
-etgStr += etgi5.hasAttribute("readonly", false); 
-etgStr += etgi5.toggleAttribute("readonly", false); 
-etgStr += etgi5.hasAttribute("readonly", false); 
-etgStr += etgi6.toggleAttribute("readonly", true); 
-etgStr += etgi6.hasAttribute("readonly", true); 
-etgStr += etgi6.toggleAttribute("readonly", true); 
-etgStr += etgi6.hasAttribute("readonly", true);   
+etgStr += etgi2.toggleAttribute("readonly", false);
+etgStr += etgi2.hasAttribute("readonly", false);
+etgStr += etgi3.toggleAttribute("readonly", true);
+etgStr += etgi3.hasAttribute("readonly", true);
+etgStr += etgi3.toggleAttribute("readonly", true);
+etgStr += etgi3.hasAttribute("readonly", true);
+etgStr += etgi4.toggleAttribute("readonly");
+etgStr += etgi4.hasAttribute("readonly");
+etgStr += etgi4.toggleAttribute("readonly");
+etgStr += etgi4.hasAttribute("readonly");
+etgStr += etgi5.toggleAttribute("readonly", false);
+etgStr += etgi5.hasAttribute("readonly", false);
+etgStr += etgi5.toggleAttribute("readonly", false);
+etgStr += etgi5.hasAttribute("readonly", false);
+etgStr += etgi6.toggleAttribute("readonly", true);
+etgStr += etgi6.hasAttribute("readonly", true);
+etgStr += etgi6.toggleAttribute("readonly", true);
+etgStr += etgi6.hasAttribute("readonly", true);
 _cut.isEqual(
   "Element.prototype.toggleAttribute()",
   "truetruefalsefalse"
@@ -853,7 +914,7 @@ _cut.isEqual(
 );
 
 var testArrayFill1 = [1, 2, 3, 4];
-var testArrayFillStr = JSON.stringify(testArrayFill1);      
+var testArrayFillStr = JSON.stringify(testArrayFill1);
 testArrayFillStr += JSON.stringify( testArrayFill1.fill(3.14, 3, 4) );
 testArrayFillStr += JSON.stringify(testArrayFill1);
 testArrayFillStr += JSON.stringify( testArrayFill1.fill(42, 2) );
@@ -959,6 +1020,9 @@ _cut.isEqual("ChildNode.replaceWith() element", null, _.qs("#testNodeP2") );
 testDivNode.remove();
 _cut.isEqual("ChildNode.remove()", null, _.qs("#testDivNode") );
 
+_cut.isTrue("window.screenLeft present", ("screenLeft" in window));
+_cut.isTrue("window.screenTop present", ("screenTop" in window));
+
 
 /* Object.fromEntries() */
 _cut.addElement("h4", "Object.fromEntries()");
@@ -967,7 +1031,7 @@ var arr = [ ["0", "a"], ["1", "b"], ["2", "c"] ];
 _cut.isEqual("Object.fromEntries() step 1 array",'{"0":"a","1":"b","2":"c"}', JSON.stringify(Object.fromEntries(arr)));
 _cut.addElement("p", JSON.stringify(Object.fromEntries(arr)) );
 
-var obj = {"a":1,"b":2,"c":3}; 
+var obj = {"a":1,"b":2,"c":3};
 _cut.isEqual("Object.fromEntries() step 2 Object.entries",'{"a":1,"b":2,"c":3}', JSON.stringify(Object.fromEntries(Object.entries(obj))));
 _cut.addElement("p", JSON.stringify(Object.fromEntries(Object.entries(obj))) );
 
