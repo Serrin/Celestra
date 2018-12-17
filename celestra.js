@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.1.2
+ * @version 2.2.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -389,7 +389,7 @@ if (!Object.getOwnPropertyDescriptors) {
 if (!Array.prototype.copyWithin) {
   Array.prototype.copyWithin = function(target, start) {
     if (this == null) {
-      throw new TypeError('this is null or not defined');
+      throw new TypeError("this is null or not defined");
     }
     var O = Object(this);
     var len = O.length >>> 0;
@@ -491,7 +491,7 @@ if (!String.fromCodePoint) {
 /*! https://mths.be/codepointat v0.2.0 by @mathias */
 if (!String.prototype.codePointAt) {
   (function() {
-    'use strict';
+    "use strict";
     var defineProperty = (function() {
       try {
         var object = {};
@@ -527,10 +527,10 @@ if (!String.prototype.codePointAt) {
       return first;
     };
     if (defineProperty) {
-      defineProperty(String.prototype, 'codePointAt', {
-        'value': codePointAt,
-        'configurable': true,
-        'writable': true
+      defineProperty(String.prototype, "codePointAt", {
+        "value": codePointAt,
+        "configurable": true,
+        "writable": true
       });
     } else {
       String.prototype.codePointAt = codePointAt;
@@ -719,14 +719,14 @@ function randomString(pl,sc) {
 function b64Encode(str) {
   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
     function toSolidBytes(match, p1) {
-      return String.fromCharCode('0x' + p1);
+      return String.fromCharCode("0x" + p1);
   }));
 }
 
 function b64Decode(str) {
-  return decodeURIComponent(atob(str).split('').map(function(c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
+  return decodeURIComponent(atob(str).split("").map(function(c) {
+    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(""));
 }
 
 function javaHash (s,hx) {
@@ -977,12 +977,6 @@ function form2string (f) {
   return a.join("&").replace(/%20/g, "+");
 }
 
-function constant (v) { return function () { return v; }; }
-
-function identity (v) { return v; }
-
-function noop () { return undefined; }
-
 function removeTags (s) {
   return (""+s).replace(/<[^>]*>/g," ").replace(/\s{2,}/g," ").trim();
 }
@@ -1040,27 +1034,44 @@ function uniquePush (a, v) {
   return false;
 }
 
-var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
-
-var bind = Function.prototype.call.bind(Function.prototype.bind);
-
 /* FP */
 
 function toFunction (fn) { return Function.prototype.call.bind(fn); }
 
-var toArray = (Array.from || Function.prototype.call.bind(Array.prototype.slice));
+var bind = Function.prototype.call.bind(Function.prototype.bind);
 
-function toObject (a) {
-  var o = { length : a.length };
-  for (var i = 0, len = a.length; i < len; i++) { o[""+i] = a[i]; }
-  return o;
+var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+
+function forEach (a, fn) {
+  var t = Object.prototype.toString.call(a)
+    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
+  if (Array.isArray(a) || t === "map" || t === "set") {
+    a.forEach(fn);
+    return a;
+  } else {
+    var a2 = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
+    a2.forEach(fn);
+    if (typeof a !== "string") { return a2; }
+    return a;
+  }
 }
 
-var forEach = Function.prototype.call.bind(Array.prototype.forEach);
-
-var each = forEach;
-
-var map = Function.prototype.call.bind(Array.prototype.map);
+function map (a, fn) {
+  var t = Object.prototype.toString.call(a)
+    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
+  if (Array.isArray(a)) {
+    return a.map(fn);
+  } else if (t === "string") {
+    return (Array.from ? Array.from(a) : Array.prototype.slice.call(a))
+      .map(fn).join("");
+  } else if (t === "map") {
+    return new Map(Array.from(a).map(fn));
+  } else if (t === "set") {
+    return new Set(Array.from(a).map(fn));
+  } else {
+    return (Array.from ? Array.from(a) : Array.prototype.slice.call(a)).map(fn);
+  }
+}
 
 function forIn (o, fn) {
   for (var p in o) { if (o.hasOwnProperty(p)) { fn(o[p], p, o); } }
@@ -1073,6 +1084,17 @@ function mapIn (o, fn) {
   }
   return r;
 }
+
+function forOf (a, fn) { a = Array.from(a); a.forEach(fn); return a; }
+
+function mapOf (a, fn) { return Array.from(a, fn); }
+
+function constant (v) { return function () { return v; }; }
+function identity (v) { return v; }
+function noop () { return undefined; }
+
+function T () { return true; }
+function F () { return false; }
 
 /* DOM */
 
@@ -1099,13 +1121,20 @@ function domCreate (t, ps, iH) {
   return el;
 }
 
+function domToElement(s) {
+  const e = document.createElement('div');
+  e.innerHTML = s;
+  return e.firstElementChild;
+}
+
 function domGetCSS (e, p) {
   return (window.getComputedStyle ? getComputedStyle(e, null) : e.currentStyle)[p];
 }
 
 function domSetCSS (e, n, v) {
-  if (typeof n === "string") { e.style[n] = v; }
-  else if (typeof n === "object") {
+  if (typeof n === "string") {
+    e.style[n] = v;
+  } else if (typeof n === "object") {
     for (var p in n) { e.style[p] = n[p]; }
   }
 }
@@ -1153,7 +1182,7 @@ function domOff (el, et, fn) {
 
 function domTrigger (el, et) { return el[et](); }
 
-function domSiblings(el) {
+function domSiblings (el) {
   return Array.prototype.filter.call(el.parentNode.children, function (e) {
     return (e !== el);
   });
@@ -1260,7 +1289,7 @@ function isChar (v) {
 
 function isNumber (v) { return typeof v === "number"; }
 var isInteger = Number.isInteger;
-function isFloat(v) { return typeof v === "number" && !!(v % 1); }
+function isFloat (v) { return typeof v === "number" && !!(v % 1); }
 function isNumeric (v) {
   return ( (typeof v === "number" && v === v) ? true : (!isNaN(parseFloat(v)) && isFinite(v)) );
 }
@@ -1305,6 +1334,12 @@ function isMap (v) {
 }
 function isSet (v) {
   return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "set";
+}
+function isWeakMap (v) {
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "weakmap";
+}
+function isWeakSet (v) {
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "weakset";
 }
 
 function isDate (v) {
@@ -1374,7 +1409,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.1.2";
+celestra.version = "Celestra v2.2.0";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
@@ -1410,27 +1445,29 @@ celestra.getLocation = getLocation;
 celestra.getDoNotTrack = getDoNotTrack;
 celestra.form2array = form2array;
 celestra.form2string = form2string;
-celestra.constant = constant;
-celestra.identity = identity;
-celestra.noop = noop;
 celestra.removeTags = removeTags;
 celestra.createFile = createFile;
 celestra.uniqueArray = uniqueArray;
 celestra.uniquePush = uniquePush;
 celestra.merge = merge;
-celestra.hasOwn = hasOwn;
 /* FP */
 celestra.toFunction = toFunction;
 celestra.bind = bind;
-celestra.toArray = toArray;
-celestra.toObject = toObject;
+celestra.hasOwn = hasOwn;
 celestra.forEach = forEach;
-celestra.each = each;
 celestra.map = map;
 celestra.forIn = forIn;
 celestra.mapIn = mapIn;
+celestra.forOf = forOf;
+celestra.mapOf = mapOf;
+celestra.constant = constant;
+celestra.identity = identity;
+celestra.noop = noop;
+celestra.T = T;
+celestra.F = F;
 /* DOM */
 celestra.domCreate = domCreate;
+celestra.domToElement = domToElement;
 celestra.domGetCSS = domGetCSS;
 celestra.domSetCSS = domSetCSS;
 celestra.domFadeIn = domFadeIn;
@@ -1471,6 +1508,8 @@ celestra.isPrimitive = isPrimitive;
 celestra.isSymbol = isSymbol;
 celestra.isMap = isMap;
 celestra.isSet = isSet;
+celestra.isWeakMap = isWeakMap;
+celestra.isWeakSet = isWeakSet;
 celestra.isDate = isDate;
 celestra.isRegexp = isRegexp;
 celestra.isElement = isElement;

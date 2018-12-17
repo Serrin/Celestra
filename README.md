@@ -14,15 +14,15 @@ __Just a few functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.1.2
+Latest version: 2.2.0
 
-Date: 2018-12-11T19:44:54.249Z
+Date: 2018-12-17T19:20:53.834Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (44005 bytes)
+Development version: celestra.js (45280 bytes)
 
-Minimal version: celestra.min.js (33297 bytes)
+Minimal version: celestra.min.js (34345 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -98,13 +98,8 @@ Name | Description
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
 `form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element. __The result has changed in v1.21.0: The array elements are objects instead of strings.__
 `form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
-`constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
-`identity(<value>);` | Return the given value. (In math: `f(x)=x`)
-`noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
-`hasOwn(<object>,<property>);` | Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
-`bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 
 
 ### DOM functions
@@ -117,6 +112,7 @@ Name | Description
 ---- | -----------
 `domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, __style object/string - since v2.0.5 - in IE11 and W10M Edge 14 the style string doesn't work__, data-*, etc.) The innerHTML is optional and can be a string.
 `domCreate(<element descriptive object>);` | Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The `style` can be a subobject or a string. __In IE11 and W10M Edge 14 the style string doesn't work.__ __Sample code:__ `_.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});`
+`domToElement(<htmlString>);` | This function returns a HTML element which is created from the htmlString parameter. The htmlString parameter is mandatory and has to be a string.
 `domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string.
 `domSetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string. The value is mandatory and has to be a string.
 `domSetCSS(<element>,<properties>);` | Set CSS property values of an element. The element is mandatory and has to be a HTML element. The properties object is mandatory. The object properties can be the CSS properties and the property values will be applied to the element.
@@ -131,9 +127,8 @@ Name | Description
 `domTrigger(<eventTarget>,<eventType>);` | Trigger an eventType of the eventTarget.
 `domSiblings(<element>);` | Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.
 
-### Functional programming
 
-These functions help you write quick functional programming Javascript code.
+### Functional programming
 
 These functions are available in the `celestra` and/or `_` objects.
 
@@ -142,50 +137,20 @@ Example: `_.toFunction()`
 Name | Description
 ---- | -----------
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
+`bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
+`hasOwn(<object>,<property>);` | Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, own forEach(), return as Array), Nodelist (ES5, as Array, return as Array), custom array-like objects (ES5, as Array, return as Array), String (ES5, as Array, return as String), Map (ES6, own forEach(), return as Map), Set (ES6, own forEach(), return as Set), ES6 iterators (ES6, as Array, return as Array)__
+`map(<collection>,<callback>);` | The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, return as Array), Nodelist (ES5, return as Array), custom array-like objects (ES5, return as Array), String (ES5, return as String), Map (ES6, return as Map), Set (ES6, return as Set) and ES6 iterators (ES6, return as Array)__
+`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.
+`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.
+`forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the `Array#forEach()` method.
+`mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the `Array#map()` method.
+`constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
+`identity(<value>);` | Return the given value. (In math: `f(x)=x`)
+`noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
+`T();` | This function returns true.
+`F();` | This function returns False.
 
-__Sample code:__
-
-    var slice = toFunction([].slice);
-    alert( Array.isArray(slice(document.querySelectorAll("h3"))) ); // true
-
-Name | Description
----- | -----------
-`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each array or nodelist element. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.
-`each(<collection>,<callback>);` | __DEPRECATED in v2.1.2__ A shorthand to the function `forEach(<collection>,<callback>);`.
-`map(<collection>,<callback>);` | The map() method creates a new array with the results of calling a provided function on every element in the calling array or nodelist. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.
-`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.
-`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.
-
-
-__Sample code:__
-
-    var arr1 = [1,2,3];
-    forEach ( arr1, function (v) { alert( v*2 ); } );
-    // 2, 4, 6
-
-    var arr1 = [1,2,3];
-    each ( arr1, function (v) { alert( v*2 ); } );
-    // 2, 4, 6
-
-    var arr2a = [1,2,3];
-    var arr2b = map ( arr2a, function (v) { return v*3; } );
-    alert(arr2a+"\n"+arr2b);
-    // 1,2,4 \n 3,6,9
-
-    var o1 = {a:1,b:2,c:3};
-    forIn ( o1, function (v) { alert( v*4 ); } );
-    //4, 8, 12
-
-    var o2a = {a:1,b:2,c:3};
-    var o2b = mapIn(o2a, function(v) { return v*5; } );
-    alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);
-    // 1  2  3 \n 5  10  15
-    
-    
-Name | Description
----- | -----------
-`toArray(<object>);` | __DEPRECATED in v2.1.1__ __Please use the `Array.from()` instead of this!__ Convert an object (array like objects) to array or clone an array. This function is same as the `Array.from`, if that is available. If not, then the `Array.prototype.slice` will be called.
-`toObject(<array>);` | __DEPRECATED in v2.1.1__ Convert an array to iterable object.
 
 ### AJAX and CORS
 
@@ -240,6 +205,8 @@ Name | Description
 `isSymbol(<value>);` | `ES6` This function determines whether the provided value is a symbol. The return value is boolean.
 `isMap(<value>);` | `ES6` This function determines whether the provided value is a map. The return value is boolean.
 `isSet(<value>);` | `ES6` This function determines whether the provided value is a set. The return value is boolean.
+`isWeakMap(<value>);` | `ES6` This function determines whether the provided value is a weakmap. The return value is boolean.
+`isWeakSet(<value>);` | `ES6` This function determines whether the provided value is a weakset. The return value is boolean.
 `isDate(<value>);` | This function determines whether the provided value is a date. The return value is boolean.
 `isRegexp(<value>);` | This function determines whether the provided value is a regexp. The return value is boolean.
 `isElement(<value>);` | This function determines whether the provided value is a HTML element. The return value is boolean.

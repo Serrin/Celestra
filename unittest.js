@@ -113,7 +113,7 @@ _cut.isEqual("qsa() each", true,
   testQsa3[1].innerHTML === "#qsaDivP2 test element each"
 );
 
-_cut.isEqual("getType() values",
+_cut.isEqual("getType() ES5 values",
   "array  number  string  object  htmldocument  boolean  nodelist  htmlparagraphelement  null  undefined  function  date  regexp",
   _.getType([1,2,3])
   +"  "+_.getType(1998)
@@ -130,7 +130,7 @@ _cut.isEqual("getType() values",
   +"  "+_.getType(/^\[object (.+)\]$/g)
 );
 
-_cut.isEqual("getType() all true",
+_cut.isEqual("getType() ES5 all true",
   "true  true  true  true  true  true  true  true  true  true  true  true  true",
  _.getType([1,2,3], "array")
   +"  "+_.getType(1998, "number")
@@ -147,7 +147,7 @@ _cut.isEqual("getType() all true",
   +"  "+_.getType(/^\[object (.+)\]$/g, "regexp")
 );
 
-_cut.isEqual("getType() all false",
+_cut.isEqual("getType() ES5 all false",
   "false  false  false  false  false  false  false  false  false  false  false  false  false",
   _.getType([1,2,3], "number")
   +"  "+_.getType(1998, "array")
@@ -163,6 +163,30 @@ _cut.isEqual("getType() all false",
   +"  "+_.getType(new Date(), "array")
   +"  "+_.getType(/^\[object (.+)\]$/g, "string")
 );
+
+if (_cut.isNotIE11()) {
+  _cut.isEqual("getType() ES6 values",
+    "map  set  weakmap  weakset",
+    _.getType(new Map())
+    +"  "+_.getType(new Set())
+    +"  "+_.getType(new WeakMap())
+    +"  "+_.getType(new WeakSet())
+  );
+  _cut.isEqual("getType() ES6 all true",
+    "true  true  true  true",
+    _.getType(new Map(), "map")
+    +"  "+_.getType(new Set(), "set")
+    +"  "+_.getType(new WeakMap(), "weakmap")
+    +"  "+_.getType(new WeakSet(), "weakset")
+  );
+  _cut.isEqual("getType() ES6 all false",
+    "false  false  false  false",
+    _.getType(new Map(), "object")
+    +"  "+_.getType(new Set(), "object")
+    +"  "+_.getType(new WeakMap(), "object")
+    +"  "+_.getType(new WeakSet(), "object")
+  );
+}
 
 var foo1 = { a : "1", b : "2" };
 var bar1 = { c : "3", d : "4",
@@ -427,9 +451,6 @@ _cut.isEqual(
 /* / kaylee */
 
 _cut.isEqual("getDoNotTrack()", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false );
-_cut.isEqual("constant()", 3.14, _.constant(3.14)() );
-_cut.isEqual("identity()", 100, _.identity(60) + _.identity(40) );
-_cut.isEqual("noop()", undefined, _.noop() );
 
 _cut.isEqual(
   "removeTags()",
@@ -473,7 +494,7 @@ _cut.isEqual(
 );
 
 _cut.isEqual(
-  "uniqueArray() 1 ES5 - Array and Arraylike object",
+  "uniqueArray() 1 ES5 - Array and Array-like object",
   JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
   JSON.stringify(
     _.uniqueArray( {0:1,1:2,2:2,3:3,4:4,5:4,6:5,7:6,8:6,9:7,length:10} )
@@ -517,13 +538,6 @@ _cut.isEqual(
   JSON.stringify(uniquePushTest)
 );
 
-_cut.isEqual("hasOwn() true", true, _.hasOwn( {0:1,1:2,2:3,length:3}, "length" ) );
-_cut.isEqual("hasOwn() false", false, _.hasOwn( [], "forEach" ) );
-
-var dqsa = _.bind(document.querySelectorAll, document);
-_cut.isEqual("bind()", true, dqsa("h3").length > 0 );
-
-
 /* DOM */
 /*
 domFadeIn(<element>[,duration[,display]]);
@@ -545,6 +559,16 @@ _cut.isEqual("domCreate(object) with style object", true, _.isElement( _.domCrea
 if (_cut.isNotEdge() && _cut.isNotIE11()) {
   _cut.isEqual("domCreate(object) with style string", true, _.isElement( _.domCreate( { elementType: "p", "id": "domTestElementObject", style: "width: 250px; color: blue;", innerHTML: "DOM test element" } ) ) );
 }
+
+_cut.isTrue(
+  "domToElement() simple element",
+  _.isElement( _.domToElement("<div>Hello world!</div>") )
+);
+
+_cut.isTrue(
+  "domToElement() complex element",
+  _.isElement( _.domToElement("<p><span style=\"background-color: yellow; color: blue;\">Hello</span> <span style=\"background-color: blue; color: yellow;\">world</span>!</p>").firstElementChild )
+);
 
 _.domSetCSS(domTestElement, "width", "300px");
 _cut.isEqual("domSetCSS() property and domGetCSS()", "300px", _.domGetCSS(domTestElement, "width") );
@@ -614,15 +638,146 @@ _cut.isEqual("toFunction()", true, Array.isArray(slice(document.querySelectorAll
 
 var FPArray = [1,2,3];
 
+var dqsa = _.bind(document.querySelectorAll, document);
+_cut.isEqual("bind()", true, dqsa("h3").length > 0 );
+
+_cut.isEqual("hasOwn() true", true, _.hasOwn( {0:1,1:2,2:3,length:3}, "length" ) );
+_cut.isEqual("hasOwn() false", false, _.hasOwn( [], "forEach" ) );
+
+
+// forEach - Array
 var forEachStr = "";
 _.forEach(FPArray, function (e) { forEachStr += (e*2); } );
-_cut.isEqual("forEach()", "246", forEachStr );
+_cut.isEqual("forEach() 1 ES5 Array", "246", forEachStr );
+_cut.isTrue(
+  "forEach() 1 ES5 Array return value",
+  Array.isArray( _.forEach([],function (){}) )
+);
+// forEach - String
+forEachStr = "";
+_.forEach("cat, dog, pig", function (e) { forEachStr += e.toUpperCase(); } );
+_cut.isEqual("forEach() 2 ES5 String", "CAT, DOG, PIG", forEachStr );
+_cut.isTrue(
+  "forEach() 2 ES5 String return value",
+  _.isString( _.forEach("",function (){}) )
+);
+// forEach - Nodelist
+var forEachCount = 0;
+_.forEach(document.querySelectorAll("h3"), function (e) { forEachCount++; } );
+_cut.isEqual(
+  "forEach() 3 ES5 Nodelist",
+  document.querySelectorAll("h3").length,
+  forEachCount
+);
+_cut.isTrue(
+  "forEach() 3 ES5 Nodelist return value",
+  Array.isArray( _.forEach(document.querySelectorAll("h3"),function (){}) )
+);
+// forEach - custom array-like object
+var forEachCount = 0;
+_.forEach({0:4,1:5,2:6,length:3}, function (e) { forEachCount += (e*3); } );
+_cut.isEqual("forEach() 4 ES5 custom array-like object", 45, forEachCount);
+_cut.isTrue(
+  "forEach() 4 ES5 custom array-like object return value",
+  Array.isArray( _.forEach({0:4,1:5,2:6,length:3},function (){}) )
+);
 
-var eachStr = "";
-_.each(FPArray, function (e) { eachStr += (e*2); } );
-_cut.isEqual("each() <span class='deprecated'>DEPRECATED</span>", "246", eachStr );
+if (_cut.isNotIE11()) {
+  // forEach - Map
+  forEachStr = "";
+  _.forEach(
+    new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
+    function (e,p) { forEachStr += p + e + "-"; }
+  );
+  _cut.isEqual("forEach() 5 ES6 Map", "foo3.14-bar42-bazWilson-", forEachStr);
+  _cut.isTrue(
+    "forEach() 5 ES6 Map return value",
+    _.isMap( _.forEach(new Map([ ["foo", 3.14], ["bar", 42] ]),function (){}) )
+  );
+  // forEach - Set
+  forEachCount = 0;
+  _.forEach(
+    new Set([4,5,6]),
+    function (e) { forEachCount += (e*3); }
+  );
+  _cut.isEqual("forEach() 6 ES6 Set", 45, forEachCount);
+  _cut.isTrue(
+    "forEach() 6 ES6 Set return value",
+    _.isSet( _.forEach(new Set([4,5,6]),function (){}) )
+  );
+  // forEach - iterator
+  forEachCount = 0;
+  _.forEach(
+    (new Set([4,5,6])).values(),
+    function (e) { forEachCount += (e*3); }
+  );
+  _cut.isEqual("forEach() 7 ES6 Set values() iterator", 45, forEachCount);
+  _cut.isTrue(
+    "forEach() 7 ES6 Set values() iterator return value",
+    Array.isArray( _.forEach(new Set([4,5,6]).values(),function (){} ))
+  );
+}
 
-_cut.isEqual("map()", 9, _.map(FPArray, function (e) {return e*3})[2] );
+
+// map - Array
+_cut.isEqual(
+  "map() 1 ES5 Array and return value",
+  "[2,4,6]",
+  JSON.stringify( _.map([1,2,3], function(e) { return e*2; }) )
+);
+// map - String
+_cut.isEqual(
+  "map() 2 ES5 String and return value",
+  "CAT, DOG, PIG",
+  _.map("cat, dog, pig", function (e) { return e.toUpperCase(); } )
+);
+
+// map - Nodelist
+var mapNL = _.map(document.querySelectorAll("h3"), function (e) { return e; } );
+_cut.isTrue(
+  "map() 3 ES5 Nodelist and return value",
+  Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
+);
+// map - custom array-like object
+_cut.isEqual(
+  "map() 4 ES5 custom array-like object and return value",
+  "[2,4,6]",
+  JSON.stringify( _.map({0:1,1:2,2:3,length:3}, function(e) { return e*2; }) )
+);
+
+if (_cut.isNotIE11()) {
+  // map - Map
+  var mapMap = _.map(
+    new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
+    function(e) { return [ e[0], e[1]*2 ]; }
+  );
+  _cut.isEqual(
+    "map() 5 ES6 Map and return value",
+    "246",
+    "" + mapMap.get("foo") + mapMap.get("bar") + mapMap.get("baz")
+  );
+  // map - Set
+  var mapSet = _.map(
+    new Set([1,2,3]),
+    function(e) { return e*2; }
+  );
+  _cut.isTrue(
+    "map() 6 ES6 Set and return value",
+    mapSet.has(2) && mapSet.has(4) && mapSet.has(6)
+  );
+  // map - iterator
+  _cut.isEqual(
+    "map() 7 ES6 Set values() iterator and return value",
+    "[3,6,9]",
+    JSON.stringify(
+      _.map(
+        (new Set([1,2,3])).values(),
+        function (e) { return (e*3); }
+      )
+    )
+  );
+}
+
 
 var FPObject = {a:2, b:3, c:4};
 
@@ -632,8 +787,120 @@ _cut.isEqual("forIn()", "468", forInStr );
 
 _cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"] );
 
-_cut.isEqual("toArray() <span class='deprecated'>DEPRECATED</span>", true, Array.isArray( _.toArray({0:1,1:2,2:3,length:3}) ) );
-_cut.isEqual("toObject() <span class='deprecated'>DEPRECATED</span>", true, _.isObject( _.toArray({0:1,1:2,2:3,length:3}) ) );
+
+if (_cut.isNotIE11()) {
+  // forOf - Array
+  var forOfStr = "";
+  _.forOf(FPArray, function (e) { forOfStr += (e*2); } );
+  _cut.isEqual("forOf() 1 ES5 Array", "246", forOfStr );
+  // forOf - String
+  forOfStr = "";
+  _.forOf("cat, dog, pig", function (e) { forOfStr += e.toUpperCase(); } );
+  _cut.isEqual("forOf() 2 ES5 String", "CAT, DOG, PIG", forOfStr );
+  // forOf - Nodelist
+  var forOfCount = 0;
+  _.forOf(document.querySelectorAll("h3"), function (e) { forOfCount++; } );
+  _cut.isEqual(
+    "forOf() 3 ES5 Nodelist",
+    document.querySelectorAll("h3").length,
+    forOfCount
+  );
+  // forOf - custom array-like object
+  var forOfCount = 0;
+  _.forOf({0:4,1:5,2:6,length:3}, function (e) { forOfCount += (e*3); } );
+  _cut.isEqual("forOf() 4 ES5 custom array-like object", 45, forOfCount);
+  // forOf - Map
+  forOfStr = "";
+  _.forOf(
+    new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
+    function (e,i) { forOfStr += i + "-" + e + "-"; }
+  );
+  _cut.isEqual(
+    "forOf() 5 ES6 Map",
+    "0-foo,3.14-1-bar,42-2-baz,Wilson-",
+    forOfStr
+  );
+  // forOf - Set
+  forOfCount = 0;
+  _.forOf(
+    new Set([4,5,6]),
+    function (e) { forOfCount += (e*3); }
+  );
+  _cut.isEqual("forOf() 6 ES6 Set", 45, forOfCount);
+  // forOf - iterator
+  forOfCount = 0;
+  _.forOf(
+    (new Set([4,5,6])).values(),
+    function (e) { forOfCount += (e*3); }
+  );
+  _cut.isEqual("forOf() 7 ES6 Set values() iterator", 45, forOfCount);
+}
+
+
+if (_cut.isNotIE11()) {
+  // mapOf - Array
+  _cut.isEqual(
+    "mapOf() 1 ES5 Array",
+    "[2,4,6]",
+    JSON.stringify( _.mapOf([1,2,3], function(e) { return e*2; }) )
+  );
+  // mapOf - String
+  _cut.isEqual(
+    "mapOf() 2 ES5 String",
+     "[\"C\",\"A\",\"T\",\",\",\" \",\"D\",\"O\",\"G\",\",\",\" \",\"P\",\"I\",\"G\"]",
+    JSON.stringify(
+      _.mapOf("cat, dog, pig", function (e) { return e.toUpperCase(); } )
+    )
+  );
+  // mapOf - Nodelist
+  var mapNL = _.mapOf(document.querySelectorAll("h3"), function (e) { return e; } );
+  _cut.isTrue(
+    "mapOf() 3 ES5 Nodelist",
+    Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
+  );
+  // mapOf - custom array-like object
+  _cut.isEqual(
+    "mapOf() 4 ES5 custom array-like object",
+    "[2,4,6]",
+    JSON.stringify( _.mapOf({0:1,1:2,2:3,length:3}, function(e) { return e*2; }) )
+  );
+  // mapOf - Map
+  _cut.isEqual(
+    "mapOf() 5 ES6 Map",
+     "[[\"foo\",2],[\"bar\",4],[\"baz\",6]]",
+    JSON.stringify( _.mapOf(
+      new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
+      function(e) { return [ e[0], e[1]*2 ]; }
+    ) )
+  );
+  // mapOf - Set
+  _cut.isEqual(
+    "mapOf() 6 ES6 Set",
+     "[2,4,6]",
+    JSON.stringify( _.mapOf(
+      new Set([1,2,3]),
+      function(e) { return e*2; }
+    ) )
+  );
+  // mapOf - iterator
+  _cut.isEqual(
+    "mapOf() 7 ES6 Set values() iterator",
+    "[3,6,9]",
+    JSON.stringify(
+      _.mapOf(
+        (new Set([1,2,3])).values(),
+        function (e) { return (e*3); }
+      )
+    )
+  );
+}
+
+_cut.isEqual("constant()", 3.14, _.constant(3.14)() );
+_cut.isEqual("identity()", 100, _.identity(60) + _.identity(40) );
+_cut.isEqual("noop()", undefined, _.noop() );
+
+_cut.isTrue("T()", _.T() );
+_cut.isFalse("F()", _.F() );
 
 
 /* cookie */
@@ -1324,6 +1591,10 @@ if (_cut.isNotIE11()) {
   _cut.isEqual("<b>ES6 -</b> isMap() false", false, _.isMap(_.noop) );
   _cut.isEqual("<b>ES6 -</b> isSet() true", true, _.isSet( new Set() ) );
   _cut.isEqual("<b>ES6 -</b> isSet() false", false, _.isSet(_.noop) );
+  _cut.isEqual("<b>ES6 -</b> isWeakMap() true", true, _.isWeakMap( new WeakMap() ) );
+  _cut.isEqual("<b>ES6 -</b> isWeakMap() false", false, _.isWeakMap(_.noop) );
+  _cut.isEqual("<b>ES6 -</b> isWeakSet() true", true, _.isWeakSet( new WeakSet() ) );
+  _cut.isEqual("<b>ES6 -</b> isWeakSet() false", false, _.isWeakSet(_.noop) );
 }
 
 

@@ -61,12 +61,12 @@
 <p><strong>Just a few functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.1.2</p>
-<p>Date: 2018-12-11T19:44:54.249Z</p>
+<p>Latest version: 2.2.0</p>
+<p>Date: 2018-12-17T19:20:53.834Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (44005 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33297 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (45280 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (34345 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -246,18 +246,6 @@
       </td>
     </tr>
     <tr>
-      <td><code>constant(&#60;value&#62;);</code></td>
-      <td>A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: <code>f(x)=x</code>)</td>
-    </tr>
-    <tr>
-      <td><code>identity(&#60;value&#62;);</code></td>
-      <td>Return the given value. (In math: <code>f(x)=x</code>)</td>
-    </tr>
-    <tr>
-      <td><code>noop();</code></td>
-      <td>It's an empty function (no operation) that returns undefined and usable for optional callback arguments.</td>
-    </tr>
-    <tr>
       <td><code>removeTags(&#60;string&#62;);</code></td>
       <td>Remove HTML tags from a string. The return value is the shorter string.</td>
     </tr>
@@ -267,14 +255,6 @@
         <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
         <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.</span></p>
       </td>
-    </tr>
-    <tr>
-      <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
-      <td> Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
-      <td>Returns a function that is bound to a context. Both of the parameters are mandatory.</td>
     </tr>
   </table>
 </div>
@@ -307,6 +287,12 @@
   innerHTML: "MDN Sample url"
 });</pre>
         </p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>domToElement(&#60;htmlString&#62;);</code></td>
+      <td>
+        This function returns a HTML element which is created from the htmlString parameter. The htmlString parameter is mandatory and has to be a string.
       </td>
     </tr>
     <tr>
@@ -378,8 +364,6 @@
 
 <h3>Functional programming</h3>
 
-<p>These functions help you write quick functional programming Javascript code.</p>
-
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.toFunction()</code></p>
 
@@ -390,71 +374,80 @@
       <td>Return a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
     </tr>
     <tr>
-      <td></td>
-      <td>
-        <p><b>Sample codes</b></p>
-        <p><button onclick='var slice = _.toFunction([].slice); alert( Array.isArray(slice(document.querySelectorAll("h3"))) );'>Try</button></p>
-        <p><code>var slice = _.toFunction([].slice);<br/>alert( Array.isArray(slice(document.querySelectorAll("h3"))) );</code></p>
-      </td>
+      <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
+      <td>Returns a function that is bound to a context. Both of the parameters are mandatory.</td>
     </tr>
-  </table>
-</div>
-
-<div>
-  <table>
+    <tr>
+      <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td> Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
+    </tr>    
     <tr>
       <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>The forEach() method executes a provided function once for each array or nodelist element. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.</td>
-    </tr>
-    <tr>
-      <td><code>each(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="deprecated">DEPRECATED in v2.1.2</span> A shorthand to the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>.</td>
+      <td>
+        <p>The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+        <p><b>From the v2.2.0 these collection types are supported:</b></p>
+        <ul>
+          <li>Array (ES5, own forEach(), return as Array)</li>
+          <li>Nodelist (ES5, as Array, return as Array)</li>
+          <li>custom array-like objects (ES5, as Array, return as Array)</li>
+          <li>String (ES5, as Array, return as String)</li>
+          <li>Map (<span class="info">ES6</span>, own forEach(), return as Map)</li>
+          <li>Set (<span class="info">ES6</span>, own forEach(), return as Set)</li>
+          <li>ES6 iterators (<span class="info">ES6</span>, as Array, return as Array)</li>
+        </ul>       
+      </td>
     </tr>
     <tr>
       <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>The map() method creates a new array with the results of calling a provided function on every element in the calling array or nodelist. The collection is mandatory and has to be an array or nodelist. The callback is mandatory and has to be a function.</td>
-    </tr>
+      <td>
+       <p>The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+       <p><b>From the v2.2.0 these collection types are supported:</b></p>
+        <ul>
+          <li>Array (ES5, return as Array)</li>
+          <li>Nodelist (ES5, return as Array)</li>
+          <li>custom arraylike objects (ES5, return as Array)</li>
+          <li>String (ES5, return as String)</li>
+          <li>Map (<span class="info">ES6</span>, return as Map)</li>
+          <li>Set (<span class="info">ES6</span>, return as Set)</li>
+          <li> ES6 iterators (<span class="info">ES6</span>, return as Array)</li>
+        </ul>         
+      </td>
+    </tr>   
     <tr>
       <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.</td>
+      <td>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
       <td><code>mapIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback is mandatory and has to be a function.</td>
+      <td>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
-      <td></td>
-      <td>
-        <p><b>Sample codes</b></p>
-        <p><button onclick='var arr1 = [1,2,3]; _.forEach ( arr1, function (v) { alert( v*2 ); } );'>forEach</button></p>
-        <p><code>var arr1 = [1,2,3];<br/>_.forEach ( arr1, function (v) { alert( v*2 ); } );</code></p>
-        <p><button onclick='var arr1 = [1,2,3]; _.each ( arr1, function (v) { alert( v*2 ); } );'>each</button></p>
-        <p><code>var arr1 = [1,2,3];<br/>_.each ( arr1, function (v) { alert( v*2 ); } );</code></p>
-        <p><button onclick='var arr2a = [1,2,3]; var arr2b = _.map ( arr2a, function (v) { return v*3; } ); alert(arr2a+"\n"+arr2b);'>map</button></p>
-        <p><code>var arr2a = [1,2,3];<br/>var arr2b = _.map ( arr2a, function (v) { return v*3; } );<br/>alert(arr2a+"\n"+arr2b);</code></p>
-
-        <p><button onclick='var o1 = {a:1,b:2,c:3}; _.forIn ( o1, function (v) { alert( v*4 ); } );'>forIn</button></p>
-        <p><code>var o1 = {a:1,b:2,c:3};<br/>_.forIn ( o1, function (v) { alert( v*4 ); } );</code></p>
-        <p><button onclick='var o2a = {a:1,b:2,c:3}; var o2b = _.mapIn ( o2a, function(v) { return v*5; } ); alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);'>mapIn</button></p>
-        <p><code>var o2a = {a:1,b:2,c:3};<br/>var o2b = _.mapIn ( o2a, function(v) { return v*5; } );<br/>alert(o2a.a+"  "+o2a.b+"  "+o2a.c+"  "+"\n"+o2b.a+"  "+o2b.b+"  "+o2b.c);</code></p>
-      </td>
+      <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This function is the faster, ES6 variant of the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the <code>Array#forEach()</code> method.</td>
     </tr>
     <tr>
-      <td><code>toArray(&#60;object&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED in v2.1.1</span> Please use the <code>Array.from()</code> instead of this!</p>
-        <p>Convert an object (array like objects) to array or clone an array. This function is same as the <code>Array.from</code>, if that is available. If not, then the <code>Array.prototype.slice</code> will be called.</p>
-        <p><button onclick='alert( Array.isArray( _.toArray(document.querySelectorAll("td")) ) );'>Try</button></p>
-        <p><code>alert( Array.isArray( _.toArray(document.querySelectorAll("td")) ) );</code></p>
-      </td>
+      <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the <code>Array#map()</code> method.</td>
     </tr>
     <tr>
-      <td><code>toObject(&#60;array&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED in v2.1.1</span></p>
-        <p>Convert an array to iterable object.</p>
-        <p><button onclick='var a1=["a","b","c"]; var o1=_.toObject(a1); alert( _.getType(o1) ); for(var i=0,len=o1.length; i<len; i++) { alert(o1[i]); }'>Try</button></p>
-        <p><code>var a1 = ["a","b","c"];<br/>var o1 = _.toObject(a1);<br/>alert( _.getType(o1) );<br/>for(var i=0, len=o1.length; i&#60; len; i++) { alert(o1[i]); }</code></p>      </td>
+      <td><code>constant(&#60;value&#62;);</code></td>
+      <td>A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: <code>f(x)=x</code>)</td>
+    </tr>
+    <tr>
+      <td><code>identity(&#60;value&#62;);</code></td>
+      <td>Return the given value. (In math: <code>f(x)=x</code>)</td>
+    </tr>
+    <tr>
+      <td><code>noop();</code></td>
+      <td>It's an empty function (no operation) that returns undefined and usable for optional callback arguments.</td>
+    </tr>
+    <tr>
+      <td><code>T();</code></td>
+      <td>This function returns true.</td>
+    </tr>
+    <tr>
+      <td><code>F();</code></td>
+      <td>This function returns false.</td>
     </tr>
   </table>
 </div>
@@ -592,6 +585,14 @@
     <tr>
       <td><code>isSet(&#60;value&#62;);</code></td>
       <td><span class="info">ES6</span> This function determines whether the provided value is a set. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>isWeakMap(&#60;value&#62;);</code></td>
+      <td><span class="info">ES6</span> This function determines whether the provided value is a weakmap. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>isWeakSet(&#60;value&#62;);</code></td>
+      <td><span class="info">ES6</span> This function determines whether the provided value is a weakset. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isDate(&#60;value&#62;);</code></td>
@@ -1014,6 +1015,15 @@ alert( _.version );</code></pre></td>
 
 <div>
   <table>
+    <tr>
+      <td><b>domToElement(&#60;htmlString&#62;);</b></td>
+      <td colspan="2">
+        <p><button onclick='_.qs("#div2").append( _.domToElement("<div>Hello world!</div>") );'>Try</button></p>
+        <p><code>_.qs("#div2").append( _.domToElement("&#60;div&#62;Hello world!&#60;/div&#62;") );</code></p>
+        <p><button onclick='_.qs("#div2").append( _.domToElement("<p><span style=\"background-color: yellow; color: blue;\">Hello</span> <span style=\"background-color: blue; color: yellow;\">world</span>!</p>") );'>Try</button></p>
+        <p><code>_.qs("#div2").append( _.domToElement("&#60;p&#62;&#60;span style=\"background-color: yellow; color: blue;\"&#62;Hello&#60;/span&#62; &#60;span style=\"background-color: blue; color: yellow;\"&#62;world&#60;/span&#62;!&#60;/p&#62;") );</code></p>
+      </td>
+    </tr>  
     <tr>
       <td><b>domCreate(type,properties,innerHTML); with style object</b></td>
       <td><button onclick='var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style object");  var el2 = _.domCreate("p", {}, "Sample created paragraph"); var el3 = _.domCreate("br");  var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url"); _.qs("#div2").append(el1); el2.append(el3); el2.append(el4); _.qs("#div2").append(el2);'>Try</button></td>
