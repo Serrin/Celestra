@@ -57,16 +57,15 @@
 
 <h2 id="download">Download</h2>
 
-<p><strong>A helper library for those who like the Vanilla JS.</strong></p>
-<p><strong>Just a few functions and ES6 polyfills.</strong></p>
+<p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.2.0</p>
-<p>Date: 2018-12-17T19:20:53.834Z</p>
+<p>Latest version: 2.2.1</p>
+<p>Date: 2018-12-21T19:23:03.965Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (45280 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (34345 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (45770 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (34726 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -187,14 +186,6 @@
     <tr>
       <td><code>getType(&#60;variable&#62;[, type]);</code></td>
       <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.</td>
-    </tr>
-    <tr>
-      <td><code>uniqueArray(&#60;value&#62;);</code></td>
-      <td>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
-    </tr>
-    <tr>
-      <td><code>uniquePush(&#60;array&#62;,&#60;value&#62;);</code></td>
-      <td>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</td>
     </tr>
     <tr>
       <td><code>merge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
@@ -379,7 +370,11 @@
     </tr>
     <tr>
       <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
-      <td> Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
+      <td>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
+    </tr>    
+    <tr>
+      <td><code>tap(&#60;object&#62;,&#60;callback&#62;);</code></td>
+      <td>Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.</td>
     </tr>    
     <tr>
       <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -415,11 +410,19 @@
     </tr>   
     <tr>
       <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</td>
+        <td>
+          <p>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
+          <p>The parameter function will be called with these arguments: key value, key, object.</p>
+          <p><span class="info">Note:</span> From the v2.2.1 the return value is the object parameter.</span></p>
+        </td>
+      </td>
     </tr>
     <tr>
       <td><code>mapIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</td>
+      <td>
+        <p>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
+        <p>The parameter function will be called with these arguments: key value, key, object.</p>
+      </td>
     </tr>
     <tr>
       <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -429,6 +432,22 @@
       <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the <code>Array#map()</code> method.</td>
     </tr>
+    <tr>
+      <td><code>arrayClear(&#60;array&#62;);</code></td>
+      <td>Clear the array and returns the empty array. The array parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>arrayRemove(&#60;array&#62;,&#60;value&#62;);</code></td>
+      <td>Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.</td>
+    </tr>
+    <tr>
+      <td><code>uniqueArray(&#60;value&#62;);</code></td>
+      <td>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
+    </tr>
+    <tr>
+      <td><code>uniquePush(&#60;array&#62;,&#60;value&#62;);</code></td>
+      <td>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</td>
+    </tr>    
     <tr>
       <td><code>constant(&#60;value&#62;);</code></td>
       <td>A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: <code>f(x)=x</code>)</td>

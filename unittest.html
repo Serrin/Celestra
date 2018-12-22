@@ -94,7 +94,7 @@
 
 var celTest = {};
 
-celTest.version = "Celestra Unit Tester (CUT) v0.8.6";
+celTest.version = "Celestra Unit Tester (CUT) v0.8.7";
 celTest.__results__ = document.querySelector("#results");
 
 celTest.isNotIE11 = function isNotIE11 () {
@@ -159,11 +159,17 @@ celTest.addElement = function addElement (type, iHtml) {
   }
 };
 
+/* log(<innerHTML>); */
+celTest.log = function log (iHtml) { celTest.addElement("p", iHtml); };
+
+/* clear(); */
+celTest.clear = function clear () { celTest.__results__.innerHTML = ""; };
+
 var _cut = celTest;
 
 
-_cut.addElement("p", celestra.version);
-_cut.addElement("p", (new Date()).toISOString() );
+_cut.log(celestra.version);
+_cut.log((new Date()).toISOString());
 
 _cut.addElement( 
   "table",

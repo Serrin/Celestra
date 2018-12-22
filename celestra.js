@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.2.0
+ * @version 2.2.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -1024,16 +1024,6 @@ function merge () {
   return t;
 }
 
-function uniqueArray (a) {
-  a = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
-  return a.filter(function(e, i, arr) { return arr.indexOf(e) === i; });
-}
-
-function uniquePush (a, v) {
-  if (a.indexOf(v) === -1) { a.push(v); return true; }
-  return false;
-}
-
 /* FP */
 
 function toFunction (fn) { return Function.prototype.call.bind(fn); }
@@ -1041,6 +1031,8 @@ function toFunction (fn) { return Function.prototype.call.bind(fn); }
 var bind = Function.prototype.call.bind(Function.prototype.bind);
 
 var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+
+function tap (v, fn) { fn(v); return v; }
 
 function forEach (a, fn) {
   var t = Object.prototype.toString.call(a)
@@ -1075,6 +1067,7 @@ function map (a, fn) {
 
 function forIn (o, fn) {
   for (var p in o) { if (o.hasOwnProperty(p)) { fn(o[p], p, o); } }
+  return o;
 }
 
 function mapIn (o, fn) {
@@ -1088,6 +1081,30 @@ function mapIn (o, fn) {
 function forOf (a, fn) { a = Array.from(a); a.forEach(fn); return a; }
 
 function mapOf (a, fn) { return Array.from(a, fn); }
+
+function uniqueArray (a) {
+  a = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
+  return a.filter(function(e, i, arr) { return arr.indexOf(e) === i; });
+}
+
+function uniquePush (a, v) {
+  if (a.indexOf(v) === -1) { a.push(v); return true; }
+  return false;
+}
+
+function arrayClear (a) { a.length = 0; return a; }
+
+function arrayRemove (a, v, all) {
+  var found = (a.indexOf(v) !== -1);
+  if (!all) {
+    var pos = a.indexOf(v);
+    if (pos !== -1) { a.splice(pos, 1); }
+  } else {
+    var pos = -1;
+    while ( (pos = a.indexOf(v)) !== -1 ) { a.splice(pos, 1); }
+  }
+  return found;
+}
 
 function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
@@ -1409,7 +1426,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.2.0";
+celestra.version = "Celestra v2.2.1";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
@@ -1447,19 +1464,22 @@ celestra.form2array = form2array;
 celestra.form2string = form2string;
 celestra.removeTags = removeTags;
 celestra.createFile = createFile;
-celestra.uniqueArray = uniqueArray;
-celestra.uniquePush = uniquePush;
 celestra.merge = merge;
 /* FP */
 celestra.toFunction = toFunction;
 celestra.bind = bind;
 celestra.hasOwn = hasOwn;
+celestra.tap = tap;
 celestra.forEach = forEach;
 celestra.map = map;
 celestra.forIn = forIn;
 celestra.mapIn = mapIn;
 celestra.forOf = forOf;
 celestra.mapOf = mapOf;
+celestra.uniqueArray = uniqueArray;
+celestra.uniquePush = uniquePush;
+celestra.arrayClear = arrayClear;
+celestra.arrayRemove = arrayRemove;
 celestra.constant = constant;
 celestra.identity = identity;
 celestra.noop = noop;

@@ -9,20 +9,19 @@
 
 ## Download
 
-__A helper library for those who like the Vanilla JS.__
-__Just a few functions and ES6 polyfills.__
+__A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.2.0
+Latest version: 2.2.1
 
-Date: 2018-12-17T19:20:53.834Z
+Date: 2018-12-21T19:23:03.965Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (45280 bytes)
+Development version: celestra.js (45770 bytes)
 
-Minimal version: celestra.min.js (34345 bytes)
+Minimal version: celestra.min.js (34726 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -86,8 +85,6 @@ Name | Description
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
-`uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
-`uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `merge([deep,]<target>,<source1>, ...sources);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources. __Note:__ From the v1.19.2 this function uses the ´hasOwnProperty´ method.
 `deepAssign(<target>,<source1>, ...sources);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
@@ -138,13 +135,18 @@ Name | Description
 ---- | -----------
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
-`hasOwn(<object>,<property>);` | Return the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+`hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+`tap(<object>,<callback>);` | Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.
 `forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, own forEach(), return as Array), Nodelist (ES5, as Array, return as Array), custom array-like objects (ES5, as Array, return as Array), String (ES5, as Array, return as String), Map (ES6, own forEach(), return as Map), Set (ES6, own forEach(), return as Set), ES6 iterators (ES6, as Array, return as Array)__
 `map(<collection>,<callback>);` | The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, return as Array), Nodelist (ES5, return as Array), custom array-like objects (ES5, return as Array), String (ES5, return as String), Map (ES6, return as Map), Set (ES6, return as Set) and ES6 iterators (ES6, return as Array)__
-`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.
-`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.
+`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._ __Note: From the v2.2.1 the return value is the object parameter.__
+`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
 `forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the `Array#forEach()` method.
 `mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the `Array#map()` method.
+`arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
+`arrayRemove(<array>,<value>);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
+`uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
+`uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.

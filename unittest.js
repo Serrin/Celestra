@@ -493,50 +493,6 @@ _cut.isEqual(
   arrMergeStr
 );
 
-_cut.isEqual(
-  "uniqueArray() 1 ES5 - Array and Array-like object",
-  JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
-  JSON.stringify(
-    _.uniqueArray( {0:1,1:2,2:2,3:3,4:4,5:4,6:5,7:6,8:6,9:7,length:10} )
-  )
-);
-_cut.isEqual(
-  "uniqueArray() 2 ES5 - Array and String",
-  JSON.stringify( _.uniqueArray(
-    ["A","r","r","a","y","y","a","n","d","d","M","M","a","p"]
-  ) ),
-  JSON.stringify( _.uniqueArray( "ArrayyanddMMap" ) )
-);
-if (_cut.isNotIE11()) {
-  _cut.isEqual(
-    "uniqueArray() 3 ES6 - Array and Set",
-    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
-    JSON.stringify(
-      _.uniqueArray( new Set( [1,2,2,3,4,4,5,6,6,7] ) )
-    )
-  );
-  _cut.isEqual(
-    "uniqueArray() 4 ES6 - Array and Map values() iterator",
-    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
-    JSON.stringify(
-      _.uniqueArray(
-        (new Map([
-          ["foo1", 1], ["bar1", 2], ["baz1", 2], ["foo2", 3], ["bar2", 4],
-          ["baz2", 4], ["foo3", 5], ["bar3", 6], ["baz3", 6], ["foo4", 7]
-        ])).values()
-      )
-    )
-  );
-}
-
-var uniquePushTest = [1,2,3,5];
-_cut.isTrue("uniquePush() true", _.uniquePush(uniquePushTest, 4) );
-_cut.isFalse("uniquePush() false", _.uniquePush(uniquePushTest, 4) );
-_cut.isEqual(
-  "uniquePush() value check",
-  "[1,2,3,5,4]",
-  JSON.stringify(uniquePushTest)
-);
 
 /* DOM */
 /*
@@ -644,6 +600,12 @@ _cut.isEqual("bind()", true, dqsa("h3").length > 0 );
 _cut.isEqual("hasOwn() true", true, _.hasOwn( {0:1,1:2,2:3,length:3}, "length" ) );
 _cut.isEqual("hasOwn() false", false, _.hasOwn( [], "forEach" ) );
 
+var tapArray1 = [4,5,6];
+var tapArray2 = _.tap(tapArray1, function (e) { e[2] = 5; });
+_cut.isTrue(
+  "tap()",
+  (tapArray1 === tapArray2 && tapArray1[2] === 5) 
+);
 
 // forEach - Array
 var forEachStr = "";
@@ -784,9 +746,9 @@ var FPObject = {a:2, b:3, c:4};
 var forInStr = "";
 _.forIn(FPObject, function (e) { forInStr += (e*2); } );
 _cut.isEqual("forIn()", "468", forInStr );
+_cut.isEqual("forIn() return value", FPObject, _.forIn(FPObject, function(){}) );
 
 _cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"] );
-
 
 if (_cut.isNotIE11()) {
   // forOf - Array
@@ -894,6 +856,137 @@ if (_cut.isNotIE11()) {
     )
   );
 }
+
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,7,8,9,0];
+var arrTestClearRemove2 = _.arrayClear(arrTestClearRemove1);
+_cut.isTrue(
+  "arrayClear()",
+  (arrTestClearRemove1 === arrTestClearRemove2
+    && arrTestClearRemove1.length === 0
+    && Array.isArray(arrTestClearRemove1)
+  )
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isTrue(
+  "arrayRemove() - 1 found - not all - true",
+  _.arrayRemove(arrTestClearRemove1, 6)
+);
+_cut.isFalse(
+  "arrayRemove() - 1 found - not all - false",
+  _.arrayRemove(arrTestClearRemove1, 6)
+);
+_cut.isEqual(
+  "arrayRemove() - 1 found - not all - value check",
+  "[1,2,3,4,5,5,7,8,5,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isTrue(
+  "arrayRemove() - 1 found - all - true",
+  _.arrayRemove(arrTestClearRemove1, 6, true)
+);
+_cut.isFalse(
+  "arrayRemove() - 1 found - all - false",
+  _.arrayRemove(arrTestClearRemove1, 6, true)
+);
+_cut.isEqual(
+  "arrayRemove() - 1 found - all - value check",
+  "[1,2,3,4,5,5,7,8,5,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isTrue(
+  "arrayRemove() - 3 found - not all - true",
+  _.arrayRemove(arrTestClearRemove1, 5)
+);
+_cut.isTrue(
+  "arrayRemove() - 3 found - not all - true",
+  _.arrayRemove(arrTestClearRemove1, 5, false)
+);
+_cut.isEqual(
+  "arrayRemove() - 3 found - not all - value check",
+  "[1,2,3,4,6,7,8,5,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isTrue(
+  "arrayRemove() - 3 found - all - true",
+  _.arrayRemove(arrTestClearRemove1, 5, true)
+);
+_cut.isFalse(
+  "arrayRemove() - 3 found - all - false",
+  _.arrayRemove(arrTestClearRemove1, 5, true)
+);
+_cut.isEqual(
+  "arrayRemove() - 3 found - all - value check",
+  "[1,2,3,4,6,7,8,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isFalse(
+  "arrayRemove() - 0 found - not all - false",
+  _.arrayRemove(arrTestClearRemove1, 11)
+);
+_cut.isFalse(
+  "arrayRemove() - 0 found - all - false",
+  _.arrayRemove(arrTestClearRemove1, 11, true)
+);
+_cut.isEqual(
+  "arrayRemove() - 0 found - value check",
+  "[1,2,3,4,5,6,5,7,8,5,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+_cut.isEqual(
+  "uniqueArray() 1 ES5 - Array and Array-like object",
+  JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+  JSON.stringify(
+    _.uniqueArray( {0:1,1:2,2:2,3:3,4:4,5:4,6:5,7:6,8:6,9:7,length:10} )
+  )
+);
+_cut.isEqual(
+  "uniqueArray() 2 ES5 - Array and String",
+  JSON.stringify( _.uniqueArray(
+    ["A","r","r","a","y","y","a","n","d","d","M","M","a","p"]
+  ) ),
+  JSON.stringify( _.uniqueArray( "ArrayyanddMMap" ) )
+);
+if (_cut.isNotIE11()) {
+  _cut.isEqual(
+    "uniqueArray() 3 ES6 - Array and Set",
+    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+    JSON.stringify(
+      _.uniqueArray( new Set( [1,2,2,3,4,4,5,6,6,7] ) )
+    )
+  );
+  _cut.isEqual(
+    "uniqueArray() 4 ES6 - Array and Map values() iterator",
+    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+    JSON.stringify(
+      _.uniqueArray(
+        (new Map([
+          ["foo1", 1], ["bar1", 2], ["baz1", 2], ["foo2", 3], ["bar2", 4],
+          ["baz2", 4], ["foo3", 5], ["bar3", 6], ["baz3", 6], ["foo4", 7]
+        ])).values()
+      )
+    )
+  );
+}
+
+var uniquePushTest = [1,2,3,5];
+_cut.isTrue("uniquePush() true", _.uniquePush(uniquePushTest, 4) );
+_cut.isFalse("uniquePush() false", _.uniquePush(uniquePushTest, 4) );
+_cut.isEqual(
+  "uniquePush() value check",
+  "[1,2,3,5,4]",
+  JSON.stringify(uniquePushTest)
+);
 
 _cut.isEqual("constant()", 3.14, _.constant(3.14)() );
 _cut.isEqual("identity()", 100, _.identity(60) + _.identity(40) );
