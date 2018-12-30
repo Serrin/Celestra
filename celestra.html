@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.2.1</p>
-<p>Date: 2018-12-21T19:23:03.965Z</p>
+<p>Latest version: 2.2.2</p>
+<p>Date: 2018-12-31T19:26:48.358Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (45770 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (34726 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (46491 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (35301 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -244,7 +244,7 @@
       <td><code>createFile(&#60;filename&#62;,&#60;content&#62;[,dataType]);</code></td>
       <td>
         <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
-        <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.</span></p>
+        <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.</span></p>
       </td>
     </tr>
   </table>
@@ -265,7 +265,7 @@
       <td><code>domCreate(&#60;element descriptive object&#62;);</code></td>
       <td>
         <p>Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The <code>style</code> can be a subobject or a string. <span class="info">In IE11 and W10M Edge 14 the style string doesn't work.</span></p>
-        </p>
+        <p>
           <b>Sample code:</b>
           <pre>_.domCreate({
   elementType: "a",
@@ -410,11 +410,10 @@
     </tr>   
     <tr>
       <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-        <td>
-          <p>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
-          <p>The parameter function will be called with these arguments: key value, key, object.</p>
-          <p><span class="info">Note:</span> From the v2.2.1 the return value is the object parameter.</span></p>
-        </td>
+      <td>
+        <p>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
+        <p>The parameter function will be called with these arguments: key value, key, object.</p>
+        <p><span class="info">Note:</span> From the v2.2.1 the return value is the object parameter.</p>
       </td>
     </tr>
     <tr>
@@ -526,6 +525,13 @@
 <div>
   <table>
     <tr>
+      <td><code>isEqual(&#60;value1&#62;,&#60;value2&#62;);</code></td>
+      <td>
+        <p>This function checks the value equality and type equality of the given values/objects. Can check the <code>NaN</code> objects too. The return value is boolean and both of the parameters are mandatory.</p>
+        <p><span class="info">Note: Works only with ES5 types. Please use the <code>Array.from()</code> or the <code>spread syntax</code> to convert Map and Set types to Array!</span></p>
+      </td>
+    </tr>
+    <tr>
       <td><code>isString(&#60;value&#62;);</code></td>
       <td>This function determines whether the provided value is a string. The return value is boolean.</td>
     </tr>
@@ -612,6 +618,13 @@
     <tr>
       <td><code>isWeakSet(&#60;value&#62;);</code></td>
       <td><span class="info">ES6</span> This function determines whether the provided value is a weakset. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>isIterator(&#60;value&#62;);</code></td>
+      <td>
+        <span class="info">ES6</span> This function determines whether the provided value is an iterator The return value is boolean.
+        <p><span class="info">Doesn't work in W10M Edge 14.</span></p>
+      </td>
     </tr>
     <tr>
       <td><code>isDate(&#60;value&#62;);</code></td>
@@ -948,6 +961,10 @@
     <tr>
       <td><code>window.screenTop</code></td>
       <td>The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/screenTop" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>globalThis</code></td>
+      <td>A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self. For more information please read the<!-- TODO!!! <a href="???" target="_blank">MDN Article</a> and--> <a href="https://tc39.github.io/proposal-global/" target="_blank">proposal page</a> and <a href="https://github.com/tc39/proposal-global" target="_blank">proposal github page</a>!</td>
     </tr>
   </table>
 </div>
@@ -2876,7 +2893,7 @@ alert(fromEntriesStr);</pre>
 <hr/>
 
 <div class="center">
-  <a title="Fast For Good"rel="nofollow" target="_blank" href="https://www.mozilla.org/firefox/this-browser-comes-highly-recommended/?utm_source=devs-for.firefox.com&utm_medium=referral&utm_campaign=devs-for-firefox&utm_content=Fast-For-Good">
+  <a title="Fast For Good" rel="nofollow" target="_blank" href="https://www.mozilla.org/firefox/this-browser-comes-highly-recommended/?utm_source=devs-for.firefox.com&utm_medium=referral&utm_campaign=devs-for-firefox&utm_content=Fast-For-Good">
     <img style="border:0 none;" alt="Fast For Good" srcset="https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good.png, https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good-2x.png 2x" src="https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good.png"/>
   </a>
 </div>

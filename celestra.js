@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.2.1
+ * @version 2.2.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -20,6 +20,7 @@ extend        | 1 | extend
 deepAssign    | 1 | deepAssign
 getJson       | 1 | getAjax
 getText       | 1 | getAjax
+isEqual       | 2 | getType
 --------------|---|----------------------*/
 
 /* polyfills */
@@ -350,18 +351,14 @@ if (!Object.fromEntries) {
 }
 
 if (!Object.entries) {
-  Object.entries = function (obj) {
-    var res = [];
-    Object.keys(obj).forEach(function (e) { res.push([e, obj[e]]); });
-    return res;
+  Object.entries = function (o) {
+    return Object.keys(o).map(function (e) { return [e, o[e]]; });
   };
 }
 
 if (!Object.values) {
-  Object.values = function (obj) {
-    var res = [];
-    Object.keys(obj).forEach(function (e) { res.push(obj[e]); });
-    return res;
+  Object.values = function (o) {
+    return Object.keys(o).map(function (e) { return o[e]; });
   };
 }
 
@@ -541,6 +538,19 @@ if (!String.prototype.codePointAt) {
 if (!("screenLeft" in window)) { window.screenLeft = window.screenX; }
 if (!("screenTop" in window)) { window.screenTop = window.screenY; }
 
+/* https://github.com/tc39/proposal-global */
+(function (global) {
+  if (!global.globalThis) {
+    if (Object.defineProperty) {
+      Object.defineProperty(global, "globalThis", {
+        configurable: true, enumerable: false, value: global, writable: true
+      });
+    } else {
+      global.globalThis = global;
+    }
+  }
+})(typeof this === "object" ? this : Function("return this")());
+
 /* Number ES6 */
 
 if (Number.MIN_SAFE_INTEGER === undefined) {
@@ -582,11 +592,11 @@ if (!Number.parseFloat) { Number.parseFloat = window.parseFloat; }
 
 /* Math ES6 */
 
-Math.acosh = Math.acosh || function(x) {
+Math.acosh = Math.acosh || function (x) {
   return Math.log(x + Math.sqrt(x * x - 1));
 };
 
-Math.asinh = Math.asinh || function(x) {
+Math.asinh = Math.asinh || function (x) {
   if (x === -Infinity) {
     return x;
   } else {
@@ -594,10 +604,10 @@ Math.asinh = Math.asinh || function(x) {
   }
 };
 
-Math.atanh = Math.atanh || function(x) { return Math.log((1+x)/(1-x)) / 2; };
+Math.atanh = Math.atanh || function (x) { return Math.log((1+x)/(1-x)) / 2; };
 
 if (!Math.cbrt) {
-  Math.cbrt = function(x) {
+  Math.cbrt = function (x) {
     var y = Math.pow(Math.abs(x), 1/3);
     return x < 0 ? -y : y;
   };
@@ -612,20 +622,18 @@ if (!Math.clz32) Math.clz32 = (function(log, LN2){
   };
 })(Math.log, Math.LN2);
 
-Math.cosh = Math.cosh || function(x) {
+Math.cosh = Math.cosh || function (x) {
   var y = Math.exp(x);
   return (y + 1 / y) / 2;
 };
 
-Math.expm1 = Math.expm1 || function(x) { return Math.exp(x) - 1; };
+Math.expm1 = Math.expm1 || function (x) { return Math.exp(x) - 1; };
 
 Math.fround = Math.fround || (function (array) {
-  return function(x) {
-    return array[0] = x, array[0];
-  };
+  return function (x) { return array[0] = x, array[0]; };
 })(new Float32Array(1));
 
-Math.hypot = function (x, y) {
+Math.hypot = Math.hypot || function (x, y) {
   var max = 0;
   var s = 0;
   for (var i = 0; i < arguments.length; i += 1) {
@@ -639,7 +647,7 @@ Math.hypot = function (x, y) {
   return max === 1 / 0 ? 1 / 0 : max * Math.sqrt(s);
 };
 
-Math.imul = Math.imul || function(a, b) {
+Math.imul = Math.imul || function (a, b) {
   var aHi = (a >>> 16) & 0xffff;
   var aLo = a & 0xffff;
   var bHi = (b >>> 16) & 0xffff;
@@ -647,28 +655,28 @@ Math.imul = Math.imul || function(a, b) {
   return ((aLo * bLo) + (((aHi * bLo + aLo * bHi) << 16) >>> 0) | 0);
 };
 
-Math.log1p = Math.log1p || function(x) { return Math.log(1 + x); };
+Math.log1p = Math.log1p || function (x) { return Math.log(1 + x); };
 
-Math.log10 = Math.log10 || function(x) { return Math.log(x) * Math.LOG10E; };
+Math.log10 = Math.log10 || function (x) { return Math.log(x) * Math.LOG10E; };
 
-Math.log2 = Math.log2 || function(x) { return Math.log(x) * Math.LOG2E; };
+Math.log2 = Math.log2 || function (x) { return Math.log(x) * Math.LOG2E; };
 
 if (!Math.sign) {
-  Math.sign = function(x) { return ((x > 0) - (x < 0)) || +x; };
+  Math.sign = function (x) { return ((x > 0) - (x < 0)) || +x; };
 }
 
-Math.sinh = Math.sinh || function(x) {
+Math.sinh = Math.sinh || function (x) {
   var y = Math.exp(x);
   return (y - 1 / y) / 2;
 }
 
-Math.tanh = Math.tanh || function(x){
+Math.tanh = Math.tanh || function (x) {
   var a = Math.exp(+x), b = Math.exp(-x);
   return a == Infinity ? 1 : b == Infinity ? -1 : (a - b) / (a + b);
 }
 
 if (!Math.trunc) {
-	Math.trunc = function(v) {
+	Math.trunc = function (v) {
 		v = +v;
 		return (v - v % 1) || (!isFinite(v) || v === 0 ? v : v < 0 ? -0 : 0);
 	};
@@ -978,7 +986,7 @@ function form2string (f) {
 }
 
 function removeTags (s) {
-  return (""+s).replace(/<[^>]*>/g," ").replace(/\s{2,}/g," ").trim();
+  return (""+s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 }
 
 function createFile (fln, c, dt) {
@@ -1139,7 +1147,7 @@ function domCreate (t, ps, iH) {
 }
 
 function domToElement(s) {
-  const e = document.createElement('div');
+  const e = document.createElement("div");
   e.innerHTML = s;
   return e.firstElementChild;
 }
@@ -1298,6 +1306,11 @@ function postCors (url, data, format, success, error, user, password) {
 
 /* type checking */
 
+function isEqual (a, b) {
+  return (celestra.getType(a, celestra.getType(b))
+    && JSON.stringify(a) === JSON.stringify(b));
+}
+
 function isString (v) { return typeof v === "string"; }
 function isChar (v) {
   if (typeof v === "string") { if (v.length === 1) { return true; } }
@@ -1357,6 +1370,9 @@ function isWeakMap (v) {
 }
 function isWeakSet (v) {
   return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "weakset";
+}
+function isIterator (v) {
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase().indexOf("iterator") !== -1;
 }
 
 function isDate (v) {
@@ -1426,7 +1442,7 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.2.1";
+celestra.version = "Celestra v2.2.2";
 
 celestra.noConflict = function () {
   window._ = celestra.__prevUnderscore__;
@@ -1508,6 +1524,7 @@ celestra.postAjax = postAjax;
 celestra.getCors = getCors;
 celestra.postCors = postCors;
 /* type checking */
+celestra.isEqual = isEqual;
 celestra.isString = isString;
 celestra.isChar = isChar;
 celestra.isNumber = isNumber;
@@ -1530,6 +1547,7 @@ celestra.isMap = isMap;
 celestra.isSet = isSet;
 celestra.isWeakMap = isWeakMap;
 celestra.isWeakSet = isWeakSet;
+celestra.isIterator = isIterator;
 celestra.isDate = isDate;
 celestra.isRegexp = isRegexp;
 celestra.isElement = isElement;

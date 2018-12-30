@@ -29,7 +29,7 @@
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).</p>
 
-<p>Latest version: 2.2.1</p>
+<p>Latest version: 2.2.2</p>
 
 <p>Download: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
@@ -39,17 +39,17 @@
 
 /**
  * @name Celestra demo plugin
- * @version 2.2.1
+ * @version 2.2.2
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.2.1
+ * Minimal required Celestra version: 2.2.2
  */
 
 (function(celestra){
 "use strict";
 
 celestra.addNumbers = function () {
-  if (arguments.length>0) {
+  if (arguments.length&#62;0) {
     var sum = 0;
     for (var i=0, l=arguments.length; i&#60;l; i++) {
       if ( celestra.getType(arguments[i], "number") ) {

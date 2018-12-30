@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.2.1
+Latest version: 2.2.2
 
-Date: 2018-12-21T19:23:03.965Z
+Date: 2018-12-31T19:26:48.358Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (45770 bytes)
+Development version: celestra.js (46491 bytes)
 
-Minimal version: celestra.min.js (34726 bytes)
+Minimal version: celestra.min.js (35301 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -96,7 +96,7 @@ Name | Description
 `form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element. __The result has changed in v1.21.0: The array elements are objects instead of strings.__
 `form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
 `removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
-`createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge.___
+`createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.___
 
 
 ### DOM functions
@@ -187,6 +187,7 @@ Example: `_.isString()`
 
 Name | Description
 ---- | -----------
+`isEqual(<value1>,<value2>);` | This function checks the value equality and type equality of the given values/objects. Can check the `NaN` objects too. The return value is boolean and both of the parameters are mandatory. __Note: Works only with ES5 types. Please use the `Array.from()` or the `spread syntax` to convert Map and Set types to Array!__
 `isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
 `isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. The return value is boolean.
 `isNumber(<value>);` | This function determines whether the provided value is a number. The return value is boolean.
@@ -209,6 +210,7 @@ Name | Description
 `isSet(<value>);` | `ES6` This function determines whether the provided value is a set. The return value is boolean.
 `isWeakMap(<value>);` | `ES6` This function determines whether the provided value is a weakmap. The return value is boolean.
 `isWeakSet(<value>);` | `ES6` This function determines whether the provided value is a weakset. The return value is boolean.
+`isIterator(<value>);` | `ES6` This function determines whether the provided value is an iterator. The return value is boolean. ___Doesn't work in W10M Edge 14.___
 `isDate(<value>);` | This function determines whether the provided value is a date. The return value is boolean.
 `isRegexp(<value>);` | This function determines whether the provided value is a regexp. The return value is boolean.
 `isElement(<value>);` | This function determines whether the provided value is a HTML element. The return value is boolean.
@@ -282,6 +284,7 @@ Name | Description
 `Math ES6` | `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();` - [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
 `window.screenLeft` | The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity.
 `window.screenTop` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
+`globalThis` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
 
 ## Samples
 

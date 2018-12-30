@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra 2.x testcases
+// Celestra v2.2.2 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -604,7 +604,7 @@ var tapArray1 = [4,5,6];
 var tapArray2 = _.tap(tapArray1, function (e) { e[2] = 5; });
 _cut.isTrue(
   "tap()",
-  (tapArray1 === tapArray2 && tapArray1[2] === 5) 
+  (tapArray1 === tapArray2 && tapArray1[2] === 5)
 );
 
 // forEach - Array
@@ -1383,6 +1383,8 @@ _cut.isEqual("ChildNode.remove()", null, _.qs("#testDivNode") );
 _cut.isTrue("window.screenLeft present", ("screenLeft" in window));
 _cut.isTrue("window.screenTop present", ("screenTop" in window));
 
+_cut.isEqual("globalThis", window, globalThis);
+
 
 /* Object.fromEntries() */
 _cut.addElement("h4", "Object.fromEntries()");
@@ -1675,9 +1677,98 @@ _cut.isEqual("isNumeric() false", true,
 );
 
 
+/* Type checking - isEqual()*/
+_cut.addElement("h4", "Type checking - isEqual()");
+
+_cut.log('<span class="info">Note: <code>isEqual();</code> Works only with ES5 types. Please use the <code>Array.from()</code> or the <code>spread syntax</code> to convert Map and Set types to Array!</span>');
+
+_cut.isTrue(
+  "isEqual() - 01 ES5 object true",
+  _.isEqual({a:1,b:2}, {a:1,b:2})
+);
+_cut.isTrue(
+  "isEqual() - 02 ES5 array true",
+  _.isEqual(["a","b",3.14,"c","d",42], ["a","b",3.14,"c","d",42])
+);
+_cut.isTrue(
+  "isEqual() - 03 ES5 nodelist true",
+  _.isEqual(document.querySelectorAll("h3"), document.querySelectorAll("h3"))
+);
+_cut.isEqual(
+  "isEqual() - 04 ES5 simple types true",
+  "truetruetruetruetruetruetruetruetruetruetruetrue",
+  ""
+    + _.isEqual(true, true)
+    + _.isEqual(false, false)
+    + _.isEqual(42, 42)
+    + _.isEqual(3.14, 3.14)
+    + _.isEqual(0, -0)
+    + _.isEqual(Infinity, Infinity)
+    + _.isEqual(-Infinity, -Infinity)
+    + _.isEqual("$", "$")
+    + _.isEqual(
+      "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die.",
+      "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die."
+    )
+    + _.isEqual(null, null)
+    + _.isEqual(undefined, undefined)
+    + _.isEqual(NaN, NaN)
+);
+_cut.isTrue(
+  "isEqual() - 05 ES5 array + subobject true",
+  _.isEqual(["a","b",3.14,"c","d",42,{a:1,b:2}], ["a","b",3.14,"c","d",42,{a:1,b:2}])
+);
+_cut.isFalse(
+  "isEqual() - 06 ES5 array + subobject false",
+  _.isEqual(["a","b",3.14,"c","d",42,{a:1,b:2}], ["a","b",3.14,"c","d",42,{a:1,b:3}])
+);
+_cut.isFalse(
+  "isEqual() - 07 ES5 array false",
+  _.isEqual(["a","b",3.14,"c","d",42], ["a","b",3.1415,"c","d",42])
+);
+
+if (_cut.isNotIE11()) {
+  _cut.isTrue(
+    "isEqual() - 08 ES6 map <b>with Array.from()</b> true",
+    _.isEqual(
+      Array.from( new Map([["a",1],["b",2],["c",3]]) ),
+      Array.from( new Map([["a",1],["b",2],["c",3]]) )
+    )
+  );
+  _cut.isFalse(
+    "isEqual() - 09 ES6 map <b>with Array.from()</b> false",
+    _.isEqual(
+      Array.from( new Map([["a",1],["b",2],["c",3]]) ),
+      Array.from( new Map([["a",1],["b",4],["c",3]]) )
+    )
+  );
+  _cut.isTrue(
+    "isEqual() - 10 ES6 set <b>with Array.from()</b> true",
+    _.isEqual(
+      Array.from( new Set([1,2,3,4,3,2,5,6,4,7]) ),
+      Array.from( new Set([1,2,3,4,3,2,5,6,4,7]) )
+    )
+  );
+  _cut.isFalse(
+    "isEqual() - 11 ES6 set <b>with Array.from()</b> false",
+    _.isEqual(
+      Array.from( new Set([1,2,3,4,3,2,5,6,4,7]) ),
+      Array.from( new Set([1,2,3,4,3,2,5,6,4,6]) )
+    )
+  );
+  _cut.isFalse(
+    "isEqual() - 12 ES6 map and set <b>with Array.from()</b> false",
+    _.isEqual(
+      Array.from( new Map([["a",1],["b",2],["c",3]]) ),
+      Array.from( new Set([1,2,3,4,3,2,5,6,4,6]) )
+    )
+  );
+}
+
+
 /* ES6 type checking */
 if (_cut.isNotIE11()) {
-  _cut.addElement("h3", "ES6 type checking");
+  _cut.addElement("h4", "ES6 type checking");
   _cut.isEqual("<b>ES6 -</b> isSymbol() true", true, _.isSymbol( Symbol("str") ) );
   _cut.isEqual("<b>ES6 -</b> isSymbol() false", false, _.isSymbol(_.noop) );
   _cut.isEqual("<b>ES6 -</b> isMap() true", true, _.isMap( new Map() ) );
@@ -1688,6 +1779,38 @@ if (_cut.isNotIE11()) {
   _cut.isEqual("<b>ES6 -</b> isWeakMap() false", false, _.isWeakMap(_.noop) );
   _cut.isEqual("<b>ES6 -</b> isWeakSet() true", true, _.isWeakSet( new WeakSet() ) );
   _cut.isEqual("<b>ES6 -</b> isWeakSet() false", false, _.isWeakSet(_.noop) );
+  _cut.isEqual(
+    "<b>ES6 -</b> isIterator() true - Array values()",
+    true,
+    _.isIterator([4,5,6].values())
+  );
+  _cut.log( _.getType([4,5,6].values()) ); 
+  _cut.isEqual(
+    "<b>ES6 -</b> isIterator() true - Set values()",
+    true,
+    _.isIterator(new Set([4,5,7]).values())
+  );
+  _cut.log( _.getType(new Set([4,5,7]).values()) ); 
+  _cut.isEqual(
+    "<b>ES6 -</b> isIterator() true - Map values()",
+    true,
+    _.isIterator(new Map([[4,5],[5,6]]).values())
+  );
+  _cut.log( _.getType(new Map([[4,5],[5,6]]).values()) ); 
+  if (_cut.isNotEdge()) {
+    _cut.isEqual(
+      "<b>ES6 -</b> isIterator() true - Nodelist values()",
+      true,
+      _.isIterator(document.querySelectorAll("h3").values())
+    );
+    _cut.log( _.getType(document.querySelectorAll("h3").values()) ); 
+  }
+  _cut.isEqual(
+    "<b>ES6 -</b> isIterator() false - Array",
+    false,
+    _.isIterator([4,5,7])
+  );
+  _cut.log( _.getType([4,5,7]) ); 
 }
 
 
