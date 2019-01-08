@@ -51,7 +51,7 @@
     &nbsp;//&nbsp;
     <a href="#footer">Contact</a>
     &nbsp;//&nbsp;
-    <a href="#" onclick=" _.getStyle('u87-dark.css'); "><i>Dark mode</i></a>
+    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark mode</i></a>
   </b></nav>
 </header>
 
@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.2.2</p>
-<p>Date: 2018-12-31T19:26:48.358Z</p>
+<p>Latest version: 2.3.0</p>
+<p>Date: 2019-01-07T19:10:37.615Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (46491 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (35301 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51171 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38993 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -151,25 +151,61 @@
       <td>Java <code>String.hashCode()</code> implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.</td>
     </tr>    
     <tr>
-      <td><code>getScript(&#60;url&#62;[,success]);</code></td>
+      <td><code>importScript(&#60;url&#62;[,success]);</code></td>
       <td>
         <p>Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function.</p>
         <p><b>Tip:</b> To prevent the caching of a js/css file use versioning in the file url. Example: <code>mylib.js?version=1.10.0</code></p>
       </td>
     </tr>
     <tr>
-      <td><code>getScripts(&#60;scripts&#62;);</code></td>
-      <td>Load more JavaScript files (modules) and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
+      <td><code>getScript();</code></td>
+      <td>
+        <span class="deprecated">DEPRECATED in v2.3.0</span>
+        The old alias of the <code>importScript();</code>.
+      </td>
     </tr>
     <tr>
-      <td><code>getStyle(&#60;href&#62;[,success]);</code></td>
+      <td><code>importScripts(&#60;scripts&#62;);</code></td>
+      <td>Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>importScripts(&#60;script1&#62;[,scriptN]);</code></td>
+      <td>Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
+    </tr>
+    <tr>
+      <td><code>getScripts();</code></td>
+      <td>
+        <span class="deprecated">DEPRECATED in v2.3.0</span>
+        The old alias of the <code>importScripts();</code>.
+      </td>
+    </tr>
+    <tr>
+      <td><code>importStyle(&#60;href&#62;[,success]);</code></td>
       <td>
         <p>Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.</p>
       </td>
     </tr>
     <tr>
-      <td><code>getStyles(&#60;styles&#62;);</code></td>
-      <td>Load more CSS files (modules). The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
+      <td><code>getStyle();</code></td>
+      <td>
+        <span class="deprecated">DEPRECATED in v2.3.0</span>
+        The old alias of the <code>importStyle();</code>.
+      </td>
+    </tr>
+    <tr>
+      <td><code>importStyles(&#60;styles&#62;);</code></td>
+      <td>Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>importStyles(&#60;style1&#62;[,styleN]);</code></td>
+      <td>Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
+    </tr>
+    <tr>
+      <td><code>getStyles();</code></td>
+      <td>
+        <span class="deprecated">DEPRECATED in v2.3.0</span>
+        The old alias of the <code>importStyles();</code>.
+      </td>
     </tr>
     <tr>
       <td><code>getUrlVar([name]);</code></td>
@@ -238,7 +274,18 @@
     </tr>
     <tr>
       <td><code>removeTags(&#60;string&#62;);</code></td>
-      <td>Remove HTML tags from a string. The return value is the shorter string.</td>
+      <td>
+        <span class="deprecated">DEPRECATED in v2.3.0</span>
+        The old alias of the <code>strRemoveTags(&#60;string&#62;);</code>.
+      </td>
+    </tr>
+    <tr>
+      <td><code>strRemoveTags(&#60;string&#62;);</code></td>
+      <td>Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.</td>
+    </tr>
+    <tr>
+      <td><code>strReverse(&#60;string&#62;);</code></td>
+      <td>Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.</td>
     </tr>
     <tr>
       <td><code>createFile(&#60;filename&#62;,&#60;content&#62;[,dataType]);</code></td>
@@ -385,7 +432,7 @@
           <li>Array (ES5, own forEach(), return as Array)</li>
           <li>Nodelist (ES5, as Array, return as Array)</li>
           <li>custom array-like objects (ES5, as Array, return as Array)</li>
-          <li>String (ES5, as Array, return as String)</li>
+          <li>String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters)</li>
           <li>Map (<span class="info">ES6</span>, own forEach(), return as Map)</li>
           <li>Set (<span class="info">ES6</span>, own forEach(), return as Set)</li>
           <li>ES6 iterators (<span class="info">ES6</span>, as Array, return as Array)</li>
@@ -401,10 +448,10 @@
           <li>Array (ES5, return as Array)</li>
           <li>Nodelist (ES5, return as Array)</li>
           <li>custom arraylike objects (ES5, return as Array)</li>
-          <li>String (ES5, return as String)</li>
+          <li>String (ES5, return as String, in ES6 browsers works with Unicode characters)</li>
           <li>Map (<span class="info">ES6</span>, return as Map)</li>
           <li>Set (<span class="info">ES6</span>, return as Set)</li>
-          <li> ES6 iterators (<span class="info">ES6</span>, return as Array)</li>
+          <li>ES6 iterators (<span class="info">ES6</span>, return as Array)</li>
         </ul>         
       </td>
     </tr>   
@@ -431,22 +478,6 @@
       <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the <code>Array#map()</code> method.</td>
     </tr>
-    <tr>
-      <td><code>arrayClear(&#60;array&#62;);</code></td>
-      <td>Clear the array and returns the empty array. The array parameter is mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>arrayRemove(&#60;array&#62;,&#60;value&#62;);</code></td>
-      <td>Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.</td>
-    </tr>
-    <tr>
-      <td><code>uniqueArray(&#60;value&#62;);</code></td>
-      <td>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
-    </tr>
-    <tr>
-      <td><code>uniquePush(&#60;array&#62;,&#60;value&#62;);</code></td>
-      <td>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</td>
-    </tr>    
     <tr>
       <td><code>constant(&#60;value&#62;);</code></td>
       <td>A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: <code>f(x)=x</code>)</td>
@@ -695,6 +726,102 @@
         <br/>The return value (boolean) is determines whether the cookie was set with the name before the removing.
       </td>
     </tr>
+  </table>
+</div>
+
+<h3 id="cookie">Collections</h3>
+
+<p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
+<br/>Example: <code>_.arrayUnion()</code></p>
+
+<p>Some of these functions use the <code>Array.from()</code> and the <code>Array.prototype.includes()</code>, that are polyfilled in this library.</p>
+
+<div>
+  <table>
+    <tr>
+      <td><code>arrayUnion(&#60;collection1&#62;[,collectionN]);</code></td>
+      <td>Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.</td>
+    </tr>
+    <tr>
+      <td><code>arrayIntersection(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
+      <td>Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</td>
+    </tr>
+    <tr>
+      <td><code>arrayDifference(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
+      <td>Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</td>
+    </tr>
+    <tr>
+      <td><code>arraySymmetricDifference(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
+      <td>Returns the array of unique values that are only in one of given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</td>
+    </tr>
+    <tr>
+      <td><code>setUnion(&#60;collection1&#62;,[,collectionN]);</code></td>
+      <td><code>ES6</code> Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.</td>
+    </tr>
+    <tr>
+      <td><code>setIntersection(&#60;set1&#62;,&#60;set2&#62;);</code></td>
+      <td><code>ES6</code> Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+    </tr>
+    <tr>
+      <td><code>setDifference(&#60;set1&#62;,&#60;set2&#62;);</code></td>
+      <td><code>ES6</code> Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+    </tr>
+    <tr>
+      <td><code>setSymmetricDifference(&#60;set1&#62;,&#60;set2&#62;);</code></td>
+      <td><code>ES6</code> Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+    </tr>
+    <tr>
+      <td><code>arrayKeys(&#60;collection>);</code></td>
+      <td>Returns the array of keys the given array/collection. The parameter will be converted to array, so the keys will be the keys of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.</td>
+    </tr>
+    <tr>
+      <td><code>arrayValues(&#60;collection&#62;);</code></td>
+      <td>Returns the array of values the given array/collection. The parameter will be converted to array, so the values will be the values of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.</td>
+    </tr>
+    <tr>
+      <td><code>arrayEntries(&#60;collection&#62;);</code></td>
+      <td>Returns the array of pairs of keys and values the given array/collection. The parameter will be converted to array, so the pairs will be the keys and values of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.</td>
+    </tr>
+    <tr>
+      <td><code>min(&#60;collection&#62;);</code></td>
+      <td>Returns the minimum value of the given collection. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+    </tr>
+    <tr>
+      <td><code>minIndex(&#60;collection&#62;);</code></td>
+      <td>Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+    </tr>
+    <tr>
+      <td><code>max(&#60;collection&#62;);</code></td>
+      <td>Returns the maximum value of the given collection. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+    </tr>
+    <tr>
+      <td><code>maxIndex(&#60;collection&#62;);</code></td>
+      <td>Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+    </tr>
+    <tr>
+      <td><code>range(&#60;start&#62;,&#60;end&#62;[,step]);</code></td>
+      <td>Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Usable with the <code>for...of</code> loop, but works in the non-ES6 compatible browsers too.</td>
+    </tr>
+    <tr>
+      <td><code>toPairs(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
+      <td>Returns the array of paired values of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.<br/>Example: <code>_.toPairs(["a","b","c","d"], [3,4,5,6,7,8,9]);</code> => <code>Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]</code></td>
+    </tr>
+    <tr>
+      <td><code>arrayClear(&#60;array&#62;);</code></td>
+      <td>Clear the array and returns the empty array. The array parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>arrayRemove(&#60;array&#62;,&#60;value&#62;);</code></td>
+      <td>Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.</td>
+    </tr>
+    <tr>
+      <td><code>uniqueArray(&#60;value&#62;);</code></td>
+      <td>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
+    </tr>
+    <tr>
+      <td><code>uniquePush(&#60;array&#62;,&#60;value&#62;);</code></td>
+      <td>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</td>
+    </tr>    
   </table>
 </div>
 
@@ -1213,39 +1340,54 @@ alert(testArrayFillStr);</pre></td>
       <td><code>var str = "lorem ipsum";<br/>alert(<br/> "string true: " + str.includes("ipsum")<br/> + "\nstring false: " + str.includes("agradzsag")<br/> + "\nstring true + fromIndex: " + str.includes("ipsum", 3)<br/> + "\nstring false + fromIndex: " + str.includes("ipsum", 8)<br/>);</code></td>
     </tr>
     <tr>
-      <td><b>getScript(url)</b></td>
-      <td><button onclick='_.getScript("testmodule1.js");'>Try</button></td>
-      <td><code>_.getScript("testmodule1.js");</code></td>
+      <td><b>importScript(url)</b></td>
+      <td><button onclick='_.importScript("testmodule1.js");'>Try</button></td>
+      <td><code>_.importScript("testmodule1.js");</code></td>
     </tr>
     <tr>
-      <td><b>getScript(url,success)</b></td>
-      <td><button onclick='_.getScript("testmodule1.js",function(){ alert("External file is loaded."); });'>Try</button></td>
-      <td><code>_.getScript("testmodule1.js",function(){ alert("External file is loaded."); });</code></td>
+      <td><b>importScript(url,success)</b></td>
+      <td><button onclick='_.importScript("testmodule1.js",function(){ alert("External file is loaded."); });'>Try</button></td>
+      <td><code>_.importScript("testmodule1.js",function(){ alert("External file is loaded."); });</code></td>
     </tr>
     <tr>
-      <td id="url"><b>getScript(url,success) with error</b></td>
-      <td><button onclick='_.getScript("test2.js",function(){ alert("External file is loaded."); });'>Try</button></td>
-      <td><code>_.getScript("test2.js",function(){ alert("External file is loaded."); });</code></td>
+      <td id="url"><b>importScript(url,success) with error</b></td>
+      <td><button onclick='_.importScript("test2.js",function(){ alert("External file is loaded."); });'>Try</button></td>
+      <td><code>_.importScript("test2.js",function(){ alert("External file is loaded."); });</code></td>
     </tr>
     <tr>
-      <td><b>getScripts(scripts)</b></td>
-      <td><button onclick='var scripts=[ { url: "testmodule1.js" } , { url: "testmodule2.js" } ]; _.getScripts(scripts);'>Try</button></td>
-      <td><code>var scripts=[ { url: "testmodule1.js" } , { url: "testmodule2.js" } ];<br/>_.getScripts(scripts);</code></td>
+      <td><b>importScripts(scripts)</b></td>
+      <td><button onclick='var scripts=[ { url: "testmodule1.js" } , { url: "testmodule2.js" } ]; _.importScripts(scripts);'>Try</button></td>
+      <td><code>var scripts=[ { url: "testmodule1.js" } , { url: "testmodule2.js" } ];<br/>_.importScripts(scripts);</code></td>
     </tr>
     <tr>
-      <td><b>getScripts(scripts) with error</b></td>
-      <td><button onclick='var scripts=[ { url: "testmodule1.js" } , { url: "module0.js" }, { url: "testmodule2.js" } ]; _.getScripts(scripts);'>Try</button></td>
-      <td><code>var scripts=[ { url: "testmodule1.js" } , { url: "module0.js" } , { url: "testmodule2.js" } ];<br/>_.getScripts(scripts);</code></td>
+      <td><b>importScripts(scripts) with error</b></td>
+      <td><button onclick='var scripts=[ { url: "testmodule1.js" } , { url: "module0.js" }, { url: "testmodule2.js" } ]; _.importScripts(scripts);'>Try</button></td>
+      <td><code>var scripts=[ { url: "testmodule1.js" } , { url: "module0.js" } , { url: "testmodule2.js" } ];<br/>_.importScripts(scripts);</code></td>
     </tr>
     <tr>
-      <td><b>getScripts(scripts) with successs</b></td>
-      <td><button onclick='var scripts=[{ url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } , { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } } ]; _.getScripts(scripts);'>Try</button></td>
-      <td><code>var scripts=[<br/> { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } ,<br/> { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } }<br/>];<br/>_.getScripts(scripts);</code></td>
+      <td><b>importScripts(scripts) with successs</b></td>
+      <td><button onclick='var scripts=[{ url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } , { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } } ]; _.importScripts(scripts);'>Try</button></td>
+      <td><code>var scripts=[<br/> { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } ,<br/> { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } }<br/>];<br/>_.importScripts(scripts);</code></td>
     </tr>
     <tr>
-      <td><b>getScripts(scripts) with successs with error</b></td>
-      <td><button onclick='var scripts=[ { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } , { url: "module0.js", success: function () { alert("Module 0 success function is executed.") } } , { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } } ]; _.getScripts(scripts);'>Try</button></td>
-      <td><code>var scripts=[<br/> { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } ,<br/> { url: "module0.js", success: function () { alert("Module 0 success function is executed.") } } ,<br/> { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } }<br/>];<br/>_.getScripts(scripts);</code></td>
+      <td><b>importScripts(scripts) with successs with error</b></td>
+      <td><button onclick='var scripts=[ { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } , { url: "module0.js", success: function () { alert("Module 0 success function is executed.") } } , { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } } ]; _.importScripts(scripts);'>Try</button></td>
+      <td><code>var scripts=[<br/> { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } ,<br/> { url: "module0.js", success: function () { alert("Module 0 success function is executed.") } } ,<br/> { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } }<br/>];<br/>_.importScripts(scripts);</code></td>
+    </tr>
+    <tr>
+      <td><b>importScripts(script1)</b></td>
+      <td><button onclick='_.importScripts("testmodule1.js");'>Try</button></td>
+      <td><code>_.importScripts("testmodule1.js");</code></td>
+    </tr>
+    <tr>
+      <td><b>importScripts(script1, ... scriptN)</b></td>
+      <td><button onclick='_.importScripts("testmodule1.js", "testmodule2.js");'>Try</button></td>
+      <td><code>_.importScripts("testmodule1.js", "testmodule2.js");</code></td>
+    </tr>
+    <tr>
+      <td><b>importScripts(script1, ... scriptN) with error</b></td>
+      <td><button onclick='_.importScripts("testmodule1.js", "testmodule3.js", "testmodule2.js");'>Try</button></td>
+      <td><code>_.importScripts("testmodule1.js", "testmodule3.js", "testmodule2.js");</code></td>
     </tr>
     <tr>
       <td><b>getUrlVar(name)</b></td>
@@ -1750,35 +1892,46 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       </td>
     </tr>
     <tr>
-      <td><b>getStyle and getStyles</b></td>
+      <td><b>importStyle and importStyles</b></td>
       <td></td>
       <td>
         <div>
           <p id="csstest2" style="color: braun; border: 1px solid braun;">Testarea</p>
           <p>
-            <button onclick='_.getStyle("testmodule1.css");'>getStyle</button>
-            <br/><code>_.getStyle("testmodule1.css");</code>
+            <button onclick='_.importStyle("testmodule1.css");'>importStyle</button>
+            <br/><code>_.importStyle("testmodule1.css");</code>
           </p>
           <p>
-            <button onclick='_.getStyle("testmodule2.css", function () { alert("testmodule2.css is loaded.") } );'>getStyle with success</button>
-            <br/><code>_.getStyle("testmodule2.css", function () { alert("testmodule2.css is loaded.") } );</code>
+            <button onclick='_.importStyle("testmodule2.css", function () { alert("testmodule2.css is loaded.") } );'>importStyle with success</button>
+            <br/><code>_.importStyle("testmodule2.css", function () { alert("testmodule2.css is loaded.") } );</code>
           </p>
           <p>
-            <button onclick='_.getStyle("module3.css", function () { alert("module3.css is loaded.") } );'>getStyle with error</button>
-            <br/><code>_.getStyle("module3.css", function () { alert("module3.css is loaded.") } );</code>
-          </p>
-
-          <p>
-            <button onclick='_.getStyles( [ { href: "testmodule1.css" }, { href: "testmodule2.css" } ] );'>getStyles</button>
-            <br/><code>_.getStyles( [ { href: "testmodule1.css" }, { href: "testmodule2.css" } ] );</code>
+            <button onclick='_.importStyle("module3.css", function () { alert("module3.css is loaded.") } );'>importStyle with error</button>
+            <br/><code>_.importStyle("module3.css", function () { alert("module3.css is loaded.") } );</code>
           </p>
           <p>
-            <button onclick='_.getStyles( [ { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } }, { href: "testmodule2.css", success: function () { alert("testmodule2.css is loaded.") } } ] );'>getStyles with success</button>
-            <br/><code>_.getStyles( [<br/> { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } },<br/> { href: "testmodule2.css", success: function () { alert("testmodule2.css is loaded.") } }<br/>] );</code>
+            <button onclick='_.importStyles( [ { href: "testmodule1.css" }, { href: "testmodule2.css" } ] );'>importStyles</button>
+            <br/><code>_.importStyles( [ { href: "testmodule1.css" }, { href: "testmodule2.css" } ] );</code>
           </p>
           <p>
-            <button onclick='_.getStyles( [ { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } }, { href: "module3.css", success: function () { alert("module3.css is loaded.") } } ] );'>getStyles with error</button>
-            <br/><code>_.getStyles( [<br/> { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } },<br/> { href: "module3.css", success: function () { alert("module3.css is loaded.") } }<br/>] );</code>
+            <button onclick='_.importStyles( [ { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } }, { href: "testmodule2.css", success: function () { alert("testmodule2.css is loaded.") } } ] );'>importStyles with success</button>
+            <br/><code>_.importStyles( [<br/> { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } },<br/> { href: "testmodule2.css", success: function () { alert("testmodule2.css is loaded.") } }<br/>] );</code>
+          </p>
+          <p>
+            <button onclick='_.importStyles( [ { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } }, { href: "module3.css", success: function () { alert("module3.css is loaded.") } } ] );'>importStyles with error</button>
+            <br/><code>_.importStyles( [<br/> { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } },<br/> { href: "module3.css", success: function () { alert("module3.css is loaded.") } }<br/>] );</code>
+          </p>
+          <p>
+            <button onclick='_.importStyles("testmodule1.css");'>importStyles more (1) parameters</button>
+            <br/><code>_.importStyles("testmodule1.css");</code>
+          </p>
+          <p>
+            <button onclick='_.importStyles("testmodule1.css", "testmodule2.css");'>importStyles more parameters</button>
+            <br/><code>_.importStyles("testmodule1.css", "testmodule1.css");</code>
+          </p>
+          <p>
+            <button onclick='_.importStyles("testmodule1.css", "module3.css", "testmodule2.css");'>importStyles more parameters with errors</button>
+            <br/><code>_.importStyles("testmodule1.css", "module3.css", "testmodule1.css");</code>
           </p>
         </div>
       </td>
@@ -2912,7 +3065,7 @@ alert(fromEntriesStr);</pre>
     &nbsp;//&nbsp;
     <a href="http://github.com/Serrin" target="_blank">Github</a>
     &nbsp;//&nbsp;
-    <a href="#footer" onclick=" _.getStyle('u87-dark.css'); "><i>Dark mode</i></a>
+    <a href="#footer" onclick=" _.importStyle('u87-dark.css'); "><i>Dark mode</i></a>
   </p>
   <p>&copy; Copyright 2017 Ferenc Czigler</p>
 </small></footer>

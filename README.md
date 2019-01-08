@@ -1,9 +1,9 @@
-    
-        ___  ____  __    ____  ___  ____  ____    __     
-       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\    
-      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\   
-       \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)  
-    
+
+        ___  ____  __    ____  ___  ____  ____    __
+       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
+      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
+       \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
+
 
 # Celestra
 
@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.2.2
+Latest version: 2.3.0
 
-Date: 2018-12-31T19:26:48.358Z
+Date: 2019-01-07T19:10:37.615Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (46491 bytes)
+Development version: celestra.js (51171 bytes)
 
-Minimal version: celestra.min.js (35301 bytes)
+Minimal version: celestra.min.js (38993 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -77,10 +77,16 @@ Name | Description
 `b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
 `javaHash(<data>[,hexa]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
-`getScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
-`getScripts(<scripts>);` | Load more JavaScript files (modules) and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
-`getStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.
-`getStyles(<styles>);` | Load more CSS files (modules). The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.
+`importScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
+`getScript();` | `DEPRECATED in v2.3.0` The old alias of the `importScript();`.
+`importScripts(<scripts>);` | Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
+`importScripts(<script1>[,scriptN]);` | Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
+`getScripts();` | `DEPRECATED in v2.3.0` The old alias of the `importScripts();`.
+`importStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.
+`getStyle();` | `DEPRECATED in v2.3.0` The old alias of the `importStyle();`.
+`importStyles(<styles>);` | Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.
+`importStyles(<style1>[,styleN]);` | Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
+`getStyles();` | `DEPRECATED in v2.3.0` The old alias of the `importStyles();`.
 `getUrlVar([name]);` | Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
@@ -95,7 +101,9 @@ Name | Description
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
 `form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element. __The result has changed in v1.21.0: The array elements are objects instead of strings.__
 `form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
-`removeTags(<string>);` | Remove HTML tags from a string. The return value is the shorter string.
+`removeTags(<string>);` | `DEPRECATED in v2.3.0` The old alias of the `strRemoveTags(<string>);`.
+`strRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
+`strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.___
 
 
@@ -137,16 +145,12 @@ Name | Description
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
 `tap(<object>,<callback>);` | Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.
-`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, own forEach(), return as Array), Nodelist (ES5, as Array, return as Array), custom array-like objects (ES5, as Array, return as Array), String (ES5, as Array, return as String), Map (ES6, own forEach(), return as Map), Set (ES6, own forEach(), return as Set), ES6 iterators (ES6, as Array, return as Array)__
-`map(<collection>,<callback>);` | The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, return as Array), Nodelist (ES5, return as Array), custom array-like objects (ES5, return as Array), String (ES5, return as String), Map (ES6, return as Map), Set (ES6, return as Set) and ES6 iterators (ES6, return as Array)__
+`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, own forEach(), return as Array), Nodelist (ES5, as Array, return as Array), custom array-like objects (ES5, as Array, return as Array), String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters), Map (ES6, own forEach(), return as Map), Set (ES6, own forEach(), return as Set), ES6 iterators (ES6, as Array, return as Array)__
+`map(<collection>,<callback>);` | The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, return as Array), Nodelist (ES5, return as Array), custom array-like objects (ES5, return as Array), String (ES5, return as String, in ES6 browsers works with Unicode characters), Map (ES6, return as Map), Set (ES6, return as Set) and ES6 iterators (ES6, return as Array)__
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._ __Note: From the v2.2.1 the return value is the object parameter.__
 `mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
 `forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the `Array#forEach()` method.
 `mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the `Array#map()` method.
-`arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
-`arrayRemove(<array>,<value>);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
-`uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
-`uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
@@ -215,6 +219,7 @@ Name | Description
 `isRegexp(<value>);` | This function determines whether the provided value is a regexp. The return value is boolean.
 `isElement(<value>);` | This function determines whether the provided value is a HTML element. The return value is boolean.
 
+
 ### Cookie functions
 
 These functions are available in the `celestra` and/or `_` objects.
@@ -227,6 +232,40 @@ Name | Description
 `getCookie([name]);` | Get a cookie value or all cookies in an object. With the name parameter (string) the return value is the current cookie value or null. Without the parameter the return value is an object with the values or an empty object.
 `hasCookie(<name>);` | This function determines whether the cookie is set with the name. The return value is boolean.
 `removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` | Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. __Note:__ From the v1.19.1 the default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
+
+
+### Collections
+
+These functions are available in the `celestra` and/or `_` objects.
+
+Example: `_.arrayUnion()`
+
+Some of these functions use the `Array.from()` and the `Array.prototype.includes()`, that are polyfilled in this library.
+
+Name | Description
+---- | -----------
+`arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
+`arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
+`arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
+`arraySymmetricDifference(<collection1>,<collection2>);` | Returns the array of unique values that are only in one of given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
+`setUnion(<collection1>[,collectionN]);` | `ES6` Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.
+`setIntersection(<set1>,<set2>);` | `ES6` Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
+`setDifference(<set1>,<set2>);` | `ES6` Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.
+`setSymmetricDifference(<set1>,<set2>);` | `ES6` Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
+`arrayKeys(<collection>);` | Returns the array of keys the given array/collection. The parameter will be converted to array, so the keys will be the keys of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.
+`arrayValues(<collection>);` | Returns the array of values the given array/collection. The parameter will be converted to array, so the values will be the values of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.
+`arrayEntries(<collection>);` | Returns the array of pairs of keys and values the given array/collection. The parameter will be converted to array, so the pairs will be the keys and values of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.
+`min(<collection>);` | Returns the minimum value of the given collection. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`minIndex(<collection>);` | Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`max(<collection>);` | Returns the maximum value of the given collection. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`maxIndex(<collection>);` | Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`range(<start>,<end>[,step]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
+`toPairs(<collection1>,<collection2>);` | Returns the array of paired values of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array. Example: `_.toPairs(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
+`arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
+`arrayRemove(<array>,<value>);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
+`uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
+`uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
+
 
 ### Polyfills
 
@@ -276,7 +315,7 @@ Name | Description
 `Number.EPSILON` | The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16)
 `Number.isNaN()` | The Number.isNaN() method determines whether the passed value is NaN and its type is Number. It is a more robust version of the original, global isNaN().
 `isNaN()` | The isNaN() function determines whether a value is NaN or not. __Note:__ coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015.
-`Number.isInteger()` | The Number.isInteger() method determines whether the passed value is an integer. 
+`Number.isInteger()` | The Number.isInteger() method determines whether the passed value is an integer.
 `Number.isFinite()` | The Number.isFinite() method determines whether the passed value is a finite number.
 `Number.isSafeInteger()` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
 `Number.parseInt()` | The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base.

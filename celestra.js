@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.2.2
+ * @version 2.3.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -9,19 +9,20 @@
 
 /* Celestra FP */
 
-/*------------|---|------------------------
-Function      | # | Inner calls
---------------|---|------------------------
-getScripts    | 2 | getScript, getScript
-getStyles     | 2 | getStyle,  getStyle
-domFadeToggle | 2 | domFadeIn, domFadeOut
-merge         | 1 | merge
-extend        | 1 | extend
-deepAssign    | 1 | deepAssign
-getJson       | 1 | getAjax
-getText       | 1 | getAjax
-isEqual       | 2 | getType
---------------|---|----------------------*/
+/*---------------|----|----------------------------------
+Function         |  # | Inner calls
+-----------------|----|----------------------------------
+CTRL-F           |  N | __toArray__()
+importScripts()  |  2 | importScript(), importScript()
+importStyles()   |  2 | importStyle(),  importStyle()
+domFadeToggle()  |  2 | domFadeIn(), domFadeOut()
+merge()          |  1 | merge()
+extend()         |  1 | extend()
+deepAssign()     |  1 | deepAssign()
+getJson()        |  1 | getAjax()
+getText()        |  1 | getAjax()
+isEqual()        |  2 | getType()
+-----------------|----|--------------------------------*/
 
 /* polyfills */
 
@@ -756,7 +757,7 @@ function inherit (c, p) {
   return c;
 }
 
-function getScript (u, s) {
+function importScript (u, s) {
   var scr = document.createElement("script");
   scr.type = "text\/javascript";
   scr.src = u;
@@ -766,20 +767,20 @@ function getScript (u, s) {
   if (s) { scr.onreadystatechange = s; scr.onload = s; }
   (document.head || document.getElementsByTagName("head")[0]).appendChild(scr);
 }
+var getScript = importScript;
 
-function getScripts (s) {
+function importScripts (s) {
   if (Array.isArray(s)) {
-    s.forEach(function (e) {
-      if (e.success) {
-        celestra.getScript(e.url, e.success);
-      } else {
-        celestra.getScript(e.url);
-      }
-    });
+    s.forEach(function (e) { celestra.importScript(e.url, e.success); });
+  } else {
+    Array.prototype.forEach.call(
+      arguments, function (e) { celestra.importScript(e); }
+    );
   }
 }
+var getScripts = importScripts;
 
-function getStyle (h, s) {
+function importStyle (h, s) {
   var stl = document.createElement("link");
   stl.rel = "stylesheet";
   stl.type = "text\/css";
@@ -790,18 +791,18 @@ function getStyle (h, s) {
   if (s) { stl.onreadystatechange = s; stl.onload = s; }
   (document.head || document.getElementsByTagName("head")[0]).appendChild(stl);
 }
+var getStyle = importStyle;
 
 function getStyles (s) {
   if (Array.isArray(s)) {
-    s.forEach(function (e) {
-      if (e.success) {
-        celestra.getStyle(e.href, e.success);
-      } else {
-        celestra.getStyle(e.href);
-      }
-    });
+      s.forEach(function (e) { celestra.importStyle(e.href, e.success); });
+  } else {
+    Array.prototype.forEach.call(
+      arguments, function (e) { celestra.importStyle(e); }
+    );
   }
 }
+var getStyles = importStyles;
 
 function getUrlVar (n) {
   var r = {}, w = window.location.search.substring(1).split("&");
@@ -985,8 +986,14 @@ function form2string (f) {
   return a.join("&").replace(/%20/g, "+");
 }
 
-function removeTags (s) {
+function strRemoveTags (s) {
   return (""+s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
+}
+var removeTags = strRemoveTags;
+
+function strReverse (s) {
+  return (Array.from ? Array.from(String(s)) : String(s).split(""))
+    .reverse().join("");
 }
 
 function createFile (fln, c, dt) {
@@ -1052,7 +1059,7 @@ function forEach (a, fn) {
     var a2 = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
     a2.forEach(fn);
     if (typeof a !== "string") { return a2; }
-    return a;
+    return a2.join("");
   }
 }
 
@@ -1090,30 +1097,6 @@ function forOf (a, fn) { a = Array.from(a); a.forEach(fn); return a; }
 
 function mapOf (a, fn) { return Array.from(a, fn); }
 
-function uniqueArray (a) {
-  a = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
-  return a.filter(function(e, i, arr) { return arr.indexOf(e) === i; });
-}
-
-function uniquePush (a, v) {
-  if (a.indexOf(v) === -1) { a.push(v); return true; }
-  return false;
-}
-
-function arrayClear (a) { a.length = 0; return a; }
-
-function arrayRemove (a, v, all) {
-  var found = (a.indexOf(v) !== -1);
-  if (!all) {
-    var pos = a.indexOf(v);
-    if (pos !== -1) { a.splice(pos, 1); }
-  } else {
-    var pos = -1;
-    while ( (pos = a.indexOf(v)) !== -1 ) { a.splice(pos, 1); }
-  }
-  return found;
-}
-
 function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
 function noop () { return undefined; }
@@ -1147,7 +1130,7 @@ function domCreate (t, ps, iH) {
 }
 
 function domToElement(s) {
-  const e = document.createElement("div");
+  var e = document.createElement("div");
   e.innerHTML = s;
   return e.firstElementChild;
 }
@@ -1438,15 +1421,161 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
   return r;
 }
 
+/* collections */
+
+function arrayUnion () {
+  return Array.prototype.concat.apply(
+    [], Array.from(arguments).map(function (e) { return Array.from(e); })
+  ).filter(function(e, i, arr) {return arr.indexOf(e) === i; });
+}
+
+function arrayIntersection (a, b) {
+  var a2 = Array.from(a), b2 = Array.from(b);
+  return a2.filter(function (v) { return b2.includes(v); })
+    .filter(function(e, i, arr) {return arr.indexOf(e) === i; });
+}
+
+function arrayDifference (a, b) {
+  var a2 = Array.from(a), b2 = Array.from(b);
+  return a2.filter(function (v) { return !(b2.includes(v)); })
+    .filter(function(e, i, arr) {return arr.indexOf(e) === i; });
+}
+
+function arraySymmetricDifference (a, b) {
+  var a2 = Array.from(a), b2 = Array.from(b);
+  return a2.filter(function (v) { return !(b2.includes(v)); })
+    .concat(b2.filter(function (v) { return !(a2.includes(v)); }))
+    .filter(function(e, i, arr) {return arr.indexOf(e) === i; });
+}
+
+function setUnion () {
+  return new Set(
+    Array.prototype.concat.apply(
+      [], Array.from(arguments).map(function (e) { return Array.from(e); })
+    )
+  );
+}
+
+function setIntersection (a, b) {
+  return new Set(Array.from(a).filter(function (v) { return b.has(v); }));
+}
+
+function setDifference (a, b) {
+  return new Set(Array.from(a).filter(function (v) { return !(b.has(v)); }));
+}
+
+function setSymmetricDifference (a, b) {
+  return new Set(
+    Array.from(a).filter(function (v) { return !(b.has(v)); }).concat(
+      Array.from(b).filter(function (v) { return !(a.has(v)); })
+    )
+  );
+}
+
+function arrayKeys (a) {
+  return Array.from(a).map(function (v, i) { return i; });
+}
+function arrayValues (a) { return Array.from(a); }
+function arrayEntries (a) {
+  return Array.from(a).map(function (v, i) { return [i, v]; });
+}
+
+function min (a) {
+  var a2 = Array.from(a);
+  if (a2.length > 0) {
+    var r = a2[0];
+    a2.forEach(function (v, i, arr) { if (v < r) { r = v; } });
+    return r;
+  }
+  return null;
+}
+
+function minIndex (a) {
+  var a2 = Array.from(a);
+  if (a2.length > 0) {
+    var r = 0;
+    a2.forEach(function (v, i, arr) { if (v < arr[r]) { r = i; } });
+    return r;
+  }
+  return null;
+}
+
+function max (a) {
+  var a2 = Array.from(a);
+  if (a2.length > 0) {
+    var r = a2[0];
+    a2.forEach(function (v, i, arr) { if (v > r) { r = v; } });
+    return r;
+  }
+  return null;
+}
+
+function maxIndex (a) {
+  var a2 = Array.from(a);
+  if (a2.length > 0) {
+    var r = 0;
+    a2.forEach(function (v, i, arr) { if (v > arr[r]) { r = i; } });
+    return r;
+  }
+  return null;
+}
+
+function range (start, end, step) {
+  var
+    i = Number(start),
+    end2 = Number(end),
+    step2 = (step !== undefined ? Number(step) : 1),
+    res = [];
+  while (i <= end2) { res.push(i); i += step2; }
+  return res;
+}
+
+function toPairs (a, b) {
+  var a2 = Array.from(a), b2 = Array.from(b);
+  var l = ( a2.length < b2.length ? a2.length : b2.length );
+  var res = [];
+  for (var i = 0; i < l ; i++) { res.push([ a2[i], b2[i] ]); }
+  return res;
+}
+
+function uniqueArray (a) {
+  a = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
+  return a.filter(function(e, i, arr) { return arr.indexOf(e) === i; });
+}
+
+function uniquePush (a, v) {
+  if (a.indexOf(v) === -1) { a.push(v); return true; }
+  return false;
+}
+
+function arrayClear (a) { a.length = 0; return a; }
+
+function arrayRemove (a, v, all) {
+  var found = (a.indexOf(v) !== -1);
+  if (!all) {
+    var pos = a.indexOf(v);
+    if (pos !== -1) { a.splice(pos, 1); }
+  } else {
+    var pos = -1;
+    while ( (pos = a.indexOf(v)) !== -1 ) { a.splice(pos, 1); }
+  }
+  return found;
+}
+
 /* object header */
 
 var celestra = {};
 
-celestra.version = "Celestra v2.2.2";
+celestra.version = "Celestra v2.3.0";
 
-celestra.noConflict = function () {
+celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;
   return celestra;
+};
+
+/* Only for inner use. If needed can be replaced with the "Array.from();". */
+celestra.__toArray__ = function __toArray__ (a) {
+  return (Array.isArray(a) ? a : Array.from(a));
 };
 
 /* object content */
@@ -1461,6 +1590,10 @@ celestra.b64Encode = b64Encode;
 celestra.b64Decode = b64Decode;
 celestra.javaHash = javaHash;
 celestra.inherit = inherit;
+celestra.importScript = importScript;
+celestra.importScripts = importScripts;
+celestra.importStyle = importStyle;
+celestra.importStyles = importStyles;
 celestra.getScript = getScript;
 celestra.getScripts = getScripts;
 celestra.getStyle = getStyle;
@@ -1478,7 +1611,9 @@ celestra.getLocation = getLocation;
 celestra.getDoNotTrack = getDoNotTrack;
 celestra.form2array = form2array;
 celestra.form2string = form2string;
+celestra.strRemoveTags = strRemoveTags;
 celestra.removeTags = removeTags;
+celestra.strReverse = strReverse;
 celestra.createFile = createFile;
 celestra.merge = merge;
 /* FP */
@@ -1492,10 +1627,6 @@ celestra.forIn = forIn;
 celestra.mapIn = mapIn;
 celestra.forOf = forOf;
 celestra.mapOf = mapOf;
-celestra.uniqueArray = uniqueArray;
-celestra.uniquePush = uniquePush;
-celestra.arrayClear = arrayClear;
-celestra.arrayRemove = arrayRemove;
 celestra.constant = constant;
 celestra.identity = identity;
 celestra.noop = noop;
@@ -1556,6 +1687,28 @@ celestra.setCookie = setCookie;
 celestra.getCookie = getCookie;
 celestra.hasCookie = hasCookie;
 celestra.removeCookie = removeCookie;
+/* collections */
+celestra.setUnion = setUnion;
+celestra.setIntersection = setIntersection;
+celestra.setDifference = setDifference;
+celestra.setSymmetricDifference = setSymmetricDifference;
+celestra.arrayUnion = arrayUnion;
+celestra.arrayIntersection = arrayIntersection;
+celestra.arrayDifference = arrayDifference;
+celestra.arraySymmetricDifference = arraySymmetricDifference;
+celestra.arrayKeys = arrayKeys;
+celestra.arrayValues = arrayValues;
+celestra.arrayEntries = arrayEntries;
+celestra.min = min;
+celestra.minIndex = minIndex;
+celestra.max = max;
+celestra.maxIndex = maxIndex;
+celestra.range = range;
+celestra.toPairs = toPairs;
+celestra.uniqueArray = uniqueArray;
+celestra.uniquePush = uniquePush;
+celestra.arrayClear = arrayClear;
+celestra.arrayRemove = arrayRemove;
 
 /* AMD loader */
 if (typeof define === "function" && define.amd) {

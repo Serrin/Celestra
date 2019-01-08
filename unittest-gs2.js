@@ -1,1 +1,1 @@
-_cut.isEqual("getScript() (core api) - second script loaded", true, true );
+_cut.isEqual("importScript() (core api) - second script loaded", true, true );

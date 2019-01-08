@@ -1,0 +1,1 @@
+_cut.isEqual("importScripts() (core api) - with more scripts", true, true );

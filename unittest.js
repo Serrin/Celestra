@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.2.2 testcases
+// Celestra v2.3.0 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -13,8 +13,8 @@ _cut.addElement(
   "ul",
   "<li>getUrlVar([name]);</li>"
   +"<li>getLocation(&#60;success&#62;[,error]);</li>"
-  +"<li>getStyle(&#60;href&#62;[,success]);</li>"
-  +"<li>getStyles(&#60;styles&#62;);</li>"
+  +"<li>importStyle(&#60;href&#62;[,success]);</li>"
+  +"<li>importStyles(&#60;styles&#62;);</li>"
   +"<li>getFullscreen();</li>"
   +"<li>setFullscreenOn(&#60;selector&#62; or &#60;element&#62;);</li>"
   +"<li>setFullscreenOff();</li>"
@@ -26,19 +26,26 @@ _cut.addElement(
 );
 
 
-/* object names */
-_cut.addElement("h3", "object names");
+/*Celestra object*/
+_cut.addElement("h3", "Celestra object");
 
 _cut.isEqual("Object name: \"celestra\"", true, celestra.random(100,200)>99 );
 _cut.isEqual("Object name: \"_\"", true, _.random(100,200)>99 );
+
+var taArr = ["a","b","c","d","e"];
+_cut.isEqual("__toArray__() array", taArr, _.__toArray__(taArr) );
+_cut.isTrue(
+  "__toArray__() nodelist",
+  Array.isArray( _.__toArray__(document.querySelectorAll("h3")) ) 
+);
 
 
 /* core api */
 /*
 getUrlVar([name]);
 getLocation(<success>[,error]);
-getStyle(<href>[,success]);
-getStyles(<styles>);
+importStyle(<href>[,success]);
+importStyles(<styles>);
 getFullscreen();
 setFullscreenOn(<selector> or <element>);
 setFullscreenOff();
@@ -379,18 +386,6 @@ _.setFullscreenOff();
 */
 
 /*
-// getStyle() and getStyles()
-
-_cut.addElement( _.domCreate("p", {"id": "csstest2"}, "#csstest2" ) );
-var csstest2 = _.qs("#csstest2");
-
-_.getStyle("testmodule1.css");
-_cut.isEqual("getStyle()", "bold", _.domGetCSS(csstest2, "font-weight") );
-
-_.getStyle("testmodule1.css", function () {
-  _cut.isEqual("getStyle()", "bold", _.domGetCSS(csstest2, "font-weight") );
-} );
-*/
 
 _cut.isEqual("random()", true, _.random() <= 101 );
 _cut.isEqual("random(max)", true, _.random(30) <= 30 );
@@ -448,15 +443,10 @@ _cut.isEqual(
     + "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,false)))
 );
 
-/* / kaylee */
+/* /kaylee */
 
 _cut.isEqual("getDoNotTrack()", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false );
 
-_cut.isEqual(
-  "removeTags()",
-  "lorem ipsum dolor sit amet , consectetuer",
-  _.removeTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
-);
 
 var arrMerge1 = [1,2,3];
 var arrMerge2 = [4,5,6];
@@ -491,6 +481,352 @@ _cut.isEqual(
     + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
     + "[1,2,3,7,8,10,11,12,13,14,15,9,42,3.14]",
   arrMergeStr
+);
+
+_cut.isEqual(
+  "removeTags() <span class=\"deprecated\">DEPRECATED in v2.3.0</span>",
+  "lorem ipsum dolor sit amet , consectetuer",
+  _.removeTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
+);
+_cut.isEqual(
+  "strRemoveTags()",
+  "lorem ipsum dolor sit amet , consectetuer",
+  _.strRemoveTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
+);
+
+_cut.isEqual(
+  "strReverse() without unicode",
+  ".eid ot emiT .niar ni sraet ekil ,emit ni tsol eb lliw stnemom esoht llA .etaG resuähnnaT eht raen krad eht ni rettilg smaeb-C dehctaw I .noirO fo redluohs eht ffo erif no spihs kcattA .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
+  _.strReverse("I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die.")
+);
+if (_cut.isNotIE11()) {
+  _cut.isEqual(
+    "strReverse() with unicode 1",
+    ".noirO fo redluohs eht ffo erif no spihs kcattA \uD834\uDF06 .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
+    _.strReverse("I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.")
+  );/*
+  _cut.isEqual(
+    "strReverse() with unicode 2",
+    ".noirO fo redluohs eht ffo erif no spihs kcattA \u{1D306} .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
+    _.strReverse("I've seen things you people wouldn't believe. \u{1D306} Attack ships on fire off the shoulder of Orion.")
+  );*/
+}
+
+
+/* Collection */
+
+_cut.addElement("h3", "Collections");
+
+_cut.isEqual(
+  "range() - 1 - step default 1",
+  "[5,6,7,8,9,10,11,12]",
+  JSON.stringify(_.range(5,12))
+);
+_cut.log( JSON.stringify(_.range(5,12)) );
+_cut.isEqual(
+  "range() - 2 - step 3",
+  "[1,4,7,10,13,16]",
+  JSON.stringify(_.range(1,16,3))
+);
+_cut.log( JSON.stringify(_.range(1,16,3)) );
+_cut.isEqual(
+  "range() - 3 - step 3.2 <i>(can be failed - float storage)<i>",
+  "[1,4.2,7.4,10.600000000000001,13.8,17]",
+  JSON.stringify(_.range(1,17,3.2))
+);
+_cut.log( JSON.stringify(_.range(1,17,3.2)) );
+
+var a = ["a","b","c","d"];
+var b = [3,4,5,6,7,8,9];
+_cut.isEqual(
+  "toPairs() ES5",
+  "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
+  JSON.stringify(_.toPairs(a,b))
+);
+if(_cut.isNotIE11()) {
+  _cut.isEqual(
+    "toPairs() ES6",
+    "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
+    JSON.stringify(_.toPairs(
+      new Set(a),
+      new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values()
+    ))
+  );
+}
+
+var a = [21, 11, 41, 51, 31];
+_cut.isEqual("min() ES5", 11, _.min(a) );
+_cut.isEqual("minIndex() ES5", 1, _.minIndex(a) );
+_cut.isEqual("max() ES5", 51, _.max(a) );
+_cut.isEqual("maxIndex() ES5", 3, _.maxIndex(a) );
+if(_cut.isNotIE11()) {
+  _cut.isEqual("min() ES6", 11, _.min(new Set(a)) );
+  _cut.isEqual("minIndex() ES6", 1, _.minIndex(new Set(a).values()) );
+  _cut.isEqual("max() ES6", 51, _.max(new Set(a).keys()) );
+  _cut.isEqual(
+    "maxIndex() ES6",
+    3,
+    _.maxIndex(new Map([[21,1],[11,2],[41,3],[51,4],[31,5]]).keys())
+  );
+}
+
+var a = [21, 11, 41, 51, 31];
+_cut.isEqual(
+  "arrayKeys() ES5",
+  "[0,1,2,3,4]",
+  JSON.stringify(_.arrayKeys(a))
+);
+_cut.isEqual(
+  "arrayValues() ES5",
+  "[21,11,41,51,31]",
+  JSON.stringify(_.arrayValues(a))
+);
+_cut.isEqual(
+  "arrayEntries() ES5",
+   "[[0,21],[1,11],[2,41],[3,51],[4,31]]",
+  JSON.stringify(_.arrayEntries(a))
+);
+if(_cut.isNotIE11()) {
+  _cut.isEqual(
+    "arrayKeys() ES6",
+    "[0,1,2,3,4]",
+    JSON.stringify(_.arrayKeys(new Set(a)))
+  );
+  _cut.isEqual(
+    "arrayValues() ES6",
+    "[21,11,41,51,31]",
+    JSON.stringify(_.arrayValues(new Set(a).keys()))
+  );
+  try {
+    _cut.isEqual(
+      "arrayEntries() ES6",
+       "[[0,21],[1,11],[2,41],[3,51],[4,31]]",
+      JSON.stringify(_.arrayEntries(a.values()))
+    );
+  } catch (e) {alert(e);}
+}
+
+var a = [1,2,3,4], b = [3,4,5,6], c = [5,6,7,8];
+_cut.isEqual(
+  "arrayUnion() ES5",
+  "[1,2,3,4,5,6,7,8]",
+  JSON.stringify(_.arrayUnion(a,b,c))
+);
+_cut.isEqual(
+  "arrayIntersection() ES5",
+  "[3,4]",
+  JSON.stringify(_.arrayIntersection(a,b))
+);
+_cut.isEqual(
+  "arrayDifference() ES5",
+  "[1,2]",
+  JSON.stringify(_.arrayDifference(a,b))
+);
+_cut.isEqual(
+  "arraySymmetricDifference() ES5",
+  "[1,2,5,6]",
+  JSON.stringify(_.arraySymmetricDifference(a,b))
+);
+if(_cut.isNotIE11()) {
+   try {
+    _cut.isEqual(
+      "arrayUnion() ES6",
+      "[1,2,3,4,5,6,7,8]",
+      JSON.stringify(_.arrayUnion(new Set(a),b.values(),new Set(c).values()))
+    );
+    _cut.isEqual(
+      "arrayIntersection() ES6",
+      "[3,4]",
+      JSON.stringify(_.arrayIntersection(a.values(),new Set(b)))
+    );
+    _cut.isEqual(
+      "arrayDifference() ES6",
+      "[1,2]",
+      JSON.stringify(
+        _.arrayDifference(new Map([[1,2],[2,3],[3,4],[4,5]]).keys(),b.values())
+      )
+    );
+    _cut.isEqual(
+      "arraySymmetricDifference() ES6",
+      "[1,2,5,6]",
+      JSON.stringify(_.arraySymmetricDifference(
+        new Set(a).keys(),
+        new Map([[1,3],[2,4],[3,5],[4,6]]).values()
+      ))
+    );
+  } catch (e) {alert(e);} 
+}
+
+if(_cut.isNotIE11()) {
+  function __setEquals__(set1, set2) {
+    if (!_.isSet(set1) || !_.isSet(set2)) { return false; }
+    if (set1.size !== set2.size) { return false; }
+    if (JSON.stringify(Array.from(set1)) !== JSON.stringify(Array.from(set2))) {
+      return false;
+    }
+    return true;
+  }
+  var a = [1,2,3,4], b = [3,4,5,6], c = [5,6,7,8];
+  var sa = new Set(a), sb = new Set(b), sc = new Set(c);
+  _cut.isTrue(
+    "setUnion() ES6",
+    __setEquals__(
+      _.setUnion(new Map([ [2,1],[3,2],[4,3],[5,4] ]).values(),sb,c),
+      _.setUnion(a,new Map([ [2,3],[3,4],[4,5],[5,6] ]).values(),sc.values())
+    )
+  );
+  _cut.isTrue(
+    "setIntersection() ES6",
+    __setEquals__(
+      new Set([3,4]),
+      _.setIntersection(sa,sb)
+    )
+  );
+  _cut.isTrue(
+    "setDifference() ES6",
+    __setEquals__(
+      new Set([1,2]),
+      _.setDifference(sa,sb)
+    )
+  );
+  _cut.isTrue(
+    "setSymmetricDifference() ES6",
+    __setEquals__(
+      new Set([1,2,5,6]),
+      _.setSymmetricDifference(sa,sb)
+    )
+  );
+}
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,7,8,9,0];
+var arrTestClearRemove2 = _.arrayClear(arrTestClearRemove1);
+_cut.isTrue(
+  "arrayClear()",
+  (arrTestClearRemove1 === arrTestClearRemove2
+    && arrTestClearRemove1.length === 0
+    && Array.isArray(arrTestClearRemove1)
+  )
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isTrue(
+  "arrayRemove() - 1 found - not all - true",
+  _.arrayRemove(arrTestClearRemove1, 6)
+);
+_cut.isFalse(
+  "arrayRemove() - 1 found - not all - false",
+  _.arrayRemove(arrTestClearRemove1, 6)
+);
+_cut.isEqual(
+  "arrayRemove() - 1 found - not all - value check",
+  "[1,2,3,4,5,5,7,8,5,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isTrue(
+  "arrayRemove() - 1 found - all - true",
+  _.arrayRemove(arrTestClearRemove1, 6, true)
+);
+_cut.isFalse(
+  "arrayRemove() - 1 found - all - false",
+  _.arrayRemove(arrTestClearRemove1, 6, true)
+);
+_cut.isEqual(
+  "arrayRemove() - 1 found - all - value check",
+  "[1,2,3,4,5,5,7,8,5,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isTrue(
+  "arrayRemove() - 3 found - not all - true",
+  _.arrayRemove(arrTestClearRemove1, 5)
+);
+_cut.isTrue(
+  "arrayRemove() - 3 found - not all - true",
+  _.arrayRemove(arrTestClearRemove1, 5, false)
+);
+_cut.isEqual(
+  "arrayRemove() - 3 found - not all - value check",
+  "[1,2,3,4,6,7,8,5,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isTrue(
+  "arrayRemove() - 3 found - all - true",
+  _.arrayRemove(arrTestClearRemove1, 5, true)
+);
+_cut.isFalse(
+  "arrayRemove() - 3 found - all - false",
+  _.arrayRemove(arrTestClearRemove1, 5, true)
+);
+_cut.isEqual(
+  "arrayRemove() - 3 found - all - value check",
+  "[1,2,3,4,6,7,8,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
+_cut.isFalse(
+  "arrayRemove() - 0 found - not all - false",
+  _.arrayRemove(arrTestClearRemove1, 11)
+);
+_cut.isFalse(
+  "arrayRemove() - 0 found - all - false",
+  _.arrayRemove(arrTestClearRemove1, 11, true)
+);
+_cut.isEqual(
+  "arrayRemove() - 0 found - value check",
+  "[1,2,3,4,5,6,5,7,8,5,9,0]",
+  JSON.stringify(arrTestClearRemove1)
+);
+
+_cut.isEqual(
+  "uniqueArray() 1 ES5 - Array and Array-like object",
+  JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+  JSON.stringify(
+    _.uniqueArray( {0:1,1:2,2:2,3:3,4:4,5:4,6:5,7:6,8:6,9:7,length:10} )
+  )
+);
+_cut.isEqual(
+  "uniqueArray() 2 ES5 - Array and String",
+  JSON.stringify( _.uniqueArray(
+    ["A","r","r","a","y","y","a","n","d","d","M","M","a","p"]
+  ) ),
+  JSON.stringify( _.uniqueArray( "ArrayyanddMMap" ) )
+);
+if (_cut.isNotIE11()) {
+  _cut.isEqual(
+    "uniqueArray() 3 ES6 - Array and Set",
+    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+    JSON.stringify(
+      _.uniqueArray( new Set( [1,2,2,3,4,4,5,6,6,7] ) )
+    )
+  );
+  _cut.isEqual(
+    "uniqueArray() 4 ES6 - Array and Map values() iterator",
+    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
+    JSON.stringify(
+      _.uniqueArray(
+        (new Map([
+          ["foo1", 1], ["bar1", 2], ["baz1", 2], ["foo2", 3], ["bar2", 4],
+          ["baz2", 4], ["foo3", 5], ["bar3", 6], ["baz3", 6], ["foo4", 7]
+        ])).values()
+      )
+    )
+  );
+}
+
+var uniquePushTest = [1,2,3,5];
+_cut.isTrue("uniquePush() true", _.uniquePush(uniquePushTest, 4) );
+_cut.isFalse("uniquePush() false", _.uniquePush(uniquePushTest, 4) );
+_cut.isEqual(
+  "uniquePush() value check",
+  "[1,2,3,5,4]",
+  JSON.stringify(uniquePushTest)
 );
 
 
@@ -619,9 +955,10 @@ _cut.isTrue(
 forEachStr = "";
 _.forEach("cat, dog, pig", function (e) { forEachStr += e.toUpperCase(); } );
 _cut.isEqual("forEach() 2 ES5 String", "CAT, DOG, PIG", forEachStr );
-_cut.isTrue(
+_cut.isEqual(
   "forEach() 2 ES5 String return value",
-  _.isString( _.forEach("",function (){}) )
+  "aaBBcc",
+  _.forEach("aBc", function (v, i, a) {a[i] = v+v; } )
 );
 // forEach - Nodelist
 var forEachCount = 0;
@@ -856,137 +1193,6 @@ if (_cut.isNotIE11()) {
     )
   );
 }
-
-
-var arrTestClearRemove1 = [1,2,3,4,5,6,7,8,9,0];
-var arrTestClearRemove2 = _.arrayClear(arrTestClearRemove1);
-_cut.isTrue(
-  "arrayClear()",
-  (arrTestClearRemove1 === arrTestClearRemove2
-    && arrTestClearRemove1.length === 0
-    && Array.isArray(arrTestClearRemove1)
-  )
-);
-
-var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isTrue(
-  "arrayRemove() - 1 found - not all - true",
-  _.arrayRemove(arrTestClearRemove1, 6)
-);
-_cut.isFalse(
-  "arrayRemove() - 1 found - not all - false",
-  _.arrayRemove(arrTestClearRemove1, 6)
-);
-_cut.isEqual(
-  "arrayRemove() - 1 found - not all - value check",
-  "[1,2,3,4,5,5,7,8,5,9,0]",
-  JSON.stringify(arrTestClearRemove1)
-);
-
-var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isTrue(
-  "arrayRemove() - 1 found - all - true",
-  _.arrayRemove(arrTestClearRemove1, 6, true)
-);
-_cut.isFalse(
-  "arrayRemove() - 1 found - all - false",
-  _.arrayRemove(arrTestClearRemove1, 6, true)
-);
-_cut.isEqual(
-  "arrayRemove() - 1 found - all - value check",
-  "[1,2,3,4,5,5,7,8,5,9,0]",
-  JSON.stringify(arrTestClearRemove1)
-);
-
-var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isTrue(
-  "arrayRemove() - 3 found - not all - true",
-  _.arrayRemove(arrTestClearRemove1, 5)
-);
-_cut.isTrue(
-  "arrayRemove() - 3 found - not all - true",
-  _.arrayRemove(arrTestClearRemove1, 5, false)
-);
-_cut.isEqual(
-  "arrayRemove() - 3 found - not all - value check",
-  "[1,2,3,4,6,7,8,5,9,0]",
-  JSON.stringify(arrTestClearRemove1)
-);
-
-var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isTrue(
-  "arrayRemove() - 3 found - all - true",
-  _.arrayRemove(arrTestClearRemove1, 5, true)
-);
-_cut.isFalse(
-  "arrayRemove() - 3 found - all - false",
-  _.arrayRemove(arrTestClearRemove1, 5, true)
-);
-_cut.isEqual(
-  "arrayRemove() - 3 found - all - value check",
-  "[1,2,3,4,6,7,8,9,0]",
-  JSON.stringify(arrTestClearRemove1)
-);
-
-var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isFalse(
-  "arrayRemove() - 0 found - not all - false",
-  _.arrayRemove(arrTestClearRemove1, 11)
-);
-_cut.isFalse(
-  "arrayRemove() - 0 found - all - false",
-  _.arrayRemove(arrTestClearRemove1, 11, true)
-);
-_cut.isEqual(
-  "arrayRemove() - 0 found - value check",
-  "[1,2,3,4,5,6,5,7,8,5,9,0]",
-  JSON.stringify(arrTestClearRemove1)
-);
-
-_cut.isEqual(
-  "uniqueArray() 1 ES5 - Array and Array-like object",
-  JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
-  JSON.stringify(
-    _.uniqueArray( {0:1,1:2,2:2,3:3,4:4,5:4,6:5,7:6,8:6,9:7,length:10} )
-  )
-);
-_cut.isEqual(
-  "uniqueArray() 2 ES5 - Array and String",
-  JSON.stringify( _.uniqueArray(
-    ["A","r","r","a","y","y","a","n","d","d","M","M","a","p"]
-  ) ),
-  JSON.stringify( _.uniqueArray( "ArrayyanddMMap" ) )
-);
-if (_cut.isNotIE11()) {
-  _cut.isEqual(
-    "uniqueArray() 3 ES6 - Array and Set",
-    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
-    JSON.stringify(
-      _.uniqueArray( new Set( [1,2,2,3,4,4,5,6,6,7] ) )
-    )
-  );
-  _cut.isEqual(
-    "uniqueArray() 4 ES6 - Array and Map values() iterator",
-    JSON.stringify( _.uniqueArray( [1,2,2,3,4,4,5,6,6,7] ) ),
-    JSON.stringify(
-      _.uniqueArray(
-        (new Map([
-          ["foo1", 1], ["bar1", 2], ["baz1", 2], ["foo2", 3], ["bar2", 4],
-          ["baz2", 4], ["foo3", 5], ["bar3", 6], ["baz3", 6], ["foo4", 7]
-        ])).values()
-      )
-    )
-  );
-}
-
-var uniquePushTest = [1,2,3,5];
-_cut.isTrue("uniquePush() true", _.uniquePush(uniquePushTest, 4) );
-_cut.isFalse("uniquePush() false", _.uniquePush(uniquePushTest, 4) );
-_cut.isEqual(
-  "uniquePush() value check",
-  "[1,2,3,5,4]",
-  JSON.stringify(uniquePushTest)
-);
 
 _cut.isEqual("constant()", 3.14, _.constant(3.14)() );
 _cut.isEqual("identity()", 100, _.identity(60) + _.identity(40) );
@@ -1784,49 +1990,50 @@ if (_cut.isNotIE11()) {
     true,
     _.isIterator([4,5,6].values())
   );
-  _cut.log( _.getType([4,5,6].values()) ); 
+  _cut.log( _.getType([4,5,6].values()) );
   _cut.isEqual(
     "<b>ES6 -</b> isIterator() true - Set values()",
     true,
     _.isIterator(new Set([4,5,7]).values())
   );
-  _cut.log( _.getType(new Set([4,5,7]).values()) ); 
+  _cut.log( _.getType(new Set([4,5,7]).values()) );
   _cut.isEqual(
     "<b>ES6 -</b> isIterator() true - Map values()",
     true,
     _.isIterator(new Map([[4,5],[5,6]]).values())
   );
-  _cut.log( _.getType(new Map([[4,5],[5,6]]).values()) ); 
+  _cut.log( _.getType(new Map([[4,5],[5,6]]).values()) );
   if (_cut.isNotEdge()) {
     _cut.isEqual(
       "<b>ES6 -</b> isIterator() true - Nodelist values()",
       true,
       _.isIterator(document.querySelectorAll("h3").values())
     );
-    _cut.log( _.getType(document.querySelectorAll("h3").values()) ); 
+    _cut.log( _.getType(document.querySelectorAll("h3").values()) );
   }
   _cut.isEqual(
     "<b>ES6 -</b> isIterator() false - Array",
     false,
     _.isIterator([4,5,7])
   );
-  _cut.log( _.getType([4,5,7]) ); 
+  _cut.log( _.getType([4,5,7]) );
 }
 
 
 /* AJAX, domReady() and other callbacks */
 _cut.addElement("h3", "AJAX, domReady() and other callbacks");
 
-/* getScript() and getScripts() */
+/* importScript() and importScripts() */
 _cut.addElement("p", "Here have to be these results:");
 _cut.addElement(
   "ul",
-  "<li>3x getScript() (core api) - first script loaded</li>"
-  +"<li>3x getScript() (core api) - second script loaded</li>"
-  +"<li>1x getScripts() (core api) with success gs1</li>"
-  +"<li>1x getScripts() (core api) with success gs2</li>"
-  +"<li>1x getScripts() (core api) with error gs1</li>"
-  +"<li>1x getScripts() (core api) with error gs2</li>"
+  "<li>3x importScript() (core api) - first script loaded</li>"
+  +"<li>3x importScript() (core api) - second script loaded</li>"
+  +"<li>1x importScripts() (core api) with success gs1</li>"
+  +"<li>1x importScripts() (core api) with success gs2</li>"
+  +"<li>1x importScripts() (core api) with error gs1</li>"
+  +"<li>1x importScripts() (core api) with error gs2</li>"
+  +"<li>4x importScripts() (core api) - with more scripts"
   +"<li>1x getJson()</li>"
   +"<li>1x getText()</li>"
   +"<li>3x getAjax() text/json/xml</li>"
@@ -1840,31 +2047,34 @@ _cut.addElement(
   +"<li>1x domReady() (core api) is working</li>"
 );
 
-_.getScript("unittest-gs1.js");
-_.getScript("unittest-gs2.js");
+_.importScript("unittest-gs1.js");
+_.importScript("unittest-gs2.js");
+
+_.importScripts("unittest-gsi.js");
+_.importScripts("unittest-gsi.js", "unittest-gsi.js", "unittest-gsi.js");
 
 var scripts=[
   { url: "unittest-gs1.js", success: function () {
-  _cut.isEqual("getScripts() (core api) with success gs1", true, true);
+  _cut.isEqual("importScripts() (core api) with success gs1", true, true);
   } },
   { url: "unittest-gs2.js", success: function () {
-    _cut.isEqual("getScripts() (core api) with success gs2", true, true);
+    _cut.isEqual("importScripts() (core api) with success gs2", true, true);
   } }
 ];
-_.getScripts(scripts);
+_.importScripts(scripts);
 
 scripts=[
   { url: "unittest-gs1.js", success: function () {
-  _cut.isEqual("getScripts() (core api) with error gs1", true, true);
+  _cut.isEqual("importScripts() (core api) with error gs1", true, true);
   } },
   { url: "unittest-gs3.js", success: function () {
-    _cut.isEqual("getScripts() (core api) with error gs3", true, true);
+    _cut.isEqual("importScripts() (core api) with error gs3", true, true);
   } },
   { url: "unittest-gs2.js", success: function () {
-    _cut.isEqual("getScripts() (core api) with error gs2", true, true);
+    _cut.isEqual("importScripts() (core api) with error gs2", true, true);
   } }
 ];
-_.getScripts(scripts);
+_.importScripts(scripts);
 
 /* AJAX functions */
 
