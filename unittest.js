@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.3.0 testcases
+// Celestra v2.4.0 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -36,7 +36,7 @@ var taArr = ["a","b","c","d","e"];
 _cut.isEqual("__toArray__() array", taArr, _.__toArray__(taArr) );
 _cut.isTrue(
   "__toArray__() nodelist",
-  Array.isArray( _.__toArray__(document.querySelectorAll("h3")) ) 
+  Array.isArray( _.__toArray__(document.querySelectorAll("h3")) )
 );
 
 
@@ -484,11 +484,6 @@ _cut.isEqual(
 );
 
 _cut.isEqual(
-  "removeTags() <span class=\"deprecated\">DEPRECATED in v2.3.0</span>",
-  "lorem ipsum dolor sit amet , consectetuer",
-  _.removeTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
-);
-_cut.isEqual(
   "strRemoveTags()",
   "lorem ipsum dolor sit amet , consectetuer",
   _.strRemoveTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
@@ -654,7 +649,7 @@ if(_cut.isNotIE11()) {
         new Map([[1,3],[2,4],[3,5],[4,6]]).values()
       ))
     );
-  } catch (e) {alert(e);} 
+  } catch (e) {alert(e);}
 }
 
 if(_cut.isNotIE11()) {
@@ -828,6 +823,134 @@ _cut.isEqual(
   "[1,2,3,5,4]",
   JSON.stringify(uniquePushTest)
 );
+
+var itemSrc = ["A", "B", "C"];
+var res = _.item(itemSrc, 0)
+  + " " + _.item(itemSrc, 1)
+  + " " + _.item(itemSrc, 2)
+  + " " + _.item(itemSrc, 3)
+  + " " + _.item(itemSrc, -1)
+  + " " + _.item(itemSrc, -2)
+  + " " + _.item(itemSrc, -3)
+  + " " + _.item(itemSrc, -4);
+_cut.isEqual(
+  "item() - step 1 - array",
+  "A B C undefined C B A undefined",
+  res
+);
+_cut.log("\""+res+"\"");
+var itemSrc = {0: "A", 1: "B", 2: "C", length: 3};
+var res = _.item(itemSrc, 0)
+  + " " + _.item(itemSrc, 1)
+  + " " + _.item(itemSrc, 2)
+  + " " + _.item(itemSrc, 3)
+  + " " + _.item(itemSrc, -1)
+  + " " + _.item(itemSrc, -2)
+  + " " + _.item(itemSrc, -3)
+  + " " + _.item(itemSrc, -4);
+_cut.isEqual(
+  "item() - step 2 - arrayLike object",
+  "A B C undefined C B A undefined",
+  res
+);
+_cut.log("\""+res+"\"");
+var itemSrc = "ABC";
+var res = _.item(itemSrc, 0)
+  + " " + _.item(itemSrc, 1)
+  + " " + _.item(itemSrc, 2)
+  + " " + _.item(itemSrc, 3)
+  + " " + _.item(itemSrc, -1)
+  + " " + _.item(itemSrc, -2)
+  + " " + _.item(itemSrc, -3)
+  + " " + _.item(itemSrc, -4);
+_cut.isEqual(
+  "item() - step 3 - string",
+  "A B C undefined C B A undefined",
+  res
+);
+_cut.log("\""+res+"\"");
+
+if (_cut.isNotIE11()) {
+  var itemSrc = "AB\uD834\uDF06CD";
+  var res = _.item(itemSrc, 0)
+    + " " + _.item(itemSrc, 1)
+    + " " + _.item(itemSrc, 2)
+    + " " + _.item(itemSrc, 3)
+    + " " + _.item(itemSrc, 4)
+    + " " + _.item(itemSrc, 5)
+    + " " + _.item(itemSrc, -1)
+    + " " + _.item(itemSrc, -2)
+    + " " + _.item(itemSrc, -3)
+    + " " + _.item(itemSrc, -4)
+    + " " + _.item(itemSrc, -5)
+    + " " + _.item(itemSrc, -6);
+  _cut.isEqual(
+    "item() - step 4 - ES6 unicode string",
+    "A B \uD834\uDF06 C D undefined D C \uD834\uDF06 B A undefined",
+    res
+  );
+  _cut.log("\""+res+"\"");
+  var itemSrc = new Set(["A", "B", "C"]);
+  var res = _.item(itemSrc, 0)
+    + " " + _.item(itemSrc, 1)
+    + " " + _.item(itemSrc, 2)
+    + " " + _.item(itemSrc, 3)
+    + " " + _.item(itemSrc, -1)
+    + " " + _.item(itemSrc, -2)
+    + " " + _.item(itemSrc, -3)
+    + " " + _.item(itemSrc, -4);
+  _cut.isEqual(
+    "item() - step 5 - ES6 set",
+    "A B C undefined C B A undefined",
+    res
+  );
+  _cut.log("\""+res+"\"");
+  var itemSrc = new Set(["A", "B", "C"]);
+  var res = _.item(itemSrc.values(), 0)
+    + " " + _.item(itemSrc.values(), 1)
+    + " " + _.item(itemSrc.values(), 2)
+    + " " + _.item(itemSrc.values(), 3)
+    + " " + _.item(itemSrc.values(), -1)
+    + " " + _.item(itemSrc.values(), -2)
+    + " " + _.item(itemSrc.values(), -3)
+    + " " + _.item(itemSrc.values(), -4);
+  _cut.isEqual(
+    "item() - step 6 - ES6 set values()",
+    "A B C undefined C B A undefined",
+    res
+  );
+  _cut.log("\""+res+"\"");
+  var itemSrc = new Map([ ["A", 1], ["B", 2], ["C", 3] ]);
+  var res = _.item(itemSrc, 0)[0]
+    + " " + _.item(itemSrc, 1)[0]
+    + " " + _.item(itemSrc, 2)[0]
+    + " " + _.item(itemSrc, 3)
+    + " " + _.item(itemSrc, -1)[0]
+    + " " + _.item(itemSrc, -2)[0]
+    + " " + _.item(itemSrc, -3)[0]
+    + " " + _.item(itemSrc, -4);
+  _cut.isEqual(
+    "item() - step 7 - ES6 map",
+    "A B C undefined C B A undefined",
+    res
+  );
+  _cut.log("\""+res+"\"");
+  var itemSrc = new Map([ ["A", 1], ["B", 2], ["C", 3] ]);
+  var res = _.item(itemSrc.keys(), 0)
+    + " " + _.item(itemSrc.keys(), 1)
+    + " " + _.item(itemSrc.keys(), 2)
+    + " " + _.item(itemSrc.keys(), 3)
+    + " " + _.item(itemSrc.keys(), -1)
+    + " " + _.item(itemSrc.keys(), -2)
+    + " " + _.item(itemSrc.keys(), -3)
+    + " " + _.item(itemSrc.keys(), -4);
+  _cut.isEqual(
+    "item() - step 8 - ES6 map keys()",
+    "A B C undefined C B A undefined",
+    res
+  );
+  _cut.log("\""+res+"\"");
+}
 
 
 /* DOM */

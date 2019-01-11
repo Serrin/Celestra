@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.3.0
+Latest version: 2.4.0
 
-Date: 2019-01-07T19:10:37.615Z
+Date: 2019-01-11T19:06:59.140Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (51171 bytes)
+Development version: celestra.js (50982 bytes)
 
-Minimal version: celestra.min.js (38993 bytes)
+Minimal version: celestra.min.js (38792 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -78,15 +78,11 @@ Name | Description
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
 `javaHash(<data>[,hexa]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `importScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
-`getScript();` | `DEPRECATED in v2.3.0` The old alias of the `importScript();`.
 `importScripts(<scripts>);` | Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
 `importScripts(<script1>[,scriptN]);` | Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
-`getScripts();` | `DEPRECATED in v2.3.0` The old alias of the `importScripts();`.
 `importStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.
-`getStyle();` | `DEPRECATED in v2.3.0` The old alias of the `importStyle();`.
 `importStyles(<styles>);` | Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.
 `importStyles(<style1>[,styleN]);` | Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
-`getStyles();` | `DEPRECATED in v2.3.0` The old alias of the `importStyles();`.
 `getUrlVar([name]);` | Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
@@ -101,7 +97,6 @@ Name | Description
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
 `form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element. __The result has changed in v1.21.0: The array elements are objects instead of strings.__
 `form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
-`removeTags(<string>);` | `DEPRECATED in v2.3.0` The old alias of the `strRemoveTags(<string>);`.
 `strRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.___
@@ -265,6 +260,7 @@ Name | Description
 `arrayRemove(<array>,<value>);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
+`item(<collection>,<index>);` | Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers. __Tip: This function uses the `Array.from()` if the collection parameter isn't an array. It can be slow, when all items are requested with this function. In this case please convert the collection with the `Array.from()` instead of usage this function!__
 
 
 ### Polyfills

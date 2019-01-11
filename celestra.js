@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.3.0
+ * @version 2.4.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -767,7 +767,6 @@ function importScript (u, s) {
   if (s) { scr.onreadystatechange = s; scr.onload = s; }
   (document.head || document.getElementsByTagName("head")[0]).appendChild(scr);
 }
-var getScript = importScript;
 
 function importScripts (s) {
   if (Array.isArray(s)) {
@@ -778,7 +777,6 @@ function importScripts (s) {
     );
   }
 }
-var getScripts = importScripts;
 
 function importStyle (h, s) {
   var stl = document.createElement("link");
@@ -791,9 +789,8 @@ function importStyle (h, s) {
   if (s) { stl.onreadystatechange = s; stl.onload = s; }
   (document.head || document.getElementsByTagName("head")[0]).appendChild(stl);
 }
-var getStyle = importStyle;
 
-function getStyles (s) {
+function importStyles (s) {
   if (Array.isArray(s)) {
       s.forEach(function (e) { celestra.importStyle(e.href, e.success); });
   } else {
@@ -802,7 +799,6 @@ function getStyles (s) {
     );
   }
 }
-var getStyles = importStyles;
 
 function getUrlVar (n) {
   var r = {}, w = window.location.search.substring(1).split("&");
@@ -989,7 +985,6 @@ function form2string (f) {
 function strRemoveTags (s) {
   return (""+s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 }
-var removeTags = strRemoveTags;
 
 function strReverse (s) {
   return (Array.from ? Array.from(String(s)) : String(s).split(""))
@@ -1562,11 +1557,16 @@ function arrayRemove (a, v, all) {
   return found;
 }
 
+function item (a, i) {
+  var a2 = celestra.__toArray__(a);
+  return a2[(i < 0 ? a2.length + i : i)];
+}
+
 /* object header */
 
 var celestra = {};
 
-celestra.version = "Celestra v2.3.0";
+celestra.version = "Celestra v2.4.0";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1594,10 +1594,6 @@ celestra.importScript = importScript;
 celestra.importScripts = importScripts;
 celestra.importStyle = importStyle;
 celestra.importStyles = importStyles;
-celestra.getScript = getScript;
-celestra.getScripts = getScripts;
-celestra.getStyle = getStyle;
-celestra.getStyles = getStyles;
 celestra.getUrlVar = getUrlVar;
 celestra.getUrlVarFromString = getUrlVarFromString;
 celestra.obj2string = obj2string;
@@ -1612,7 +1608,6 @@ celestra.getDoNotTrack = getDoNotTrack;
 celestra.form2array = form2array;
 celestra.form2string = form2string;
 celestra.strRemoveTags = strRemoveTags;
-celestra.removeTags = removeTags;
 celestra.strReverse = strReverse;
 celestra.createFile = createFile;
 celestra.merge = merge;
@@ -1709,6 +1704,7 @@ celestra.uniqueArray = uniqueArray;
 celestra.uniquePush = uniquePush;
 celestra.arrayClear = arrayClear;
 celestra.arrayRemove = arrayRemove;
+celestra.item = item;
 
 /* AMD loader */
 if (typeof define === "function" && define.amd) {

@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.3.0</p>
-<p>Date: 2019-01-07T19:10:37.615Z</p>
+<p>Latest version: 2.4.0</p>
+<p>Date: 2019-02-01T19:06:59.140Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51171 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38993 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50982 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38792 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -158,13 +158,6 @@
       </td>
     </tr>
     <tr>
-      <td><code>getScript();</code></td>
-      <td>
-        <span class="deprecated">DEPRECATED in v2.3.0</span>
-        The old alias of the <code>importScript();</code>.
-      </td>
-    </tr>
-    <tr>
       <td><code>importScripts(&#60;scripts&#62;);</code></td>
       <td>Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
     </tr>
@@ -173,23 +166,9 @@
       <td>Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
     </tr>
     <tr>
-      <td><code>getScripts();</code></td>
-      <td>
-        <span class="deprecated">DEPRECATED in v2.3.0</span>
-        The old alias of the <code>importScripts();</code>.
-      </td>
-    </tr>
-    <tr>
       <td><code>importStyle(&#60;href&#62;[,success]);</code></td>
       <td>
         <p>Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>getStyle();</code></td>
-      <td>
-        <span class="deprecated">DEPRECATED in v2.3.0</span>
-        The old alias of the <code>importStyle();</code>.
       </td>
     </tr>
     <tr>
@@ -199,13 +178,6 @@
     <tr>
       <td><code>importStyles(&#60;style1&#62;[,styleN]);</code></td>
       <td>Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
-    </tr>
-    <tr>
-      <td><code>getStyles();</code></td>
-      <td>
-        <span class="deprecated">DEPRECATED in v2.3.0</span>
-        The old alias of the <code>importStyles();</code>.
-      </td>
     </tr>
     <tr>
       <td><code>getUrlVar([name]);</code></td>
@@ -270,13 +242,6 @@
       <td><code>form2string(&#60;form&#62;);</code></td>
       <td>
         Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
-      </td>
-    </tr>
-    <tr>
-      <td><code>removeTags(&#60;string&#62;);</code></td>
-      <td>
-        <span class="deprecated">DEPRECATED in v2.3.0</span>
-        The old alias of the <code>strRemoveTags(&#60;string&#62;);</code>.
       </td>
     </tr>
     <tr>
@@ -821,6 +786,13 @@
     <tr>
       <td><code>uniquePush(&#60;array&#62;,&#60;value&#62;);</code></td>
       <td>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</td>
+    </tr>
+    <tr>
+      <td><code>item(&#60;collection&#62;,&#60;index&#62;);</code></td>
+      <td>
+        <p>Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers.</p>
+        <p><span class="info">Tip: This function uses the <code>Array.from()</code> if the collection parameter isn't an array. It can be slow, when all items are requested with this function. In this case please convert the collection with the <code>Array.from()</code> instead of usage this function!</span></p>
+      </td>
     </tr>    
   </table>
 </div>
@@ -1510,11 +1482,6 @@ alert(testArrayFillStr);</pre></td>
       <td><b>noop()</b></td>
       <td><button onclick='alert ( _.noop() );'>Try</button></td>
       <td><code>alert ( _.noop() );</code></td>
-    </tr>
-    <tr>
-      <td><b>removeTags(string)</b></td>
-      <td><button onclick='alert("\""+_.removeTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")+"\"");'>Try</button></td>
-      <td><code>alert("\""+_.removeTags("&#60;p&#62;&#60;img src=\"x.js\" /&#62;&#60;img src=\"x.js\"/&#62;&#60;img src=\"x.js\"&#62;lorem&#60;/p&#62;&#60;p&#62;&#60;a href=\"#\"&#62;&#60;b&#62;ipsum&#60;br /&#62;&#60;br/&#62;&#60;br&#62;dolor&#60;/b&#62;&#60;/a&#62;&#60;script src=\"x.js\"&#62;&#60;/script&#62;&#60;/p&#62;&#60; p&#62;&#60; img src=\"x.js\" /&#62;&#60; img src=\"x.js\"/&#62;&#60; img src=\"x.js\"&#62;sit&#60; /p&#62;&#60; p&#62;&#60; a href=\"#\"&#62;&#60; b&#62;amet&#60; br /&#62;&#60; br/&#62;&#60; br&#62;, consectetuer&#60; /b&#62;&#60; / b&#62;&#60; /a&#62;&#60; script src=\"x.js\"&#62;&#60; /script&#62;&#60; /p&#62;")+"\"");</code></td>
     </tr>
 <script>
 var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<>\"\'\/#&@{}[]€ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM"
