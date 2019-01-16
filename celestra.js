@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.4.0
+ * @version 2.4.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
