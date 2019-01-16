@@ -425,6 +425,12 @@ if (!Array.prototype.copyWithin) {
   };
 }
 
+if (Array.prototype.keys
+  && Array.prototype.entries
+  && !Array.prototype.values) {
+  Array.prototype.values = Array.prototype[Symbol.iterator];
+}
+
 /*! https://mths.be/fromcodepoint v0.2.1 by @mathias */
 if (!String.fromCodePoint) {
   (function() {
@@ -1566,7 +1572,7 @@ function item (a, i) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.4.0";
+celestra.version = "Celestra v2.4.1";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;

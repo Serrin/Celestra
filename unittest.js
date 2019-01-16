@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.4.0 testcases
+// Celestra v2.4.1 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -1341,6 +1341,16 @@ _cut.isEqual("getCookie() undefined", undefined, _.getCookie()["ctest3"] );
 
 /* polyfills */
 _cut.addElement("h3", "polyfills");
+
+if (_cut.isNotIE11()) {
+  var vstr = "";
+  var vstrit = ["X","Y","Z","X"].values();
+  vstr += vstrit.next().value 
+    + vstrit.next().value
+    + vstrit.next().value
+    + vstrit.next().value;
+  _cut.isEqual("Array.prototype.values()", "XYZX", vstr);
+}
 
 _cut.isEqual(
   "String.fromCodePoint()",

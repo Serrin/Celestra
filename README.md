@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.4.0
+Latest version: 2.4.1
 
-Date: 2019-01-11T19:06:59.140Z
+Date: 2019-01-16T19:29:26.851Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (50982 bytes)
+Development version: celestra.js (51138 bytes)
 
-Minimal version: celestra.min.js (38792 bytes)
+Minimal version: celestra.min.js (38926 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -267,6 +267,7 @@ Name | Description
 
 Name | Description
 ---- | -----------
+`Array.prototype.values()` | `Only in ES6` The values() method returns a new Array Iterator object that contains the values for each index in the array.
 `Array.from()` | The Array.from() method creates a new Array instance from an array-like or iterable object.
 `Array.of()` | The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
 `Array.prototype.fill()` | The fill() method fills all the elements of an array from a start index to an end index with a static value. The end index is not included.
