@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.4.1
+ * @version 2.5.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -9,20 +9,20 @@
 
 /* Celestra FP */
 
-/*---------------|----|----------------------------------
-Function         |  # | Inner calls
------------------|----|----------------------------------
-CTRL-F           |  N | __toArray__()
-importScripts()  |  2 | importScript(), importScript()
-importStyles()   |  2 | importStyle(),  importStyle()
-domFadeToggle()  |  2 | domFadeIn(), domFadeOut()
-merge()          |  1 | merge()
-extend()         |  1 | extend()
-deepAssign()     |  1 | deepAssign()
-getJson()        |  1 | getAjax()
-getText()        |  1 | getAjax()
-isEqual()        |  2 | getType()
------------------|----|--------------------------------*/
+/*---------------|-----|----------------------------------
+Function         |   # | Inner calls
+-----------------|-----|----------------------------------
+CTRL-F           |   N | __toArray__()
+importScripts()  |   2 | importScript(), importScript()
+importStyles()   |   2 | importStyle(),  importStyle()
+domFadeToggle()  |   2 | domFadeIn(), domFadeOut()
+merge()          |   1 | merge()
+extend()         |   1 | extend()
+deepAssign()     |   1 | deepAssign()
+getJson()        |   1 | getAjax()
+getText()        |   1 | getAjax()
+isEqual()        |   2 | getType()
+-----------------|-----|--------------------------------*/
 
 /* polyfills */
 
@@ -1572,7 +1572,7 @@ function item (a, i) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.4.1";
+celestra.version = "Celestra v2.5.0";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;

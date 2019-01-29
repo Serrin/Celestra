@@ -1,10 +1,44 @@
 (function(){
 "use strict";
 
-// Celestra v2.4.1 testcases
+// Celestra v2.5.0 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
+
+/* Celestra ES6 extension */
+_cut.addElement("h3", "Celestra ES6 extension");
+
+_cut.addElement(
+  _.domCreate(
+    "button", {
+      onclick: function () { _.importScript("celestra-es6.min.js"); } 
+    },
+    "Load celestra-es6.min.js"
+  )
+);
+
+_cut.addElement("br");
+
+_cut.addElement(
+  _.domCreate(
+    "button", {
+      onclick: function () { _.importScript("celestra-es6.js"); } 
+    },
+    "Load celestra-es6.js"
+  )
+);
+
+_cut.addElement("br");
+
+_cut.addElement(
+  _.domCreate(
+    "button", {
+      onclick: function () { _.importScript("unittest-es6.js"); } 
+    },
+    "Load unittest-es6.js"
+  )
+);
 
 
 /* Not tested functions */
@@ -26,7 +60,7 @@ _cut.addElement(
 );
 
 
-/*Celestra object*/
+/* Celestra object */
 _cut.addElement("h3", "Celestra object");
 
 _cut.isEqual("Object name: \"celestra\"", true, celestra.random(100,200)>99 );

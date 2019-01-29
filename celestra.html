@@ -60,11 +60,11 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.4.1</p>
-<p>Date: 2019-01-16T19:29:26.851Z</p>
+<p>Latest version: 2.5.0</p>
+<p>Date: 2019-02-01T19:04:21.665Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51138 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51152 bytes)</p>
 <p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38926 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
@@ -79,6 +79,11 @@
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
 <p>Demo plugin documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
 <p>Demo plugin source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
+
+<h3>Celestra ES6 extension</h3>
+
+<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (1002 bytes)</p>
+<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (682 bytes)</p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
@@ -1072,9 +1077,50 @@
   </table>
 </div>
 
+<h3 id="CelestraES6extension">Celestra ES6 extension</h3>
+
+<p>All of these functions work only in the ES6 compatible browsers.</p>
+
+<p>If the extension (<a href="celestra-es6.js" target="_blank">celestra-es6.js</a> or <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a>) has been loaded too, then these functions are available in the <code>celestra</code> and/or <code>_</code> objects and the polyfills are available in their environment.
+
+<h4 id="CelestraES6extension1">Celestra ES6 extension polyfills</h4>
+
+<div>
+  <table>
+    <tr>
+      <td><code>GeneratorFunction</code></td>
+      <td><span class="info">Only in ES6</span> The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
+    </tr>
+  </table>
+</div>       
+
+<h4 id="CelestraES6extension2">Celestra ES6 extension functions</h4>
+
+<br/>Example: <code>_.iterRange()</code></p>
+
+<div>
+  <table>
+    <tr>
+      <td><code>iterRange([start[,step[,end]]]);</code></td>
+      <td><span class="info">Only in ES6</span> Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.</td>
+    </tr>
+    <tr>
+      <td><code>iterCycle(&#60;iter&#62;[,n]);</code></td>
+      <td>
+        <p><span class="info">Only in ES6</span> Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</p>
+        <p><code>Note: PLease don't use with infinite iterators!</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>iterRepeat(&#60;value&#62;[,n]);</code></td>
+      <td><span class="info">Only in ES6</span> Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</td>
+    </tr>
+  </table>
+</div>    
+
 <h2 id="samples">Samples</h2>
 
-<p class="big">There are more samples in the <a href="unittest.js" target="_blank">unittest.js</a>.</p>
+<p class="big">There are more samples in the <a href="unittest.js" target="_blank">unittest.js</a> and <a href="unittest-es6.js" target="_blank">unittest-es6.js</a>.</p>
 
 <div>
   <table>

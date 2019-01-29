@@ -13,13 +13,13 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.4.1
+Latest version: 2.5.0
 
-Date: 2019-01-16T19:29:26.851Z
+Date: 2019-02-01T19:04:21.665Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (51138 bytes)
+Development version: celestra.js (51152 bytes)
 
 Minimal version: celestra.min.js (38926 bytes)
 
@@ -42,6 +42,13 @@ RPG dice roller: testgame.html
 Demo plugin documentation: celestra-demo-plugin.html
 
 Demo plugin source: celestra-demo-plugin.js
+
+
+### Celestra ES6 extension
+
+Development version: celestra-es6.js (1002 bytes)
+
+Minimal version: celestra-es6.min.js (682 bytes)
 
 
 ### Celestra Unit Tester (CUT)
@@ -322,9 +329,35 @@ Name | Description
 `window.screenTop` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
 `globalThis` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
 
+
+### Celestra ES6 extension
+
+All of these polyfills and functions work only in the ES6 compatible browsers.
+
+If the extension (`celestra-es6.js` or `celestra-es6.min.js`) has been loaded too, then these functions are available in the `celestra` and/or `_` objects and the polyfills are available in their environment.
+
+
+#### Celestra ES6 extension polyfills
+
+Name | Description
+---- | -----------
+`GeneratorFunction` | `Only in ES6` The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the `window` object.
+
+
+#### Celestra ES6 extension functions
+
+Example: `_.iterRange()`
+
+Name | Description
+---- | -----------
+`iterRange([start[,step[,end]]]);` | `Only in ES6` Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
+`iterCycle(<iter>[,n]);` | `Only in ES6` Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity `Note: PLease don't use with infinite iterators!`
+`iterRepeat(<value>[,n]);` | `Only in ES6` Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity
+
+
 ## Samples
 
-There are code samples in the __celestra.html__ and __unittest.js__.
+There are code samples in the __celestra.html__ and __unittest.js__ and __unittest-es6.js__.
 
 ## License
 
