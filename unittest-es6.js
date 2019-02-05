@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.5.0 ES6 extension testcases
+// Celestra v2.5.1 ES6 extension testcases
 
 _cut.addElement("h3", "ES6 extension");
 
@@ -45,5 +45,141 @@ sum = "";
 let itrr2 = _.iterRepeat('HW2');
 for (let i = 0; i < 3; i++) { sum += itrr2.next().value; }
 _cut.isEqual("iterRepeat() infinity", "HW2HW2HW2", sum);
+
+
+
+var FPArray = [1,2,3];
+
+// forOf - Array
+var forOfStr = "";
+_.forOf(FPArray, function (e) { forOfStr += (e*2); } );
+_cut.isEqual("forOf() 1 ES5 Array", "246", forOfStr );
+// forOf - String
+forOfStr = "";
+_.forOf("cat, dog, pig", function (e) { forOfStr += e.toUpperCase(); } );
+_cut.isEqual("forOf() 2 ES5 String", "CAT, DOG, PIG", forOfStr );
+// forOf - Nodelist
+var forOfCount = 0;
+_.forOf(document.querySelectorAll("h3"), function (e) { forOfCount++; } );
+_cut.isEqual(
+  "forOf() 3 ES5 Nodelist",
+  document.querySelectorAll("h3").length,
+  forOfCount
+);
+/*
+// forOf - custom array-like object
+var forOfCount = 0;
+_.forOf({0:4,1:5,2:6,length:3}, function (e) { forOfCount += (e*3); } );
+_cut.isEqual("forOf() 4 ES5 custom array-like object", 45, forOfCount);
+*/
+// forOf - Map
+forOfStr = "";
+_.forOf(
+  new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
+  function (e,i) { forOfStr += i + "-" + e + "-"; }
+);
+_cut.isEqual(
+  "forOf() 5 ES6 Map",
+  "0-foo,3.14-1-bar,42-2-baz,Wilson-",
+  forOfStr
+);
+// forOf - Set
+forOfCount = 0;
+_.forOf(
+  new Set([4,5,6]),
+  function (e) { forOfCount += (e*3); }
+);
+_cut.isEqual("forOf() 6 ES6 Set", 45, forOfCount);
+// forOf - iterator
+forOfCount = 0;
+_.forOf(
+  (new Set([4,5,6])).values(),
+  function (e) { forOfCount += (e*3); }
+);
+_cut.isEqual("forOf() 7 ES6 Set values() iterator", 45, forOfCount);
+
+
+// mapOf - Array
+var mapOfStr = "";
+for (let item of _.mapOf([1,2,3], function(e) { return e*2; })) {
+  mapOfStr += item;
+}
+_cut.isEqual("mapOf() 1 ES5 Array", "246", mapOfStr );
+// mapOf - String
+var mapOfStr = "";
+for (let item of _.mapOf("cat, dog, pig", function (e) { return e.toUpperCase(); })) {
+  mapOfStr += item;
+}
+_cut.isEqual("mapOf() 2 ES5 String", "CAT, DOG, PIG", mapOfStr );
+
+// mapOf - Nodelist
+var mapOfNL = [];
+for (let item of _.mapOf(document.querySelectorAll("h3"), function (e) { return e; })) {
+  mapOfNL.push(item);
+}
+_cut.isTrue(
+  "mapOf() 3 ES5 Nodelist",
+  Array.isArray(mapOfNL) && mapOfNL.every(function(e) { return _.isElement(e); })
+);
+/*
+// mapOf - custom array-like object
+_cut.isEqual(
+  "mapOf() 4 ES5 custom array-like object",
+  "[2,4,6]",
+  JSON.stringify( _.mapOf({0:1,1:2,2:3,length:3}, function(e) { return e*2; }) )
+);
+*/
+// mapOf - Map
+var mapOfStr = "";
+for (let item of _.mapOf(
+  new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
+  function(e) { return [ e[0], e[1]*2 ]; }
+)) {
+  mapOfStr += item[0] + item[1];
+}
+_cut.isEqual("mapOf() 5 ES6 Map", "foo2bar4baz6", mapOfStr);
+// mapOf - Set
+var mapOfStr = "";
+for (let item of _.mapOf(new Set([1,2,3]), function(e) { return e*2; })) {
+  mapOfStr += item;
+}
+_cut.isEqual("mapOf() 6 ES6 Set", "246", mapOfStr);
+// mapOf - iterator
+var mapOfStr = "";
+for (let item of _.mapOf((new Set([1,2,3])).values(), function(e) { return e*3; })) {
+  mapOfStr += item;
+}
+_cut.isEqual("mapOf() 7 ES6 Set values() iterator", "369", mapOfStr);
+
+
+var FParray2 = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
+// iterTake() - step 1 - 0
+var iterStr = "";
+for (let item of _.iterTake(FParray2, 0)) { iterStr += item; }
+_cut.isEqual("iterTake() - step 1 - 0", "", iterStr);
+// iterTake() - step 2 - 7
+var iterStr = "";
+for (let item of _.iterTake(FParray2, 7)) { iterStr += item; }
+_cut.isEqual("iterTake() - step 2 - 7", "ABCDEFG", iterStr);
+// iterTake() - step 3 - 12
+var iterStr = "";
+for (let item of _.iterTake(FParray2, 12)) { iterStr += item; }
+_cut.isEqual("iterTake() - step 3 - 12", "ABCDEFGHIJ", iterStr);
+
+
+// iterDrop() - step 1 - 0
+var iterStr = "";
+for (let item of _.iterDrop(FParray2, 0)) { iterStr += item; }
+_cut.isEqual("iterDrop() - step 1 - 0", "ABCDEFGHIJ", iterStr);
+// iterDrop() - step 2 - 7
+var iterStr = "";
+for (let item of _.iterDrop(FParray2, 7)) { iterStr += item; }
+_cut.isEqual("iterDrop() - step 2 - 7", "HIJ", iterStr);
+// iterDrop() - step 3 - 12
+var iterStr = "";
+for (let item of _.iterDrop(FParray2, 12)) { iterStr += item; }
+_cut.isEqual("iterDrop() - step 3 - 12", "", iterStr);
+
 
 }());

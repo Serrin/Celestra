@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.5.0
+ * @version 2.5.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -1094,10 +1094,6 @@ function mapIn (o, fn) {
   return r;
 }
 
-function forOf (a, fn) { a = Array.from(a); a.forEach(fn); return a; }
-
-function mapOf (a, fn) { return Array.from(a, fn); }
-
 function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
 function noop () { return undefined; }
@@ -1533,7 +1529,7 @@ function range (start, end, step) {
 
 function toPairs (a, b) {
   var a2 = Array.from(a), b2 = Array.from(b);
-  var l = ( a2.length < b2.length ? a2.length : b2.length );
+  var l = (a2.length < b2.length ? a2.length : b2.length);
   var res = [];
   for (var i = 0; i < l ; i++) { res.push([ a2[i], b2[i] ]); }
   return res;
@@ -1572,7 +1568,7 @@ function item (a, i) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.5.0";
+celestra.version = "Celestra v2.5.1";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1626,8 +1622,6 @@ celestra.forEach = forEach;
 celestra.map = map;
 celestra.forIn = forIn;
 celestra.mapIn = mapIn;
-celestra.forOf = forOf;
-celestra.mapOf = mapOf;
 celestra.constant = constant;
 celestra.identity = identity;
 celestra.noop = noop;

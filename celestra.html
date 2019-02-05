@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.5.0</p>
-<p>Date: 2019-02-01T19:04:21.665Z</p>
+<p>Latest version: 2.5.1</p>
+<p>Date: 2019-02-05T19:23:01.478Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51152 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38926 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50970 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38769 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -82,8 +82,8 @@
 
 <h3>Celestra ES6 extension</h3>
 
-<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (1002 bytes)</p>
-<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (682 bytes)</p>
+<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (1653 bytes)</p>
+<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (1174 bytes)</p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
@@ -98,6 +98,10 @@
 
 <div>
   <table>
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
     <tr>
       <td><code>celestra.version;</code></td>
       <td>
@@ -275,6 +279,10 @@
 <div>
   <table>
     <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
       <td><code>domCreate(&#60;type&#62;[,properties[,innerHTML]]);</code></td>
       <td>Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, <b>style object/string - since v2.0.5 - <span class="info">in IE11 and W10M Edge 14 the style string doesn't work</span></b>, data-*, etc.) The innerHTML is optional and can be a string.</td>
     </tr>   
@@ -378,6 +386,10 @@
 <div>
   <table>
     <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
       <td><code>toFunction(&#60;function&#62;);</code></td>
       <td>Return a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
     </tr>
@@ -441,14 +453,6 @@
       </td>
     </tr>
     <tr>
-      <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>This function is the faster, ES6 variant of the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the <code>Array#forEach()</code> method.</td>
-    </tr>
-    <tr>
-      <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the <code>Array#map()</code> method.</td>
-    </tr>
-    <tr>
       <td><code>constant(&#60;value&#62;);</code></td>
       <td>A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: <code>f(x)=x</code>)</td>
     </tr>
@@ -478,6 +482,10 @@
 
 <div style="overflow-x:auto;">
   <table>
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
     <tr>
       <td><code>getJson(&#60;url&#62;,&#60;success&#62;);</code></td>
       <td>Get TEXT content via AJAX. A shorthand function to the getAjax() function.</td>
@@ -525,6 +533,10 @@
 
 <div>
   <table>
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
     <tr>
       <td><code>isEqual(&#60;value1&#62;,&#60;value2&#62;);</code></td>
       <td>
@@ -656,6 +668,10 @@
 <div>
   <table>
     <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
       <td><code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,HttpOnly]]]]]);</code></td>
       <td>
         Set a cookie.
@@ -708,6 +724,10 @@
 
 <div>
   <table>
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
     <tr>
       <td><code>arrayUnion(&#60;collection1&#62;[,collectionN]);</code></td>
       <td>Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.</td>
@@ -807,6 +827,10 @@
 <div>
   <table>
     <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>  
+    <tr>
       <td><code>Array.prototype.values()</code></td>
       <td><span class="info">Only in ES6</span>The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
     </tr>
@@ -882,7 +906,6 @@
       <td><code>String.prototype.includes()</code></td>
       <td>The includes() method determines whether one string may be found within another string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes" target="_blank">MDN Article</a>!</td>
     </tr>
-
     <tr>
       <td><code>String.prototype.trimStart()</code></td>
       <td>The trimStart() method removes whitespace from the beginning of a string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart" target="_blank">MDN Article</a>!</td>
@@ -1088,7 +1111,11 @@
 <div>
   <table>
     <tr>
-      <td><code>GeneratorFunction</code></td>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>GeneratorFunction()</code></td>
       <td><span class="info">Only in ES6</span> The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
     </tr>
   </table>
@@ -1100,6 +1127,10 @@
 
 <div>
   <table>
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
     <tr>
       <td><code>iterRange([start[,step[,end]]]);</code></td>
       <td><span class="info">Only in ES6</span> Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.</td>
@@ -1114,6 +1145,32 @@
     <tr>
       <td><code>iterRepeat(&#60;value&#62;[,n]);</code></td>
       <td><span class="info">Only in ES6</span> Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</td>
+    </tr>
+    <tr>
+      <td><code>iterTake(&#60;collection&#62;,&#60;n&#62;);</code></td>
+      <td>
+        <p>Yield the first N items of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>iterDrop(&#60;collection&#62;,&#60;n&#62;);</code></td>
+      <td>
+        <p>Drop the first N items of a collection and yield the remained items. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p>This function is the faster, ES6 variant of the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</p>
+        <p><span class="info">Note: From the v2.5.1 there is no return value.</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</p>
+        <p><span class="info">Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.</span></p>
+      </td>
     </tr>
   </table>
 </div>    

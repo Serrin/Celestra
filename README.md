@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.5.0
+Latest version: 2.5.1
 
-Date: 2019-02-01T19:04:21.665Z
+Date: 2019-02-05T19:23:01.478Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (51152 bytes)
+Development version: celestra.js (50970 bytes)
 
-Minimal version: celestra.min.js (38926 bytes)
+Minimal version: celestra.min.js (38769 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -46,9 +46,9 @@ Demo plugin source: celestra-demo-plugin.js
 
 ### Celestra ES6 extension
 
-Development version: celestra-es6.js (1002 bytes)
+Development version: celestra-es6.js (1653 bytes)
 
-Minimal version: celestra-es6.min.js (682 bytes)
+Minimal version: celestra-es6.min.js (1174 bytes)
 
 
 ### Celestra Unit Tester (CUT)
@@ -151,8 +151,6 @@ Name | Description
 `map(<collection>,<callback>);` | The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, return as Array), Nodelist (ES5, return as Array), custom array-like objects (ES5, return as Array), String (ES5, return as String, in ES6 browsers works with Unicode characters), Map (ES6, return as Map), Set (ES6, return as Set) and ES6 iterators (ES6, return as Array)__
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._ __Note: From the v2.2.1 the return value is the object parameter.__
 `mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
-`forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the `Array#forEach()` method.
-`mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The return value is always array and use the `Array#map()` method.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
@@ -341,7 +339,7 @@ If the extension (`celestra-es6.js` or `celestra-es6.min.js`) has been loaded to
 
 Name | Description
 ---- | -----------
-`GeneratorFunction` | `Only in ES6` The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the `window` object.
+`GeneratorFunction()` | `Only in ES6` The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the `window` object.
 
 
 #### Celestra ES6 extension functions
@@ -351,8 +349,12 @@ Example: `_.iterRange()`
 Name | Description
 ---- | -----------
 `iterRange([start[,step[,end]]]);` | `Only in ES6` Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
-`iterCycle(<iter>[,n]);` | `Only in ES6` Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity `Note: PLease don't use with infinite iterators!`
+`iterCycle(<iter>[,n]);` | `Only in ES6` Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRepeat(<value>[,n]);` | `Only in ES6` Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity
+`iterTake(<collection>,<n>);` | Yield the first N items of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`iterDrop(<collection>,<n>);` | Drop the first N items of a collection and yield the remained items. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value.__
+`mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.__
 
 
 ## Samples

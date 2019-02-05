@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.5.0 testcases
+// Celestra v2.5.1 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -1100,6 +1100,9 @@ _cut.isTrue(
   (tapArray1 === tapArray2 && tapArray1[2] === 5)
 );
 
+
+
+
 // forEach - Array
 var forEachStr = "";
 _.forEach(FPArray, function (e) { forEachStr += (e*2); } );
@@ -1243,113 +1246,6 @@ _cut.isEqual("forIn()", "468", forInStr );
 _cut.isEqual("forIn() return value", FPObject, _.forIn(FPObject, function(){}) );
 
 _cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"] );
-
-if (_cut.isNotIE11()) {
-  // forOf - Array
-  var forOfStr = "";
-  _.forOf(FPArray, function (e) { forOfStr += (e*2); } );
-  _cut.isEqual("forOf() 1 ES5 Array", "246", forOfStr );
-  // forOf - String
-  forOfStr = "";
-  _.forOf("cat, dog, pig", function (e) { forOfStr += e.toUpperCase(); } );
-  _cut.isEqual("forOf() 2 ES5 String", "CAT, DOG, PIG", forOfStr );
-  // forOf - Nodelist
-  var forOfCount = 0;
-  _.forOf(document.querySelectorAll("h3"), function (e) { forOfCount++; } );
-  _cut.isEqual(
-    "forOf() 3 ES5 Nodelist",
-    document.querySelectorAll("h3").length,
-    forOfCount
-  );
-  // forOf - custom array-like object
-  var forOfCount = 0;
-  _.forOf({0:4,1:5,2:6,length:3}, function (e) { forOfCount += (e*3); } );
-  _cut.isEqual("forOf() 4 ES5 custom array-like object", 45, forOfCount);
-  // forOf - Map
-  forOfStr = "";
-  _.forOf(
-    new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
-    function (e,i) { forOfStr += i + "-" + e + "-"; }
-  );
-  _cut.isEqual(
-    "forOf() 5 ES6 Map",
-    "0-foo,3.14-1-bar,42-2-baz,Wilson-",
-    forOfStr
-  );
-  // forOf - Set
-  forOfCount = 0;
-  _.forOf(
-    new Set([4,5,6]),
-    function (e) { forOfCount += (e*3); }
-  );
-  _cut.isEqual("forOf() 6 ES6 Set", 45, forOfCount);
-  // forOf - iterator
-  forOfCount = 0;
-  _.forOf(
-    (new Set([4,5,6])).values(),
-    function (e) { forOfCount += (e*3); }
-  );
-  _cut.isEqual("forOf() 7 ES6 Set values() iterator", 45, forOfCount);
-}
-
-
-if (_cut.isNotIE11()) {
-  // mapOf - Array
-  _cut.isEqual(
-    "mapOf() 1 ES5 Array",
-    "[2,4,6]",
-    JSON.stringify( _.mapOf([1,2,3], function(e) { return e*2; }) )
-  );
-  // mapOf - String
-  _cut.isEqual(
-    "mapOf() 2 ES5 String",
-     "[\"C\",\"A\",\"T\",\",\",\" \",\"D\",\"O\",\"G\",\",\",\" \",\"P\",\"I\",\"G\"]",
-    JSON.stringify(
-      _.mapOf("cat, dog, pig", function (e) { return e.toUpperCase(); } )
-    )
-  );
-  // mapOf - Nodelist
-  var mapNL = _.mapOf(document.querySelectorAll("h3"), function (e) { return e; } );
-  _cut.isTrue(
-    "mapOf() 3 ES5 Nodelist",
-    Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
-  );
-  // mapOf - custom array-like object
-  _cut.isEqual(
-    "mapOf() 4 ES5 custom array-like object",
-    "[2,4,6]",
-    JSON.stringify( _.mapOf({0:1,1:2,2:3,length:3}, function(e) { return e*2; }) )
-  );
-  // mapOf - Map
-  _cut.isEqual(
-    "mapOf() 5 ES6 Map",
-     "[[\"foo\",2],[\"bar\",4],[\"baz\",6]]",
-    JSON.stringify( _.mapOf(
-      new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
-      function(e) { return [ e[0], e[1]*2 ]; }
-    ) )
-  );
-  // mapOf - Set
-  _cut.isEqual(
-    "mapOf() 6 ES6 Set",
-     "[2,4,6]",
-    JSON.stringify( _.mapOf(
-      new Set([1,2,3]),
-      function(e) { return e*2; }
-    ) )
-  );
-  // mapOf - iterator
-  _cut.isEqual(
-    "mapOf() 7 ES6 Set values() iterator",
-    "[3,6,9]",
-    JSON.stringify(
-      _.mapOf(
-        (new Set([1,2,3])).values(),
-        function (e) { return (e*3); }
-      )
-    )
-  );
-}
 
 _cut.isEqual("constant()", 3.14, _.constant(3.14)() );
 _cut.isEqual("identity()", 100, _.identity(60) + _.identity(40) );
