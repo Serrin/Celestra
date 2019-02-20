@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.5.1
+Latest version: 2.5.2
 
-Date: 2019-02-05T19:23:01.478Z
+Date: 2019-02-19T19:18:50.079Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (50970 bytes)
+Development version: celestra.js (50526 bytes)
 
-Minimal version: celestra.min.js (38769 bytes)
+Minimal version: celestra.min.js (38565 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -44,11 +44,11 @@ Demo plugin documentation: celestra-demo-plugin.html
 Demo plugin source: celestra-demo-plugin.js
 
 
-### Celestra ES6 extension
+### Celestra ES6 extension (ES6E)
 
-Development version: celestra-es6.js (1653 bytes)
+Development version: celestra-es6.js (2385 bytes)
 
-Minimal version: celestra-es6.min.js (1174 bytes)
+Minimal version: celestra-es6.min.js (1751 bytes)
 
 
 ### Celestra Unit Tester (CUT)
@@ -72,10 +72,10 @@ Example: `_.qsa()`
 Name | Description
 ---- | -----------
 `celestra.version;` | The library version.
-`celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`
-`qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
-`qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements.
-`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
+`celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__
+`qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string. __Note: The context as selector string has been deprecated in v2.5.2 and will be removed in v2.6.0.__
+`qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements. __Note: The `each();` method has been deprecated in v2.5.2 and will be removed in v2.6.0. Please use the `forEach();` method instead of this!`__
+`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string. __Note: The context as selector string has been deprecated in v2.5.2 and will be removed in v2.6.0.__
 `domReady(<fn>);` | Set the document ready (content fully loaded) event.
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `random([max]);` | Get a random number value within 0 and max value. Without parameter the maximum value is 100.
@@ -215,6 +215,7 @@ Name | Description
 `isWeakMap(<value>);` | `ES6` This function determines whether the provided value is a weakmap. The return value is boolean.
 `isWeakSet(<value>);` | `ES6` This function determines whether the provided value is a weakset. The return value is boolean.
 `isIterator(<value>);` | `ES6` This function determines whether the provided value is an iterator. The return value is boolean. ___Doesn't work in W10M Edge 14.___
+`isIterable(<value>);` | `ES6` This function determines whether the provided value is an iterable collection. The return value is boolean.
 `isDate(<value>);` | This function determines whether the provided value is a date. The return value is boolean.
 `isRegexp(<value>);` | This function determines whether the provided value is a regexp. The return value is boolean.
 `isElement(<value>);` | This function determines whether the provided value is a HTML element. The return value is boolean.
@@ -328,7 +329,7 @@ Name | Description
 `globalThis` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
 
 
-### Celestra ES6 extension
+### Celestra ES6 extension (ES6E)
 
 All of these polyfills and functions work only in the ES6 compatible browsers.
 
@@ -348,13 +349,18 @@ Example: `_.iterRange()`
 
 Name | Description
 ---- | -----------
-`iterRange([start[,step[,end]]]);` | `Only in ES6` Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
+`iterRange([start[,step[,end]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
 `iterCycle(<iter>[,n]);` | `Only in ES6` Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
-`iterRepeat(<value>[,n]);` | `Only in ES6` Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity
-`iterTake(<collection>,<n>);` | Yield the first N items of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
-`iterDrop(<collection>,<n>);` | Drop the first N items of a collection and yield the remained items. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`iterRepeat(<value>[,n]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity
 `forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value.__
 `mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.__
+`filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). 
+`sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity. 
+`takeOf(<collection>,<n>);` | Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`dropOf(<collection>,<n>);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`iterTake(<collection>,<n>);` | __DEPRECATED IN v2.5.2__ The old alias of the `takeOf(<collection>,<n>);`.
+`iterDrop(<collection>,<n>);` | __DEPRECATED IN v2.5.2__ The old alias of the `dropOf(<collection>,<n>);`.
+`isGenerator(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 
 
 ## Samples

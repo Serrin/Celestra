@@ -1,10 +1,10 @@
 /**
  * @name Celestra
- * @version 2.5.1
+ * @version 2.5.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
-(function (window,document) {
+(function(window, document){
 "use strict";
 
 /* Celestra FP */
@@ -172,9 +172,7 @@ if (!String.prototype.repeat) {
     var str = "" + this;
     c = +c;
     if (c != c) { c = 0; }
-    if (c < 0) {
-      throw new RangeError("repeat count must be non-negative");
-    }
+    if (c < 0) { throw new RangeError("repeat count must be non-negative"); }
     if (c == Infinity) {
       throw new RangeError("repeat count must be less than infinity");
     }
@@ -284,9 +282,7 @@ if (!Element.prototype.getAttributeNames) {
     var attributes = this.attributes;
     var length = attributes.length;
     var result = new Array(length);
-    for (var i = 0; i < length; i++) {
-      result[i] = attributes[i].name;
-    }
+    for (var i = 0; i < length; i++) { result[i] = attributes[i].name; }
     return result;
   };
 }
@@ -326,7 +322,7 @@ if (!Array.prototype.flat) {
 if (!Array.prototype.flatMap) {
   Array.prototype.flatMap = function (fn) {
     var res = [];
-    this.map(fn).forEach(function(e) {
+    this.map(fn).forEach(function (e) {
       if (Array.isArray(e)) {
         res = res.concat(e);
       } else {
@@ -386,9 +382,7 @@ if (!Object.getOwnPropertyDescriptors) {
 
 if (!Array.prototype.copyWithin) {
   Array.prototype.copyWithin = function(target, start) {
-    if (this == null) {
-      throw new TypeError("this is null or not defined");
-    }
+    if (this == null) { throw new TypeError("this is null or not defined"); }
     var O = Object(this);
     var len = O.length >>> 0;
     var relativeTarget = target >> 0;
@@ -444,16 +438,14 @@ if (!String.fromCodePoint) {
     }());
     var stringFromCharCode = String.fromCharCode;
     var floor = Math.floor;
-    var fromCodePoint = function(_) {
+    var fromCodePoint = function (_) {
       var MAX_SIZE = 0x4000;
       var codeUnits = [];
       var highSurrogate;
       var lowSurrogate;
       var index = -1;
       var length = arguments.length;
-      if (!length) {
-        return "";
-      }
+      if (!length) { return ""; }
       var result = "";
       while (++index < length) {
         var codePoint = Number(arguments[index]);
@@ -462,9 +454,7 @@ if (!String.fromCodePoint) {
             codePoint < 0 ||
             codePoint > 0x10FFFF ||
             floor(codePoint) != codePoint
-        ) {
-          throw RangeError("Invalid code point: " + codePoint);
-        }
+        ) { throw RangeError("Invalid code point: " + codePoint); }
         if (codePoint <= 0xFFFF) {
           codeUnits.push(codePoint);
         } else {
@@ -505,24 +495,15 @@ if (!String.prototype.codePointAt) {
       return result;
     }());
     var codePointAt = function(position) {
-      if (this == null) {
-        throw TypeError();
-      }
+      if (this == null) { throw TypeError(); }
       var string = String(this);
       var size = string.length;
       var index = position ? Number(position) : 0;
-      if (index != index) {
-        index = 0;
-      }
-      if (index < 0 || index >= size) {
-        return undefined;
-      }
+      if (index != index) { index = 0; }
+      if (index < 0 || index >= size) { return undefined; }
       var first = string.charCodeAt(index);
       var second;
-      if (
-        first >= 0xD800 && first <= 0xDBFF &&
-        size > index + 1
-      ) {
+      if (first >= 0xD800 && first <= 0xDBFF && size > index + 1) {
         second = string.charCodeAt(index + 1);
         if (second >= 0xDC00 && second <= 0xDFFF) {
           return (first - 0xD800) * 0x400 + second - 0xDC00 + 0x10000;
@@ -622,9 +603,7 @@ if (!Math.cbrt) {
 
 if (!Math.clz32) Math.clz32 = (function(log, LN2){
   return function(x) {
-    if (x == null || x === 0) {
-      return 32;
-    }
+    if (x == null || x === 0) { return 32; }
     return 31 - log(x >>> 0) / LN2 | 0;
   };
 })(Math.log, Math.LN2);
@@ -733,9 +712,8 @@ function randomString(pl,sc) {
 
 function b64Encode(str) {
   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-    function toSolidBytes(match, p1) {
-      return String.fromCharCode("0x" + p1);
-  }));
+    function toSolidBytes(match, p1) { return String.fromCharCode("0x" + p1); }
+  ));
 }
 
 function b64Decode(str) {
@@ -989,13 +967,10 @@ function form2string (f) {
 }
 
 function strRemoveTags (s) {
-  return (""+s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
+  return String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 }
 
-function strReverse (s) {
-  return (Array.from ? Array.from(String(s)) : String(s).split(""))
-    .reverse().join("");
-}
+function strReverse (s) { return Array.from(String(s)).reverse().join(""); }
 
 function createFile (fln, c, dt) {
   var l = arguments.length;
@@ -1057,7 +1032,7 @@ function forEach (a, fn) {
     a.forEach(fn);
     return a;
   } else {
-    var a2 = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
+    var a2 = Array.from(a);
     a2.forEach(fn);
     if (typeof a !== "string") { return a2; }
     return a2.join("");
@@ -1067,18 +1042,11 @@ function forEach (a, fn) {
 function map (a, fn) {
   var t = Object.prototype.toString.call(a)
     .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
-  if (Array.isArray(a)) {
-    return a.map(fn);
-  } else if (t === "string") {
-    return (Array.from ? Array.from(a) : Array.prototype.slice.call(a))
-      .map(fn).join("");
-  } else if (t === "map") {
-    return new Map(Array.from(a).map(fn));
-  } else if (t === "set") {
-    return new Set(Array.from(a).map(fn));
-  } else {
-    return (Array.from ? Array.from(a) : Array.prototype.slice.call(a)).map(fn);
-  }
+  if (Array.isArray(a)) { return a.map(fn); }
+  else if (t === "string") { return Array.from(a).map(fn).join(""); }
+  else if (t === "map") { return new Map(Array.from(a).map(fn)); }
+  else if (t === "set") { return new Set(Array.from(a).map(fn)); }
+  else { return Array.from(a).map(fn); }
 }
 
 function forIn (o, fn) {
@@ -1097,7 +1065,6 @@ function mapIn (o, fn) {
 function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
 function noop () { return undefined; }
-
 function T () { return true; }
 function F () { return false; }
 
@@ -1177,13 +1144,9 @@ function domToggle (e, d) {
   }
 }
 
-function domOn (el, et, fn) {
-  return el.addEventListener ? el.addEventListener(et, fn) : el.attachEvent("on" + et, fn);
-}
+function domOn (el, et, fn) { return el.addEventListener(et, fn); }
 
-function domOff (el, et, fn) {
-  return el.removeEventListener ? el.removeEventListener(et, fn) : el.detachEvent("on" + et, fn);
-}
+function domOff (el, et, fn) { return el.removeEventListener(et, fn); }
 
 function domTrigger (el, et) { return el[et](); }
 
@@ -1301,7 +1264,8 @@ function isNumber (v) { return typeof v === "number"; }
 var isInteger = Number.isInteger;
 function isFloat (v) { return typeof v === "number" && !!(v % 1); }
 function isNumeric (v) {
-  return ( (typeof v === "number" && v === v) ? true : (!isNaN(parseFloat(v)) && isFinite(v)) );
+  return ( (typeof v === "number" && v === v) ? true : (!isNaN(parseFloat(v))
+    && isFinite(v)) );
 }
 
 function isBoolean (v) { return typeof v === "boolean"; }
@@ -1363,9 +1327,9 @@ function isRegexp (v) {
   return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "regexp";
 }
 
-function isElement (v) {
-  return typeof v === "object" && v.nodeType === 1;
-}
+function isElement (v) { return typeof v === "object" && v.nodeType === 1; }
+
+function isIterable (v) { return (!!v[Symbol.iterator]); }
 
 /* cookie */
 
@@ -1536,8 +1500,9 @@ function toPairs (a, b) {
 }
 
 function uniqueArray (a) {
-  a = (Array.from ? Array.from(a) : Array.prototype.slice.call(a));
-  return a.filter(function(e, i, arr) { return arr.indexOf(e) === i; });
+  return celestra.__toArray__(a).filter(
+    function(e, i, arr) { return arr.indexOf(e) === i; }
+  );
 }
 
 function uniquePush (a, v) {
@@ -1568,7 +1533,7 @@ function item (a, i) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.5.1";
+celestra.version = "Celestra v2.5.2";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1677,6 +1642,7 @@ celestra.isIterator = isIterator;
 celestra.isDate = isDate;
 celestra.isRegexp = isRegexp;
 celestra.isElement = isElement;
+celestra.isIterable = isIterable;
 /* cookie */
 celestra.setCookie = setCookie;
 celestra.getCookie = getCookie;
@@ -1725,4 +1691,4 @@ if (typeof window !== "undefined") {
   window._ = celestra;
 }
 
-}(window,document));
+}(window, document));

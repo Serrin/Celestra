@@ -1,9 +1,9 @@
 /**
  * @name Celestra ES6 extension
- * @version 2.5.1
+ * @version 2.5.2
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.5.1
+ * Minimal required Celestra version: 2.5.2
  */
 
 (function(window, celestra){
@@ -42,7 +42,7 @@ const iterRepeat = function* iterRepeat (value, n = Infinity) {
   }
 };
 
-const iterTake = function* iterTake (it, n) {
+const takeOf = function* takeOf (it, n) {
   let i = n;
   for (let item of it) {
     if (i <= 0) { break; }
@@ -51,12 +51,16 @@ const iterTake = function* iterTake (it, n) {
   }
 };
 
-const iterDrop = function* iterDrop (it, n) {
+const iterTake = takeOf;
+
+const dropOf = function* dropOf (it, n) {
   let i = n;
   for (let item of it) {
     if (i < 1) { yield item; } else { i--; }
   }
 };
+
+const iterDrop = dropOf;
 
 const forOf = function forOf (it, fn) {
   let i = 0;
@@ -68,13 +72,42 @@ const mapOf = function* mapOf (it, fn) {
   for (let item of it) { yield fn(item, i++); }
 };
 
+const filterOf = function* filterOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item,i++)) { yield item; }
+  }
+};
+
+const sliceOf = function* sliceOf (it, begin = 0, end = Infinity) {
+  let i = 0;
+  for (let item of it) {
+    if (i >= begin && i <= end) {
+      yield item;
+    } else if (i > end) {
+      return;
+    }
+    i++;
+  }
+};
+
+const isGenerator = function isGenerator (v) {
+  return (Object.getPrototypeOf(v).constructor ===
+    Object.getPrototypeOf(function*(){}).constructor);
+};
+
 /* celestra object */
 celestra.iterRange = iterRange;
 celestra.iterCycle = iterCycle;
 celestra.iterRepeat = iterRepeat;
+celestra.takeOf = takeOf;
 celestra.iterTake = iterTake;
+celestra.dropOf = dropOf;
 celestra.iterDrop = iterDrop;
 celestra.forOf = forOf;
 celestra.mapOf = mapOf;
+celestra.filterOf = filterOf;
+celestra.sliceOf = sliceOf;
+celestra.isGenerator = isGenerator;
 
 }(window, celestra));

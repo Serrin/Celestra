@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.5.1 ES6 extension testcases
+// Celestra v2.5.2 ES6E testcases
 
 _cut.addElement("h3", "ES6 extension");
 
@@ -16,10 +16,22 @@ _cut.isEqual("GeneratorFunction()", "912", sum);
 
 _cut.addElement("h4", "ES6 extension functions");
 
+_cut.isTrue(
+  "isGenerator() true",
+  _.isGenerator(function* fn42g () { yield 42; })
+);
+_cut.isFalse(
+  "isGenerator() false 1 fn",
+  _.isGenerator(function fn42 () { return 42; })
+);
+_cut.isFalse(
+  "isGenerator() false 2 number",
+  _.isGenerator(42)
+);
+
 sum = "";
 for (let x of _.iterRange(10, 3, 20)) { sum += x; }
 _cut.isEqual("iterRange() integer", "10131619", sum);
-
 sum = "";
 for (let x of _.iterRange(10, 3.5, 20)) { sum += x; }
 _cut.isEqual("iterRange() float", "1013.517", sum);
@@ -27,11 +39,9 @@ _cut.isEqual("iterRange() float", "1013.517", sum);
 sum = "";
 for (let x of _.iterCycle(["a", "b", "c"], 4)) { sum += x; }
 _cut.isEqual("iterCycle() array", "abcabcabcabc", sum);
-
 sum = "";
 for (let x of _.iterCycle(_.iterRange(10, 3, 20), 3)) { sum += x; }
 _cut.isEqual("iterCycle() + iterRange()", "101316191013161910131619", sum);
-
 sum = "";
 let itrr1 = _.iterCycle(['A', 'B'].values());
 for (let i = 0; i < 7; i++) { sum += itrr1.next().value; }
@@ -40,12 +50,10 @@ _cut.isEqual("iterCycle() infinity", "ABABABA", sum);
 sum = "";
 for (let x of _.iterRepeat("HW", 5)) { sum += x; }
 _cut.isEqual("iterRepeat()", "HWHWHWHWHW", sum);
-
 sum = "";
 let itrr2 = _.iterRepeat('HW2');
 for (let i = 0; i < 3; i++) { sum += itrr2.next().value; }
 _cut.isEqual("iterRepeat() infinity", "HW2HW2HW2", sum);
-
 
 
 var FPArray = [1,2,3];
@@ -154,32 +162,63 @@ _cut.isEqual("mapOf() 7 ES6 Set values() iterator", "369", mapOfStr);
 
 var FParray2 = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-// iterTake() - step 1 - 0
+// takeOf() - step 1 - 0
 var iterStr = "";
-for (let item of _.iterTake(FParray2, 0)) { iterStr += item; }
-_cut.isEqual("iterTake() - step 1 - 0", "", iterStr);
-// iterTake() - step 2 - 7
+for (let item of _.takeOf(FParray2, 0)) { iterStr += item; }
+_cut.isEqual("takeOf() - step 1 - 0", "", iterStr);
+// takeOf() - step 2 - 7
 var iterStr = "";
-for (let item of _.iterTake(FParray2, 7)) { iterStr += item; }
-_cut.isEqual("iterTake() - step 2 - 7", "ABCDEFG", iterStr);
-// iterTake() - step 3 - 12
+for (let item of _.takeOf(FParray2, 7)) { iterStr += item; }
+_cut.isEqual("takeOf() - step 2 - 7", "ABCDEFG", iterStr);
+// takeOf() - step 3 - 12
 var iterStr = "";
-for (let item of _.iterTake(FParray2, 12)) { iterStr += item; }
-_cut.isEqual("iterTake() - step 3 - 12", "ABCDEFGHIJ", iterStr);
+for (let item of _.takeOf(FParray2, 12)) { iterStr += item; }
+_cut.isEqual("takeOf() - step 3 - 12", "ABCDEFGHIJ", iterStr);
 
 
-// iterDrop() - step 1 - 0
+// dropOf() - step 1 - 0
 var iterStr = "";
-for (let item of _.iterDrop(FParray2, 0)) { iterStr += item; }
-_cut.isEqual("iterDrop() - step 1 - 0", "ABCDEFGHIJ", iterStr);
-// iterDrop() - step 2 - 7
+for (let item of _.dropOf(FParray2, 0)) { iterStr += item; }
+_cut.isEqual("dropOf() - step 1 - 0", "ABCDEFGHIJ", iterStr);
+// dropOf() - step 2 - 7
 var iterStr = "";
-for (let item of _.iterDrop(FParray2, 7)) { iterStr += item; }
-_cut.isEqual("iterDrop() - step 2 - 7", "HIJ", iterStr);
-// iterDrop() - step 3 - 12
+for (let item of _.dropOf(FParray2, 7)) { iterStr += item; }
+_cut.isEqual("dropOf() - step 2 - 7", "HIJ", iterStr);
+// dropOf() - step 3 - 12
 var iterStr = "";
-for (let item of _.iterDrop(FParray2, 12)) { iterStr += item; }
-_cut.isEqual("iterDrop() - step 3 - 12", "", iterStr);
+for (let item of _.dropOf(FParray2, 12)) { iterStr += item; }
+_cut.isEqual("dropOf() - step 3 - 12", "", iterStr);
+
+
+var FPArray3 = [1,2,3,4,5,6,7,8,9,10];
+
+var iterStr = "";
+for (let item of _.filterOf(FPArray3, (v) => (v>3 && v<9) )) {
+  iterStr += item;
+}
+_cut.isEqual("filterOf()", "45678", iterStr);
+
+
+var iterStr = "";
+for (let item of _.sliceOf(FPArray3,0,4)) {
+  iterStr += item;
+}
+_cut.isEqual("sliceOf() - step 1 - 0 to 4", "12345", iterStr);
+var iterStr = "";
+for (let item of _.sliceOf(FPArray3,5)) {
+  iterStr += item;
+}
+_cut.isEqual("sliceOf() - step 2 - 5 to Infinity", "678910", iterStr);
+var iterStr = "";
+for (let item of _.sliceOf(FPArray3,4,8)) {
+  iterStr += item;
+}
+_cut.isEqual("sliceOf() - step 3 - 4 to 8", "56789", iterStr);
+var iterStr = "";
+for (let item of _.sliceOf(FPArray3)) {
+  iterStr += item;
+}
+_cut.isEqual("sliceOf() - step 4 - all", "12345678910", iterStr);
 
 
 }());

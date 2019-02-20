@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.5.1 testcases
+// Celestra v2.5.2 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -1078,6 +1078,7 @@ var dsArray = _.domSiblings( _.qs("#dsDivP2") );
 _cut.isTrue( "domSiblings()", (Array.isArray(dsArray) && dsArray.length === 3) );
 _.qs("#dsDiv").remove();
 
+
 /* FP */
 
 _cut.addElement("h3", "FP");
@@ -1099,8 +1100,6 @@ _cut.isTrue(
   "tap()",
   (tapArray1 === tapArray2 && tapArray1[2] === 5)
 );
-
-
 
 
 // forEach - Array
@@ -2080,6 +2079,21 @@ if (_cut.isNotIE11()) {
     _.isIterator([4,5,7])
   );
   _cut.log( _.getType([4,5,7]) );
+  _cut.isTrue(
+    "<b>ES6 -</b> isIterable() true",
+    _.isIterable([])
+      && _.isIterable("")
+      && _.isIterable(new Map([[1,2],[3,4]]))
+      && _.isIterable(new Set([1,2]))
+  );
+  _cut.isFalse(
+    "<b>ES6 -</b> isIterable() false",
+    _.isIterable(42)
+      || _.isIterable(3.14)
+      || _.isIterable({a:1,b:2})
+      || _.isIterable(true)
+      || _.isIterable(false)
+  );
 }
 
 

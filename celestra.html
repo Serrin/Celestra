@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.5.1</p>
-<p>Date: 2019-02-05T19:23:01.478Z</p>
+<p>Latest version: 2.5.2</p>
+<p>Date: 2019-02-19T19:18:50.079Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50970 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38769 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50526 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38565 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -80,10 +80,10 @@
 <p>Demo plugin documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
 <p>Demo plugin source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
-<h3>Celestra ES6 extension</h3>
+<h3>Celestra ES6 extension (ES6E)</h3>
 
-<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (1653 bytes)</p>
-<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (1174 bytes)</p>
+<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (2385 bytes)</p>
+<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (1751 bytes)</p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
@@ -112,20 +112,29 @@
       <td><code>celestra.noConflict();</code></td>
       <td>
         Restore the previous <code>_</code> object value and return the <code>celestra</code> object to create a new alias.<br/>
-        Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code>
+        <span class="info">Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code></span>
       </td>
     </tr>
     <tr>
       <td><code>qsa(&#60;selector&#62;[,context]);</code></td>
-      <td>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.</td>
+      <td>
+        <p>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.</p>
+        <p><span class="deprecated">Note: The context as selector string has been deprecated in v2.5.2 and will be removed in v2.6.0.</span></p>
+      </td>
     </tr>
     <tr>
       <td><code>qsa(&#60;selector&#62;[,context]).each( fn (el, i) { el.arguments; } );</code></td>
-      <td>Exec a function on all elements.</td>
+      <td>
+        <p>Exec a function on all elements.</p>
+        <p><span class="deprecated">Note: The <code>each();</code> method has been deprecated in v2.5.2 and will be removed in v2.6.0. Please use the <code>forEach();</code> method instead of this!</span></p>
+      </td>
     </tr>
     <tr>
       <td><code>qs(&#60;selector&#62;[,context]).argument;</code></td>
-      <td>Get the first matched HTML element. The context is optional and can be an element or a selector string.</td>
+      <td>
+        <p>Get the first matched HTML element. The context is optional and can be an element or a selector string.<p>
+        <p><span class="deprecated">Note: The context as selector string has been deprecated in v2.5.2 and will be removed in v2.6.0.</span></p>
+      </td>
     </tr>
     <tr>
       <td><code>domReady(&#60;fn&#62;);</code></td>
@@ -635,8 +644,14 @@
     <tr>
       <td><code>isIterator(&#60;value&#62;);</code></td>
       <td>
-        <span class="info">ES6</span> This function determines whether the provided value is an iterator The return value is boolean.
+        <span class="info">ES6</span> This function determines whether the provided value is an iterator. The return value is boolean.
         <p><span class="info">Doesn't work in W10M Edge 14.</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>isIterable(&#60;value&#62;);</code></td>
+      <td>
+        <span class="info">ES6</span> This function determines whether the provided value is an iterable collection. The return value is boolean.
       </td>
     </tr>
     <tr>
@@ -1100,7 +1115,7 @@
   </table>
 </div>
 
-<h3 id="CelestraES6extension">Celestra ES6 extension</h3>
+<h3 id="CelestraES6extension">Celestra ES6 extension (ES6E)</h3>
 
 <p>All of these functions work only in the ES6 compatible browsers.</p>
 
@@ -1133,30 +1148,18 @@
     </tr>
     <tr>
       <td><code>iterRange([start[,step[,end]]]);</code></td>
-      <td><span class="info">Only in ES6</span> Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.</td>
+      <td>Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.</td>
     </tr>
     <tr>
       <td><code>iterCycle(&#60;iter&#62;[,n]);</code></td>
       <td>
-        <p><span class="info">Only in ES6</span> Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</p>
+        <p>Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</p>
         <p><code>Note: PLease don't use with infinite iterators!</code></p>
       </td>
     </tr>
     <tr>
       <td><code>iterRepeat(&#60;value&#62;[,n]);</code></td>
-      <td><span class="info">Only in ES6</span> Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</td>
-    </tr>
-    <tr>
-      <td><code>iterTake(&#60;collection&#62;,&#60;n&#62;);</code></td>
-      <td>
-        <p>Yield the first N items of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>iterDrop(&#60;collection&#62;,&#60;n&#62;);</code></td>
-      <td>
-        <p>Drop the first N items of a collection and yield the remained items. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
-      </td>
+      <td>Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</td>
     </tr>
     <tr>
       <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1170,6 +1173,41 @@
       <td>
         <p>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</p>
         <p><span class="info">Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>filterOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
+    </tr>
+    </tr>
+    <tr>
+      <td><code>sliceOf(&#60;collection&#62;[,begin[,end]]);</code></td>
+      <td>Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.</td>
+    </tr>
+    <tr>
+      <td><code>takeOf(&#60;collection&#62;,&#60;n&#62;);</code></td>
+      <td>
+        <p>Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>dropOf(&#60;collection&#62;,&#60;n&#62;);</code></td>
+      <td>
+        <p>Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
+      </td>
+    </tr>
+    <tr>
+    <tr>
+      <td><code>iterTake(&#60;collection&#62;,&#60;n&#62;);</code></td>
+      <td><span class="deprecated">DEPRECATED IN v2.5.2</span> The old alias of the <code>takeOf(&#60;collection&#62;,&#60;n&#62;);</code>.</td>
+    </tr>
+    <tr>
+      <td><code>iterDrop(&#60;collection&#62;,&#60;n&#62;);</code></td>
+      <td><span class="deprecated">DEPRECATED IN v2.5.2</span> The old alias of the <code>dropOf(&#60;collection&#62;,&#60;n&#62;);</code>.</td>
+    </tr>
+    <tr>
+      <td><code>isGenerator(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is a generator function. The return value is boolean.</p>
       </td>
     </tr>
   </table>
