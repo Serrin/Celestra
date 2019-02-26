@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.5.2
+ * @version 2.6.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -9,20 +9,20 @@
 
 /* Celestra FP */
 
-/*---------------|-----|----------------------------------
-Function         |   # | Inner calls
------------------|-----|----------------------------------
-CTRL-F           |   N | __toArray__()
-importScripts()  |   2 | importScript(), importScript()
-importStyles()   |   2 | importStyle(),  importStyle()
-domFadeToggle()  |   2 | domFadeIn(), domFadeOut()
-merge()          |   1 | merge()
-extend()         |   1 | extend()
-deepAssign()     |   1 | deepAssign()
-getJson()        |   1 | getAjax()
-getText()        |   1 | getAjax()
-isEqual()        |   2 | getType()
------------------|-----|--------------------------------*/
+/*----------------|-----|----------------------------------
+ Function         |   # | Inner calls
+------------------|-----|----------------------------------
+ CTRL-F           |   N | __toArray__()
+ importScripts()  |   2 | importScript(), importScript()
+ importStyles()   |   2 | importStyle(),  importStyle()
+ domFadeToggle()  |   2 | domFadeIn(), domFadeOut()
+ merge()          |   1 | merge()
+ extend()         |   1 | extend()
+ deepAssign()     |   1 | deepAssign()
+ getJson()        |   1 | getAjax()
+ getText()        |   1 | getAjax()
+ isEqual()        |   2 | getType()
+------------------|-----|--------------------------------*/
 
 /* polyfills */
 
@@ -93,14 +93,14 @@ if (!Array.prototype.fill) {
 if (!Array.prototype.includes) {
   Array.prototype.includes = function (v, f) {
     if (!f) { var f = 0; }
-    return (this.indexOf(v,f) > -1);
+    return (this.indexOf(v, f) > -1);
   };
 }
 
 if (!String.prototype.includes) {
   String.prototype.includes = function (v, f) {
     if (!f) { var f = 0; }
-    return (this.indexOf(v,f) > -1);
+    return (this.indexOf(v, f) > -1);
   };
 }
 
@@ -387,17 +387,14 @@ if (!Array.prototype.copyWithin) {
     var len = O.length >>> 0;
     var relativeTarget = target >> 0;
     var to = relativeTarget < 0 ?
-      Math.max(len + relativeTarget, 0) :
-      Math.min(relativeTarget, len);
+      Math.max(len + relativeTarget, 0) : Math.min(relativeTarget, len);
     var relativeStart = start >> 0;
     var fr = relativeStart < 0 ?
-      Math.max(len + relativeStart, 0) :
-      Math.min(relativeStart, len);
+      Math.max(len + relativeStart, 0) : Math.min(relativeStart, len);
     var end = arguments[2];
     var relativeEnd = end === undefined ? len : end >> 0;
     var final = relativeEnd < 0 ?
-      Math.max(len + relativeEnd, 0) :
-      Math.min(relativeEnd, len);
+      Math.max(len + relativeEnd, 0) : Math.min(relativeEnd, len);
     var count = Math.min(final - fr, len - to);
     var direction = 1;
     if (fr < to && to < (fr + count)) {
@@ -549,9 +546,7 @@ if (Number.MAX_SAFE_INTEGER === undefined) {
   Number.MAX_SAFE_INTEGER = 9007199254740991;
 }
 
-if (Number.EPSILON === undefined) {
-  Number.EPSILON = Math.pow(2, -52);
-}
+if (Number.EPSILON === undefined) { Number.EPSILON = Math.pow(2, -52); }
 
 if (!Number.isNaN) { Number.isNaN = function (v) { return v !== v; }; }
 
@@ -670,17 +665,9 @@ if (!Math.trunc) {
 
 /* core api */
 
-function qsa (s, c) {
-  if (c) { var ic = (typeof c === "string") ? document.querySelector(c) : c; }
-  var el = Array.prototype.slice.call((ic || document).querySelectorAll(s));
-  el.each = el.forEach;
-  return el;
-}
+function qsa (s, c) { return Array.from((c || document).querySelectorAll(s)); }
 
-function qs (s, c) {
-  if (c) { var ic = (typeof c === "string") ? document.querySelector(c) : c; }
-  return (ic || document).querySelector(s);
-}
+function qs (s, c) { return (c || document).querySelector(s); }
 
 function domReady (fn) {
   if (document.readyState!=="loading") {
@@ -819,7 +806,7 @@ function obj2string (o) {
       s += encodeURIComponent(p) + "=" + encodeURIComponent(o[p]) + "&";
     }
   }
-  return s.substring(0,s.length-1);
+  return s.substring(0, s.length-1);
 }
 
 function getType (v, t) {
@@ -1015,40 +1002,6 @@ function merge () {
   return t;
 }
 
-/* FP */
-
-function toFunction (fn) { return Function.prototype.call.bind(fn); }
-
-var bind = Function.prototype.call.bind(Function.prototype.bind);
-
-var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
-
-function tap (v, fn) { fn(v); return v; }
-
-function forEach (a, fn) {
-  var t = Object.prototype.toString.call(a)
-    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
-  if (Array.isArray(a) || t === "map" || t === "set") {
-    a.forEach(fn);
-    return a;
-  } else {
-    var a2 = Array.from(a);
-    a2.forEach(fn);
-    if (typeof a !== "string") { return a2; }
-    return a2.join("");
-  }
-}
-
-function map (a, fn) {
-  var t = Object.prototype.toString.call(a)
-    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
-  if (Array.isArray(a)) { return a.map(fn); }
-  else if (t === "string") { return Array.from(a).map(fn).join(""); }
-  else if (t === "map") { return new Map(Array.from(a).map(fn)); }
-  else if (t === "set") { return new Set(Array.from(a).map(fn)); }
-  else { return Array.from(a).map(fn); }
-}
-
 function forIn (o, fn) {
   for (var p in o) { if (o.hasOwnProperty(p)) { fn(o[p], p, o); } }
   return o;
@@ -1061,6 +1014,16 @@ function mapIn (o, fn) {
   }
   return r;
 }
+
+/* FP */
+
+function toFunction (fn) { return Function.prototype.call.bind(fn); }
+
+var bind = Function.prototype.call.bind(Function.prototype.bind);
+
+var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+
+function tap (v, fn) { fn(v); return v; }
 
 function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
@@ -1384,6 +1347,30 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
 
 /* collections */
 
+function forEach (a, fn) {
+  var t = Object.prototype.toString.call(a)
+    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
+  if (Array.isArray(a) || t === "map" || t === "set") {
+    a.forEach(fn);
+    return a;
+  } else {
+    var a2 = Array.from(a);
+    a2.forEach(fn);
+    if (typeof a !== "string") { return a2; }
+    return a2.join("");
+  }
+}
+
+function map (a, fn) {
+  var t = Object.prototype.toString.call(a)
+    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
+  if (Array.isArray(a)) { return a.map(fn); }
+  else if (t === "string") { return Array.from(a).map(fn).join(""); }
+  else if (t === "map") { return new Map(Array.from(a).map(fn)); }
+  else if (t === "set") { return new Set(Array.from(a).map(fn)); }
+  else { return Array.from(a).map(fn); }
+}
+
 function arrayUnion () {
   return Array.prototype.concat.apply(
     [], Array.from(arguments).map(function (e) { return Array.from(e); })
@@ -1533,7 +1520,7 @@ function item (a, i) {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.5.2";
+celestra.version = "Celestra v2.6.0";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1578,15 +1565,13 @@ celestra.strRemoveTags = strRemoveTags;
 celestra.strReverse = strReverse;
 celestra.createFile = createFile;
 celestra.merge = merge;
+celestra.forIn = forIn;
+celestra.mapIn = mapIn;
 /* FP */
 celestra.toFunction = toFunction;
 celestra.bind = bind;
 celestra.hasOwn = hasOwn;
 celestra.tap = tap;
-celestra.forEach = forEach;
-celestra.map = map;
-celestra.forIn = forIn;
-celestra.mapIn = mapIn;
 celestra.constant = constant;
 celestra.identity = identity;
 celestra.noop = noop;
@@ -1649,14 +1634,16 @@ celestra.getCookie = getCookie;
 celestra.hasCookie = hasCookie;
 celestra.removeCookie = removeCookie;
 /* collections */
-celestra.setUnion = setUnion;
-celestra.setIntersection = setIntersection;
-celestra.setDifference = setDifference;
-celestra.setSymmetricDifference = setSymmetricDifference;
+celestra.forEach = forEach;
+celestra.map = map;
 celestra.arrayUnion = arrayUnion;
 celestra.arrayIntersection = arrayIntersection;
 celestra.arrayDifference = arrayDifference;
 celestra.arraySymmetricDifference = arraySymmetricDifference;
+celestra.setUnion = setUnion;
+celestra.setIntersection = setIntersection;
+celestra.setDifference = setDifference;
+celestra.setSymmetricDifference = setSymmetricDifference;
 celestra.arrayKeys = arrayKeys;
 celestra.arrayValues = arrayValues;
 celestra.arrayEntries = arrayEntries;

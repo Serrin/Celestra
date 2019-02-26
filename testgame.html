@@ -99,7 +99,7 @@ _.domReady(function () {
   window.rolls = _.qs("#rolls");
 
   function getResults () {
-    _.qsa("span",results).each(function (e) { e.remove(); });
+    _.qsa("span",results).forEach(function (e) { e.remove(); });
     //results.innerHTML = "";
     var diceValue = parseInt(dice.value),
       repeat = parseInt(rolls.value);
@@ -109,7 +109,7 @@ _.domReady(function () {
   }
 
   function reset () {
-    _.qsa("span",results).each(function (e) { e.remove(); });
+    _.qsa("span",results).forEach(function (e) { e.remove(); });
     //results.innerHTML = "";
     dice.value = 6;
     rolls.value = 1;

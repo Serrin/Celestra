@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.5.2 testcases
+// Celestra v2.6.0 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -107,13 +107,13 @@ _cut.isEqual(
 );
 
 _cut.isEqual(
-  "qs() selector + selector",
+  "qs() selector + element 1",
   document.querySelector("#qsaDivP1"),
-  _.qs("#qsaDivP1","#qsaDivTestElement")
+  _.qs("#qsaDivP1", _.qs("#qsaDivTestElement"))
 );
 
 _cut.isEqual(
-  "qs() selector + element",
+  "qs() selector + element 2",
   document.querySelector("#qsaDivP1"),
   _.qs("#qsaDivP1", document.querySelector("#qsaDivTestElement") )
 );
@@ -128,9 +128,9 @@ _cut.isEqual(
     testQsa1[1] === _.qs("#qsaDivP2")
 );
 
-var testQsa2 = _.qsa("p", "#qsaDivTestElement")
+var testQsa2 = _.qsa("p", _.qs("#qsaDivTestElement"))
 _cut.isEqual(
-  "qsa() selector + selector",
+  "qsa() selector + element 1",
   true,
   Array.isArray(testQsa2) &&
     testQsa2.length === 2 &&
@@ -140,7 +140,7 @@ _cut.isEqual(
 
 var testQsa3 = _.qsa("p", document.querySelector("#qsaDivTestElement") )
 _cut.isEqual(
-  "qsa() selector + element",
+  "qsa() selector + element 2",
   true,
   Array.isArray(testQsa3) &&
     testQsa3.length === 2 &&
@@ -148,8 +148,8 @@ _cut.isEqual(
     testQsa3[1] === _.qs("#qsaDivP2")
 );
 
-testQsa3.each(function (e) { e.innerHTML += " each"; });
-_cut.isEqual("qsa() each", true,
+testQsa3.forEach(function (e) { e.innerHTML += " each"; });
+_cut.isEqual("qsa() forEach", true,
   testQsa3[0].innerHTML === "#qsaDivP1 test element each" &&
   testQsa3[1].innerHTML === "#qsaDivP2 test element each"
 );
@@ -479,6 +479,15 @@ _cut.isEqual(
 
 /* /kaylee */
 
+var FPObject = {a:2, b:3, c:4};
+
+var forInStr = "";
+_.forIn(FPObject, function (e) { forInStr += (e*2); } );
+_cut.isEqual("forIn()", "468", forInStr );
+_cut.isEqual("forIn() return value", FPObject, _.forIn(FPObject, function(){}) );
+
+_cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"] );
+
 _cut.isEqual("getDoNotTrack()", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false );
 
 
@@ -545,6 +554,143 @@ if (_cut.isNotIE11()) {
 /* Collection */
 
 _cut.addElement("h3", "Collections");
+
+
+var FPArray = [1,2,3];
+
+// forEach - Array
+var forEachStr = "";
+_.forEach(FPArray, function (e) { forEachStr += (e*2); } );
+_cut.isEqual("forEach() 1 ES5 Array", "246", forEachStr );
+_cut.isTrue(
+  "forEach() 1 ES5 Array return value",
+  Array.isArray( _.forEach([],function (){}) )
+);
+// forEach - String
+forEachStr = "";
+_.forEach("cat, dog, pig", function (e) { forEachStr += e.toUpperCase(); } );
+_cut.isEqual("forEach() 2 ES5 String", "CAT, DOG, PIG", forEachStr );
+_cut.isEqual(
+  "forEach() 2 ES5 String return value",
+  "aaBBcc",
+  _.forEach("aBc", function (v, i, a) {a[i] = v+v; } )
+);
+// forEach - Nodelist
+var forEachCount = 0;
+_.forEach(document.querySelectorAll("h3"), function (e) { forEachCount++; } );
+_cut.isEqual(
+  "forEach() 3 ES5 Nodelist",
+  document.querySelectorAll("h3").length,
+  forEachCount
+);
+_cut.isTrue(
+  "forEach() 3 ES5 Nodelist return value",
+  Array.isArray( _.forEach(document.querySelectorAll("h3"),function (){}) )
+);
+// forEach - custom array-like object
+var forEachCount = 0;
+_.forEach({0:4,1:5,2:6,length:3}, function (e) { forEachCount += (e*3); } );
+_cut.isEqual("forEach() 4 ES5 custom array-like object", 45, forEachCount);
+_cut.isTrue(
+  "forEach() 4 ES5 custom array-like object return value",
+  Array.isArray( _.forEach({0:4,1:5,2:6,length:3},function (){}) )
+);
+
+if (_cut.isNotIE11()) {
+  // forEach - Map
+  forEachStr = "";
+  _.forEach(
+    new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
+    function (e,p) { forEachStr += p + e + "-"; }
+  );
+  _cut.isEqual("forEach() 5 ES6 Map", "foo3.14-bar42-bazWilson-", forEachStr);
+  _cut.isTrue(
+    "forEach() 5 ES6 Map return value",
+    _.isMap( _.forEach(new Map([ ["foo", 3.14], ["bar", 42] ]),function (){}) )
+  );
+  // forEach - Set
+  forEachCount = 0;
+  _.forEach(
+    new Set([4,5,6]),
+    function (e) { forEachCount += (e*3); }
+  );
+  _cut.isEqual("forEach() 6 ES6 Set", 45, forEachCount);
+  _cut.isTrue(
+    "forEach() 6 ES6 Set return value",
+    _.isSet( _.forEach(new Set([4,5,6]),function (){}) )
+  );
+  // forEach - iterator
+  forEachCount = 0;
+  _.forEach(
+    (new Set([4,5,6])).values(),
+    function (e) { forEachCount += (e*3); }
+  );
+  _cut.isEqual("forEach() 7 ES6 Set values() iterator", 45, forEachCount);
+  _cut.isTrue(
+    "forEach() 7 ES6 Set values() iterator return value",
+    Array.isArray( _.forEach(new Set([4,5,6]).values(),function (){} ))
+  );
+}
+
+
+// map - Array
+_cut.isEqual(
+  "map() 1 ES5 Array and return value",
+  "[2,4,6]",
+  JSON.stringify( _.map([1,2,3], function(e) { return e*2; }) )
+);
+// map - String
+_cut.isEqual(
+  "map() 2 ES5 String and return value",
+  "CAT, DOG, PIG",
+  _.map("cat, dog, pig", function (e) { return e.toUpperCase(); } )
+);
+
+// map - Nodelist
+var mapNL = _.map(document.querySelectorAll("h3"), function (e) { return e; } );
+_cut.isTrue(
+  "map() 3 ES5 Nodelist and return value",
+  Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
+);
+// map - custom array-like object
+_cut.isEqual(
+  "map() 4 ES5 custom array-like object and return value",
+  "[2,4,6]",
+  JSON.stringify( _.map({0:1,1:2,2:3,length:3}, function(e) { return e*2; }) )
+);
+
+if (_cut.isNotIE11()) {
+  // map - Map
+  var mapMap = _.map(
+    new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
+    function(e) { return [ e[0], e[1]*2 ]; }
+  );
+  _cut.isEqual(
+    "map() 5 ES6 Map and return value",
+    "246",
+    "" + mapMap.get("foo") + mapMap.get("bar") + mapMap.get("baz")
+  );
+  // map - Set
+  var mapSet = _.map(
+    new Set([1,2,3]),
+    function(e) { return e*2; }
+  );
+  _cut.isTrue(
+    "map() 6 ES6 Set and return value",
+    mapSet.has(2) && mapSet.has(4) && mapSet.has(6)
+  );
+  // map - iterator
+  _cut.isEqual(
+    "map() 7 ES6 Set values() iterator and return value",
+    "[3,6,9]",
+    JSON.stringify(
+      _.map(
+        (new Set([1,2,3])).values(),
+        function (e) { return (e*3); }
+      )
+    )
+  );
+}
 
 _cut.isEqual(
   "range() - 1 - step default 1",
@@ -1100,151 +1246,6 @@ _cut.isTrue(
   "tap()",
   (tapArray1 === tapArray2 && tapArray1[2] === 5)
 );
-
-
-// forEach - Array
-var forEachStr = "";
-_.forEach(FPArray, function (e) { forEachStr += (e*2); } );
-_cut.isEqual("forEach() 1 ES5 Array", "246", forEachStr );
-_cut.isTrue(
-  "forEach() 1 ES5 Array return value",
-  Array.isArray( _.forEach([],function (){}) )
-);
-// forEach - String
-forEachStr = "";
-_.forEach("cat, dog, pig", function (e) { forEachStr += e.toUpperCase(); } );
-_cut.isEqual("forEach() 2 ES5 String", "CAT, DOG, PIG", forEachStr );
-_cut.isEqual(
-  "forEach() 2 ES5 String return value",
-  "aaBBcc",
-  _.forEach("aBc", function (v, i, a) {a[i] = v+v; } )
-);
-// forEach - Nodelist
-var forEachCount = 0;
-_.forEach(document.querySelectorAll("h3"), function (e) { forEachCount++; } );
-_cut.isEqual(
-  "forEach() 3 ES5 Nodelist",
-  document.querySelectorAll("h3").length,
-  forEachCount
-);
-_cut.isTrue(
-  "forEach() 3 ES5 Nodelist return value",
-  Array.isArray( _.forEach(document.querySelectorAll("h3"),function (){}) )
-);
-// forEach - custom array-like object
-var forEachCount = 0;
-_.forEach({0:4,1:5,2:6,length:3}, function (e) { forEachCount += (e*3); } );
-_cut.isEqual("forEach() 4 ES5 custom array-like object", 45, forEachCount);
-_cut.isTrue(
-  "forEach() 4 ES5 custom array-like object return value",
-  Array.isArray( _.forEach({0:4,1:5,2:6,length:3},function (){}) )
-);
-
-if (_cut.isNotIE11()) {
-  // forEach - Map
-  forEachStr = "";
-  _.forEach(
-    new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
-    function (e,p) { forEachStr += p + e + "-"; }
-  );
-  _cut.isEqual("forEach() 5 ES6 Map", "foo3.14-bar42-bazWilson-", forEachStr);
-  _cut.isTrue(
-    "forEach() 5 ES6 Map return value",
-    _.isMap( _.forEach(new Map([ ["foo", 3.14], ["bar", 42] ]),function (){}) )
-  );
-  // forEach - Set
-  forEachCount = 0;
-  _.forEach(
-    new Set([4,5,6]),
-    function (e) { forEachCount += (e*3); }
-  );
-  _cut.isEqual("forEach() 6 ES6 Set", 45, forEachCount);
-  _cut.isTrue(
-    "forEach() 6 ES6 Set return value",
-    _.isSet( _.forEach(new Set([4,5,6]),function (){}) )
-  );
-  // forEach - iterator
-  forEachCount = 0;
-  _.forEach(
-    (new Set([4,5,6])).values(),
-    function (e) { forEachCount += (e*3); }
-  );
-  _cut.isEqual("forEach() 7 ES6 Set values() iterator", 45, forEachCount);
-  _cut.isTrue(
-    "forEach() 7 ES6 Set values() iterator return value",
-    Array.isArray( _.forEach(new Set([4,5,6]).values(),function (){} ))
-  );
-}
-
-
-// map - Array
-_cut.isEqual(
-  "map() 1 ES5 Array and return value",
-  "[2,4,6]",
-  JSON.stringify( _.map([1,2,3], function(e) { return e*2; }) )
-);
-// map - String
-_cut.isEqual(
-  "map() 2 ES5 String and return value",
-  "CAT, DOG, PIG",
-  _.map("cat, dog, pig", function (e) { return e.toUpperCase(); } )
-);
-
-// map - Nodelist
-var mapNL = _.map(document.querySelectorAll("h3"), function (e) { return e; } );
-_cut.isTrue(
-  "map() 3 ES5 Nodelist and return value",
-  Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
-);
-// map - custom array-like object
-_cut.isEqual(
-  "map() 4 ES5 custom array-like object and return value",
-  "[2,4,6]",
-  JSON.stringify( _.map({0:1,1:2,2:3,length:3}, function(e) { return e*2; }) )
-);
-
-if (_cut.isNotIE11()) {
-  // map - Map
-  var mapMap = _.map(
-    new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
-    function(e) { return [ e[0], e[1]*2 ]; }
-  );
-  _cut.isEqual(
-    "map() 5 ES6 Map and return value",
-    "246",
-    "" + mapMap.get("foo") + mapMap.get("bar") + mapMap.get("baz")
-  );
-  // map - Set
-  var mapSet = _.map(
-    new Set([1,2,3]),
-    function(e) { return e*2; }
-  );
-  _cut.isTrue(
-    "map() 6 ES6 Set and return value",
-    mapSet.has(2) && mapSet.has(4) && mapSet.has(6)
-  );
-  // map - iterator
-  _cut.isEqual(
-    "map() 7 ES6 Set values() iterator and return value",
-    "[3,6,9]",
-    JSON.stringify(
-      _.map(
-        (new Set([1,2,3])).values(),
-        function (e) { return (e*3); }
-      )
-    )
-  );
-}
-
-
-var FPObject = {a:2, b:3, c:4};
-
-var forInStr = "";
-_.forIn(FPObject, function (e) { forInStr += (e*2); } );
-_cut.isEqual("forIn()", "468", forInStr );
-_cut.isEqual("forIn() return value", FPObject, _.forIn(FPObject, function(){}) );
-
-_cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"] );
 
 _cut.isEqual("constant()", 3.14, _.constant(3.14)() );
 _cut.isEqual("identity()", 100, _.identity(60) + _.identity(40) );

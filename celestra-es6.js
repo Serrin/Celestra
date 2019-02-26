@@ -1,9 +1,9 @@
 /**
  * @name Celestra ES6 extension
- * @version 2.5.2
+ * @version 2.6.0
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.5.2
+ * Minimal required Celestra version: 2.6.0
  */
 
 (function(window, celestra){
@@ -51,16 +51,12 @@ const takeOf = function* takeOf (it, n) {
   }
 };
 
-const iterTake = takeOf;
-
 const dropOf = function* dropOf (it, n) {
   let i = n;
   for (let item of it) {
     if (i < 1) { yield item; } else { i--; }
   }
 };
-
-const iterDrop = dropOf;
 
 const forOf = function forOf (it, fn) {
   let i = 0;
@@ -101,9 +97,7 @@ celestra.iterRange = iterRange;
 celestra.iterCycle = iterCycle;
 celestra.iterRepeat = iterRepeat;
 celestra.takeOf = takeOf;
-celestra.iterTake = iterTake;
 celestra.dropOf = dropOf;
-celestra.iterDrop = iterDrop;
 celestra.forOf = forOf;
 celestra.mapOf = mapOf;
 celestra.filterOf = filterOf;

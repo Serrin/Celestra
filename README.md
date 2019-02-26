@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
 
-Latest version: 2.5.2
+Latest version: 2.6.0
 
-Date: 2019-02-19T19:18:50.079Z
+Date: 2019-02-24T19:39:47.952
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (50526 bytes)
+Development version: celestra.js (50291 bytes)
 
-Minimal version: celestra.min.js (38565 bytes)
+Minimal version: celestra.min.js (38391 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -46,9 +46,9 @@ Demo plugin source: celestra-demo-plugin.js
 
 ### Celestra ES6 extension (ES6E)
 
-Development version: celestra-es6.js (2385 bytes)
+Development version: celestra-es6.js (2267 bytes)
 
-Minimal version: celestra-es6.min.js (1751 bytes)
+Minimal version: celestra-es6.min.js (1645 bytes)
 
 
 ### Celestra Unit Tester (CUT)
@@ -73,9 +73,8 @@ Name | Description
 ---- | -----------
 `celestra.version;` | The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__
-`qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string. __Note: The context as selector string has been deprecated in v2.5.2 and will be removed in v2.6.0.__
-`qsa(<selector>[,context]).each( fn (el, i) { el.arguments; } );` | Exec a function on all elements. __Note: The `each();` method has been deprecated in v2.5.2 and will be removed in v2.6.0. Please use the `forEach();` method instead of this!`__
-`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string. __Note: The context as selector string has been deprecated in v2.5.2 and will be removed in v2.6.0.__
+`qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string. __Note: The context as selector string has been removed in v2.6.0.__
+`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string. __Note: The context as selector string has been removed in v2.6.0.__
 `domReady(<fn>);` | Set the document ready (content fully loaded) event.
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `random([max]);` | Get a random number value within 0 and max value. Without parameter the maximum value is 100.
@@ -107,6 +106,8 @@ Name | Description
 `strRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.___
+`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._ __Note: From the v2.2.1 the return value is the object parameter.__
+`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
 
 
 ### DOM functions
@@ -147,10 +148,6 @@ Name | Description
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
 `tap(<object>,<callback>);` | Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.
-`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, own forEach(), return as Array), Nodelist (ES5, as Array, return as Array), custom array-like objects (ES5, as Array, return as Array), String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters), Map (ES6, own forEach(), return as Map), Set (ES6, own forEach(), return as Set), ES6 iterators (ES6, as Array, return as Array)__
-`map(<collection>,<callback>);` | The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, return as Array), Nodelist (ES5, return as Array), custom array-like objects (ES5, return as Array), String (ES5, return as String, in ES6 browsers works with Unicode characters), Map (ES6, return as Map), Set (ES6, return as Set) and ES6 iterators (ES6, return as Array)__
-`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._ __Note: From the v2.2.1 the return value is the object parameter.__
-`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
@@ -245,6 +242,8 @@ Some of these functions use the `Array.from()` and the `Array.prototype.includes
 
 Name | Description
 ---- | -----------
+`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, own forEach(), return as Array), Nodelist (ES5, as Array, return as Array), custom array-like objects (ES5, as Array, return as Array), String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters), Map (ES6, own forEach(), return as Map), Set (ES6, own forEach(), return as Set), ES6 iterators (ES6, as Array, return as Array)__
+`map(<collection>,<callback>);` | The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __From the v2.2.0 these collection types are supported: Array (ES5, return as Array), Nodelist (ES5, return as Array), custom array-like objects (ES5, return as Array), String (ES5, return as String, in ES6 browsers works with Unicode characters), Map (ES6, return as Map), Set (ES6, return as Set) and ES6 iterators (ES6, return as Array)__
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
 `arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
 `arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
@@ -358,8 +357,6 @@ Name | Description
 `sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity. 
 `takeOf(<collection>,<n>);` | Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
 `dropOf(<collection>,<n>);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
-`iterTake(<collection>,<n>);` | __DEPRECATED IN v2.5.2__ The old alias of the `takeOf(<collection>,<n>);`.
-`iterDrop(<collection>,<n>);` | __DEPRECATED IN v2.5.2__ The old alias of the `dropOf(<collection>,<n>);`.
 `isGenerator(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 
 

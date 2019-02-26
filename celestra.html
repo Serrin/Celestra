@@ -24,7 +24,7 @@
   padding: 10px;
   text-align: center;
   font-size: 1.5rem;
-}	
+}
 
 </style>
 </head>
@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.5.2</p>
-<p>Date: 2019-02-19T19:18:50.079Z</p>
+<p>Latest version: 2.6.0</p>
+<p>Date: 2019-02-24T19:39:47.952</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50526 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38565 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50291 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38391 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -82,8 +82,8 @@
 
 <h3>Celestra ES6 extension (ES6E)</h3>
 
-<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (2385 bytes)</p>
-<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (1751 bytes)</p>
+<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (2267 bytes)</p>
+<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (1645 bytes)</p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
@@ -119,21 +119,14 @@
       <td><code>qsa(&#60;selector&#62;[,context]);</code></td>
       <td>
         <p>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.</p>
-        <p><span class="deprecated">Note: The context as selector string has been deprecated in v2.5.2 and will be removed in v2.6.0.</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>qsa(&#60;selector&#62;[,context]).each( fn (el, i) { el.arguments; } );</code></td>
-      <td>
-        <p>Exec a function on all elements.</p>
-        <p><span class="deprecated">Note: The <code>each();</code> method has been deprecated in v2.5.2 and will be removed in v2.6.0. Please use the <code>forEach();</code> method instead of this!</span></p>
+        <p><span class="info">Note: The context as selector string has been removed in v2.6.0.</span></p>
       </td>
     </tr>
     <tr>
       <td><code>qs(&#60;selector&#62;[,context]).argument;</code></td>
       <td>
         <p>Get the first matched HTML element. The context is optional and can be an element or a selector string.<p>
-        <p><span class="deprecated">Note: The context as selector string has been deprecated in v2.5.2 and will be removed in v2.6.0.</span></p>
+        <p><span class="info">Note: The context as selector string has been removed in v2.6.0.</span></p>
       </td>
     </tr>
     <tr>
@@ -167,7 +160,7 @@
     <tr>
       <td><code>javaHash(&#60;data&#62;[,hexa]);</code></td>
       <td>Java <code>String.hashCode()</code> implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.</td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>importScript(&#60;url&#62;[,success]);</code></td>
       <td>
@@ -277,6 +270,21 @@
         <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.</span></p>
       </td>
     </tr>
+    <tr>
+      <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
+        <p>The parameter function will be called with these arguments: key value, key, object.</p>
+        <p><span class="info">Note:</span> From the v2.2.1 the return value is the object parameter.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>mapIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
+        <p>The parameter function will be called with these arguments: key value, key, object.</p>
+      </td>
+    </tr>
   </table>
 </div>
 
@@ -294,7 +302,7 @@
     <tr>
       <td><code>domCreate(&#60;type&#62;[,properties[,innerHTML]]);</code></td>
       <td>Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, <b>style object/string - since v2.0.5 - <span class="info">in IE11 and W10M Edge 14 the style string doesn't work</span></b>, data-*, etc.) The innerHTML is optional and can be a string.</td>
-    </tr>   
+    </tr>
     <tr>
       <td><code>domCreate(&#60;element descriptive object&#62;);</code></td>
       <td>
@@ -409,57 +417,10 @@
     <tr>
       <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
       <td>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>tap(&#60;object&#62;,&#60;callback&#62;);</code></td>
       <td>Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.</td>
-    </tr>    
-    <tr>
-      <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p>The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
-        <p><b>From the v2.2.0 these collection types are supported:</b></p>
-        <ul>
-          <li>Array (ES5, own forEach(), return as Array)</li>
-          <li>Nodelist (ES5, as Array, return as Array)</li>
-          <li>custom array-like objects (ES5, as Array, return as Array)</li>
-          <li>String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters)</li>
-          <li>Map (<span class="info">ES6</span>, own forEach(), return as Map)</li>
-          <li>Set (<span class="info">ES6</span>, own forEach(), return as Set)</li>
-          <li>ES6 iterators (<span class="info">ES6</span>, as Array, return as Array)</li>
-        </ul>       
-      </td>
-    </tr>
-    <tr>
-      <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-       <p>The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
-       <p><b>From the v2.2.0 these collection types are supported:</b></p>
-        <ul>
-          <li>Array (ES5, return as Array)</li>
-          <li>Nodelist (ES5, return as Array)</li>
-          <li>custom arraylike objects (ES5, return as Array)</li>
-          <li>String (ES5, return as String, in ES6 browsers works with Unicode characters)</li>
-          <li>Map (<span class="info">ES6</span>, return as Map)</li>
-          <li>Set (<span class="info">ES6</span>, return as Set)</li>
-          <li>ES6 iterators (<span class="info">ES6</span>, return as Array)</li>
-        </ul>         
-      </td>
-    </tr>   
-    <tr>
-      <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
-        <p>The parameter function will be called with these arguments: key value, key, object.</p>
-        <p><span class="info">Note:</span> From the v2.2.1 the return value is the object parameter.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>mapIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
-        <p>The parameter function will be called with these arguments: key value, key, object.</p>
-      </td>
     </tr>
     <tr>
       <td><code>constant(&#60;value&#62;);</code></td>
@@ -744,6 +705,38 @@
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p>The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+        <p><b>From the v2.2.0 these collection types are supported:</b></p>
+        <ul>
+          <li>Array (ES5, own forEach(), return as Array)</li>
+          <li>Nodelist (ES5, as Array, return as Array)</li>
+          <li>custom array-like objects (ES5, as Array, return as Array)</li>
+          <li>String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters)</li>
+          <li>Map (<span class="info">ES6</span>, own forEach(), return as Map)</li>
+          <li>Set (<span class="info">ES6</span>, own forEach(), return as Set)</li>
+          <li>ES6 iterators (<span class="info">ES6</span>, as Array, return as Array)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+       <p>The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+       <p><b>From the v2.2.0 these collection types are supported:</b></p>
+        <ul>
+          <li>Array (ES5, return as Array)</li>
+          <li>Nodelist (ES5, return as Array)</li>
+          <li>custom arraylike objects (ES5, return as Array)</li>
+          <li>String (ES5, return as String, in ES6 browsers works with Unicode characters)</li>
+          <li>Map (<span class="info">ES6</span>, return as Map)</li>
+          <li>Set (<span class="info">ES6</span>, return as Set)</li>
+          <li>ES6 iterators (<span class="info">ES6</span>, return as Array)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td><code>arrayUnion(&#60;collection1&#62;[,collectionN]);</code></td>
       <td>Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.</td>
     </tr>
@@ -833,7 +826,7 @@
         <p>Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers.</p>
         <p><span class="info">Tip: This function uses the <code>Array.from()</code> if the collection parameter isn't an array. It can be slow, when all items are requested with this function. In this case please convert the collection with the <code>Array.from()</code> instead of usage this function!</span></p>
       </td>
-    </tr>    
+    </tr>
   </table>
 </div>
 
@@ -844,7 +837,7 @@
     <tr>
       <td><b>Name</b></td>
       <td><b>Description</b></td>
-    </tr>  
+    </tr>
     <tr>
       <td><code>Array.prototype.values()</code></td>
       <td><span class="info">Only in ES6</span>The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
@@ -1019,25 +1012,25 @@
       <td>
         <p>The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors" target="_blank">MDN Article</a>!</p>
       </td>
-    </tr>   
+    </tr>
     <tr>
       <td><code>Array.prototype.copyWithin()</code></td>
       <td>
         <p>The copyWithin() method shallow copies part of an array to another location in the same array and returns it, without modifying its size. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin" target="_blank">MDN Article</a>!</p>
       </td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>String.fromCodePoint()</code></td>
       <td>
         <p>The static String.fromCodePoint() method returns a string created by using the specified sequence of code points. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint" target="_blank">MDN Article</a>!</p>
       </td>
-    </tr>   
+    </tr>
     <tr>
       <td><code>String.prototype.codePointAt()</code></td>
       <td>
         <p>The codePointAt() method returns a non-negative integer that is the Unicode code point value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt" target="_blank">MDN Article</a>!</p>
       </td>
-    </tr>   
+    </tr>
     <tr>
       <td><code>Number.MIN_SAFE_INTEGER</code></td>
       <td>he Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
@@ -1134,7 +1127,7 @@
       <td><span class="info">Only in ES6</span> The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
     </tr>
   </table>
-</div>       
+</div>
 
 <h4 id="CelestraES6extension2">Celestra ES6 extension functions</h4>
 
@@ -1197,21 +1190,12 @@
       </td>
     </tr>
     <tr>
-    <tr>
-      <td><code>iterTake(&#60;collection&#62;,&#60;n&#62;);</code></td>
-      <td><span class="deprecated">DEPRECATED IN v2.5.2</span> The old alias of the <code>takeOf(&#60;collection&#62;,&#60;n&#62;);</code>.</td>
-    </tr>
-    <tr>
-      <td><code>iterDrop(&#60;collection&#62;,&#60;n&#62;);</code></td>
-      <td><span class="deprecated">DEPRECATED IN v2.5.2</span> The old alias of the <code>dropOf(&#60;collection&#62;,&#60;n&#62;);</code>.</td>
-    </tr>
-    <tr>
       <td><code>isGenerator(&#60;value&#62;);</td>
       <td>This function determines whether the provided value is a generator function. The return value is boolean.</p>
       </td>
     </tr>
   </table>
-</div>    
+</div>
 
 <h2 id="samples">Samples</h2>
 
@@ -1268,7 +1252,7 @@ alert( _.version );</code></pre></td>
 <h3>domReady(fn) sample</h3>
 
 <pre><code>_.domReady(function(){
-  _.qsa("p",_.qs("#div1")).each(function fn(el,i) {
+  _.qsa("p",_.qs("#div1")).forEach(function fn(el,i) {
     el.style.color="red";
   });
 });
@@ -1303,13 +1287,13 @@ alert( _.version );</code></pre></td>
         <p><button onclick='_.qs("#div2").append( _.domToElement("<p><span style=\"background-color: yellow; color: blue;\">Hello</span> <span style=\"background-color: blue; color: yellow;\">world</span>!</p>") );'>Try</button></p>
         <p><code>_.qs("#div2").append( _.domToElement("&#60;p&#62;&#60;span style=\"background-color: yellow; color: blue;\"&#62;Hello&#60;/span&#62; &#60;span style=\"background-color: blue; color: yellow;\"&#62;world&#60;/span&#62;!&#60;/p&#62;") );</code></p>
       </td>
-    </tr>  
+    </tr>
     <tr>
       <td><b>domCreate(type,properties,innerHTML); with style object</b></td>
       <td><button onclick='var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style object");  var el2 = _.domCreate("p", {}, "Sample created paragraph"); var el3 = _.domCreate("br");  var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url"); _.qs("#div2").append(el1); el2.append(el3); el2.append(el4); _.qs("#div2").append(el2);'>Try</button></td>
-      <td><pre>var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style object"); 
+      <td><pre>var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style object");
 var el2 = _.domCreate("p", {}, "Sample created paragraph");
-var el3 = _.domCreate("br"); 
+var el3 = _.domCreate("br");
 var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: { "background-color": "red", "color": "white"}}, "MDN Sample url");
 _.qs("#div2").append(el1);
 el2.append(el3);
@@ -1319,9 +1303,9 @@ _.qs("#div2").append(el2);</pre></td>
     <tr>
       <td><b>domCreate(type,properties,innerHTML); with style string</b></td>
       <td><button onclick='var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style string");  var el2 = _.domCreate("p", {}, "Sample created paragraph"); var el3 = _.domCreate("br");  var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"}, "MDN Sample url"); _.qs("#div2").append(el1); el2.append(el3); el2.append(el4); _.qs("#div2").append(el2);'>Try</button></td>
-      <td><pre>var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style string"); 
+      <td><pre>var el1 = _.domCreate("h3", {style: {"background-color": "lightblue", "font-weight": "bold"}}, "H3 Lorem ipsum with style string");
 var el2 = _.domCreate("p", {}, "Sample created paragraph");
-var el3 = _.domCreate("br"); 
+var el3 = _.domCreate("br");
 var el4 = _.domCreate("a", {href: "https://developer.mozilla.org/en-US/", target: "_blank", style: "background-color: red; color: white;"}, "MDN Sample url");
 _.qs("#div2").append(el1);
 el2.append(el3);
@@ -1358,9 +1342,9 @@ _.qs("#div2").append(el2);</pre></td>
       <td><code>_.qs("#p1").innerHTML="p1 new content";</code></td>
     </tr>
     <tr>
-      <td><b>qsa(selector).each( fn(el,i) );</b></td>
-      <td><button onclick='_.qsa("p").each(function fn(el,i) { el.innerHTML+=" new content all";});'>Try</button></td>
-      <td><code>_.qsa("p").each(<br/>function fn(el,i) { el.innerHTML+=" new content all";}<br/>);</code></td>
+      <td><b>qsa(selector).forEach( fn(el,i) );</b></td>
+      <td><button onclick='_.qsa("p").forEach(function fn(el,i) { el.innerHTML+=" new content all";});'>Try</button></td>
+      <td><code>_.qsa("p").forEach(<br/>function fn(el,i) { el.innerHTML+=" new content all";}<br/>);</code></td>
     </tr>
     <tr>
       <td><b>qs(selector,qs(selector)).innerHTML</b></td>
@@ -1368,19 +1352,19 @@ _.qs("#div2").append(el2);</pre></td>
       <td><code>_.qs("div",_.qs("#div1")).innerHTML+=" new content for inner first div";</code></td>
     </tr>
     <tr>
-      <td><b>qsa(selector,qs(selector)).each (innerHTML)</b></td>
-      <td><button onclick='_.qsa("div",_.qs("#div1")).each(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
-      <td><code>_.qsa("div",_.qs("#div1")).each(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
+      <td><b>qsa(selector,qs(selector)).forEach (innerHTML)</b></td>
+      <td><button onclick='_.qsa("div",_.qs("#div1")).forEach(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
+      <td><code>_.qsa("div",_.qs("#div1")).forEach(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
     </tr>
     <tr>
       <td><b>qs(selector,context).innerHTML</b></td>
-      <td><button onclick='_.qs("div","#div1").innerHTML+=" new content for inner first div";'>Try</button></td>
-      <td><code>_.qs("div","#div1").innerHTML+=" new content for inner first div";</code></td>
+      <td><button onclick='_.qs("div", _.qs("#div1")).innerHTML+=" new content for inner first div";'>Try</button></td>
+      <td><code>_.qs("div", _.qs("#div1")).innerHTML+=" new content for inner first div";</code></td>
     </tr>
     <tr>
-      <td><b>qsa(selector,context).each (innerHTML)</b></td>
-      <td><button onclick='_.qsa("div","#div1").each(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
-      <td><code>_.qsa("div","#div1").each(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
+      <td><b>qsa(selector,context).forEach (innerHTML)</b></td>
+      <td><button onclick='_.qsa("div", _.qs("#div1")).forEach(function fn(el,i) { el.innerHTML+=" new content for inner divs";});'>Try</button></td>
+      <td><code>_.qsa("div", _.qs("#div1")).forEach(<br/>function fn(el,i) { el.innerHTML+=" new content for inner divs";}<br/>);</code></td>
     </tr>
     <tr>
       <td><b>qs(selector).style</b></td>
@@ -1422,8 +1406,8 @@ _.qs("#div2").append(el2);</pre></td>
       <td><button onclick='var testArrayFill1 = [1, 2, 3, 4];var testArrayFillStr = JSON.stringify(testArrayFill1); testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(3.14, 3, 4) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(42, 2) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(56) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill({}) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFill1[0].p1 = "lorem";testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);var testArrayFill2 = Array(5).fill();testArrayFillStr += "\n" + JSON.stringify(testArrayFill2);var testArrayFill3 = Array(3).fill("ipsum");testArrayFillStr += "\n" + JSON.stringify(testArrayFill3);alert(testArrayFillStr);'>Try</button></td>
       <td><pre>var testArrayFill1 = [1, 2, 3, 4];
 
-var testArrayFillStr = JSON.stringify(testArrayFill1);      
-      
+var testArrayFillStr = JSON.stringify(testArrayFill1);
+
 testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(3.14, 3, 4) );
 testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
 
@@ -1609,7 +1593,7 @@ alert(testArrayFillStr);</pre></td>
             <p><input type="reset" value="Reset"></p>
             <p><input type="button" value="Button1"></p>
             <p><button>Button2</button></p>
-          </form>        
+          </form>
         </div>
       </td>
     </tr>
@@ -1657,7 +1641,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
           <code>_.createFile("test-createFile.html", txt, "text/html");</code>
         </p>
       </td>
-    </tr>    
+    </tr>
     <tr>
       <td><b>extend() and deepAssign()</b></td>
       <td>
@@ -1738,7 +1722,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       <td><b>String.prototype.startsWith()</b></td>
       <td colspan="2">
         <script>var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";</script>
-        <code>var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";</code>      
+        <code>var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";</code>
         <p><button onclick='alert(startStr.startsWith("Lorem ipsum dolor") + " - true\n" + startStr.startsWith("consectetuer adipiscing elit") + " - false\n" + startStr.startsWith("consectetuer adipiscing elit", 28) + " - true\n" + startStr.startsWith("consectetuer adipiscing elit", 57) + " - false\n");'>try</button></p>
         <pre>alert(startStr.startsWith("Lorem ipsum dolor") + " - true\n"
   + startStr.startsWith("consectetuer adipiscing elit") + " - false\n"
@@ -1749,7 +1733,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>String.prototype.endsWith()</b></td>
-      <td colspan="2">     
+      <td colspan="2">
         <p><button onclick='alert(startStr.endsWith("Aenean commodo ligula eget dolor.") + " - true\n" + startStr.endsWith("Lorem ipsum dolor sit amet") + " - false\n" + startStr.endsWith("consectetuer adipiscing elit.", 57) + " - true\n" + startStr.endsWith("consectetuer adipiscing elit.", 47) + " - false" );'>try</button></p>
         <pre>alert(startStr.endsWith("Aenean commodo ligula eget dolor.") + " - true\n"
   + startStr.endsWith("Lorem ipsum dolor sit amet") + " - false\n"
@@ -2303,8 +2287,8 @@ alert(
   _.isNumeric("1.2.3")   +" (false)\n"+
   _.isNumeric("")        +" (false)\n"
 );
-  
-alert(  
+
+alert(
   _.isNumeric("bar")    +" (false)\n"+
   _.isNumeric(" ")      +" (false)\n"+
   _.isNumeric("\r\n")   +" (false)\n"+
@@ -2354,8 +2338,8 @@ alert(
   _.isNumeric("1.2.3")   +" (false)\n"+
   _.isNumeric("")        +" (false)\n"
 );
-  
-alert(  
+
+alert(
   _.isNumeric("bar")    +" (false)\n"+
   _.isNumeric(" ")      +" (false)\n"+
   _.isNumeric("\r\n")   +" (false)\n"+
@@ -2368,7 +2352,7 @@ alert(
   // EcmaScript specification:
   // Number() and isFinite() handle negative signs for decimal numbers, not hex or octal.
 );</pre>
-        </p>        
+        </p>
         <hr/>
         <p>
           isBoolean() true
@@ -2611,9 +2595,9 @@ alert(
         <pre>var testArrayFI = [66, 7, 135, 75, 190, 89];
 var testArrayString = "";
 
-testArrayString += testArrayFI.find(function (e) { return e &#62; 100; }) + " - 135"; 
+testArrayString += testArrayFI.find(function (e) { return e &#62; 100; }) + " - 135";
 
-testArrayString += "\n" + testArrayFI.find(function (e) { return e &#62; 200; }) + " - undefined"; 
+testArrayString += "\n" + testArrayFI.find(function (e) { return e &#62; 200; }) + " - undefined";
 
 testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e &#62; 100; }) + " - 2";
 
@@ -2622,7 +2606,7 @@ testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e &#62; 20
 alert(testArrayString);</pre>
       </td>
     </tr>
-    
+
     <tr>
       <td><b>Object.values() and Object.entries()</b></td>
       <td><button onclick='var entriesObj = {a: 1, b:2, c: 3};var objStr = JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) );entriesObj = {name: "John Smith", age:42, male: true};objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) ); alert(objStr);'>try</button></td>
@@ -2906,7 +2890,7 @@ function kayleeEcho (s) { _.qs("#kayleeResults").innerHTML = s; }
  + "{b:2}: " + _.javaHash({b:2}) + " / " + _.javaHash({b:2},true) + " / " + _.javaHash({b:2},false) + "&#60;br/&#62;"
  + "str variable: " + _.javaHash(str) + " / " + _.javaHash(str,true) + " / " + _.javaHash(str,false) + "&#60;br/&#62;"
  + "str variable + b64Encode: " + _.b64Encode(_.javaHash(str)) + " / " + _.b64Encode(_.javaHash(str,true)) + " / " + _.b64Encode(_.javaHash(str,false)) + "&#60;br/&#62;"
- + "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(str))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(str,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(str,false))) 
+ + "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(str))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(str,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(str,false)))
 );</pre></td>
     </tr>
     <tr>
@@ -2970,7 +2954,7 @@ alert(padStr);</pre>
     </tr>
     <tr>
       <td><b>Element.prototype.toggleAttribute()</b></td>
-      <td colspan="2">     
+      <td colspan="2">
         <p><input id="etgi1" value="etgi1"></p>
         <p><input id="etgi2" value="etgi2"></p>
         <p><input id="etgi3" value="etgi3"></p>
@@ -2978,7 +2962,7 @@ alert(padStr);</pre>
         <p><input id="etgi5" value="etgi5 readonly" readonly></p>
         <p><input id="etgi6" value="etgi6 readonly" readonly></p>
         <p><button onclick='var   etgStr = "",  etgi1 = document.querySelector("#etgi1"),  etgi2 = document.querySelector("#etgi2"),  etgi3 = document.querySelector("#etgi3"),  etgi4 = document.querySelector("#etgi4"),  etgi5 = document.querySelector("#etgi5"),  etgi6 = document.querySelector("#etgi6");  etgStr += etgi1.toggleAttribute("readonly"); etgStr += " " + etgi1.hasAttribute("readonly"); etgStr += " " + etgi1.toggleAttribute("readonly"); etgStr += " " + etgi1.hasAttribute("readonly");alert(etgStr);etgStr = etgi2.toggleAttribute("readonly", false); etgStr += " " + etgi2.hasAttribute("readonly", false); etgStr += " " + etgi2.toggleAttribute("readonly", false); etgStr += " " + etgi2.hasAttribute("readonly", false);alert(etgStr);etgStr = etgi3.toggleAttribute("readonly", true); etgStr += " " + etgi3.hasAttribute("readonly", true); etgStr += " " + etgi3.toggleAttribute("readonly", true); etgStr += " " + etgi3.hasAttribute("readonly", true); alert(etgStr);etgStr = etgi4.toggleAttribute("readonly"); etgStr += " " + etgi4.hasAttribute("readonly"); etgStr += " " + etgi4.toggleAttribute("readonly"); etgStr += " " + etgi4.hasAttribute("readonly"); alert(etgStr);etgStr = etgi5.toggleAttribute("readonly", false); etgStr += " " + etgi5.hasAttribute("readonly", false); etgStr += " " + etgi5.toggleAttribute("readonly", false); etgStr += " " + etgi5.hasAttribute("readonly", false); alert(etgStr);etgStr = etgi6.toggleAttribute("readonly", true); etgStr += " " + etgi6.hasAttribute("readonly", true); etgStr += " " + etgi6.toggleAttribute("readonly", true); etgStr += " " + etgi6.hasAttribute("readonly", true);   alert(etgStr);'>Try</button></p>
-        <pre>var 
+        <pre>var
   etgStr = "",
   etgi1 = document.querySelector("#etgi1"),
   etgi2 = document.querySelector("#etgi2"),
@@ -2986,41 +2970,41 @@ alert(padStr);</pre>
   etgi4 = document.querySelector("#etgi4"),
   etgi5 = document.querySelector("#etgi5"),
   etgi6 = document.querySelector("#etgi6");
-  
-etgStr += etgi1.toggleAttribute("readonly"); 
-etgStr += " " + etgi1.hasAttribute("readonly"); 
-etgStr += " " + etgi1.toggleAttribute("readonly"); 
+
+etgStr += etgi1.toggleAttribute("readonly");
+etgStr += " " + etgi1.hasAttribute("readonly");
+etgStr += " " + etgi1.toggleAttribute("readonly");
 etgStr += " " + etgi1.hasAttribute("readonly");
 alert(etgStr);
 
-etgStr = etgi2.toggleAttribute("readonly", false); 
-etgStr += " " + etgi2.hasAttribute("readonly", false); 
-etgStr += " " + etgi2.toggleAttribute("readonly", false); 
+etgStr = etgi2.toggleAttribute("readonly", false);
+etgStr += " " + etgi2.hasAttribute("readonly", false);
+etgStr += " " + etgi2.toggleAttribute("readonly", false);
 etgStr += " " + etgi2.hasAttribute("readonly", false);
 alert(etgStr);
 
-etgStr = etgi3.toggleAttribute("readonly", true); 
-etgStr += " " + etgi3.hasAttribute("readonly", true); 
-etgStr += " " + etgi3.toggleAttribute("readonly", true); 
-etgStr += " " + etgi3.hasAttribute("readonly", true); 
+etgStr = etgi3.toggleAttribute("readonly", true);
+etgStr += " " + etgi3.hasAttribute("readonly", true);
+etgStr += " " + etgi3.toggleAttribute("readonly", true);
+etgStr += " " + etgi3.hasAttribute("readonly", true);
 alert(etgStr);
 
-etgStr = etgi4.toggleAttribute("readonly"); 
-etgStr += " " + etgi4.hasAttribute("readonly"); 
-etgStr += " " + etgi4.toggleAttribute("readonly"); 
-etgStr += " " + etgi4.hasAttribute("readonly"); 
+etgStr = etgi4.toggleAttribute("readonly");
+etgStr += " " + etgi4.hasAttribute("readonly");
+etgStr += " " + etgi4.toggleAttribute("readonly");
+etgStr += " " + etgi4.hasAttribute("readonly");
 alert(etgStr);
 
-etgStr = etgi5.toggleAttribute("readonly", false); 
-etgStr += " " + etgi5.hasAttribute("readonly", false); 
-etgStr += " " + etgi5.toggleAttribute("readonly", false); 
-etgStr += " " + etgi5.hasAttribute("readonly", false); 
+etgStr = etgi5.toggleAttribute("readonly", false);
+etgStr += " " + etgi5.hasAttribute("readonly", false);
+etgStr += " " + etgi5.toggleAttribute("readonly", false);
+etgStr += " " + etgi5.hasAttribute("readonly", false);
 alert(etgStr);
 
-etgStr = etgi6.toggleAttribute("readonly", true); 
-etgStr += " " + etgi6.hasAttribute("readonly", true); 
-etgStr += " " + etgi6.toggleAttribute("readonly", true); 
-etgStr += " " + etgi6.hasAttribute("readonly", true);   
+etgStr = etgi6.toggleAttribute("readonly", true);
+etgStr += " " + etgi6.hasAttribute("readonly", true);
+etgStr += " " + etgi6.toggleAttribute("readonly", true);
+etgStr += " " + etgi6.hasAttribute("readonly", true);
 alert(etgStr);</pre>
       </td>
     </tr>
@@ -3067,14 +3051,14 @@ objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objC) );
 alert(objStr);
 
 /*
-objStr: 
+objStr:
 '
 {"a":{"value":1,"writable":true,"enumerable":true,"configurable":true},"b":{"value":2,"writable":true,"enumerable":true,"configurable":true}}
 {"c":{"value":3,"writable":true,"enumerable":true,"configurable":true},"d":{"value":4,"writable":true,"enumerable":true,"configurable":true}}
 {}
 '
 */</pre>
-      </td>      
+      </td>
     </tr>
     <tr>
       <td><b>Array.prototype.copyWithin()</b></td>
@@ -3088,7 +3072,7 @@ objStr:
   + "\n" + JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2, -3, -1))
   + "\n" + JSON.stringify([].copyWithin.call({length: 5, 3: 1}, 0, 3))
 );</pre>
-      </td>      
+      </td>
     </tr>
     <tr>
       <td><b>String.fromCodePoint() and String.prototype.codePointAt()</b></td>
@@ -3101,7 +3085,7 @@ res_str += "\n" + "ABC".codePointAt(1);           // 66
 res_str += "\n" + "\uD800\uDC00".codePointAt(0);  // 65536
 res_str += "\n" + "XYZ".codePointAt(42);          // undefined
 alert(res_str);</pre>
-      </td>      
+      </td>
     </tr>
     <tr>
       <td><b>Object.fromEntries();</b></td>
@@ -3186,7 +3170,7 @@ alert(fromEntriesStr);</pre>
 <script>
 
 _.domReady(function(){
-  _.qsa("p",_.qs("#div1")).each(function fn(el,i) { el.style.color="red";});
+  _.qsa("p",_.qs("#div1")).forEach(function fn(el,i) { el.style.color="red";});
 
   // inherit
 
