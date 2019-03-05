@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.6.0
+ * @version 2.6.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -16,7 +16,7 @@
  importScripts()  |   2 | importScript(), importScript()
  importStyles()   |   2 | importStyle(),  importStyle()
  domFadeToggle()  |   2 | domFadeIn(), domFadeOut()
- merge()          |   1 | merge()
+ arrayMerge()     |   1 | arrayMerge()
  extend()         |   1 | extend()
  deepAssign()     |   1 | deepAssign()
  getJson()        |   1 | getAjax()
@@ -980,28 +980,6 @@ function createFile (fln, c, dt) {
   }
 }
 
-function merge () {
-  if (typeof arguments[0] === "boolean") {
-    var t = arguments[1], d = arguments[0], s = 2;
-  } else {
-    var t = arguments[0], d = false, s = 1;
-  }
-  for(var i = s, il = arguments.length; i < il; i++) {
-    if (Array.isArray(arguments[i])) {
-      for(var j = 0, a = arguments[i], jl = a.length; j < jl; j++) {
-        if (Array.isArray(a[j]) && d) {
-          celestra.merge(true, t, a[j]);
-        } else {
-          t.push(a[j]);
-        }
-      }
-    } else {
-      t.push(arguments[i]);
-    }
-  }
-  return t;
-}
-
 function forIn (o, fn) {
   for (var p in o) { if (o.hasOwnProperty(p)) { fn(o[p], p, o); } }
   return o;
@@ -1014,8 +992,6 @@ function mapIn (o, fn) {
   }
   return r;
 }
-
-/* FP */
 
 function toFunction (fn) { return Function.prototype.call.bind(fn); }
 
@@ -1516,11 +1492,35 @@ function item (a, i) {
   return a2[(i < 0 ? a2.length + i : i)];
 }
 
+function arrayMerge () {
+  if (typeof arguments[0] === "boolean") {
+    var t = arguments[1], d = arguments[0], s = 2;
+  } else {
+    var t = arguments[0], d = false, s = 1;
+  }
+  for(var i = s, il = arguments.length; i < il; i++) {
+    if (Array.isArray(arguments[i])) {
+      for(var j = 0, a = arguments[i], jl = a.length; j < jl; j++) {
+        if (Array.isArray(a[j]) && d) {
+          celestra.arrayMerge(true, t, a[j]);
+        } else {
+          t.push(a[j]);
+        }
+      }
+    } else {
+      t.push(arguments[i]);
+    }
+  }
+  return t;
+}
+
+var merge = arrayMerge;
+
 /* object header */
 
 var celestra = {};
 
-celestra.version = "Celestra v2.6.0";
+celestra.version = "Celestra v2.6.1";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1564,10 +1564,8 @@ celestra.form2string = form2string;
 celestra.strRemoveTags = strRemoveTags;
 celestra.strReverse = strReverse;
 celestra.createFile = createFile;
-celestra.merge = merge;
 celestra.forIn = forIn;
 celestra.mapIn = mapIn;
-/* FP */
 celestra.toFunction = toFunction;
 celestra.bind = bind;
 celestra.hasOwn = hasOwn;
@@ -1658,6 +1656,8 @@ celestra.uniquePush = uniquePush;
 celestra.arrayClear = arrayClear;
 celestra.arrayRemove = arrayRemove;
 celestra.item = item;
+celestra.arrayMerge = arrayMerge;
+celestra.merge = merge;
 
 /* AMD loader */
 if (typeof define === "function" && define.amd) {

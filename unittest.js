@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.6.0 testcases
+// Celestra v2.6.1 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -491,41 +491,6 @@ _cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"
 _cut.isEqual("getDoNotTrack()", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false );
 
 
-var arrMerge1 = [1,2,3];
-var arrMerge2 = [4,5,6];
-var arrMerge3 = [7,8,[10,11,12,[13,14,15]],9];
-var arrMergeStr = JSON.stringify( _.merge(arrMerge1, arrMerge2) );
-arrMergeStr += JSON.stringify( arrMerge1 );
-// "[1,2,3,4,5,6]"
-arrMerge1 = [1,2,3];
-arrMergeStr += JSON.stringify( _.merge(arrMerge1, arrMerge2, arrMerge3) );
-arrMergeStr += JSON.stringify( arrMerge1 );
-// "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-arrMerge1 = [1,2,3];
-arrMergeStr += JSON.stringify( _.merge(false, arrMerge1, arrMerge2, arrMerge3) );
-arrMergeStr += JSON.stringify( arrMerge1 );
-//"[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-arrMerge1 = [1,2,3];
-arrMergeStr += JSON.stringify( _.merge(true, arrMerge1, arrMerge2, arrMerge3) );
-arrMergeStr += JSON.stringify( arrMerge1 );
-// "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
-arrMerge1 = [1,2,3];
-arrMergeStr += JSON.stringify( _.merge(true, [], arrMerge1, arrMerge3, 42, 3.14) );
-// "[1,2,3,7,8,10,11,12,13,14,15,9]"
-_cut.isEqual(
-  "merge()",
-  "[1,2,3,4,5,6]"
-    + "[1,2,3,4,5,6]"
-    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-    + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
-    + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
-    + "[1,2,3,7,8,10,11,12,13,14,15,9,42,3.14]",
-  arrMergeStr
-);
-
 _cut.isEqual(
   "strRemoveTags()",
   "lorem ipsum dolor sit amet , consectetuer",
@@ -1003,6 +968,42 @@ _cut.isEqual(
   "[1,2,3,5,4]",
   JSON.stringify(uniquePushTest)
 );
+
+var arrMerge1 = [1,2,3];
+var arrMerge2 = [4,5,6];
+var arrMerge3 = [7,8,[10,11,12,[13,14,15]],9];
+var arrMergeStr = JSON.stringify( _.arrayMerge(arrMerge1, arrMerge2) );
+arrMergeStr += JSON.stringify( arrMerge1 );
+// "[1,2,3,4,5,6]"
+arrMerge1 = [1,2,3];
+arrMergeStr += JSON.stringify( _.arrayMerge(arrMerge1, arrMerge2, arrMerge3) );
+arrMergeStr += JSON.stringify( arrMerge1 );
+// "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+arrMerge1 = [1,2,3];
+arrMergeStr += JSON.stringify( _.arrayMerge(false, arrMerge1, arrMerge2, arrMerge3) );
+arrMergeStr += JSON.stringify( arrMerge1 );
+//"[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+arrMerge1 = [1,2,3];
+arrMergeStr += JSON.stringify( _.arrayMerge(true, arrMerge1, arrMerge2, arrMerge3) );
+arrMergeStr += JSON.stringify( arrMerge1 );
+// "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
+arrMerge1 = [1,2,3];
+arrMergeStr += JSON.stringify( _.arrayMerge(true, [], arrMerge1, arrMerge3, 42, 3.14) );
+// "[1,2,3,7,8,10,11,12,13,14,15,9]"
+_cut.isEqual(
+  "arrayMerge()",
+  "[1,2,3,4,5,6]"
+    + "[1,2,3,4,5,6]"
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
+    + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
+    + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
+    + "[1,2,3,7,8,10,11,12,13,14,15,9,42,3.14]",
+  arrMergeStr
+);
+
 
 var itemSrc = ["A", "B", "C"];
 var res = _.item(itemSrc, 0)

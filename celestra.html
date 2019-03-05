@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.6.0</p>
-<p>Date: 2019-02-24T19:39:47.952</p>
+<p>Latest version: 2.6.1</p>
+<p>Date: 2019-03-05T19:55:39.615Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50291 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38391 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50346 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38457 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -205,10 +205,6 @@
     <tr>
       <td><code>getType(&#60;variable&#62;[, type]);</code></td>
       <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.</td>
-    </tr>
-    <tr>
-      <td><code>merge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
-      <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
     </tr>
     <tr>
       <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
@@ -827,6 +823,14 @@
         <p><span class="info">Tip: This function uses the <code>Array.from()</code> if the collection parameter isn't an array. It can be slow, when all items are requested with this function. In this case please convert the collection with the <code>Array.from()</code> instead of usage this function!</span></p>
       </td>
     </tr>
+    <tr>
+      <td><code>arrayMerge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
+      <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
+    </tr>
+    <tr>
+      <td><code>merge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
+      <td><span class="deprecated">DEPRECATED in v2.6.1</span><br/>The old alias of the <code>arrayMerge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code>.</td>
+    </tr>
   </table>
 </div>
 
@@ -1123,7 +1127,7 @@
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>GeneratorFunction()</code></td>
+      <td><code>GeneratorFunction();</code></td>
       <td><span class="info">Only in ES6</span> The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
     </tr>
   </table>
