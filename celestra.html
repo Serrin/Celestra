@@ -281,6 +281,42 @@
         <p>The parameter function will be called with these arguments: key value, key, object.</p>
       </td>
     </tr>
+    <tr>
+      <td><code>toFunction(&#60;function&#62;);</code></td>
+      <td>Return a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
+    </tr>
+    <tr>
+      <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
+      <td>Returns a function that is bound to a context. Both of the parameters are mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>tap(&#60;object&#62;,&#60;callback&#62;);</code></td>
+      <td>Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.</td>
+    </tr>
+    <tr>
+      <td><code>constant(&#60;value&#62;);</code></td>
+      <td>A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: <code>f(x)=x</code>)</td>
+    </tr>
+    <tr>
+      <td><code>identity(&#60;value&#62;);</code></td>
+      <td>Return the given value. (In math: <code>f(x)=x</code>)</td>
+    </tr>
+    <tr>
+      <td><code>noop();</code></td>
+      <td>It's an empty function (no operation) that returns undefined and usable for optional callback arguments.</td>
+    </tr>
+    <tr>
+      <td><code>T();</code></td>
+      <td>This function returns true.</td>
+    </tr>
+    <tr>
+      <td><code>F();</code></td>
+      <td>This function returns false.</td>
+    </tr>    
   </table>
 </div>
 
@@ -387,56 +423,6 @@
     <tr>
       <td><code>domSiblings(&#60;element&#62;);</code></td>
       <td>Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.</td>
-    </tr>
-  </table>
-</div>
-
-<h3>Functional programming</h3>
-
-<p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
-<br/>Example: <code>_.toFunction()</code></p>
-
-<div>
-  <table>
-    <tr>
-      <td><b>Name</b></td>
-      <td><b>Description</b></td>
-    </tr>
-    <tr>
-      <td><code>toFunction(&#60;function&#62;);</code></td>
-      <td>Return a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
-    </tr>
-    <tr>
-      <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
-      <td>Returns a function that is bound to a context. Both of the parameters are mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
-      <td>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>tap(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.</td>
-    </tr>
-    <tr>
-      <td><code>constant(&#60;value&#62;);</code></td>
-      <td>A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: <code>f(x)=x</code>)</td>
-    </tr>
-    <tr>
-      <td><code>identity(&#60;value&#62;);</code></td>
-      <td>Return the given value. (In math: <code>f(x)=x</code>)</td>
-    </tr>
-    <tr>
-      <td><code>noop();</code></td>
-      <td>It's an empty function (no operation) that returns undefined and usable for optional callback arguments.</td>
-    </tr>
-    <tr>
-      <td><code>T();</code></td>
-      <td>This function returns true.</td>
-    </tr>
-    <tr>
-      <td><code>F();</code></td>
-      <td>This function returns false.</td>
     </tr>
   </table>
 </div>

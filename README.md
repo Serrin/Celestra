@@ -107,6 +107,15 @@ Name | Description
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.___
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._ __Note: From the v2.2.1 the return value is the object parameter.__
 `mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
+`toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
+`bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
+`hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+`tap(<object>,<callback>);` | Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.
+`constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
+`identity(<value>);` | Return the given value. (In math: `f(x)=x`)
+`noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
+`T();` | This function returns true.
+`F();` | This function returns False.
 
 
 ### DOM functions
@@ -133,25 +142,6 @@ Name | Description
 `domOff(<eventTarget>,<eventType>,<callback>);` | Remove a callback to the eventType of the eventTarget.
 `domTrigger(<eventTarget>,<eventType>);` | Trigger an eventType of the eventTarget.
 `domSiblings(<element>);` | Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.
-
-
-### Functional programming
-
-These functions are available in the `celestra` and/or `_` objects.
-
-Example: `_.toFunction()`
-
-Name | Description
----- | -----------
-`toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
-`bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
-`hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
-`tap(<object>,<callback>);` | Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.
-`constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
-`identity(<value>);` | Return the given value. (In math: `f(x)=x`)
-`noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
-`T();` | This function returns true.
-`F();` | This function returns False.
 
 
 ### AJAX and CORS
