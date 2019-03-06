@@ -12,7 +12,7 @@
 __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
-
+ 
 Latest version: 2.6.1
 
 Date: 2019-03-05T19:55:39.615Z
