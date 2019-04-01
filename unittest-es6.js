@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.6.1 ES6E testcases
+// Celestra v2.6.2 ES6E testcases
 
 _cut.addElement("h3", "ES6 extension");
 

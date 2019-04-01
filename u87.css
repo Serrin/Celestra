@@ -1,6 +1,6 @@
 /**
  * @name u87.css
- * @version 0.9.8
+ * @version 0.9.9
  * @see https://github.com/Serrin/u87.css
  * @license MIT https://opensource.org/licenses/MIT
  * This is the default css for my code documentations.
@@ -47,48 +47,53 @@ html {
   text-align: center;
   /*font-family: Helvetica, Arial, sans-serif;*/
   font-family: Helvetica, Arial, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 15px;
+  font-size: 14px;
 }
 
 body {
   background-color: #fff;
   font-size: 1rem;
-  color: #333;
+  /* color: #172b4d; */
+  color: #333333;
   margin: 0 auto;
   max-width: 1200px;
   padding: 15px;
   min-height: 100vh;
   text-align: left;
+  line-height: 20px;
 }
 
 :hover, :active, :visited, :focus { outline: 0; }
 
 header,footer { text-align: center; }
 
-p { margin: 1rem 0 1rem 0; }
-
-h1,h2,h3,h4,h5,h6 {
-  margin: 1rem 0 1rem 0;
-  font-weight: normal;
-  padding: 3px;
+p {
+  margin: 1rem 0px 1rem 0px;
+  /*margin: 10px 0px 10px 0px;*/
+  padding: 0px;
 }
-h2,h3 { margin-top: 50px; }
-h2 { background-color: #ddd; }
-h3,h4,h5,h6 { background-color: #eee; }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1rem; }
+h1, h2, h3, h4, h5, h6 {
+  margin: 1rem 0px 1rem 0px;
+  /* padding: 0px 10px 0px 10px; */
+  padding: 3px 10px 3px 10px;
+  line-height: 30px;
+  font-weight: normal;
+}
+
+h1 { font-size: 1.8rem; background-color: #b5b5b5; }
+h2 { font-size: 1.5rem; background-color: #dddddd; }
+h3 { font-size: 1.3rem; background-color: #f0f0f0; }
+h4 { font-size: 1.2rem; background-color: #f0f0f0; }
+h5 { font-size: 1.1rem; background-color: #f0f0f0; }
+h6 { font-size: 1rem;   background-color: #f0f0f0; }
 
 pre, code, output, kbd, samp, var,
 .pre, .code, .output, .kbd, .samp, .var {
   background-color: slategrey;
   color: white;
   padding: 3px 5px 3px 5px;
-  font-size: 14.5px !important;
+  /*font-size: 14.5px !important;  jira */
   font-family: consolas, "Courier New", monospace;
   -ms-word-break: break-all;
   word-break: break-all;
@@ -121,8 +126,8 @@ pre, .pre { display: block; }
 
 nobr, .nobr { display: inline-block; hyphens: none; white-space: nowrap !important; }
 
-a, a:visited, a:active { color: steelblue; text-decoration: none; }
-a:hover { color: steelblue; text-decoration: underline; }
+a, a:visited, a:active { color: #0052cc; text-decoration: none; }
+a:hover { color: #0052cc; text-decoration: underline; }
 
 small { display: inline-block; }
 small, .small { font-size: 0.8em; }
@@ -137,8 +142,18 @@ mark, .mark {
 }
 mark { display: inline-block; }
 
-/* table { margin: 0 auto; } */
-td { vertical-align: top; }
+
+table {
+  border-collapse: collapse;
+  border-color: #333333;
+  margin: 10px 0px 10px 0px;
+  /* margin: 0 auto; */
+}
+td {
+  vertical-align: top;
+  border: solid 1px #c1c7d0;
+  padding: 7px 10px 7px 10px;
+}
 
 button { word-break: normal; word-wrap: normal; }
 

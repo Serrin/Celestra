@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.6.1
+ * @version 2.6.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -1003,7 +1003,7 @@ function tap (v, fn) { fn(v); return v; }
 
 function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
-function noop () { return undefined; }
+function noop () {}
 function T () { return true; }
 function F () { return false; }
 
@@ -1520,7 +1520,7 @@ var merge = arrayMerge;
 
 var celestra = {};
 
-celestra.version = "Celestra v2.6.1";
+celestra.version = "Celestra v2.6.2";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;

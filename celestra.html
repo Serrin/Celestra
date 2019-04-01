@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.6.1</p>
-<p>Date: 2019-03-05T19:55:39.615Z</p>
+<p>Latest version: 2.6.2</p>
+<p>Date: 2019-03-27T19:17:38.547Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50346 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38457 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50327 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38440 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -208,8 +208,7 @@
     </tr>
     <tr>
       <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
-      <td>This is an enhanced version of the <code>Object.assign</code> method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
-      <br/><span class="info">Note:</span> From the v1.19.2 this function uses the <code>hasOwnProperty</code> method.</td>
+      <td>This is an enhanced version of the <code>Object.assign</code> method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.</td>
     </tr>
     <tr>
       <td><code>deepAssign(&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
@@ -242,7 +241,6 @@
       <td><code>form2array(&#60;form&#62;);</code></td>
       <td>
         Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element.
-        <p><span class="info">The result has changed in v1.21.0: The array elements are objects instead of strings.</span></p>
       </td>
     </tr>
     <tr>
@@ -271,7 +269,6 @@
       <td>
         <p>The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
         <p>The parameter function will be called with these arguments: key value, key, object.</p>
-        <p><span class="info">Note:</span> From the v2.2.1 the return value is the object parameter.</p>
       </td>
     </tr>
     <tr>
@@ -295,7 +292,7 @@
     </tr>
     <tr>
       <td><code>tap(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.</td>
+      <td><span class="deprecated">DEPRECATED in v2.6.2</span><br/>Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.</td>
     </tr>
     <tr>
       <td><code>constant(&#60;value&#62;);</code></td>
@@ -636,8 +633,7 @@
         <br/>The name is mandatory and has to be a string.
         <br/>The value is mandatory and has to be a string.
         <br/>The hours is the expire value and optional and can be a number.
-        <br/>The path is optional and can be a string.
-        <br/><span class="info">Note:</span> From the v1.19.1 the default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
+        <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
         <br/>The domain is optional and can be a string.
         <br/>The secure is optional and can be a boolean.
         <br/>The HttpOnly is optional and can be a boolean.
@@ -662,8 +658,7 @@
       <td>
         Remove a cookie.
         <br/>The name is mandatory and has to be a string.
-        <br/>The path is optional and can be a string.
-        <br/><span class="info">Note:</span> From the v1.19.1 the default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
+        <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
         <br/>The domain is optional and can be a string.
         <br/>The secure is optional and can be a boolean.
         <br/>The HttpOnly is optional and can be a boolean.
@@ -690,7 +685,7 @@
       <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
         <p>The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
-        <p><b>From the v2.2.0 these collection types are supported:</b></p>
+        <p><b>These collection types are supported:</b></p>
         <ul>
           <li>Array (ES5, own forEach(), return as Array)</li>
           <li>Nodelist (ES5, as Array, return as Array)</li>
@@ -706,7 +701,7 @@
       <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
        <p>The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
-       <p><b>From the v2.2.0 these collection types are supported:</b></p>
+       <p><b>These collection types are supported:</b></p>
         <ul>
           <li>Array (ES5, return as Array)</li>
           <li>Nodelist (ES5, return as Array)</li>
@@ -806,7 +801,7 @@
       <td><code>item(&#60;collection&#62;,&#60;index&#62;);</code></td>
       <td>
         <p>Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers.</p>
-        <p><span class="info">Tip: This function uses the <code>Array.from()</code> if the collection parameter isn't an array. It can be slow, when all items are requested with this function. In this case please convert the collection with the <code>Array.from()</code> instead of usage this function!</span></p>
+        <p><span class="info">Tip: This function uses the <code>Array.from()</code> if the collection parameter isn't an array. It can be slow, when more items are requested with this function. In this case please convert the collection with the <code>Array.from()</code> instead of usage this function!</span></p>
       </td>
     </tr>
     <tr>
@@ -830,7 +825,7 @@
     </tr>
     <tr>
       <td><code>Array.prototype.values()</code></td>
-      <td><span class="info">Only in ES6</span>The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
+      <td><span class="info">Only in ES6</span> The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
     </tr>
     <tr>
       <td><code>Array.from()</code></td>
@@ -968,15 +963,13 @@
     <tr>
       <td><code>Array.prototype.flat()</code></td>
       <td>
-        <p><span class="info">Stage 3 Draft / May 23, 2018 - ES2019 candidate</span></p>
-        <p>The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!</p>
+        The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!
       </td>
     </tr>
     <tr>
       <td><code>Array.prototype.flatMap()</code></td>
       <td>
-        <p><span class="info">Stage 3 Draft / May 23, 2018 - ES2019 candidate</span></p>
-        <p>A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!</p>
+        A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!
       </td>
     </tr>
     <tr>

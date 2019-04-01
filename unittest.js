@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.6.1 testcases
+// Celestra v2.6.2 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
