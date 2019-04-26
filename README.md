@@ -11,17 +11,18 @@
 
 __A helper JavaScript library with useful functions and ES6 polyfills.__
 
-Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
+Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
  
-Latest version: 2.6.2
+Latest version: 2.7.0
 
-Date: 2019-03-27T19:17:38.547Z
+Date: 2019-04-27T19:58:32.537Z
+
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (50327 bytes)
+Development version: celestra.js (50708 bytes)
 
-Minimal version: celestra.min.js (38440 bytes)
+Minimal version: celestra.min.js (38431 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -46,9 +47,9 @@ Demo plugin source: celestra-demo-plugin.js
 
 ### Celestra ES6 extension (ES6E)
 
-Development version: celestra-es6.js (2267 bytes)
+Development version: celestra-es6.js (2641 bytes)
 
-Minimal version: celestra-es6.min.js (1645 bytes)
+Minimal version: celestra-es6.min.js (1929 bytes)
 
 
 ### Celestra Unit Tester (CUT)
@@ -110,7 +111,6 @@ Name | Description
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
-`tap(<object>,<callback>);` | __DEPRECATED IN v2.6.2__ Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
@@ -194,6 +194,7 @@ Name | Description
 `isNull(<value>);` | This function determines whether the provided value is null. The return value is boolean.
 `isUndefined(<value>);` | This function determines whether the provided value is undefined. The return value is boolean.
 `isNullOrUndefined(<value>);` | This function determines whether the provided value is null or undefined. The return value is boolean.
+`isNil(<value>);` | Alias of the `isNullOrUndefined(<value>);`.
 `isPrimitive(<value>);` | This function determines whether the provided value is not null, not object and not function. The return value is boolean.
 `isSymbol(<value>);` | `ES6` This function determines whether the provided value is a symbol. The return value is boolean.
 `isMap(<value>);` | `ES6` This function determines whether the provided value is a map. The return value is boolean.
@@ -256,7 +257,6 @@ Name | Description
 `uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `item(<collection>,<index>);` | Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers. __Tip: This function uses the `Array.from()` if the collection parameter isn't an array. It can be slow, when more items are requested with this function. In this case please convert the collection with the `Array.from()` instead of usage this function!__
 `arrayMerge([deep,]<target>,<source1>, ...sources);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
-`merge([deep,]<target>,<source1>, ...sources);` | __DEPRECATED IN v2.6.1__ The old alias of the `arrayMerge([deep,]<target>,<source1>, ...sources);`.
 
 
 ### Polyfills
@@ -347,7 +347,9 @@ Name | Description
 `filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). 
 `sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity. 
 `takeOf(<collection>,<n>);` | Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`takeWhile(<collection>,<callback>);` | Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `dropOf(<collection>,<n>);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`dropWhile(<collection>,<callback>);` | Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `isGenerator(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 
 

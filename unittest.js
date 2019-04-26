@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.6.2 testcases
+// Celestra v2.7.0 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -514,6 +514,24 @@ if (_cut.isNotIE11()) {
     _.strReverse("I've seen things you people wouldn't believe. \u{1D306} Attack ships on fire off the shoulder of Orion.")
   );*/
 }
+
+var slice = _.toFunction([].slice);
+_cut.isEqual("toFunction()", true, Array.isArray(slice(document.querySelectorAll("h3"))) );
+
+var FPArray = [1,2,3];
+
+var dqsa = _.bind(document.querySelectorAll, document);
+_cut.isEqual("bind()", true, dqsa("h3").length > 0 );
+
+_cut.isEqual("hasOwn() true", true, _.hasOwn( {0:1,1:2,2:3,length:3}, "length" ) );
+_cut.isEqual("hasOwn() false", false, _.hasOwn( [], "forEach" ) );
+
+_cut.isEqual("constant()", 3.14, _.constant(3.14)() );
+_cut.isEqual("identity()", 100, _.identity(60) + _.identity(40) );
+_cut.isEqual("noop()", undefined, _.noop() );
+
+_cut.isTrue("T()", _.T() );
+_cut.isFalse("F()", _.F() );
 
 
 /* Collection */
@@ -1226,36 +1244,6 @@ _cut.isTrue( "domSiblings()", (Array.isArray(dsArray) && dsArray.length === 3) )
 _.qs("#dsDiv").remove();
 
 
-/* FP */
-
-_cut.addElement("h3", "FP");
-
-var slice = _.toFunction([].slice);
-_cut.isEqual("toFunction()", true, Array.isArray(slice(document.querySelectorAll("h3"))) );
-
-var FPArray = [1,2,3];
-
-var dqsa = _.bind(document.querySelectorAll, document);
-_cut.isEqual("bind()", true, dqsa("h3").length > 0 );
-
-_cut.isEqual("hasOwn() true", true, _.hasOwn( {0:1,1:2,2:3,length:3}, "length" ) );
-_cut.isEqual("hasOwn() false", false, _.hasOwn( [], "forEach" ) );
-
-var tapArray1 = [4,5,6];
-var tapArray2 = _.tap(tapArray1, function (e) { e[2] = 5; });
-_cut.isTrue(
-  "tap()",
-  (tapArray1 === tapArray2 && tapArray1[2] === 5)
-);
-
-_cut.isEqual("constant()", 3.14, _.constant(3.14)() );
-_cut.isEqual("identity()", 100, _.identity(60) + _.identity(40) );
-_cut.isEqual("noop()", undefined, _.noop() );
-
-_cut.isTrue("T()", _.T() );
-_cut.isFalse("F()", _.F() );
-
-
 /* cookie */
 _cut.addElement("h3", "cookie");
 
@@ -1886,6 +1874,9 @@ _cut.isEqual("isUndefined() false", false, _.isUndefined( document.querySelector
 _cut.isEqual("isNullOrUndefined() true 1", true, _.isNullOrUndefined(undefined) );
 _cut.isEqual("isNullOrUndefined() true 2", true, _.isNullOrUndefined(null) );
 _cut.isEqual("isNullOrUndefined() false", false, _.isNullOrUndefined( document.querySelectorAll("p") ) );
+_cut.isEqual("isNil() true 1", true, _.isNil(undefined) );
+_cut.isEqual("isNil() true 2", true, _.isNil(null) );
+_cut.isEqual("isNil() false", false, _.isNil( document.querySelectorAll("p") ) );
 _cut.isEqual("isPrimitive() true 1", true, _.isPrimitive(98) );
 _cut.isEqual("isPrimitive() true 2", true, _.isPrimitive("str") );
 _cut.isEqual("isPrimitive() false 1", false, _.isPrimitive( document.querySelectorAll("p") ) );

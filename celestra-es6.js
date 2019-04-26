@@ -1,9 +1,9 @@
 /**
  * @name Celestra ES6 extension
- * @version 2.6.2
+ * @version 2.7.0
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.6.2
+ * Minimal required Celestra version: 2.7.0
  */
 
 (function(window, celestra){
@@ -39,6 +39,21 @@ const iterRepeat = function* iterRepeat (value, n = Infinity) {
   while (i < n) {
     yield value;
     i++;
+  }
+};
+
+const takeWhile = function* takeWhile (it, fn) {
+  for (let item of it) {
+    if (!fn(item)) { break; }
+    yield item;
+  }
+};
+
+const dropWhile = function* dropWhile (it, fn) {
+  let d = true;
+  for (let item of it) {
+    if (d && !fn(item)) { d = false; }
+    if (!d) { yield item; }
   }
 };
 
@@ -96,6 +111,8 @@ const isGenerator = function isGenerator (v) {
 celestra.iterRange = iterRange;
 celestra.iterCycle = iterCycle;
 celestra.iterRepeat = iterRepeat;
+celestra.takeWhile = takeWhile;
+celestra.dropWhile = dropWhile;
 celestra.takeOf = takeOf;
 celestra.dropOf = dropOf;
 celestra.forOf = forOf;

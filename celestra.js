@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.6.2
+ * @version 2.7.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -9,20 +9,20 @@
 
 /* Celestra FP */
 
-/*----------------|-----|----------------------------------
- Function         |   # | Inner calls
-------------------|-----|----------------------------------
- CTRL-F           |   N | __toArray__()
- importScripts()  |   2 | importScript(), importScript()
- importStyles()   |   2 | importStyle(),  importStyle()
- domFadeToggle()  |   2 | domFadeIn(), domFadeOut()
- arrayMerge()     |   1 | arrayMerge()
- extend()         |   1 | extend()
- deepAssign()     |   1 | deepAssign()
- getJson()        |   1 | getAjax()
- getText()        |   1 | getAjax()
- isEqual()        |   2 | getType()
-------------------|-----|--------------------------------*/
+/*-----------------+------+-----------------------------------
+  Function         |   #  |  Inner calls
+-------------------+------+-----------------------------------
+  CTRL-F           |   N  |  __toArray__()
+  importScripts()  |   2  |  importScript(), importScript()
+  importStyles()   |   2  |  importStyle(),  importStyle()
+  domFadeToggle()  |   2  |  domFadeIn(), domFadeOut()
+  arrayMerge()     |   1  |  arrayMerge()
+  extend()         |   1  |  extend()
+  deepAssign()     |   1  |  deepAssign()
+  getJson()        |   1  |  getAjax()
+  getText()        |   1  |  getAjax()
+  isEqual()        |   2  |  getType()
+-------------------+------+---------------------------------*/
 
 /* polyfills */
 
@@ -194,7 +194,10 @@ if (!String.prototype.repeat) {
     p.after = function () {
       var t = this;
       Array.prototype.forEach.call(arguments, function (e) {
-        t.parentNode.insertBefore((e instanceof Node ? e : document.createTextNode(String(e))), t.nextSibling);
+        t.parentNode.insertBefore(
+          (e instanceof Node ? e : document.createTextNode(String(e))),
+          t.nextSibling
+        );
       });
     };
   }
@@ -202,16 +205,22 @@ if (!String.prototype.repeat) {
     p.before = function () {
       var t = this;
       Array.prototype.forEach.call(arguments, function (e) {
-        t.parentNode.insertBefore((e instanceof Node ? e : document.createTextNode(String(e))), t);
+        t.parentNode.insertBefore(
+          (e instanceof Node ? e : document.createTextNode(String(e))), t
+        );
       });
     };
   }
-  if (!p.remove) { p.remove = function () { this.parentNode.removeChild(this); }; }
+  if (!p.remove) {
+    p.remove = function () { this.parentNode.removeChild(this); };
+  }
   if (!p.replaceWith) {
-  p.replaceWith = function () {
+    p.replaceWith = function () {
       var t = this;
       Array.prototype.forEach.call(arguments, function (e) {
-        t.parentNode.replaceChild((e instanceof Node ? e : document.createTextNode(String(e))), t);
+        t.parentNode.replaceChild(
+          (e instanceof Node ? e : document.createTextNode(String(e))), t
+        );
       });
     };
   }
@@ -219,15 +228,20 @@ if (!String.prototype.repeat) {
     p.append = function () {
       var t = this;
       Array.prototype.forEach.call(arguments, function (e) {
-        t.appendChild(e instanceof Node ? e : document.createTextNode(String(e)));
+        t.appendChild(
+          e instanceof Node ? e : document.createTextNode(String(e))
+        );
       });
     };
   }
   if (!p.prepend) {
-  p.prepend = function () {
+    p.prepend = function () {
       var t = this;
       Array.prototype.forEach.call(arguments, function (e) {
-        t.insertBefore((e instanceof Node ? e : document.createTextNode(String(e))), t.firstChild);
+        t.insertBefore(
+          (e instanceof Node ? e : document.createTextNode(String(e))),
+          t.firstChild
+        );
       });
     };
   }
@@ -323,11 +337,7 @@ if (!Array.prototype.flatMap) {
   Array.prototype.flatMap = function (fn) {
     var res = [];
     this.map(fn).forEach(function (e) {
-      if (Array.isArray(e)) {
-        res = res.concat(e);
-      } else {
-        res.push(e);
-      }
+      if (Array.isArray(e)) { res = res.concat(e); } else { res.push(e); }
     });
     return res;
   };
@@ -403,11 +413,7 @@ if (!Array.prototype.copyWithin) {
       to += count - 1;
     }
     while (count > 0) {
-      if (fr in O) {
-        O[to] = O[fr];
-      } else {
-        delete O[to];
-      }
+      if (fr in O) { O[to] = O[fr]; } else { delete O[to]; }
       fr += direction;
       to += direction;
       count--;
@@ -436,21 +442,14 @@ if (!String.fromCodePoint) {
     var stringFromCharCode = String.fromCharCode;
     var floor = Math.floor;
     var fromCodePoint = function (_) {
-      var MAX_SIZE = 0x4000;
-      var codeUnits = [];
-      var highSurrogate;
-      var lowSurrogate;
-      var index = -1;
-      var length = arguments.length;
+      var MAX_SIZE = 0x4000, codeUnits = [], highSurrogate;
+      var lowSurrogate, index = -1, length = arguments.length;
       if (!length) { return ""; }
       var result = "";
       while (++index < length) {
         var codePoint = Number(arguments[index]);
-        if (
-          !isFinite(codePoint) ||
-            codePoint < 0 ||
-            codePoint > 0x10FFFF ||
-            floor(codePoint) != codePoint
+        if (!isFinite(codePoint) || codePoint < 0 ||
+            codePoint > 0x10FFFF || floor(codePoint) != codePoint
         ) { throw RangeError("Invalid code point: " + codePoint); }
         if (codePoint <= 0xFFFF) {
           codeUnits.push(codePoint);
@@ -469,9 +468,7 @@ if (!String.fromCodePoint) {
     };
     if (defineProperty) {
       defineProperty(String, "fromCodePoint", {
-        "value": fromCodePoint,
-        "configurable": true,
-        "writable": true
+        "value": fromCodePoint, "configurable": true, "writable": true
       });
     } else {
       String.fromCodePoint = fromCodePoint;
@@ -485,8 +482,7 @@ if (!String.prototype.codePointAt) {
     "use strict";
     var defineProperty = (function() {
       try {
-        var object = {};
-        var $defineProperty = Object.defineProperty;
+        var object = {}, $defineProperty = Object.defineProperty;
         var result = $defineProperty(object, object, object) && $defineProperty;
       } catch(error) {}
       return result;
@@ -510,9 +506,7 @@ if (!String.prototype.codePointAt) {
     };
     if (defineProperty) {
       defineProperty(String.prototype, "codePointAt", {
-        "value": codePointAt,
-        "configurable": true,
-        "writable": true
+        "value": codePointAt, "configurable": true, "writable": true
       });
     } else {
       String.prototype.codePointAt = codePointAt;
@@ -556,12 +550,18 @@ if (!window.isNaN) {
 
 if (!Number.isInteger) {
   Number.isInteger = function (v) {
-    return typeof v === "number" && isFinite(v) && v > -9007199254740992 && v < 9007199254740992 && Math.floor(v) === v;
+    return typeof v === "number"
+      && isFinite(v)
+      && v > -9007199254740992
+      && v < 9007199254740992
+      && Math.floor(v) === v;
   };
 }
 
 if (!Number.isFinite) {
-  Number.isFinite = function (v) { return typeof v === "number" && isFinite(v); };
+  Number.isFinite = function (v) {
+    return typeof v === "number" && isFinite(v);
+  };
 }
 
 if (!Number.isSafeInteger) {
@@ -629,10 +629,8 @@ Math.hypot = Math.hypot || function (x, y) {
 };
 
 Math.imul = Math.imul || function (a, b) {
-  var aHi = (a >>> 16) & 0xffff;
-  var aLo = a & 0xffff;
-  var bHi = (b >>> 16) & 0xffff;
-  var bLo = b & 0xffff;
+  var aHi = (a >>> 16) & 0xffff, aLo = a & 0xffff;
+  var bHi = (b >>> 16) & 0xffff, bLo = b & 0xffff;
   return ((aLo * bLo) + (((aHi * bLo + aLo * bHi) << 16) >>> 0) | 0);
 };
 
@@ -680,10 +678,10 @@ function domReady (fn) {
 function random (i, a) {
   if (i === undefined) { var i = 100; }
   if (a === undefined) { var a = i; i = 0; }
-  return Math.floor(Math.random()*(a-i+1))+i;
+  return Math.floor(Math.random() * (a - i + 1)) + i;
 }
 
-function randomString(pl,sc) {
+function randomString (pl, sc) {
   if (arguments.length === 1) {
     sc = false;
   } else if (arguments.length === 0) {
@@ -697,19 +695,19 @@ function randomString(pl,sc) {
   return s;
 }
 
-function b64Encode(str) {
+function b64Encode (str) {
   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
     function toSolidBytes(match, p1) { return String.fromCharCode("0x" + p1); }
   ));
 }
 
-function b64Decode(str) {
+function b64Decode (str) {
   return decodeURIComponent(atob(str).split("").map(function(c) {
     return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(""));
 }
 
-function javaHash (s,hx) {
+function javaHash (s, hx) {
   if (s !== undefined) { s = "" + s; } else { return 0; }
   var h = 0, l = s.length, c = "";
   if (l == 0) { return h; }
@@ -733,7 +731,9 @@ function importScript (u, s) {
   scr.type = "text\/javascript";
   scr.src = u;
   scr.onerror = function (e) {
-    throw new URIError("Loading failed for the script with source "+e.target.src);
+    throw new URIError(
+      "Loading failed for the script with source " + e.target.src
+    );
   };
   if (s) { scr.onreadystatechange = s; scr.onload = s; }
   (document.head || document.getElementsByTagName("head")[0]).appendChild(scr);
@@ -755,7 +755,9 @@ function importStyle (h, s) {
   stl.type = "text\/css";
   stl.href = h;
   stl.onerror = function (e) {
-    throw new URIError("Loading failed for the style with source "+e.target.href);
+    throw new URIError(
+      "Loading failed for the style with source " + e.target.href
+    );
   };
   if (s) { stl.onreadystatechange = s; stl.onload = s; }
   (document.head || document.getElementsByTagName("head")[0]).appendChild(stl);
@@ -778,25 +780,17 @@ function getUrlVar (n) {
     r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
   }
   if (JSON.stringify(r) === "{\"\":\"undefined\"}") { r = {}; }
-  if (n) {
-    return r[n] ? r[n] : null;
-  } else {
-    return r;
-  }
+  if (n) { return r[n] ? r[n] : null; } else { return r; }
 }
 
-function getUrlVarFromString (qstr,n) {
+function getUrlVarFromString (qstr, n) {
   var r = {}, w = qstr.substring(1).split("&");
   for (var i = 0, l = w.length; i < l; i++) {
     var e = w[i].split("=");
     r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
   }
   if (JSON.stringify(r) === "{\"\":\"undefined\"}") { r = {}; }
-  if (n) {
-    return r[n] ? r[n] : null;
-  } else {
-    return r;
-  }
+  if (n) { return r[n] ? r[n] : null; } else { return r; }
 }
 
 function obj2string (o) {
@@ -812,7 +806,8 @@ function obj2string (o) {
 function getType (v, t) {
   var ot = (typeof v).toLowerCase();
   if (ot === "object") {
-    ot = Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase();
+    ot = Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
+      .toLowerCase();
   }
   if (arguments.length === 2) { return ot === t.toLowerCase(); }
   return ot;
@@ -893,7 +888,7 @@ function getLocation (s, e) {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(s, getE);
   } else {
-    getE ("Geolocation is not supported in this browser.");
+    getE("Geolocation is not supported in this browser.");
   }
 }
 
@@ -916,15 +911,26 @@ function form2array (f) {
   if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
     for (var i=0, len=f.elements.length; i<len; i++) {
       fld = f.elements[i];
-      if (fld.name && !fld.disabled && fld.type !== "file" && fld.type !== "reset" && fld.type !== "submit" && fld.type !== "button") {
+      if (fld.name
+        && !fld.disabled && fld.type !== "file"
+        && fld.type !== "reset"
+        && fld.type !== "submit"
+        && fld.type !== "button") {
         if (fld.type === "select-multiple") {
           for (var j=0, l=f.elements[i].options.length; j<l; j++) {
             if(fld.options[j].selected) {
-              a.push({"name": encodeURIComponent(fld.name), "value": encodeURIComponent(fld.options[j].value)});
+              a.push({
+                "name": encodeURIComponent(fld.name),
+                "value": encodeURIComponent(fld.options[j].value)
+              });
             }
           }
-        } else if ((fld.type !== "checkbox" && fld.type !== "radio") || fld.checked) {
-          a.push({"name": encodeURIComponent(fld.name), "value": encodeURIComponent(fld.value)});
+        } else if ((fld.type !== "checkbox" && fld.type !== "radio")
+          || fld.checked) {
+          a.push({
+            "name": encodeURIComponent(fld.name),
+            "value": encodeURIComponent(fld.value)
+          });
         }
       }
     }
@@ -937,15 +943,23 @@ function form2string (f) {
   if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
     for (var i=0, len=f.elements.length; i<len; i++) {
       fld = f.elements[i];
-      if (fld.name && !fld.disabled && fld.type !== "file" && fld.type !== "reset" && fld.type !== "submit" && fld.type !== "button") {
+      if (fld.name
+        && !fld.disabled
+        && fld.type !== "file"
+        && fld.type !== "reset"
+        && fld.type !== "submit"
+        && fld.type !== "button") {
         if (fld.type === "select-multiple") {
           for (var j=0, l=f.elements[i].options.length; j<l; j++) {
             if(fld.options[j].selected) {
-              a.push(encodeURIComponent(fld.name) + "=" + encodeURIComponent(fld.options[j].value));
+              a.push(encodeURIComponent(fld.name)
+              + "=" + encodeURIComponent(fld.options[j].value));
             }
           }
-        } else if ((fld.type !== "checkbox" && fld.type !== "radio") || fld.checked) {
-          a.push(encodeURIComponent(fld.name) + "=" + encodeURIComponent(fld.value));
+        } else if ((fld.type !== "checkbox" && fld.type !== "radio")
+          || fld.checked) {
+          a.push(encodeURIComponent(fld.name)
+            + "=" + encodeURIComponent(fld.value));
         }
       }
     }
@@ -987,9 +1001,7 @@ function forIn (o, fn) {
 
 function mapIn (o, fn) {
   var r = {};
-  for (var p in o) {
-    if (o.hasOwnProperty(p)) { r[p] = fn(o[p], p, o); }
-  }
+  for (var p in o) { if (o.hasOwnProperty(p)) { r[p] = fn(o[p], p, o); } }
   return r;
 }
 
@@ -998,8 +1010,6 @@ function toFunction (fn) { return Function.prototype.call.bind(fn); }
 var bind = Function.prototype.call.bind(Function.prototype.bind);
 
 var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
-
-function tap (v, fn) { fn(v); return v; }
 
 function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
@@ -1014,9 +1024,7 @@ function domCreate (t, ps, iH) {
     var obj = t;
     t = obj.elementType;
     ps = {};
-    for (var p in obj) {
-      if (p !== "elementType") { ps[p] = obj[p]; }
-    }
+    for (var p in obj) { if (p !== "elementType") { ps[p] = obj[p]; } }
   }
   var el = document.createElement(t);
   if (ps) {
@@ -1039,7 +1047,9 @@ function domToElement(s) {
 }
 
 function domGetCSS (e, p) {
-  return (window.getComputedStyle ? getComputedStyle(e, null) : e.currentStyle)[p];
+  return (window.getComputedStyle
+    ? getComputedStyle(e, null)
+    : e.currentStyle)[p];
 }
 
 function domSetCSS (e, n, v) {
@@ -1054,17 +1064,25 @@ function domFadeIn (e, dur, d) {
   var s = e.style, step = 25/(dur || 500);
   s.opacity = (s.opacity || 0);
   s.display = (d || "");
-  (function fade () { (s.opacity = parseFloat(s.opacity)+step) > 1 ? s.opacity = 1 : setTimeout(fade, 25); })();
+  (function fade () {
+    (s.opacity = parseFloat(s.opacity)+step) > 1
+      ? s.opacity = 1
+      : setTimeout(fade, 25);
+  })();
 }
 
 function domFadeOut (e, dur) {
   var s = e.style, step = 25/(dur || 500);
   s.opacity = (s.opacity || 1);
-  (function fade () { (s.opacity -= step) < 0 ? s.display = "none" : setTimeout(fade, 25); })();
+  (function fade () {
+    (s.opacity -= step) < 0 ? s.display = "none" : setTimeout(fade, 25);
+  })();
 }
 
 function domFadeToggle (e, dur, d) {
-  if ((window.getComputedStyle ? getComputedStyle(e, null) : e.currentStyle).display === "none") {
+  if ((window.getComputedStyle
+    ? getComputedStyle(e, null)
+    : e.currentStyle).display === "none") {
     celestra.domFadeIn(e, dur, (d || ""));
   } else {
     celestra.domFadeOut(e, dur);
@@ -1076,7 +1094,9 @@ function domHide (e) { e.style.display = "none"; }
 function domShow (e, d) { e.style.display = (d || ""); }
 
 function domToggle (e, d) {
-  if ((window.getComputedStyle ? getComputedStyle(e, null) : e.currentStyle).display === "none") {
+  if ((window.getComputedStyle
+    ? getComputedStyle(e, null)
+    : e.currentStyle).display === "none") {
     e.style.display = (d || "");
   } else {
     e.style.display = "none";
@@ -1102,7 +1122,9 @@ function getJson (url, success) { celestra.getAjax(url, "json", success); }
 function getText (url, success) { celestra.getAjax(url, "text", success); }
 
 function getAjax (url, format, success, error, user, password) {
-  var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+  var xhr = window.XMLHttpRequest
+    ? new XMLHttpRequest()
+    : new ActiveXObject("Microsoft.XMLHTTP");
   if (typeof user === "string" && typeof password === "string") {
     xhr.open("GET", url, true, user, password);
   } else {
@@ -1124,7 +1146,9 @@ function getAjax (url, format, success, error, user, password) {
 }
 
 function postAjax (url, data, format, success, error, user, password) {
-  var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+  var xhr = window.XMLHttpRequest
+    ? new XMLHttpRequest()
+    : new ActiveXObject("Microsoft.XMLHTTP");
   if (typeof user === "string" && typeof password === "string") {
     xhr.open("POST", url, true, user, password);
   } else {
@@ -1156,10 +1180,14 @@ function getCors (url, format, success, error, user, password) {
   }
   xhr.onload = function(request) {
     switch (format.toLowerCase()) {
-      case "text": success(request.target.responseText || request.currentTarget.response); break;
-      case "json": success(JSON.parse(request.target.responseText || request.currentTarget.response)); break;
-      case "xml": success(request.target.responseXML || request.currentTarget.responseXML); break;
-      default: success(request.target.responseText || request.currentTarget.response);
+      case "text": success(request.target.responseText
+        || request.currentTarget.response); break;
+      case "json": success(JSON.parse(request.target.responseText
+        || request.currentTarget.response)); break;
+      case "xml": success(request.target.responseXML
+        || request.currentTarget.responseXML); break;
+      default: success(request.target.responseText
+        || request.currentTarget.response);
     }
   };
   if (error) { xhr.onerror = error; }
@@ -1176,10 +1204,14 @@ function postCors (url, data, format, success, error, user, password) {
   }
   xhr.onload = function(request) {
     switch (format.toLowerCase()) {
-      case "text": success(request.target.responseText || request.currentTarget.response); break;
-      case "json": success(JSON.parse(request.target.responseText || request.currentTarget.response)); break;
-      case "xml": success(request.target.responseXML || request.currentTarget.responseXML); break;
-      default: success(request.target.responseText || request.currentTarget.response);
+      case "text": success(request.target.responseText
+        || request.currentTarget.response); break;
+      case "json": success(JSON.parse(request.target.responseText
+        || request.currentTarget.response)); break;
+      case "xml": success(request.target.responseXML
+        || request.currentTarget.responseXML); break;
+      default: success(request.target.responseText
+        || request.currentTarget.response);
     }
   };
   if (error) { xhr.onerror = error; }
@@ -1236,6 +1268,7 @@ function isArraylike (v) {
 function isNull (v) { return v === null; }
 function isUndefined (v) { return v === undefined; }
 function isNullOrUndefined (v) { return v === null || v === undefined; }
+var isNil = isNullOrUndefined;
 
 function isPrimitive (v) {
   return v === null || typeof v !== "object" && typeof v !== "function";
@@ -1243,27 +1276,34 @@ function isPrimitive (v) {
 
 function isSymbol (v) { return typeof v === "symbol"; }
 function isMap (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "map";
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
+    .toLowerCase() === "map";
 }
 function isSet (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "set";
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
+    .toLowerCase() === "set";
 }
 function isWeakMap (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "weakmap";
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
+    .toLowerCase() === "weakmap";
 }
 function isWeakSet (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "weakset";
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
+    .toLowerCase() === "weakset";
 }
 function isIterator (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase().indexOf("iterator") !== -1;
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
+    .toLowerCase().indexOf("iterator") !== -1;
 }
 
 function isDate (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "date";
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
+    .toLowerCase() === "date";
 }
 
 function isRegexp (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "regexp";
+  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
+    .toLowerCase() === "regexp";
 }
 
 function isElement (v) { return typeof v === "object" && v.nodeType === 1; }
@@ -1295,11 +1335,7 @@ function getCookie (name) {
       var e = a[i].trim().split("=");
       r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
     }
-    if (name) {
-      return r[name] ? r[name] : null;
-    } else {
-      return r;
-    }
+    if (name) { return r[name] ? r[name] : null; } else { return r; }
   }
   return name ? null : {};
 }
@@ -1350,26 +1386,26 @@ function map (a, fn) {
 function arrayUnion () {
   return Array.prototype.concat.apply(
     [], Array.from(arguments).map(function (e) { return Array.from(e); })
-  ).filter(function(e, i, arr) {return arr.indexOf(e) === i; });
+  ).filter(function(e, i, arr) { return arr.indexOf(e) === i; });
 }
 
 function arrayIntersection (a, b) {
   var a2 = Array.from(a), b2 = Array.from(b);
   return a2.filter(function (v) { return b2.includes(v); })
-    .filter(function(e, i, arr) {return arr.indexOf(e) === i; });
+    .filter(function(e, i, arr) { return arr.indexOf(e) === i; });
 }
 
 function arrayDifference (a, b) {
   var a2 = Array.from(a), b2 = Array.from(b);
   return a2.filter(function (v) { return !(b2.includes(v)); })
-    .filter(function(e, i, arr) {return arr.indexOf(e) === i; });
+    .filter(function(e, i, arr) { return arr.indexOf(e) === i; });
 }
 
 function arraySymmetricDifference (a, b) {
   var a2 = Array.from(a), b2 = Array.from(b);
   return a2.filter(function (v) { return !(b2.includes(v)); })
     .concat(b2.filter(function (v) { return !(a2.includes(v)); }))
-    .filter(function(e, i, arr) {return arr.indexOf(e) === i; });
+    .filter(function(e, i, arr) { return arr.indexOf(e) === i; });
 }
 
 function setUnion () {
@@ -1405,7 +1441,7 @@ function arrayEntries (a) {
 }
 
 function min (a) {
-  var a2 = Array.from(a);
+  var a2 = celestra.__toArray__(a);
   if (a2.length > 0) {
     var r = a2[0];
     a2.forEach(function (v, i, arr) { if (v < r) { r = v; } });
@@ -1415,7 +1451,7 @@ function min (a) {
 }
 
 function minIndex (a) {
-  var a2 = Array.from(a);
+  var a2 = celestra.__toArray__(a);
   if (a2.length > 0) {
     var r = 0;
     a2.forEach(function (v, i, arr) { if (v < arr[r]) { r = i; } });
@@ -1425,7 +1461,7 @@ function minIndex (a) {
 }
 
 function max (a) {
-  var a2 = Array.from(a);
+  var a2 = celestra.__toArray__(a);
   if (a2.length > 0) {
     var r = a2[0];
     a2.forEach(function (v, i, arr) { if (v > r) { r = v; } });
@@ -1435,7 +1471,7 @@ function max (a) {
 }
 
 function maxIndex (a) {
-  var a2 = Array.from(a);
+  var a2 = celestra.__toArray__(a);
   if (a2.length > 0) {
     var r = 0;
     a2.forEach(function (v, i, arr) { if (v > arr[r]) { r = i; } });
@@ -1464,7 +1500,7 @@ function toPairs (a, b) {
 
 function uniqueArray (a) {
   return celestra.__toArray__(a).filter(
-    function(e, i, arr) { return arr.indexOf(e) === i; }
+    function (e, i, arr) { return arr.indexOf(e) === i; }
   );
 }
 
@@ -1514,13 +1550,11 @@ function arrayMerge () {
   return t;
 }
 
-var merge = arrayMerge;
-
 /* object header */
 
 var celestra = {};
 
-celestra.version = "Celestra v2.6.2";
+celestra.version = "Celestra v2.7.0";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1569,7 +1603,6 @@ celestra.mapIn = mapIn;
 celestra.toFunction = toFunction;
 celestra.bind = bind;
 celestra.hasOwn = hasOwn;
-celestra.tap = tap;
 celestra.constant = constant;
 celestra.identity = identity;
 celestra.noop = noop;
@@ -1615,6 +1648,7 @@ celestra.isArraylike = isArraylike;
 celestra.isNull = isNull;
 celestra.isUndefined = isUndefined;
 celestra.isNullOrUndefined = isNullOrUndefined;
+celestra.isNil = isNil;
 celestra.isPrimitive = isPrimitive;
 celestra.isSymbol = isSymbol;
 celestra.isMap = isMap;
@@ -1657,13 +1691,10 @@ celestra.arrayClear = arrayClear;
 celestra.arrayRemove = arrayRemove;
 celestra.item = item;
 celestra.arrayMerge = arrayMerge;
-celestra.merge = merge;
 
 /* AMD loader */
 if (typeof define === "function" && define.amd) {
-  define(function () {
-    return { celestra: celestra };
-  });
+  define(function () { return { celestra: celestra }; });
 }
 
 /* CommonJS loader */

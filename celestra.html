@@ -59,13 +59,13 @@
 
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
-<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.6.2</p>
-<p>Date: 2019-03-27T19:17:38.547Z</p>
+<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
+<p>Latest version: 2.7.0</p>
+<p>Date: 2019-04-27T19:58:32.537Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50327 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38440 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50708 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38431 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -82,8 +82,8 @@
 
 <h3>Celestra ES6 extension (ES6E)</h3>
 
-<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (2267 bytes)</p>
-<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (1645 bytes)</p>
+<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (2641 bytes)</p>
+<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (1929 bytes)</p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
@@ -289,10 +289,6 @@
     <tr>
       <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
       <td>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>tap(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="deprecated">DEPRECATED in v2.6.2</span><br/>Call the callback function with the object as parameter and return the object. Both of the parameters are mandatory and the callback has to be function.</td>
     </tr>
     <tr>
       <td><code>constant(&#60;value&#62;);</code></td>
@@ -558,6 +554,10 @@
       <td>This function determines whether the provided value is null or undefined. The return value is boolean.</td>
     </tr>
     <tr>
+      <td><code>isNil(&#60;value&#62;);</code></td>
+      <td>Alias of the <code>isNullOrUndefined(&#60;value&#62;);</code>.</td>
+    </tr>    
+    <tr>
       <td><code>isPrimitive(&#60;value&#62;);</code></td>
       <td>This function determines whether the provided value is not null, not object and not function. The return value is boolean.</td>
     </tr>
@@ -807,10 +807,6 @@
     <tr>
       <td><code>arrayMerge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
       <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
-    </tr>
-    <tr>
-      <td><code>merge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
-      <td><span class="deprecated">DEPRECATED in v2.6.1</span><br/>The old alias of the <code>arrayMerge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code>.</td>
     </tr>
   </table>
 </div>
@@ -1167,9 +1163,21 @@
       </td>
     </tr>
     <tr>
+      <td><code>takeWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p>Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+      </td>
+    </tr>
+    <tr>
       <td><code>dropOf(&#60;collection&#62;,&#60;n&#62;);</code></td>
       <td>
         <p>Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>dropWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p>Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
       </td>
     </tr>
     <tr>

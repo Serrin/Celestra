@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.6.2 ES6E testcases
+// Celestra v2.7.0 ES6E testcases
 
 _cut.addElement("h3", "ES6 extension");
 
@@ -220,5 +220,39 @@ for (let item of _.sliceOf(FPArray3)) {
 }
 _cut.isEqual("sliceOf() - step 4 - all", "12345678910", iterStr);
 
+
+let whileArray = [0,2,4,6,8,10,12,14,16];
+
+let whileSum = 0;
+for (let item of _.takeWhile(whileArray, (e) => (e<10))) {
+  whileSum += item;
+}
+_cut.isEqual("takeWhile() values", whileSum, 20);
+whileSum = 0;
+for (let item of _.takeWhile(whileArray, (e) => (e<0))) {
+  whileSum += item;
+}
+_cut.isEqual("takeWhile() empty list", whileSum, 0);
+whileSum = 0;
+for (let item of _.takeWhile(whileArray, (e) => (e<30))) {
+  whileSum += item;
+}
+_cut.isEqual("takeWhile() full list", whileSum, 72);
+
+whileSum = 0;
+for (let item of _.dropWhile(whileArray, (e) => (e<10))) {
+  whileSum += item;
+}
+_cut.isEqual("dropWhile() values", whileSum, 52);
+whileSum = 0;
+for (let item of _.dropWhile(whileArray, (e) => (e<30))) {
+  whileSum += item;
+}
+_cut.isEqual("dropWhile() empty list", whileSum, 0);
+whileSum = 0;
+for (let item of _.dropWhile(whileArray, (e) => (e<0))) {
+  whileSum += item;
+}
+_cut.isEqual("dropWhile() full list", whileSum, 72);
 
 }());
