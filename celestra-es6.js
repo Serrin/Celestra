@@ -1,9 +1,9 @@
 /**
  * @name Celestra ES6 extension
- * @version 2.7.0
+ * @version 2.7.1
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.7.0
+ * Minimal required Celestra version: 2.7.1
  */
 
 (function(window, celestra){
@@ -13,6 +13,15 @@
 
 if (!window.GeneratorFunction) {
   window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
+}
+
+if (!String.prototype.matchAll) {
+  String.prototype.matchAll = function* (regex) {
+    function ef (fls, fl) { return (fls.includes(fl) ? fls : fls + fl); }
+    const lc = new RegExp(regex, ef(regex.flags, "g"));
+    let match;
+    while (match = lc.exec(this)) { yield match; }
+  };
 }
 
 /* functions */

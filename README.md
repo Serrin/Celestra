@@ -13,16 +13,16 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
  
-Latest version: 2.7.0
+Latest version: 2.7.1
 
-Date: 2019-04-27T19:58:32.537Z
+Date: 2019-05-16T19:27:43.857Z
 
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (50708 bytes)
+Development version: celestra.js (50917 bytes)
 
-Minimal version: celestra.min.js (38431 bytes)
+Minimal version: celestra.min.js (38604 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -47,9 +47,9 @@ Demo plugin source: celestra-demo-plugin.js
 
 ### Celestra ES6 extension (ES6E)
 
-Development version: celestra-es6.js (2641 bytes)
+Development version: celestra-es6.js (2938 bytes)
 
-Minimal version: celestra-es6.min.js (1929 bytes)
+Minimal version: celestra-es6.min.js (2161 bytes)
 
 
 ### Celestra Unit Tester (CUT)
@@ -317,6 +317,7 @@ Name | Description
 `window.screenLeft` | The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity.
 `window.screenTop` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
 `globalThis` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
+`RegExp.prototype.flags` | The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy").
 
 
 ### Celestra ES6 extension (ES6E)
@@ -331,6 +332,7 @@ If the extension (`celestra-es6.js` or `celestra-es6.min.js`) has been loaded to
 Name | Description
 ---- | -----------
 `GeneratorFunction();` | `Only in ES6` The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the `window` object.
+`String.prototype.matchAll()` | `Only in ES6` The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 
 
 #### Celestra ES6 extension functions

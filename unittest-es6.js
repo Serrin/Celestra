@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.7.0 ES6E testcases
+// Celestra v2.7.1 ES6E testcases
 
 _cut.addElement("h3", "ES6 extension");
 
@@ -13,6 +13,20 @@ let sum = "";
 for (let x of testGenFn(3)) { sum += x; }
 _cut.isEqual("GeneratorFunction()", "912", sum);
 
+
+const regexp = RegExp('foo*','g');
+const str = 'table football, foosball';
+let matches1 = str.matchAll(regexp);
+let resMatchAll1 = "";
+for (const item of matches1) { resMatchAll1 += item; }
+// "foofoo"
+let matches2 = str.matchAll(regexp);
+let resMatchAll2 = JSON.stringify(Array.from(matches2, m => m[0]));
+//  "[\"foo\",\"foo\"]"
+_cut.isTrue(
+  "String.prototype.matchAll()",
+  (resMatchAll1 === "foofoo" && resMatchAll2 === "[\"foo\",\"foo\"]")
+);
 
 _cut.addElement("h4", "ES6 extension functions");
 

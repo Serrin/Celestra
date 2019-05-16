@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.7.0
+ * @version 2.7.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -529,6 +529,13 @@ if (!("screenTop" in window)) { window.screenTop = window.screenY; }
     }
   }
 })(typeof this === "object" ? this : Function("return this")());
+
+if (RegExp.prototype.flags === undefined) {
+  Object.defineProperty(RegExp.prototype, "flags", {
+    configurable: true,
+    get: function () { return this.toString().match(/[gimsuy]*$/)[0]; }
+  });
+}
 
 /* Number ES6 */
 
@@ -1554,7 +1561,7 @@ function arrayMerge () {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.7.0";
+celestra.version = "Celestra v2.7.1";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;

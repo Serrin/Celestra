@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.7.0 testcases
+// Celestra v2.7.1 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -1642,6 +1642,11 @@ _cut.isTrue("window.screenLeft present", ("screenLeft" in window));
 _cut.isTrue("window.screenTop present", ("screenTop" in window));
 
 _cut.isEqual("globalThis", window, globalThis);
+
+_cut.isTrue(
+  "RegExp.prototype.flags",
+  (/foo/ig.flags === "gi" && /bar/mig.flags === "gim")
+);
 
 
 /* Object.fromEntries() */
