@@ -13,16 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
  
-Latest version: 2.7.1
+Latest version: 2.7.2
 
-Date: 2019-05-16T19:27:43.857Z
-
+Date: 2019-07-12T19:16:04.391Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (50917 bytes)
+Development version: celestra.js (51174 bytes)
 
-Minimal version: celestra.min.js (38604 bytes)
+Minimal version: celestra.min.js (38835 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -47,9 +46,9 @@ Demo plugin source: celestra-demo-plugin.js
 
 ### Celestra ES6 extension (ES6E)
 
-Development version: celestra-es6.js (2938 bytes)
+Development version: celestra-es6.js (3096 bytes)
 
-Minimal version: celestra-es6.min.js (2161 bytes)
+Minimal version: celestra-es6.min.js (2279 bytes)
 
 
 ### Celestra Unit Tester (CUT)
@@ -138,6 +137,7 @@ Name | Description
 `domShow(<element>[,display]);` | Show an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).
 `domHide(<element>);` | Hide an element. The element is mandatory and has to be a HTML element.
 `domToggle(<element>[,display]);` | Show or hide an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).
+`domIsHidden(<element>);` | This function determines whether the element is hidden. The element is mandatory and has to be a HTML element. The return value is boolean.
 `domOn(<eventTarget>,<eventType>,<callback>);` | Add a callback to the eventType of the eventTarget.
 `domOff(<eventTarget>,<eventType>,<callback>);` | Remove a callback to the eventType of the eventTarget.
 `domTrigger(<eventTarget>,<eventType>);` | Trigger an eventType of the eventTarget.
@@ -206,6 +206,7 @@ Name | Description
 `isDate(<value>);` | This function determines whether the provided value is a date. The return value is boolean.
 `isRegexp(<value>);` | This function determines whether the provided value is a regexp. The return value is boolean.
 `isElement(<value>);` | This function determines whether the provided value is a HTML element. The return value is boolean.
+`isBigInt(<value>);` | This function determines whether the provided value is a BigInt. The return value is boolean.
 
 
 ### Cookie functions
@@ -255,7 +256,7 @@ Name | Description
 `arrayRemove(<array>,<value>);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
-`item(<collection>,<index>);` | Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers. __Tip: This function uses the `Array.from()` if the collection parameter isn't an array. It can be slow, when more items are requested with this function. In this case please convert the collection with the `Array.from()` instead of usage this function!__
+`item(<collection>,<index>);` | Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers. __Tip1: This function uses the `Array.from()` if the collection parameter isn't an array. It can be slow, when more items are requested with this function. In this case please convert the collection with the `Array.from()` instead of usage this function!__ __Tip2: From the v2.7.2 the function `itemOf(<collection>,<index>);` is available in the ES6E.__
 `arrayMerge([deep,]<target>,<source1>, ...sources);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
 
 
@@ -344,6 +345,7 @@ Name | Description
 `iterRange([start[,step[,end]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
 `iterCycle(<iter>[,n]);` | `Only in ES6` Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRepeat(<value>[,n]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity
+`itemOf(<collection>,<index>);` | This function is the faster ES6 version of the `item(<collection>,<index>);` and uses the `for...of` loop instead of the `Array.from()`, but cannot handle negative index values. The collection parameter is mandatory. The index is mandatory and has to be an integer. The return value is the item on the index or undefined. Compatible with the Unicode strings.
 `forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value.__
 `mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.__
 `filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). 

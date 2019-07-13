@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.7.1</p>
-<p>Date: 2019-05-16T19:27:43.857Z</p>
+<p>Latest version: 2.7.2</p>
+<p>Date: 2019-07-12T19:16:04.391Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (50917 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38604 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51174 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38835 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -82,8 +82,8 @@
 
 <h3>Celestra ES6 extension (ES6E)</h3>
 
-<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (2938 bytes)</p>
-<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (2161 bytes)</p>
+<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (3096 bytes)</p>
+<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (2279 bytes)</p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
@@ -402,6 +402,10 @@
       <td>Show or hide an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).</td>
     </tr>
     <tr>
+      <td><code>domIsHidden(&#60;element&#62;);</code></td>
+      <td>This function determines whether the element is hidden. The element is mandatory and has to be a HTML element. The return value is boolean.</td>
+    </tr>
+    <tr>
       <td><code>domOn(&#60;eventTarget&#62;,&#60;eventType&#62;,&#60;callback&#62;);</code></td>
       <td>Add a callback to the eventType of the eventTarget.</td>
     </tr>
@@ -612,6 +616,10 @@
         </p>
       </td>
     </tr>
+    <tr>
+      <td><code>isBigInt(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is a BigInt. The return value is boolean.    </td>
+    </tr>
   </table>
 </div>
 
@@ -801,7 +809,8 @@
       <td><code>item(&#60;collection&#62;,&#60;index&#62;);</code></td>
       <td>
         <p>Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers.</p>
-        <p><span class="info">Tip: This function uses the <code>Array.from()</code> if the collection parameter isn't an array. It can be slow, when more items are requested with this function. In this case please convert the collection with the <code>Array.from()</code> instead of usage this function!</span></p>
+        <p><span class="info">Tip1: This function uses the <code>Array.from()</code> if the collection parameter isn't an array. It can be slow, when more items are requested with this function. In this case please convert the collection with the <code>Array.from()</code> instead of usage this function!</span></p>
+        <p><span class="info">Tip2: From the v2.7.2 the function <code>itemOf(&#60;collection&#62;,&#60;index&#62;);</code> is available in the ES6E.</span></p>
       </td>
     </tr>
     <tr>
@@ -1142,6 +1151,12 @@
       <td>Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</td>
     </tr>
     <tr>
+      <td><code>itemOf(&#60;collection&#62;,&#60;index&#62;);</code></td>
+      <td>
+        <p>This function is the faster ES6 version of the <code>item(&#60;collection&#62;,&#60;index&#62;);</code> and uses the <code>for...of</code> loop instead of the <code>Array.from()</code>, but cannot handle negative index values. The collection parameter is mandatory. The index is mandatory and has to be an integer. The return value is the item on the index or undefined. Compatible with the Unicode strings.</p>
+      </td>
+    </tr>
+    <tr>
       <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
         <p>This function is the faster, ES6 variant of the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</p>
@@ -1167,31 +1182,30 @@
     <tr>
       <td><code>takeOf(&#60;collection&#62;,&#60;n&#62;);</code></td>
       <td>
-        <p>Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
+        Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
       </td>
     </tr>
     <tr>
       <td><code>takeWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
-        <p>Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+        Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
       </td>
     </tr>
     <tr>
       <td><code>dropOf(&#60;collection&#62;,&#60;n&#62;);</code></td>
       <td>
-        <p>Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.</p>
+        Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
       </td>
     </tr>
     <tr>
       <td><code>dropWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
-        <p>Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+        Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
       </td>
     </tr>
     <tr>
       <td><code>isGenerator(&#60;value&#62;);</td>
-      <td>This function determines whether the provided value is a generator function. The return value is boolean.</p>
-      </td>
+      <td>This function determines whether the provided value is a generator function. The return value is boolean.</td>
     </tr>
   </table>
 </div>

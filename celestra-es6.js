@@ -1,9 +1,9 @@
 /**
  * @name Celestra ES6 extension
- * @version 2.7.1
+ * @version 2.7.2
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.7.1
+ * Minimal required Celestra version: 2.7.2
  */
 
 (function(window, celestra){
@@ -95,7 +95,7 @@ const mapOf = function* mapOf (it, fn) {
 const filterOf = function* filterOf (it, fn) {
   let i = 0;
   for (let item of it) {
-    if (fn(item,i++)) { yield item; }
+    if (fn(item, i++)) { yield item; }
   }
 };
 
@@ -108,6 +108,13 @@ const sliceOf = function* sliceOf (it, begin = 0, end = Infinity) {
       return;
     }
     i++;
+  }
+};
+
+const itemOf = function itemOf (it, p) {
+  let i = 0;
+  for (let item of it) {
+    if (i++ === p) { return item; }
   }
 };
 
@@ -128,6 +135,7 @@ celestra.forOf = forOf;
 celestra.mapOf = mapOf;
 celestra.filterOf = filterOf;
 celestra.sliceOf = sliceOf;
+celestra.itemOf = itemOf;
 celestra.isGenerator = isGenerator;
 
 }(window, celestra));

@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.7.1 ES6E testcases
+// Celestra v2.7.2 ES6E testcases
 
 _cut.addElement("h3", "ES6 extension");
 
@@ -268,5 +268,36 @@ for (let item of _.dropWhile(whileArray, (e) => (e<0))) {
   whileSum += item;
 }
 _cut.isEqual("dropWhile() full list", whileSum, 72);
+
+_cut.isEqual(
+  "itemOf() string unicode",
+  _.itemOf("foo \uD834\uDF06 bar", 4)
+    + _.itemOf("foo \uD834\uDF06 bar", 8)
+    + _.itemOf("foo \uD834\uDF06 bar", 12),
+  "\uD834\uDF06" + "r" + "undefined"
+);
+let itemOfArray = [4,5,6,7,8];
+_cut.isEqual(
+  "itemOf() array",
+  "" +
+    _.itemOf(itemOfArray, 3)
+    + _.itemOf(itemOfArray, 12),
+  "7" + "undefined"
+);
+let itemOfMap = new Map([ ["a",1], ["b",2], ["c",3] ]);
+_cut.isEqual(
+  "itemOf() map",
+  JSON.stringify( _.itemOf(itemOfMap, 1) )
+    + _.itemOf(itemOfMap, 12),
+  "[\"b\",2]" + "undefined"
+);
+let itemOfSet = new Set([3,3,4,5,5,6,7,7,8]);
+_cut.isEqual(
+  "itemOf() set",
+  "" +
+    JSON.stringify( _.itemOf(itemOfSet, 3) )
+    + _.itemOf(itemOfSet, 12),
+  "6" + "undefined"
+);
 
 }());

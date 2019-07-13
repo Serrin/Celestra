@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.7.1
+ * @version 2.7.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -10,11 +10,11 @@
 /* Celestra FP */
 
 /*-----------------+------+-----------------------------------
-  Function         |   #  |  Inner calls
+  Function         |   #  |  Internal calls
 -------------------+------+-----------------------------------
-  CTRL-F           |   N  |  __toArray__()
+  __toArray__()    |   N  |  CTRL-F
   importScripts()  |   2  |  importScript(), importScript()
-  importStyles()   |   2  |  importStyle(),  importStyle()
+  importStyles()   |   2  |  importStyle(), importStyle()
   domFadeToggle()  |   2  |  domFadeIn(), domFadeOut()
   arrayMerge()     |   1  |  arrayMerge()
   extend()         |   1  |  extend()
@@ -449,7 +449,7 @@ if (!String.fromCodePoint) {
       while (++index < length) {
         var codePoint = Number(arguments[index]);
         if (!isFinite(codePoint) || codePoint < 0 ||
-            codePoint > 0x10FFFF || floor(codePoint) != codePoint
+          codePoint > 0x10FFFF || floor(codePoint) != codePoint
         ) { throw RangeError("Invalid code point: " + codePoint); }
         if (codePoint <= 0xFFFF) {
           codeUnits.push(codePoint);
@@ -487,7 +487,7 @@ if (!String.prototype.codePointAt) {
       } catch(error) {}
       return result;
     }());
-    var codePointAt = function(position) {
+    var codePointAt = function (position) {
       if (this == null) { throw TypeError(); }
       var string = String(this);
       var size = string.length;
@@ -675,7 +675,7 @@ function qsa (s, c) { return Array.from((c || document).querySelectorAll(s)); }
 function qs (s, c) { return (c || document).querySelector(s); }
 
 function domReady (fn) {
-  if (document.readyState!=="loading") {
+  if (document.readyState !== "loading") {
     fn();
   } else {
     document.addEventListener("DOMContentLoaded", function (event) { fn(); });
@@ -772,7 +772,7 @@ function importStyle (h, s) {
 
 function importStyles (s) {
   if (Array.isArray(s)) {
-      s.forEach(function (e) { celestra.importStyle(e.href, e.success); });
+    s.forEach(function (e) { celestra.importStyle(e.href, e.success); });
   } else {
     Array.prototype.forEach.call(
       arguments, function (e) { celestra.importStyle(e); }
@@ -1021,8 +1021,8 @@ var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 function constant (v) { return function () { return v; }; }
 function identity (v) { return v; }
 function noop () {}
-function T () { return true; }
-function F () { return false; }
+function T () { return !0; }
+function F () { return !1; }
 
 /* DOM */
 
@@ -1108,6 +1108,12 @@ function domToggle (e, d) {
   } else {
     e.style.display = "none";
   }
+}
+
+function domIsHidden (e) {
+  return ((window.getComputedStyle
+    ? getComputedStyle(e, null)
+    : e.currentStyle).display === "none");
 }
 
 function domOn (el, et, fn) { return el.addEventListener(et, fn); }
@@ -1242,8 +1248,10 @@ function isNumber (v) { return typeof v === "number"; }
 var isInteger = Number.isInteger;
 function isFloat (v) { return typeof v === "number" && !!(v % 1); }
 function isNumeric (v) {
-  return ( (typeof v === "number" && v === v) ? true : (!isNaN(parseFloat(v))
-    && isFinite(v)) );
+  return ((typeof v === "number" && v === v)
+    ? true
+    : (!isNaN(parseFloat(v)) && isFinite(v))
+  );
 }
 
 function isBoolean (v) { return typeof v === "boolean"; }
@@ -1317,14 +1325,15 @@ function isElement (v) { return typeof v === "object" && v.nodeType === 1; }
 
 function isIterable (v) { return (!!v[Symbol.iterator]); }
 
+function isBigInt (v) { return (typeof v === "bigint"); }
+
 /* cookie */
 
 function setCookie (name, value, hours, path, domain, secure, HttpOnly) {
   if (!hours) { var hours = 8760; } // 1 year
   var expire = new Date();
   expire.setTime(expire.getTime()+(Math.round(hours*60*60*1000)));
-  document.cookie =
-    encodeURIComponent(name)
+  document.cookie = encodeURIComponent(name)
     + "="
     + encodeURIComponent(value)
     + "; expires="+expire.toUTCString()
@@ -1353,8 +1362,7 @@ function hasCookie (name) {
 
 function removeCookie (name, path, domain, secure, HttpOnly) {
   var r = (document.cookie.indexOf(encodeURIComponent(name)+"=") !== -1);
-  document.cookie =
-    encodeURIComponent(name)
+  document.cookie = encodeURIComponent(name)
     + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
     + "; path=" + (path ? path : "/")
     + (domain ? "; domain=" + domain : "")
@@ -1488,8 +1496,7 @@ function maxIndex (a) {
 }
 
 function range (start, end, step) {
-  var
-    i = Number(start),
+  var i = Number(start),
     end2 = Number(end),
     step2 = (step !== undefined ? Number(step) : 1),
     res = [];
@@ -1525,7 +1532,7 @@ function arrayRemove (a, v, all) {
     if (pos !== -1) { a.splice(pos, 1); }
   } else {
     var pos = -1;
-    while ( (pos = a.indexOf(v)) !== -1 ) { a.splice(pos, 1); }
+    while ((pos = a.indexOf(v)) !== -1) { a.splice(pos, 1); }
   }
   return found;
 }
@@ -1561,14 +1568,14 @@ function arrayMerge () {
 
 var celestra = {};
 
-celestra.version = "Celestra v2.7.1";
+celestra.version = "Celestra v2.7.2";
 
 celestra.noConflict = function noConflict () {
   window._ = celestra.__prevUnderscore__;
   return celestra;
 };
 
-/* Only for inner use. If needed can be replaced with the "Array.from();". */
+/* Only for internal use. If needed can be replaced with the "Array.from();". */
 celestra.__toArray__ = function __toArray__ (a) {
   return (Array.isArray(a) ? a : Array.from(a));
 };
@@ -1626,6 +1633,7 @@ celestra.domFadeToggle = domFadeToggle;
 celestra.domHide = domHide;
 celestra.domShow = domShow;
 celestra.domToggle = domToggle;
+celestra.domIsHidden = domIsHidden;
 celestra.domOn = domOn;
 celestra.domOff = domOff;
 celestra.domTrigger = domTrigger;
@@ -1667,6 +1675,7 @@ celestra.isDate = isDate;
 celestra.isRegexp = isRegexp;
 celestra.isElement = isElement;
 celestra.isIterable = isIterable;
+celestra.isBigInt = isBigInt;
 /* cookie */
 celestra.setCookie = setCookie;
 celestra.getCookie = getCookie;

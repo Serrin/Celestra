@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.7.1 testcases
+// Celestra v2.7.2 testcases
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -12,7 +12,7 @@ _cut.addElement("h3", "Celestra ES6 extension");
 _cut.addElement(
   _.domCreate(
     "button", {
-      onclick: function () { _.importScript("celestra-es6.min.js"); } 
+      onclick: function () { _.importScript("celestra-es6.min.js"); }
     },
     "Load celestra-es6.min.js"
   )
@@ -23,7 +23,7 @@ _cut.addElement("br");
 _cut.addElement(
   _.domCreate(
     "button", {
-      onclick: function () { _.importScript("celestra-es6.js"); } 
+      onclick: function () { _.importScript("celestra-es6.js"); }
     },
     "Load celestra-es6.js"
   )
@@ -34,11 +34,12 @@ _cut.addElement("br");
 _cut.addElement(
   _.domCreate(
     "button", {
-      onclick: function () { _.importScript("unittest-es6.js"); } 
+      onclick: function () { _.importScript("unittest-es6.js"); }
     },
     "Load unittest-es6.js"
   )
 );
+
 
 
 /* Not tested functions */
@@ -1215,6 +1216,11 @@ _cut.isEqual("domToggle() hide inline-block", "none", _.domGetCSS(domTestElement
 _.domToggle(domTestElement, "inline-block");
 _cut.isEqual("domHide() show inline-block", "inline-block", _.domGetCSS(domTestElement, "display") );
 
+_.domShow(domTestElement);
+_cut.isFalse("domIsHidden() false", _.domIsHidden(domTestElement) );
+_.domHide(domTestElement);
+_cut.isTrue("domIsHidden() true", _.domIsHidden(domTestElement) );
+
 var domTestVar = 33;
 function domTestElementClick1 () { domTestVar = 42; }
 function domTestElementClick2 () { domTestVar = 56; }
@@ -1264,7 +1270,7 @@ _cut.addElement("h3", "polyfills");
 if (_cut.isNotIE11()) {
   var vstr = "";
   var vstrit = ["X","Y","Z","X"].values();
-  vstr += vstrit.next().value 
+  vstr += vstrit.next().value
     + vstrit.next().value
     + vstrit.next().value
     + vstrit.next().value;
@@ -2031,7 +2037,6 @@ if (_cut.isNotIE11()) {
   );
 }
 
-
 /* ES6 type checking */
 if (_cut.isNotIE11()) {
   _cut.addElement("h4", "ES6 type checking");
@@ -2092,6 +2097,15 @@ if (_cut.isNotIE11()) {
       || _.isIterable(true)
       || _.isIterable(false)
   );
+  if (!!window.BigInt) {
+    _cut.isTrue(
+      "<b>ES6 -</b> isBigInt() true",
+      _.isBigInt(BigInt(9007199254740991) + BigInt(5))
+    );
+    _cut.isFalse("<b>ES6 -</b> isBigInt() false 1", _.isBigInt(9007199254740990));
+    _cut.isFalse("<b>ES6 -</b> isBigInt() false 2", _.isBigInt(3.14));
+    _cut.isFalse("<b>ES6 -</b> isBigInt() false 3", _.isBigInt("Arthur Dent"));
+  }
 }
 
 
