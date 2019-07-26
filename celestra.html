@@ -16,7 +16,7 @@
 </script>
 <script src="celestra.min.js"></script>
 <style>
- 
+
 #fsdiv { padding: 20px; }
 
 #eventtestarea {
@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.7.2</p>
-<p>Date: 2019-07-12T19:16:04.391Z</p>
+<p>Latest version: 2.8.0</p>
+<p>Date: 2019-07-25T19:23:55.682Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51174 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38835 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51759 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38868 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -260,7 +260,7 @@
     <tr>
       <td><code>createFile(&#60;filename&#62;,&#60;content&#62;[,dataType]);</code></td>
       <td>
-        <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
+        <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
         <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.</span></p>
       </td>
     </tr>
@@ -673,6 +673,16 @@
         <br/>The return value (boolean) is determines whether the cookie was set with the name before the removing.
       </td>
     </tr>
+    <tr>
+      <td><code>clearCookies([path[,domain[,secure[,HttpOnly]]]]);</code></td>
+      <td>
+        Clear all of the cookies.
+        <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
+        <br/>The domain is optional and can be a string.
+        <br/>The secure is optional and can be a boolean.
+        <br/>The HttpOnly is optional and can be a boolean.
+      </td>
+    </tr>
   </table>
 </div>
 
@@ -755,39 +765,69 @@
     </tr>
     <tr>
       <td><code>arrayKeys(&#60;collection>);</code></td>
-      <td>Returns the array of keys the given array/collection. The parameter will be converted to array, so the keys will be the keys of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.</td>
+      <td>Returns the array of keys the given array/collection. The parameter will be converted to array, so the keys will be the keys of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.</td>
     </tr>
     <tr>
       <td><code>arrayValues(&#60;collection&#62;);</code></td>
-      <td>Returns the array of values the given array/collection. The parameter will be converted to array, so the values will be the values of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.</td>
+      <td>Returns the array of values the given array/collection. The parameter will be converted to array, so the values will be the values of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.</td>
     </tr>
     <tr>
       <td><code>arrayEntries(&#60;collection&#62;);</code></td>
-      <td>Returns the array of pairs of keys and values the given array/collection. The parameter will be converted to array, so the pairs will be the keys and values of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.</td>
+      <td>Returns the array of pairs of keys and values the given array/collection. The parameter will be converted to array, so the pairs will be the keys and values of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.</td>
+    </tr>
+    <tr>
+      <td><code>isSuperset(&#60;superset&#62;,&#60;subset&#62;);</code></td>
+      <td>This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.</td>
     </tr>
     <tr>
       <td><code>min(&#60;collection&#62;);</code></td>
-      <td>Returns the minimum value of the given collection. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+      <td>Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
       <td><code>minIndex(&#60;collection&#62;);</code></td>
-      <td>Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+      <td>Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
       <td><code>max(&#60;collection&#62;);</code></td>
-      <td>Returns the maximum value of the given collection. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+      <td>Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
       <td><code>maxIndex(&#60;collection&#62;);</code></td>
-      <td>Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+      <td>Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+    </tr>
+    <tr>
+      <td><code>arrayCycle(&#60;collection&#62;[,n]);</code></td>
+      <td>Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the <code>for...of</code> loop, but works in the non-ES6 compatible browsers too.</td>
+    </tr>
+    <tr>
+      <td><code>arrayRepeat(&#60;value&#62;[,step]);</code></td>
+      <td>Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the <code>for...of</code> loop, but works in the non-ES6 compatible browsers too.</td>
     </tr>
     <tr>
       <td><code>range(&#60;start&#62;,&#60;end&#62;[,step]);</code></td>
+      <td>
+        <p><span class="deprecated"> DEPRECATED IN v2.8.0 </span></p>
+        <p>Returns the array of values between the start and end parameters. All of the parameters have to be a number. Usable with the <code>for...of</code> loop, but works in the non-ES6 compatible browsers too.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>arrayRange(&#60;start&#62;,&#60;end&#62;[,step]);</code></td>
       <td>Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Usable with the <code>for...of</code> loop, but works in the non-ES6 compatible browsers too.</td>
     </tr>
     <tr>
       <td><code>toPairs(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
-      <td>Returns the array of paired values of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.<br/>Example: <code>_.toPairs(["a","b","c","d"], [3,4,5,6,7,8,9]);</code> => <code>Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]</code></td>
+      <td>
+        <p><span class="deprecated"> DEPRECATED IN v2.8.0 </span></p>
+        <p>Returns the array of paired values of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.<br/>Example: <code>_.toPairs(["a","b","c","d"], [3,4,5,6,7,8,9]);</code> => <code>Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]</code></p>
+        </td>
+    </tr>
+    <tr>
+      <td><code>zip(&#60;collection1&#62;[,collectionN]);</code></td>
+      <td>Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. <br/>Example: <code>_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);</code> => <code>Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]</code></td>
+    </tr>
+    <tr>
+      <td><code>unzip(&#60;collection&#62;);</code></td>
+      <td>Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. <br/>Example: <code>_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);</code> => <code>Array (2) [ ["a","b","c","d"], [3,4,5,6] ]</code></td>
     </tr>
     <tr>
       <td><code>arrayClear(&#60;array&#62;);</code></td>
@@ -1142,13 +1182,13 @@
     <tr>
       <td><code>iterCycle(&#60;iter&#62;[,n]);</code></td>
       <td>
-        <p>Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</p>
+        <p>Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity</p>
         <p><code>Note: PLease don't use with infinite iterators!</code></p>
       </td>
     </tr>
     <tr>
       <td><code>iterRepeat(&#60;value&#62;[,n]);</code></td>
-      <td>Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity</td>
+      <td>Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity</td>
     </tr>
     <tr>
       <td><code>itemOf(&#60;collection&#62;,&#60;index&#62;);</code></td>

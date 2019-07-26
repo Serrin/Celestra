@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.7.2
+ * @version 2.8.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -9,9 +9,9 @@
 
 /* Celestra FP */
 
-/*-----------------+------+-----------------------------------
+/*-----------------+------+----------------------------------
   Function         |   #  |  Internal calls
--------------------+------+-----------------------------------
+-------------------+------+----------------------------------
   __toArray__()    |   N  |  CTRL-F
   importScripts()  |   2  |  importScript(), importScript()
   importStyles()   |   2  |  importStyle(), importStyle()
@@ -22,14 +22,23 @@
   getJson()        |   1  |  getAjax()
   getText()        |   1  |  getAjax()
   isEqual()        |   2  |  getType()
--------------------+------+---------------------------------*/
+  clearCookies()   |   2  |  getCookie(), removeCookie()
+-------------------+------+--------------------------------*/
 
 /* polyfills */
 
 if (!Array.from) {
   Array.from = function (o, fn) {
+    if (o == null) {
+      throw new TypeError("Array.from requires an array-like object - not null or undefined");
+    }
     var a = Array.prototype.slice.call(o);
-    if (fn) { return a.map(fn); }
+    if (fn) {
+      if (typeof fn !== "function") {
+        throw new TypeError("Array.from: when provided, the second argument must be a function");
+      }
+      return a.map(fn);
+    }
     return a;
   };
 }
@@ -92,30 +101,28 @@ if (!Array.prototype.fill) {
 
 if (!Array.prototype.includes) {
   Array.prototype.includes = function (v, f) {
-    if (!f) { var f = 0; }
     return (this.indexOf(v, f) > -1);
   };
 }
 
 if (!String.prototype.includes) {
   String.prototype.includes = function (v, f) {
-    if (!f) { var f = 0; }
     return (this.indexOf(v, f) > -1);
   };
 }
 
 if (!String.prototype.trimStart) {
-  String.prototype.trimStart = function () { return this.replace(/^\s+/,""); };
+  String.prototype.trimStart = function () { return this.replace(/^\s+/, ""); };
 }
 if (!String.prototype.trimLeft) {
-  String.prototype.trimLeft = function () { return this.replace(/^\s+/,""); };
+  String.prototype.trimLeft = function () { return this.replace(/^\s+/, ""); };
 }
 
 if (!String.prototype.trimEnd) {
-  String.prototype.trimEnd = function () { return this.replace(/\s+$/,""); };
+  String.prototype.trimEnd = function () { return this.replace(/\s+$/, ""); };
 }
 if (!String.prototype.trimRight) {
-  String.prototype.trimRight = function () { return this.replace(/\s+$/,""); };
+  String.prototype.trimRight = function () { return this.replace(/\s+$/, ""); };
 }
 
 if (!String.prototype.startsWith) {
@@ -720,7 +727,7 @@ function javaHash (s, hx) {
   if (l == 0) { return h; }
   for (var i = 0; i < l; i++) {
     c = s.charCodeAt(i);
-    h = ((h<<5)-h)+c;
+    h = ((h<<5) - h) + c;
     h = h & h;
   }
   if (hx) { return h.toString(16); }
@@ -900,16 +907,9 @@ function getLocation (s, e) {
 }
 
 function getDoNotTrack () {
-  return (
-    navigator.doNotTrack === true // FF
-    || navigator.doNotTrack === 1
-    || navigator.doNotTrack === "1"
-    || window.doNotTrack === true // IE11, EDGE, Safari 7.1.3+
-    || window.doNotTrack === 1
-    || window.doNotTrack === "1"
-    || navigator.msDoNotTrack === true // IE9-10
-    || navigator.msDoNotTrack === 1
-    || navigator.msDoNotTrack === "1"
+  return (!!window.doNotTrack
+    || !!navigator.doNotTrack
+    || !!navigator.msDoNotTrack
   );
 }
 
@@ -1123,9 +1123,9 @@ function domOff (el, et, fn) { return el.removeEventListener(et, fn); }
 function domTrigger (el, et) { return el[et](); }
 
 function domSiblings (el) {
-  return Array.prototype.filter.call(el.parentNode.children, function (e) {
-    return (e !== el);
-  });
+  return Array.prototype.filter.call(el.parentNode.children,
+    function (e) { return (e !== el); }
+  );
 }
 
 /* AJAX */
@@ -1268,13 +1268,10 @@ function isEmptyObject(v) {
 function isFunction (v) { return typeof v === "function"; }
 
 var isArray = Array.isArray;
-function isEmptyArray (v) {
-  if (Array.isArray(v)) { if (v.length === 0) { return true; } }
-  return false;
-}
+function isEmptyArray (v) { return (Array.isArray(v) && v.length === 0); }
 function isArraylike (v) {
-  return v
-    && typeof v === "object"
+  return !!v
+    && (typeof v === "object" || typeof v === "string")
     && typeof v.length === "number"
     && v.length >= 0
     && v.length % 1 === 0;
@@ -1372,6 +1369,12 @@ function removeCookie (name, path, domain, secure, HttpOnly) {
   return r;
 }
 
+function clearCookies (path, domain, secure, HttpOnly) {
+  for (var item in celestra.getCookie()) {
+    celestra.removeCookie(item, path, domain, secure, HttpOnly);
+  }
+}
+
 /* collections */
 
 function forEach (a, fn) {
@@ -1455,6 +1458,13 @@ function arrayEntries (a) {
   return Array.from(a).map(function (v, i) { return [i, v]; });
 }
 
+function isSuperset (sup, sub) {
+  var sup2 = celestra.__toArray__(sup);
+  return celestra.__toArray__(sub).every(
+    function (v) { return sup2.includes(v); }
+  );
+}
+
 function min (a) {
   var a2 = celestra.__toArray__(a);
   if (a2.length > 0) {
@@ -1495,7 +1505,16 @@ function maxIndex (a) {
   return null;
 }
 
-function range (start, end, step) {
+function arrayRepeat (v, n) {
+  return Array(arguments.length === 2 ? n : 100).fill(v);
+}
+
+function arrayCycle (a, n) {
+  var a2 = Array.from(a);
+  return Array(arguments.length === 2 ? n : 100).fill(a2).flat();
+}
+
+function arrayRange (start, end, step) {
   var i = Number(start),
     end2 = Number(end),
     step2 = (step !== undefined ? Number(step) : 1),
@@ -1504,11 +1523,40 @@ function range (start, end, step) {
   return res;
 }
 
+var range = arrayRange;
+
 function toPairs (a, b) {
   var a2 = Array.from(a), b2 = Array.from(b);
   var l = (a2.length < b2.length ? a2.length : b2.length);
   var res = [];
   for (var i = 0; i < l ; i++) { res.push([ a2[i], b2[i] ]); }
+  return res;
+}
+
+function zip () {
+  var arrays = [], res = [], i, j, l, item;
+  for (i = 0, l = arguments.length; i < l; i++) {
+    arrays.push(Array.from(arguments[i]));
+  }
+  var min = arrays[0].length;
+  for (i = 1, l = arrays.length; i < l; i++) {
+    if (arrays[i].length < min) { min = arrays[i].length; }
+  }
+  for (i = 0; i < min; i++) {
+    item = [];
+    for (j = 0; j < l; j++) { item.push(arrays[j][i]); }
+    res.push(item);
+  }
+  return res;
+}
+
+function unzip (a) {
+  var a2 = Array.from(a).map(function (v) { return Array.from(v); });
+  var res = [], i, j, l1 = a2[0].length, l2 = a2.length;
+  for (i = 0; i < l1; i++) { res.push([]); }
+  for (i = 0; i < l1; i++) {
+    for (j = 0; j < l2; j++) { res[i].push(a2[j][i]); }
+  }
   return res;
 }
 
@@ -1564,149 +1612,154 @@ function arrayMerge () {
   return t;
 }
 
-/* object header */
+/* object */
 
-var celestra = {};
-
-celestra.version = "Celestra v2.7.2";
-
-celestra.noConflict = function noConflict () {
+function noConflict () {
   window._ = celestra.__prevUnderscore__;
   return celestra;
-};
+}
 
 /* Only for internal use. If needed can be replaced with the "Array.from();". */
-celestra.__toArray__ = function __toArray__ (a) {
-  return (Array.isArray(a) ? a : Array.from(a));
+function __toArray__ (a) { return (Array.isArray(a) ? a : Array.from(a)); }
+
+var celestra = {
+  /* header */
+  version: "Celestra v2.8.0",
+  noConflict: noConflict,
+  __toArray__: __toArray__,
+  /* core api */
+  qsa: qsa,
+  qs: qs,
+  domReady: domReady,
+  random: random,
+  randomString: randomString,
+  b64Encode: b64Encode,
+  b64Decode: b64Decode,
+  javaHash: javaHash,
+  inherit: inherit,
+  importScript: importScript,
+  importScripts: importScripts,
+  importStyle: importStyle,
+  importStyles: importStyles,
+  getUrlVar: getUrlVar,
+  getUrlVarFromString: getUrlVarFromString,
+  obj2string: obj2string,
+  getType: getType,
+  extend: extend,
+  deepAssign: deepAssign,
+  getFullscreen: getFullscreen,
+  setFullscreenOn: setFullscreenOn,
+  setFullscreenOff: setFullscreenOff,
+  getLocation: getLocation,
+  getDoNotTrack: getDoNotTrack,
+  form2array: form2array,
+  form2string: form2string,
+  strRemoveTags: strRemoveTags,
+  strReverse: strReverse,
+  createFile: createFile,
+  forIn: forIn,
+  mapIn: mapIn,
+  toFunction: toFunction,
+  bind: bind,
+  hasOwn: hasOwn,
+  constant: constant,
+  identity: identity,
+  noop: noop,
+  T: T,
+  F: F,
+  /* DOM */
+  domCreate: domCreate,
+  domToElement: domToElement,
+  domGetCSS: domGetCSS,
+  domSetCSS: domSetCSS,
+  domFadeIn: domFadeIn,
+  domFadeOut: domFadeOut,
+  domFadeToggle: domFadeToggle,
+  domHide: domHide,
+  domShow: domShow,
+  domToggle: domToggle,
+  domIsHidden: domIsHidden,
+  domOn: domOn,
+  domOff: domOff,
+  domTrigger: domTrigger,
+  domSiblings: domSiblings,
+  /* AJAX */
+  getJson: getJson,
+  getText: getText,
+  getAjax: getAjax,
+  postAjax: postAjax,
+  getCors: getCors,
+  postCors: postCors,
+  /* type checking */
+  isEqual: isEqual,
+  isString: isString,
+  isChar: isChar,
+  isNumber: isNumber,
+  isInteger: isInteger,
+  isFloat: isFloat,
+  isNumeric: isNumeric,
+  isBoolean: isBoolean,
+  isObject: isObject,
+  isEmptyObject: isEmptyObject,
+  isFunction: isFunction,
+  isArray: isArray,
+  isEmptyArray: isEmptyArray,
+  isArraylike: isArraylike,
+  isNull: isNull,
+  isUndefined: isUndefined,
+  isNullOrUndefined: isNullOrUndefined,
+  isNil: isNil,
+  isPrimitive: isPrimitive,
+  isSymbol: isSymbol,
+  isMap: isMap,
+  isSet: isSet,
+  isWeakMap: isWeakMap,
+  isWeakSet: isWeakSet,
+  isIterator: isIterator,
+  isDate: isDate,
+  isRegexp: isRegexp,
+  isElement: isElement,
+  isIterable: isIterable,
+  isBigInt: isBigInt,
+  /* cookie */
+  setCookie: setCookie,
+  getCookie: getCookie,
+  hasCookie: hasCookie,
+  removeCookie: removeCookie,
+  clearCookies: clearCookies,
+  /* collections */
+  forEach: forEach,
+  map: map,
+  arrayUnion: arrayUnion,
+  arrayIntersection: arrayIntersection,
+  arrayDifference: arrayDifference,
+  arraySymmetricDifference: arraySymmetricDifference,
+  setUnion: setUnion,
+  setIntersection: setIntersection,
+  setDifference: setDifference,
+  setSymmetricDifference: setSymmetricDifference,
+  arrayKeys: arrayKeys,
+  arrayValues: arrayValues,
+  arrayEntries: arrayEntries,
+  isSuperset: isSuperset,
+  min: min,
+  minIndex: minIndex,
+  max: max,
+  maxIndex: maxIndex,
+  arrayRepeat: arrayRepeat,
+  arrayCycle: arrayCycle,
+  range: range,
+  arrayRange: arrayRange,
+  toPairs: toPairs,
+  zip: zip,
+  unzip: unzip,
+  uniqueArray: uniqueArray,
+  uniquePush: uniquePush,
+  arrayClear: arrayClear,
+  arrayRemove: arrayRemove,
+  item: item,
+  arrayMerge: arrayMerge
 };
-
-/* object content */
-
-/* core api */
-celestra.qsa = qsa;
-celestra.qs = qs;
-celestra.domReady = domReady;
-celestra.random = random;
-celestra.randomString = randomString;
-celestra.b64Encode = b64Encode;
-celestra.b64Decode = b64Decode;
-celestra.javaHash = javaHash;
-celestra.inherit = inherit;
-celestra.importScript = importScript;
-celestra.importScripts = importScripts;
-celestra.importStyle = importStyle;
-celestra.importStyles = importStyles;
-celestra.getUrlVar = getUrlVar;
-celestra.getUrlVarFromString = getUrlVarFromString;
-celestra.obj2string = obj2string;
-celestra.getType = getType;
-celestra.extend = extend;
-celestra.deepAssign = deepAssign;
-celestra.getFullscreen = getFullscreen;
-celestra.setFullscreenOn = setFullscreenOn;
-celestra.setFullscreenOff = setFullscreenOff;
-celestra.getLocation = getLocation;
-celestra.getDoNotTrack = getDoNotTrack;
-celestra.form2array = form2array;
-celestra.form2string = form2string;
-celestra.strRemoveTags = strRemoveTags;
-celestra.strReverse = strReverse;
-celestra.createFile = createFile;
-celestra.forIn = forIn;
-celestra.mapIn = mapIn;
-celestra.toFunction = toFunction;
-celestra.bind = bind;
-celestra.hasOwn = hasOwn;
-celestra.constant = constant;
-celestra.identity = identity;
-celestra.noop = noop;
-celestra.T = T;
-celestra.F = F;
-/* DOM */
-celestra.domCreate = domCreate;
-celestra.domToElement = domToElement;
-celestra.domGetCSS = domGetCSS;
-celestra.domSetCSS = domSetCSS;
-celestra.domFadeIn = domFadeIn;
-celestra.domFadeOut = domFadeOut;
-celestra.domFadeToggle = domFadeToggle;
-celestra.domHide = domHide;
-celestra.domShow = domShow;
-celestra.domToggle = domToggle;
-celestra.domIsHidden = domIsHidden;
-celestra.domOn = domOn;
-celestra.domOff = domOff;
-celestra.domTrigger = domTrigger;
-celestra.domSiblings = domSiblings;
-/* AJAX */
-celestra.getJson = getJson;
-celestra.getText = getText;
-celestra.getAjax = getAjax;
-celestra.postAjax = postAjax;
-celestra.getCors = getCors;
-celestra.postCors = postCors;
-/* type checking */
-celestra.isEqual = isEqual;
-celestra.isString = isString;
-celestra.isChar = isChar;
-celestra.isNumber = isNumber;
-celestra.isInteger = isInteger;
-celestra.isFloat = isFloat;
-celestra.isNumeric = isNumeric;
-celestra.isBoolean = isBoolean;
-celestra.isObject = isObject;
-celestra.isEmptyObject = isEmptyObject;
-celestra.isFunction = isFunction;
-celestra.isArray = isArray;
-celestra.isEmptyArray = isEmptyArray;
-celestra.isArraylike = isArraylike;
-celestra.isNull = isNull;
-celestra.isUndefined = isUndefined;
-celestra.isNullOrUndefined = isNullOrUndefined;
-celestra.isNil = isNil;
-celestra.isPrimitive = isPrimitive;
-celestra.isSymbol = isSymbol;
-celestra.isMap = isMap;
-celestra.isSet = isSet;
-celestra.isWeakMap = isWeakMap;
-celestra.isWeakSet = isWeakSet;
-celestra.isIterator = isIterator;
-celestra.isDate = isDate;
-celestra.isRegexp = isRegexp;
-celestra.isElement = isElement;
-celestra.isIterable = isIterable;
-celestra.isBigInt = isBigInt;
-/* cookie */
-celestra.setCookie = setCookie;
-celestra.getCookie = getCookie;
-celestra.hasCookie = hasCookie;
-celestra.removeCookie = removeCookie;
-/* collections */
-celestra.forEach = forEach;
-celestra.map = map;
-celestra.arrayUnion = arrayUnion;
-celestra.arrayIntersection = arrayIntersection;
-celestra.arrayDifference = arrayDifference;
-celestra.arraySymmetricDifference = arraySymmetricDifference;
-celestra.setUnion = setUnion;
-celestra.setIntersection = setIntersection;
-celestra.setDifference = setDifference;
-celestra.setSymmetricDifference = setSymmetricDifference;
-celestra.arrayKeys = arrayKeys;
-celestra.arrayValues = arrayValues;
-celestra.arrayEntries = arrayEntries;
-celestra.min = min;
-celestra.minIndex = minIndex;
-celestra.max = max;
-celestra.maxIndex = maxIndex;
-celestra.range = range;
-celestra.toPairs = toPairs;
-celestra.uniqueArray = uniqueArray;
-celestra.uniquePush = uniquePush;
-celestra.arrayClear = arrayClear;
-celestra.arrayRemove = arrayRemove;
-celestra.item = item;
-celestra.arrayMerge = arrayMerge;
 
 /* AMD loader */
 if (typeof define === "function" && define.amd) {

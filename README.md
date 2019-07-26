@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
  
-Latest version: 2.7.2
+Latest version: 2.8.0
 
-Date: 2019-07-12T19:16:04.391Z
+Date: 2019-07-30T19:23:55.682Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (51174 bytes)
+Development version: celestra.js (51759 bytes)
 
-Minimal version: celestra.min.js (38835 bytes)
+Minimal version: celestra.min.js (38868 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -104,7 +104,7 @@ Name | Description
 `form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
 `strRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
-`createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can to be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.___
+`createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.___
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
@@ -221,6 +221,7 @@ Name | Description
 `getCookie([name]);` | Get a cookie value or all cookies in an object. With the name parameter (string) the return value is the current cookie value or null. Without the parameter the return value is an object with the values or an empty object.
 `hasCookie(<name>);` | This function determines whether the cookie is set with the name. The return value is boolean.
 `removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` | Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
+`clearCookies([path[,domain[,secure[,HttpOnly]]]]);` | Clear all of the cookies. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. 
 
 
 ### Collections
@@ -243,15 +244,21 @@ Name | Description
 `setIntersection(<set1>,<set2>);` | `ES6` Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
 `setDifference(<set1>,<set2>);` | `ES6` Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.
 `setSymmetricDifference(<set1>,<set2>);` | `ES6` Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
-`arrayKeys(<collection>);` | Returns the array of keys the given array/collection. The parameter will be converted to array, so the keys will be the keys of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.
-`arrayValues(<collection>);` | Returns the array of values the given array/collection. The parameter will be converted to array, so the values will be the values of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.
-`arrayEntries(<collection>);` | Returns the array of pairs of keys and values the given array/collection. The parameter will be converted to array, so the pairs will be the keys and values of converted array. The connection parameter is mandatory and can be any type of JavaScript collections.
-`min(<collection>);` | Returns the minimum value of the given collection. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`minIndex(<collection>);` | Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`max(<collection>);` | Returns the maximum value of the given collection. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`maxIndex(<collection>);` | Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The connection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`range(<start>,<end>[,step]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
-`toPairs(<collection1>,<collection2>);` | Returns the array of paired values of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array. Example: `_.toPairs(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
+`arrayKeys(<collection>);` | Returns the array of keys the given array/collection. The parameter will be converted to array, so the keys will be the keys of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.
+`arrayValues(<collection>);` | Returns the array of values the given array/collection. The parameter will be converted to array, so the values will be the values of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.
+`arrayEntries(<collection>);` | Returns the array of pairs of keys and values the given array/collection. The parameter will be converted to array, so the pairs will be the keys and values of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.
+`isSuperset(<superset>,<subset>);` | This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
+`min(<collection>);` | Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`minIndex(<collection>);` | Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`max(<collection>);` | Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`maxIndex(<collection>);` | Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
+`arrayRepeat(<value>[,n]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
+`range(<start>,<end>[,step]);` | __DEPRECATED IN v2.8.0__ Returns the array of values between the start and end parameters. All of the parameters have to be a number. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
+`arrayRange(<start>,<end>[,step]);` | Returns the array of values between the start and end parameters. All of the parameters have to be a number. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
+`toPairs(<collection1>,<collection2>);` | __DEPRECATED IN v2.8.0__ Returns the array of paired values of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array. Example: `_.toPairs(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
+`zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array. Example: `_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
+`unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. Example: `_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);` => `Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
 `arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
 `arrayRemove(<array>,<value>);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
@@ -343,8 +350,8 @@ Example: `_.iterRange()`
 Name | Description
 ---- | -----------
 `iterRange([start[,step[,end]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
-`iterCycle(<iter>[,n]);` | `Only in ES6` Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
-`iterRepeat(<value>[,n]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can to be an integer. Default parameter value: n = Infinity
+`iterCycle(<iter>[,n]);` | `Only in ES6` Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
+`iterRepeat(<value>[,n]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
 `itemOf(<collection>,<index>);` | This function is the faster ES6 version of the `item(<collection>,<index>);` and uses the `for...of` loop instead of the `Array.from()`, but cannot handle negative index values. The collection parameter is mandatory. The index is mandatory and has to be an integer. The return value is the item on the index or undefined. Compatible with the Unicode strings.
 `forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value.__
 `mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.__

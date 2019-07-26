@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-// Celestra v2.7.2 testcases
+/* Celestra v2.8.0 testcases */
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -22,9 +22,8 @@ _cut.addElement("br");
 
 _cut.addElement(
   _.domCreate(
-    "button", {
-      onclick: function () { _.importScript("celestra-es6.js"); }
-    },
+    "button",
+    { onclick: function () { _.importScript("celestra-es6.js"); } },
     "Load celestra-es6.js"
   )
 );
@@ -33,9 +32,8 @@ _cut.addElement("br");
 
 _cut.addElement(
   _.domCreate(
-    "button", {
-      onclick: function () { _.importScript("unittest-es6.js"); }
-    },
+    "button",
+    { onclick: function () { _.importScript("unittest-es6.js"); } },
     "Load unittest-es6.js"
   )
 );
@@ -101,52 +99,38 @@ _cut.addElement(
   )
 );
 
-_cut.isEqual(
-  "qs() selector",
+_cut.isEqual("qs() selector",
   document.querySelector("#qsaDivTestElement"),
   _.qs("#qsaDivTestElement")
 );
 
-_cut.isEqual(
-  "qs() selector + element 1",
+_cut.isEqual("qs() selector + element 1",
   document.querySelector("#qsaDivP1"),
   _.qs("#qsaDivP1", _.qs("#qsaDivTestElement"))
 );
 
-_cut.isEqual(
-  "qs() selector + element 2",
+_cut.isEqual("qs() selector + element 2",
   document.querySelector("#qsaDivP1"),
   _.qs("#qsaDivP1", document.querySelector("#qsaDivTestElement") )
 );
 
 var testQsa1 = _.qsa("#qsaDivTestElement > p")
-_cut.isEqual(
+_cut.isTrue(
   "qsa() selector",
-  true,
-  Array.isArray(testQsa1) &&
-    testQsa1.length === 2 &&
-    testQsa1[0] === _.qs("#qsaDivP1") &&
-    testQsa1[1] === _.qs("#qsaDivP2")
+  Array.isArray(testQsa1) && testQsa1.length === 2 &&
+    testQsa1[0] === _.qs("#qsaDivP1") && testQsa1[1] === _.qs("#qsaDivP2")
 );
 
 var testQsa2 = _.qsa("p", _.qs("#qsaDivTestElement"))
-_cut.isEqual(
-  "qsa() selector + element 1",
-  true,
-  Array.isArray(testQsa2) &&
-    testQsa2.length === 2 &&
-    testQsa2[0] === _.qs("#qsaDivP1") &&
-    testQsa2[1] === _.qs("#qsaDivP2")
+_cut.isTrue("qsa() selector + element 1",
+  Array.isArray(testQsa2) && testQsa2.length === 2 &&
+    testQsa2[0] === _.qs("#qsaDivP1") && testQsa2[1] === _.qs("#qsaDivP2")
 );
 
 var testQsa3 = _.qsa("p", document.querySelector("#qsaDivTestElement") )
-_cut.isEqual(
-  "qsa() selector + element 2",
-  true,
-  Array.isArray(testQsa3) &&
-    testQsa3.length === 2 &&
-    testQsa3[0] === _.qs("#qsaDivP1") &&
-    testQsa3[1] === _.qs("#qsaDivP2")
+_cut.isTrue("qsa() selector + element 2",
+  Array.isArray(testQsa3) && testQsa3.length === 2 &&
+    testQsa3[0] === _.qs("#qsaDivP1") && testQsa3[1] === _.qs("#qsaDivP2")
 );
 
 testQsa3.forEach(function (e) { e.innerHTML += " each"; });
@@ -157,137 +141,86 @@ _cut.isEqual("qsa() forEach", true,
 
 _cut.isEqual("getType() ES5 values",
   "array  number  string  object  htmldocument  boolean  nodelist  htmlparagraphelement  null  undefined  function  date  regexp",
-  _.getType([1,2,3])
-  +"  "+_.getType(1998)
-  +"  "+_.getType("hello world")
-  +"  "+_.getType({a:1,b:2})
-  +"  "+_.getType(document)
-  +"  "+_.getType(true)
-  +"  "+_.getType(document.querySelectorAll("p"))
-  +"  "+_.getType(document.querySelector("p"))
-  +"  "+_.getType(null)
-  +"  "+_.getType(undefined)
-  +"  "+_.getType(function(){})
-  +"  "+_.getType(new Date())
-  +"  "+_.getType(/^\[object (.+)\]$/g)
+  _.getType([1,2,3])+"  "+_.getType(1998)+"  "+_.getType("hello world")
+  +"  "+_.getType({a:1,b:2})+"  "+_.getType(document)
+  +"  "+_.getType(true)+"  "+_.getType(document.querySelectorAll("p"))
+  +"  "+_.getType(document.querySelector("p"))+"  "+_.getType(null)
+  +"  "+_.getType(undefined)+"  "+_.getType(function(){})
+  +"  "+_.getType(new Date())+"  "+_.getType(/^\[object (.+)\]$/g)
 );
 
 _cut.isEqual("getType() ES5 all true",
   "true  true  true  true  true  true  true  true  true  true  true  true  true",
- _.getType([1,2,3], "array")
-  +"  "+_.getType(1998, "number")
-  +"  "+_.getType("hello world", "string")
-  +"  "+_.getType({a:1,b:2}, "object")
-  +"  "+_.getType(document, "htmldocument")
-  +"  "+_.getType(true, "boolean")
+ _.getType([1,2,3], "array")+"  "+_.getType(1998, "number")
+  +"  "+_.getType("hello world", "string")+"  "+_.getType({a:1,b:2}, "object")
+  +"  "+_.getType(document, "htmldocument")+"  "+_.getType(true, "boolean")
   +"  "+_.getType(document.querySelectorAll("p"), "nodelist")
   +"  "+_.getType(document.querySelector("p"), "htmlparagraphelement")
-  +"  "+_.getType(null, "null")
-  +"  "+_.getType(undefined, "undefined")
-  +"  "+_.getType(function(){}, "function")
-  +"  "+_.getType(new Date(), "date")
+  +"  "+_.getType(null, "null")+"  "+_.getType(undefined, "undefined")
+  +"  "+_.getType(function(){}, "function")+"  "+_.getType(new Date(), "date")
   +"  "+_.getType(/^\[object (.+)\]$/g, "regexp")
 );
 
 _cut.isEqual("getType() ES5 all false",
   "false  false  false  false  false  false  false  false  false  false  false  false  false",
-  _.getType([1,2,3], "number")
-  +"  "+_.getType(1998, "array")
-  +"  "+_.getType("hello world", "object")
-  +"  "+_.getType({a:1,b:2}, "string")
-  +"  "+_.getType(document, "boolean")
-  +"  "+_.getType(true, "htmldocument")
+  _.getType([1,2,3], "number")+"  "+_.getType(1998, "array")
+  +"  "+_.getType("hello world", "object")+"  "+_.getType({a:1,b:2}, "string")
+  +"  "+_.getType(document, "boolean")+"  "+_.getType(true, "htmldocument")
   +"  "+_.getType(document.querySelectorAll("p"), "htmlheadingelement")
   +"  "+_.getType(document.querySelector("p"), "nodelist")
-  +"  "+_.getType(null, "undefined")
-  +"  "+_.getType(undefined, "null")
-  +"  "+_.getType(function(){}, "object")
-  +"  "+_.getType(new Date(), "array")
+  +"  "+_.getType(null, "undefined")+"  "+_.getType(undefined, "null")
+  +"  "+_.getType(function(){}, "object")+"  "+_.getType(new Date(), "array")
   +"  "+_.getType(/^\[object (.+)\]$/g, "string")
 );
 
 if (_cut.isNotIE11()) {
   _cut.isEqual("getType() ES6 values",
     "map  set  weakmap  weakset",
-    _.getType(new Map())
-    +"  "+_.getType(new Set())
-    +"  "+_.getType(new WeakMap())
-    +"  "+_.getType(new WeakSet())
+    _.getType(new Map())+"  "+_.getType(new Set())
+      +"  "+_.getType(new WeakMap())+"  "+_.getType(new WeakSet())
   );
   _cut.isEqual("getType() ES6 all true",
     "true  true  true  true",
-    _.getType(new Map(), "map")
-    +"  "+_.getType(new Set(), "set")
-    +"  "+_.getType(new WeakMap(), "weakmap")
-    +"  "+_.getType(new WeakSet(), "weakset")
+    _.getType(new Map(), "map")+"  "+_.getType(new Set(), "set")
+      +"  "+_.getType(new WeakMap(), "weakmap")
+      +"  "+_.getType(new WeakSet(), "weakset")
   );
   _cut.isEqual("getType() ES6 all false",
     "false  false  false  false",
-    _.getType(new Map(), "object")
-    +"  "+_.getType(new Set(), "object")
-    +"  "+_.getType(new WeakMap(), "object")
-    +"  "+_.getType(new WeakSet(), "object")
+    _.getType(new Map(), "object")+"  "+_.getType(new Set(), "object")
+      +"  "+_.getType(new WeakMap(), "object")
+      +"  "+_.getType(new WeakSet(), "object")
   );
 }
 
-var foo1 = { a : "1", b : "2" };
-var bar1 = { c : "3", d : "4",
-  baz : { e : 5, fn : function(num) { return num*num; } }
-};
+var foo1 = { a: "1", b: "2" };
+var bar1 = {c: "3", d: "4", baz: {e: 5,fn: function(num){return num*num;}}};
 
 var extObj1 = _.extend(true,{},foo1,bar1);
-_cut.isEqual(
-  "extend() true",
-  "1  2  3  4  5  121",
-  extObj1.a
-  +"  "+extObj1.b
-  +"  "+extObj1.c
-  +"  "+extObj1.d
-  +"  "+extObj1.baz.e
-  +"  "+extObj1.baz.fn(11)
+_cut.isEqual("extend() true", "1  2  3  4  5  121",
+  extObj1.a+"  "+extObj1.b+"  "+extObj1.c+"  "+extObj1.d+"  "+extObj1.baz.e
+    +"  "+extObj1.baz.fn(11)
 );
 
 var extObj1 = _.extend(false,{},foo1,bar1);
-_cut.isEqual(
-  "extend() false 1",
-  "1  2  3  4  5  121",
-  extObj1.a
-  +"  "+extObj1.b
-  +"  "+extObj1.c
-  +"  "+extObj1.d
-  +"  "+extObj1.baz.e
-  +"  "+extObj1.baz.fn(11)
+_cut.isEqual("extend() false 1", "1  2  3  4  5  121",
+  extObj1.a+"  "+extObj1.b+"  "+extObj1.c+"  "+extObj1.d+"  "+extObj1.baz.e
+    +"  "+extObj1.baz.fn(11)
 );
 
 var extObj1 = _.extend({},foo1,bar1);
-_cut.isEqual(
-  "extend() false 2",
-  "1  2  3  4  5  121",
-  extObj1.a
-  +"  "+extObj1.b
-  +"  "+extObj1.c
-  +"  "+extObj1.d
-  +"  "+extObj1.baz.e
-  +"  "+extObj1.baz.fn(11)
+_cut.isEqual("extend() false 2", "1  2  3  4  5  121",
+  extObj1.a+"  "+extObj1.b+"  "+extObj1.c+"  "+extObj1.d+"  "+extObj1.baz.e
+    +"  "+extObj1.baz.fn(11)
 );
 
 var extObj1 = _.deepAssign({},foo1,bar1);
-_cut.isEqual(
-  "deepAssign()",
-  "1  2  3  4  5  121",
-  extObj1.a
-  +"  "+extObj1.b
-  +"  "+extObj1.c
-  +"  "+extObj1.d
-  +"  "+extObj1.baz.e
-  +"  "+extObj1.baz.fn(11)
+_cut.isEqual("deepAssign()", "1  2  3  4  5  121",
+  extObj1.a+"  "+extObj1.b+"  "+extObj1.c+"  "+extObj1.d+"  "+extObj1.baz.e
+    +"  "+extObj1.baz.fn(11)
 );
 
-var obj2stringObj = {
-  str: "éáűőúöüóíÉÁŰŐÚÖÜÓÍ",
-  bool: true,
-  pi: 3.141592653589793
-};
+var obj2stringObj = {str:"éáűőúöüóíÉÁŰŐÚÖÜÓÍ",bool:true,pi:3.141592653589793};
 _cut.isEqual(
   "obj2string()", "str=%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%C3%89%C3%81%C5%B0%C5%90%C3%9A%C3%96%C3%9C%C3%93%C3%8D&bool=true&pi=3.141592653589793",
   _.obj2string(obj2stringObj)
@@ -295,10 +228,7 @@ _cut.isEqual(
 
 /* inherit() */
 
-function Human (name,age) {
-  this.name = name;
-  this.age = age;
-}
+function Human (name,age) { this.name = name; this.age = age; }
 Human.prototype.getName = function () { return this.name;}
 Human.prototype.getAge = function () { return this.age;}
 
@@ -318,11 +248,8 @@ var Amy = new Worker ("Amy",25,"Engineer");
 
 _cut.isEqual(
   "inherit()",
-  "David, 27"
-  +"Amy, 25, Engineer"
-  +"David instanceof Human: true"
-  +"David instanceof Worker: false"
-  +"Amy instanceof Human: true"
+  "David, 27" +"Amy, 25, Engineer" +"David instanceof Human: true"
+  +"David instanceof Worker: false" +"Amy instanceof Human: true"
   +"Amy instanceof Worker: true",
   David.getName()+", "+David.getAge()
   + Amy.getName()+", "+Amy.getAge()+", "+Amy.getJob()
@@ -334,30 +261,20 @@ _cut.isEqual(
 
 /* / inherit() */
 
-_cut.isEqual(
-  "getUrlVarFromString()",
-  "a1",
+_cut.isEqual("getUrlVarFromString()", "a1",
   _.getUrlVarFromString("?testa=a1&testb=b2")["testa"]
 );
-_cut.isEqual(
-  "getUrlVarFromString() prop",
-  "b2",
+_cut.isEqual("getUrlVarFromString() prop", "b2",
   _.getUrlVarFromString("?testa=a1&testb=b2", "testb")
 );
 
-_cut.isEqual(
-  "getUrlVarFromString() not found - null",
-  null,
+_cut.isEqual("getUrlVarFromString() not found - null", null,
   _.getUrlVarFromString("?testa=a1&testb=b2", "testc")
 );
-_cut.isEqual(
-  "getUrlVarFromString() prop not found - undefined",
-  undefined,
+_cut.isEqual("getUrlVarFromString() prop not found - undefined", undefined,
   _.getUrlVarFromString("?testa=a1&testb=b2")["testc"]
 );
-_cut.isEqual(
-  "getUrlVarFromString() empty object",
-  "{}",
+_cut.isEqual("getUrlVarFromString() empty object", "{}",
   JSON.stringify(_.getUrlVarFromString("?"))
 );
 
@@ -420,8 +337,6 @@ _cut.isEqual(
 _.setFullscreenOff();
 */
 
-/*
-
 _cut.isEqual("random()", true, _.random() <= 101 );
 _cut.isEqual("random(max)", true, _.random(30) <= 30 );
 var testRandom = _.random(51,55);
@@ -451,8 +366,7 @@ _cut.isEqual(
   _.b64Encode(kayleeStr)
 );
 _cut.isEqual("b64Decode() + b64Encode()", kayleeStr, _.b64Decode(_.b64Encode(kayleeStr)) );
-_cut.isEqual(
-  "javaHash()",
+_cut.isEqual("javaHash()",
   "-0.578: 1334063883 / 4f84330b / 13340638830: 48 / 30 / 48 / 3.14: 1565118 / 1565118 / 156511842: 1662 / 67e / 1662true: 3569038 / 36758e / 3569038\"true\": 3569038 / 36758e / 3569038false: 97196323 / 5cb1923 / 97196323\"false\": 97196323 / 5cb1923 / 97196323null: 3392903339290333c587\"null\": 3392903 / 33c587 / 3392903undefined: 0 / 0 / 0\"undefined\": -1038130864 / -3de09eb0 / -1038130864\"\": 0 / 0 / 0[]: 0 / 0 / 0[1,2]: 48503 / bd77 / 48503[3,4]: 50427 / c4fb / 50427{}: -1074417128 / -400a4de8 / -1074417128{a:1}: -1074417128 / -400a4de8 / -1074417128{b:2}: -1074417128 / -400a4de8 / -1074417128str variable: -313568218 / -12b0abda / -313568218str variable + b64Encode: LTMxMzU2ODIxOA== / LTEyYjBhYmRh / LTMxMzU2ODIxOA==str variable + b64Encode + b64Decode: -313568218 / -12b0abda / -313568218",
   "-0.578: " + _.javaHash(-0.578) + " / " + _.javaHash(-0.578,true) + " / " + _.javaHash(-0.578,false)
     + "0: " + _.javaHash(0) + " / " + _.javaHash(0,true) + " / " + _.javaHash(0,false) + " / "
@@ -492,20 +406,17 @@ _cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"
 _cut.isEqual("getDoNotTrack()", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false );
 
 
-_cut.isEqual(
-  "strRemoveTags()",
+_cut.isEqual("strRemoveTags()",
   "lorem ipsum dolor sit amet , consectetuer",
   _.strRemoveTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
 );
 
-_cut.isEqual(
-  "strReverse() without unicode",
+_cut.isEqual("strReverse() without unicode",
   ".eid ot emiT .niar ni sraet ekil ,emit ni tsol eb lliw stnemom esoht llA .etaG resuähnnaT eht raen krad eht ni rettilg smaeb-C dehctaw I .noirO fo redluohs eht ffo erif no spihs kcattA .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   _.strReverse("I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die.")
 );
 if (_cut.isNotIE11()) {
-  _cut.isEqual(
-    "strReverse() with unicode 1",
+  _cut.isEqual("strReverse() with unicode 1",
     ".noirO fo redluohs eht ffo erif no spihs kcattA \uD834\uDF06 .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
     _.strReverse("I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.")
   );/*
@@ -546,24 +457,21 @@ var FPArray = [1,2,3];
 var forEachStr = "";
 _.forEach(FPArray, function (e) { forEachStr += (e*2); } );
 _cut.isEqual("forEach() 1 ES5 Array", "246", forEachStr );
-_cut.isTrue(
-  "forEach() 1 ES5 Array return value",
+_cut.isTrue("forEach() 1 ES5 Array return value",
   Array.isArray( _.forEach([],function (){}) )
 );
 // forEach - String
 forEachStr = "";
 _.forEach("cat, dog, pig", function (e) { forEachStr += e.toUpperCase(); } );
 _cut.isEqual("forEach() 2 ES5 String", "CAT, DOG, PIG", forEachStr );
-_cut.isEqual(
-  "forEach() 2 ES5 String return value",
+_cut.isEqual("forEach() 2 ES5 String return value",
   "aaBBcc",
   _.forEach("aBc", function (v, i, a) {a[i] = v+v; } )
 );
 // forEach - Nodelist
 var forEachCount = 0;
 _.forEach(document.querySelectorAll("h3"), function (e) { forEachCount++; } );
-_cut.isEqual(
-  "forEach() 3 ES5 Nodelist",
+_cut.isEqual("forEach() 3 ES5 Nodelist",
   document.querySelectorAll("h3").length,
   forEachCount
 );
@@ -575,32 +483,25 @@ _cut.isTrue(
 var forEachCount = 0;
 _.forEach({0:4,1:5,2:6,length:3}, function (e) { forEachCount += (e*3); } );
 _cut.isEqual("forEach() 4 ES5 custom array-like object", 45, forEachCount);
-_cut.isTrue(
-  "forEach() 4 ES5 custom array-like object return value",
+_cut.isTrue("forEach() 4 ES5 custom array-like object return value",
   Array.isArray( _.forEach({0:4,1:5,2:6,length:3},function (){}) )
 );
 
 if (_cut.isNotIE11()) {
   // forEach - Map
   forEachStr = "";
-  _.forEach(
-    new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
+  _.forEach(new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
     function (e,p) { forEachStr += p + e + "-"; }
   );
   _cut.isEqual("forEach() 5 ES6 Map", "foo3.14-bar42-bazWilson-", forEachStr);
-  _cut.isTrue(
-    "forEach() 5 ES6 Map return value",
+  _cut.isTrue("forEach() 5 ES6 Map return value",
     _.isMap( _.forEach(new Map([ ["foo", 3.14], ["bar", 42] ]),function (){}) )
   );
   // forEach - Set
   forEachCount = 0;
-  _.forEach(
-    new Set([4,5,6]),
-    function (e) { forEachCount += (e*3); }
-  );
+  _.forEach(new Set([4,5,6]), function (e) { forEachCount += (e*3); });
   _cut.isEqual("forEach() 6 ES6 Set", 45, forEachCount);
-  _cut.isTrue(
-    "forEach() 6 ES6 Set return value",
+  _cut.isTrue("forEach() 6 ES6 Set return value",
     _.isSet( _.forEach(new Set([4,5,6]),function (){}) )
   );
   // forEach - iterator
@@ -618,47 +519,35 @@ if (_cut.isNotIE11()) {
 
 
 // map - Array
-_cut.isEqual(
-  "map() 1 ES5 Array and return value",
-  "[2,4,6]",
+_cut.isEqual("map() 1 ES5 Array and return value", "[2,4,6]",
   JSON.stringify( _.map([1,2,3], function(e) { return e*2; }) )
 );
 // map - String
-_cut.isEqual(
-  "map() 2 ES5 String and return value",
-  "CAT, DOG, PIG",
+_cut.isEqual("map() 2 ES5 String and return value", "CAT, DOG, PIG",
   _.map("cat, dog, pig", function (e) { return e.toUpperCase(); } )
 );
 
 // map - Nodelist
 var mapNL = _.map(document.querySelectorAll("h3"), function (e) { return e; } );
-_cut.isTrue(
-  "map() 3 ES5 Nodelist and return value",
+_cut.isTrue("map() 3 ES5 Nodelist and return value",
   Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
 );
 // map - custom array-like object
-_cut.isEqual(
-  "map() 4 ES5 custom array-like object and return value",
+_cut.isEqual("map() 4 ES5 custom array-like object and return value",
   "[2,4,6]",
   JSON.stringify( _.map({0:1,1:2,2:3,length:3}, function(e) { return e*2; }) )
 );
 
 if (_cut.isNotIE11()) {
   // map - Map
-  var mapMap = _.map(
-    new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
+  var mapMap = _.map(new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
     function(e) { return [ e[0], e[1]*2 ]; }
   );
-  _cut.isEqual(
-    "map() 5 ES6 Map and return value",
-    "246",
-    "" + mapMap.get("foo") + mapMap.get("bar") + mapMap.get("baz")
+  _cut.isEqual("map() 5 ES6 Map and return value",
+    "246", "" + mapMap.get("foo") + mapMap.get("bar") + mapMap.get("baz")
   );
   // map - Set
-  var mapSet = _.map(
-    new Set([1,2,3]),
-    function(e) { return e*2; }
-  );
+  var mapSet = _.map(new Set([1,2,3]), function(e) { return e*2; });
   _cut.isTrue(
     "map() 6 ES6 Set and return value",
     mapSet.has(2) && mapSet.has(4) && mapSet.has(6)
@@ -668,32 +557,60 @@ if (_cut.isNotIE11()) {
     "map() 7 ES6 Set values() iterator and return value",
     "[3,6,9]",
     JSON.stringify(
-      _.map(
-        (new Set([1,2,3])).values(),
-        function (e) { return (e*3); }
-      )
+      _.map((new Set([1,2,3])).values(), function (e) { return (e*3); })
     )
   );
 }
 
 _cut.isEqual(
-  "range() - 1 - step default 1",
+  "arrayCycle() - ES5 1 - with 2 parameters",
+  "[4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14]",
+  JSON.stringify( _.arrayCycle([4,true,"fgh",3.14], 7) )
+);
+_cut.isEqual(
+  "arrayCycle() - ES5 2 - with default parameter (n = 100)",
+  "[4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6]",
+  JSON.stringify( _.arrayCycle([4,5,6]) )
+);
+if(_cut.isNotIE11()) {
+  _cut.isEqual(
+    "arrayCycle() - ES6 1 - ES5 1 - with 2 parameters",
+     "[2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4]",
+    JSON.stringify( _.arrayCycle( new Map([ [2,3],[3,4],[4,5] ]).keys(), 10 ) )
+  );
+  _cut.isEqual(
+    "arrayCycle() - ES6 2 - with default parameter (n = 100)",
+    "[[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5]]",
+    JSON.stringify( _.arrayCycle( new Map([ [2,3],[3,4],[4,5] ]).entries() ) )
+  );
+}
+
+_cut.isEqual(
+  "arrayRepeat() - 1 - with 2 parameters",
+  "[\"abc\",\"abc\",\"abc\",\"abc\",\"abc\",\"abc\",\"abc\",\"abc\"]",
+  JSON.stringify( _.arrayRepeat("abc", 8) )
+);
+_cut.isEqual(
+  "arrayRepeat() - 2 - with default parameter (n = 100)",
+  "[3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14,3.14]",
+  JSON.stringify( _.arrayRepeat(3.14) )
+);
+
+_cut.isEqual(
+  "arrayRange() - 1 - step default 1",
   "[5,6,7,8,9,10,11,12]",
-  JSON.stringify(_.range(5,12))
+  JSON.stringify(_.arrayRange(5,12))
 );
-_cut.log( JSON.stringify(_.range(5,12)) );
 _cut.isEqual(
-  "range() - 2 - step 3",
+  "arrayRange() - 2 - step 3",
   "[1,4,7,10,13,16]",
-  JSON.stringify(_.range(1,16,3))
+  JSON.stringify(_.arrayRange(1,16,3))
 );
-_cut.log( JSON.stringify(_.range(1,16,3)) );
 _cut.isEqual(
-  "range() - 3 - step 3.2 <i>(can be failed - float storage)<i>",
+  "arrayRange() - 3 - step 3.2 <i>(can be failed - float storage)<i>",
   "[1,4.2,7.4,10.600000000000001,13.8,17]",
-  JSON.stringify(_.range(1,17,3.2))
+  JSON.stringify(_.arrayRange(1,17,3.2))
 );
-_cut.log( JSON.stringify(_.range(1,17,3.2)) );
 
 var a = ["a","b","c","d"];
 var b = [3,4,5,6,7,8,9];
@@ -713,6 +630,63 @@ if(_cut.isNotIE11()) {
   );
 }
 
+var zipA = ["a1", "a2", "a3"];
+var zipB = ["b1", "b2", "b3"];
+var zipC = ["c1", "c2", "c3", "c4", "c5"];
+var zipD = ["d1", "d2"];
+var zipE = ["e1", "e2", "e3", "e4"];
+var zipF = ["a", "b", "c", "d"];
+_cut.isEqual(
+  "zip() ES5 1",
+   "[[\"a1\",\"c1\"],[\"a2\",\"c2\"],[\"a3\",\"c3\"]]",
+  JSON.stringify( _.zip(zipA, zipC) )
+);
+_cut.isEqual(
+  "zip() ES5 2",
+  "[[\"a1\",\"b1\",\"c1\",\"d1\",\"e1\"],[\"a2\",\"b2\",\"c2\",\"d2\",\"e2\"]]",
+  JSON.stringify( _.zip(zipA, zipB, zipC, zipD, zipE) )
+);
+if(_cut.isNotIE11()) {
+  _cut.isEqual(
+    "zip() ES6 1",
+    "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
+    JSON.stringify(_.zip(
+      new Set(a),
+      new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values()
+    ))
+  );
+  _cut.isEqual(
+    "zip() ES6 2",
+    "[[\"a\",3,\"c1\"],[\"b\",4,\"c2\"],[\"c\",5,\"c3\"],[\"d\",6,\"c4\"]]",
+    JSON.stringify(_.zip(
+      new Set(zipF),
+      new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
+      zipC.values()
+    ))
+  );
+}
+
+_cut.isEqual(
+  "unzip() ES5",
+  "[[\"a1\",\"a2\"],[\"b1\",\"b2\"],[\"c1\",\"c2\"],[\"d1\",\"d2\"],[\"e1\",\"e2\"]]",
+  JSON.stringify( _.unzip( _.zip(zipA, zipB, zipC, zipD, zipE) ) )
+);
+if(_cut.isNotIE11()) {
+  _cut.isEqual(
+    "unzip() ES6",
+     "[[\"a\",\"b\",\"c\",\"d\"],[3,4,5,6],[\"c1\",\"c2\",\"c3\",\"c4\"]]",
+    JSON.stringify(
+      _.unzip(
+        _.zip(
+          new Set(zipF),
+          new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
+          zipC.values()
+        ).values()
+      )
+    )
+  );
+}
+
 var a = [21, 11, 41, 51, 31];
 _cut.isEqual("min() ES5", 11, _.min(a) );
 _cut.isEqual("minIndex() ES5", 1, _.minIndex(a) );
@@ -722,23 +696,31 @@ if(_cut.isNotIE11()) {
   _cut.isEqual("min() ES6", 11, _.min(new Set(a)) );
   _cut.isEqual("minIndex() ES6", 1, _.minIndex(new Set(a).values()) );
   _cut.isEqual("max() ES6", 51, _.max(new Set(a).keys()) );
-  _cut.isEqual(
-    "maxIndex() ES6",
-    3,
+  _cut.isEqual("maxIndex() ES6", 3,
     _.maxIndex(new Map([[21,1],[11,2],[41,3],[51,4],[31,5]]).keys())
+  );
+}
+
+var superset1 = [3, 11, 58, 95, 88];
+var superset2 = [88, 95, 11];
+var superset3 = [88, 95, 11, 84];
+_cut.isTrue("isSuperset() - ES5 - true", _.isSuperset(superset1, superset2));
+_cut.isFalse("isSuperset() - ES5 - false", _.isSuperset(superset3, superset1));
+if(_cut.isNotIE11()) {
+  _cut.isTrue("isSuperset() - ES6 - true",
+    _.isSuperset(new Set(superset1), superset2.values)
+  );
+  _cut.isFalse("isSuperset() - ES6 - false",
+    _.isSuperset(new Set(superset3).keys(), superset1.keys())
   );
 }
 
 var a = [21, 11, 41, 51, 31];
 _cut.isEqual(
-  "arrayKeys() ES5",
-  "[0,1,2,3,4]",
-  JSON.stringify(_.arrayKeys(a))
+  "arrayKeys() ES5", "[0,1,2,3,4]", JSON.stringify(_.arrayKeys(a))
 );
 _cut.isEqual(
-  "arrayValues() ES5",
-  "[21,11,41,51,31]",
-  JSON.stringify(_.arrayValues(a))
+  "arrayValues() ES5", "[21,11,41,51,31]", JSON.stringify(_.arrayValues(a))
 );
 _cut.isEqual(
   "arrayEntries() ES5",
@@ -767,19 +749,13 @@ if(_cut.isNotIE11()) {
 
 var a = [1,2,3,4], b = [3,4,5,6], c = [5,6,7,8];
 _cut.isEqual(
-  "arrayUnion() ES5",
-  "[1,2,3,4,5,6,7,8]",
-  JSON.stringify(_.arrayUnion(a,b,c))
+  "arrayUnion() ES5", "[1,2,3,4,5,6,7,8]", JSON.stringify(_.arrayUnion(a,b,c))
 );
 _cut.isEqual(
-  "arrayIntersection() ES5",
-  "[3,4]",
-  JSON.stringify(_.arrayIntersection(a,b))
+  "arrayIntersection() ES5", "[3,4]", JSON.stringify(_.arrayIntersection(a,b))
 );
 _cut.isEqual(
-  "arrayDifference() ES5",
-  "[1,2]",
-  JSON.stringify(_.arrayDifference(a,b))
+  "arrayDifference() ES5", "[1,2]", JSON.stringify(_.arrayDifference(a,b))
 );
 _cut.isEqual(
   "arraySymmetricDifference() ES5",
@@ -809,8 +785,7 @@ if(_cut.isNotIE11()) {
       "arraySymmetricDifference() ES6",
       "[1,2,5,6]",
       JSON.stringify(_.arraySymmetricDifference(
-        new Set(a).keys(),
-        new Map([[1,3],[2,4],[3,5],[4,6]]).values()
+        new Set(a).keys(), new Map([[1,3],[2,4],[3,5],[4,6]]).values()
       ))
     );
   } catch (e) {alert(e);}
@@ -827,33 +802,20 @@ if(_cut.isNotIE11()) {
   }
   var a = [1,2,3,4], b = [3,4,5,6], c = [5,6,7,8];
   var sa = new Set(a), sb = new Set(b), sc = new Set(c);
-  _cut.isTrue(
-    "setUnion() ES6",
+  _cut.isTrue("setUnion() ES6",
     __setEquals__(
       _.setUnion(new Map([ [2,1],[3,2],[4,3],[5,4] ]).values(),sb,c),
       _.setUnion(a,new Map([ [2,3],[3,4],[4,5],[5,6] ]).values(),sc.values())
     )
   );
-  _cut.isTrue(
-    "setIntersection() ES6",
-    __setEquals__(
-      new Set([3,4]),
-      _.setIntersection(sa,sb)
-    )
+  _cut.isTrue("setIntersection() ES6",
+    __setEquals__( new Set([3,4]), _.setIntersection(sa,sb) )
   );
-  _cut.isTrue(
-    "setDifference() ES6",
-    __setEquals__(
-      new Set([1,2]),
-      _.setDifference(sa,sb)
-    )
+  _cut.isTrue("setDifference() ES6",
+    __setEquals__( new Set([1,2]), _.setDifference(sa,sb) )
   );
-  _cut.isTrue(
-    "setSymmetricDifference() ES6",
-    __setEquals__(
-      new Set([1,2,5,6]),
-      _.setSymmetricDifference(sa,sb)
-    )
+  _cut.isTrue("setSymmetricDifference() ES6",
+    __setEquals__( new Set([1,2,5,6]), _.setSymmetricDifference(sa,sb) )
   );
 }
 
@@ -868,12 +830,10 @@ _cut.isTrue(
 );
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isTrue(
-  "arrayRemove() - 1 found - not all - true",
+_cut.isTrue("arrayRemove() - 1 found - not all - true",
   _.arrayRemove(arrTestClearRemove1, 6)
 );
-_cut.isFalse(
-  "arrayRemove() - 1 found - not all - false",
+_cut.isFalse("arrayRemove() - 1 found - not all - false",
   _.arrayRemove(arrTestClearRemove1, 6)
 );
 _cut.isEqual(
@@ -883,12 +843,10 @@ _cut.isEqual(
 );
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isTrue(
-  "arrayRemove() - 1 found - all - true",
+_cut.isTrue("arrayRemove() - 1 found - all - true",
   _.arrayRemove(arrTestClearRemove1, 6, true)
 );
-_cut.isFalse(
-  "arrayRemove() - 1 found - all - false",
+_cut.isFalse("arrayRemove() - 1 found - all - false",
   _.arrayRemove(arrTestClearRemove1, 6, true)
 );
 _cut.isEqual(
@@ -899,12 +857,10 @@ _cut.isEqual(
 
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isTrue(
-  "arrayRemove() - 3 found - not all - true",
+_cut.isTrue("arrayRemove() - 3 found - not all - true",
   _.arrayRemove(arrTestClearRemove1, 5)
 );
-_cut.isTrue(
-  "arrayRemove() - 3 found - not all - true",
+_cut.isTrue("arrayRemove() - 3 found - not all - true",
   _.arrayRemove(arrTestClearRemove1, 5, false)
 );
 _cut.isEqual(
@@ -914,27 +870,22 @@ _cut.isEqual(
 );
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isTrue(
-  "arrayRemove() - 3 found - all - true",
+_cut.isTrue("arrayRemove() - 3 found - all - true",
   _.arrayRemove(arrTestClearRemove1, 5, true)
 );
-_cut.isFalse(
-  "arrayRemove() - 3 found - all - false",
+_cut.isFalse("arrayRemove() - 3 found - all - false",
   _.arrayRemove(arrTestClearRemove1, 5, true)
 );
-_cut.isEqual(
-  "arrayRemove() - 3 found - all - value check",
+_cut.isEqual(  "arrayRemove() - 3 found - all - value check",
   "[1,2,3,4,6,7,8,9,0]",
   JSON.stringify(arrTestClearRemove1)
 );
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
-_cut.isFalse(
-  "arrayRemove() - 0 found - not all - false",
+_cut.isFalse("arrayRemove() - 0 found - not all - false",
   _.arrayRemove(arrTestClearRemove1, 11)
 );
-_cut.isFalse(
-  "arrayRemove() - 0 found - all - false",
+_cut.isFalse("arrayRemove() - 0 found - all - false",
   _.arrayRemove(arrTestClearRemove1, 11, true)
 );
 _cut.isEqual(
@@ -993,22 +944,17 @@ var arrMerge2 = [4,5,6];
 var arrMerge3 = [7,8,[10,11,12,[13,14,15]],9];
 var arrMergeStr = JSON.stringify( _.arrayMerge(arrMerge1, arrMerge2) );
 arrMergeStr += JSON.stringify( arrMerge1 );
-// "[1,2,3,4,5,6]"
 arrMerge1 = [1,2,3];
 arrMergeStr += JSON.stringify( _.arrayMerge(arrMerge1, arrMerge2, arrMerge3) );
 arrMergeStr += JSON.stringify( arrMerge1 );
-// "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
 arrMerge1 = [1,2,3];
 arrMergeStr += JSON.stringify( _.arrayMerge(false, arrMerge1, arrMerge2, arrMerge3) );
 arrMergeStr += JSON.stringify( arrMerge1 );
-//"[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
 arrMerge1 = [1,2,3];
 arrMergeStr += JSON.stringify( _.arrayMerge(true, arrMerge1, arrMerge2, arrMerge3) );
 arrMergeStr += JSON.stringify( arrMerge1 );
-// "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
 arrMerge1 = [1,2,3];
 arrMergeStr += JSON.stringify( _.arrayMerge(true, [], arrMerge1, arrMerge3, 42, 3.14) );
-// "[1,2,3,7,8,10,11,12,13,14,15,9]"
 _cut.isEqual(
   "arrayMerge()",
   "[1,2,3,4,5,6]"
@@ -1025,65 +971,37 @@ _cut.isEqual(
 
 
 var itemSrc = ["A", "B", "C"];
-var res = _.item(itemSrc, 0)
-  + " " + _.item(itemSrc, 1)
-  + " " + _.item(itemSrc, 2)
-  + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, -1)
-  + " " + _.item(itemSrc, -2)
-  + " " + _.item(itemSrc, -3)
-  + " " + _.item(itemSrc, -4);
-_cut.isEqual(
-  "item() - step 1 - array",
-  "A B C undefined C B A undefined",
-  res
-);
+var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
+  + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
+  + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
+  + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4);
+_cut.isEqual("item() - step 1 - array","A B C undefined C B A undefined",res);
 _cut.log("\""+res+"\"");
 var itemSrc = {0: "A", 1: "B", 2: "C", length: 3};
-var res = _.item(itemSrc, 0)
-  + " " + _.item(itemSrc, 1)
-  + " " + _.item(itemSrc, 2)
-  + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, -1)
-  + " " + _.item(itemSrc, -2)
-  + " " + _.item(itemSrc, -3)
-  + " " + _.item(itemSrc, -4);
+var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
+  + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
+  + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
+  + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4);
 _cut.isEqual(
-  "item() - step 2 - arrayLike object",
-  "A B C undefined C B A undefined",
-  res
+  "item() - step 2 - arrayLike object","A B C undefined C B A undefined",res
 );
 _cut.log("\""+res+"\"");
 var itemSrc = "ABC";
-var res = _.item(itemSrc, 0)
-  + " " + _.item(itemSrc, 1)
-  + " " + _.item(itemSrc, 2)
-  + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, -1)
-  + " " + _.item(itemSrc, -2)
-  + " " + _.item(itemSrc, -3)
-  + " " + _.item(itemSrc, -4);
-_cut.isEqual(
-  "item() - step 3 - string",
-  "A B C undefined C B A undefined",
-  res
-);
+var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
+  + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
+  + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
+  + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4);
+_cut.isEqual("item() - step 3 - string","A B C undefined C B A undefined",res);
 _cut.log("\""+res+"\"");
 
 if (_cut.isNotIE11()) {
   var itemSrc = "AB\uD834\uDF06CD";
-  var res = _.item(itemSrc, 0)
-    + " " + _.item(itemSrc, 1)
-    + " " + _.item(itemSrc, 2)
-    + " " + _.item(itemSrc, 3)
-    + " " + _.item(itemSrc, 4)
-    + " " + _.item(itemSrc, 5)
-    + " " + _.item(itemSrc, -1)
-    + " " + _.item(itemSrc, -2)
-    + " " + _.item(itemSrc, -3)
-    + " " + _.item(itemSrc, -4)
-    + " " + _.item(itemSrc, -5)
-    + " " + _.item(itemSrc, -6);
+  var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
+    + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
+    + " " + _.item(itemSrc, 4) + " " + _.item(itemSrc, 5)
+    + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
+    + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4)
+    + " " + _.item(itemSrc, -5) + " " + _.item(itemSrc, -6);
   _cut.isEqual(
     "item() - step 4 - ES6 unicode string",
     "A B \uD834\uDF06 C D undefined D C \uD834\uDF06 B A undefined",
@@ -1091,44 +1009,28 @@ if (_cut.isNotIE11()) {
   );
   _cut.log("\""+res+"\"");
   var itemSrc = new Set(["A", "B", "C"]);
-  var res = _.item(itemSrc, 0)
-    + " " + _.item(itemSrc, 1)
-    + " " + _.item(itemSrc, 2)
-    + " " + _.item(itemSrc, 3)
-    + " " + _.item(itemSrc, -1)
-    + " " + _.item(itemSrc, -2)
-    + " " + _.item(itemSrc, -3)
-    + " " + _.item(itemSrc, -4);
+  var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
+    + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
+    + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
+    + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4);
   _cut.isEqual(
-    "item() - step 5 - ES6 set",
-    "A B C undefined C B A undefined",
-    res
+    "item() - step 5 - ES6 set", "A B C undefined C B A undefined", res
   );
   _cut.log("\""+res+"\"");
   var itemSrc = new Set(["A", "B", "C"]);
-  var res = _.item(itemSrc.values(), 0)
-    + " " + _.item(itemSrc.values(), 1)
-    + " " + _.item(itemSrc.values(), 2)
-    + " " + _.item(itemSrc.values(), 3)
-    + " " + _.item(itemSrc.values(), -1)
-    + " " + _.item(itemSrc.values(), -2)
-    + " " + _.item(itemSrc.values(), -3)
-    + " " + _.item(itemSrc.values(), -4);
+  var res = _.item(itemSrc.values(), 0) + " " + _.item(itemSrc.values(), 1)
+    + " " + _.item(itemSrc.values(), 2) + " " + _.item(itemSrc.values(), 3)
+    + " " + _.item(itemSrc.values(), -1) + " " + _.item(itemSrc.values(), -2)
+    + " " + _.item(itemSrc.values(), -3) + " " + _.item(itemSrc.values(), -4);
   _cut.isEqual(
-    "item() - step 6 - ES6 set values()",
-    "A B C undefined C B A undefined",
-    res
+    "item() - step 6 - ES6 set values()","A B C undefined C B A undefined",res
   );
   _cut.log("\""+res+"\"");
   var itemSrc = new Map([ ["A", 1], ["B", 2], ["C", 3] ]);
-  var res = _.item(itemSrc, 0)[0]
-    + " " + _.item(itemSrc, 1)[0]
-    + " " + _.item(itemSrc, 2)[0]
-    + " " + _.item(itemSrc, 3)
-    + " " + _.item(itemSrc, -1)[0]
-    + " " + _.item(itemSrc, -2)[0]
-    + " " + _.item(itemSrc, -3)[0]
-    + " " + _.item(itemSrc, -4);
+  var res = _.item(itemSrc, 0)[0] + " " + _.item(itemSrc, 1)[0]
+    + " " + _.item(itemSrc, 2)[0] + " " + _.item(itemSrc, 3)
+    + " " + _.item(itemSrc, -1)[0] + " " + _.item(itemSrc, -2)[0]
+    + " " + _.item(itemSrc, -3)[0] + " " + _.item(itemSrc, -4);
   _cut.isEqual(
     "item() - step 7 - ES6 map",
     "A B C undefined C B A undefined",
@@ -1136,14 +1038,10 @@ if (_cut.isNotIE11()) {
   );
   _cut.log("\""+res+"\"");
   var itemSrc = new Map([ ["A", 1], ["B", 2], ["C", 3] ]);
-  var res = _.item(itemSrc.keys(), 0)
-    + " " + _.item(itemSrc.keys(), 1)
-    + " " + _.item(itemSrc.keys(), 2)
-    + " " + _.item(itemSrc.keys(), 3)
-    + " " + _.item(itemSrc.keys(), -1)
-    + " " + _.item(itemSrc.keys(), -2)
-    + " " + _.item(itemSrc.keys(), -3)
-    + " " + _.item(itemSrc.keys(), -4);
+  var res = _.item(itemSrc.keys(), 0) + " " + _.item(itemSrc.keys(), 1)
+    + " " + _.item(itemSrc.keys(), 2) + " " + _.item(itemSrc.keys(), 3)
+    + " " + _.item(itemSrc.keys(), -1) + " " + _.item(itemSrc.keys(), -2)
+    + " " + _.item(itemSrc.keys(), -3) + " " + _.item(itemSrc.keys(), -4);
   _cut.isEqual(
     "item() - step 8 - ES6 map keys()",
     "A B C undefined C B A undefined",
@@ -1175,13 +1073,11 @@ if (_cut.isNotEdge() && _cut.isNotIE11()) {
   _cut.isEqual("domCreate(object) with style string", true, _.isElement( _.domCreate( { elementType: "p", "id": "domTestElementObject", style: "width: 250px; color: blue;", innerHTML: "DOM test element" } ) ) );
 }
 
-_cut.isTrue(
-  "domToElement() simple element",
+_cut.isTrue("domToElement() simple element",
   _.isElement( _.domToElement("<div>Hello world!</div>") )
 );
 
-_cut.isTrue(
-  "domToElement() complex element",
+_cut.isTrue("domToElement() complex element",
   _.isElement( _.domToElement("<p><span style=\"background-color: yellow; color: blue;\">Hello</span> <span style=\"background-color: blue; color: yellow;\">world</span>!</p>").firstElementChild )
 );
 
@@ -1263,6 +1159,14 @@ _cut.isEqual("hasCookie() false", false, _.hasCookie("ctest3") );
 _cut.isEqual("getCookie(name) null", null, _.getCookie("ctest3") );
 _cut.isEqual("getCookie() undefined", undefined, _.getCookie()["ctest3"] );
 
+var cookieClearStr = "";
+_.setCookie("ctest4", "cookieUnitTestStr");
+_.setCookie("ctest5", "cookieUnitTestStr");
+cookieClearStr += String(_.hasCookie("ctest4")) + String(_.hasCookie("ctest5"));
+_.clearCookies();
+cookieClearStr += String(_.hasCookie("ctest4")) + String(_.hasCookie("ctest5"));
+_cut.isEqual("clearCookies()", "truetruefalsefalse", cookieClearStr);
+
 
 /* polyfills */
 _cut.addElement("h3", "polyfills");
@@ -1271,41 +1175,31 @@ if (_cut.isNotIE11()) {
   var vstr = "";
   var vstrit = ["X","Y","Z","X"].values();
   vstr += vstrit.next().value
-    + vstrit.next().value
-    + vstrit.next().value
-    + vstrit.next().value;
+    + vstrit.next().value + vstrit.next().value + vstrit.next().value;
   _cut.isEqual("Array.prototype.values()", "XYZX", vstr);
 }
 
 _cut.isEqual(
   "String.fromCodePoint()",
   "*"+"AZ"+"Є",
-  String.fromCodePoint(42)
-  + String.fromCodePoint(65, 90)
-  + String.fromCodePoint(0x404)
+  String.fromCodePoint(42)+String.fromCodePoint(65,90)+String.fromCodePoint(0x404)
 );
 
 _cut.isEqual(
   "String.fromCodePointAt()",
   "66"+"65536"+"undefined",
-  ""
-  + "ABC".codePointAt(1)
-  + "\uD800\uDC00".codePointAt(0)
-  + "XYZ".codePointAt(42)
+  ""+"ABC".codePointAt(1)+"\uD800\uDC00".codePointAt(0)+"XYZ".codePointAt(42)
 );
 
 _cut.isEqual(
   "Array.prototype.copyWithin()",
-  "[1,2,3,1,2]"
-  +"[4,5,3,4,5]"
-  +"[4,2,3,4,5]"
-  +"[1,2,3,3,4]"
+  "[1,2,3,1,2]"+"[4,5,3,4,5]"+"[4,2,3,4,5]"+"[1,2,3,3,4]"
   +"{\"0\":1,\"3\":1,\"length\":5}",
   JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2))
-  +JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3))
-  +JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3, 4))
-  +JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2, -3, -1))
-  +JSON.stringify([].copyWithin.call({length: 5, 3: 1}, 0, 3))
+    +JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3))
+    +JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3, 4))
+    +JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2, -3, -1))
+    +JSON.stringify([].copyWithin.call({length: 5, 3: 1}, 0, 3))
 );
 
 var objA = {a:1,b:2};
@@ -1313,18 +1207,6 @@ var objB = Object.create(objA);
 objB.c = 3;
 objB.d = 4;
 var objC = Object.create(objB);
-// objA.a 1          own
-// objA.b 2          own
-// objA.c undefined  not own
-// objA.d undefined  not own
-// objB.a 1          not own
-// objB.b 2          not own
-// objB.c 3          own
-// objB.d 4          own
-// objC.a 1          not own
-// objC.b 2          not own
-// objC.c 3          not own
-// objC.d 4          not own
 var objStr = JSON.stringify( Object.getOwnPropertyDescriptors(objA) );
 objStr += JSON.stringify( Object.getOwnPropertyDescriptors(objB) );
 objStr += JSON.stringify( Object.getOwnPropertyDescriptors(objC) );
@@ -1380,12 +1262,8 @@ etgStr += etgi6.toggleAttribute("readonly", true);
 etgStr += etgi6.hasAttribute("readonly", true);
 _cut.isEqual(
   "Element.prototype.toggleAttribute()",
-  "truetruefalsefalse"
-    +"falsefalsefalsefalse"
-    +"truetruetruetrue"
-    +"falsefalsetruetrue"
-    +"falsefalsefalsefalse"
-    +"truetruetruetrue",
+  "truetruefalsefalse"+"falsefalsefalsefalse"+"truetruetruetrue"
+    +"falsefalsetruetrue"+"falsefalsefalsefalse"+"truetruetruetrue",
   etgStr
 );
 etgi1.remove();
@@ -1487,15 +1365,10 @@ valuesStr += JSON.stringify( Object.values(entriesObj) );
 _cut.isEqual(
   "Object.entries()",
   '[["a",1],["b",2],["c",3]]'
-  + '[["name","John Smith"],["age",42],["male",true]]',
+    + '[["name","John Smith"],["age",42],["male",true]]',
   entriesStr
 );
-_cut.isEqual(
-  "Object.values()",
-  '[1,2,3]'
-  + '["John Smith",42,true]',
-  valuesStr
-);
+_cut.isEqual("Object.values()", '[1,2,3]'+'["John Smith",42,true]', valuesStr);
 
 var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";
 _cut.isEqual(
@@ -1555,45 +1428,32 @@ var testArrayFill3 = Array(3).fill("ipsum");
 testArrayFillStr += JSON.stringify(testArrayFill3);
 _cut.isEqual(
   "Array.prototype.fill()",
-  '[1,2,3,4]'
-    +'[1,2,3,3.14]'
-    +'[1,2,3,3.14]'
-    +'[1,2,42,42]'
-    +'[1,2,42,42]'
-    +'[56,56,56,56]'
-    +'[56,56,56,56]'
-    +'[{},{},{},{}]'
-    +'[{},{},{},{}]'
+  '[1,2,3,4]'+'[1,2,3,3.14]'+'[1,2,3,3.14]'+'[1,2,42,42]'+'[1,2,42,42]'
+    +'[56,56,56,56]'+'[56,56,56,56]'+'[{},{},{},{}]'+'[{},{},{},{}]'
     +'[{"p1":"lorem"},{"p1":"lorem"},{"p1":"lorem"},{"p1":"lorem"}]'
-    +'[null,null,null,null,null]'
-    +'["ipsum","ipsum","ipsum"]',
+    +'[null,null,null,null,null]'+'["ipsum","ipsum","ipsum"]',
   testArrayFillStr
 );
 
 _cut.isEqual("Array.from()", 3, Array.from({0:1,1:2,2:3,length:3})[2] );
 _cut.isEqual("Array.from() with mapFN",
-  6,
-  Array.from({0:1,1:2,2:3,length:3}, function (e) { return e*3; })[1]
+  6, Array.from({0:1,1:2,2:3,length:3}, function (e) { return e*3; })[1]
 );
 _cut.isEqual("Array.of()", 4, Array.of(2,4,6)[1] );
 _cut.isEqual("Object.create()", 1, Object.create({ a: 1, b: 2 }).a );
 _cut.isEqual("Object.assign()", 3, Object.assign({ a: 1}, {b: 2}, {c: 3}).c );
 var testArrayFI = [66, 7, 135, 75, 190, 89];
 _cut.isEqual("Array.prototype.find() true",
-  135,
-  testArrayFI.find(function (e) { return e > 100; })
+  135, testArrayFI.find(function (e) { return e > 100; })
 );
 _cut.isEqual("Array.prototype.find() false",
-  undefined,
-  testArrayFI.find(function (e) { return e > 200; })
+  undefined, testArrayFI.find(function (e) { return e > 200; })
 );
 _cut.isEqual("Array.prototype.findIndex() true",
-  2,
-  testArrayFI.findIndex(function (e) { return e > 100; })
+  2, testArrayFI.findIndex(function (e) { return e > 100; })
 );
 _cut.isEqual("Array.prototype.findIndex() false",
-  -1,
-  testArrayFI.findIndex(function (e) { return e > 200; })
+  -1, testArrayFI.findIndex(function (e) { return e > 200; })
 );
 _cut.isEqual("Array.prototype.includes() true", true, testArrayFI.includes(190) );
 _cut.isEqual("Array.prototype.includes() false", false, testArrayFI.includes(195) );
@@ -1668,11 +1528,6 @@ _cut.addElement("p", JSON.stringify(Object.fromEntries(Object.entries(obj))) );
 
 if (_cut.isNotIE11()) {
   var fromEntriesMap = new Map([ ["foo", "bar"], ["baz", 42] ]);
-  /*
-  var map = new Map();
-  map.set("foo", "bar");
-  map.set("baz", 42);
-  */
   _cut.isEqual("Object.fromEntries() step 3 Map - doesn't work in IE11",'{"foo":"bar","baz":42}', JSON.stringify(Object.fromEntries(fromEntriesMap)));
   _cut.addElement("p", JSON.stringify(Object.fromEntries(fromEntriesMap)) );
 }
@@ -1746,68 +1601,40 @@ _cut.isEqual("Number.MAX_SAFE_INTEGER", 9007199254740991, Number.MAX_SAFE_INTEGE
 _cut.isEqual("Number.EPSILON", Math.pow(2, -52), Number.EPSILON );
 _cut.isEqual("Number.isNaN()",
   "false  false  false  false  false  false  false  true  false  false",
-   Number.isNaN(42)
-     +"  "+Number.isNaN(3.14)
-     +"  "+Number.isNaN(-42)
-     +"  "+Number.isNaN(-3.14)
-     +"  "+Number.isNaN(0)
-     +"  "+Number.isNaN(null)
-     +"  "+Number.isNaN(undefined)
-     +"  "+Number.isNaN(NaN)
-     +"  "+Number.isNaN("The life")
-     +"  "+Number.isNaN(true)
+  Number.isNaN(42)+"  "+Number.isNaN(3.14)+"  "+Number.isNaN(-42)
+    +"  "+Number.isNaN(-3.14)+"  "+Number.isNaN(0)+"  "+Number.isNaN(null)
+    +"  "+Number.isNaN(undefined)+"  "+Number.isNaN(NaN)
+    +"  "+Number.isNaN("The life")+"  "+Number.isNaN(true)
 );
 _cut.isEqual("isNaN()",
   "false  false  false  false  false  false  true  true  true  false",
-  isNaN(42)
-    +"  "+isNaN(3.14)
-    +"  "+isNaN(-42)
-    +"  "+isNaN(-3.14)
-    +"  "+isNaN(0)
-    +"  "+isNaN(null)
-    +"  "+isNaN(undefined)
-    +"  "+isNaN(NaN)
-    +"  "+isNaN("The life")
-    +"  "+isNaN(true)
+  isNaN(42)+"  "+isNaN(3.14)+"  "+isNaN(-42)+"  "+isNaN(-3.14)
+    +"  "+isNaN(0)+"  "+isNaN(null)+"  "+isNaN(undefined)
+    +"  "+isNaN(NaN)+"  "+isNaN("The life")+"  "+isNaN(true)
 );
 _cut.isEqual("Number.isInteger()",
   "true  false  true  false  true  false  false  false  false  false",
-  Number.isInteger(42)
-    +"  "+Number.isInteger(3.14)
-    +"  "+Number.isInteger(-42)
-    +"  "+Number.isInteger(-3.14)
-    +"  "+Number.isInteger(0)
-    +"  "+Number.isInteger(null)
-    +"  "+Number.isInteger(undefined)
-    +"  "+Number.isInteger(NaN)
-    +"  "+Number.isInteger("The life")
-    +"  "+Number.isInteger(true)
+  Number.isInteger(42)+"  "+Number.isInteger(3.14)
+    +"  "+Number.isInteger(-42)+"  "+Number.isInteger(-3.14)
+    +"  "+Number.isInteger(0)+"  "+Number.isInteger(null)
+    +"  "+Number.isInteger(undefined)+"  "+Number.isInteger(NaN)
+    +"  "+Number.isInteger("The life")+"  "+Number.isInteger(true)
 );
 _cut.isEqual("Number.isFinite()",
   "true  true  true  true  true  false  false  false  false  false",
-  Number.isFinite(42)
-    +"  "+Number.isFinite(3.14)
-    +"  "+Number.isFinite(-42)
-    +"  "+Number.isFinite(-3.14)
-    +"  "+Number.isFinite(0)
-    +"  "+Number.isFinite(null)
-    +"  "+Number.isFinite(undefined)
-    +"  "+Number.isFinite(NaN)
-    +"  "+Number.isFinite("The life")
-    +"  "+Number.isFinite(true)
+  Number.isFinite(42)+"  "+Number.isFinite(3.14)
+    +"  "+Number.isFinite(-42)+"  "+Number.isFinite(-3.14)
+    +"  "+Number.isFinite(0)+"  "+Number.isFinite(null)
+    +"  "+Number.isFinite(undefined)+"  "+Number.isFinite(NaN)
+    +"  "+Number.isFinite("The life")+"  "+Number.isFinite(true)
 );
 _cut.isEqual("Number.isSafeInteger()",
   "true  false  true  false  true  false  false  false  false  false",
-  Number.isSafeInteger(42)
-    +"  "+Number.isSafeInteger(3.14)
-    +"  "+Number.isSafeInteger(-42)
-    +"  "+Number.isSafeInteger(-3.14)
-    +"  "+Number.isSafeInteger(0)
-    +"  "+Number.isSafeInteger(null)
-    +"  "+Number.isSafeInteger(undefined)
-    +"  "+Number.isSafeInteger(NaN)
-    +"  "+Number.isSafeInteger("The life")
-    +"  "+Number.isSafeInteger(true)
+  Number.isSafeInteger(42)+"  "+Number.isSafeInteger(3.14)
+    +"  "+Number.isSafeInteger(-42)+"  "+Number.isSafeInteger(-3.14)
+    +"  "+Number.isSafeInteger(0)+"  "+Number.isSafeInteger(null)
+    +"  "+Number.isSafeInteger(undefined)+"  "+Number.isSafeInteger(NaN)
+    +"  "+Number.isSafeInteger("The life")+"  "+Number.isSafeInteger(true)
 );
 
 
@@ -1834,54 +1661,53 @@ _cut.isEqual("Math.tanh()", 1, Math.tanh(Infinity));
 _cut.isEqual(
   "Math.trunc()",
   "3"+"-3"+"4"+"-4"+"NaN"+"1"+"0",
-  ""
-  +Math.trunc(3.5)
-  +Math.trunc(-3.5)
-  +Math.trunc("4.8")
-  +Math.trunc("-4.8")
-  +Math.trunc("fff")
-  +Math.trunc(true)
-  +Math.trunc(false)
+  ""+Math.trunc(3.5)+Math.trunc(-3.5)+Math.trunc("4.8")+Math.trunc("-4.8")
+    +Math.trunc("fff")+Math.trunc(true)+Math.trunc(false)
 );
 
 
 /* type checking */
 _cut.addElement("h3", "type checking");
 
-_cut.isEqual("isString() true", true, _.isString("str") );
-_cut.isEqual("isString() false", false, _.isString(533) );
-_cut.isEqual("isChar() true", true, _.isChar("s") );
-_cut.isEqual("isChar() false 1", false, _.isChar("str") );
+_cut.isTrue("isString() true", _.isString("str") );
+_cut.isFalse("isString() false", _.isString(533) );
+_cut.isTrue("isChar() true", _.isChar("s") );
+_cut.isFalse("isChar() false 1", _.isChar("str") );
 _cut.isEqual("isChar() false 2", false, _.isChar(533) );
-_cut.isEqual("isNumber() true 1", true, _.isNumber(98) );
-_cut.isEqual("isNumber() true 2", true, _.isNumber(3.14) );
+_cut.isTrue("isNumber() true 1", _.isNumber(98) );
+_cut.isTrue("isNumber() true 2", _.isNumber(3.14) );
 _cut.isEqual("isNumber() false", false, _.isNumber("str") );
-_cut.isEqual("isInteger() true", true, _.isInteger(98) );
-_cut.isEqual("isInteger() false 1", false, _.isInteger(3.14) );
-_cut.isEqual("isInteger() false 2", false, _.isInteger("str") );
-_cut.isEqual("isFloat() true", true, _.isFloat(3.14) );
+_cut.isTrue("isInteger() true", _.isInteger(98) );
+_cut.isFalse("isInteger() false 1", _.isInteger(3.14) );
+_cut.isFalse("isInteger() false 2", _.isInteger("str") );
+_cut.isTrue("isFloat() true", _.isFloat(3.14) );
 _cut.isEqual("isFloat() false 1", false, _.isFloat(98) );
 _cut.isEqual("isFloat() false 2", false, _.isFloat("str") );
-_cut.isEqual("isBoolean() true", true, _.isBoolean(false) );
+_cut.isTrue("isBoolean() true", _.isBoolean(false) );
 _cut.isEqual("isBoolean() false", false, _.isBoolean(98) );
-_cut.isEqual("isObject() true", true, _.isObject({}) );
+_cut.isTrue("isObject() true", _.isObject({}) );
 _cut.isEqual("isObject() false ", false, _.isObject(98) );
-_cut.isEqual("isEmptyObject() true", true, _.isEmptyObject({}) );
+_cut.isTrue("isEmptyObject() true", _.isEmptyObject({}) );
 _cut.isEqual("isEmptyObject() false 1", false, _.isEmptyObject( document.querySelector("p") ) );
 _cut.isEqual("isEmptyObject() false 2", false, _.isEmptyObject(98) );
-_cut.isEqual("isFunction() true", true, _.isFunction(_.noop) );
+_cut.isTrue("isFunction() true", _.isFunction(_.noop) );
 _cut.isEqual("isFunction() false", false, _.isFunction( document.querySelector("p") ) );
 _cut.isEqual("isArray() false", false, _.isArray( document.querySelector("p") ) );
-_cut.isEqual("isEmptyArray() true", true, _.isEmptyArray([]) );
-_cut.isEqual("isEmptyArray() false 1", false, _.isEmptyArray([1,2,3]) );
-_cut.isEqual("isEmptyArray() false 2", false, _.isEmptyArray( document.querySelector("p") ) );
-_cut.isEqual("isArraylike() true 1", true, _.isArraylike([]) );
-_cut.isEqual("isArraylike() true 2", true, _.isArraylike( document.querySelectorAll("p") ) );
-_cut.isEqual("isArraylike() false", false, _.isArraylike( document.querySelector("p") ) );
-_cut.isEqual("isNull() true", true, _.isNull(null) );
-_cut.isEqual("isNull() false", false, _.isNull( document.querySelectorAll("p") ) );
-_cut.isEqual("isUndefined() true", true, _.isUndefined(undefined) );
-_cut.isEqual("isUndefined() false", false, _.isUndefined( document.querySelectorAll("p") ) );
+_cut.isTrue("isEmptyArray() true", _.isEmptyArray([]) );
+_cut.isFalse("isEmptyArray() false 1", _.isEmptyArray([1,2,3]) );
+_cut.isFalse("isEmptyArray() false 2", _.isEmptyArray( document.querySelector("p") ) );
+_cut.isTrue("isArraylike() true 1 array", _.isArraylike([]) );
+_cut.isTrue("isArraylike() true 2 querySelectorAll", _.isArraylike( document.querySelectorAll("p") ) );
+_cut.isTrue("isArraylike() true 3 arraylike object", _.isArraylike({0:4,1:5,length:2}) );
+_cut.isTrue("isArraylike() true 4 string", _.isArraylike("Pillangó") );
+_cut.isEqual("isArraylike() false 1 element", false, _.isArraylike( document.querySelector("p") ) );
+_cut.isEqual("isArraylike() false 2 number", false, _.isArraylike(42) );
+_cut.isEqual("isArraylike() false 3 null", false, _.isArraylike(null) );
+_cut.isEqual("isArraylike() false 4 object", false, _.isArraylike({0:4,1:5}) );
+_cut.isTrue("isNull() true", _.isNull(null) );
+_cut.isFalse("isNull() false", _.isNull( document.querySelectorAll("p") ) );
+_cut.isTrue("isUndefined() true", _.isUndefined(undefined) );
+_cut.isFalse("isUndefined() false", _.isUndefined( document.querySelectorAll("p") ) );
 _cut.isEqual("isNullOrUndefined() true 1", true, _.isNullOrUndefined(undefined) );
 _cut.isEqual("isNullOrUndefined() true 2", true, _.isNullOrUndefined(null) );
 _cut.isEqual("isNullOrUndefined() false", false, _.isNullOrUndefined( document.querySelectorAll("p") ) );
@@ -1903,49 +1729,23 @@ _cut.isEqual("isElement() false 2 ", false, _.isElement(document.createComment("
 _cut.isEqual("isElement() false 3 ", false, _.isElement([]) );
 
 _cut.isEqual("isNumeric() true", true,
-  _.isNumeric(-42) &&
-  _.isNumeric(-1.42) &&
-  _.isNumeric(-0.42) &&
-  _.isNumeric(0) &&
-  _.isNumeric(0.42) &&
-  _.isNumeric(.42) &&
-  _.isNumeric(1.42) &&
-  _.isNumeric(42) &&
-  _.isNumeric(8e5) &&
-  _.isNumeric(-8e5) &&
-  _.isNumeric(0x89f) &&
-  _.isNumeric(-0x89f) &&
-  _.isNumeric("-42") &&
-  _.isNumeric("-1.42") &&
-  _.isNumeric("-0.42") &&
-  _.isNumeric("0") &&
-  _.isNumeric("0.42") &&
-  _.isNumeric(".42") &&
-  _.isNumeric("1.42") &&
-  _.isNumeric("42") &&
-  _.isNumeric("8e5") &&
-  _.isNumeric("-8e5") &&
-  _.isNumeric("0x89f")
+  _.isNumeric(-42) && _.isNumeric(-1.42) && _.isNumeric(-0.42) &&
+  _.isNumeric(0) && _.isNumeric(0.42) && _.isNumeric(.42) &&
+  _.isNumeric(1.42) && _.isNumeric(42) && _.isNumeric(8e5) &&
+  _.isNumeric(-8e5) && _.isNumeric(0x89f) && _.isNumeric(-0x89f) &&
+  _.isNumeric("-42") && _.isNumeric("-1.42") && _.isNumeric("-0.42") &&
+  _.isNumeric("0") && _.isNumeric("0.42") && _.isNumeric(".42") &&
+  _.isNumeric("1.42") && _.isNumeric("42") && _.isNumeric("8e5") &&
+  _.isNumeric("-8e5") && _.isNumeric("0x89f")
 );
 
 _cut.isEqual("isNumeric() false", true,
-  !_.isNumeric(null) &&
-  !_.isNumeric(undefined) &&
-  !_.isNumeric(NaN) &&
-  !_.isNumeric("NaN") &&
-  !_.isNumeric("1,42") &&
-  !_.isNumeric("#foo") &&
-  !_.isNumeric("1.2.3") &&
-  !_.isNumeric("") &&
-  !_.isNumeric("bar") &&
-  !_.isNumeric(" ") &&
-  !_.isNumeric("\r\n") &&
-  !_.isNumeric("true") &&
-  !_.isNumeric("false") &&
-  !_.isNumeric("1<10") &&
-  !_.isNumeric([]) &&
-  !_.isNumeric({}) &&
-  !_.isNumeric("-0x89f")
+  !_.isNumeric(null) && !_.isNumeric(undefined) && !_.isNumeric(NaN) &&
+  !_.isNumeric("NaN") && !_.isNumeric("1,42") && !_.isNumeric("#foo") &&
+  !_.isNumeric("1.2.3") && !_.isNumeric("") && !_.isNumeric("bar") &&
+  !_.isNumeric(" ") && !_.isNumeric("\r\n") && !_.isNumeric("true") &&
+  !_.isNumeric("false") && !_.isNumeric("1<10") && !_.isNumeric([]) &&
+  !_.isNumeric({}) && !_.isNumeric("-0x89f")
 );
 
 
@@ -1954,36 +1754,22 @@ _cut.addElement("h4", "Type checking - isEqual()");
 
 _cut.log('<span class="info">Note: <code>isEqual();</code> Works only with ES5 types. Please use the <code>Array.from()</code> or the <code>spread syntax</code> to convert Map and Set types to Array!</span>');
 
-_cut.isTrue(
-  "isEqual() - 01 ES5 object true",
-  _.isEqual({a:1,b:2}, {a:1,b:2})
-);
-_cut.isTrue(
-  "isEqual() - 02 ES5 array true",
+_cut.isTrue("isEqual() - 01 ES5 object true", _.isEqual({a:1,b:2}, {a:1,b:2}) );
+_cut.isTrue("isEqual() - 02 ES5 array true",
   _.isEqual(["a","b",3.14,"c","d",42], ["a","b",3.14,"c","d",42])
 );
-_cut.isTrue(
-  "isEqual() - 03 ES5 nodelist true",
+_cut.isTrue("isEqual() - 03 ES5 nodelist true",
   _.isEqual(document.querySelectorAll("h3"), document.querySelectorAll("h3"))
 );
-_cut.isEqual(
-  "isEqual() - 04 ES5 simple types true",
+_cut.isEqual("isEqual() - 04 ES5 simple types true",
   "truetruetruetruetruetruetruetruetruetruetruetrue",
-  ""
-    + _.isEqual(true, true)
-    + _.isEqual(false, false)
-    + _.isEqual(42, 42)
-    + _.isEqual(3.14, 3.14)
-    + _.isEqual(0, -0)
-    + _.isEqual(Infinity, Infinity)
-    + _.isEqual(-Infinity, -Infinity)
-    + _.isEqual("$", "$")
-    + _.isEqual(
+  "" + _.isEqual(true, true) + _.isEqual(false, false) + _.isEqual(42, 42)
+    + _.isEqual(3.14, 3.14) + _.isEqual(0, -0) + _.isEqual(Infinity, Infinity)
+    + _.isEqual(-Infinity, -Infinity) + _.isEqual("$", "$") + _.isEqual(
       "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die.",
       "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die."
     )
-    + _.isEqual(null, null)
-    + _.isEqual(undefined, undefined)
+    + _.isEqual(null, null) + _.isEqual(undefined, undefined)
     + _.isEqual(NaN, NaN)
 );
 _cut.isTrue(
@@ -2050,52 +1836,41 @@ if (_cut.isNotIE11()) {
   _cut.isEqual("<b>ES6 -</b> isWeakMap() false", false, _.isWeakMap(_.noop) );
   _cut.isEqual("<b>ES6 -</b> isWeakSet() true", true, _.isWeakSet( new WeakSet() ) );
   _cut.isEqual("<b>ES6 -</b> isWeakSet() false", false, _.isWeakSet(_.noop) );
-  _cut.isEqual(
+  _cut.isTrue(
     "<b>ES6 -</b> isIterator() true - Array values()",
-    true,
     _.isIterator([4,5,6].values())
   );
   _cut.log( _.getType([4,5,6].values()) );
-  _cut.isEqual(
+  _cut.isTrue(
     "<b>ES6 -</b> isIterator() true - Set values()",
-    true,
     _.isIterator(new Set([4,5,7]).values())
   );
   _cut.log( _.getType(new Set([4,5,7]).values()) );
-  _cut.isEqual(
+  _cut.isTrue(
     "<b>ES6 -</b> isIterator() true - Map values()",
-    true,
     _.isIterator(new Map([[4,5],[5,6]]).values())
   );
   _cut.log( _.getType(new Map([[4,5],[5,6]]).values()) );
   if (_cut.isNotEdge()) {
-    _cut.isEqual(
+    _cut.isTrue(
       "<b>ES6 -</b> isIterator() true - Nodelist values()",
-      true,
       _.isIterator(document.querySelectorAll("h3").values())
     );
     _cut.log( _.getType(document.querySelectorAll("h3").values()) );
   }
-  _cut.isEqual(
-    "<b>ES6 -</b> isIterator() false - Array",
-    false,
-    _.isIterator([4,5,7])
+  _cut.isFalse(
+    "<b>ES6 -</b> isIterator() false - Array", _.isIterator([4,5,7])
   );
   _cut.log( _.getType([4,5,7]) );
   _cut.isTrue(
     "<b>ES6 -</b> isIterable() true",
-    _.isIterable([])
-      && _.isIterable("")
-      && _.isIterable(new Map([[1,2],[3,4]]))
-      && _.isIterable(new Set([1,2]))
+    _.isIterable([]) && _.isIterable("")
+      && _.isIterable(new Map([[1,2],[3,4]])) && _.isIterable(new Set([1,2]))
   );
   _cut.isFalse(
     "<b>ES6 -</b> isIterable() false",
-    _.isIterable(42)
-      || _.isIterable(3.14)
-      || _.isIterable({a:1,b:2})
-      || _.isIterable(true)
-      || _.isIterable(false)
+    _.isIterable(42) || _.isIterable(3.14) || _.isIterable({a:1,b:2})
+      || _.isIterable(true) || _.isIterable(false)
   );
   if (!!window.BigInt) {
     _cut.isTrue(
@@ -2117,28 +1892,27 @@ _cut.addElement("p", "Here have to be these results:");
 _cut.addElement(
   "ul",
   "<li>3x importScript() (core api) - first script loaded</li>"
-  +"<li>3x importScript() (core api) - second script loaded</li>"
-  +"<li>1x importScripts() (core api) with success gs1</li>"
-  +"<li>1x importScripts() (core api) with success gs2</li>"
-  +"<li>1x importScripts() (core api) with error gs1</li>"
-  +"<li>1x importScripts() (core api) with error gs2</li>"
-  +"<li>4x importScripts() (core api) - with more scripts"
-  +"<li>1x getJson()</li>"
-  +"<li>1x getText()</li>"
-  +"<li>3x getAjax() text/json/xml</li>"
-  +"<li>3x postAjax() text/json/xml</li>"
-  +"<li>3x getCors() text/json/xml</li>"
-  +"<li>3x postCors() text/json/xml</li>"
-  +"<li>1x getAjax() text + password</li>"
-  +"<li>1x postAjax() json + password</li>"
-  +"<li>1x getCors() xml + password</li>"
-  +"<li>1x postCors() json + password</li>"
-  +"<li>1x domReady() (core api) is working</li>"
+    +"<li>3x importScript() (core api) - second script loaded</li>"
+    +"<li>1x importScripts() (core api) with success gs1</li>"
+    +"<li>1x importScripts() (core api) with success gs2</li>"
+    +"<li>1x importScripts() (core api) with error gs1</li>"
+    +"<li>1x importScripts() (core api) with error gs2</li>"
+    +"<li>4x importScripts() (core api) - with more scripts"
+    +"<li>1x getJson()</li>"
+    +"<li>1x getText()</li>"
+    +"<li>3x getAjax() text/json/xml</li>"
+    +"<li>3x postAjax() text/json/xml</li>"
+    +"<li>3x getCors() text/json/xml</li>"
+    +"<li>3x postCors() text/json/xml</li>"
+    +"<li>1x getAjax() text + password</li>"
+    +"<li>1x postAjax() json + password</li>"
+    +"<li>1x getCors() xml + password</li>"
+    +"<li>1x postCors() json + password</li>"
+    +"<li>1x domReady() (core api) is working</li>"
 );
 
 _.importScript("unittest-gs1.js");
 _.importScript("unittest-gs2.js");
-
 _.importScripts("unittest-gsi.js");
 _.importScripts("unittest-gsi.js", "unittest-gsi.js", "unittest-gsi.js");
 
@@ -2231,9 +2005,7 @@ _.getCors( "testdata.xml","xml",
 );
 
 _.postCors( "testdata.txt","text","a=foo&amp;b=bar baz",
-  function (r) {
-    _cut.isEqual("postCors() text", resAjaxText, r );
-  },
+  function (r) { _cut.isEqual("postCors() text", resAjaxText, r ); },
   function (e) { _cut.isEqual("postCors() text: "+JSON.stringify(e), true, false ); }
 );
 _.postCors( "testdata.json","a=foo&b=bar baz","json",
@@ -2252,14 +2024,12 @@ _.postCors( "testdata.xml","a=foo&b=bar baz","xml",
 _.getAjax("testdata.txt","text",
   function (r) { _cut.isEqual("getAjax() text + password", resAjaxText, r ); },
   function (e) { _cut.isEqual("getAjax() text + password: "+JSON.stringify(e), true, false ); },
-  "user",
-  "password"
+  "user", "password"
 );
 _.postAjax( "testdata.json","a=foo&b=bar baz","json",
   function (r) { _cut.isEqual("postAjax() json + password", resAjaxJson, r[0].image ); },
   function (e) { _cut.isEqual("postAjax() json + password: "+JSON.stringify(e), true, false ); },
-  "user",
-  "password"
+  "user", "password"
 );
 _.getCors( "testdata.xml","xml",
   function (r) {
@@ -2268,19 +2038,16 @@ _.getCors( "testdata.xml","xml",
     _cut.isEqual("getCors() xml + password", resAjaxXml, xb );
   },
   function (e) { _cut.isEqual("getCors() xml + password: "+JSON.stringify(e), true, false ); },
-  "user",
-  "password"
+  "user", "password"
 );
 _.postCors( "testdata.json","a=foo&b=bar baz","json",
   function (r) { _cut.isEqual("postCors() json + password", resAjaxJson, r[0].image ); },
   function (e) { _cut.isEqual("postCors() json + password: "+JSON.stringify(e), true, false ); },
-  "user",
-  "password"
+  "user", "password"
 );
 
 /* domReady() */
 _.domReady(function () {
-  //_cut.addElement("h3", "domReady (core api)");
   _cut.isEqual("domReady() (core api) is working", true, true );
 });
 
