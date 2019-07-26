@@ -15,7 +15,7 @@ Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, l
  
 Latest version: 2.8.0
 
-Date: 2019-07-30T19:23:55.682Z
+Date: 2019-07-25T19:23:55.682Z
 
 The functions are available in the `celestra` and/or `_` object.
 
