@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
  
-Latest version: 2.8.0
+Latest version: 2.9.0
 
-Date: 2019-07-25T19:23:55.682Z
+Date: 2019-08-04T19:30:56.827Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (51759 bytes)
+Development version: celestra.js (51660 bytes)
 
-Minimal version: celestra.min.js (38868 bytes)
+Minimal version: celestra.min.js (38738 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -53,7 +53,9 @@ Minimal version: celestra-es6.min.js (2279 bytes)
 
 ### Celestra Unit Tester (CUT)
 
-Celestra test results: unittest.html
+Celestra test results for minimal version: unittest.html
+
+Celestra test results for development version: unittest-dev.html 
 
 
 ## How to clone
@@ -207,6 +209,8 @@ Name | Description
 `isRegexp(<value>);` | This function determines whether the provided value is a regexp. The return value is boolean.
 `isElement(<value>);` | This function determines whether the provided value is a HTML element. The return value is boolean.
 `isBigInt(<value>);` | This function determines whether the provided value is a BigInt. The return value is boolean.
+`isArrayBuffer(<value>);` | This function determines whether the provided value is an arraybuffer. The return value is boolean.
+`isTypedArray(<value>);` | This function determines whether the provided value is an typedarray. The return value is boolean.
 
 
 ### Cookie functions
@@ -254,9 +258,7 @@ Name | Description
 `maxIndex(<collection>);` | Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
 `arrayRepeat(<value>[,n]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
-`range(<start>,<end>[,step]);` | __DEPRECATED IN v2.8.0__ Returns the array of values between the start and end parameters. All of the parameters have to be a number. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
 `arrayRange(<start>,<end>[,step]);` | Returns the array of values between the start and end parameters. All of the parameters have to be a number. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
-`toPairs(<collection1>,<collection2>);` | __DEPRECATED IN v2.8.0__ Returns the array of paired values of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array. Example: `_.toPairs(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
 `zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array. Example: `_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
 `unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. Example: `_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);` => `Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
 `arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.

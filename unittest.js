@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-/* Celestra v2.8.0 testcases */
+/* Celestra v2.9.0 testcases */
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -614,22 +614,6 @@ _cut.isEqual(
 
 var a = ["a","b","c","d"];
 var b = [3,4,5,6,7,8,9];
-_cut.isEqual(
-  "toPairs() ES5",
-  "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
-  JSON.stringify(_.toPairs(a,b))
-);
-if(_cut.isNotIE11()) {
-  _cut.isEqual(
-    "toPairs() ES6",
-    "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
-    JSON.stringify(_.toPairs(
-      new Set(a),
-      new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values()
-    ))
-  );
-}
-
 var zipA = ["a1", "a2", "a3"];
 var zipB = ["b1", "b2", "b3"];
 var zipC = ["c1", "c2", "c3", "c4", "c5"];
@@ -1747,6 +1731,26 @@ _cut.isEqual("isNumeric() false", true,
   !_.isNumeric("false") && !_.isNumeric("1<10") && !_.isNumeric([]) &&
   !_.isNumeric({}) && !_.isNumeric("-0x89f")
 );
+
+_cut.isTrue("isArrayBuffer() true", _.isArrayBuffer(new ArrayBuffer(8)) );
+_cut.isFalse("isArrayBuffer() false 1", _.isArrayBuffer([4,5,6]) );
+_cut.isFalse("isArrayBuffer() false 2", _.isArrayBuffer(new Int8Array(5)) );
+
+_cut.isTrue("isTypedArray - true 1 - Int8Array", _.isTypedArray(new Int8Array(5)) );
+_cut.isTrue("isTypedArray - true 2 - Uint8Array", _.isTypedArray(new Uint8Array(5)) );
+_cut.isTrue("isTypedArray - true 3 - Int16Array", _.isTypedArray(new Int16Array(5)) );
+_cut.isTrue("isTypedArray - true 4 - Uint16Array", _.isTypedArray(new Uint16Array(5)) );
+_cut.isTrue("isTypedArray - true 5 - Int32Array", _.isTypedArray(new Int32Array(5)) );
+_cut.isTrue("isTypedArray - true 6 - Uint32Array", _.isTypedArray(new Uint32Array(5)) );
+_cut.isTrue("isTypedArray - true 7 - Float32Array", _.isTypedArray(new Float32Array(5)) );
+_cut.isTrue("isTypedArray - true 8 - Float64Array", _.isTypedArray(new Float64Array(5)) );
+if (_cut.isNotIE11()) {
+  _cut.isTrue("isTypedArray - true 9 - Uint8ClampedArray", _.isTypedArray(new Uint8ClampedArray(5)) );
+  _cut.isTrue("isTypedArray - true 10 - BigInt64Array", _.isTypedArray(new BigInt64Array(5)) );
+  _cut.isTrue("isTypedArray - true 11 - BigUint64Array", _.isTypedArray(new BigUint64Array(5)) );
+}
+_cut.isFalse("isTypedArray - false 1 - Array", _.isTypedArray([4,5,6]) );
+_cut.isFalse("isTypedArray - false 2 - ArrayBuffer", _.isTypedArray(new ArrayBuffer(8)) );
 
 
 /* Type checking - isEqual()*/

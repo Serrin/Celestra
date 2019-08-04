@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.8.0
+ * @version 2.9.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -12,7 +12,8 @@
 /*-----------------+------+----------------------------------
   Function         |   #  |  Internal calls
 -------------------+------+----------------------------------
-  __toArray__()    |   N  |  CTRL-F
+  CTRL-F           |   N  |  __toArray__()
+  CTRL-F           |   N  |  __objType__()
   importScripts()  |   2  |  importScript(), importScript()
   importStyles()   |   2  |  importStyle(), importStyle()
   domFadeToggle()  |   2  |  domFadeIn(), domFadeOut()
@@ -1287,42 +1288,39 @@ function isPrimitive (v) {
 }
 
 function isSymbol (v) { return typeof v === "symbol"; }
-function isMap (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
-    .toLowerCase() === "map";
-}
-function isSet (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
-    .toLowerCase() === "set";
-}
-function isWeakMap (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
-    .toLowerCase() === "weakmap";
-}
-function isWeakSet (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
-    .toLowerCase() === "weakset";
-}
+
+function isMap (v) { return (celestra.__objType__(v) === "map"); }
+
+function isSet (v) { return (celestra.__objType__(v) === "set"); }
+
+function isWeakMap (v) { return (celestra.__objType__(v) === "weakmap"); }
+
+function isWeakSet (v) { return (celestra.__objType__(v) === "weakset"); }
+
 function isIterator (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
-    .toLowerCase().indexOf("iterator") !== -1;
+  return celestra.__objType__(v).includes("iterator");
 }
 
-function isDate (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
-    .toLowerCase() === "date";
-}
+function isDate (v) { return (celestra.__objType__(v) === "date"); }
 
-function isRegexp (v) {
-  return Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
-    .toLowerCase() === "regexp";
-}
+function isRegexp (v) { return (celestra.__objType__(v) === "regexp"); }
 
 function isElement (v) { return typeof v === "object" && v.nodeType === 1; }
 
 function isIterable (v) { return (!!v[Symbol.iterator]); }
 
 function isBigInt (v) { return (typeof v === "bigint"); }
+
+function isArrayBuffer (v) {
+  return (celestra.__objType__(v) === "arraybuffer");
+}
+
+function isTypedArray (v) {
+  return ["int8array", "uint8array", "uint8clampedarray", "int16array",
+    "uint16array", "int32array", "uint32array", "float32array",
+    "float64array", "bigint64array", "biguint64array"
+  ].includes(celestra.__objType__(v));
+}
 
 /* cookie */
 
@@ -1523,16 +1521,6 @@ function arrayRange (start, end, step) {
   return res;
 }
 
-var range = arrayRange;
-
-function toPairs (a, b) {
-  var a2 = Array.from(a), b2 = Array.from(b);
-  var l = (a2.length < b2.length ? a2.length : b2.length);
-  var res = [];
-  for (var i = 0; i < l ; i++) { res.push([ a2[i], b2[i] ]); }
-  return res;
-}
-
 function zip () {
   var arrays = [], res = [], i, j, l, item;
   for (i = 0, l = arguments.length; i < l; i++) {
@@ -1622,11 +1610,18 @@ function noConflict () {
 /* Only for internal use. If needed can be replaced with the "Array.from();". */
 function __toArray__ (a) { return (Array.isArray(a) ? a : Array.from(a)); }
 
+/* Only for internal use. */
+function __objType__ (v) {
+  return Object.prototype.toString.call(v)
+    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
+}
+
 var celestra = {
   /* header */
-  version: "Celestra v2.8.0",
+  version: "Celestra v2.9.0",
   noConflict: noConflict,
   __toArray__: __toArray__,
+  __objType__: __objType__,
   /* core api */
   qsa: qsa,
   qs: qs,
@@ -1721,6 +1716,8 @@ var celestra = {
   isElement: isElement,
   isIterable: isIterable,
   isBigInt: isBigInt,
+  isArrayBuffer: isArrayBuffer,
+  isTypedArray: isTypedArray,
   /* cookie */
   setCookie: setCookie,
   getCookie: getCookie,
@@ -1748,9 +1745,7 @@ var celestra = {
   maxIndex: maxIndex,
   arrayRepeat: arrayRepeat,
   arrayCycle: arrayCycle,
-  range: range,
   arrayRange: arrayRange,
-  toPairs: toPairs,
   zip: zip,
   unzip: unzip,
   uniqueArray: uniqueArray,

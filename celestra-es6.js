@@ -1,9 +1,9 @@
 /**
  * @name Celestra ES6 extension
- * @version 2.8.0
+ * @version 2.9.0
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.8.0
+ * Minimal required Celestra version: 2.9.0
  */
 
 (function(window, celestra){
