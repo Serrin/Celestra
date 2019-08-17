@@ -1,7 +1,8 @@
 (function(){
 "use strict";
 
-/* Celestra v2.9.0 ES6E testcases */
+/* Celestra v2.9.1 ES6E testcases */
+
 
 _cut.addElement("h3", "ES6 extension");
 
@@ -188,7 +189,10 @@ _cut.isEqual("takeOf() - step 2 - 7", "ABCDEFG", iterStr);
 var iterStr = "";
 for (let item of _.takeOf(FParray2, 12)) { iterStr += item; }
 _cut.isEqual("takeOf() - step 3 - 12", "ABCDEFGHIJ", iterStr);
-
+// takeOf() - step 4 - default 1
+var iterStr = "";
+for (let item of _.takeOf(FParray2)) { iterStr += item; }
+_cut.isEqual("takeOf() - step 4 - default 1", "A", iterStr);
 
 // dropOf() - step 1 - 0
 var iterStr = "";
@@ -202,6 +206,12 @@ _cut.isEqual("dropOf() - step 2 - 7", "HIJ", iterStr);
 var iterStr = "";
 for (let item of _.dropOf(FParray2, 12)) { iterStr += item; }
 _cut.isEqual("dropOf() - step 3 - 12", "", iterStr);
+// dropOf() - step 4 - default 1
+var iterStr = "";
+for (let item of _.dropOf(FParray2)) { iterStr += item; }
+_cut.isEqual("dropOf() - step 4 - default 1", "BCDEFGHIJ", iterStr);
+
+
 
 
 var FPArray3 = [1,2,3,4,5,6,7,8,9,10];
@@ -237,7 +247,7 @@ _cut.isEqual("sliceOf() - step 4 - all", "12345678910", iterStr);
 
 let whileArray = [0,2,4,6,8,10,12,14,16];
 
-let whileSum = 0;
+var whileSum = 0;
 for (let item of _.takeWhile(whileArray, (e) => (e<10))) {
   whileSum += item;
 }
@@ -298,6 +308,157 @@ _cut.isEqual(
     JSON.stringify( _.itemOf(itemOfSet, 3) )
     + _.itemOf(itemOfSet, 12),
   "6" + "undefined"
+);
+
+let sizeLastArray = [4,5,6,7,8,"last"];
+
+_cut.isEqual( "sizeOf()", 6, _.sizeOf(sizeLastArray));
+
+_cut.isEqual("firstOf()", 4, _.firstOf(sizeLastArray));
+
+_cut.isEqual("lastOf()", "last", _.lastOf(sizeLastArray));
+
+let reverseSortArray = ["first",4,5,6,7,8,9,"last"];
+
+_cut.isEqual(
+  "reverseOf()",
+  "[\"last\",9,8,7,6,5,4,\"first\"]",
+  JSON.stringify([..._.reverseOf(reverseSortArray)])
+);
+
+_cut.isEqual(
+  "sortOf()",
+   "[4,5,6,7,8,9,\"first\",\"last\"]",
+  JSON.stringify([..._.sortOf(reverseSortArray)])
+);
+
+_cut.isTrue("hasOf() true", _.hasOf(reverseSortArray, "last"));
+_cut.isFalse("hasOf() false", _.hasOf(reverseSortArray, "world"));
+
+_cut.isEqual("findOf() found", 6, _.findOf(reverseSortArray, (v) => (v > 5)) );
+_cut.isEqual(
+  "findOf() not found",
+  undefined,
+  _.findOf(reverseSortArray, (v) => (v > 11))
+);
+
+var everySomeNoneOfArray = [2,9,3,5,8];
+var everySomeNoneOfEmptyArray = [];
+_cut.isTrue("everyOf() true", _.everyOf(everySomeNoneOfArray, (v) => v > 1 ) );
+_cut.isFalse("everyOf() false 1 - some", _.everyOf(everySomeNoneOfArray, (v) => v > 3 ) );
+_cut.isFalse("everyOf() false 1 - none", _.everyOf(everySomeNoneOfArray, (v) => v < 0 ) );
+_cut.isFalse("everyOf() false 3 - empty", _.everyOf(everySomeNoneOfEmptyArray, (v) => v > 3 ) );
+_cut.isTrue("someOf() true", _.someOf(everySomeNoneOfArray, (v) => v > 3 ) );
+_cut.isFalse("someOf() false 1 - none", _.someOf(everySomeNoneOfArray, (v) => v < 0 ) );
+_cut.isFalse("someOf() false 2 - empty", _.someOf(everySomeNoneOfEmptyArray, (v) => v < 0 ) );
+_cut.isTrue("noneOf() true", _.noneOf(everySomeNoneOfArray, (v) => v < 0 ) );
+_cut.isFalse("noneOf() false 1 - every", _.noneOf(everySomeNoneOfArray, (v) => v > 1 ) );
+_cut.isFalse("noneOf() false 2 - some", _.noneOf(everySomeNoneOfArray, (v) => v > 3 ) );
+_cut.isFalse("noneOf() false 3 - empty", _.noneOf(everySomeNoneOfEmptyArray, (v) => v > 3 ) );
+
+
+FParray2.reverse();
+
+// takeRight() - step 1 - 0
+var iterStr = "";
+for (let item of _.takeRight(FParray2, 0)) { iterStr += item; }
+_cut.isEqual("takeRight() - step 1 - 0", "", iterStr);
+_cut.log(iterStr || "empty string");
+// takeRight() - step 2 - 7
+var iterStr = "";
+for (let item of _.takeRight(FParray2, 7)) { iterStr += item; }
+_cut.isEqual("takeRight() - step 2 - 7", "ABCDEFG", iterStr);
+_cut.log(iterStr || "empty string");
+// takeRight() - step 3 - 12
+var iterStr = "";
+for (let item of _.takeRight(FParray2, 12)) { iterStr += item; }
+_cut.isEqual("takeRight() - step 3 - 12", "ABCDEFGHIJ", iterStr);
+_cut.log(iterStr || "empty string");
+// takeRight() - step 4 - default 1
+var iterStr = "";
+for (let item of _.takeRight(FParray2)) { iterStr += item; }
+_cut.isEqual("takeRight() - step 4 - default 1", "A", iterStr);
+_cut.log(iterStr || "empty string");
+
+// dropRight() - step 1 - 0
+var iterStr = "";
+for (let item of _.dropRight(FParray2, 0)) { iterStr += item; }
+_cut.isEqual("dropRight() - step 1 - 0", "ABCDEFGHIJ", iterStr);
+_cut.log(iterStr || "empty string");
+// dropRight() - step 2 - 7
+var iterStr = "";
+for (let item of _.dropRight(FParray2, 7)) { iterStr += item; }
+_cut.isEqual("dropRight() - step 2 - 7", "HIJ", iterStr);
+_cut.log(iterStr || "empty string");
+// dropRight() - step 3 - 12
+var iterStr = "";
+for (let item of _.dropRight(FParray2, 12)) { iterStr += item; }
+_cut.isEqual("dropRight() - step 3 - 12", "", iterStr);
+_cut.log(iterStr || "empty string");
+// dropRight() - step 4 - default 1
+var iterStr = "";
+for (let item of _.dropRight(FParray2)) { iterStr += item; }
+_cut.isEqual("dropRight() - step 4 - default 1", "BCDEFGHIJ", iterStr);
+_cut.log(iterStr || "empty string");
+
+
+whileArray.reverse();
+
+var whileSum = 0;
+for (let item of _.takeRightWhile(whileArray, (e) => (e<10))) {
+  whileSum += item;
+}
+_cut.isEqual("takeRightWhile() values", whileSum, 20);
+whileSum = 0;
+for (let item of _.takeRightWhile(whileArray, (e) => (e<0))) {
+  whileSum += item;
+}
+_cut.isEqual("takeRightWhile() empty list", whileSum, 0);
+whileSum = 0;
+for (let item of _.takeRightWhile(whileArray, (e) => (e<30))) {
+  whileSum += item;
+}
+_cut.isEqual("takeRightWhile() full list", whileSum, 72);
+
+whileSum = 0;
+for (let item of _.dropRightWhile(whileArray, (e) => (e<10))) {
+  whileSum += item;
+}
+_cut.isEqual("dropRightWhile() values", whileSum, 52);
+whileSum = 0;
+for (let item of _.dropRightWhile(whileArray, (e) => (e<30))) {
+  whileSum += item;
+}
+_cut.isEqual("dropRightWhile() empty list", whileSum, 0);
+whileSum = 0;
+for (let item of _.dropRightWhile(whileArray, (e) => (e<0))) {
+  whileSum += item;
+}
+_cut.isEqual("dropRightWhile() full list", whileSum, 72);
+
+
+_cut.isEqual(
+  "concatOf() one",
+  "[4,5,6]",
+  JSON.stringify([..._.concatOf([4,5,6])])
+);
+_cut.isEqual(
+  "concatOf() more",
+  "[\"1\",\"2\",\"3\",4,5,6,7,8,9]",
+  JSON.stringify([..._.concatOf("123", [4,5,6].values(), new Set([7,8,9]))])
+);
+
+
+let reduceOfArray = [4,5,6,7,8,9];
+_cut.isEqual(
+  "reduceOf() with initialvalue",
+  39,
+  _.reduceOf(reduceOfArray.values(), (acc, v, i) => acc + v, 0)
+);
+_cut.isEqual(
+  "reduceOf() without initialvalue",
+  39,
+  _.reduceOf(reduceOfArray.values(), (acc, v, i) => acc + v)
 );
 
 }());

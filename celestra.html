@@ -12,7 +12,7 @@
 
 <script>
   var _ = {};
-  _.version = "This is another sample library.";
+  _.VERSION = "This is another sample library.";
 </script>
 <script src="celestra.min.js"></script>
 <style>
@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).</p>
-<p>Latest version: 2.9.0</p>
-<p>Date: 2019-08-04T19:30:56.827Z</p>
+<p>Latest version: 2.9.1</p>
+<p>Date: 2019-08-16T19:11:59.042Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51660 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38738 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (51747 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (38764 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -82,8 +82,8 @@
 
 <h3>Celestra ES6 extension (ES6E)</h3>
 
-<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (3096 bytes)</p>
-<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (2279 bytes)</p>
+<p>Development version: <a href="celestra-es6.js" target="_blank">celestra-es6.js</a> (5833 bytes)</p>
+<p>Minimal version: <a href="celestra-es6.min.js" target="_blank">celestra-es6.min.js</a> (4387 bytes)</p>
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
@@ -95,7 +95,7 @@
 <h3>Core API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
-<br/>Example: <code>_.qsa()</code></p>
+<br/>Example: <code>_.random()</code></p>
 
 <div>
   <table>
@@ -104,10 +104,12 @@
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>celestra.VERSION;</code></td>
+      <td>The library version.</td>
+    </tr>
+    <tr>
       <td><code>celestra.version;</code></td>
-      <td>
-        The library version.
-      </td>
+      <td><span class="deprecated"> DEPRECATED in v2.9.1 </span> The library version.</td>
     </tr>
     <tr>
       <td><code>celestra.noConflict();</code></td>
@@ -115,24 +117,6 @@
         Restore the previous <code>_</code> object value and return the <code>celestra</code> object to create a new alias.<br/>
         <span class="info">Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code></span>
       </td>
-    </tr>
-    <tr>
-      <td><code>qsa(&#60;selector&#62;[,context]);</code></td>
-      <td>
-        <p>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.</p>
-        <p><span class="info">Note: The context as selector string has been removed in v2.6.0.</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>qs(&#60;selector&#62;[,context]).argument;</code></td>
-      <td>
-        <p>Get the first matched HTML element. The context is optional and can be an element or a selector string.<p>
-        <p><span class="info">Note: The context as selector string has been removed in v2.6.0.</span></p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>domReady(&#60;fn&#62;);</code></td>
-      <td>Set the document ready (content fully loaded) event.</td>
     </tr>
     <tr>
       <td><code>inherit(&#60;subclass&#62;,&#60;superclass&#62;);</code></td>
@@ -161,35 +145,6 @@
     <tr>
       <td><code>javaHash(&#60;data&#62;[,hexa]);</code></td>
       <td>Java <code>String.hashCode()</code> implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.</td>
-    </tr>
-    <tr>
-      <td><code>importScript(&#60;url&#62;[,success]);</code></td>
-      <td>
-        <p>Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function.</p>
-        <p><b>Tip:</b> To prevent the caching of a js/css file use versioning in the file url. Example: <code>mylib.js?version=1.10.0</code></p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>importScripts(&#60;scripts&#62;);</code></td>
-      <td>Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
-    </tr>
-    <tr>
-      <td><code>importScripts(&#60;script1&#62;[,scriptN]);</code></td>
-      <td>Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
-    </tr>
-    <tr>
-      <td><code>importStyle(&#60;href&#62;[,success]);</code></td>
-      <td>
-        <p>Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>importStyles(&#60;styles&#62;);</code></td>
-      <td>Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
-    </tr>
-    <tr>
-      <td><code>importStyles(&#60;style1&#62;[,styleN]);</code></td>
-      <td>Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
     </tr>
     <tr>
       <td><code>getUrlVar([name]);</code></td>
@@ -229,26 +184,6 @@
     <tr>
       <td><code>setFullscreenOff();</code></td>
       <td>Set off the fullscreen.</td>
-    </tr>
-    <tr>
-      <td><code>getLocation(&#60;success&#62;[,error]);</code></td>
-      <td>Get the current location as an object with the coordinates. The success is mandatory and has to be a function. The error is optional and can be a function.</td>
-    </tr>
-    <tr>
-      <td><code>getDoNotTrack();</code></td>
-      <td>Return the DoNotTrack setting (boolean) of the browser.</td>
-    </tr>
-    <tr>
-      <td><code>form2array(&#60;form&#62;);</code></td>
-      <td>
-        Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element.
-      </td>
-    </tr>
-    <tr>
-      <td><code>form2string(&#60;form&#62;);</code></td>
-      <td>
-        Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
-      </td>
     </tr>
     <tr>
       <td><code>strRemoveTags(&#60;string&#62;);</code></td>
@@ -324,6 +259,24 @@
     <tr>
       <td><b>Name</b></td>
       <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>qsa(&#60;selector&#62;[,context]);</code></td>
+      <td>
+        <p>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.</p>
+        <p><span class="info">Note: The context as selector string has been removed in v2.6.0.</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>qs(&#60;selector&#62;[,context]).argument;</code></td>
+      <td>
+        <p>Get the first matched HTML element. The context is optional and can be an element or a selector string.<p>
+        <p><span class="info">Note: The context as selector string has been removed in v2.6.0.</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>domReady(&#60;fn&#62;);</code></td>
+      <td>Set the document ready (content fully loaded) event.</td>
     </tr>
     <tr>
       <td><code>domCreate(&#60;type&#62;[,properties[,innerHTML]]);</code></td>
@@ -421,6 +374,55 @@
     <tr>
       <td><code>domSiblings(&#60;element&#62;);</code></td>
       <td>Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.</td>
+    </tr>
+    <tr>
+      <td><code>importScript(&#60;url&#62;[,success]);</code></td>
+      <td>
+        <p>Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function.</p>
+        <p><b>Tip:</b> To prevent the caching of a js/css file use versioning in the file url. Example: <code>mylib.js?version=1.10.0</code></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>importScripts(&#60;scripts&#62;);</code></td>
+      <td>Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>importScripts(&#60;script1&#62;[,scriptN]);</code></td>
+      <td>Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
+    </tr>
+    <tr>
+      <td><code>importStyle(&#60;href&#62;[,success]);</code></td>
+      <td>
+        <p>Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>importStyles(&#60;styles&#62;);</code></td>
+      <td>Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
+    </tr>
+    <tr>
+      <td><code>importStyles(&#60;style1&#62;[,styleN]);</code></td>
+      <td>Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
+    </tr>
+    <tr>
+      <td><code>form2array(&#60;form&#62;);</code></td>
+      <td>
+        Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element.
+      </td>
+    </tr>
+    <tr>
+      <td><code>form2string(&#60;form&#62;);</code></td>
+      <td>
+        Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
+      </td>
+    </tr>
+    <tr>
+      <td><code>getDoNotTrack();</code></td>
+      <td>Return the DoNotTrack setting (boolean) of the browser.</td>
+    </tr>
+    <tr>
+      <td><code>getLocation(&#60;success&#62;[,error]);</code></td>
+      <td>Get the current location as an object with the coordinates. The success is mandatory and has to be a function. The error is optional and can be a function.</td>
     </tr>
   </table>
 </div>
@@ -1192,6 +1194,34 @@
       </td>
     </tr>
     <tr>
+      <td><code>sizeOf(&#60;collection&#62;);</code></td>
+      <td>This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.</td>
+    </tr>
+    <tr>
+      <td><code>firstOf(&#60;collection&#62;);</code></td>
+      <td>This function returns the first element of the given collection. The collection parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>lastOf(&#60;collection&#62;);</code></td>
+      <td>This function returns the last element of the given collection. The collection parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>reverseOf(&#60;collection&#62;);</code></td>
+      <td>This function yields the elements of the given collection in reverse order. The collection parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>sortOf(&#60;collection&#62;);</code></td>
+      <td>This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>hasOf(&#60;collection&#62;,&#60;value&#62;);</code></td>
+      <td>This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>findOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.</td>
+    </tr>
+    <tr>
       <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
         <p>This function is the faster, ES6 variant of the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</p>
@@ -1215,28 +1245,56 @@
       <td>Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.</td>
     </tr>
     <tr>
-      <td><code>takeOf(&#60;collection&#62;,&#60;n&#62;);</code></td>
-      <td>
-        Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
-      </td>
+      <td><code>everyOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
+    </tr>
+    <tr>
+      <td><code>someOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
+    </tr>
+    <tr>
+      <td><code>noneOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This function whether all elements in the collection do not pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
+    </tr>
+    <tr>
+      <td><code>concatOf(&#60;collection1&#62;[,collectionN]);</code></td>
+      <td>This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.</td>
+    </tr>
+    <tr>
+      <td><code>reduceOf(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></td>
+      <td>This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optinal and can be any variable type of the Javascript.</td>
+    </tr>
+    <tr>
+      <td><code>takeOf(&#60;collection&#62;[,n]);</code></td>
+      <td>Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
     </tr>
     <tr>
       <td><code>takeWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-      </td>
+      <td>Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
-      <td><code>dropOf(&#60;collection&#62;,&#60;n&#62;);</code></td>
-      <td>
-        Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
-      </td>
+      <td><code>takeRight(&#60;collection&#62;[,n]);</code></td>
+      <td>Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
+    </tr>
+    <tr>
+      <td><code>takeRightWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
+    </tr>
+    <tr>
+      <td><code>dropOf(&#60;collection&#62;[,n]);</code></td>
+      <td>Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
     </tr>
     <tr>
       <td><code>dropWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-      </td>
+      <td>Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
+    </tr>
+    <tr>
+      <td><code>dropRight(&#60;collection&#62;[,n]);</code></td>
+      <td>Drop the last N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
+    </tr>
+    <tr>
+      <td><code>dropRightWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
       <td><code>isGenerator(&#60;value&#62;);</td>
@@ -1263,36 +1321,36 @@
     </tr>
     <tr>
       <td><b>version</b></td>
-      <td><button onclick='alert( _.version );'>Try</button></td>
-      <td><code>alert( _.version );</code></td>
+      <td><button onclick='alert( _.VERSION );'>Try</button></td>
+      <td><code>alert( _.VERSION );</code></td>
     </tr>
     <tr>
       <td><b>celestra.noConflict();</b></td>
       <script>
         var _C = {};
       </script>
-      <td><button onclick='_C = celestra.noConflict(); alert( _C.version ); alert( _C.getType( document.querySelectorAll("div")) ); alert( _.version );'>Try</button></td>
+      <td><button onclick='_C = celestra.noConflict(); alert( _C.VERSION ); alert( _C.getType( document.querySelectorAll("div")) ); alert( _.VERSION );'>Try</button></td>
       <td><pre><code>// in the head before the loading of Celestra:
 var _ = {};
-_.version = "This is another sample library.";
+_.VERSION = "This is another sample library.";
 
 // in the body:
 var _C = {};
 _C = celestra.noConflict();
-alert( _C.version );
+alert( _C.VERSION );
 alert( _C.getType( document.querySelectorAll("div")) );
-alert( _.version );</code></pre></td>
+alert( _.VERSION );</code></pre></td>
     </tr>
     <tr>
       <td><b>Create an alias without celestra.noConflict();</b></td>
       <script>
         var _cel = celestra;
       </script>
-      <td><button onclick='_cel = celestra; alert( _cel.version ); alert( _cel.random(40,70) ); alert( _.version );'>Try</button></td>
+      <td><button onclick='_cel = celestra; alert( _cel.VERSION ); alert( _cel.random(40,70) ); alert( _.VERSION );'>Try</button></td>
       <td><pre><code>var _cel = celestra;
-alert( _cel.version );
+alert( _cel.VERSION );
 alert( _cel.random(40,70) );
-alert( _.version );</code></pre></td>
+alert( _.VERSION );</code></pre></td>
     </tr>
   </table>
 </div>

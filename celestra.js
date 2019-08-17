@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.9.0
+ * @version 2.9.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -678,18 +678,6 @@ if (!Math.trunc) {
 
 /* core api */
 
-function qsa (s, c) { return Array.from((c || document).querySelectorAll(s)); }
-
-function qs (s, c) { return (c || document).querySelector(s); }
-
-function domReady (fn) {
-  if (document.readyState !== "loading") {
-    fn();
-  } else {
-    document.addEventListener("DOMContentLoaded", function (event) { fn(); });
-  }
-}
-
 function random (i, a) {
   if (i === undefined) { var i = 100; }
   if (a === undefined) { var a = i; i = 0; }
@@ -739,53 +727,6 @@ function inherit (c, p) {
   c.prototype = Object.create(p.prototype);
   c.prototype.constructor = c;
   return c;
-}
-
-function importScript (u, s) {
-  var scr = document.createElement("script");
-  scr.type = "text\/javascript";
-  scr.src = u;
-  scr.onerror = function (e) {
-    throw new URIError(
-      "Loading failed for the script with source " + e.target.src
-    );
-  };
-  if (s) { scr.onreadystatechange = s; scr.onload = s; }
-  (document.head || document.getElementsByTagName("head")[0]).appendChild(scr);
-}
-
-function importScripts (s) {
-  if (Array.isArray(s)) {
-    s.forEach(function (e) { celestra.importScript(e.url, e.success); });
-  } else {
-    Array.prototype.forEach.call(
-      arguments, function (e) { celestra.importScript(e); }
-    );
-  }
-}
-
-function importStyle (h, s) {
-  var stl = document.createElement("link");
-  stl.rel = "stylesheet";
-  stl.type = "text\/css";
-  stl.href = h;
-  stl.onerror = function (e) {
-    throw new URIError(
-      "Loading failed for the style with source " + e.target.href
-    );
-  };
-  if (s) { stl.onreadystatechange = s; stl.onload = s; }
-  (document.head || document.getElementsByTagName("head")[0]).appendChild(stl);
-}
-
-function importStyles (s) {
-  if (Array.isArray(s)) {
-    s.forEach(function (e) { celestra.importStyle(e.href, e.success); });
-  } else {
-    Array.prototype.forEach.call(
-      arguments, function (e) { celestra.importStyle(e); }
-    );
-  }
 }
 
 function getUrlVar (n) {
@@ -897,84 +838,6 @@ function setFullscreenOff () {
   else if (document.msExitFullscreen) { document.msExitFullscreen(); }
 }
 
-function getLocation (s, e) {
-  if (!e) { var e = function () {}; }
-  function getE (error) { e("ERROR(" + error.code + "): " + error.message); }
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(s, getE);
-  } else {
-    getE("Geolocation is not supported in this browser.");
-  }
-}
-
-function getDoNotTrack () {
-  return (!!window.doNotTrack
-    || !!navigator.doNotTrack
-    || !!navigator.msDoNotTrack
-  );
-}
-
-function form2array (f) {
-  var fld, a = [];
-  if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
-    for (var i=0, len=f.elements.length; i<len; i++) {
-      fld = f.elements[i];
-      if (fld.name
-        && !fld.disabled && fld.type !== "file"
-        && fld.type !== "reset"
-        && fld.type !== "submit"
-        && fld.type !== "button") {
-        if (fld.type === "select-multiple") {
-          for (var j=0, l=f.elements[i].options.length; j<l; j++) {
-            if(fld.options[j].selected) {
-              a.push({
-                "name": encodeURIComponent(fld.name),
-                "value": encodeURIComponent(fld.options[j].value)
-              });
-            }
-          }
-        } else if ((fld.type !== "checkbox" && fld.type !== "radio")
-          || fld.checked) {
-          a.push({
-            "name": encodeURIComponent(fld.name),
-            "value": encodeURIComponent(fld.value)
-          });
-        }
-      }
-    }
-  }
-  return a;
-}
-
-function form2string (f) {
-  var fld, a = [];
-  if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
-    for (var i=0, len=f.elements.length; i<len; i++) {
-      fld = f.elements[i];
-      if (fld.name
-        && !fld.disabled
-        && fld.type !== "file"
-        && fld.type !== "reset"
-        && fld.type !== "submit"
-        && fld.type !== "button") {
-        if (fld.type === "select-multiple") {
-          for (var j=0, l=f.elements[i].options.length; j<l; j++) {
-            if(fld.options[j].selected) {
-              a.push(encodeURIComponent(fld.name)
-              + "=" + encodeURIComponent(fld.options[j].value));
-            }
-          }
-        } else if ((fld.type !== "checkbox" && fld.type !== "radio")
-          || fld.checked) {
-          a.push(encodeURIComponent(fld.name)
-            + "=" + encodeURIComponent(fld.value));
-        }
-      }
-    }
-  }
-  return a.join("&").replace(/%20/g, "+");
-}
-
 function strRemoveTags (s) {
   return String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 }
@@ -1003,13 +866,17 @@ function createFile (fln, c, dt) {
 }
 
 function forIn (o, fn) {
-  for (var p in o) { if (o.hasOwnProperty(p)) { fn(o[p], p, o); } }
+  for (var p in o) {
+    if (o.hasOwnProperty(p)) { fn(o[p], p, o); }
+  }
   return o;
 }
 
 function mapIn (o, fn) {
   var r = {};
-  for (var p in o) { if (o.hasOwnProperty(p)) { r[p] = fn(o[p], p, o); } }
+  for (var p in o) {
+    if (o.hasOwnProperty(p)) { r[p] = fn(o[p], p, o); }
+  }
   return r;
 }
 
@@ -1020,12 +887,27 @@ var bind = Function.prototype.call.bind(Function.prototype.bind);
 var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
 function constant (v) { return function () { return v; }; }
+
 function identity (v) { return v; }
+
 function noop () {}
+
 function T () { return !0; }
 function F () { return !1; }
 
 /* DOM */
+
+function qsa (s, c) { return Array.from((c || document).querySelectorAll(s)); }
+
+function qs (s, c) { return (c || document).querySelector(s); }
+
+function domReady (fn) {
+  if (document.readyState !== "loading") {
+    fn();
+  } else {
+    document.addEventListener("DOMContentLoaded", function (event) { fn(); });
+  }
+}
 
 function domCreate (t, ps, iH) {
   if (arguments.length === 1 && typeof t === "object") {
@@ -1127,6 +1009,131 @@ function domSiblings (el) {
   return Array.prototype.filter.call(el.parentNode.children,
     function (e) { return (e !== el); }
   );
+}
+
+function importScript (u, s) {
+  var scr = document.createElement("script");
+  scr.type = "text\/javascript";
+  scr.src = u;
+  scr.onerror = function (e) {
+    throw new URIError(
+      "Loading failed for the script with source " + e.target.src
+    );
+  };
+  if (s) { scr.onreadystatechange = s; scr.onload = s; }
+  (document.head || document.getElementsByTagName("head")[0]).appendChild(scr);
+}
+
+function importScripts (s) {
+  if (Array.isArray(s)) {
+    s.forEach(function (e) { celestra.importScript(e.url, e.success); });
+  } else {
+    Array.prototype.forEach.call(
+      arguments, function (e) { celestra.importScript(e); }
+    );
+  }
+}
+
+function importStyle (h, s) {
+  var stl = document.createElement("link");
+  stl.rel = "stylesheet";
+  stl.type = "text\/css";
+  stl.href = h;
+  stl.onerror = function (e) {
+    throw new URIError(
+      "Loading failed for the style with source " + e.target.href
+    );
+  };
+  if (s) { stl.onreadystatechange = s; stl.onload = s; }
+  (document.head || document.getElementsByTagName("head")[0]).appendChild(stl);
+}
+
+function importStyles (s) {
+  if (Array.isArray(s)) {
+    s.forEach(function (e) { celestra.importStyle(e.href, e.success); });
+  } else {
+    Array.prototype.forEach.call(
+      arguments, function (e) { celestra.importStyle(e); }
+    );
+  }
+}
+
+function form2array (f) {
+  var fld, a = [];
+  if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
+    for (var i=0, len=f.elements.length; i<len; i++) {
+      fld = f.elements[i];
+      if (fld.name
+        && !fld.disabled && fld.type !== "file"
+        && fld.type !== "reset"
+        && fld.type !== "submit"
+        && fld.type !== "button") {
+        if (fld.type === "select-multiple") {
+          for (var j=0, l=f.elements[i].options.length; j<l; j++) {
+            if(fld.options[j].selected) {
+              a.push({
+                "name": encodeURIComponent(fld.name),
+                "value": encodeURIComponent(fld.options[j].value)
+              });
+            }
+          }
+        } else if ((fld.type !== "checkbox" && fld.type !== "radio")
+          || fld.checked) {
+          a.push({
+            "name": encodeURIComponent(fld.name),
+            "value": encodeURIComponent(fld.value)
+          });
+        }
+      }
+    }
+  }
+  return a;
+}
+
+function form2string (f) {
+  var fld, a = [];
+  if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
+    for (var i=0, len=f.elements.length; i<len; i++) {
+      fld = f.elements[i];
+      if (fld.name
+        && !fld.disabled
+        && fld.type !== "file"
+        && fld.type !== "reset"
+        && fld.type !== "submit"
+        && fld.type !== "button") {
+        if (fld.type === "select-multiple") {
+          for (var j=0, l=f.elements[i].options.length; j<l; j++) {
+            if(fld.options[j].selected) {
+              a.push(encodeURIComponent(fld.name)
+              + "=" + encodeURIComponent(fld.options[j].value));
+            }
+          }
+        } else if ((fld.type !== "checkbox" && fld.type !== "radio")
+          || fld.checked) {
+          a.push(encodeURIComponent(fld.name)
+            + "=" + encodeURIComponent(fld.value));
+        }
+      }
+    }
+  }
+  return a.join("&").replace(/%20/g, "+");
+}
+
+function getDoNotTrack () {
+  return (!!window.doNotTrack
+    || !!navigator.doNotTrack
+    || !!navigator.msDoNotTrack
+  );
+}
+
+function getLocation (s, e) {
+  if (!e) { var e = function () {}; }
+  function getE (error) { e("ERROR(" + error.code + "): " + error.message); }
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(s, getE);
+  } else {
+    getE("Geolocation is not supported in this browser.");
+  }
 }
 
 /* AJAX */
@@ -1241,7 +1248,9 @@ function isEqual (a, b) {
 
 function isString (v) { return typeof v === "string"; }
 function isChar (v) {
-  if (typeof v === "string") { if (v.length === 1) { return true; } }
+  if (typeof v === "string") {
+    if (v.length === 1) { return true; }
+  }
   return false;
 }
 
@@ -1346,7 +1355,11 @@ function getCookie (name) {
       var e = a[i].trim().split("=");
       r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
     }
-    if (name) { return r[name] ? r[name] : null; } else { return r; }
+    if (name) {
+      return r[name] ? r[name] : null;
+    } else {
+      return r;
+    }
   }
   return name ? null : {};
 }
@@ -1555,7 +1568,10 @@ function uniqueArray (a) {
 }
 
 function uniquePush (a, v) {
-  if (a.indexOf(v) === -1) { a.push(v); return true; }
+  if (a.indexOf(v) === -1) {
+    a.push(v);
+    return true;
+  }
   return false;
 }
 
@@ -1607,10 +1623,10 @@ function noConflict () {
   return celestra;
 }
 
-/* Only for internal use. If needed can be replaced with the "Array.from();". */
+/* For internal use only can be replaced with the "Array.from();". */
 function __toArray__ (a) { return (Array.isArray(a) ? a : Array.from(a)); }
 
-/* Only for internal use. */
+/* For internal use only. */
 function __objType__ (v) {
   return Object.prototype.toString.call(v)
     .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
@@ -1618,24 +1634,18 @@ function __objType__ (v) {
 
 var celestra = {
   /* header */
-  version: "Celestra v2.9.0",
+  version: "Celestra v2.9.1",
+  VERSION: "Celestra v2.9.1",
   noConflict: noConflict,
   __toArray__: __toArray__,
   __objType__: __objType__,
   /* core api */
-  qsa: qsa,
-  qs: qs,
-  domReady: domReady,
   random: random,
   randomString: randomString,
   b64Encode: b64Encode,
   b64Decode: b64Decode,
   javaHash: javaHash,
   inherit: inherit,
-  importScript: importScript,
-  importScripts: importScripts,
-  importStyle: importStyle,
-  importStyles: importStyles,
   getUrlVar: getUrlVar,
   getUrlVarFromString: getUrlVarFromString,
   obj2string: obj2string,
@@ -1645,10 +1655,6 @@ var celestra = {
   getFullscreen: getFullscreen,
   setFullscreenOn: setFullscreenOn,
   setFullscreenOff: setFullscreenOff,
-  getLocation: getLocation,
-  getDoNotTrack: getDoNotTrack,
-  form2array: form2array,
-  form2string: form2string,
   strRemoveTags: strRemoveTags,
   strReverse: strReverse,
   createFile: createFile,
@@ -1663,6 +1669,9 @@ var celestra = {
   T: T,
   F: F,
   /* DOM */
+  qsa: qsa,
+  qs: qs,
+  domReady: domReady,
   domCreate: domCreate,
   domToElement: domToElement,
   domGetCSS: domGetCSS,
@@ -1678,6 +1687,14 @@ var celestra = {
   domOff: domOff,
   domTrigger: domTrigger,
   domSiblings: domSiblings,
+  importScript: importScript,
+  importScripts: importScripts,
+  importStyle: importStyle,
+  importStyles: importStyles,
+  form2array: form2array,
+  form2string: form2string,
+  getDoNotTrack: getDoNotTrack,
+  getLocation: getLocation,
   /* AJAX */
   getJson: getJson,
   getText: getText,

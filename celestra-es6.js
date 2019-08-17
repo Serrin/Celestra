@@ -1,9 +1,9 @@
 /**
  * @name Celestra ES6 extension
- * @version 2.9.0
+ * @version 2.9.1
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 2.9.0
+ * Minimal required Celestra version: 2.9.1
  */
 
 (function(window, celestra){
@@ -66,7 +66,7 @@ const dropWhile = function* dropWhile (it, fn) {
   }
 };
 
-const takeOf = function* takeOf (it, n) {
+const takeOf = function* takeOf (it, n = 1) {
   let i = n;
   for (let item of it) {
     if (i <= 0) { break; }
@@ -75,7 +75,7 @@ const takeOf = function* takeOf (it, n) {
   }
 };
 
-const dropOf = function* dropOf (it, n) {
+const dropOf = function* dropOf (it, n = 1) {
   let i = n;
   for (let item of it) {
     if (i < 1) { yield item; } else { i--; }
@@ -118,10 +118,120 @@ const itemOf = function itemOf (it, p) {
   }
 };
 
-const isGenerator = function isGenerator (v) {
-  return (Object.getPrototypeOf(v).constructor ===
-    Object.getPrototypeOf(function*(){}).constructor);
+const sizeOf = function sizeOf (it) {
+  let i = 0;
+  for (let item of it) { i++; }
+  return i;
 };
+
+const firstOf = function firstOf (it) {
+  for (let item of it) { return item; }
+};
+
+const lastOf = function lastOf (it) {
+  let item;
+  for (item of it) { }
+  return item;
+};
+
+const reverseOf = (it) => [...it].reverse().values();
+
+const sortOf = (it) => [...it].sort().values();
+
+const hasOf = function hasOf (it, v) {
+  for (let item of it) {
+    if (item === v) { return true; }
+  }
+  return false;
+};
+
+const findOf = function hasOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return item; }
+  }
+};
+
+const everyOf = function everyOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (!fn(item, i++)) { return false; }
+  }
+  if (i === 0) { return false; }
+  return true;
+};
+
+const someOf = function someOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return true; }
+  }
+  return false;
+};
+
+const noneOf = function noneOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return false; }
+  }
+  if (i === 0) { return false; }
+  return true;
+};
+
+const takeRight = function* takeRight ([...it], n = 1) {
+  let i = n;
+  for (let item of it.reverse()) {
+    if (i <= 0) { break; }
+    yield item;
+    i--;
+  }
+};
+
+const takeRightWhile = function* takeRightWhile ([...a], fn) {
+  let i = 0;
+  for (let item of a.reverse()) {
+    if (fn(item, i)) {
+      yield item;
+    } else {
+      break;
+    }
+  }
+};
+
+const dropRight = function* dropRight ([...it], n = 1) {
+  let i = n;
+  for (let item of it.reverse()) {
+    if (i < 1) { yield item; } else { i--; }
+  }
+};
+
+const dropRightWhile = function* dropRightWhile ([...a], fn) {
+  let d = true;
+  for (let item of a.reverse()) {
+    if (d && !fn(item)) { d = false; }
+    if (!d) { yield item; }
+  }
+};
+
+const concatOf = function* concatOf () {
+  for (let item of arguments) { yield* item; }
+};
+
+const reduceOf = function reduceOf (it, fn, iv) {
+  let acc = iv;
+  let i = 0;
+  for (let item of it) {
+    if (i === 0 && acc === undefined) {
+      acc = item;
+    } else {
+      acc = fn(acc, item, i++);
+    }
+  }
+  return acc;
+};
+
+const isGenerator = (v) => (Object.getPrototypeOf(v).constructor ===
+  Object.getPrototypeOf(function*(){}).constructor);
 
 /* celestra object */
 celestra.iterRange = iterRange;
@@ -136,6 +246,22 @@ celestra.mapOf = mapOf;
 celestra.filterOf = filterOf;
 celestra.sliceOf = sliceOf;
 celestra.itemOf = itemOf;
+celestra.sizeOf = sizeOf;
+celestra.firstOf = firstOf;
+celestra.lastOf = lastOf;
+celestra.reverseOf = reverseOf;
+celestra.sortOf = sortOf;
+celestra.hasOf = hasOf;
+celestra.findOf = findOf;
+celestra.everyOf = everyOf;
+celestra.someOf = someOf;
+celestra.noneOf = noneOf;
+celestra.takeRight = takeRight;
+celestra.takeRightWhile = takeRightWhile;
+celestra.dropRight = dropRight;
+celestra.dropRightWhile = dropRightWhile;
+celestra.concatOf = concatOf;
+celestra.reduceOf = reduceOf;
 celestra.isGenerator = isGenerator;
 
 }(window, celestra));

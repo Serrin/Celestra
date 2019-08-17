@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-/* Celestra v2.9.0 testcases */
+/* Celestra v2.9.1 testcases */
 
 /* _cut.isEqual("step", value, expr ); */
 /* _cut.isEqual("step", value, expr, true ); */
@@ -73,7 +73,7 @@ _cut.isTrue(
 );
 
 
-/* core api */
+/* core api and DOM */
 /*
 getUrlVar([name]);
 getLocation(<success>[,error]);
@@ -85,9 +85,9 @@ setFullscreenOff();
 createFile(<filename>,<content>[,dType]);
 noConflict();
 */
-_cut.addElement("h3", "core api");
+_cut.addElement("h3", "core api and DOM");
 
-_cut.isEqual("version", true, _.version.includes("Celestra v") );
+_cut.isEqual("version", true, _.VERSION.includes("Celestra v") );
 
 _cut.addElement(
   _.domCreate(
@@ -342,8 +342,6 @@ _cut.isEqual("random(max)", true, _.random(30) <= 30 );
 var testRandom = _.random(51,55);
 _cut.isEqual("random(min,max)", true, testRandom >= 51 && testRandom <= 55 );
 
-/* kaylee */
-
 var rndStr = _.randomString();
 _cut.isEqual("randomString() default length 100, default false", true, _.isString(rndStr) && rndStr.length === 100 );
 _cut.addElement("p","<b>"+rndStr+"</b>");
@@ -392,8 +390,6 @@ _cut.isEqual("javaHash()",
     + "str variable + b64Encode + b64Decode: " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,true))) + " / " + _.b64Decode(_.b64Encode(_.javaHash(kayleeStr,false)))
 );
 
-/* /kaylee */
-
 var FPObject = {a:2, b:3, c:4};
 
 var forInStr = "";
@@ -404,7 +400,6 @@ _cut.isEqual("forIn() return value", FPObject, _.forIn(FPObject, function(){}) )
 _cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"] );
 
 _cut.isEqual("getDoNotTrack()", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false );
-
 
 _cut.isEqual("strRemoveTags()",
   "lorem ipsum dolor sit amet , consectetuer",
@@ -444,6 +439,100 @@ _cut.isEqual("noop()", undefined, _.noop() );
 
 _cut.isTrue("T()", _.T() );
 _cut.isFalse("F()", _.F() );
+
+/* DOM */
+/*
+domFadeIn(<element>[,duration[,display]]);
+domFadeOut(<element>[,duration]);
+domFadeToggle(<element>[,duration[,display]]);
+*/
+//_cut.addElement("h3", "DOM");
+
+_cut.addElement(
+  _.domCreate("p", {"id": "domTestElement", style: {"width": "250px"} }, "DOM test element")
+);
+var domTestElement = _.qs("#domTestElement") ;
+
+_cut.isEqual("domCreate() with style object", true, _.isElement(domTestElement) );
+if (_cut.isNotEdge() && _cut.isNotIE11()) {
+  _cut.isEqual("domCreate() with style string", true, _.isElement( _.domCreate("p", {"id": "domTestElement", style: "width: 250px; color: blue;" }, "DOM test element") ) );
+}
+_cut.isEqual("domCreate(object) with style object", true, _.isElement( _.domCreate( { elementType: "p", "id": "domTestElementObject", style: {"width": "250px"}, innerHTML: "DOM test element" } ) ) );
+if (_cut.isNotEdge() && _cut.isNotIE11()) {
+  _cut.isEqual("domCreate(object) with style string", true, _.isElement( _.domCreate( { elementType: "p", "id": "domTestElementObject", style: "width: 250px; color: blue;", innerHTML: "DOM test element" } ) ) );
+}
+
+_cut.isTrue("domToElement() simple element",
+  _.isElement( _.domToElement("<div>Hello world!</div>") )
+);
+
+_cut.isTrue("domToElement() complex element",
+  _.isElement( _.domToElement("<p><span style=\"background-color: yellow; color: blue;\">Hello</span> <span style=\"background-color: blue; color: yellow;\">world</span>!</p>").firstElementChild )
+);
+
+_.domSetCSS(domTestElement, "width", "300px");
+_cut.isEqual("domSetCSS() property and domGetCSS()", "300px", _.domGetCSS(domTestElement, "width") );
+
+_.domSetCSS(domTestElement, {"width": "350px", "font-weight": "bold"});
+_cut.isEqual("domSetCSS() properties object and domGetCSS()",
+  "350px",
+  _.domGetCSS(domTestElement, "width")
+);
+
+_.domHide(domTestElement);
+_cut.isEqual("domHide()", "none", _.domGetCSS(domTestElement, "display") );
+
+_.domShow(domTestElement);
+_cut.isEqual("domShow()", "block", _.domGetCSS(domTestElement, "display") );
+
+_.domHide(domTestElement);
+_.domShow(domTestElement, "inline-block");
+_cut.isEqual("domShow() inline-block", "inline-block", _.domGetCSS(domTestElement, "display") );
+
+_.domToggle(domTestElement);
+_cut.isEqual("domToggle() hide", "none", _.domGetCSS(domTestElement, "display") );
+
+_.domToggle(domTestElement);
+_cut.isEqual("domToggle() show", "block", _.domGetCSS(domTestElement, "display") );
+
+_.domToggle(domTestElement, "inline-block");
+_cut.isEqual("domToggle() hide inline-block", "none", _.domGetCSS(domTestElement, "display") );
+
+_.domToggle(domTestElement, "inline-block");
+_cut.isEqual("domHide() show inline-block", "inline-block", _.domGetCSS(domTestElement, "display") );
+
+_.domShow(domTestElement);
+_cut.isFalse("domIsHidden() false", _.domIsHidden(domTestElement) );
+_.domHide(domTestElement);
+_cut.isTrue("domIsHidden() true", _.domIsHidden(domTestElement) );
+
+var domTestVar = 33;
+function domTestElementClick1 () { domTestVar = 42; }
+function domTestElementClick2 () { domTestVar = 56; }
+
+_.domOn(domTestElement, "click", domTestElementClick1 );
+_.domTrigger(domTestElement, "click");
+_cut.isEqual("domOn() and domTrigger()", 42, domTestVar );
+
+_.domOff(domTestElement, "click", domTestElementClick1 );
+_.domOn(domTestElement, "click", domTestElementClick2 );
+_.domOff(domTestElement, "click", domTestElementClick2 );
+_.domTrigger(domTestElement, "click");
+_cut.isEqual("domOff() and domTrigger()", 42, domTestVar );
+
+_cut.addElement(
+  _.domCreate(
+    "div",
+    {"id": "dsDiv"},
+    '<p><b>This is the #dsDiv</b></p>'
+      +'<p id="dsDivP1">This is the #dsDivP1</p>'
+      +'<p id="dsDivP2">This is the #dsDivP2</p>'
+      +'<p id="dsDivP3">This is the #dsDivP3</p>'
+  )
+);
+var dsArray = _.domSiblings( _.qs("#dsDivP2") );
+_cut.isTrue( "domSiblings()", (Array.isArray(dsArray) && dsArray.length === 3) );
+_.qs("#dsDiv").remove();
 
 
 /* Collection */
@@ -1033,101 +1122,6 @@ if (_cut.isNotIE11()) {
   );
   _cut.log("\""+res+"\"");
 }
-
-
-/* DOM */
-/*
-domFadeIn(<element>[,duration[,display]]);
-domFadeOut(<element>[,duration]);
-domFadeToggle(<element>[,duration[,display]]);
-*/
-_cut.addElement("h3", "DOM");
-
-_cut.addElement(
-  _.domCreate("p", {"id": "domTestElement", style: {"width": "250px"} }, "DOM test element")
-);
-var domTestElement = _.qs("#domTestElement") ;
-
-_cut.isEqual("domCreate() with style object", true, _.isElement(domTestElement) );
-if (_cut.isNotEdge() && _cut.isNotIE11()) {
-  _cut.isEqual("domCreate() with style string", true, _.isElement( _.domCreate("p", {"id": "domTestElement", style: "width: 250px; color: blue;" }, "DOM test element") ) );
-}
-_cut.isEqual("domCreate(object) with style object", true, _.isElement( _.domCreate( { elementType: "p", "id": "domTestElementObject", style: {"width": "250px"}, innerHTML: "DOM test element" } ) ) );
-if (_cut.isNotEdge() && _cut.isNotIE11()) {
-  _cut.isEqual("domCreate(object) with style string", true, _.isElement( _.domCreate( { elementType: "p", "id": "domTestElementObject", style: "width: 250px; color: blue;", innerHTML: "DOM test element" } ) ) );
-}
-
-_cut.isTrue("domToElement() simple element",
-  _.isElement( _.domToElement("<div>Hello world!</div>") )
-);
-
-_cut.isTrue("domToElement() complex element",
-  _.isElement( _.domToElement("<p><span style=\"background-color: yellow; color: blue;\">Hello</span> <span style=\"background-color: blue; color: yellow;\">world</span>!</p>").firstElementChild )
-);
-
-_.domSetCSS(domTestElement, "width", "300px");
-_cut.isEqual("domSetCSS() property and domGetCSS()", "300px", _.domGetCSS(domTestElement, "width") );
-
-_.domSetCSS(domTestElement, {"width": "350px", "font-weight": "bold"});
-_cut.isEqual("domSetCSS() properties object and domGetCSS()",
-  "350px",
-  _.domGetCSS(domTestElement, "width")
-);
-
-_.domHide(domTestElement);
-_cut.isEqual("domHide()", "none", _.domGetCSS(domTestElement, "display") );
-
-_.domShow(domTestElement);
-_cut.isEqual("domShow()", "block", _.domGetCSS(domTestElement, "display") );
-
-_.domHide(domTestElement);
-_.domShow(domTestElement, "inline-block");
-_cut.isEqual("domShow() inline-block", "inline-block", _.domGetCSS(domTestElement, "display") );
-
-_.domToggle(domTestElement);
-_cut.isEqual("domToggle() hide", "none", _.domGetCSS(domTestElement, "display") );
-
-_.domToggle(domTestElement);
-_cut.isEqual("domToggle() show", "block", _.domGetCSS(domTestElement, "display") );
-
-_.domToggle(domTestElement, "inline-block");
-_cut.isEqual("domToggle() hide inline-block", "none", _.domGetCSS(domTestElement, "display") );
-
-_.domToggle(domTestElement, "inline-block");
-_cut.isEqual("domHide() show inline-block", "inline-block", _.domGetCSS(domTestElement, "display") );
-
-_.domShow(domTestElement);
-_cut.isFalse("domIsHidden() false", _.domIsHidden(domTestElement) );
-_.domHide(domTestElement);
-_cut.isTrue("domIsHidden() true", _.domIsHidden(domTestElement) );
-
-var domTestVar = 33;
-function domTestElementClick1 () { domTestVar = 42; }
-function domTestElementClick2 () { domTestVar = 56; }
-
-_.domOn(domTestElement, "click", domTestElementClick1 );
-_.domTrigger(domTestElement, "click");
-_cut.isEqual("domOn() and domTrigger()", 42, domTestVar );
-
-_.domOff(domTestElement, "click", domTestElementClick1 );
-_.domOn(domTestElement, "click", domTestElementClick2 );
-_.domOff(domTestElement, "click", domTestElementClick2 );
-_.domTrigger(domTestElement, "click");
-_cut.isEqual("domOff() and domTrigger()", 42, domTestVar );
-
-_cut.addElement(
-  _.domCreate(
-    "div",
-    {"id": "dsDiv"},
-    '<p><b>This is the #dsDiv</b></p>'
-      +'<p id="dsDivP1">This is the #dsDivP1</p>'
-      +'<p id="dsDivP2">This is the #dsDivP2</p>'
-      +'<p id="dsDivP3">This is the #dsDivP3</p>'
-  )
-);
-var dsArray = _.domSiblings( _.qs("#dsDivP2") );
-_cut.isTrue( "domSiblings()", (Array.isArray(dsArray) && dsArray.length === 3) );
-_.qs("#dsDiv").remove();
 
 
 /* cookie */

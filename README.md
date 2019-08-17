@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge 14).
  
-Latest version: 2.9.0
+Latest version: 2.9.1
 
-Date: 2019-08-04T19:30:56.827Z
+Date: 2019-08-16T19:11:59.042Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (51660 bytes)
+Development version: celestra.js (51747 bytes)
 
-Minimal version: celestra.min.js (38738 bytes)
+Minimal version: celestra.min.js (38764 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -46,9 +46,9 @@ Demo plugin source: celestra-demo-plugin.js
 
 ### Celestra ES6 extension (ES6E)
 
-Development version: celestra-es6.js (3096 bytes)
+Development version: celestra-es6.js (5833 bytes)
 
-Minimal version: celestra-es6.min.js (2279 bytes)
+Minimal version: celestra-es6.min.js (4387 bytes)
 
 
 ### Celestra Unit Tester (CUT)
@@ -69,15 +69,13 @@ Celestra test results for development version: unittest-dev.html
 
 These functions are available in the `celestra` and/or `_` objects.
 
-Example: `_.qsa()`
+Example: `_.random()`
 
 Name | Description
 ---- | -----------
-`celestra.version;` | The library version.
+`celestra.VERSION;` | The library version.
+`celestra.version;` | __DEPRECATED in v2.9.1__ The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__
-`qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string. __Note: The context as selector string has been removed in v2.6.0.__
-`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string. __Note: The context as selector string has been removed in v2.6.0.__
-`domReady(<fn>);` | Set the document ready (content fully loaded) event.
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `random([max]);` | Get a random number value within 0 and max value. Without parameter the maximum value is 100.
 `random(<min>,<max>);` | Get a random number value within min and max value.
@@ -85,12 +83,6 @@ Name | Description
 `b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
 `javaHash(<data>[,hexa]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
-`importScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
-`importScripts(<scripts>);` | Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
-`importScripts(<script1>[,scriptN]);` | Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
-`importStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.
-`importStyles(<styles>);` | Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.
-`importStyles(<style1>[,styleN]);` | Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
 `getUrlVar([name]);` | Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
 `getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
@@ -100,10 +92,6 @@ Name | Description
 `getFullscreen();` | Get the fullscreen element. If this isn't set, then the return value is undefined. Please check the incompatibility issues on the [http://caniuse.com/#search=fullscreen](http://caniuse.com/#search=fullscreen) page.
 `setFullscreenOn(<selector>);` | Set the fullscreen element. The selector can be a css selector string or an element.
 `setFullscreenOff();` | Set off the fullscreen.
-`getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and has to be a function. The error is optional and can be a function.
-`getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
-`form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element.
-`form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
 `strRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `createFile(<filename>,<content>[,dataType]);` | Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can be a string. The default value of the dataType parameter is "_text/plain_". ___Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.___
@@ -116,7 +104,7 @@ Name | Description
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `T();` | This function returns true.
-`F();` | This function returns False.
+`F();` | This function returns false.
 
 
 ### DOM functions
@@ -127,6 +115,9 @@ Example: `_.domCreate()`
 
 Name | Description
 ---- | -----------
+`qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string. __Note: The context as selector string has been removed in v2.6.0.__
+`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string. __Note: The context as selector string has been removed in v2.6.0.__
+`domReady(<fn>);` | Set the document ready (content fully loaded) event.
 `domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, __style object/string - since v2.0.5 - in IE11 and W10M Edge 14 the style string doesn't work__, data-*, etc.) The innerHTML is optional and can be a string.
 `domCreate(<element descriptive object>);` | Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The `style` can be a subobject or a string. __In IE11 and W10M Edge 14 the style string doesn't work.__ __Sample code:__ `_.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});`
 `domToElement(<htmlString>);` | This function returns a HTML element which is created from the htmlString parameter. The htmlString parameter is mandatory and has to be a string.
@@ -144,7 +135,16 @@ Name | Description
 `domOff(<eventTarget>,<eventType>,<callback>);` | Remove a callback to the eventType of the eventTarget.
 `domTrigger(<eventTarget>,<eventType>);` | Trigger an eventType of the eventTarget.
 `domSiblings(<element>);` | Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.
-
+`importScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
+`importScripts(<scripts>);` | Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
+`importScripts(<script1>[,scriptN]);` | Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
+`importStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.
+`importStyles(<styles>);` | Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.
+`importStyles(<style1>[,styleN]);` | Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
+`form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element.
+`form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
+`getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
+`getLocation(<success>[,error]);` | Get the current location as an object with the coordinates. The success is mandatory and has to be a function. The error is optional and can be a function.
 
 ### AJAX and CORS
 
@@ -355,14 +355,30 @@ Name | Description
 `iterCycle(<iter>[,n]);` | `Only in ES6` Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRepeat(<value>[,n]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
 `itemOf(<collection>,<index>);` | This function is the faster ES6 version of the `item(<collection>,<index>);` and uses the `for...of` loop instead of the `Array.from()`, but cannot handle negative index values. The collection parameter is mandatory. The index is mandatory and has to be an integer. The return value is the item on the index or undefined. Compatible with the Unicode strings.
+`sizeOf(<collection>);` | This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.
+`firstOf(<collection>);` | This function returns the first element of the given collection. The collection parameter is mandatory.
+`lastOf(<collection>);` | This function returns the last element of the given collection. The collection parameter is mandatory.
+`reverseOf(<collection>);` | This function yields the elements of the given collection in reverse order. The collection parameter is mandatory.
+`sortOf(<collection>);` | This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.
+`hasOf(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
+`findOf(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
 `forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value.__
 `mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.__
 `filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). 
 `sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity. 
-`takeOf(<collection>,<n>);` | Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`everyOf(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
+`someOf(<collection>,<callback>);` | This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
+`noneOf(<collection>,<callback>);` | This function whether all elements in the collection do not pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
+`concatOf(<collection1>[,collectionN]);` | This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.
+`concatOf(<collection1>[,collectionN]);` | This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.
+`reduceOf(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optinal and can be any variable type of the Javascript.
 `takeWhile(<collection>,<callback>);` | Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-`dropOf(<collection>,<n>);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is mandatory and has to be an integer.
+`takeRight(<collection>[,n]);` | Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`takeRightWhile(<collection>,<callback>);` | Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
+`dropOf(<collection>[,n]);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `dropWhile(<collection>,<callback>);` | Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
+`dropRight(<collection>[,n]);` | Drop the last N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`dropRightWhile(<collection>,<callback>);` | Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `isGenerator(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 
 

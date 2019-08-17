@@ -93,7 +93,7 @@
 
 var celTest = {};
 
-celTest.version = "Celestra Unit Tester (CUT) v0.8.7";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.8";
 celTest.__results__ = document.querySelector("#results");
 
 celTest.isNotIE11 = function isNotIE11 () {
@@ -167,7 +167,7 @@ celTest.clear = function clear () { celTest.__results__.innerHTML = ""; };
 var _cut = celTest;
 
 
-_cut.log(celestra.version);
+_cut.log(celestra.VERSION);
 _cut.log((new Date()).toISOString());
 
 _cut.addElement( 
@@ -207,7 +207,7 @@ function saveResults () {
 
 _cut.addElement("h3", "CUT Selftest");
 
-_cut.addElement("p", _cut.version);
+_cut.addElement("p", _cut.VERSION);
 
 _cut.__addTest__("__addTest__() success", 1, 1);
 _cut.__addTest__("__addTest__() failed", 1, 2);
