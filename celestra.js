@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 2.9.1
+ * @version 3.0.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -545,6 +545,19 @@ if (RegExp.prototype.flags === undefined) {
   });
 }
 
+if (!window.GeneratorFunction) {
+  window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
+}
+
+if (!String.prototype.matchAll) {
+  String.prototype.matchAll = function* (regex) {
+    function ef (fls, fl) { return (fls.includes(fl) ? fls : fls + fl); }
+    const lc = new RegExp(regex, ef(regex.flags, "g"));
+    let match;
+    while (match = lc.exec(this)) { yield match; }
+  };
+}
+
 /* Number ES6 */
 
 if (Number.MIN_SAFE_INTEGER === undefined) {
@@ -678,19 +691,12 @@ if (!Math.trunc) {
 
 /* core api */
 
-function random (i, a) {
-  if (i === undefined) { var i = 100; }
-  if (a === undefined) { var a = i; i = 0; }
+function random (i = 100, a) {
+  if (a === undefined) { a = i; i = 0; }
   return Math.floor(Math.random() * (a - i + 1)) + i;
 }
 
-function randomString (pl, sc) {
-  if (arguments.length === 1) {
-    sc = false;
-  } else if (arguments.length === 0) {
-    sc = false;
-    pl = 100;
-  }
+function randomString (pl = 100, sc = false) {
   var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   if (sc) { chars += ",?,.:-_*$ß¤Łł÷×¸¨˝´˙`˛°˘^ˇ~§'+!%/=()[]#<>&@{}\"\\/| éáűőúöüóíÉÁŰŐÚÖÜÓÍß"; }
   var s = "", l = chars.length;
@@ -812,58 +818,11 @@ function deepAssign () {
   return t;
 }
 
-function getFullscreen () {
-  return (
-    document.fullscreenElement ||
-    document.mozFullScreenElement ||
-    document.webkitFullscreenElement ||
-    document.msFullscreenElement ||
-    undefined
-  );
-}
-
-function setFullscreenOn (s) {
-  if (typeof s === "string") { var e = document.querySelector(s); }
-  else if (typeof s === "object") { var e = s; }
-  if (e.requestFullscreen) { e.requestFullscreen(); }
-  else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
-  else if (e.webkitRequestFullscreen) { e.webkitRequestFullscreen(); }
-  else if (e.msRequestFullscreen) { e.msRequestFullscreen(); }
-}
-
-function setFullscreenOff () {
-  if (document.exitFullscreen) { document.exitFullscreen(); }
-  else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); }
-  else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-  else if (document.msExitFullscreen) { document.msExitFullscreen(); }
-}
-
 function strRemoveTags (s) {
   return String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 }
 
-function strReverse (s) { return Array.from(String(s)).reverse().join(""); }
-
-function createFile (fln, c, dt) {
-  var l = arguments.length;
-  if (l > 1) {
-    if (l === 2) { dt = "text/plain"; }
-    var b = new Blob([c], {type: dt});
-    if (window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveBlob(b, fln);
-    } else {
-      var e = window.document.createElement("a");
-      e.href = window.URL.createObjectURL(b);
-      e.download = fln;
-      document.body.appendChild(e);
-      e.click();
-      document.body.removeChild(e);
-      window.URL.revokeObjectURL(e.href);
-    }
-  } else {
-    throw "Celestra createFile error: too few parameters.";
-  }
-}
+const strReverse = (s) => [...String(s)].reverse().join("");
 
 function forIn (o, fn) {
   for (var p in o) {
@@ -880,26 +839,26 @@ function mapIn (o, fn) {
   return r;
 }
 
-function toFunction (fn) { return Function.prototype.call.bind(fn); }
+const toFunction = (fn) => Function.prototype.call.bind(fn);
 
-var bind = Function.prototype.call.bind(Function.prototype.bind);
+const bind = Function.prototype.call.bind(Function.prototype.bind);
 
-var hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
+const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
-function constant (v) { return function () { return v; }; }
+const constant = (v) => () => v;
 
-function identity (v) { return v; }
+const identity = (v) => v;
 
 function noop () {}
 
-function T () { return !0; }
-function F () { return !1; }
+const T = () => !0;
+const F = () => !1;
 
 /* DOM */
 
-function qsa (s, c) { return Array.from((c || document).querySelectorAll(s)); }
+const qsa = (s, c = document) => [...c.querySelectorAll(s)];
 
-function qs (s, c) { return (c || document).querySelector(s); }
+const qs = (s, c = document) => c.querySelector(s);
 
 function domReady (fn) {
   if (document.readyState !== "loading") {
@@ -979,9 +938,9 @@ function domFadeToggle (e, dur, d) {
   }
 }
 
-function domHide (e) { e.style.display = "none"; }
+const domHide = (e) => e.style.display = "none";
 
-function domShow (e, d) { e.style.display = (d || ""); }
+const domShow = (e, d = "") => e.style.display = d;
 
 function domToggle (e, d) {
   if ((window.getComputedStyle
@@ -999,11 +958,11 @@ function domIsHidden (e) {
     : e.currentStyle).display === "none");
 }
 
-function domOn (el, et, fn) { return el.addEventListener(et, fn); }
+const domOn = (el, et, fn) => el.addEventListener(et, fn);
 
-function domOff (el, et, fn) { return el.removeEventListener(et, fn); }
+const domOff = (el, et, fn) => el.removeEventListener(et, fn);
 
-function domTrigger (el, et) { return el[et](); }
+const domTrigger = (el, et) => el[et]();
 
 function domSiblings (el) {
   return Array.prototype.filter.call(el.parentNode.children,
@@ -1136,6 +1095,53 @@ function getLocation (s, e) {
   }
 }
 
+function createFile (fln, c, dt) {
+  var l = arguments.length;
+  if (l > 1) {
+    if (l === 2) { dt = "text/plain"; }
+    var b = new Blob([c], {type: dt});
+    if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(b, fln);
+    } else {
+      var e = window.document.createElement("a");
+      e.href = window.URL.createObjectURL(b);
+      e.download = fln;
+      document.body.appendChild(e);
+      e.click();
+      document.body.removeChild(e);
+      window.URL.revokeObjectURL(e.href);
+    }
+  } else {
+    throw "Celestra createFile error: too few parameters.";
+  }
+}
+
+function getFullscreen () {
+  return (
+    document.fullscreenElement ||
+    document.mozFullScreenElement ||
+    document.webkitFullscreenElement ||
+    document.msFullscreenElement ||
+    undefined
+  );
+}
+
+function setFullscreenOn (s) {
+  if (typeof s === "string") { var e = document.querySelector(s); }
+  else if (typeof s === "object") { var e = s; }
+  if (e.requestFullscreen) { e.requestFullscreen(); }
+  else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
+  else if (e.webkitRequestFullscreen) { e.webkitRequestFullscreen(); }
+  else if (e.msRequestFullscreen) { e.msRequestFullscreen(); }
+}
+
+function setFullscreenOff () {
+  if (document.exitFullscreen) { document.exitFullscreen(); }
+  else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); }
+  else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+  else if (document.msExitFullscreen) { document.msExitFullscreen(); }
+}
+
 /* AJAX */
 
 function getJson (url, success) { celestra.getAjax(url, "json", success); }
@@ -1246,17 +1252,12 @@ function isEqual (a, b) {
     && JSON.stringify(a) === JSON.stringify(b));
 }
 
-function isString (v) { return typeof v === "string"; }
-function isChar (v) {
-  if (typeof v === "string") {
-    if (v.length === 1) { return true; }
-  }
-  return false;
-}
+const isString = (v) => (typeof v==="string");
+const isChar = (v) => (typeof v === "string" && v.length === 1);
 
-function isNumber (v) { return typeof v === "number"; }
-var isInteger = Number.isInteger;
-function isFloat (v) { return typeof v === "number" && !!(v % 1); }
+const isNumber = (v) => (typeof v === "number");
+const isInteger = Number.isInteger;
+const isFloat = (v) => (typeof v === "number" && !!(v % 1));
 function isNumeric (v) {
   return ((typeof v === "number" && v === v)
     ? true
@@ -1264,9 +1265,9 @@ function isNumeric (v) {
   );
 }
 
-function isBoolean (v) { return typeof v === "boolean"; }
+const isBoolean = (v) => (typeof v === "boolean");
 
-function isObject (v) { return typeof v === "object"; }
+const isObject = (v) => (typeof v === "object");
 function isEmptyObject(v) {
   if (typeof v === "object") {
     for (var n in v) { return false; }
@@ -1275,10 +1276,10 @@ function isEmptyObject(v) {
   return false;
 }
 
-function isFunction (v) { return typeof v === "function"; }
+const isFunction = (v) => (typeof v === "function");
 
-var isArray = Array.isArray;
-function isEmptyArray (v) { return (Array.isArray(v) && v.length === 0); }
+const isArray = Array.isArray;
+const isEmptyArray = (v) => (Array.isArray(v) && v.length === 0);
 function isArraylike (v) {
   return !!v
     && (typeof v === "object" || typeof v === "string")
@@ -1287,42 +1288,38 @@ function isArraylike (v) {
     && v.length % 1 === 0;
 }
 
-function isNull (v) { return v === null; }
-function isUndefined (v) { return v === undefined; }
-function isNullOrUndefined (v) { return v === null || v === undefined; }
-var isNil = isNullOrUndefined;
+const isNull = (v) => (v === null);
+const isUndefined = (v) => (v === undefined);
+const isNullOrUndefined = (v) => (v === null || v === undefined);
+const isNil = isNullOrUndefined;
 
 function isPrimitive (v) {
   return v === null || typeof v !== "object" && typeof v !== "function";
 }
 
-function isSymbol (v) { return typeof v === "symbol"; }
+const isSymbol = (v) => (typeof v === "symbol");
 
-function isMap (v) { return (celestra.__objType__(v) === "map"); }
+const isMap = (v) => (celestra.__objType__(v) === "map");
 
-function isSet (v) { return (celestra.__objType__(v) === "set"); }
+const isSet = (v) => (celestra.__objType__(v) === "set");
 
-function isWeakMap (v) { return (celestra.__objType__(v) === "weakmap"); }
+const isWeakMap = (v) => (celestra.__objType__(v) === "weakmap");
 
-function isWeakSet (v) { return (celestra.__objType__(v) === "weakset"); }
+const isWeakSet = (v) => (celestra.__objType__(v) === "weakset");
 
-function isIterator (v) {
-  return celestra.__objType__(v).includes("iterator");
-}
+const isIterator = (v) => (celestra.__objType__(v).includes("iterator"));
 
-function isDate (v) { return (celestra.__objType__(v) === "date"); }
+const isDate = (v) => (celestra.__objType__(v) === "date");
 
-function isRegexp (v) { return (celestra.__objType__(v) === "regexp"); }
+const isRegexp = (v) => (celestra.__objType__(v) === "regexp");
 
-function isElement (v) { return typeof v === "object" && v.nodeType === 1; }
+const isElement = (v) => (typeof v === "object" && v.nodeType === 1);
 
-function isIterable (v) { return (!!v[Symbol.iterator]); }
+const isIterable = (v) => (!!v[Symbol.iterator]);
 
-function isBigInt (v) { return (typeof v === "bigint"); }
+const isBigInt = (v) => (typeof v === "bigint");
 
-function isArrayBuffer (v) {
-  return (celestra.__objType__(v) === "arraybuffer");
-}
+const isArrayBuffer = (v) => (celestra.__objType__(v) === "arraybuffer");
 
 function isTypedArray (v) {
   return ["int8array", "uint8array", "uint8clampedarray", "int16array",
@@ -1330,6 +1327,9 @@ function isTypedArray (v) {
     "float64array", "bigint64array", "biguint64array"
   ].includes(celestra.__objType__(v));
 }
+
+const isGenerator = (v) => (Object.getPrototypeOf(v).constructor ===
+  Object.getPrototypeOf(function*(){}).constructor);
 
 /* cookie */
 
@@ -1365,7 +1365,7 @@ function getCookie (name) {
 }
 
 function hasCookie (name) {
-  return (document.cookie.indexOf(encodeURIComponent(name)+"=") !== -1);
+  return (document.cookie.includes(encodeURIComponent(name)+"="));
 }
 
 function removeCookie (name, path, domain, secure, HttpOnly) {
@@ -1461,13 +1461,9 @@ function setSymmetricDifference (a, b) {
   );
 }
 
-function arrayKeys (a) {
-  return Array.from(a).map(function (v, i) { return i; });
-}
-function arrayValues (a) { return Array.from(a); }
-function arrayEntries (a) {
-  return Array.from(a).map(function (v, i) { return [i, v]; });
-}
+const arrayKeys = ([...a]) => [...a.keys()];
+const arrayValues = ([...a]) => a;
+const arrayEntries = ([...a]) => [...a.entries()];
 
 function isSuperset (sup, sub) {
   var sup2 = celestra.__toArray__(sup);
@@ -1516,14 +1512,9 @@ function maxIndex (a) {
   return null;
 }
 
-function arrayRepeat (v, n) {
-  return Array(arguments.length === 2 ? n : 100).fill(v);
-}
+const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
-function arrayCycle (a, n) {
-  var a2 = Array.from(a);
-  return Array(arguments.length === 2 ? n : 100).fill(a2).flat();
-}
+const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
 function arrayRange (start, end, step) {
   var i = Number(start),
@@ -1561,11 +1552,7 @@ function unzip (a) {
   return res;
 }
 
-function uniqueArray (a) {
-  return celestra.__toArray__(a).filter(
-    function (e, i, arr) { return arr.indexOf(e) === i; }
-  );
-}
+const uniqueArray = ([...a]) => [...new Set(a)];
 
 function uniquePush (a, v) {
   if (a.indexOf(v) === -1) {
@@ -1589,10 +1576,7 @@ function arrayRemove (a, v, all) {
   return found;
 }
 
-function item (a, i) {
-  var a2 = celestra.__toArray__(a);
-  return a2[(i < 0 ? a2.length + i : i)];
-}
+const item = ([...a], i) => a[(i < 0 ? a.length + i : i)];
 
 function arrayMerge () {
   if (typeof arguments[0] === "boolean") {
@@ -1616,6 +1600,210 @@ function arrayMerge () {
   return t;
 }
 
+function* iterRange (start = 0, step = 1, end = Infinity) {
+  let i = start;
+  while (i <= end) {
+    yield i;
+    i += step;
+  }
+}
+
+function* iterCycle (it, n = Infinity) {
+  let i = 0;
+  let iter2 = Array.from(it);
+  while (i < n) {
+    yield* iter2.values();
+    i++;
+  }
+}
+
+function* iterRepeat (value, n = Infinity) {
+  let i = 0;
+  while (i < n) {
+    yield value;
+    i++;
+  }
+}
+
+function* takeWhile (it, fn) {
+  for (let item of it) {
+    if (!fn(item)) { break; }
+    yield item;
+  }
+}
+
+function* dropWhile (it, fn) {
+  let d = true;
+  for (let item of it) {
+    if (d && !fn(item)) { d = false; }
+    if (!d) { yield item; }
+  }
+}
+
+function* takeOf (it, n = 1) {
+  let i = n;
+  for (let item of it) {
+    if (i <= 0) { break; }
+    yield item;
+    i--;
+  }
+}
+
+function* dropOf (it, n = 1) {
+  let i = n;
+  for (let item of it) {
+    if (i < 1) { yield item; } else { i--; }
+  }
+}
+
+function forOf (it, fn) {
+  let i = 0;
+  for (let item of it) { fn(item, i++); }
+}
+
+function* mapOf (it, fn) {
+  let i = 0;
+  for (let item of it) { yield fn(item, i++); }
+}
+
+function* filterOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { yield item; }
+  }
+}
+
+function* sliceOf (it, begin = 0, end = Infinity) {
+  let i = 0;
+  for (let item of it) {
+    if (i >= begin && i <= end) {
+      yield item;
+    } else if (i > end) {
+      return;
+    }
+    i++;
+  }
+}
+
+function itemOf (it, p) {
+  let i = 0;
+  for (let item of it) {
+    if (i++ === p) { return item; }
+  }
+}
+
+function sizeOf (it) {
+  let i = 0;
+  for (let item of it) { i++; }
+  return i;
+}
+
+function firstOf (it) {
+  for (let item of it) { return item; }
+}
+
+function lastOf (it) {
+  let item;
+  for (item of it) { }
+  return item;
+}
+
+const reverseOf = (a) => [...a].reverse().values();
+
+const sortOf = (a) => [...a].sort().values();
+
+function hasOf (it, v) {
+  for (let item of it) {
+    if (item === v) { return true; }
+  }
+  return false;
+}
+
+function findOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return item; }
+  }
+}
+
+function everyOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (!fn(item, i++)) { return false; }
+  }
+  if (i === 0) { return false; }
+  return true;
+}
+
+function someOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return true; }
+  }
+  return false;
+}
+
+function noneOf (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return false; }
+  }
+  if (i === 0) { return false; }
+  return true;
+}
+
+function* takeRight ([...a], n = 1) {
+  let i = n;
+  for (let item of a.reverse()) {
+    if (i <= 0) { break; }
+    yield item;
+    i--;
+  }
+}
+
+function* takeRightWhile ([...a], fn) {
+  let i = 0;
+  for (let item of a.reverse()) {
+    if (fn(item, i)) {
+      yield item;
+    } else {
+      break;
+    }
+  }
+}
+
+function* dropRight ([...a], n = 1) {
+  let i = n;
+  for (let item of a.reverse()) {
+    if (i < 1) { yield item; } else { i--; }
+  }
+}
+
+function* dropRightWhile ([...a], fn) {
+  let d = true;
+  for (let item of a.reverse()) {
+    if (d && !fn(item)) { d = false; }
+    if (!d) { yield item; }
+  }
+}
+
+function* concatOf () {
+  for (let item of arguments) { yield* item; }
+}
+
+function reduceOf (it, fn, iv) {
+  let acc = iv;
+  let i = 0;
+  for (let item of it) {
+    if (i === 0 && acc === undefined) {
+      acc = item;
+    } else {
+      acc = fn(acc, item, i++);
+    }
+  }
+  return acc;
+}
+
 /* object */
 
 function noConflict () {
@@ -1634,8 +1822,7 @@ function __objType__ (v) {
 
 var celestra = {
   /* header */
-  version: "Celestra v2.9.1",
-  VERSION: "Celestra v2.9.1",
+  VERSION: "Celestra v3.0.0",
   noConflict: noConflict,
   __toArray__: __toArray__,
   __objType__: __objType__,
@@ -1652,12 +1839,8 @@ var celestra = {
   getType: getType,
   extend: extend,
   deepAssign: deepAssign,
-  getFullscreen: getFullscreen,
-  setFullscreenOn: setFullscreenOn,
-  setFullscreenOff: setFullscreenOff,
   strRemoveTags: strRemoveTags,
   strReverse: strReverse,
-  createFile: createFile,
   forIn: forIn,
   mapIn: mapIn,
   toFunction: toFunction,
@@ -1695,6 +1878,10 @@ var celestra = {
   form2string: form2string,
   getDoNotTrack: getDoNotTrack,
   getLocation: getLocation,
+  createFile: createFile,
+  getFullscreen: getFullscreen,
+  setFullscreenOn: setFullscreenOn,
+  setFullscreenOff: setFullscreenOff,
   /* AJAX */
   getJson: getJson,
   getText: getText,
@@ -1735,6 +1922,7 @@ var celestra = {
   isBigInt: isBigInt,
   isArrayBuffer: isArrayBuffer,
   isTypedArray: isTypedArray,
+  isGenerator: isGenerator,
   /* cookie */
   setCookie: setCookie,
   getCookie: getCookie,
@@ -1770,7 +1958,35 @@ var celestra = {
   arrayClear: arrayClear,
   arrayRemove: arrayRemove,
   item: item,
-  arrayMerge: arrayMerge
+  arrayMerge: arrayMerge,
+  iterRange: iterRange,
+  iterCycle: iterCycle,
+  iterRepeat: iterRepeat,
+  takeWhile: takeWhile,
+  dropWhile: dropWhile,
+  takeOf: takeOf,
+  dropOf: dropOf,
+  forOf: forOf,
+  mapOf: mapOf,
+  filterOf: filterOf,
+  sliceOf: sliceOf,
+  itemOf: itemOf,
+  sizeOf: sizeOf,
+  firstOf: firstOf,
+  lastOf: lastOf,
+  reverseOf: reverseOf,
+  sortOf: sortOf,
+  hasOf: hasOf,
+  findOf: findOf,
+  everyOf: everyOf,
+  someOf: someOf,
+  noneOf: noneOf,
+  takeRight: takeRight,
+  takeRightWhile: takeRightWhile,
+  dropRight: dropRight,
+  dropRightWhile: dropRightWhile,
+  concatOf: concatOf,
+  reduceOf: reduceOf
 };
 
 /* AMD loader */
