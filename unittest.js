@@ -379,11 +379,12 @@ _cut.isTrue("domToElement() complex element",
 
 _.domSetCSS(domTestElement, "width", "300px");
 _cut.isEqual("domSetCSS() property and domGetCSS()", "300px", _.domGetCSS(domTestElement, "width") );
-
+_cut.log("<b>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"300px\" </b>");
 _.domSetCSS(domTestElement, {"width": "350px", "font-weight": "bold"});
 _cut.isEqual("domSetCSS() properties object and domGetCSS()",
   "350px", _.domGetCSS(domTestElement, "width")
 );
+_cut.log("<b>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"350px\" </b>");
 
 _.domHide(domTestElement);
 _cut.isEqual("domHide()", "none", _.domGetCSS(domTestElement, "display") );
@@ -1424,33 +1425,36 @@ _cut.isEqual("String.prototype.repeat()",
   ""+"ipsum"+"ipsumipsum"+"ipsumipsumipsum", padStr
 );
 
+let objIsStrCount = 1;
 var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
-objIsStr += Object.is("lorem", "lorem");
-objIsStr += Object.is(-0, -0);
-objIsStr += Object.is(0, 0);
-objIsStr += Object.is(NaN, 0/0);
-objIsStr += Object.is(NaN, NaN);
-objIsStr += Object.is(42, 42);
-objIsStr += Object.is(3.14, 3.14);
-objIsStr += Object.is(true, true);
-objIsStr += Object.is(false, false);
-objIsStr += Object.is(undefined, undefined);
-objIsStr += Object.is(null, null);
-objIsStr += Object.is(isArr, isArr);
-objIsStr += Object.is(isTest, isTest);
-objIsStr += Object.is(window, window);
-objIsStr += Object.is([], []);
-objIsStr += Object.is([1,2], [1,2]);
-objIsStr += Object.is(isArr, [1,2]);
-objIsStr += Object.is(isTest, { x: 12 });
-objIsStr += Object.is("lorem", "ipsum");
-objIsStr += Object.is("lorem", "Lorem");
-objIsStr += Object.is("lorem", "dolorem");
-objIsStr += Object.is(0, -0);
+objIsStr += " " + objIsStrCount++ + " " + Object.is("lorem", "lorem");
+objIsStr += " " + objIsStrCount++ + " " + Object.is(-0, -0);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(0, 0);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(NaN, 0/0);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(NaN, NaN);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(42, 42);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(3.14, 3.14);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(true, true);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(false, false);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(undefined, undefined);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(null, null);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(isArr, isArr);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(isTest, isTest);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(window, window);
+objIsStr += " " + objIsStrCount++ + " " + Object.is([], []);
+objIsStr += " " + objIsStrCount++ + " " + Object.is([1,2], [1,2]);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(isArr, [1,2]);
+objIsStr += " " + objIsStrCount++ + " " + Object.is(isTest, { x: 12 });
+objIsStr += " " + objIsStrCount++ + " " + Object.is("lorem", "ipsum");
+objIsStr += " " + objIsStrCount++ + " " + Object.is("lorem", "Lorem");
+objIsStr += " " + objIsStrCount++ + " " + Object.is("lorem", "dolorem");
+objIsStr += " " + objIsStrCount++ + " " + Object.is(0, -0) + " ";
 _cut.isEqual("Object.is()",
-  "truetruetruetruetruetruetruetruetruetruetruetruetruetruefalsefalsefalsefalsefalsefalsefalsefalse",
+  " 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10 true 11 true 12 true 13 true 14 true 15 false 16 false 17 false 18 false 19 false 20 false 21 false 22 false ",
   objIsStr
 );
+_cut.log("<b>Result:<br/>\""+objIsStr+"\"</b>");
+_cut.log("<b>Expected:<br/>\" 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10 true 11 true 12 true 13 true 14 true 15 false 16 false 17 false 18 false 19 false 20 false 21 false 22 false \"</b>");
 
 var entriesObj = {a: 1, b:2, c: 3};
 var entriesStr = JSON.stringify( Object.entries(entriesObj) );
