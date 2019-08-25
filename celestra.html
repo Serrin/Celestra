@@ -60,12 +60,12 @@
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).</p>
-<p>Latest version: 3.0.0</p>
-<p>Date: 2019-08-21T19:02:49.703Z</p>
+<p>Latest version: 3.0.1</p>
+<p>Date: 2019-08-25T19:28:01.874Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (55641 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (41540 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (57494 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (43052 bytes)</p>
 <p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
 <p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -241,17 +241,11 @@
     </tr>
     <tr>
       <td><code>qsa(&#60;selector&#62;[,context]);</code></td>
-      <td>
-        <p>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.</p>
-        <p><span class="info">Note: The context as selector string has been removed in v2.6.0.</span></p>
-      </td>
+      <td>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.      </td>
     </tr>
     <tr>
       <td><code>qs(&#60;selector&#62;[,context]).argument;</code></td>
-      <td>
-        <p>Get the first matched HTML element. The context is optional and can be an element or a selector string.<p>
-        <p><span class="info">Note: The context as selector string has been removed in v2.6.0.</span></p>
-      </td>
+      <td>Get the first matched HTML element. The context is optional and can be an element or a selector string.</td>
     </tr>
     <tr>
       <td><code>domReady(&#60;fn&#62;);</code></td>
@@ -440,6 +434,10 @@
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>ajax(&#60;Options object&#62;);</code></td>
+      <td>Get content and send data via AJAX and CORS.</td>
+    </tr>
+    <tr>
       <td><code>getJson(&#60;url&#62;,&#60;success&#62;);</code></td>
       <td>Get TEXT content via AJAX. A shorthand function to the getAjax() function.</td>
     </tr>
@@ -447,23 +445,60 @@
       <td><code>getText(&#60;url&#62;,&#60;success&#62;);</code></td>
       <td>Get JSON content via AJAX. A shorthand function to the getAjax() function.</td>
     </tr>
+  </table>
+</div>
+
+<p><b>Options object properties:</b></p>
+<ul>
+  <li>The <b>queryType</b> is optional and can be a <b>string</b> with these values: <code>"ajax"</code> or <code>"cors"</code>. The default value is <code>"ajax"</code>.</li>
+  <li>The <b>type</b> is optional and can be a <b>string</b> with these values: <code>"get"</code> or <code>"post"</code>. The default value is <code>"get"</code>.</li>
+  <li>The <b>url</b> is mandatory and has to be a <b>string</b>.</li>
+  <li>The <b>data</b> is optional and has to be a <b>string</b> if the <code>type === "post"</code>.</li>
+  <li>The <b>format</b> is optional and can be a <b>string</b> with these values: <code>"text"</code> or <code>"json"</code> or <code>"xml"</code>. The default value is <code>"text"</code>.
+  <li>The <b>success</b> is mandatory and has to be a <b>function</b>.</li>
+  <li>The <b>error</b> is optional and can be a <b>function</b>.</li>
+  <li>The <b>user</b> is optional and can be a <b>string</b>.</li>
+  <li>The <b>password</b> is optional, but mandatory if the user is set. This parameter can be a <b>string</b>.</li>
+</ul>
+
+
+<h4>The deprecated AJAX functions</h4>
+
+<p><span class="info">These functions will be removed in Celestra v3.1.0.</span></p>
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
     <tr>
       <td><code>getAjax(&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
-      <td>Get content via AJAX.</td>
+      <td>
+        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
+        <p>Get content via AJAX.</p>
+      </td>
     </tr>
     <tr>
       <td><code>postAjax(&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
       <td>
-        Post data and get the response content via AJAX.</td>
+        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
+        <p>Post data and get the response content via AJAX.</p>
+      </td>
     </tr>
     <tr>
       <td><code>getCors(&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
       <td>
-        Get content via cross domain AJAX.</td>
+        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
+        <p>Get content via cross domain AJAX.</p>
+      </td>
     </tr>
     <tr>
       <td><code>postCors(&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
-      <td>Post data and get the response content via cross domain AJAX.</td>
+      <td>
+        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
+        <p>Post data and get the response content via cross domain AJAX.</p>
+      </td>
     </tr>
   </table>
 </div>
@@ -515,7 +550,10 @@
     </tr>
     <tr>
       <td><code>isInteger(&#60;value&#62;);</code></td>
-      <td>Same as <code>Number.isInteger()</code>. This function determines whether the provided value is an integer number. The return value is boolean.</td>
+      <td>
+        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
+        <p>Same as <code>Number.isInteger()</code>. This function determines whether the provided value is an integer number. The return value is boolean.</p>
+      </td>
     </tr>
     <tr>
       <td><code>isFloat(&#60;value&#62;);</code></td>
@@ -543,7 +581,10 @@
     </tr>
     <tr>
       <td><code>isArray(&#60;value&#62;);</code></td>
-      <td>Same as <code>Array.isArray()</code>. This function determines whether the provided value is an array. The return value is boolean.</td>
+      <td>
+        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
+        <p>Same as <code>Array.isArray()</code>. This function determines whether the provided value is an array. The return value is boolean.</p>
+      </td>
     </tr>
     <tr>
       <td><code>isEmptyArray(&#60;value&#62;);</code></td>
@@ -707,8 +748,6 @@
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.arrayUnion()</code></p>
 
-<p>Some of these functions use the <code>Array.from()</code> and the <code>Array.prototype.includes()</code>, that are polyfilled in this library.</p>
-
 <div>
   <table>
     <tr>
@@ -822,15 +861,15 @@
     </tr>
     <tr>
       <td><code>arrayCycle(&#60;collection&#62;[,n]);</code></td>
-      <td>Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the <code>for...of</code> loop, but works in the non-ES6 compatible browsers too.</td>
+      <td>Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.</td>
     </tr>
     <tr>
       <td><code>arrayRepeat(&#60;value&#62;[,step]);</code></td>
-      <td>Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the <code>for...of</code> loop, but works in the non-ES6 compatible browsers too.</td>
+      <td>Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.</td>
     </tr>
     <tr>
       <td><code>arrayRange(&#60;start&#62;,&#60;end&#62;[,step]);</code></td>
-      <td>Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Usable with the <code>for...of</code> loop, but works in the non-ES6 compatible browsers too.</td>
+      <td>Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number.</td>
     </tr>
     <tr>
       <td><code>zip(&#60;collection1&#62;[,collectionN]);</code></td>
@@ -919,17 +958,11 @@
     </tr>
     <tr>
       <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p>This function is the faster, ES6 variant of the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</p>
-        <p><span class="info">Note: From the v2.5.1 there is no return value.</span></p>
-      </td>
+      <td>This function is the faster, ES6 variant of the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
       <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</p>
-        <p><span class="info">Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.</span></p>
-      </td>
+      <td>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
       <td><code>filterOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>

@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.0.0
+ * @version 3.0.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -12,7 +12,6 @@
 /*-----------------+------+----------------------------------
   Function         |   #  |  Internal calls
 -------------------+------+----------------------------------
-  CTRL-F           |   N  |  __toArray__()
   CTRL-F           |   N  |  __objType__()
   importScripts()  |   2  |  importScript(), importScript()
   importStyles()   |   2  |  importStyle(), importStyle()
@@ -20,8 +19,8 @@
   arrayMerge()     |   1  |  arrayMerge()
   extend()         |   1  |  extend()
   deepAssign()     |   1  |  deepAssign()
-  getJson()        |   1  |  getAjax()
-  getText()        |   1  |  getAjax()
+  getJson()        |   1  |  ajax()
+  getText()        |   1  |  ajax()
   isEqual()        |   2  |  getType()
   clearCookies()   |   2  |  getCookie(), removeCookie()
 -------------------+------+--------------------------------*/
@@ -964,11 +963,8 @@ const domOff = (el, et, fn) => el.removeEventListener(et, fn);
 
 const domTrigger = (el, et) => el[et]();
 
-function domSiblings (el) {
-  return Array.prototype.filter.call(el.parentNode.children,
-    function (e) { return (e !== el); }
-  );
-}
+const domSiblings = (el) =>
+  Array.prototype.filter.call(el.parentNode.children, (e) => (e !== el));
 
 function importScript (u, s) {
   var scr = document.createElement("script");
@@ -1078,12 +1074,8 @@ function form2string (f) {
   return a.join("&").replace(/%20/g, "+");
 }
 
-function getDoNotTrack () {
-  return (!!window.doNotTrack
-    || !!navigator.doNotTrack
-    || !!navigator.msDoNotTrack
-  );
-}
+const getDoNotTrack = () =>
+  (!!window.doNotTrack || !!navigator.doNotTrack || !!navigator.msDoNotTrack);
 
 function getLocation (s, e) {
   if (!e) { var e = function () {}; }
@@ -1143,10 +1135,6 @@ function setFullscreenOff () {
 }
 
 /* AJAX */
-
-function getJson (url, success) { celestra.getAjax(url, "json", success); }
-
-function getText (url, success) { celestra.getAjax(url, "text", success); }
 
 function getAjax (url, format, success, error, user, password) {
   var xhr = window.XMLHttpRequest
@@ -1245,6 +1233,100 @@ function postCors (url, data, format, success, error, user, password) {
   xhr.send(encodeURIComponent(data));
 }
 
+/* AJAX 2 */
+
+function getText (u, s) { celestra.ajax({url: u, success: s}); }
+
+function getJson (u, s) {
+  celestra.ajax({url: u, format: "json", success: s});
+}
+
+function ajax (o) {
+  if (typeof o.url !== "string") {
+    throw new TypeError("Celestra ajax error: The url parameter have to a function.");
+  }
+  if (typeof o.success !== "function") {
+    throw new TypeError("Celestra ajax error: The success parameter have to a function.");
+  }
+  if (!(["function", "undefined"].includes(typeof o.error))) {
+    throw new TypeError("Celestra ajax error: The error parameter have to a function or undefined.");
+  }
+  if (!o.queryType) {
+    o.queryType = "ajax";
+  } else {
+    o.queryType = o.queryType.toLowerCase();
+  }
+  if (!o.type) {
+    o.type = "get";
+  } else {
+    o.type = o.type.toLowerCase();
+  }
+  if (o.type === "get") {
+    var typeStr = "GET";
+  } else if (o.type === "post") {
+    var typeStr = "POST";
+  } else {
+    throw "Celestra ajax error: The type parameter have to be \"get\" or \"post\".";
+  }
+  if (!o.format) {
+    o.format = "text";
+  } else {
+    o.format = o.format.toLowerCase();
+    if (!(["text", "json", "xml"].includes(o.format))) {
+      throw "Celestra ajax error: The format parameter have to be \"text\" or \"json\" or \"xml\".";
+    }
+  }
+  var xhr;
+  if (o.queryType === "ajax") {
+    xhr = new XMLHttpRequest();
+  } else if (o.queryType === "cors") {
+    xhr = new XMLHttpRequest();
+    if (!("withCredentials" in xhr)) { xhr = new XDomainRequest(); }
+  } else {
+    throw "Celestra ajax error: The querytype parameter have to be \"ajax\" or \"cors\".";
+  }
+  if (typeof user === "string" && typeof password === "string") {
+    xhr.open(typeStr, o.url, true, o.user, o.password);
+  } else {
+    xhr.open(typeStr, o.url, true);
+  }
+  if (o.queryType === "ajax") {
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        switch (o.format.toLowerCase()) {
+          case "text": o.success(this.responseText); break;
+          case "json": o.success(JSON.parse(this.responseText)); break;
+          case "xml": o.success(this.responseXML); break;
+          default: o.success(this.responseText);
+        }
+      }
+    };
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    if (o.typeStr === "POST") {
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    }
+  } else if (o.queryType === "cors") {
+    xhr.onload = function (request) {
+      switch (o.format.toLowerCase()) {
+        case "text": o.success(request.target.responseText
+          || request.currentTarget.response); break;
+        case "json": o.success(JSON.parse(request.target.responseText
+          || request.currentTarget.response)); break;
+        case "xml": o.success(request.target.responseXML
+          || request.currentTarget.responseXML); break;
+        default: o.success(request.target.responseText
+          || request.currentTarget.response);
+      }
+    };
+  }
+  if (typeof o.error === "function") { xhr.onerror = o.error; }
+  if (typeStr === "GET") {
+    xhr.send();
+  } else if (typeStr === "POST") {
+    xhr.send(encodeURI(o.data));
+  }
+}
+
 /* type checking */
 
 function isEqual (a, b) {
@@ -1280,22 +1362,17 @@ const isFunction = (v) => (typeof v === "function");
 
 const isArray = Array.isArray;
 const isEmptyArray = (v) => (Array.isArray(v) && v.length === 0);
-function isArraylike (v) {
-  return !!v
-    && (typeof v === "object" || typeof v === "string")
-    && typeof v.length === "number"
-    && v.length >= 0
-    && v.length % 1 === 0;
-}
+const isArraylike = (v) =>
+  ((typeof v === "object" || typeof v === "string") && v !== null
+    && typeof v.length === "number" && v.length >= 0 && v.length % 1 === 0);
 
 const isNull = (v) => (v === null);
 const isUndefined = (v) => (v === undefined);
 const isNullOrUndefined = (v) => (v === null || v === undefined);
 const isNil = isNullOrUndefined;
 
-function isPrimitive (v) {
-  return v === null || typeof v !== "object" && typeof v !== "function";
-}
+const isPrimitive = (v) =>
+  (v === null || typeof v !== "object" && typeof v !== "function");
 
 const isSymbol = (v) => (typeof v === "symbol");
 
@@ -1412,52 +1489,33 @@ function map (a, fn) {
   else { return Array.from(a).map(fn); }
 }
 
-function arrayUnion () {
-  return Array.prototype.concat.apply(
-    [], Array.from(arguments).map(function (e) { return Array.from(e); })
-  ).filter(function(e, i, arr) { return arr.indexOf(e) === i; });
+const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
+
+function arrayIntersection ([...a], [...b]) {
+  return a.filter((v) => b.includes(v))
+    .filter((e, i, arr) => arr.indexOf(e) === i);
 }
 
-function arrayIntersection (a, b) {
-  var a2 = Array.from(a), b2 = Array.from(b);
-  return a2.filter(function (v) { return b2.includes(v); })
-    .filter(function(e, i, arr) { return arr.indexOf(e) === i; });
+function arrayDifference ([...a], [...b]) {
+  return a.filter((v) => !(b.includes(v)))
+    .filter((e, i, arr) => arr.indexOf(e) === i);
 }
 
-function arrayDifference (a, b) {
-  var a2 = Array.from(a), b2 = Array.from(b);
-  return a2.filter(function (v) { return !(b2.includes(v)); })
-    .filter(function(e, i, arr) { return arr.indexOf(e) === i; });
+function arraySymmetricDifference ([...a], [...b]) {
+  return a.filter((v) => !(b.includes(v)))
+    .concat(b.filter((v) => !(a.includes(v))))
+    .filter((e, i, arr) => arr.indexOf(e) === i);
 }
 
-function arraySymmetricDifference (a, b) {
-  var a2 = Array.from(a), b2 = Array.from(b);
-  return a2.filter(function (v) { return !(b2.includes(v)); })
-    .concat(b2.filter(function (v) { return !(a2.includes(v)); }))
-    .filter(function(e, i, arr) { return arr.indexOf(e) === i; });
-}
+const setUnion = (...a) => new Set(a.map(([...e]) => e).flat());
 
-function setUnion () {
-  return new Set(
-    Array.prototype.concat.apply(
-      [], Array.from(arguments).map(function (e) { return Array.from(e); })
-    )
-  );
-}
+const setIntersection = ([...a], b) => new Set(a.filter((v) => b.has(v)));
 
-function setIntersection (a, b) {
-  return new Set(Array.from(a).filter(function (v) { return b.has(v); }));
-}
-
-function setDifference (a, b) {
-  return new Set(Array.from(a).filter(function (v) { return !(b.has(v)); }));
-}
+const setDifference = ([...a], b) => new Set(a.filter((v) => !(b.has(v))));
 
 function setSymmetricDifference (a, b) {
   return new Set(
-    Array.from(a).filter(function (v) { return !(b.has(v)); }).concat(
-      Array.from(b).filter(function (v) { return !(a.has(v)); })
-    )
+    [...a].filter((v) => !(b.has(v))).concat([...b].filter((v) => !(a.has(v))))
   );
 }
 
@@ -1465,48 +1523,39 @@ const arrayKeys = ([...a]) => [...a.keys()];
 const arrayValues = ([...a]) => a;
 const arrayEntries = ([...a]) => [...a.entries()];
 
-function isSuperset (sup, sub) {
-  var sup2 = celestra.__toArray__(sup);
-  return celestra.__toArray__(sub).every(
-    function (v) { return sup2.includes(v); }
-  );
-}
+const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
 
-function min (a) {
-  var a2 = celestra.__toArray__(a);
-  if (a2.length > 0) {
-    var r = a2[0];
-    a2.forEach(function (v, i, arr) { if (v < r) { r = v; } });
+function min ([...a]) {
+  if (a.length > 0) {
+    var r = a[0];
+    a.forEach(function (v, i, arr) { if (v < r) { r = v; } });
     return r;
   }
   return null;
 }
 
-function minIndex (a) {
-  var a2 = celestra.__toArray__(a);
-  if (a2.length > 0) {
+function minIndex ([...a]) {
+  if (a.length > 0) {
     var r = 0;
-    a2.forEach(function (v, i, arr) { if (v < arr[r]) { r = i; } });
+    a.forEach(function (v, i, arr) { if (v < arr[r]) { r = i; } });
     return r;
   }
   return null;
 }
 
-function max (a) {
-  var a2 = celestra.__toArray__(a);
-  if (a2.length > 0) {
-    var r = a2[0];
-    a2.forEach(function (v, i, arr) { if (v > r) { r = v; } });
+function max ([...a]) {
+  if (a.length > 0) {
+    var r = a[0];
+    a.forEach(function (v, i, arr) { if (v > r) { r = v; } });
     return r;
   }
   return null;
 }
 
-function maxIndex (a) {
-  var a2 = celestra.__toArray__(a);
-  if (a2.length > 0) {
+function maxIndex ([...a]) {
+  if (a.length > 0) {
     var r = 0;
-    a2.forEach(function (v, i, arr) { if (v > arr[r]) { r = i; } });
+    a.forEach(function (v, i, arr) { if (v > arr[r]) { r = i; } });
     return r;
   }
   return null;
@@ -1516,12 +1565,11 @@ const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
-function arrayRange (start, end, step) {
+function arrayRange (start, end, step = 1) {
   var i = Number(start),
     end2 = Number(end),
-    step2 = (step !== undefined ? Number(step) : 1),
     res = [];
-  while (i <= end2) { res.push(i); i += step2; }
+  while (i <= end2) { res.push(i); i += step; }
   return res;
 }
 
@@ -1542,8 +1590,8 @@ function zip () {
   return res;
 }
 
-function unzip (a) {
-  var a2 = Array.from(a).map(function (v) { return Array.from(v); });
+function unzip ([...a]) {
+  var a2 = a.map(([...v]) => v);
   var res = [], i, j, l1 = a2[0].length, l2 = a2.length;
   for (i = 0; i < l1; i++) { res.push([]); }
   for (i = 0; i < l1; i++) {
@@ -1708,9 +1756,9 @@ function lastOf (it) {
   return item;
 }
 
-const reverseOf = (a) => [...a].reverse().values();
+const reverseOf = ([...a]) => a.reverse().values();
 
-const sortOf = (a) => [...a].sort().values();
+const sortOf = ([...a]) => a.sort().values();
 
 function hasOf (it, v) {
   for (let item of it) {
@@ -1764,11 +1812,7 @@ function* takeRight ([...a], n = 1) {
 function* takeRightWhile ([...a], fn) {
   let i = 0;
   for (let item of a.reverse()) {
-    if (fn(item, i)) {
-      yield item;
-    } else {
-      break;
-    }
+    if (fn(item, i)) { yield item; } else { break; }
   }
 }
 
@@ -1811,9 +1855,6 @@ function noConflict () {
   return celestra;
 }
 
-/* For internal use only can be replaced with the "Array.from();". */
-function __toArray__ (a) { return (Array.isArray(a) ? a : Array.from(a)); }
-
 /* For internal use only. */
 function __objType__ (v) {
   return Object.prototype.toString.call(v)
@@ -1822,9 +1863,8 @@ function __objType__ (v) {
 
 var celestra = {
   /* header */
-  VERSION: "Celestra v3.0.0",
+  VERSION: "Celestra v3.0.1",
   noConflict: noConflict,
-  __toArray__: __toArray__,
   __objType__: __objType__,
   /* core api */
   random: random,
@@ -1883,12 +1923,14 @@ var celestra = {
   setFullscreenOn: setFullscreenOn,
   setFullscreenOff: setFullscreenOff,
   /* AJAX */
-  getJson: getJson,
-  getText: getText,
   getAjax: getAjax,
   postAjax: postAjax,
   getCors: getCors,
   postCors: postCors,
+  /* AJAX 2 */
+  getText: getText,
+  getJson: getJson,
+  ajax: ajax,
   /* type checking */
   isEqual: isEqual,
   isString: isString,

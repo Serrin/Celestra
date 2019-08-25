@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 
-/* Celestra v3.0.0 testcases */
+/* Celestra v3.0.1 testcases */
 
 /* Not tested functions */
 _cut.addElement("h3", "Not tested functions");
@@ -26,12 +26,6 @@ _cut.addElement("h3", "Celestra object");
 
 _cut.isEqual("Object name: \"celestra\"", true, celestra.random(100,200)>99 );
 _cut.isEqual("Object name: \"_\"", true, _.random(100,200)>99 );
-
-var taArr = ["a","b","c","d","e"];
-_cut.isEqual("__toArray__() array", taArr, _.__toArray__(taArr) );
-_cut.isTrue("__toArray__() nodelist",
-  Array.isArray( _.__toArray__(document.querySelectorAll("h3")) )
-);
 
 
 /* core api and DOM */
@@ -955,7 +949,7 @@ var superset3 = [88, 95, 11, 84];
 _cut.isTrue("isSuperset() - ES5 - true", _.isSuperset(superset1, superset2));
 _cut.isFalse("isSuperset() - ES5 - false", _.isSuperset(superset3, superset1));
 _cut.isTrue("isSuperset() - ES6 - true",
-  _.isSuperset(new Set(superset1), superset2.values)
+  _.isSuperset(new Set(superset1), superset2.values())
 );
 _cut.isFalse("isSuperset() - ES6 - false",
   _.isSuperset(new Set(superset3).keys(), superset1.keys())
@@ -1765,6 +1759,7 @@ _cut.isTrue("isArraylike() true 1 array", _.isArraylike([]) );
 _cut.isTrue("isArraylike() true 2 querySelectorAll", _.isArraylike( document.querySelectorAll("p") ) );
 _cut.isTrue("isArraylike() true 3 arraylike object", _.isArraylike({0:4,1:5,length:2}) );
 _cut.isTrue("isArraylike() true 4 string", _.isArraylike("Pillangó") );
+_cut.isTrue("isArraylike() true 5 empty string", _.isArraylike("") );
 _cut.isFalse("isArraylike() false 1 element", _.isArraylike( document.querySelector("p") ) );
 _cut.isFalse("isArraylike() false 2 number", _.isArraylike(42) );
 _cut.isFalse("isArraylike() false 3 null", _.isArraylike(null) );
@@ -1826,10 +1821,10 @@ _cut.isTrue("isTypedArray - true 7 - Float32Array", _.isTypedArray(new Float32Ar
 _cut.isTrue("isTypedArray - true 8 - Float64Array", _.isTypedArray(new Float64Array(5)) );
 _cut.isTrue("isTypedArray - true 9 - Uint8ClampedArray", _.isTypedArray(new Uint8ClampedArray(5)) );
 if (window.BigInt64Array) {
-  _cut.isTrue("isTypedArray - true 10 - BigInt64Array", _.isTypedArray(new BigInt64Array(5)) );  
+  _cut.isTrue("isTypedArray - true 10 - BigInt64Array", _.isTypedArray(new BigInt64Array(5)) );
 }
 if (window.BigUint64Array) {
-  _cut.isTrue("isTypedArray - true 11 - BigUint64Array", _.isTypedArray(new BigUint64Array(5)) );  
+  _cut.isTrue("isTypedArray - true 11 - BigUint64Array", _.isTypedArray(new BigUint64Array(5)) );
 }
 _cut.isFalse("isTypedArray - false 1 - Array", _.isTypedArray([4,5,6]) );
 _cut.isFalse("isTypedArray - false 2 - ArrayBuffer", _.isTypedArray(new ArrayBuffer(8)) );
@@ -1949,11 +1944,14 @@ if (!!window.BigInt) {
 /* AJAX, domReady() and other callbacks */
 _cut.addElement("h3", "AJAX, domReady() and other callbacks");
 
+_.domReady(function () { _cut.isTrue("domReady() is working", true ); });
+
 /* importScript() and importScripts() */
 _cut.addElement("p", "Here have to be these results:");
 _cut.addElement(
   "ul",
-  "<li>3x importScript() (core api) - first script loaded</li>"
+  "<li>1x domReady() (core api) is working</li>"
+    +"<li>3x importScript() (core api) - first script loaded</li>"
     +"<li>3x importScript() (core api) - second script loaded</li>"
     +"<li>1x importScripts() (core api) with success gs1</li>"
     +"<li>1x importScripts() (core api) with success gs2</li>"
@@ -1962,6 +1960,7 @@ _cut.addElement(
     +"<li>4x importScripts() (core api) - with more scripts"
     +"<li>1x getJson()</li>"
     +"<li>1x getText()</li>"
+    +"<li>12x ajax()</li>"
     +"<li>3x getAjax() text/json/xml</li>"
     +"<li>3x postAjax() text/json/xml</li>"
     +"<li>3x getCors() text/json/xml</li>"
@@ -1970,7 +1969,6 @@ _cut.addElement(
     +"<li>1x postAjax() json + password</li>"
     +"<li>1x getCors() xml + password</li>"
     +"<li>1x postCors() json + password</li>"
-    +"<li>1x domReady() (core api) is working</li>"
 );
 
 _.importScript("unittest-gs1.js");
@@ -2007,13 +2005,6 @@ var
   resAjaxJson = "img/app-app-catalog/app-bricks.png",
   resAjaxXml = "Vapelyfe",
   resAjaxText = "<p><span class=\"big\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span> Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. <span class=\"small\">In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</span></p>\r\n<p><b>Nullam dictum felis eu pede mollis pretium.</b> Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. <small>Etiam ultricies nisi vel augue.</small></p>";
-
-_.getJson("testdata.json",
-  function (r) { _cut.isEqual("getJson()", resAjaxJson, r[0].image ); }
-);
-_.getText("testdata.txt",
-  function (r) { _cut.isEqual("getText()", resAjaxText, r ); }
-);
 
 _.getAjax("testdata.txt","text",
   function (r) { _cut.isEqual("getAjax() text", resAjaxText, r ); },
@@ -2108,6 +2099,179 @@ _.postCors("testdata.json","a=foo&b=bar baz","json",
   "user", "password"
 );
 
-_.domReady(function () { _cut.isTrue("domReady() is working", true ); });
+/* AJAX 2 functions */
+
+var
+  resAjaxJson = "img/app-app-catalog/app-bricks.png",
+  resAjaxXml = "Vapelyfe",
+  resAjaxText = "<p><span class=\"big\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span> Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. <span class=\"small\">In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</span></p>\r\n<p><b>Nullam dictum felis eu pede mollis pretium.</b> Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. <small>Etiam ultricies nisi vel augue.</small></p>";
+
+_.getText("testdata.txt",
+  function (r) { _cut.isEqual("getText()", resAjaxText, r ); }
+);
+_.getJson("testdata.json",
+  function (r) { _cut.isEqual("getJson()", resAjaxJson, r[0].image ); }
+);
+
+_.ajax({
+  queryType: "ajax",
+  type: "get",
+  url: "testdata.txt",
+  format: "text",
+  success: function (r) { _cut.isEqual("ajax() ajax get text", resAjaxText, r ); },
+  error: function (e) {
+    _cut.isEqual("ajax() ajax get text: "+JSON.stringify(e), true, false );
+  }
+});
+_.ajax({
+  queryType: "ajax",
+  type: "get",
+  url: "testdata.json",
+  format: "json",
+  success: function (r) {
+    _cut.isEqual("ajax() ajax get json", resAjaxJson, r[0].image );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() ajax get json: "+JSON.stringify(e), true, false );
+  }
+});
+_.ajax({
+  queryType: "ajax",
+  type: "get",
+  url: "testdata.xml",
+  format: "xml",
+  success: function (r) {
+    var xa = r.getElementsByTagName("picture");
+    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+    _cut.isEqual("ajax() ajax get xml", resAjaxXml, xb );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() ajax get xml: "+JSON.stringify(e), true, false );
+  }
+});
+
+_.ajax({
+  queryType: "ajax",
+  type: "post",
+  url: "testdata.txt",
+  format: "text",
+  data: "a=foo&b=bar baz",
+  success: function (r) {
+    _cut.isEqual("ajax() ajax post text", resAjaxText, r );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() ajax post text: "+JSON.stringify(e), true, false );
+  }
+});
+_.ajax({
+  queryType: "ajax",
+  type: "post",
+  url: "testdata.json",
+  format: "json",
+  data: "a=foo&b=bar baz",
+  success: function (r) {
+    _cut.isEqual("ajax() ajax post json", resAjaxJson, r[0].image );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() ajax post json: "+JSON.stringify(e), true, false );
+  }
+});
+_.ajax({
+  queryType: "ajax",
+  type: "post",
+  url: "testdata.xml",
+  format: "xml",
+  data: "a=foo&b=bar baz",
+  success: function (r) {
+    var xa = r.getElementsByTagName("picture");
+    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+    _cut.isEqual("ajax() ajax post xml", resAjaxXml, xb );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() ajax post xml: "+JSON.stringify(e), true, false );
+  }
+});
+
+_.ajax({
+  queryType: "cors",
+  type: "get",
+  url: "testdata.txt",
+  format: "text",
+  success: function (r) {
+    _cut.isEqual("ajax() cors get text", resAjaxText, r );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() cors get text: "+JSON.stringify(e), true, false );
+  }
+});
+_.ajax({
+  queryType: "cors",
+  type: "get",
+  url: "testdata.json",
+  format: "json",
+  success: function (r) {
+    _cut.isEqual("ajax() cors get json", resAjaxJson, r[0].image );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() cors get json: "+JSON.stringify(e), true, false );
+  }
+});
+_.ajax({
+  queryType: "cors",
+  type: "get",
+  url: "testdata.xml",
+  format: "xml",
+  success: function (r) {
+    var xa = r.getElementsByTagName("picture");
+    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+    _cut.isEqual("ajax() cors get xml", resAjaxXml, xb );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() cors get xml: "+JSON.stringify(e), true, false );
+  }
+});
+
+_.ajax({
+  queryType: "cors",
+  type: "post",
+  url: "testdata.txt",
+  format: "text",
+  data: "a=foo&b=bar baz",
+  success: function (r) {
+    _cut.isEqual("ajax() cors post text", resAjaxText, r );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() cors post text: "+JSON.stringify(e), true, false );
+  }
+});
+_.ajax({
+  queryType: "cors",
+  type: "post",
+  url: "testdata.json",
+  format: "json",
+  data: "a=foo&b=bar baz",
+  success: function (r) {
+    _cut.isEqual("ajax() cors post json", resAjaxJson, r[0].image );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() cors post json: "+JSON.stringify(e), true, false );
+  }
+});
+_.ajax({
+  queryType: "cors",
+  type: "post",
+  url: "testdata.xml",
+  format: "xml",
+  data: "a=foo&b=bar baz",
+  success: function (r) {
+    var xa = r.getElementsByTagName("picture");
+    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+    _cut.isEqual("ajax() cors post xml", resAjaxXml, xb );
+  },
+  error: function (e) {
+    _cut.isEqual("ajax() cors post xml: "+JSON.stringify(e), true, false );
+  }
+});
+
 
 }());

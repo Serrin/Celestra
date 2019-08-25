@@ -13,15 +13,15 @@ __A helper JavaScript library with useful functions and ES6 polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).
  
-Latest version: 3.0.0
+Latest version: 3.0.1
 
-Date: 2019-08-21T19:02:49.703Z
+Date: 2019-08-25T19:28:01.874Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (55641 bytes)
+Development version: celestra.js (57494 bytes)
 
-Minimal version: celestra.min.js (41540 bytes)
+Minimal version: celestra.min.js (43052 bytes)
 
 CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
 
@@ -116,8 +116,8 @@ Example: `_.domCreate()`
 
 Name | Description
 ---- | -----------
-`qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string. __Note: The context as selector string has been removed in v2.6.0.__
-`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string. __Note: The context as selector string has been removed in v2.6.0.__
+`qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
+`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
 `domReady(<fn>);` | Set the document ready (content fully loaded) event.
 `domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, __style object/string - since v2.0.5 - in IE11 and W10M Edge 14 the style string doesn't work__, data-*, etc.) The innerHTML is optional and can be a string.
 `domCreate(<element descriptive object>);` | Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The `style` can be a subobject or a string. __In IE11 and W10M Edge 14 the style string doesn't work.__ __Sample code:__ `_.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});`
@@ -160,12 +160,33 @@ Example: `_.getJson()`
 
 Name | Description
 ---- | -----------
+`ajax(<Options object>);` | Get content and send data via AJAX and CORS.
 `getJson(<url>,<success>);` | Get JSON content via AJAX. A shorthand function to the getAjax() function.
 `getText(<url>,<success>);` | Get TEXT content via AJAX. A shorthand function to the getAjax() function.
-`getAjax(<url>,<format>,<success>[,error[,user,<password>]]);` | Get content via AJAX.
-`postAjax(<url>,<data>,<format>,<success>[,error[,user,<password>]]);` | Post data and get the response content via AJAX.
-`getCors(<url>,<format>,<success>[,error[,user,<password>]]);` | Get content via cross domain AJAX.
-`postCors(<url>,<data>,<format>,<success>[,error[,user,<password>]]);` | Post data and get the response content via cross domain AJAX.
+
+__Options object properties:__
+
+ - The __queryType__ is optional and can be a __string__ with these values: `"ajax"` or `"cors"`. The default value is `"ajax"`.
+ - The __type__ is optional and can be a __string__ with these values: `"get"` or `"post"`. The default value is `"get"`.
+ - The __url__ is mandatory and has to be a __string__.
+ - The __data__ is optional and has to be a __string__ if the `type === "post"`.
+ - The __format__ is optional and can be a __string__ with these values: `"text"` or `"json"` or `"xml"`. The default value is `"text"`.
+ - The __success__ is mandatory and has to be a __function__.
+ - The __error__ is optional and can be a __function__.
+ - The __user__ is optional and can be a __string__.
+ - The __password__ is optional, but mandatory if the user is set. This parameter can be a __string__.
+
+
+### The deprecated AJAX functions
+
+__These functions will be removed in Celestra v3.1.0.__
+
+Name | Description
+---- | -----------
+`getAjax(<url>,<format>,<success>[,error[,user,<password>]]);` | __DEPRECATED in v3.0.1__ - Get content via AJAX.
+`postAjax(<url>,<data>,<format>,<success>[,error[,user,<password>]]);` | __DEPRECATED in v3.0.1__ - Post data and get the response content via AJAX.
+`getCors(<url>,<format>,<success>[,error[,user,<password>]]);` | __DEPRECATED in v3.0.1__ - Get content via cross domain AJAX.
+`postCors(<url>,<data>,<format>,<success>[,error[,user,<password>]]);` | __DEPRECATED in v3.0.1__ - Post data and get the response content via cross domain AJAX.
 
 __Parameters:__
 
@@ -190,14 +211,14 @@ Name | Description
 `isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
 `isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. The return value is boolean.
 `isNumber(<value>);` | This function determines whether the provided value is a number. The return value is boolean.
-`isInteger(<value>);` | Same as `Number.isInteger()`. This function determines whether the provided value is an integer number. The return value is boolean.
+`isInteger(<value>);` | __DEPRECATED in v3.0.1__ Same as `Number.isInteger()`. This function determines whether the provided value is an integer number. The return value is boolean.
 `isFloat(<value>);` | This function determines whether the provided value is a float number. The return value is boolean.
 `isNumeric(<value>);` | This function determines whether the provided value is a number or can be converted to number. The return value is boolean.
 `isBoolean(<value>);` | This function determines whether the provided value is a boolean. The return value is boolean.
 `isObject(<value>);` | This function determines whether the provided value is an object. The return value is boolean.
 `isEmptyObject(<value>);` | This function determines whether the provided value is an empty object (without properties). The return value is boolean.
 `isFunction(<value>);` | This function determines whether the provided value is a function. The return value is boolean.
-`isArray(<value>);` | Same as `Array.isArray()`. This function determines whether the provided value is an array. The return value is boolean.
+`isArray(<value>);` | __DEPRECATED in v3.0.1__ Same as `Array.isArray()`. This function determines whether the provided value is an array. The return value is boolean.
 `isEmptyArray(<value>);` | This function determines whether the provided value is an empty array (without values). The return value is boolean.
 `isArraylike(<value>);` | This function determines whether the provided value is an iterable object. The return value is boolean.
 `isNull(<value>);` | This function determines whether the provided value is null. The return value is boolean.
@@ -241,8 +262,6 @@ These functions are available in the `celestra` and/or `_` objects.
 
 Example: `_.arrayUnion()`
 
-Some of these functions use the `Array.from()` and the `Array.prototype.includes()`, that are polyfilled in this library.
-
 Name | Description
 ---- | -----------
 `forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __These collection types are supported: Array (ES5, own forEach(), return as Array), Nodelist (ES5, as Array, return as Array), custom array-like objects (ES5, as Array, return as Array), String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters), Map (ES6, own forEach(), return as Map), Set (ES6, own forEach(), return as Set), ES6 iterators (ES6, as Array, return as Array)__
@@ -263,9 +282,9 @@ Name | Description
 `minIndex(<collection>);` | Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `max(<collection>);` | Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `maxIndex(<collection>);` | Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
-`arrayRepeat(<value>[,n]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
-`arrayRange(<start>,<end>[,step]);` | Returns the array of values between the start and end parameters. All of the parameters have to be a number. Usable with the `for...of` loop, but works in the non-ES6 compatible browsers too.
+`arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
+`arrayRepeat(<value>[,n]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
+`arrayRange(<start>,<end>[,step]);` | Returns the array of values between the start and end parameters. All of the parameters have to be a number.
 `zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array. Example: `_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
 `unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. Example: `_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);` => `Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
 `arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
@@ -285,8 +304,8 @@ Name | Description
 `sortOf(<collection>);` | This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.
 `hasOf(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
 `findOf(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
-`forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value.__
-`mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). __Note: From the v2.5.1 there is no return value, but yield the mapped values as an iterator.__
+`forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
+`mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). 
 `sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity. 
 `everyOf(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
