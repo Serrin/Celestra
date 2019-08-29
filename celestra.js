@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.0.1
+ * @version 3.0.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -1863,7 +1863,7 @@ function __objType__ (v) {
 
 var celestra = {
   /* header */
-  VERSION: "Celestra v3.0.1",
+  VERSION: "Celestra v3.0.2",
   noConflict: noConflict,
   __objType__: __objType__,
   /* core api */

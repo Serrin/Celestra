@@ -7,15 +7,16 @@
 
 # Celestra
 
+
 ## Download
 
 __A helper JavaScript library with useful functions and ES6 polyfills.__
 
-Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).
+Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
  
-Latest version: 3.0.1
+Latest version: 3.0.2
 
-Date: 2019-08-25T19:28:01.874Z
+Date: 2019-08-29T19:52:46.594Z
 
 The functions are available in the `celestra` and/or `_` object.
 
@@ -23,10 +24,17 @@ Development version: celestra.js (57494 bytes)
 
 Minimal version: celestra.min.js (43052 bytes)
 
-CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible, but isn't compatible with Node.JS.
+DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
 
-If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
+ESM (ECMAScript 6 module) version: celestra.esm.js</a> (42681 bytes)
 
+The ESM version can be loaded with this snippet:
+
+    
+    import { celestra } from "./celestra.esm.js";
+    window.celestra = celestra;
+    window._ = celestra;
+    
 
 ### Cheatsheets
 
@@ -46,9 +54,11 @@ Demo plugin source: celestra-demo-plugin.js
 
 ### Celestra Unit Tester (CUT)
 
-Celestra test results for minimal version: unittest.html
+Celestra test results for minimized version: unittest.min.html
 
-Celestra test results for development version: unittest-dev.html 
+Celestra test results for ESM version: unittest.esm.html
+
+Celestra test results for development version: unittest.dev.html 
 
 
 ### Celestra v3.0.0 (Hera) changes
@@ -80,7 +90,7 @@ Example: `_.random()`
 Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
-`celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__
+`celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM version only returns the celestra object.__
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `random([max]);` | Get a random number value within 0 and max value. Without parameter the maximum value is 100.
 `random(<min>,<max>);` | Get a random number value within min and max value.
@@ -325,65 +335,67 @@ Name | Description
 
 ### Polyfills
 
+__DEPRECATED in v3.0.2 and will be removed in v3.1.0__: `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
+
 Name | Description
 ---- | -----------
-`Array.prototype.values()` | `Only in ES6` The values() method returns a new Array Iterator object that contains the values for each index in the array.
-`Array.from()` | The Array.from() method creates a new Array instance from an array-like or iterable object.
-`Array.of()` | The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
-`Array.prototype.fill()` | The fill() method fills all the elements of an array from a start index to an end index with a static value. The end index is not included.
-`Array.prototype.find()` | The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned.
-`Array.prototype.findIndex()` | The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise -1 is returned.
-`Object.create()` | The Object.create() method creates a new object with the specified prototype object and properties.
-`Object.assign()` | The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
-`ChildNode.after()` | The ChildNode.after() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just after this ChildNode. DOMString objects are inserted as equivalent Text nodes.
-`ChildNode.before()` | The ChildNode.before method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just before this ChildNode. DOMString objects are inserted as equivalent Text nodes.
-`ChildNode.remove()` | The ChildNode.remove() method removes the object from the tree it belongs to.
-`ChildNode.replaceWith()` | The ChildNode.replaceWith() method replaces this ChildNode in the children list of its parent with a set of Node or DOMString objects. DOMString objects are inserted as equivalent Text nodes.
-`ParentNode.append()` | The ParentNode.append method inserts a set of Node objects or DOMString objects after the last child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
-`ParentNode.prepend()` | The ParentNode.prepend method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
-`Element.prototype.toggleAttribute()` | Toggle a boolean attribute (removing it if it is present and adding it if it is not present) on the specified element.
-`Array.prototype.includes()` | The includes() method determines whether an array includes a certain element, returning true or false as appropriate.
-`String.prototype.includes()` | The includes() method determines whether one string may be found within another string, returning true or false as appropriate.
-`String.prototype.trimStart()` | The trimStart() method removes whitespace from the beginning of a string.
-`String.prototype.trimLeft()` | Alias of the String.prototype.trimStart() method.
-`String.prototype.trimEnd()` | The trimEnd() method removes whitespace from the end of a string.
-`String.prototype.trimRight()` | Alias of the String.prototype.trimEnd() method.
-`String.prototype.startsWith()` | The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate.
-`String.prototype.endsWith()` | The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate.
-`String.prototype.padStart()` | The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string.
-`String.prototype.padEnd()` | The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string.
-`String.prototype.repeat()` | The repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together.
-`NodeList.prototype.forEach()` | The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order.
-`Object.values()` | The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
-`Object.entries()` | The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
-`Object.is()` | The Object.is() method determines whether two values are the same value.
-`Object.fromEntries()` | The Object.fromEntries() method transforms a list of key-value pairs into an object. __Stage 3 proposal - https://tc39.github.io/proposal-object-from-entries/#sec-object.fromentries__ __Celestra Object.fromEntries() polyfill supports only Array and Map parameters in the modern browsers.__ __In IE11 only the Array parameter is supported.__
-`Array.prototype.flat()` | The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
-`Array.prototype.flatMap()` | A new array with each element being the result of the callback function and flattened to a depth of 1.
-`Element.prototype.closest()` | The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null.
-`Element.prototype.matches()` | The Element.matches() method returns true if the element would be selected by the specified selector string; otherwise, returns false.
-`Element.prototype.getAttributeNames()` | Element.getAttributeNames() returns the attribute names of the element as an Array of strings. If the element has no attributes it returns an empty array. Using getAttributeNames() along with getAttribute(), is a memory efficient and performant alternative to accessing Element.attributes.
-`Object.getOwnPropertyDescriptors()` | The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object.
-`Array.prototype.copyWithin()` | The copyWithin() method shallow copies part of an array to another location in the same array and returns it, without modifying its size.
-`String.fromCodePoint()` | The static String.fromCodePoint() method returns a string created by using the specified sequence of code points.
-`String.prototype.codePointAt()` | The codePointAt() method returns a non-negative integer that is the Unicode code point value.
-`Number.MIN_SAFE_INTEGER` | The Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991)
-`Number.MAX_SAFE_INTEGER` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991)
-`Number.EPSILON` | The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16)
-`Number.isNaN()` | The Number.isNaN() method determines whether the passed value is NaN and its type is Number. It is a more robust version of the original, global isNaN().
-`isNaN()` | The isNaN() function determines whether a value is NaN or not. __Note:__ coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015.
-`Number.isInteger()` | The Number.isInteger() method determines whether the passed value is an integer.
-`Number.isFinite()` | The Number.isFinite() method determines whether the passed value is a finite number.
-`Number.isSafeInteger()` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
-`Number.parseInt()` | The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base.
-`Number.parseFloat()` | The Number.parseFloat() method parses a string argument and returns a floating point number. This method behaves identically to the global function parseFloat() and is part of ECMAScript 2015 (its purpose is modularization of globals).
+`Array.prototype.values();` | `Only in ES6` The values() method returns a new Array Iterator object that contains the values for each index in the array.
+`Array.from();` | The Array.from() method creates a new Array instance from an array-like or iterable object.
+`Array.of();` | The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments.
+`Array.prototype.fill();` | The fill() method fills all the elements of an array from a start index to an end index with a static value. The end index is not included.
+`Array.prototype.find();` | The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned.
+`Array.prototype.findIndex();` | The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise -1 is returned.
+`Object.create();` | The Object.create() method creates a new object with the specified prototype object and properties.
+`Object.assign();` | The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
+`ChildNode.after();` | The ChildNode.after() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just after this ChildNode. DOMString objects are inserted as equivalent Text nodes.
+`ChildNode.before();` | The ChildNode.before() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just before this ChildNode. DOMString objects are inserted as equivalent Text nodes.
+`ChildNode.remove();` | The ChildNode.remove() method removes the object from the tree it belongs to.
+`ChildNode.replaceWith();` | The ChildNode.replaceWith() method replaces this ChildNode in the children list of its parent with a set of Node or DOMString objects. DOMString objects are inserted as equivalent Text nodes.
+`ParentNode.append();` | The ParentNode.append() method inserts a set of Node objects or DOMString objects after the last child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
+`ParentNode.prepend();` | The ParentNode.prepend() method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
+`Element.prototype.toggleAttribute();` | Toggle a boolean attribute (removing it if it is present and adding it if it is not present) on the specified element.
+`Array.prototype.includes();` | The includes() method determines whether an array includes a certain element, returning true or false as appropriate.
+`String.prototype.includes();` | The includes() method determines whether one string may be found within another string, returning true or false as appropriate.
+`String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string.
+`String.prototype.trimLeft();` | Alias of the String.prototype.trimStart() method.
+`String.prototype.trimEnd();` | The trimEnd() method removes whitespace from the end of a string.
+`String.prototype.trimRight();` | Alias of the String.prototype.trimEnd() method.
+`String.prototype.startsWith();` | The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate.
+`String.prototype.endsWith();` | The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate.
+`String.prototype.padStart();` | The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string.
+`String.prototype.padEnd();` | The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string.
+`String.prototype.repeat();` | The repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together.
+`NodeList.prototype.forEach();` | The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order.
+`Object.values();` | The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
+`Object.entries();` | The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
+`Object.is();` | The Object.is() method determines whether two values are the same value.
+`Object.fromEntries();` | The Object.fromEntries() method transforms a list of key-value pairs into an object. __Stage 3 proposal - https://tc39.github.io/proposal-object-from-entries/#sec-object.fromentries__ __Celestra Object.fromEntries() polyfill supports only Array and Map parameters in the modern browsers.__ __In IE11 only the Array parameter is supported.__
+`Array.prototype.flat();` | The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+`Array.prototype.flatMap();` | A new array with each element being the result of the callback function and flattened to a depth of 1.
+`Element.prototype.closest();` | The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null.
+`Element.prototype.matches();` | The Element.matches() method returns true if the element would be selected by the specified selector string; otherwise, returns false.
+`Element.prototype.getAttributeNames();` | Element.getAttributeNames() returns the attribute names of the element as an Array of strings. If the element has no attributes it returns an empty array. Using getAttributeNames() along with getAttribute(), is a memory efficient and performant alternative to accessing Element.attributes.
+`Object.getOwnPropertyDescriptors();` | The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object.
+`Array.prototype.copyWithin();` | The copyWithin() method shallow copies part of an array to another location in the same array and returns it, without modifying its size.
+`String.fromCodePoint();` | The static String.fromCodePoint() method returns a string created by using the specified sequence of code points.
+`String.prototype.codePointAt();` | The codePointAt() method returns a non-negative integer that is the Unicode code point value.
+`Number.MIN_SAFE_INTEGER;` | The Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991)
+`Number.MAX_SAFE_INTEGER;` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991)
+`Number.EPSILON;` | The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16)
+`Number.isNaN();` | The Number.isNaN() method determines whether the passed value is NaN and its type is Number. It is a more robust version of the original, global isNaN().
+`isNaN();` | The isNaN() function determines whether a value is NaN or not. __Note:__ coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015.
+`Number.isInteger();` | The Number.isInteger() method determines whether the passed value is an integer.
+`Number.isFinite();` | The Number.isFinite() method determines whether the passed value is a finite number.
+`Number.isSafeInteger();` | The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer.
+`Number.parseInt();` | The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base.
+`Number.parseFloat();` | The Number.parseFloat() method parses a string argument and returns a floating point number. This method behaves identically to the global function parseFloat() and is part of ECMAScript 2015 (its purpose is modularization of globals).
 `Math ES6` | `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();` - [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math)
-`window.screenLeft` | The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity.
-`window.screenTop` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
-`globalThis` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
-`RegExp.prototype.flags` | The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy").
+`window.screenLeft;` | The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity.
+`window.screenTop;` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
+`globalThis;` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
+`RegExp.prototype.flags;` | The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy").
 `GeneratorFunction();` | `Only in ES6` The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the `window` object.
-`String.prototype.matchAll()` | `Only in ES6` The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
+`String.prototype.matchAll();` | `Only in ES6` The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 
 
 ## Samples

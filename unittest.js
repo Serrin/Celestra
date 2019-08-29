@@ -1,7 +1,154 @@
+
+/* Celestra unit tester */
+
+var celTest = {};
+
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.9";
+celTest.__results__ = document.querySelector("#results");
+
+celTest.isNotIE11 = function isNotIE11 () {
+  return navigator.userAgent.toLowerCase().indexOf("trident") === -1;
+};
+
+celTest.isNotEdge = function isNotEdge () {
+  return navigator.userAgent.toLowerCase().indexOf("edge") === -1;
+};
+
+/* __addTest__("step", true, expr ); */
+/* __addTest__("step", true, expr, true|false ); */
+/* only for inner calls and selftest */
+celTest.__addTest__ = function __addTest__ (step, expected, expression, strict) {
+  if (strict === undefined) { strict = true; }
+  var el = document.createElement("p");
+  if (strict ? expected === expression : expected == expression) {
+    el.innerHTML = "["+Date.now().toString(36)+"] <span class='passed'>[passed]</span> "+step;
+  } else {
+    el.innerHTML = "["+Date.now().toString(36)+"] <span class='failed'>[failed]</span> "+step;
+  }
+  celTest.__results__.append(el);
+};
+
+/* isTrue("step", expr ); */
+celTest.isTrue = function isTrue (step, expression) {
+  celTest.__addTest__(step, true, expression, true);
+};
+
+/* isFalse("step", expr ); */
+celTest.isFalse = function isFalse (step, expression) {
+  celTest.__addTest__(step, false, expression, true);
+};
+
+/* isEqual("step", true, expr ); */
+/* isEqual("step", true, expr, true|false ); */
+celTest.isEqual = function isEqual (step, expected, expression, strict) {
+  celTest.__addTest__(step, expected, expression, strict);
+};
+
+/* isNotEqual("step", true, expr ); */
+/* isNotEqual("step", true, expr, true|false ); */
+celTest.isNotEqual = function (step, notExpected, expression, strict) {
+  if (strict === undefined) { strict = true; }
+  celTest.__addTest__(
+    step,
+    true,
+    (strict ? notExpected !== expression : notExpected != expression),
+    true
+  );
+};
+
+/* addElement(<element>); */
+/* addElement(<type>[,innerHTML]); */
+celTest.addElement = function addElement (type, iHtml) {
+  if (typeof type === "object" && type.nodeType === 1) {
+    celTest.__results__.append(type);
+  } else {
+    var el = document.createElement(type);
+    if (iHtml) { el.innerHTML = iHtml; }
+    celTest.__results__.append(el);
+  }
+};
+
+/* log(<innerHTML>); */
+celTest.log = function log (iHtml) { celTest.addElement("p", iHtml); };
+
+/* clear(); */
+celTest.clear = function clear () { celTest.__results__.innerHTML = ""; };
+
+var _cut = celTest;
+
+
+_cut.log(celestra.VERSION);
+_cut.log((new Date()).toISOString());
+
+_cut.addElement(
+  "table",
+  "<tr><td>navigator.appName: </td><td><code>"+navigator.appName+"</code></td></tr>"
+    + "<tr><td>navigator.appCodeName: </td><td><code>"+navigator.appCodeName+"</code></td></tr>"
+    + "<tr><td>navigator.product: </td><td><code>"+navigator.product+"</code></td></tr>"
+    + "<tr><td>navigator.appVersion: </td><td><code>"+navigator.appVersion+"</code></td></tr>"
+    + "<tr><td>navigator.userAgent: </td><td><code>"+navigator.userAgent+"</code></td></tr>"
+    + "<tr><td>navigator.platform: </td><td><code>"+navigator.platform+"</code></td></tr>"
+    + "<tr><td>navigator.language: </td><td><code>"+navigator.language+"</code></td></tr>"
+    + "<tr><td>navigator.cookieEnabled: </td><td><code>"+navigator.cookieEnabled+"</code></td></tr>"
+    + "<tr><td>navigator.javaEnabled(): </td><td><code>"+navigator.javaEnabled()+"</code></td></tr>"
+    + "<tr><td>window.innerWidth: </td><td><code>"+window.innerWidth+"</code></td></tr>"
+    + "<tr><td>window.innerHeight: </td><td><code>"+window.innerHeight+"</code></td></tr>"
+    + "<tr><td>screen.width: </td><td><code>"+screen.width+"</code></td></tr>"
+    + "<tr><td>screen.height: </td><td><code>"+screen.height+"</code></td></tr>"
+    + "<tr><td>screen.availWidth: </td><td><code>"+screen.availWidth+"</code></td></tr>"
+    + "<tr><td>screen.availHeight: </td><td><code>"+screen.availHeight+"</code></td></tr>"
+    + "<tr><td>screen.colorDepth: </td><td><code>"+screen.colorDepth+"</code></td></tr>"
+    + "<tr><td>screen.pixelDepth: </td><td><code>"+screen.pixelDepth+"</code></td></tr>"
+);
+
+function saveResults () {
+  var dn = Date.now().toString(36);
+  _.createFile(
+    "results-"+dn+".html",
+    "<!DOCTYPE html><meta charset=\"utf-8\"><title>Results "+dn+"</title>"
+      +"<style>html { -ms-word-break: break-all; word-break: break-all; word-break: break-word; word-wrap: break-word; overflow-wrap: break-word; } body { margin: 0 auto; max-width: 1200px; font-family: Helvetica, Arial, sans-serif; } h1 { text-align : center; } .passed, .failed { display: inline-block; padding: 3px; }.passed { background-color: #3d9970 !important; color: white !important; }.failed { background-color: #ff4136 !important; color: white !important; } #results { padding: 3px 5px 3px 5px; font-size: 14.5px !important; font-family: consolas, monospace; } code { background-color: slategrey; color: white; padding: 3px 5px 3px 5px; display: inline-block; margin-top: 2px; } </style>"
+      +"<h1>Results "+dn+"</h1>"
+      +"<div id='results'>"+celTest.__results__.innerHTML+"</div>",
+    "text/html"
+  );
+}
+
+/* Selftest */
+
+_cut.addElement("h3", "CUT Selftest");
+
+_cut.addElement("p", _cut.VERSION);
+
+_cut.__addTest__("__addTest__() success", 1, 1);
+_cut.__addTest__("__addTest__() failed", 1, 2);
+_cut.__addTest__("__addTest__() success non-strict", 0, false, false);
+_cut.__addTest__("__addTest__() failed strict", 0, false, true);
+
+_cut.isTrue("isTrue() success", 1 < 10);
+_cut.isTrue("isTrue() failed", 1 > 10);
+
+_cut.isFalse("isFalse() success", 1 > 10);
+_cut.isFalse("isFalse() failed", 1 < 10);
+
+_cut.isEqual("isEqual() success", 1, 1);
+_cut.isEqual("isEqual() failed", 1, 2);
+_cut.isEqual("isEqual() success non-strict", 0, false, false);
+_cut.isEqual("isEqual() failed strict", 0, false, true);
+
+_cut.isNotEqual("isNotEqual() success", 1, 2);
+_cut.isNotEqual("isNotEqual() failed", 1, 1);
+_cut.isNotEqual("isNotEqual() success strict", 0, false, true);
+_cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
+
+
+/* ======================================================================== */
+/* ======================================================================== */
+
+
 (function(){
 "use strict";
 
-/* Celestra v3.0.1 testcases */
+/* Celestra v3.0.2 testcases */
 
 /* Not tested functions */
 _cut.addElement("h3", "Not tested functions");

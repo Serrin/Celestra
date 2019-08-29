@@ -55,24 +55,34 @@
   </b></nav>
 </header>
 
+
 <h2 id="download">Download</h2>
 
 <p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
 
-<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).</p>
-<p>Latest version: 3.0.1</p>
-<p>Date: 2019-08-25T19:28:01.874Z</p>
+<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
+<p>Latest version: 3.0.2</p>
+<p>Date: 2019-08-29T19:52:46.594Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 <p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (57494 bytes)</p>
 <p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (43052 bytes)</p>
-<p>CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible, but isn't compatible with Node.JS.</p>
-<p>If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
+
+<p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
+
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (42681 bytes)</p>
+
+<p>The ESM version can be loaded with this snippet:</p>
+<code>import { celestra } from "./celestra.esm.js";<br/>
+window.celestra = celestra;<br/>
+window._ = celestra;</code>
+
 
 <h3>Cheatsheets</h3>
 
 <p>Celestra cheatsheet: <a href="celestra-cheatsheet.pdf" target="_blank">celestra-cheatsheet.pdf</a></p>
 <p>JavaScript cheatsheet: <a href="js-cheatsheet.pdf" target="_blank">js-cheatsheet.pdf</a></p>
+
 
 <h3>Demo pages</h3>
 
@@ -80,10 +90,13 @@
 <p>Demo plugin documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
 <p>Demo plugin source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
+
 <h3>Celestra Unit Tester (CUT)</h3>
 
-<p>Celestra test results for minimal version: <a href="unittest.html" target="_blank">unittest.html</a></p>
-<p>Celestra test results for development version: <a href="unittest-dev.html" target="_blank">unittest-dev.html</a></p>
+<p>Celestra test results for minimal version: <a href="unittest.min.html" target="_blank">unittest.min.html</a></p>
+<p>Celestra test results for ESM version: <a href="unittest.esm.html" target="_blank">unittest.esm.html</a></p>
+<p>Celestra test results for development version: <a href="unittest.dev.html" target="_blank">unittest.dev.html</a></p>
+
 
 <h3>Celestra v3.0.0 (Hera) changes</h3>
 
@@ -115,8 +128,9 @@
     <tr>
       <td><code>celestra.noConflict();</code></td>
       <td>
-        Restore the previous <code>_</code> object value and return the <code>celestra</code> object to create a new alias.<br/>
-        <span class="info">Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code></span>
+        <p>Restore the previous <code>_</code> object value and return the <code>celestra</code> object to create a new alias.</p>
+        <p><span class="info">Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code></span></p>
+        <p><span class="info">In the ESM version only returns the celestra object.</code></span></p>
       </td>
     </tr>
     <tr>
@@ -1030,6 +1044,9 @@
 
 <h3 id="polyfills">Polyfills</h3>
 
+<p><span class="deprecated"> DEPRECATED in v3.0.2 </span> <b>and will be removed in v3.1.0</b>:
+<code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER();</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></p>
+
 <div>
   <table>
     <tr>
@@ -1037,31 +1054,31 @@
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>Array.prototype.values()</code></td>
+      <td><code>Array.prototype.values();</code></td>
       <td><span class="info">Only in ES6</span> The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
     </tr>
     <tr>
-      <td><code>Array.from()</code></td>
+      <td><code>Array.from();</code></td>
       <td>The Array.from() method creates a new Array instance from an array-like or iterable object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from?v=example" target="_blank">MDN Article!</a></td>
     </tr>
     <tr>
-      <td><code>Array.of()</code></td>
+      <td><code>Array.of();</code></td>
       <td>The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of?v=example" target="_blank">MDN Article!</a></td>
     </tr>
     <tr>
-      <td><code>Array.prototype.fill()</code></td>
+      <td><code>Array.prototype.fill();</code></td>
       <td>The fill() method fills all the elements of an array from a start index to an end index with a static value. The end index is not included. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill" target="_blank">MDN Article!</a></td>
     </tr>
     <tr>
-      <td><code>Array.prototype.find()</code></td>
+      <td><code>Array.prototype.find();</code></td>
       <td>The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank">MDN Article!</a></td>
     </tr>
     <tr>
-      <td><code>Array.prototype.findIndex()</code></td>
+      <td><code>Array.prototype.findIndex();</code></td>
       <td>The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise -1 is returned. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex" target="_blank">MDN Article!</a></td>
     </tr>
     <tr>
-      <td><code>Object.create()</code></td>
+      <td><code>Object.create();</code></td>
       <td>The Object.create() method creates a new object with the specified prototype object and properties. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create" target="_blank">MDN Article</a> and <a href="http://javascript.crockford.com/prototypal.html" target="_blank">Douglas Crockford's site</a>!</td>
     </tr>
     <tr>
@@ -1073,99 +1090,99 @@
       <td>For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Object.assign()</code></td>
+      <td><code>Object.assign();</code></td>
       <td>The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>ChildNode.after()</code></td>
+      <td><code>ChildNode.after();</code></td>
       <td>The ChildNode.after() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just after this ChildNode. DOMString objects are inserted as equivalent Text nodes. It will return the target object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/after" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>ChildNode.before()</code></td>
-      <td>The ChildNode.before method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just before this ChildNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/before" target="_blank">MDN Article</a>!</td>
+      <td><code>ChildNode.before();</code></td>
+      <td>The ChildNode.before() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just before this ChildNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/before" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>ChildNode.remove()</code></td>
+      <td><code>ChildNode.remove();</code></td>
       <td>The ChildNode.remove() method removes the object from the tree it belongs to. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>ChildNode.replaceWith()</code></td>
+      <td><code>ChildNode.replaceWith();</code></td>
       <td>The ChildNode.replaceWith() method replaces this ChildNode in the children list of its parent with a set of Node or DOMString objects. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/replaceWith" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>ParentNode.append()</code></td>
-      <td>The ParentNode.append method inserts a set of Node objects or DOMString objects after the last child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append" target="_blank">MDN Article</a>!</td>
+      <td><code>ParentNode.append();</code></td>
+      <td>The ParentNode.append() method inserts a set of Node objects or DOMString objects after the last child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>ParentNode.prepend()</code></td>
-      <td>The ParentNode.prepend method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend" target="_blank">MDN Article</a>!</td>
+      <td><code>ParentNode.prepend();</code></td>
+      <td>The ParentNode.prepend() method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Element.prototype.toggleAttribute()</code></td>
+      <td><code>Element.prototype.toggleAttribute();</code></td>
       <td>Toggle a boolean attribute (removing it if it is present and adding it if it is not present) on the specified element. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Array.prototype.includes()</code></td>
+      <td><code>Array.prototype.includes();</code></td>
       <td>The includes() method determines whether an array includes a certain element, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.includes()</code></td>
+      <td><code>String.prototype.includes();</code></td>
       <td>The includes() method determines whether one string may be found within another string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.trimStart()</code></td>
+      <td><code>String.prototype.trimStart();</code></td>
       <td>The trimStart() method removes whitespace from the beginning of a string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.trimLeft()</code></td>
+      <td><code>String.prototype.trimLeft();</code></td>
       <td>Alias of the String.prototype.trimStart() method.</td>
     </tr>
     <tr>
-      <td><code>String.prototype.trimEnd()</code></td>
+      <td><code>String.prototype.trimEnd();</code></td>
       <td>The trimEnd() method removes whitespace from the end of a string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.trimRight()</code></td>
+      <td><code>String.prototype.trimRight();</code></td>
       <td>Alias of the String.prototype.trimEnd() method.</td>
     </tr>
     <tr>
-      <td><code>String.prototype.startsWith()</code></td>
+      <td><code>String.prototype.startsWith();</code></td>
       <td>The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.endsWith()</code></td>
+      <td><code>String.prototype.endsWith();</code></td>
       <td>The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.padStart()</code></td>
+      <td><code>String.prototype.padStart();</code></td>
       <td>The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.padEnd()</code></td>
+      <td><code>String.prototype.padEnd();</code></td>
       <td>The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.repeat()</code></td>
+      <td><code>String.prototype.repeat();</code></td>
       <td>The repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>NodeList.prototype.forEach()</code></td>
+      <td><code>NodeList.prototype.forEach();</code></td>
       <td>The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Object.Object.values()</code></td>
+      <td><code>Object.Object.values();</code></td>
       <td>The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Object.entries()</code></td>
+      <td><code>Object.entries();</code></td>
       <td>The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Object.is()</code></td>
+      <td><code>Object.is();</code></td>
       <td>The Object.is() method determines whether two values are the same value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Object.fromEntries()</code></td>
+      <td><code>Object.fromEntries();</code></td>
       <td>
         <p>The Object.fromEntries() method transforms a list of key-value pairs into an object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries" target="_blank">MDN Article</a>!</p>
         <p>Stage 3 proposal - <a href="https://tc39.github.io/proposal-object-from-entries/#sec-object.fromentries" target="_blank">https://tc39.github.io/proposal-object-from-entries/#sec-object.fromentries</a></p>
@@ -1174,135 +1191,135 @@
       </td>
     </tr>
     <tr>
-      <td><code>Array.prototype.flat()</code></td>
+      <td><code>Array.prototype.flat();</code></td>
       <td>
         The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!
       </td>
     </tr>
     <tr>
-      <td><code>Array.prototype.flatMap()</code></td>
+      <td><code>Array.prototype.flatMap();</code></td>
       <td>
         A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!
       </td>
     </tr>
     <tr>
-      <td><code>Element.prototype.closest()</code></td>
+      <td><code>Element.prototype.closest();</code></td>
       <td>
         <p>The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest" target="_blank">MDN Article</a>!</p>
       </td>
     </tr>
     <tr>
-      <td><code>Element.prototype.matches()</code></td>
+      <td><code>Element.prototype.matches();</code></td>
       <td>
         <p>The Element.matches() method returns true if the element would be selected by the specified selector string; otherwise, returns false. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches">MDN Article</a>!</p>
       </td>
     </tr>
     <tr>
-      <td><code>Element.prototype.getAttributeNames()</code></td>
+      <td><code>Element.prototype.getAttributeNames();</code></td>
       <td>
         <p>Element.getAttributeNames() returns the attribute names of the element as an Array of strings. If the element has no attributes it returns an empty array. Using getAttributeNames() along with getAttribute(), is a memory efficient and performant alternative to accessing Element.attributes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttributeNames" target="_blank">MDN Article</a>!</p>
       </td>
     </tr>
     <tr>
-      <td><code>Object.getOwnPropertyDescriptors()</code></td>
+      <td><code>Object.getOwnPropertyDescriptors();</code></td>
       <td>
         <p>The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors" target="_blank">MDN Article</a>!</p>
       </td>
     </tr>
     <tr>
-      <td><code>Array.prototype.copyWithin()</code></td>
+      <td><code>Array.prototype.copyWithin();</code></td>
       <td>
         <p>The copyWithin() method shallow copies part of an array to another location in the same array and returns it, without modifying its size. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin" target="_blank">MDN Article</a>!</p>
       </td>
     </tr>
     <tr>
-      <td><code>String.fromCodePoint()</code></td>
+      <td><code>String.fromCodePoint();</code></td>
       <td>
         <p>The static String.fromCodePoint() method returns a string created by using the specified sequence of code points. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint" target="_blank">MDN Article</a>!</p>
       </td>
     </tr>
     <tr>
-      <td><code>String.prototype.codePointAt()</code></td>
+      <td><code>String.prototype.codePointAt();</code></td>
       <td>
         <p>The codePointAt() method returns a non-negative integer that is the Unicode code point value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt" target="_blank">MDN Article</a>!</p>
       </td>
     </tr>
     <tr>
-      <td><code>Number.MIN_SAFE_INTEGER</code></td>
+      <td><code>Number.MIN_SAFE_INTEGER;</code></td>
       <td>he Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Number.MAX_SAFE_INTEGER</code></td>
+      <td><code>Number.MAX_SAFE_INTEGER;</code></td>
       <td>The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Number.EPSILON</code></td>
+      <td><code>Number.EPSILON;</code></td>
       <td>The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/EPSILON" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Number.isNaN()</code></td>
+      <td><code>Number.isNaN();</code></td>
       <td>The Number.isNaN() method determines whether the passed value is NaN and its type is Number. It is a more robust version of the original, global isNaN(). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>isNaN()</code></td>
+      <td><code>isNaN();</code></td>
       <td>he isNaN() function determines whether a value is NaN or not. Note: coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Number.isInteger()</code></td>
+      <td><code>Number.isInteger();</code></td>
       <td>The Number.isInteger() method determines whether the passed value is an integer. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Number.isFinite()</code></td>
+      <td><code>Number.isFinite();</code></td>
       <td>The Number.isFinite() method determines whether the passed value is a finite number. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Number.isSafeInteger()</code></td>
+      <td><code>Number.isSafeInteger();</code></td>
       <td>The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Number.parseInt()</code></td>
+      <td><code>Number.parseInt();</code></td>
       <td>The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseInt" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Number.parseFloat()</code></td>
+      <td><code>Number.parseFloat();</code></td>
       <td>The Number.parseFloat() method parses a string argument and returns a floating point number. This method behaves identically to the global function parseFloat() and is part of ECMAScript 2015 (its purpose is modularization of globals). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>Math ES6</code></td>
       <td>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/acosh" target="_blank"><b>Math.acosh()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/asinh" target="_blank"><b>Math.asinh()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atanh" target="_blank"><b>Math.atanh()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cbrt" target="_blank"><b>Math.cbrt()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/clz32" target="_blank"><b>Math.clz32()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cosh" target="_blank"><b>Math.cosh()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/expm1" target="_blank"><b>Math.expm1()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround" target="_blank"><b>Math.fround()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/hypot" target="_blank"><b>Math.hypot()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul" target="_blank"><b>Math.imul()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log1p" target="_blank"><b>Math.log1p()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log10" target="_blank"><b>Math.log10()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log2" target="_blank"><b>Math.log2()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign" target="_blank"><b>Math.sign()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sinh" target="_blank"><b>Math.sinh()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/tanh" target="_blank"><b>Math.tanh()</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/trunc" target="_blank"><b>Math.trunc()</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/acosh" target="_blank"><b>Math.acosh();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/asinh" target="_blank"><b>Math.asinh();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atanh" target="_blank"><b>Math.atanh();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cbrt" target="_blank"><b>Math.cbrt();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/clz32" target="_blank"><b>Math.clz32();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cosh" target="_blank"><b>Math.cosh();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/expm1" target="_blank"><b>Math.expm1();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround" target="_blank"><b>Math.fround();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/hypot" target="_blank"><b>Math.hypot();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul" target="_blank"><b>Math.imul();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log1p" target="_blank"><b>Math.log1p();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log10" target="_blank"><b>Math.log10();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log2" target="_blank"><b>Math.log2();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign" target="_blank"><b>Math.sign();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sinh" target="_blank"><b>Math.sinh();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/tanh" target="_blank"><b>Math.tanh();</b></a></p>
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/trunc" target="_blank"><b>Math.trunc();</b></a></p>
       </td>
     </tr>
     <tr>
-      <td><code>window.screenLeft</code></td>
+      <td><code>window.screenLeft;</code></td>
       <td>The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/screenLeft" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>window.screenTop</code></td>
+      <td><code>window.screenTop;</code></td>
       <td>The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/screenTop" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>globalThis</code></td>
+      <td><code>globalThis;</code></td>
       <td>A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis" target="_blank">MDN Article</a> and <a href="https://tc39.github.io/proposal-global/" target="_blank">proposal page</a> and <a href="https://github.com/tc39/proposal-global" target="_blank">proposal github page</a>!</td>
     </tr>
     <tr>
-      <td><code>RegExp.prototype.flags</code></td>
+      <td><code>RegExp.prototype.flags;</code></td>
       <td>The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy"). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/flags" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
@@ -1310,7 +1327,7 @@
       <td><span class="info">Only in ES6</span> The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.matchAll()</code></td>
+      <td><code>String.prototype.matchAll();</code></td>
       <td><span class="info">Only in ES6</span> The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll" target="_blank">MDN Article</a>!</td>
     </tr>
   </table>
