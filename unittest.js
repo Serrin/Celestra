@@ -148,7 +148,7 @@ _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.0.2 testcases */
+/* Celestra v3.1.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("h3", "Not tested functions");
@@ -906,6 +906,12 @@ _cut.isEqual("reduceOf() without initialvalue", 39,
 );
 
 
+_cut.isEqual("enumerateOf()",
+  JSON.stringify([..._.enumerateOf(["Picard", "Riker", "Data"])]),
+  "[[\"Picard\",0],[\"Riker\",1],[\"Data\",2]]"
+);
+
+
 var FPArray = [1,2,3];
 
 var forEachStr = "";
@@ -1103,25 +1109,6 @@ _cut.isFalse("isSuperset() - ES6 - false",
 );
 
 var a = [21, 11, 41, 51, 31];
-_cut.isEqual("arrayKeys() ES5", "[0,1,2,3,4]", JSON.stringify(_.arrayKeys(a)));
-_cut.isEqual(
-  "arrayValues() ES5", "[21,11,41,51,31]", JSON.stringify(_.arrayValues(a))
-);
-_cut.isEqual("arrayEntries() ES5",
-   "[[0,21],[1,11],[2,41],[3,51],[4,31]]", JSON.stringify(_.arrayEntries(a))
-);
-_cut.isEqual("arrayKeys() ES6",
-  "[0,1,2,3,4]", JSON.stringify(_.arrayKeys(new Set(a)))
-);
-_cut.isEqual("arrayValues() ES6",
-  "[21,11,41,51,31]", JSON.stringify(_.arrayValues(new Set(a).keys()))
-);
-try {
-  _cut.isEqual("arrayEntries() ES6",
-    "[[0,21],[1,11],[2,41],[3,51],[4,31]]",
-    JSON.stringify(_.arrayEntries(a.values()))
-  );
-} catch (e) { alert(e); }
 
 var a = [1,2,3,4], b = [3,4,5,6], c = [5,6,7,8];
 _cut.isEqual(
@@ -1883,9 +1870,6 @@ _cut.isFalse("isChar() false 2", _.isChar(533) );
 _cut.isTrue("isNumber() true 1", _.isNumber(98) );
 _cut.isTrue("isNumber() true 2", _.isNumber(3.14) );
 _cut.isFalse("isNumber() false", _.isNumber("str") );
-_cut.isTrue("isInteger() true", _.isInteger(98) );
-_cut.isFalse("isInteger() false 1", _.isInteger(3.14) );
-_cut.isFalse("isInteger() false 2", _.isInteger("str") );
 _cut.isTrue("isFloat() true", _.isFloat(3.14) );
 _cut.isFalse("isFloat() false 1", _.isFloat(98) );
 _cut.isFalse("isFloat() false 2", _.isFloat("str") );
@@ -1898,7 +1882,6 @@ _cut.isFalse("isEmptyObject() false 1", _.isEmptyObject( document.querySelector(
 _cut.isFalse("isEmptyObject() false 2", _.isEmptyObject(98) );
 _cut.isTrue("isFunction() true", _.isFunction(_.noop) );
 _cut.isFalse("isFunction() false", _.isFunction( document.querySelector("p") ) );
-_cut.isFalse("isArray() false", _.isArray( document.querySelector("p") ) );
 _cut.isTrue("isEmptyArray() true", _.isEmptyArray([]) );
 _cut.isFalse("isEmptyArray() false 1", _.isEmptyArray([1,2,3]) );
 _cut.isFalse("isEmptyArray() false 2", _.isEmptyArray( document.querySelector("p") ) );
@@ -2108,14 +2091,6 @@ _cut.addElement(
     +"<li>1x getJson()</li>"
     +"<li>1x getText()</li>"
     +"<li>12x ajax()</li>"
-    +"<li>3x getAjax() text/json/xml</li>"
-    +"<li>3x postAjax() text/json/xml</li>"
-    +"<li>3x getCors() text/json/xml</li>"
-    +"<li>3x postCors() text/json/xml</li>"
-    +"<li>1x getAjax() text + password</li>"
-    +"<li>1x postAjax() json + password</li>"
-    +"<li>1x getCors() xml + password</li>"
-    +"<li>1x postCors() json + password</li>"
 );
 
 _.importScript("unittest-gs1.js");
@@ -2147,106 +2122,6 @@ scripts=[
 _.importScripts(scripts);
 
 /* AJAX functions */
-
-var
-  resAjaxJson = "img/app-app-catalog/app-bricks.png",
-  resAjaxXml = "Vapelyfe",
-  resAjaxText = "<p><span class=\"big\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span> Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. <span class=\"small\">In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</span></p>\r\n<p><b>Nullam dictum felis eu pede mollis pretium.</b> Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. <small>Etiam ultricies nisi vel augue.</small></p>";
-
-_.getAjax("testdata.txt","text",
-  function (r) { _cut.isEqual("getAjax() text", resAjaxText, r ); },
-  function (e) { _cut.isEqual("getAjax() text: "+JSON.stringify(e), true, false ); }
-);
-_.getAjax("testdata.json","json",
-  function (r) { _cut.isEqual("getAjax() json", resAjaxJson, r[0].image ); },
-  function (e) { _cut.isEqual("getAjax() json: "+JSON.stringify(e), true, false ); }
-);
-_.getAjax("testdata.xml","xml",
-  function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    _cut.isEqual("getAjax() xml", resAjaxXml, xb );
-  },
-  function (e) { _cut.isEqual("getAjax() xml: "+JSON.stringify(e), true, false ); }
-);
-
-_.postAjax("testdata.txt","a=foo&b=bar baz","text",
-  function (r) { _cut.isEqual("postAjax() text", resAjaxText, r );},
-  function (e) { _cut.isEqual("postAjax() text: "+JSON.stringify(e), true, false ); }
-);
-_.postAjax("testdata.json","a=foo&b=bar baz","json",
-  function (r) { _cut.isEqual("postAjax() json", resAjaxJson, r[0].image ); },
-  function (e) { _cut.isEqual("postAjax() json: "+JSON.stringify(e), true, false ); }
-);
-_.postAjax("testdata.xml","a=foo&b=bar baz","xml",
-  function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    _cut.isEqual("postAjax() xml", resAjaxXml, xb );
-  },
-  function (e) { _cut.isEqual("postAjax() xml: "+JSON.stringify(e), true, false ); }
-);
-
-_.getCors("testdata.txt","text",
-  function (r) { _cut.isEqual("getCors() text ", resAjaxText, r ); },
-  function (e) { _cut.isEqual("getCors() text: "+JSON.stringify(e), true, false ); }
-);
-_.getCors("testdata.json","json",
-  function (r) { _cut.isEqual("getCors() json", resAjaxJson, r[0].image ); },
-  function (e) { _cut.isEqual("getCors() json: "+JSON.stringify(e), true, false ); }
-);
-_.getCors("testdata.xml","xml",
-  function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    _cut.isEqual("getCors() xml", resAjaxXml, xb );
-  },
-  function (e) { _cut.isEqual("getCors() xml: "+JSON.stringify(e), true, false ); }
-);
-
-_.postCors("testdata.txt","text","a=foo&amp;b=bar baz",
-  function (r) { _cut.isEqual("postCors() text", resAjaxText, r ); },
-  function (e) { _cut.isEqual("postCors() text: "+JSON.stringify(e), true, false ); }
-);
-_.postCors("testdata.json","a=foo&b=bar baz","json",
-  function (r) { _cut.isEqual("postCors() json ", resAjaxJson, r[0].image ); },
-  function (e) { _cut.isEqual("postCors() json: "+JSON.stringify(e), true, false ); }
-);
-_.postCors("testdata.xml","a=foo&b=bar baz","xml",
-  function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    _cut.isEqual("postCors() xml", resAjaxXml, xb );
-  },
-  function (e) { _cut.isEqual("postCors() xml: "+JSON.stringify(e), true, false ); }
-);
-
-_.getAjax("testdata.txt","text",
-  function (r) { _cut.isEqual("getAjax() text + password", resAjaxText, r ); },
-  function (e) { _cut.isEqual("getAjax() text + password: "+JSON.stringify(e), true, false ); },
-  "user", "password"
-);
-_.postAjax("testdata.json","a=foo&b=bar baz","json",
-  function (r) { _cut.isEqual("postAjax() json + password", resAjaxJson, r[0].image ); },
-  function (e) { _cut.isEqual("postAjax() json + password: "+JSON.stringify(e), true, false ); },
-  "user", "password"
-);
-_.getCors("testdata.xml","xml",
-  function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    _cut.isEqual("getCors() xml + password", resAjaxXml, xb );
-  },
-  function (e) { _cut.isEqual("getCors() xml + password: "+JSON.stringify(e), true, false ); },
-  "user", "password"
-);
-_.postCors("testdata.json","a=foo&b=bar baz","json",
-  function (r) { _cut.isEqual("postCors() json + password", resAjaxJson, r[0].image ); },
-  function (e) { _cut.isEqual("postCors() json + password: "+JSON.stringify(e), true, false ); },
-  "user", "password"
-);
-
-/* AJAX 2 functions */
 
 var
   resAjaxJson = "img/app-app-catalog/app-bricks.png",

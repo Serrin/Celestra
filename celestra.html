@@ -62,20 +62,14 @@
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.0.2</p>
-<p>Date: 2019-08-29T19:52:46.594Z</p>
+<p>Latest version: 3.1.0</p>
+<p>Date: 2019-09-01T19:58:23.760Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (57494 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (43052 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43779 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32694 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34009 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
-
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (42681 bytes)</p>
-
-<p>The ESM version can be loaded with this snippet:</p>
-<code>import { celestra } from "./celestra.esm.js";<br/>
-window.celestra = celestra;<br/>
-window._ = celestra;</code>
 
 
 <h3>Cheatsheets</h3>
@@ -97,6 +91,41 @@ window._ = celestra;</code>
 <p>Celestra test results for ESM version: <a href="unittest.esm.html" target="_blank">unittest.esm.html</a></p>
 <p>Celestra test results for development version: <a href="unittest.dev.html" target="_blank">unittest.dev.html</a></p>
 
+
+<h3>How to import the ESM version</h3>
+
+<pre>
+
+&#60;script type="module"&#62;
+
+// import the celestra object
+import { celestra } from "./celestra.esm.js"; 
+window.celestra = celestra;
+window._ = celestra;
+
+// import with default with name
+import { default as celestra } from "./celestra.esm.js";
+window.celestra = celestra;
+window._ = celestra;
+
+// import with default export
+import defaultExport from "./celestra.esm.js";
+window.celestra = defaultExport;
+window._ = defaultExport;
+
+// import all functions in a object
+import * as celestra from "./celestra.esm.js";
+window.celestra = celestra;
+window._ = celestra;
+
+// import only functions
+import { identity, getType } from "./celestra.esm.js";
+window.identity = identity;
+window.getType = getType;
+
+&#60;/script&#62;
+
+</pre>
 
 <h3>Celestra v3.0.0 (Hera) changes</h3>
 
@@ -453,11 +482,11 @@ window._ = celestra;</code>
     </tr>
     <tr>
       <td><code>getJson(&#60;url&#62;,&#60;success&#62;);</code></td>
-      <td>Get TEXT content via AJAX. A shorthand function to the getAjax() function.</td>
+      <td>Get TEXT content via AJAX. A shorthand function to the ajax() function.</td>
     </tr>
     <tr>
       <td><code>getText(&#60;url&#62;,&#60;success&#62;);</code></td>
-      <td>Get JSON content via AJAX. A shorthand function to the getAjax() function.</td>
+      <td>Get JSON content via AJAX. A shorthand function to the ajax() function.</td>
     </tr>
   </table>
 </div>
@@ -475,58 +504,6 @@ window._ = celestra;</code>
   <li>The <b>password</b> is optional, but mandatory if the user is set. This parameter can be a <b>string</b>.</li>
 </ul>
 
-
-<h4>The deprecated AJAX functions</h4>
-
-<p><span class="info">These functions will be removed in Celestra v3.1.0.</span></p>
-
-<div style="overflow-x:auto;">
-  <table>
-    <tr>
-      <td><b>Name</b></td>
-      <td><b>Description</b></td>
-    </tr>
-    <tr>
-      <td><code>getAjax(&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
-        <p>Get content via AJAX.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>postAjax(&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
-        <p>Post data and get the response content via AJAX.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>getCors(&#60;url&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
-        <p>Get content via cross domain AJAX.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>postCors(&#60;url&#62;,&#60;data&#62;,&#60;format&#62;,&#60;success&#62;[,error[,user,&#60;password&#62;]]);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
-        <p>Post data and get the response content via cross domain AJAX.</p>
-      </td>
-    </tr>
-  </table>
-</div>
-
-<p><b>Parameters:</b></p>
-<ul>
-  <li>The url is mandatory and has to be a string.</li>
-  <li>The data is mandatory in the <code>postAjax</code> and <code>postCors</code> functions and has to be a string.</li>
-  <li>The format is mandatory and has to be a string: "text"/"json"/"xml". If any other value is set, then the default "text" content is requested.</li>
-  <li>The success is mandatory and has to be a function.</li>
-  <li>The error is optional and has to be a function.</li>
-  <li>The user is optional and has to be a string.</li>
-  <li>The password is optional, but mandatory if the user is set. This parameter has to be a string.</li>
-</ul>
 
 <h3 id="typechecking">Type checking functions</h3>
 
@@ -563,13 +540,6 @@ window._ = celestra;</code>
       <td>This function determines whether the provided value is a number. The return value is boolean.</td>
     </tr>
     <tr>
-      <td><code>isInteger(&#60;value&#62;);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
-        <p>Same as <code>Number.isInteger()</code>. This function determines whether the provided value is an integer number. The return value is boolean.</p>
-      </td>
-    </tr>
-    <tr>
       <td><code>isFloat(&#60;value&#62;);</code></td>
       <td>This function determines whether the provided value is a float number. The return value is boolean.</td>
     </tr>
@@ -592,13 +562,6 @@ window._ = celestra;</code>
     <tr>
       <td><code>isFunction(&#60;value&#62;);</code></td>
       <td>This function determines whether the provided value is a function. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isArray(&#60;value&#62;);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.1 </span></p>
-        <p>Same as <code>Array.isArray()</code>. This function determines whether the provided value is an array. The return value is boolean.</p>
-      </td>
     </tr>
     <tr>
       <td><code>isEmptyArray(&#60;value&#62;);</code></td>
@@ -833,27 +796,6 @@ window._ = celestra;</code>
       <td><code>ES6</code> Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
     </tr>
     <tr>
-      <td><code>arrayKeys(&#60;collection>);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.0 </span></p>
-        <p>Returns the array of keys the given array/collection. The parameter will be converted to array, so the keys will be the keys of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>arrayValues(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.0 </span></p>
-        <p>Returns the array of values the given array/collection. The parameter will be converted to array, so the values will be the values of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>arrayEntries(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated"> DEPRECATED in v3.0.0 </span></p>
-        <p>Returns the array of pairs of keys and values the given array/collection. The parameter will be converted to array, so the pairs will be the keys and values of converted array. The collection parameter is mandatory and can be any type of JavaScript collections.</p>
-      </td>
-    </tr>
-    <tr>
       <td><code>isSuperset(&#60;superset&#62;,&#60;subset&#62;);</code></td>
       <td>This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.</td>
     </tr>
@@ -1008,6 +950,13 @@ window._ = celestra;</code>
       <td>This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optinal and can be any variable type of the Javascript.</td>
     </tr>
     <tr>
+      <td><code>enumerateOf(&#60;collection&#62;);</code></td>
+      <td>
+        <p>Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory.</p>
+        <p>Example: <code>enumerateOf(["Picard", "Riker", "Data"]);</code> -> <code>["Picard", 0]</code>, <code>["Riker", 1]</code>, <code>["Data", 2]</code></p>
+      </td>
+    </tr>
+    <tr>
       <td><code>takeOf(&#60;collection&#62;[,n]);</code></td>
       <td>Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
     </tr>
@@ -1042,10 +991,8 @@ window._ = celestra;</code>
   </table>
 </div>
 
-<h3 id="polyfills">Polyfills</h3>
 
-<p><span class="deprecated"> DEPRECATED in v3.0.2 </span> <b>and will be removed in v3.1.0</b>:
-<code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER();</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></p>
+<h3 id="polyfills">Polyfills</h3>
 
 <div>
   <table>
@@ -1056,30 +1003,6 @@ window._ = celestra;</code>
     <tr>
       <td><code>Array.prototype.values();</code></td>
       <td><span class="info">Only in ES6</span> The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
-    </tr>
-    <tr>
-      <td><code>Array.from();</code></td>
-      <td>The Array.from() method creates a new Array instance from an array-like or iterable object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from?v=example" target="_blank">MDN Article!</a></td>
-    </tr>
-    <tr>
-      <td><code>Array.of();</code></td>
-      <td>The Array.of() method creates a new Array instance with a variable number of arguments, regardless of number or type of the arguments. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of?v=example" target="_blank">MDN Article!</a></td>
-    </tr>
-    <tr>
-      <td><code>Array.prototype.fill();</code></td>
-      <td>The fill() method fills all the elements of an array from a start index to an end index with a static value. The end index is not included. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill" target="_blank">MDN Article!</a></td>
-    </tr>
-    <tr>
-      <td><code>Array.prototype.find();</code></td>
-      <td>The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank">MDN Article!</a></td>
-    </tr>
-    <tr>
-      <td><code>Array.prototype.findIndex();</code></td>
-      <td>The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise -1 is returned. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex" target="_blank">MDN Article!</a></td>
-    </tr>
-    <tr>
-      <td><code>Object.create();</code></td>
-      <td>The Object.create() method creates a new object with the specified prototype object and properties. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create" target="_blank">MDN Article</a> and <a href="http://javascript.crockford.com/prototypal.html" target="_blank">Douglas Crockford's site</a>!</td>
     </tr>
     <tr>
       <td>ChildNode API</td>
@@ -1146,14 +1069,6 @@ window._ = celestra;</code>
       <td>Alias of the String.prototype.trimEnd() method.</td>
     </tr>
     <tr>
-      <td><code>String.prototype.startsWith();</code></td>
-      <td>The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>String.prototype.endsWith();</code></td>
-      <td>The endsWith() method determines whether a string ends with the characters of a specified string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
       <td><code>String.prototype.padStart();</code></td>
       <td>The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart" target="_blank">MDN Article</a>!</td>
     </tr>
@@ -1170,16 +1085,12 @@ window._ = celestra;</code>
       <td>The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>Object.Object.values();</code></td>
+      <td><code>Object.values();</code></td>
       <td>The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>Object.entries();</code></td>
       <td>The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Object.is();</code></td>
-      <td>The Object.is() method determines whether two values are the same value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>Object.fromEntries();</code></td>
@@ -1227,86 +1138,6 @@ window._ = celestra;</code>
       </td>
     </tr>
     <tr>
-      <td><code>Array.prototype.copyWithin();</code></td>
-      <td>
-        <p>The copyWithin() method shallow copies part of an array to another location in the same array and returns it, without modifying its size. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin" target="_blank">MDN Article</a>!</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>String.fromCodePoint();</code></td>
-      <td>
-        <p>The static String.fromCodePoint() method returns a string created by using the specified sequence of code points. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint" target="_blank">MDN Article</a>!</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>String.prototype.codePointAt();</code></td>
-      <td>
-        <p>The codePointAt() method returns a non-negative integer that is the Unicode code point value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt" target="_blank">MDN Article</a>!</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>Number.MIN_SAFE_INTEGER;</code></td>
-      <td>he Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(253 - 1)). (-9007199254740991) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Number.MAX_SAFE_INTEGER;</code></td>
-      <td>The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (253 - 1). (9007199254740991) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Number.EPSILON;</code></td>
-      <td>The Number.EPSILON property represents the difference between 1 and the smallest floating point number greater than 1. (2.220446049250313e-16) For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/EPSILON" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Number.isNaN();</code></td>
-      <td>The Number.isNaN() method determines whether the passed value is NaN and its type is Number. It is a more robust version of the original, global isNaN(). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>isNaN();</code></td>
-      <td>he isNaN() function determines whether a value is NaN or not. Note: coercion inside the isNaN function has interesting rules; you may alternatively want to use Number.isNaN(), as defined in ECMAScript 2015. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Number.isInteger();</code></td>
-      <td>The Number.isInteger() method determines whether the passed value is an integer. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Number.isFinite();</code></td>
-      <td>The Number.isFinite() method determines whether the passed value is a finite number. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Number.isSafeInteger();</code></td>
-      <td>The Number.isSafeInteger() method determines whether the provided value is a number that is a safe integer. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Number.parseInt();</code></td>
-      <td>The Number.parseInt() method parses a string argument and returns an integer of the specified radix or base. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseInt" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Number.parseFloat();</code></td>
-      <td>The Number.parseFloat() method parses a string argument and returns a floating point number. This method behaves identically to the global function parseFloat() and is part of ECMAScript 2015 (its purpose is modularization of globals). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Math ES6</code></td>
-      <td>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/acosh" target="_blank"><b>Math.acosh();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/asinh" target="_blank"><b>Math.asinh();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atanh" target="_blank"><b>Math.atanh();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cbrt" target="_blank"><b>Math.cbrt();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/clz32" target="_blank"><b>Math.clz32();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cosh" target="_blank"><b>Math.cosh();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/expm1" target="_blank"><b>Math.expm1();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/fround" target="_blank"><b>Math.fround();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/hypot" target="_blank"><b>Math.hypot();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul" target="_blank"><b>Math.imul();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log1p" target="_blank"><b>Math.log1p();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log10" target="_blank"><b>Math.log10();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/log2" target="_blank"><b>Math.log2();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign" target="_blank"><b>Math.sign();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sinh" target="_blank"><b>Math.sinh();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/tanh" target="_blank"><b>Math.tanh();</b></a></p>
-        <p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/trunc" target="_blank"><b>Math.trunc();</b></a></p>
-      </td>
-    </tr>
-    <tr>
       <td><code>window.screenLeft;</code></td>
       <td>The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/screenLeft" target="_blank">MDN Article</a>!</td>
     </tr>
@@ -1332,6 +1163,9 @@ window._ = celestra;</code>
     </tr>
   </table>
 </div>
+
+<p><span class="deprecated"> DEPRECATED in v3.0.2 </span> and <span class="removed">REMOVED in v3.1.0</span>:
+<code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER();</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></p>
 
 
 <h2 id="samples">Samples</h2>
@@ -2215,96 +2049,6 @@ var eventtestarea = document.querySelector("#eventtestarea");</code></pre>
       <td><code>_.getText("testdata.txt",<br/>function(r) {alert("ajax text test:\n"+r); },<br/>function(e){ alert(e); } <br/>);</code></td>
     </tr>
     <tr>
-      <td><b>getAjax text</b></td>
-      <td><button onclick='_.getAjax("testdata.txt","text",function(r) { alert("ajax text test:\n"+r); },function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.getAjax("testdata.txt","text",<br/>function(r) {alert("ajax text test:\n"+r); },<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>getAjax json</b></td>
-      <td><button onclick='_.getAjax("testdata.json","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.getAjax("testdata.json","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>getAjax xml</b></td>
-      <td><button onclick='_.getAjax("testdata.xml","xml",function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.getAjax("testdata.xml","xml",<br/>function(r) { var xa = r.getElementsByTagName("picture"); <br/>var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;<br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>postAjax text</b></td>
-      <td><button onclick='_.postAjax( "testdata.txt","a=foo&b=bar baz","text",function(data){ alert(data); },function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.postAjax( "testdata.txt","a=foo&amp;b=bar baz","text",<br/>function(data){ alert(data); },<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>postAjax json</b></td>
-      <td><button onclick='_.postAjax( "testdata.json","a=foo&b=bar baz","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.postAjax( "testdata.json","a=foo&amp;b=bar baz","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>postAjax xml</b></td>
-      <td><button onclick='_.postAjax( "testdata.xml","a=foo&b=bar baz","xml", function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); } );  '>Try</button></td>
-      <td><code>_.postAjax( "testdata.xml","a=foo&amp;b=bar baz","xml", <br/>function(r) { var xa = r.getElementsByTagName("picture"); <br/>var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; <br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); } <br/>);  </code></td>
-    </tr>
-    <tr>
-      <td><b>getCors text</b></td>
-      <td><button onclick='_.getCors( "testdata.txt","text",function(response){alert("success: "+response);},function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.getCors( "testdata.txt","text",<br/>function(response){ alert("success: "+response);},<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>getCors json</b></td>
-      <td><button onclick='_.getCors( "testdata.json","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.getCors( "testdata.json","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>getCors xml</b></td>
-      <td><button onclick='_.getCors( "testdata.xml","xml",function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.getCors( "testdata.xml","xml",<br/>function(r) { var xa = r.getElementsByTagName("picture");<br/> var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; <br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>postCors text</b></td>
-      <td><button onclick='_.postCors( "testdata.txt","text","a=foo&b=bar baz",function(response){alert("success: "+response);},function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.postCors( "testdata.txt","text","a=foo&amp;amp;b=bar baz",<br/>function(response){alert("success: "+response);},function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>postCors json</b></td>
-      <td><button onclick='_.postCors( "testdata.json","a=foo&b=bar baz","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); } );'>Try</button></td>
-      <td><code>_.postCors( "testdata.json","a=foo&amp;b=bar baz","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); } <br/>);</code></td>
-    </tr>
-    <tr>
-      <td><b>postCors xml</b></td>
-      <td><button onclick='_.postCors( "testdata.xml","a=foo&b=bar baz","xml",function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); } );'>Try</button></td>
-  		<td><code>_.postCors( "testdata.xml","a=foo&amp;b=bar baz","xml",<br/>function(r) { var xa = r.getElementsByTagName("picture"); <br/>var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; <br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); } <br/>);</code></td>
-  	</tr>
-  	<tr>
-  		<td><b>getAjax text + password</b></td>
-  		<td><button onclick='_.getAjax("testdata.txt","text",function(r) { alert("ajax text test:\n"+r); },function(e){ alert(e); },"user","password" );'>Try</button></td>
-  		<td><code>_.getAjax("testdata.txt","text",<br/>function(r) {alert("ajax text test:\n"+r); },<br/>function(e){ alert(e); },"user","password" <br/>);</code></td>
-  	</tr>
-  	<tr>
-  		<td><b>postAjax json + password</b></td>
-  		<td><button onclick='_.postAjax( "testdata.json","a=foo&b=bar baz","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); },"user","password" );'>Try</button></td>
-  		<td><code>_.postAjax( "testdata.json","a=foo&amp;b=bar baz","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); },"user","password" <br/>);</code></td>
-  	</tr>
-  	<tr>
-  		<td><b>getCors xml + password</b></td>
-  		<td><button onclick='_.getCors( "testdata.xml","xml",function(r) { var xa = r.getElementsByTagName("picture"); var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; alert("ajax xml test:\n"+xb);},function(e){ alert(e); },"user","password" );'>Try</button></td>
-  		<td><code>_.getCors( "testdata.xml","xml",<br/>function(r) { var xa = r.getElementsByTagName("picture");<br/> var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue; <br/>alert("ajax xml test:\n"+xb);},<br/>function(e){ alert(e); },"user","password" <br/>);</code></td>
-  	</tr>
-  	<tr>
-  		<td><b>postCors json + password</b></td>
-  		<td><button onclick='_.postCors( "testdata.json","a=foo&b=bar baz","json",function(r) { alert("ajax json test (has value):\n"+r[0].image); },function(e){ alert(e); },"user","password" );'>Try</button></td>
-  		<td><code>_.postCors( "testdata.json","a=foo&amp;b=bar baz","json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); },<br/>function(e){ alert(e); },"user","password" <br/>);</code></td>
-  	</tr>
-  	<tr>
-  		<td><b>Include a text/html file</b></td>
-  		<td><button onclick='_.getAjax ("testdata.txt","text", function(res) { document.querySelector("#include").innerHTML = res; } );'>Try</button></td>
-  		<td>
-        <p><strong>How to include an external file content</strong></p>
-        <p>This is an alternative to the jQuery <code>.load()</code> method.</p>
-        <code>_.getAjax ("testdata.txt","text",<br/>function(res) { document.querySelector("#include").innerHTML = res; }<br/>);</code>
-        <p id="include"></p>
-      </td>
-  	</tr>
-    <tr>
       <td><b>Type checking functions</b></td>
       <td colspan="2">
         <hr/>
@@ -2350,23 +2094,6 @@ var eventtestarea = document.querySelector("#eventtestarea");</code></pre>
           <button onclick='alert( _.isNumber("str") );'>try</button>
           <code>alert( _.isNumber("str") );</code>
         </p>
-        <hr/>
-        <p>
-          isInteger() true
-          <button onclick='alert( _.isInteger(98) );'>try</button>
-          <code>alert( _.isInteger(98) );</code>
-        </p>
-        <p>
-          isInteger() false 1
-          <button onclick='alert( _.isInteger(3.14) );'>try</button>
-          <code>alert( _.isInteger(3.14) );</code>
-        </p>
-        <p>
-          isInteger() false 2
-          <button onclick='alert( _.isInteger("str") );'>try</button>
-          <code>alert( _.isInteger("str") );</code>
-        </p>
-        <hr/>
         <p>
           isFloat() true
           <button onclick='alert( _.isFloat(3.14) );'>try</button>
@@ -2538,17 +2265,6 @@ alert(
           isFunction() false
           <button onclick='alert( _.isFunction( document.querySelector("p") ) );'>try</button>
           <code>alert( _.isFunction( document.querySelector("p") ) );</code>
-        </p>
-        <hr/>
-        <p>
-          isArray() true
-          <button onclick='alert( _.isArray([]) );'>try</button>
-          <code>alert( _.isArray([]) );</code>
-        </p>
-        <p>
-          isArray() false
-          <button onclick='alert( _.isArray( document.querySelector("p") ) );'>try</button>
-          <code>alert( _.isArray( document.querySelector("p") ) );</code>
         </p>
         <hr/>
         <p>

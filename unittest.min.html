@@ -44,17 +44,49 @@ import("./celestra.js")
   });
 */
 
-import { celestra } from "./celestra.esm.js";
-// async loading
-// https://exploringjs.com/es6/ch_modules.html#sec_modules-in-browsers
+var importStr = "";
 
+// default loading method in v3.0.2
+// import the celestra object
+import { celestra } from "./celestra.esm.js";
 window.celestra = celestra;
 window._ = celestra;
 
+importStr += "\nimport the celestra object - "
+  + (typeof celestra.getType === "function");
+
+// import with default with name
+import { default as celestra2 } from "./celestra.esm.js";
+//window.celestra = celestra;
+//window._ = celestra;
+importStr += "\nimport with default with name - "
+  + (typeof celestra2.getType === "function");
+
+// import all functions in an object
+import * as celestra3 from "./celestra.esm.js";
+//window.celestra = celestra;
+//window._ = celestra;
+importStr += "\nimport all functions in an object - "
+  + (typeof celestra3.getType === "function");
+
+// import with defaultExport
+import defaultExport from "./celestra.esm.js";
+//window.celestra = defaultExport;
+//window._ = defaultExport;
+importStr += "\nimport with defaultExport - "
+  + (typeof defaultExport.getType === "function");
+
+// import only functions
+import { identity, getType } from "./celestra.esm.js";
+importStr += "\nimport only functions - "
+  + (getType(identity) === "function");
+
+alert(importStr);
+
+/*
 // to test the loading of the module:
 console.log(`celestra.VERSION - ${ window.celestra.VERSION }
 _.VERSION - ${ _.VERSION }
-typeof Array.from2 - ${ typeof Array.from2 }
 true - ${ _.isString("ggg") }
 isString false - ${ _.isString(42) }
 isChar true - ${ _.isChar("g") }
@@ -62,6 +94,7 @@ isChar false - ${ _.isChar("ggg") }
 isBoolean true - ${ _.isBoolean(false) }
 isBoolean false - ${ _.isBoolean("ggg") }
 `);
+*/
 
 </script>
 -->
