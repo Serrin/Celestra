@@ -3,7 +3,7 @@
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.9";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.10";
 celTest.__results__ = document.querySelector("#results");
 
 celTest.isNotIE11 = function isNotIE11 () {
@@ -13,6 +13,9 @@ celTest.isNotIE11 = function isNotIE11 () {
 celTest.isNotEdge = function isNotEdge () {
   return navigator.userAgent.toLowerCase().indexOf("edge") === -1;
 };
+
+/* iter2JSON(<iter>); -> JSON string with iter convert to array */
+celTest.iter2JSON = ([...a]) => JSON.stringify(a);
 
 /* __addTest__("step", true, expr ); */
 /* __addTest__("step", true, expr, true|false ); */
@@ -142,13 +145,12 @@ _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 
 
 /* ======================================================================== */
-/* ======================================================================== */
 
 
 (function(){
 "use strict";
 
-/* Celestra v3.1.0 testcases */
+/* Celestra v3.1.1 testcases */
 
 /* Not tested functions */
 _cut.addElement("h3", "Not tested functions");
@@ -462,19 +464,41 @@ _cut.isEqual("strRemoveTags()","lorem ipsum dolor sit amet , consectetuer",
   _.strRemoveTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
 );
 
+var strReverseRes = _.strReverse("I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die.");
 _cut.isEqual("strReverse() without unicode",
   ".eid ot emiT .niar ni sraet ekil ,emit ni tsol eb lliw stnemom esoht llA .etaG resuähnnaT eht raen krad eht ni rettilg smaeb-C dehctaw I .noirO fo redluohs eht ffo erif no spihs kcattA .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
-  _.strReverse("I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die.")
+  strReverseRes
 );
+_cut.log(strReverseRes);
+var strReverseRes = _.strReverse("I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.");
 _cut.isEqual("strReverse() with unicode 1",
   ".noirO fo redluohs eht ffo erif no spihs kcattA \uD834\uDF06 .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
-  _.strReverse("I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.")
-);/*
-_cut.isEqual(
+  strReverseRes
+);
+_cut.log(strReverseRes);
+/*_cut.isEqual(
   "strReverse() with unicode 2",
   ".noirO fo redluohs eht ffo erif no spihs kcattA \u{1D306} .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   _.strReverse("I've seen things you people wouldn't believe. \u{1D306} Attack ships on fire off the shoulder of Orion.")
 );*/
+
+_cut.isEqual(
+  "strReplaceAll()",
+  "34 ab 34 cd 34 ef 34"
+    +"34 ab 34 cd 34 ef 34"
+    + "249ue"
+    + "12 ab <br/> cd 12 ef <br/>"
+    + "a-b-c-d-e"
+    + "false"
+    + "",
+  _.strReplaceAll("12 ab 12 cd 12 ef 12", "12", "34")
+    + _.strReplaceAll("12 ab 12 cd 12 ef 12", 12, "34")
+    + _.strReplaceAll(true, "tr", 249)
+    + _.strReplaceAll("12 ab \n cd 12 ef \n", "\n", "<br/>")
+    + _.strReplaceAll("abcde","","-")
+    + _.strReplaceAll(false,"i","j")
+    + _.strReplaceAll("","i","j")
+);
 
 var slice = _.toFunction([].slice);
 _cut.isEqual("toFunction()", true, Array.isArray(slice(document.querySelectorAll("h3"))) );
@@ -1402,6 +1426,20 @@ _cut.isEqual("clearCookies()", "truetruefalsefalse", cookieClearStr);
 
 /* polyfills */
 _cut.addElement("h3", "polyfills");
+
+var strIterRes = [..."I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion."[Symbol.iterator]()].join("");
+_cut.isEqual("String.prototype[Symbol.iterator]() without unicode",
+  "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion.",
+  strIterRes
+);
+_cut.log(strIterRes);
+
+var strIterRes = [..."I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion."[Symbol.iterator]()].join("");
+_cut.isEqual("String.prototype[Symbol.iterator]() with unicode",
+  "I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.",
+  strIterRes
+);
+_cut.log(strIterRes);
 
 const testGenFn = new GeneratorFunction("v", "yield v * 3; yield v * 4;");
 var sum = "";

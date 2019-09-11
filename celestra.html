@@ -62,12 +62,12 @@
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.1.0</p>
-<p>Date: 2019-09-01T19:58:23.760Z</p>
+<p>Latest version: 3.1.1</p>
+<p>Date: 2019-09-10T20:03:29.137Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43779 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32694 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34009 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (44083 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32952 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34282 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
 
@@ -81,6 +81,7 @@
 <h3>Demo pages</h3>
 
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
+<p>CORS testpage: <a href="testcors.html" target="_blank">testcors.html</a></p>
 <p>Demo plugin documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
 <p>Demo plugin source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
@@ -221,6 +222,10 @@ window.getType = getType;
     <tr>
       <td><code>strReverse(&#60;string&#62;);</code></td>
       <td>Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>strReplaceAll(&#60;string&#62;,&#60;search&#62;,&#60;replace&#62;);</code></td>
+      <td>This functions replaces all instances of a substring in a string without use of a global regexp. All of the parameters are mandatory and will be converted to string. The return value is the modified string.</td>
     </tr>
     <tr>
       <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
@@ -593,36 +598,34 @@ window.getType = getType;
     </tr>
     <tr>
       <td><code>isSymbol(&#60;value&#62;);</code></td>
-      <td><span class="info">ES6</span> This function determines whether the provided value is a symbol. The return value is boolean.</td>
+      <td>This function determines whether the provided value is a symbol. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isMap(&#60;value&#62;);</code></td>
-      <td><span class="info">ES6</span> This function determines whether the provided value is a map. The return value is boolean.</td>
+      <td>This function determines whether the provided value is a map. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isSet(&#60;value&#62;);</code></td>
-      <td><span class="info">ES6</span> This function determines whether the provided value is a set. The return value is boolean.</td>
+      <td>This function determines whether the provided value is a set. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isWeakMap(&#60;value&#62;);</code></td>
-      <td><span class="info">ES6</span> This function determines whether the provided value is a weakmap. The return value is boolean.</td>
+      <td>This function determines whether the provided value is a weakmap. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isWeakSet(&#60;value&#62;);</code></td>
-      <td><span class="info">ES6</span> This function determines whether the provided value is a weakset. The return value is boolean.</td>
+      <td>This function determines whether the provided value is a weakset. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isIterator(&#60;value&#62;);</code></td>
       <td>
-        <span class="info">ES6</span> This function determines whether the provided value is an iterator. The return value is boolean.
+        <p>This function determines whether the provided value is an iterator. The return value is boolean.</p>
         <p><span class="info">Doesn't work in W10M Edge 14.</span></p>
       </td>
     </tr>
     <tr>
       <td><code>isIterable(&#60;value&#62;);</code></td>
-      <td>
-        <span class="info">ES6</span> This function determines whether the provided value is an iterable collection. The return value is boolean.
-      </td>
+      <td>This function determines whether the provided value is an iterable collection. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isDate(&#60;value&#62;);</code></td>
@@ -741,9 +744,9 @@ window.getType = getType;
           <li>Nodelist (ES5, as Array, return as Array)</li>
           <li>custom array-like objects (ES5, as Array, return as Array)</li>
           <li>String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters)</li>
-          <li>Map (<span class="info">ES6</span>, own forEach(), return as Map)</li>
-          <li>Set (<span class="info">ES6</span>, own forEach(), return as Set)</li>
-          <li>ES6 iterators (<span class="info">ES6</span>, as Array, return as Array)</li>
+          <li>Map (ES6, own forEach(), return as Map)</li>
+          <li>Set (ES6, own forEach(), return as Set)</li>
+          <li>ES6 iterators (as Array, return as Array)</li>
         </ul>
       </td>
     </tr>
@@ -757,9 +760,9 @@ window.getType = getType;
           <li>Nodelist (ES5, return as Array)</li>
           <li>custom arraylike objects (ES5, return as Array)</li>
           <li>String (ES5, return as String, in ES6 browsers works with Unicode characters)</li>
-          <li>Map (<span class="info">ES6</span>, return as Map)</li>
-          <li>Set (<span class="info">ES6</span>, return as Set)</li>
-          <li>ES6 iterators (<span class="info">ES6</span>, return as Array)</li>
+          <li>Map (ES6, return as Map)</li>
+          <li>Set (ES6, return as Set)</li>
+          <li>ES6 iterators (return as Array)</li>
         </ul>
       </td>
     </tr>
@@ -781,19 +784,19 @@ window.getType = getType;
     </tr>
     <tr>
       <td><code>setUnion(&#60;collection1&#62;,[,collectionN]);</code></td>
-      <td><code>ES6</code> Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.</td>
+      <td>Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.</td>
     </tr>
     <tr>
       <td><code>setIntersection(&#60;set1&#62;,&#60;set2&#62;);</code></td>
-      <td><code>ES6</code> Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+      <td>Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
     </tr>
     <tr>
       <td><code>setDifference(&#60;set1&#62;,&#60;set2&#62;);</code></td>
-      <td><code>ES6</code> Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+      <td>Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
     </tr>
     <tr>
       <td><code>setSymmetricDifference(&#60;set1&#62;,&#60;set2&#62;);</code></td>
-      <td><code>ES6</code> Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+      <td>Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
     </tr>
     <tr>
       <td><code>isSuperset(&#60;superset&#62;,&#60;subset&#62;);</code></td>
@@ -855,7 +858,7 @@ window.getType = getType;
       <td><code>item(&#60;collection&#62;,&#60;index&#62;);</code></td>
       <td>
         <p>Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers.</p>
-        <p><span class="info">Tip1: This function uses the <code>Array.from()</code> if the collection parameter isn't an array. It can be slow, when more items are requested with this function. In this case please convert the collection with the <code>Array.from()</code> instead of usage this function!</span></p>
+        <p><span class="info">Tip1: This function uses the Spread syntax. It can be slow, when more items are requested with this function. In this case please convert the collection with the Spread syntax(<code>[...iter]</code>) or <code>Array.from()</code> instead of usage this function!</span></p>
         <p><span class="info">Tip2: From the v2.7.2 the function <code>itemOf(&#60;collection&#62;,&#60;index&#62;);</code> is available.</span></p>
       </td>
     </tr>
@@ -1002,7 +1005,7 @@ window.getType = getType;
     </tr>
     <tr>
       <td><code>Array.prototype.values();</code></td>
-      <td><span class="info">Only in ES6</span> The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
+      <td>The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
     </tr>
     <tr>
       <td>ChildNode API</td>
@@ -1155,11 +1158,15 @@ window.getType = getType;
     </tr>
     <tr>
       <td><code>GeneratorFunction();</code></td>
-      <td><span class="info">Only in ES6</span> The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
+      <td>The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>String.prototype.matchAll();</code></td>
-      <td><span class="info">Only in ES6</span> The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll" target="_blank">MDN Article</a>!</td>
+      <td>The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype[Symbol.iterator]();</code></td>
+      <td>The [Symbol.iterator]() method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/@@iterator" target="_blank">MDN Article</a>!</td>
     </tr>
   </table>
 </div>
@@ -2359,34 +2366,34 @@ alert(
         </p>
         <hr/>
         <p>
-          <span class="info">ES6</span> isSymbol() true
+          isSymbol() true
           <button onclick='alert( _.isSymbol( Symbol("str") ) );'>try</button>
           <code>alert( _.isSymbol( Symbol("str") ) );</code>
         </p>
         <p>
-          <span class="info">ES6</span> isSymbol() false
+          isSymbol() false
           <button onclick='alert( _.isSymbol(_.noop) );'>try</button>
           <code>alert( _.isSymbol(_.noop) );</code>
         </p>
         <hr/>
         <p>
-          <span class="info">ES6</span> isMap() true
+          isMap() true
           <button onclick='alert( _.isMap( new Map() ) );'>try</button>
           <code>alert( _.isMap( new Map() ) );</code>
         </p>
         <p>
-          <span class="info">ES6</span> isMap() false
+          isMap() false
           <button onclick='alert( _.isMap(_.noop) );'>try</button>
           <code>alert( _.isMap(_.noop) );</code>
         </p>
         <hr/>
         <p>
-          <span class="info">ES6</span> isSet() true
+          isSet() true
           <button onclick='alert( _.isSet( new Set() ) );'>try</button>
           <code>alert( _.isSet( new Set() ) );</code>
         </p>
         <p>
-          <span class="info">ES6</span> isSet() false
+          isSet() false
           <button onclick='alert( _.isSet(_.noop) );'>try</button>
           <code>alert( _.isSet(_.noop) );</code>
         </p>

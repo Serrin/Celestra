@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.1.0
+ * @version 3.1.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -118,6 +118,12 @@ if (!String.prototype.repeat) {
     str += str.substring(0, maxCount - str.length);
     return str;
   }
+}
+
+if (!String.prototype[Symbol.iterator]) {
+  String.prototype[Symbol.iterator] = function () {
+    return Array.from(this).values();
+  };
 }
 
 [Element.prototype, CharacterData.prototype, DocumentType.prototype].forEach(function (p) {
@@ -486,7 +492,9 @@ function strRemoveTags (s) {
   return String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 }
 
-const strReverse = (s) => [...String(s)].reverse().join("");
+const strReverse = (s) => Array.from(String(s)).reverse().join("");
+
+const strReplaceAll = (s, sv, rv) => String(s).split(String(sv)).join(rv);
 
 function forIn (o, fn) {
   for (var p in o) {
@@ -948,7 +956,9 @@ const isWeakMap = (v) => (celestra.__objType__(v) === "weakmap");
 
 const isWeakSet = (v) => (celestra.__objType__(v) === "weakset");
 
-const isIterator = (v) => (celestra.__objType__(v).includes("iterator"));
+const isIterator = (v) => (
+  celestra.__objType__(v).includes("iterator") || (typeof v.next === "function")
+);
 
 const isDate = (v) => (celestra.__objType__(v) === "date");
 
@@ -1415,7 +1425,7 @@ function* enumerateOf (it) {
 
 /* object */
 
-const VERSION = "Celestra v3.1.0";
+const VERSION = "Celestra v3.1.1";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1448,6 +1458,7 @@ var celestra = {
   deepAssign: deepAssign,
   strRemoveTags: strRemoveTags,
   strReverse: strReverse,
+  strReplaceAll: strReplaceAll,
   forIn: forIn,
   mapIn: mapIn,
   toFunction: toFunction,

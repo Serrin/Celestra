@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>BTC price from Coinbase</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="Author" content="Czigler Ferenc"/>
+<meta name="Copyright" content="(C) Copyright Czigler Ferenc"/>
+<link rel="stylesheet" href="u87.css" type="text/css" />
+
+<style>
+
+body {
+  max-width: 800px;
+  font-size: 18px;
+}
+
+td {
+  vertical-align: center;
+}
+
+input {
+  width: 80px;
+  padding: 3px;
+}
+
+button {
+  padding: 3px 5px 3px 5px;
+  min-width: 100px;
+}
+
+input,button {
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #333;
+  font-size: 18px;
+}
+
+input:hover,input:focus,button:hover {
+  background-color: #333;
+  color: white;
+} 
+
+article {
+  display: block;
+  /*border: 1px solid #333;*/
+  padding: 5px;
+}
+
+span { padding: 0px 10px 0px 10px; }
+
+</style>
+
+</head>
+<body>
+
+<header>
+  <h1>BTC price from Coinbase</h1>
+</header>
+
+<article>
+<pre id="results"></pre>
+<div class="center"><button id="btn1">Refresh</button></div>
+</article>
+
+<footer id="footer"><small>
+  <p>Contact me on <a href="http://github.com/Serrin" target="_blank">Github</a></p>
+  <p>&copy; Copyright 2019 Ferenc Czigler</p>
+</small></footer>
+
+
+<script src="celestra.min.js"></script>
+<script>
+_.domReady(function () {
+
+  window.results = _.qs("#results");
+  window.btn1 = _.qs("#btn1");
+  
+  window.getResults = function () {
+    results.innerHTML="";
+    _.ajax({
+      url: "https://api.coindesk.com/v1/bpi/currentprice.json",
+      queryType: "cors",
+      format: "json",
+      error: function (e) { window.results.innerHTML = e; },
+      success: function (r) {
+        window.results.innerHTML = `${r.time.updated}
+        
+\$ ${r.bpi.USD.rate}
+&euro; ${r.bpi.EUR.rate}
+&pound; ${r.bpi.GBP.rate}
+
+${r.disclaimer}`;
+      }
+    });
+  };
+  
+  window.getResults();
+  
+  _.domOn(window.btn1, "click", window.getResults);
+
+});
+</script>
+
+</body>
+</html>
