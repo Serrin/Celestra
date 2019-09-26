@@ -1,6 +1,6 @@
 /**
  * @name u87.css
- * @version 0.9.9
+ * @version 0.9.10
  * @see https://github.com/Serrin/u87.css
  * @license MIT https://opensource.org/licenses/MIT
  * This is the default css for my code documentations.
@@ -8,17 +8,16 @@
  */
 
 @-ms-viewport { width: device-width; }
- 
-article, aside, details, figcaption, figure, 
+
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, main {
 	display: block;
-} 
+}
 
 [hidden], .hidden { display: none !important; }
-
 template { display: none; }
 
-*,:before,:after { 
+*,:before,:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -26,9 +25,9 @@ template { display: none; }
   word-break: break-all;
   word-break: break-word;
   word-wrap: break-word;
-  overflow-wrap: break-word;  
+  overflow-wrap: break-word;
 }
-  
+
 html {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -37,17 +36,16 @@ html {
   overflow-y: visible;
   overflow: visible;
   -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;  
+  -webkit-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
-  -webkit-tap-highlight-color: transparent;  
+  -webkit-tap-highlight-color: transparent;
   padding: 0;
   margin: 0;
-  /*background-color: darkgrey;*/
-  background-color: #cccccc;
+  /*background-color: #ddd;*/
   text-align: center;
   /*font-family: Helvetica, Arial, sans-serif;*/
-  font-family: Helvetica, Arial, sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", Helvetica, Arial, sans-serif;
+  font-size: 14.5px;
 }
 
 body {
@@ -56,8 +54,8 @@ body {
   /* color: #172b4d; */
   color: #333333;
   margin: 0 auto;
-  max-width: 1200px;
-  padding: 15px;
+  /*max-width: 1200px;*/
+  /*padding: 15px;*/
   min-height: 100vh;
   text-align: left;
   line-height: 20px;
@@ -65,88 +63,99 @@ body {
 
 :hover, :active, :visited, :focus { outline: 0; }
 
-header,footer { text-align: center; }
+header, footer { text-align: center; }
 
-p {
-  margin: 1rem 0px 1rem 0px;
-  /*margin: 10px 0px 10px 0px;*/
-  padding: 0px;
+div { margin: 0; padding: 0; }
+
+p, .p {
+  margin: 1rem 0 1rem 0; /* top | right | bottom | left */
+  padding: 0 1rem 0 1rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 1rem 0px 1rem 0px;
-  /* padding: 0px 10px 0px 10px; */
-  padding: 3px 10px 3px 10px;
-  line-height: 30px;
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin: 1rem 0 1rem 0;
+  padding: 0 1rem 0 1rem;
+  line-height: 1.2;
   font-weight: normal;
 }
+h1, .h1 { font-size: 2.5rem; /* background-color: #b5b5b5; */ }
+h2, .h2 { font-size: 2rem; /* background-color: #ddd; */ }
+h3, .h3 { font-size: 1.75rem; /* background-color: #f0f0f0; */ }
+h4, .h4 { font-size: 1.5rem; /* background-color: #f0f0f0; */ }
+h5, .h5 { font-size: 1.25rem; /* background-color: #f0f0f0; */ }
+h6, .h6 { font-size: 1rem; /* background-color: #f0f0f0; */ }
 
-h1 { font-size: 1.8rem; background-color: #b5b5b5; }
-h2 { font-size: 1.5rem; background-color: #dddddd; }
-h3 { font-size: 1.3rem; background-color: #f0f0f0; }
-h4 { font-size: 1.2rem; background-color: #f0f0f0; }
-h5 { font-size: 1.1rem; background-color: #f0f0f0; }
-h6 { font-size: 1rem;   background-color: #f0f0f0; }
+.heading-a, .heading-b, .heading-c, .heading-d,
+.ha, .hb, .hc, .hd {
+  margin: 1rem 0 1rem 0;
+  padding: 0 1rem 0 1rem;
+  line-height: 1.2;
+  font-weight: 300;
+}
+.heading-a, .ha { font-size: 6rem; }
+.heading-b, .hb { font-size: 5.5rem; }
+.heading-c, .hc { font-size: 4.5rem; }
+.heading-d, .hd { font-size: 3.5rem; }
 
 pre, code, output, kbd, samp, var,
 .pre, .code, .output, .kbd, .samp, .var {
   background-color: slategrey;
   color: white;
   padding: 3px 5px 3px 5px;
-  /*font-size: 14.5px !important;  jira */
-  font-family: consolas, "Courier New", monospace;
+  /*font-size: 14.5px !important; */
+  /*font-family: consolas, "Courier New", monospace;*/
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
   word-wrap: break-word;
-  overflow-wrap: break-word; 
+  overflow-wrap: break-word;
   white-space: pre-wrap;
 }
+pre, .pre { display: block; }
 var, .var { font-style: italic; }
 code, output, kbd, samp, var,
 .code, .output, .kbd, .samp, .var {
-  display: inline-block;
-  margin-top: 2px;
+  display: inline-block; margin-top: 2px;
 }
-pre, .pre { display: block; }
 
-.tt {
+tt, .tt {
   display: inline-block;
   margin-top: 2px;
   padding: 3px 5px 3px 5px;
   font-size: 14.5px !important;
-  font-family: consolas, "Courier New", monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
   word-wrap: break-word;
-  overflow-wrap: break-word; 
+  overflow-wrap: break-word;
   white-space: pre-wrap;
 }
 
 nobr, .nobr { display: inline-block; hyphens: none; white-space: nowrap !important; }
+.nowrap { white-space: nowrap !important; }
 
 a, a:visited, a:active { color: #0052cc; text-decoration: none; }
 a:hover { color: #0052cc; text-decoration: underline; }
 
-small { display: inline-block; }
-small, .small { font-size: 0.8em; }
-.big { font-size: 1.25em; }
+big, .big { font-size: 1.25em; }
+small, .small { font-size: 80%; }
 b, strong, .b, .strong { font-weight: bold; }
 i, em, .i, .em { font-style: italic; }
 
+mark { display: inline-block; }
 mark, .mark {
   background-color: yellow;
   color: black;
   padding: 3px 5px 3px 5px;
 }
-mark { display: inline-block; }
-
 
 table {
   border-collapse: collapse;
   border-color: #333333;
-  margin: 10px 0px 10px 0px;
+  margin: 10px 0 10px 0;
   /* margin: 0 auto; */
 }
 td {
@@ -193,7 +202,7 @@ or
 .row:after { clear: both; }
 .row { width: 100%; clear: both; padding: 0; margin: 0; zoom: 1; /* IE6-7 */ }
 
-[class*="col-"] { 
+[class*="col-"] {
   display: inline-block;
   float: left;
   margin: 0.5% 1% 0.5% 1%;
@@ -242,3 +251,5 @@ or
 
 .nopadding { padding: 0; }
 .padding { padding: 1%; }
+.nomargin { margin: 0; }
+.noborder { border: 0; }

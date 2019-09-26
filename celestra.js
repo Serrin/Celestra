@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.1.1
+ * @version 3.1.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -12,7 +12,7 @@
 /*-----------------+------+----------------------------------
   Function         |   #  |  Internal calls
 -------------------+------+----------------------------------
-  CTRL-F           |   N  |  __objType__()
+  CTRL-F           |   N  |  getType()
   importScripts()  |   2  |  importScript(), importScript()
   importStyles()   |   2  |  importStyle(), importStyle()
   domFadeToggle()  |   2  |  domFadeIn(), domFadeOut()
@@ -21,7 +21,6 @@
   deepAssign()     |   1  |  deepAssign()
   getJson()        |   1  |  ajax()
   getText()        |   1  |  ajax()
-  isEqual()        |   2  |  getType()
   clearCookies()   |   2  |  getCookie(), removeCookie()
 -------------------+------+--------------------------------*/
 
@@ -75,7 +74,7 @@ if (!String.prototype.padStart) {
       var res = "", n = Math.floor( (len - this.length) / str.length)+1;
       for (var i = 0; i < n; i++) { res += str; }
       return res.slice(0, len - this.length) + String(this);
-    };
+    }
   };
 }
 
@@ -90,7 +89,7 @@ if (!String.prototype.padEnd) {
       var res = "", n = Math.floor( (len - this.length) / str.length)+1;
       for (var i = 0; i < n; i++) { res += str; }
       return String(this) + res.slice(0, len - this.length);
-    };
+    }
   };
 }
 
@@ -288,7 +287,7 @@ if (!Object.fromEntries) {
     } else if (Object.prototype.toString.call(entries) === "[object Map]") {
       entries.forEach(function (value, key) { res[key] = value; });
     } else {
-      throw "TypeError: Celestra Object.fromEntries() polyfill supports only Array and Map parameters in the modern browsers. In IE11 only the Array parameter is supported.";
+      throw "TypeError: Object.fromEntries() polyfill supports only Array and Map parameters.";
     }
     return res;
   };
@@ -359,6 +358,10 @@ if (!String.prototype.matchAll) {
   };
 }
 
+if (window.BigInt && !BigInt.prototype.toJSON) {
+  BigInt.prototype.toJSON = function () { return this.toString(); };
+}
+
 /* core api */
 
 function random (i = 100, a) {
@@ -376,12 +379,12 @@ function randomString (pl = 100, sc = false) {
 
 function b64Encode (str) {
   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-    function toSolidBytes(match, p1) { return String.fromCharCode("0x" + p1); }
+    function toSolidBytes (match, p1) { return String.fromCharCode("0x" + p1); }
   ));
 }
 
 function b64Decode (str) {
-  return decodeURIComponent(atob(str).split("").map(function(c) {
+  return decodeURIComponent(atob(str).split("").map(function (c) {
     return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(""));
 }
@@ -436,13 +439,9 @@ function obj2string (o) {
 }
 
 function getType (v, t) {
-  var ot = (typeof v).toLowerCase();
-  if (ot === "object") {
-    ot = Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/, "$1")
-      .toLowerCase();
-  }
-  if (arguments.length === 2) { return ot === t.toLowerCase(); }
-  return ot;
+  var ot = Object.prototype.toString.call(v)
+    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
+  return (arguments.length === 2 ? ot === t.toLowerCase() : ot);
 }
 
 function extend () {
@@ -459,9 +458,7 @@ function extend () {
         if (so.hasOwnProperty(a)) {
           if (typeof so[a] === "object" && d) {
             t[a] = celestra.extend(true, {}, so[a]);
-          } else {
-            t[a] = so[a];
-          }
+          } else { t[a] = so[a]; }
         }
       }
     }
@@ -478,9 +475,7 @@ function deepAssign () {
         if (s.hasOwnProperty(a)) {
           if (typeof s[a] === "object") {
             t[a] = celestra.deepAssign({}, s[a]);
-          } else {
-            t[a] = s[a];
-          }
+          } else { t[a] = s[a]; }
         }
       }
     }
@@ -488,9 +483,8 @@ function deepAssign () {
   return t;
 }
 
-function strRemoveTags (s) {
-  return String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
-}
+const strRemoveTags = (s) =>
+  String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 
 const strReverse = (s) => Array.from(String(s)).reverse().join("");
 
@@ -545,7 +539,9 @@ function domCreate (t, ps, iH) {
     var obj = t;
     t = obj.elementType;
     ps = {};
-    for (var p in obj) { if (p !== "elementType") { ps[p] = obj[p]; } }
+    for (var p in obj) {
+      if (p !== "elementType") { ps[p] = obj[p]; }
+    }
   }
   var el = document.createElement(t);
   if (ps) {
@@ -561,7 +557,7 @@ function domCreate (t, ps, iH) {
   return el;
 }
 
-function domToElement(s) {
+function domToElement (s) {
   var e = document.createElement("div");
   e.innerHTML = s;
   return e.firstElementChild;
@@ -691,8 +687,8 @@ function form2array (f) {
   if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
     for (var i=0, len=f.elements.length; i<len; i++) {
       fld = f.elements[i];
-      if (fld.name
-        && !fld.disabled && fld.type !== "file"
+      if (fld.name && !fld.disabled
+        && fld.type !== "file"
         && fld.type !== "reset"
         && fld.type !== "submit"
         && fld.type !== "button") {
@@ -723,8 +719,7 @@ function form2string (f) {
   if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
     for (var i=0, len=f.elements.length; i<len; i++) {
       fld = f.elements[i];
-      if (fld.name
-        && !fld.disabled
+      if (fld.name && !fld.disabled
         && fld.type !== "file"
         && fld.type !== "reset"
         && fld.type !== "submit"
@@ -733,7 +728,7 @@ function form2string (f) {
           for (var j=0, l=f.elements[i].options.length; j<l; j++) {
             if(fld.options[j].selected) {
               a.push(encodeURIComponent(fld.name)
-              + "=" + encodeURIComponent(fld.options[j].value));
+                + "=" + encodeURIComponent(fld.options[j].value));
             }
           }
         } else if ((fld.type !== "checkbox" && fld.type !== "radio")
@@ -782,12 +777,11 @@ function createFile (fln, c, dt) {
 }
 
 function getFullscreen () {
-  return (
-    document.fullscreenElement ||
-    document.mozFullScreenElement ||
-    document.webkitFullscreenElement ||
-    document.msFullscreenElement ||
-    undefined
+  return (document.fullscreenElement
+    || document.mozFullScreenElement
+    || document.webkitFullscreenElement
+    || document.msFullscreenElement
+    || undefined
   );
 }
 
@@ -817,24 +811,20 @@ function getJson (u, s) {
 
 function ajax (o) {
   if (typeof o.url !== "string") {
-    throw new TypeError("Celestra ajax error: The url parameter have to a function.");
+    throw new TypeError("Celestra ajax error: The url parameter have to be a function.");
   }
   if (typeof o.success !== "function") {
-    throw new TypeError("Celestra ajax error: The success parameter have to a function.");
+    throw new TypeError("Celestra ajax error: The success parameter have to be a function.");
   }
   if (!(["function", "undefined"].includes(typeof o.error))) {
-    throw new TypeError("Celestra ajax error: The error parameter have to a function or undefined.");
+    throw new TypeError("Celestra ajax error: The error parameter have to be a function or undefined.");
   }
   if (!o.queryType) {
     o.queryType = "ajax";
   } else {
     o.queryType = o.queryType.toLowerCase();
   }
-  if (!o.type) {
-    o.type = "get";
-  } else {
-    o.type = o.type.toLowerCase();
-  }
+  if (!o.type) { o.type = "get"; } else { o.type = o.type.toLowerCase(); }
   if (o.type === "get") {
     var typeStr = "GET";
   } else if (o.type === "post") {
@@ -903,10 +893,8 @@ function ajax (o) {
 
 /* type checking */
 
-function isEqual (a, b) {
-  return (celestra.getType(a, celestra.getType(b))
-    && JSON.stringify(a) === JSON.stringify(b));
-}
+const isEqual = (a, b) => (celestra.getType(a, celestra.getType(b))
+  && JSON.stringify(a) === JSON.stringify(b));
 
 const isString = (v) => (typeof v==="string");
 const isChar = (v) => (typeof v === "string" && v.length === 1);
@@ -948,21 +936,20 @@ const isPrimitive = (v) =>
 
 const isSymbol = (v) => (typeof v === "symbol");
 
-const isMap = (v) => (celestra.__objType__(v) === "map");
+const isMap = (v) => celestra.getType(v, "map");
 
-const isSet = (v) => (celestra.__objType__(v) === "set");
+const isSet = (v) => celestra.getType(v, "set");
 
-const isWeakMap = (v) => (celestra.__objType__(v) === "weakmap");
+const isWeakMap = (v) => celestra.getType(v, "weakmap");
 
-const isWeakSet = (v) => (celestra.__objType__(v) === "weakset");
+const isWeakSet = (v) => celestra.getType(v, "weakset");
 
-const isIterator = (v) => (
-  celestra.__objType__(v).includes("iterator") || (typeof v.next === "function")
-);
+const isIterator = (v) =>
+  (celestra.getType(v).includes("iterator") || (typeof v.next === "function"));
 
-const isDate = (v) => (celestra.__objType__(v) === "date");
+const isDate = (v) => celestra.getType(v, "date");
 
-const isRegexp = (v) => (celestra.__objType__(v) === "regexp");
+const isRegexp = (v) => celestra.getType(v, "regexp");
 
 const isElement = (v) => (typeof v === "object" && v.nodeType === 1);
 
@@ -970,29 +957,25 @@ const isIterable = (v) => (!!v[Symbol.iterator]);
 
 const isBigInt = (v) => (typeof v === "bigint");
 
-const isArrayBuffer = (v) => (celestra.__objType__(v) === "arraybuffer");
+const isArrayBuffer = (v) => celestra.getType(v, "arraybuffer");
 
-function isTypedArray (v) {
-  return ["int8array", "uint8array", "uint8clampedarray", "int16array",
-    "uint16array", "int32array", "uint32array", "float32array",
-    "float64array", "bigint64array", "biguint64array"
-  ].includes(celestra.__objType__(v));
-}
+const isTypedArray = (v) =>
+  ["int8array", "uint8array", "uint8clampedarray", "int16array", "uint16array",
+   "int32array", "uint32array", "float32array", "float64array",
+   "bigint64array", "biguint64array"].includes(celestra.getType(v));
 
 const isGenerator = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(function*(){}).constructor);
 
 /* cookie */
 
-function setCookie (name, value, hours, path, domain, secure, HttpOnly) {
-  if (!hours) { var hours = 8760; } // 1 year
+function setCookie (name, value, hours = 8760, path = "/", domain, secure, HttpOnly) {
   var expire = new Date();
   expire.setTime(expire.getTime()+(Math.round(hours*60*60*1000)));
   document.cookie = encodeURIComponent(name)
-    + "="
-    + encodeURIComponent(value)
-    + "; expires="+expire.toUTCString()
-    + "; path=" + (path ? path : "/")
+    + "=" + encodeURIComponent(value)
+    + "; expires=" + expire.toUTCString()
+    + "; path=" + path
     + (domain ? "; domain=" + domain : "")
     + (secure ? "; secure" : "")
     + (HttpOnly ? "; HttpOnly" : "")
@@ -1006,18 +989,13 @@ function getCookie (name) {
       var e = a[i].trim().split("=");
       r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
     }
-    if (name) {
-      return r[name] ? r[name] : null;
-    } else {
-      return r;
-    }
+    return (name ? (r[name] ? r[name] : null) : r);
   }
-  return name ? null : {};
+  return (name ? null : {});
 }
 
-function hasCookie (name) {
-  return (document.cookie.includes(encodeURIComponent(name)+"="));
-}
+const hasCookie = (name) =>
+  (document.cookie.includes(encodeURIComponent(name)+"="));
 
 function removeCookie (name, path, domain, secure, HttpOnly) {
   var r = (document.cookie.indexOf(encodeURIComponent(name)+"=") !== -1);
@@ -1065,21 +1043,16 @@ function map (a, fn) {
 
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
 
-function arrayIntersection ([...a], [...b]) {
-  return a.filter((v) => b.includes(v))
-    .filter((e, i, arr) => arr.indexOf(e) === i);
-}
+const arrayIntersection = ([...a], [...b]) =>
+  a.filter((v) => b.includes(v)).filter((e, i, arr) => arr.indexOf(e) === i);
 
-function arrayDifference ([...a], [...b]) {
-  return a.filter((v) => !(b.includes(v)))
-    .filter((e, i, arr) => arr.indexOf(e) === i);
-}
+const arrayDifference = ([...a], [...b]) =>
+  a.filter((v) => !(b.includes(v))).filter((e, i, arr) => arr.indexOf(e) === i);
 
-function arraySymmetricDifference ([...a], [...b]) {
-  return a.filter((v) => !(b.includes(v)))
+const arraySymmetricDifference = ([...a], [...b]) =>
+  a.filter((v) => !(b.includes(v)))
     .concat(b.filter((v) => !(a.includes(v))))
     .filter((e, i, arr) => arr.indexOf(e) === i);
-}
 
 const setUnion = (...a) => new Set(a.map(([...e]) => e).flat());
 
@@ -1087,11 +1060,9 @@ const setIntersection = ([...a], b) => new Set(a.filter((v) => b.has(v)));
 
 const setDifference = ([...a], b) => new Set(a.filter((v) => !(b.has(v))));
 
-function setSymmetricDifference (a, b) {
-  return new Set(
-    [...a].filter((v) => !(b.has(v))).concat([...b].filter((v) => !(a.has(v))))
-  );
-}
+const setSymmetricDifference = (a, b) => new Set(
+  [...a].filter((v) => !(b.has(v))).concat([...b].filter((v) => !(a.has(v))))
+);
 
 const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
 
@@ -1136,9 +1107,7 @@ const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
 function arrayRange (start, end, step = 1) {
-  var i = Number(start),
-    end2 = Number(end),
-    res = [];
+  var i = Number(start), end2 = Number(end), res = [];
   while (i <= end2) { res.push(i); i += step; }
   return res;
 }
@@ -1173,10 +1142,7 @@ function unzip ([...a]) {
 const uniqueArray = ([...a]) => [...new Set(a)];
 
 function uniquePush (a, v) {
-  if (a.indexOf(v) === -1) {
-    a.push(v);
-    return true;
-  }
+  if (!a.includes(v)) { a.push(v); return true; }
   return false;
 }
 
@@ -1220,27 +1186,17 @@ function arrayMerge () {
 
 function* iterRange (start = 0, step = 1, end = Infinity) {
   let i = start;
-  while (i <= end) {
-    yield i;
-    i += step;
-  }
+  while (i <= end) { yield i; i += step; }
 }
 
-function* iterCycle (it, n = Infinity) {
+function* iterCycle ([...a], n = Infinity) {
   let i = 0;
-  let iter2 = Array.from(it);
-  while (i < n) {
-    yield* iter2.values();
-    i++;
-  }
+  while (i < n) { yield* a; i++; }
 }
 
-function* iterRepeat (value, n = Infinity) {
+function* iterRepeat (v, n = Infinity) {
   let i = 0;
-  while (i < n) {
-    yield value;
-    i++;
-  }
+  while (i < n) { yield v; i++; }
 }
 
 function* takeWhile (it, fn) {
@@ -1274,10 +1230,7 @@ function* dropOf (it, n = 1) {
   }
 }
 
-function forOf (it, fn) {
-  let i = 0;
-  for (let item of it) { fn(item, i++); }
-}
+function forOf (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
 
 function* mapOf (it, fn) {
   let i = 0;
@@ -1310,21 +1263,11 @@ function itemOf (it, p) {
   }
 }
 
-function sizeOf (it) {
-  let i = 0;
-  for (let item of it) { i++; }
-  return i;
-}
+function sizeOf (it) { let i = 0; for (let item of it) { i++; } return i; }
 
-function firstOf (it) {
-  for (let item of it) { return item; }
-}
+function firstOf (it) { for (let item of it) { return item; } }
 
-function lastOf (it) {
-  let item;
-  for (item of it) { }
-  return item;
-}
+function lastOf (it) { let item; for (item of it) { } return item; }
 
 const reverseOf = ([...a]) => a.reverse().values();
 
@@ -1401,9 +1344,7 @@ function* dropRightWhile ([...a], fn) {
   }
 }
 
-function* concatOf () {
-  for (let item of arguments) { yield* item; }
-}
+function* concatOf () { for (let item of arguments) { yield* item; } }
 
 function reduceOf (it, fn, iv) {
   let acc = iv;
@@ -1423,26 +1364,27 @@ function* enumerateOf (it) {
   for (let item of it) { yield [item, i++]; }
 }
 
+function* flatOf (it) { for (let item of it) { yield* item; } }
+
+function joinOf (it, s = ",") {
+  let r = "", s2 = String(s);
+  for (let item of it) { r += s2 + item; }
+  return r.slice(s2.length);
+}
+
 /* object */
 
-const VERSION = "Celestra v3.1.1";
+const VERSION = "Celestra v3.1.2";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
   return celestra;
 }
 
-/* For internal use only. */
-function __objType__ (v) {
-  return Object.prototype.toString.call(v)
-    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
-}
-
 var celestra = {
   /* header */
   VERSION: VERSION,
   noConflict: noConflict,
-  __objType__: __objType__,
   /* core api */
   random: random,
   randomString: randomString,
@@ -1597,7 +1539,9 @@ var celestra = {
   dropRightWhile: dropRightWhile,
   concatOf: concatOf,
   reduceOf: reduceOf,
-  enumerateOf: enumerateOf
+  enumerateOf: enumerateOf,
+  flatOf: flatOf,
+  joinOf: joinOf
 };
 
 /* AMD loader */

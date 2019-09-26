@@ -10,10 +10,7 @@
 <link rel="stylesheet" href="u87.css" type="text/css" />
 <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-<script>
-  var _ = {};
-  _.VERSION = "This is another sample library.";
-</script>
+<script> var _ = { VERSION: "This is another sample library." }; </script>
 <script src="celestra.min.js"></script>
 <style>
 
@@ -26,20 +23,37 @@
   font-size: 1.5rem;
 }
 
+header {
+  padding: 1rem;
+  /*background-color: #222;*/
+  color: white;
+  /*background-image: url("erik-ringsmuth-2000.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*background-attachment: fixed;*/
+  /*background-size: contain;*/
+  background: linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px, linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px, linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px, linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px, linear-gradient(90deg, #1b1b1b 10px, transparent 10px), linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+  background-size: 20px 20px;
+  background-color: #131313;
+}
+
+footer a, footer a:visited, footer a:active, footer a:hover,
+nav a, nav a:visited, nav a:active, nav a:hover {
+  color: cyan;
+}
+
 </style>
 </head>
 <body>
 
 <header>
-  <pre style="background-color: black; color: white; text-align: center;">
-  
-  ___  ____  __    ____  ___  ____  ____    __     
- / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\    
-( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\   
- \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)  
-                                                     
-                                                     </pre>
-  <h1>Celestra</h1>
+  <pre class="center" style="background-color: transparent;/*black*/ color: white; font-weight: bold">
+  ___  ____  __    ____  ___  ____  ____    __   
+ / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
+( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
+ \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
+                                                 </pre>
+  <!--<h1 class="heading-d">Celestra</h1>-->
   <nav><b>
     <a href="#download">Download</a>
     &nbsp;//&nbsp;
@@ -54,20 +68,21 @@
     <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark mode</i></a>
   </b></nav>
 </header>
+<main class="container">
 
 
 <h2 id="download">Download</h2>
 
-<p><strong>A helper JavaScript library with useful functions and ES6 polyfills.</strong></p>
+<p><strong>A helper JavaScript library with useful functions and polyfills.</strong></p>
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.1.1</p>
-<p>Date: 2019-09-10T20:03:29.137Z</p>
+<p>Latest version: 3.1.2</p>
+<p>Date: 2019-09-25T19:56:41.329Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (44083 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32952 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34282 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43577 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32767 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34100 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
 
@@ -100,7 +115,7 @@
 &#60;script type="module"&#62;
 
 // import the celestra object
-import { celestra } from "./celestra.esm.js"; 
+import { celestra } from "./celestra.esm.js";
 window.celestra = celestra;
 window._ = celestra;
 
@@ -114,7 +129,7 @@ import defaultExport from "./celestra.esm.js";
 window.celestra = defaultExport;
 window._ = defaultExport;
 
-// import all functions in a object
+// import all functions in an object
 import * as celestra from "./celestra.esm.js";
 window.celestra = celestra;
 window._ = celestra;
@@ -272,7 +287,7 @@ window.getType = getType;
     <tr>
       <td><code>F();</code></td>
       <td>This function returns false.</td>
-    </tr>    
+    </tr>
   </table>
 </div>
 
@@ -451,7 +466,7 @@ window.getType = getType;
         <p>Create and save file without a server. The filename and content parameters are mandatory and have to be a string. The dataType parameter is optional and can be a string.  The default value of the dataType parameter is <code>text/plain</code>.</p>
         <p><span class="info">Doesn't work in iOS browsers (Safari, Firefox and Chrome) and W10M Edge 14.</span></p>
       </td>
-    </tr>  
+    </tr>
     <tr>
       <td><code>getFullscreen();</code></td>
       <td>
@@ -591,7 +606,7 @@ window.getType = getType;
     <tr>
       <td><code>isNil(&#60;value&#62;);</code></td>
       <td>Alias of the <code>isNullOrUndefined(&#60;value&#62;);</code>.</td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>isPrimitive(&#60;value&#62;);</code></td>
       <td>This function determines whether the provided value is not null, not object and not function. The return value is boolean.</td>
@@ -960,6 +975,14 @@ window.getType = getType;
       </td>
     </tr>
     <tr>
+      <td><code>flatOf(&#60;collection&#62;);</code></td>
+      <td>Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.</td>
+    </tr>
+    <tr>
+      <td><code>joinOf(&#60;collection&#62;[,separator]);</code></td>
+      <td>This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.</td>
+    </tr>
+    <tr>
       <td><code>takeOf(&#60;collection&#62;[,n]);</code></td>
       <td>Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
     </tr>
@@ -1167,6 +1190,10 @@ window.getType = getType;
     <tr>
       <td><code>String.prototype[Symbol.iterator]();</code></td>
       <td>The [Symbol.iterator]() method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/@@iterator" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>BigInt.prototype.toJSON();</code></td>
+      <td>Using <code>JSON.stringify();</code> with any BigInt value will raise a TypeError as BigInt values aren't serialized in JSON by default. This added method can fix this. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt" target="_blank">MDN Article</a>!</td>
     </tr>
   </table>
 </div>
@@ -2999,18 +3026,18 @@ alert(fromEntriesStr);</pre>
   SOFTWARE.</p>
 </div>
 
-<hr/>
-
-<div class="center">
+<div class="p center">
   <a title="Fast For Good" rel="nofollow" target="_blank" href="https://www.mozilla.org/firefox/this-browser-comes-highly-recommended/?utm_source=devs-for.firefox.com&utm_medium=referral&utm_campaign=devs-for-firefox&utm_content=Fast-For-Good">
     <img style="border:0 none;" alt="Fast For Good" srcset="https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good.png, https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good-2x.png 2x" src="https://code.cdn.mozilla.net/for-firefox/badges/assets/Fast-For-Good.png"/>
   </a>
 </div>
 
-<hr/>
+<!--<hr/>-->
 
-<footer id="footer"><small>
-  <p>
+</main>
+<footer id="footer" style="background-color: #222; color: white; margin: 0; padding: 1rem;"><small>
+  <!--<p>Background image: <a href="https://unsplash.com/photos/3cByQIPJBaE" target="_blank">Photo</a> by <a href="https://unsplash.com/@erikringsmuth?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Erik Ringsmuth</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Unsplash</a></p>-->
+  <p><b>
     <a href="#download">Download</a>
     &nbsp;//&nbsp;
     <a href="#functions">Functions</a>
@@ -3022,7 +3049,7 @@ alert(fromEntriesStr);</pre>
     <a href="http://github.com/Serrin" target="_blank">Github</a>
     &nbsp;//&nbsp;
     <a href="#footer" onclick=" _.importStyle('u87-dark.css'); "><i>Dark mode</i></a>
-  </p>
+  </b></p>
   <p>&copy; Copyright 2017 Ferenc Czigler</p>
 </small></footer>
 

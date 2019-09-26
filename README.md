@@ -10,21 +10,21 @@
 
 ## Download
 
-__A helper JavaScript library with useful functions and ES6 polyfills.__
+__A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.1.1
+Latest version: 3.1.2
 
-Date: 2019-09-10T20:03:29.137Z
+Date: 2019-09-25T19:56:41.329Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (44083 bytes)
+Development version: celestra.js (43577 bytes)
 
-Minimal version: celestra.min.js (32952 bytes)
+Minimal version: celestra.min.js (32767 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (34282 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (34100 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
 
@@ -76,7 +76,7 @@ Celestra test results for development version: unittest.dev.html
     window.celestra = defaultExport;
     window._ = defaultExport;
     
-    // import all functions in a object
+    // import all functions in an object
     import * as celestra from "./celestra.esm.js";
     window.celestra = celestra;
     window._ = celestra;
@@ -331,6 +331,8 @@ Name | Description
 `concatOf(<collection1>[,collectionN]);` | This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.
 `reduceOf(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optinal and can be any variable type of the Javascript.
 `enumerateOf(<collection>);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. Example: `enumerateOf(["Picard", "Riker", "Data"]);` -> `["Picard", 0]`, `["Riker", 1]`, `["Data", 2]`
+`flatOf(<collection>);` | Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.
+`joinOf(<collection>[,separator]);` | This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.
 `takeWhile(<collection>,<callback>);` | Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `takeRight(<collection>[,n]);` | Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `takeRightWhile(<collection>,<callback>);` | Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
@@ -379,9 +381,9 @@ Name | Description
 `GeneratorFunction();` | The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the `window` object.
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 `String.prototype[Symbol.iterator]();` | The [Symbol.iterator] method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value.
+`BigInt.prototype.toJSON();` | sing `JSON.stringify();` with any BigInt value will raise a TypeError as BigInt values aren't serialized in JSON by default. This added method can fix this. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
 
 __DEPRECATED in v3.0.2__ and __REMOVED in v3.1.0__: `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
-
 
 
 ## Samples
