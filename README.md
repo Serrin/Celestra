@@ -1,10 +1,10 @@
-
-        ___  ____  __    ____  ___  ____  ____    __
-       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
-      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
+    
+        ___  ____  __    ____  ___  ____  ____    __   
+       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
+      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
        \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
-
-
+    
+    
 # Celestra
 
 
@@ -14,17 +14,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.1.2
+Latest version: 3.2.0
 
-Date: 2019-09-25T19:56:41.329Z
+Date: 2019-10-05T19:05:11.487Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (43577 bytes)
+Development version: celestra.js (42807 bytes)
 
-Minimal version: celestra.min.js (32767 bytes)
+Minimal version: celestra.min.js (32150 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (34100 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (33485 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
 
@@ -139,7 +139,7 @@ Name | Description
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `strReplaceAll(<string>,<search>,<replace>);` | This functions replaces all instances of a substring in a string without use of a global regexp. All of the parameters are mandatory and will be converted to string. The return value is the modified string.
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
-`mapIn(<object>,<callback>);` | The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
+`mapIn(<object>,<callback>);` | __DEPRECATED in v3.2.0__ The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
@@ -283,8 +283,8 @@ Example: `_.arrayUnion()`
 
 Name | Description
 ---- | -----------
-`forEach(<collection>,<callback>);` | The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __These collection types are supported: Array (ES5, own forEach(), return as Array), Nodelist (ES5, as Array, return as Array), custom array-like objects (ES5, as Array, return as Array), String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters), Map (ES6, own forEach(), return as Map), Set (ES6, own forEach(), return as Set), ES6 iterators (as Array, return as Array)__
-`map(<collection>,<callback>);` | The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. __These collection types are supported: Array (ES5, return as Array), Nodelist (ES5, return as Array), custom array-like objects (ES5, return as Array), String (ES5, return as String, in ES6 browsers works with Unicode characters), Map (ES6, return as Map), Set (ES6, return as Set) and ES6 iterators (return as Array)__
+`forEach(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `forOf(<collection>,<callback>);` __If need, then can be replaced with these:__ `[...collection].forEach(<callback>);`, `Array.from(<collection>).forEach(<callback>);` and the Array, NodeList, Map and Set types have the own `.forEach(<callback>);`
+`map(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `mapOf(<collection>,<callback>);` __If need, then can be replaced with these:__ `[...collection].map(<callback>);`, `Array.from(<collection>[,callback]);` and the Array type has the own `.map(<callback>);`
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
 `arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
 `arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
@@ -320,8 +320,8 @@ Name | Description
 `sortOf(<collection>);` | This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.
 `hasOf(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
 `findOf(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
-`forOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `forEach(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`mapOf(<collection>,<callback>);` | This function is the faster, __ES6__ variant of the function `map(<collection>,<callback>);`. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
+`forOf(<collection>,<callback>);` | This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
+`mapOf(<collection>,<callback>);` | This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). 
 `sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity. 
 `everyOf(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.

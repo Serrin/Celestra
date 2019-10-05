@@ -148,7 +148,7 @@ _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.1.2 testcases */
+/* Celestra v3.2.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -676,6 +676,36 @@ forOfCount = 0;
 _.forOf((new Set([4,5,6])).values(), function (e) { forOfCount += (e*3); });
 _cut.isEqual("forOf() 7 ES6 Set values() iterator", 45, forOfCount);
 
+var forEachStr = "";
+_.forEach(FPArray, function (e) { forEachStr += (e*2); });
+_cut.isEqual("forEach() 1 ES5 Array", "246", forEachStr);
+forEachStr = "";
+_.forEach("cat, dog, pig", function (e) { forEachStr += e.toUpperCase(); });
+_cut.isEqual("forEach() 2 ES5 String", "CAT, DOG, PIG", forEachStr);
+var forEachCount = 0;
+_.forEach(document.querySelectorAll("h3"), function (e) { forEachCount++; });
+_cut.isEqual("forEach() 3 ES5 Nodelist",
+  document.querySelectorAll("h3").length, forEachCount
+);
+/*
+// forEach - custom array-like object
+var forEachCount = 0;
+_.forEach({0:4,1:5,2:6,length:3}, function (e) { forEachCount += (e*3); });
+_cut.isEqual("forEach() 4 ES5 custom array-like object", 45, forEachCount);
+*/
+forEachStr = "";
+_.forEach(
+  new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
+  function (e,i) { forEachStr += i + "-" + e + "-"; }
+);
+_cut.isEqual("forEach() 5 ES6 Map", "0-foo,3.14-1-bar,42-2-baz,Wilson-", forEachStr);
+forEachCount = 0;
+_.forEach(new Set([4,5,6]), function (e) { forEachCount += (e*3); });
+_cut.isEqual("forEach() 6 ES6 Set", 45, forEachCount);
+forEachCount = 0;
+_.forEach((new Set([4,5,6])).values(), function (e) { forEachCount += (e*3); });
+_cut.isEqual("forEach() 7 ES6 Set values() iterator", 45, forEachCount);
+
 
 var mapOfStr = "";
 for (let item of _.mapOf([1,2,3], function(e) { return e*2; })) {
@@ -718,6 +748,49 @@ for (let item of _.mapOf((new Set([1,2,3])).values(), function(e) { return e*3; 
   mapOfStr += item;
 }
 _cut.isEqual("mapOf() 7 ES6 Set values() iterator", "369", mapOfStr);
+
+
+var mapStr = "";
+for (let item of _.map([1,2,3], function(e) { return e*2; })) {
+  mapStr += item;
+}
+_cut.isEqual("map() 1 ES5 Array", "246", mapStr);
+var mapStr = "";
+for (let item of _.map("cat, dog, pig", function (e) { return e.toUpperCase(); })) {
+  mapStr += item;
+}
+_cut.isEqual("map() 2 ES5 String", "CAT, DOG, PIG", mapStr);
+
+var mapNL = [];
+for (let item of _.map(document.querySelectorAll("h3"), function (e) { return e; })) {
+  mapNL.push(item);
+}
+_cut.isTrue("map() 3 ES5 Nodelist",
+  Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
+);
+/*
+_cut.isEqual(
+  "map() 4 ES5 custom array-like object",
+  "[2,4,6]",
+  JSON.stringify(_.map({0:1,1:2,2:3,length:3}, function(e) { return e*2; }))
+);
+*/
+var mapStr = "";
+for (let item of _.map(
+  new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
+  function(e) { return [ e[0], e[1]*2 ]; }
+)) { mapStr += item[0] + item[1]; }
+_cut.isEqual("map() 5 ES6 Map", "foo2bar4baz6", mapStr);
+var mapStr = "";
+for (let item of _.map(new Set([1,2,3]), function(e) { return e*2; })) {
+  mapStr += item;
+}
+_cut.isEqual("map() 6 ES6 Set", "246", mapStr);
+var mapStr = "";
+for (let item of _.map((new Set([1,2,3])).values(), function(e) { return e*3; })) {
+  mapStr += item;
+}
+_cut.isEqual("map() 7 ES6 Set values() iterator", "369", mapStr);
 
 
 var FParray2 = ["A","B","C","D","E","F","G","H","I","J"];
@@ -954,86 +1027,6 @@ _cut.isEqual("joinOf()",
 );
 
 var FPArray = [1,2,3];
-
-var forEachStr = "";
-_.forEach(FPArray, function (e) { forEachStr += (e*2); });
-_cut.isEqual("forEach() 1 ES5 Array", "246", forEachStr);
-_cut.isTrue("forEach() 1 ES5 Array return value",
-  Array.isArray(_.forEach([],function (){}))
-);
-forEachStr = "";
-_.forEach("cat, dog, pig", function (e) { forEachStr += e.toUpperCase(); });
-_cut.isEqual("forEach() 2 ES5 String", "CAT, DOG, PIG", forEachStr);
-_cut.isEqual("forEach() 2 ES5 String return value",
-  "aaBBcc", _.forEach("aBc", function (v, i, a) {a[i] = v+v; })
-);
-var forEachCount = 0;
-_.forEach(document.querySelectorAll("h3"), function (e) { forEachCount++; });
-_cut.isEqual("forEach() 3 ES5 Nodelist",
-  document.querySelectorAll("h3").length, forEachCount
-);
-_cut.isTrue("forEach() 3 ES5 Nodelist return value",
-  Array.isArray(_.forEach(document.querySelectorAll("h3"),function (){}))
-);
-var forEachCount = 0;
-_.forEach({0:4,1:5,2:6,length:3}, function (e) { forEachCount += (e*3); });
-_cut.isEqual("forEach() 4 ES5 custom array-like object", 45, forEachCount);
-_cut.isTrue("forEach() 4 ES5 custom array-like object return value",
-  Array.isArray(_.forEach({0:4,1:5,2:6,length:3},function (){}))
-);
-
-forEachStr = "";
-_.forEach(new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
-  function (e,p) { forEachStr += p + e + "-"; }
-);
-_cut.isEqual("forEach() 5 ES6 Map", "foo3.14-bar42-bazWilson-", forEachStr);
-_cut.isTrue("forEach() 5 ES6 Map return value",
-  _.isMap(_.forEach(new Map([ ["foo", 3.14], ["bar", 42] ]),function (){}))
-);
-forEachCount = 0;
-_.forEach(new Set([4,5,6]), function (e) { forEachCount += (e*3); });
-_cut.isEqual("forEach() 6 ES6 Set", 45, forEachCount);
-_cut.isTrue("forEach() 6 ES6 Set return value",
-  _.isSet(_.forEach(new Set([4,5,6]),function (){}))
-);
-forEachCount = 0;
-_.forEach((new Set([4,5,6])).values(), function (e) { forEachCount += (e*3); });
-_cut.isEqual("forEach() 7 ES6 Set values() iterator", 45, forEachCount);
-_cut.isTrue("forEach() 7 ES6 Set values() iterator return value",
-  Array.isArray(_.forEach(new Set([4,5,6]).values(),function (){}))
-);
-
-
-_cut.isEqual("map() 1 ES5 Array and return value", "[2,4,6]",
-  JSON.stringify(_.map([1,2,3], function(e) { return e*2; }))
-);
-_cut.isEqual("map() 2 ES5 String and return value", "CAT, DOG, PIG",
-  _.map("cat, dog, pig", function (e) { return e.toUpperCase(); })
-);
-var mapNL = _.map(document.querySelectorAll("h3"), function (e) { return e; });
-_cut.isTrue("map() 3 ES5 Nodelist and return value",
-  Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
-);
-_cut.isEqual("map() 4 ES5 custom array-like object and return value",
-  "[2,4,6]",
-  JSON.stringify(_.map({0:1,1:2,2:3,length:3}, function(e) { return e*2; }))
-);
-
-var mapMap = _.map(new Map([ ["foo",1], ["bar",2], ["baz",3] ]),
-  function(e) { return [ e[0], e[1]*2 ]; }
-);
-_cut.isEqual("map() 5 ES6 Map and return value",
-  "246", "" + mapMap.get("foo") + mapMap.get("bar") + mapMap.get("baz")
-);
-var mapSet = _.map(new Set([1,2,3]), function(e) { return e*2; });
-_cut.isTrue("map() 6 ES6 Set and return value",
-  mapSet.has(2) && mapSet.has(4) && mapSet.has(6)
-);
-_cut.isEqual("map() 7 ES6 Set values() iterator and return value",
-  "[3,6,9]",
-  JSON.stringify(_.map((new Set([1,2,3])).values(), function (e) { return (e*3); }))
-);
-
 
 _cut.isEqual(
   "arrayCycle() - ES5 1 - with 2 parameters",

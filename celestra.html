@@ -77,12 +77,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.1.2</p>
-<p>Date: 2019-09-25T19:56:41.329Z</p>
+<p>Latest version: 3.2.0</p>
+<p>Date: 2019-10-05T19:05:11.487Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43577 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32767 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34100 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42807 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32150 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33485 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
 
@@ -252,6 +252,7 @@ window.getType = getType;
     <tr>
       <td><code>mapIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
       <td>
+        <p><span class="deprecated">DEPRECATED in v3.2.0</span></p>
         <p>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
         <p>The parameter function will be called with these arguments: key value, key, object.</p>
       </td>
@@ -752,32 +753,24 @@ window.getType = getType;
     <tr>
       <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
-        <p>The forEach() method executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
-        <p><b>These collection types are supported:</b></p>
+        <p><span class="info">From the v3.2.0 this is an alias of the <code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></span></p>
+        <p><b>If need, then can be replaced with these:</b></p>
         <ul>
-          <li>Array (ES5, own forEach(), return as Array)</li>
-          <li>Nodelist (ES5, as Array, return as Array)</li>
-          <li>custom array-like objects (ES5, as Array, return as Array)</li>
-          <li>String (ES5, as Array, return as String, in ES6 browsers works with Unicode characters)</li>
-          <li>Map (ES6, own forEach(), return as Map)</li>
-          <li>Set (ES6, own forEach(), return as Set)</li>
-          <li>ES6 iterators (as Array, return as Array)</li>
+          <li><code>[...collection].forEach(&#60;callback&#62;);</code></li>
+          <li><code>Array.from(&#60;collection&#62;).forEach(&#60;callback&#62;);</code></li>
+          <li>The Array, NodeList, Map and Set types have the own <code>.forEach(&#60;callback&#62;);</code></li>foreach
         </ul>
       </td>
     </tr>
     <tr>
       <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
-       <p>The map() method creates a new collection with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
-       <p><b>These collection types are supported:</b></p>
+        <p><span class="info">From the v3.2.0 this is an alias of the <code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></span></p>
+        <p><b>If need, then can be replaced with these:</b></p>
         <ul>
-          <li>Array (ES5, return as Array)</li>
-          <li>Nodelist (ES5, return as Array)</li>
-          <li>custom arraylike objects (ES5, return as Array)</li>
-          <li>String (ES5, return as String, in ES6 browsers works with Unicode characters)</li>
-          <li>Map (ES6, return as Map)</li>
-          <li>Set (ES6, return as Set)</li>
-          <li>ES6 iterators (return as Array)</li>
+          <li><code>[...collection].map(&#60;callback&#62;);</code></li>
+          <li><code>Array.from(&#60;collection&#62;[,callback]);</code></li>
+          <li>The Array type has the own <code>.map(&#60;callback&#62;);</code></li>
         </ul>
       </td>
     </tr>
@@ -932,11 +925,11 @@ window.getType = getType;
     </tr>
     <tr>
       <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>This function is the faster, ES6 variant of the function <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
+      <td>This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
       <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>This function is the faster, ES6 variant of the function <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
+      <td>This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
       <td><code>filterOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>

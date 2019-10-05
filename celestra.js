@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.1.2
+ * @version 3.2.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -997,11 +997,11 @@ function getCookie (name) {
 const hasCookie = (name) =>
   (document.cookie.includes(encodeURIComponent(name)+"="));
 
-function removeCookie (name, path, domain, secure, HttpOnly) {
-  var r = (document.cookie.indexOf(encodeURIComponent(name)+"=") !== -1);
+function removeCookie (name, path = "/", domain, secure, HttpOnly) {
+  var r = (document.cookie.includes(encodeURIComponent(name)+"="));
   document.cookie = encodeURIComponent(name)
     + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
-    + "; path=" + (path ? path : "/")
+    + "; path=" + path
     + (domain ? "; domain=" + domain : "")
     + (secure ? "; secure" : "")
     + (HttpOnly ? "; HttpOnly" : "")
@@ -1016,30 +1016,6 @@ function clearCookies (path, domain, secure, HttpOnly) {
 }
 
 /* collections */
-
-function forEach (a, fn) {
-  var t = Object.prototype.toString.call(a)
-    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
-  if (Array.isArray(a) || t === "map" || t === "set") {
-    a.forEach(fn);
-    return a;
-  } else {
-    var a2 = Array.from(a);
-    a2.forEach(fn);
-    if (typeof a !== "string") { return a2; }
-    return a2.join("");
-  }
-}
-
-function map (a, fn) {
-  var t = Object.prototype.toString.call(a)
-    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
-  if (Array.isArray(a)) { return a.map(fn); }
-  else if (t === "string") { return Array.from(a).map(fn).join(""); }
-  else if (t === "map") { return new Map(Array.from(a).map(fn)); }
-  else if (t === "set") { return new Set(Array.from(a).map(fn)); }
-  else { return Array.from(a).map(fn); }
-}
 
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
 
@@ -1149,7 +1125,7 @@ function uniquePush (a, v) {
 function arrayClear (a) { a.length = 0; return a; }
 
 function arrayRemove (a, v, all) {
-  var found = (a.indexOf(v) !== -1);
+  var found = a.includes(v);
   if (!all) {
     var pos = a.indexOf(v);
     if (pos !== -1) { a.splice(pos, 1); }
@@ -1231,11 +1207,13 @@ function* dropOf (it, n = 1) {
 }
 
 function forOf (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
+const forEach = forOf;
 
 function* mapOf (it, fn) {
   let i = 0;
   for (let item of it) { yield fn(item, i++); }
 }
+const map = mapOf;
 
 function* filterOf (it, fn) {
   let i = 0;
@@ -1374,7 +1352,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.1.2";
+const VERSION = "Celestra v3.2.0";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1485,8 +1463,6 @@ var celestra = {
   removeCookie: removeCookie,
   clearCookies: clearCookies,
   /* collections */
-  forEach: forEach,
-  map: map,
   arrayUnion: arrayUnion,
   arrayIntersection: arrayIntersection,
   arrayDifference: arrayDifference,
@@ -1519,7 +1495,9 @@ var celestra = {
   takeOf: takeOf,
   dropOf: dropOf,
   forOf: forOf,
+  forEach: forEach,
   mapOf: mapOf,
+  map: map,
   filterOf: filterOf,
   sliceOf: sliceOf,
   itemOf: itemOf,
