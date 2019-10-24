@@ -148,7 +148,7 @@ _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.2.0 testcases */
+/* Celestra v3.3.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -463,8 +463,6 @@ var forInStr = "";
 _.forIn(FPObject, function (e) { forInStr += (e*2); });
 _cut.isEqual("forIn()", "468", forInStr);
 _cut.isEqual("forIn() return value", FPObject, _.forIn(FPObject, function(){}));
-
-_cut.isEqual("mapIn()", 9, _.mapIn(FPObject, function (e) { return (e*3); })["b"]);
 
 _cut.isEqual("getDoNotTrack()", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false);
 

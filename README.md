@@ -14,17 +14,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.2.0
+Latest version: 3.3.0
 
-Date: 2019-10-05T19:05:11.487Z
+Date: 2019-10-21T19:13:24.596Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (42807 bytes)
+Development version: celestra.js (42664 bytes)
 
-Minimal version: celestra.min.js (32150 bytes)
+Minimal version: celestra.min.js (32063 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (33485 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (33391 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
 
@@ -96,11 +96,9 @@ Celestra test results for development version: unittest.dev.html
 
 - If you would like to use Celestra with older browsers, then you can download the latest v2.x version here: https://github.com/Serrin/Celestra/releases
 
-- The library sources have been merged and all of the ES6E function are available in the __celestra.js__ and __celestra.min.js__.
+- The library sources have been merged and all of the ES6E functions are available in the __celestra.js__ and __celestra.min.js__.
 
-- The `celestra.version;` has been removed.
-
-- More functions are deprecated.    
+- More functions have been deprecated or removed.    
 
 
 ## How to clone
@@ -139,7 +137,6 @@ Name | Description
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `strReplaceAll(<string>,<search>,<replace>);` | This functions replaces all instances of a substring in a string without use of a global regexp. All of the parameters are mandatory and will be converted to string. The return value is the modified string.
 `forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
-`mapIn(<object>,<callback>);` | __DEPRECATED in v3.2.0__ The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. _The parameter function will be called with these arguments: key value, key, object._
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
@@ -174,9 +171,9 @@ Name | Description
 `domHide(<element>);` | Hide an element. The element is mandatory and has to be a HTML element.
 `domToggle(<element>[,display]);` | Show or hide an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).
 `domIsHidden(<element>);` | This function determines whether the element is hidden. The element is mandatory and has to be a HTML element. The return value is boolean.
-`domOn(<eventTarget>,<eventType>,<callback>);` | Add a callback to the eventType of the eventTarget.
-`domOff(<eventTarget>,<eventType>,<callback>);` | Remove a callback to the eventType of the eventTarget.
-`domTrigger(<eventTarget>,<eventType>);` | Trigger an eventType of the eventTarget.
+`domOn(<eventTarget>,<eventType>,<callback>);` | __DEPRECATED in v3.3.0__ __Can be replaced with the__ `eventTarget.addEventListener(eventType, callback);`__.__ Add a callback to the eventType of the eventTarget.
+`domOff(<eventTarget>,<eventType>,<callback>);` | __DEPRECATED in v3.3.0__ __Can be replaced with the__ `eventTarget.removeEventListener(eventType, callback);`__.__ Remove a callback to the eventType of the eventTarget.
+`domTrigger(<eventTarget>,<eventType>);` | __DEPRECATED in v3.3.0__ __Can be replaced with the__ `eventTarget.eventType();` __or__ `eventTarget["eventType"]();`__.__ Trigger an eventType of the eventTarget.
 `domSiblings(<element>);` | Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.
 `importScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
 `importScripts(<scripts>);` | Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
@@ -266,13 +263,15 @@ These functions are available in the `celestra` and/or `_` objects.
 
 Example: `_.setCookie()`
 
+Cookie values help: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie, https://web.dev/samesite-cookies-explained
+
 Name | Description
 ---- | -----------
-`setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` | Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean.
+`setCookie(<name>,<value>[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` __to__ `setCookie(<name>,<value>[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);`. Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean.
 `getCookie([name]);` | Get a cookie value or all cookies in an object. With the name parameter (string) the return value is the current cookie value or null. Without the parameter the return value is an object with the values or an empty object.
 `hasCookie(<name>);` | This function determines whether the cookie is set with the name. The return value is boolean.
-`removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` | Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
-`clearCookies([path[,domain[,secure[,HttpOnly]]]]);` | Clear all of the cookies. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The HttpOnly is optional and can be a boolean. 
+`removeCookie(<name>[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` __to__ `removeCookie(<name>[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
+`clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `clearCookies([path[,domain[,secure[,HttpOnly]]]]);` __to__ `clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Clear all of the cookies. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean. 
 
 
 ### Collections
@@ -283,8 +282,8 @@ Example: `_.arrayUnion()`
 
 Name | Description
 ---- | -----------
-`forEach(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `forOf(<collection>,<callback>);` __If need, then can be replaced with these:__ `[...collection].forEach(<callback>);`, `Array.from(<collection>).forEach(<callback>);` and the Array, NodeList, Map and Set types have the own `.forEach(<callback>);`
-`map(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `mapOf(<collection>,<callback>);` __If need, then can be replaced with these:__ `[...collection].map(<callback>);`, `Array.from(<collection>[,callback]);` and the Array type has the own `.map(<callback>);`
+`forEach(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `forOf(<collection>,<callback>);` __Can be replaced with these:__ `[...collection].forEach(<callback>);`, `Array.from(<collection>).forEach(<callback>);` and the Array, NodeList, Map and Set types have the own `.forEach(<callback>);`
+`map(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `mapOf(<collection>,<callback>);` __Can be replaced with these:__ `[...collection].map(<callback>);`, `Array.from(<collection>[,callback]);` and the Array type has the own `.map(<callback>);`
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
 `arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
 `arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.

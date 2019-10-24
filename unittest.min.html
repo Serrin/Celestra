@@ -14,7 +14,7 @@
 .failed { background-color: #ff4136 !important; color: white !important; }
 #results { /* almost the same as the pre in u87.css v0.9.5 */
   padding: 3px 5px 3px 5px;
-  font-size: 14.5px !important;
+  font-size: 0.9rem !important;
   font-family: consolas, monospace;
   -ms-word-break: break-all;
   word-break: break-all;
@@ -23,6 +23,7 @@
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }
+@media (max-width: 575px) { td { display: block; width: 100% !important; } }
 </style>
 
 <!--script src="celestra.js"></script-->
@@ -109,7 +110,11 @@ isBoolean false - ${ _.isBoolean("ggg") }
     &nbsp;//&nbsp;
     <a href="#footer">Contact</a>
     &nbsp;//&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark mode</i></a>
+    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
   </b></nav>
 </header>
 
@@ -159,7 +164,11 @@ isBoolean false - ${ _.isBoolean("ggg") }
     &nbsp;//&nbsp;
     <a href="http://github.com/Serrin" target="_blank">Github</a>
     &nbsp;//&nbsp;
-    <a href="#footer" onclick=" _.importStyle('u87-dark.css'); "><i>Dark mode</i></a>
+    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
   </p>
   <p>&copy; Copyright 2018 Ferenc Czigler</p>
 </small></footer>

@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.2.0
+ * @version 3.3.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -497,14 +497,6 @@ function forIn (o, fn) {
   return o;
 }
 
-function mapIn (o, fn) {
-  var r = {};
-  for (var p in o) {
-    if (o.hasOwnProperty(p)) { r[p] = fn(o[p], p, o); }
-  }
-  return r;
-}
-
 const toFunction = (fn) => Function.prototype.call.bind(fn);
 
 const bind = Function.prototype.call.bind(Function.prototype.bind);
@@ -563,11 +555,7 @@ function domToElement (s) {
   return e.firstElementChild;
 }
 
-function domGetCSS (e, p) {
-  return (window.getComputedStyle
-    ? getComputedStyle(e, null)
-    : e.currentStyle)[p];
-}
+const domGetCSS = (e, p) => window.getComputedStyle(e, null)[p];
 
 function domSetCSS (e, n, v) {
   if (typeof n === "string") {
@@ -596,11 +584,9 @@ function domFadeOut (e, dur) {
   })();
 }
 
-function domFadeToggle (e, dur, d) {
-  if ((window.getComputedStyle
-    ? getComputedStyle(e, null)
-    : e.currentStyle).display === "none") {
-    celestra.domFadeIn(e, dur, (d || ""));
+function domFadeToggle (e, dur, d = "") {
+  if (window.getComputedStyle(e, null).display === "none") {
+    celestra.domFadeIn(e, dur, d);
   } else {
     celestra.domFadeOut(e, dur);
   }
@@ -610,26 +596,19 @@ const domHide = (e) => e.style.display = "none";
 
 const domShow = (e, d = "") => e.style.display = d;
 
-function domToggle (e, d) {
-  if ((window.getComputedStyle
-    ? getComputedStyle(e, null)
-    : e.currentStyle).display === "none") {
-    e.style.display = (d || "");
+function domToggle (e, d = "") {
+  if (window.getComputedStyle(e, null).display === "none") {
+    e.style.display = d;
   } else {
     e.style.display = "none";
   }
 }
 
-function domIsHidden (e) {
-  return ((window.getComputedStyle
-    ? getComputedStyle(e, null)
-    : e.currentStyle).display === "none");
-}
+const domIsHidden = (e) =>
+  (window.getComputedStyle(e, null).display === "none");
 
 const domOn = (el, et, fn) => el.addEventListener(et, fn);
-
 const domOff = (el, et, fn) => el.removeEventListener(et, fn);
-
 const domTrigger = (el, et) => el[et]();
 
 const domSiblings = (el) =>
@@ -969,7 +948,7 @@ const isGenerator = (v) => (Object.getPrototypeOf(v).constructor ===
 
 /* cookie */
 
-function setCookie (name, value, hours = 8760, path = "/", domain, secure, HttpOnly) {
+function setCookie (name, value, hours = 8760, path = "/", domain, secure, SameSite, HttpOnly) {
   var expire = new Date();
   expire.setTime(expire.getTime()+(Math.round(hours*60*60*1000)));
   document.cookie = encodeURIComponent(name)
@@ -978,6 +957,8 @@ function setCookie (name, value, hours = 8760, path = "/", domain, secure, HttpO
     + "; path=" + path
     + (domain ? "; domain=" + domain : "")
     + (secure ? "; secure" : "")
+    + (typeof SameSite === "string" && SameSite.length > 0
+      ? "; SameSite="+SameSite : "")
     + (HttpOnly ? "; HttpOnly" : "")
     + ";";
 }
@@ -997,21 +978,23 @@ function getCookie (name) {
 const hasCookie = (name) =>
   (document.cookie.includes(encodeURIComponent(name)+"="));
 
-function removeCookie (name, path = "/", domain, secure, HttpOnly) {
+function removeCookie (name, path = "/", domain, secure, SameSite, HttpOnly) {
   var r = (document.cookie.includes(encodeURIComponent(name)+"="));
   document.cookie = encodeURIComponent(name)
     + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
     + "; path=" + path
     + (domain ? "; domain=" + domain : "")
     + (secure ? "; secure" : "")
+    + (typeof SameSite === "string" && SameSite.length > 0
+      ? "; SameSite="+SameSite : "")
     + (HttpOnly ? "; HttpOnly" : "")
     + ";";
   return r;
 }
 
-function clearCookies (path, domain, secure, HttpOnly) {
+function clearCookies (path = "/", domain, secure, SameSite, HttpOnly) {
   for (var item in celestra.getCookie()) {
-    celestra.removeCookie(item, path, domain, secure, HttpOnly);
+    celestra.removeCookie(item, path, domain, secure, SameSite, HttpOnly);
   }
 }
 
@@ -1352,7 +1335,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.2.0";
+const VERSION = "Celestra v3.3.0";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1380,7 +1363,6 @@ var celestra = {
   strReverse: strReverse,
   strReplaceAll: strReplaceAll,
   forIn: forIn,
-  mapIn: mapIn,
   toFunction: toFunction,
   bind: bind,
   hasOwn: hasOwn,

@@ -1,9 +1,9 @@
+@charset "UTF-8";
 /**
  * @name u87.css
- * @version 0.9.10
+ * @version 0.9.11
  * @see https://github.com/Serrin/u87.css
  * @license MIT https://opensource.org/licenses/MIT
- * This is the default css for my code documentations.
  * Usage: <link rel="stylesheet" href="u87.css" type="text/css" />
  */
 
@@ -11,13 +11,12 @@
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, main {
-	display: block;
+ display: block;
 }
 
-[hidden], .hidden { display: none !important; }
-template { display: none; }
+[hidden], .hidden, template { display: none !important; }
 
-*,:before,:after {
+*, :before, :after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -39,38 +38,33 @@ html {
   -webkit-text-size-adjust: 100%;
   -ms-overflow-style: scrollbar;
   -webkit-tap-highlight-color: transparent;
-  padding: 0;
   margin: 0;
-  /*background-color: #ddd;*/
+  padding: 0;
   text-align: center;
-  /*font-family: Helvetica, Arial, sans-serif;*/
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", Helvetica, Arial, sans-serif;
-  font-size: 14.5px;
+  font-size: calc(14px + 0.15vw); /* 14.5px */
 }
 
 body {
-  background-color: #fff;
+  background-color: #ffffff;
   font-size: 1rem;
-  /* color: #172b4d; */
   color: #333333;
   margin: 0 auto;
-  /*max-width: 1200px;*/
-  /*padding: 15px;*/
+  padding: 0;
   min-height: 100vh;
   text-align: left;
   line-height: 20px;
 }
 
-:hover, :active, :visited, :focus { outline: 0; }
-
 header, footer { text-align: center; }
 
-div { margin: 0; padding: 0; }
+:hover, :active, :visited, :focus { outline: 0; }
+a, a:visited, a:active { color: #0052cc; text-decoration: none; }
+a:hover { color: #0052cc; text-decoration: underline; }
 
-p, .p {
-  margin: 1rem 0 1rem 0; /* top | right | bottom | left */
-  padding: 0 1rem 0 1rem;
-}
+div, .div { display: block; margin: 0; padding: 0; }
+p, .p { display: block; margin: 1rem 0 1rem 0; padding: 0 1rem 0 1rem; }
+/* top right bottom left */
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -79,12 +73,12 @@ h1, h2, h3, h4, h5, h6,
   line-height: 1.2;
   font-weight: normal;
 }
-h1, .h1 { font-size: 2.5rem; /* background-color: #b5b5b5; */ }
-h2, .h2 { font-size: 2rem; /* background-color: #ddd; */ }
-h3, .h3 { font-size: 1.75rem; /* background-color: #f0f0f0; */ }
-h4, .h4 { font-size: 1.5rem; /* background-color: #f0f0f0; */ }
-h5, .h5 { font-size: 1.25rem; /* background-color: #f0f0f0; */ }
-h6, .h6 { font-size: 1rem; /* background-color: #f0f0f0; */ }
+h1, .h1 { font-size: 2.5rem; }
+h2, .h2 { font-size: 2rem; }
+h3, .h3 { font-size: 1.75rem; }
+h4, .h4 { font-size: 1.5rem; }
+h5, .h5 { font-size: 1.25rem; }
+h6, .h6 { font-size: 1rem; }
 
 .heading-a, .heading-b, .heading-c, .heading-d,
 .ha, .hb, .hc, .hd {
@@ -103,9 +97,8 @@ pre, code, output, kbd, samp, var,
   background-color: slategrey;
   color: white;
   padding: 3px 5px 3px 5px;
-  /*font-size: 14.5px !important; */
-  /*font-family: consolas, "Courier New", monospace;*/
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9rem !important;
   -ms-word-break: break-all;
   word-break: break-all;
   word-break: break-word;
@@ -117,14 +110,15 @@ pre, .pre { display: block; }
 var, .var { font-style: italic; }
 code, output, kbd, samp, var,
 .code, .output, .kbd, .samp, .var {
-  display: inline-block; margin-top: 2px;
+  display: inline-block;
+  margin-top: 2px;
 }
 
 tt, .tt {
   display: inline-block;
   margin-top: 2px;
   padding: 3px 5px 3px 5px;
-  font-size: 14.5px !important;
+  font-size: 0.9rem !important;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   -ms-word-break: break-all;
   word-break: break-all;
@@ -134,11 +128,12 @@ tt, .tt {
   white-space: pre-wrap;
 }
 
-nobr, .nobr { display: inline-block; hyphens: none; white-space: nowrap !important; }
+nobr, .nobr {
+  display: inline-block;
+  hyphens: none;
+  white-space: nowrap !important;
+}
 .nowrap { white-space: nowrap !important; }
-
-a, a:visited, a:active { color: #0052cc; text-decoration: none; }
-a:hover { color: #0052cc; text-decoration: underline; }
 
 big, .big { font-size: 1.25em; }
 small, .small { font-size: 80%; }
@@ -156,7 +151,6 @@ table {
   border-collapse: collapse;
   border-color: #333333;
   margin: 10px 0 10px 0;
-  /* margin: 0 auto; */
 }
 td {
   vertical-align: top;
@@ -175,10 +169,7 @@ img, video, .img-responsive, .video-responsive {
 }
 .img-fluid, .video-fluid { width: 100%; height: auto; }
 
-.deprecated, .removed, .info { display: inline-block; padding: 3px; }
-.deprecated { background-color: darkorange; color: white; }
-.removed { background-color: crimson; color: white; }
-.info { background-color: lightblue; color: black; }
+object { max-width: 100%; }
 
 .left { text-align: left; }
 .right { text-align: right; }
@@ -186,70 +177,154 @@ img, video, .img-responsive, .video-responsive {
 .justify { text-align: justify; }
 .centered { margin: 0 auto; }
 
+.block { display: block !important; }
+.inline-block { display: inline-block !important; }
+.inline { display: inline !important; }
 
-/** u87.css grid * @version 0.8.0 * @see https://github.com/Serrin/ */
-/*
-To use the grid add a container class to the body:
-<body class="container">
-or
-<body class="container-fluid">
-*/
+.visible { visibility: visible !important; }
+.invisible { visibility: hidden !important; }
 
-.container { display: block; width: 100%;  max-width: 1200px; margin: 0 auto; }
+.padding { padding: 1rem; }
+.margin { margin: 1rem; }
+.nopadding { padding: 0 !important; }
+.nomargin { margin: 0 !important; }
+.noborder { border: 0 !important; }
+
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+
+.deprecated, .removed, .info { display: inline-block; padding: 3px; }
+.deprecated { background-color: darkorange; color: white; }
+.removed { background-color: crimson; color: white; }
+.info { background-color: lightblue; color: black; }
+
+/***********************/
+/* u87.css grid v0.9.0 */
+/***********************/
+
+.container { display: block; max-width: 1140px; margin: 0 auto; }
+.container-float { display: block; width: 100%; max-width: 1140px; margin: 0 auto; }
 .container-fluid { display: block; width: 100%; max-width: 100%; margin: 0; }
 
-.row:before, .row:after { content: ""; display: table; }
-.row:after { clear: both; }
-.row { width: 100%; clear: both; padding: 0; margin: 0; zoom: 1; /* IE6-7 */ }
-
-[class*="col-"] {
-  display: inline-block;
-  float: left;
-  margin: 0.5% 1% 0.5% 1%;
-  padding: 1%;
+.flex, .row  {
+  display: flex;
+  flex-flow: row wrap; /* flex-direction + flex-wrap */
+  justify-content: space-around;
+  align-items: stretch;
+  margin: 0;
+  padding: 0.5rem;
 }
 
-.col-1-1 { width: 98%; }
-.col-1-2 { width: 48%; }
-.col-1-3 { width: 31.33333%; }
-.col-2-3 { width: 64.66666%; }
-.col-1-4 { width: 23%; }
-.col-3-4 { width: 73%; }
-.col-1-5 { width: 18%; }
-.col-2-5 { width: 38%; }
-.col-3-5 { width: 58%; }
-.col-4-5 { width: 78%; }
-.col-1-8 { width: 10.5%; }
+/* flex: 0 0 25%; */
+.flex-1, .col-1 { flex: 1; }
+.flex-2, .col-2 { flex: 2; }
+.flex-3, .col-3 { flex: 3; }
+.flex-4, .col-4 { flex: 4; }
+.flex-5, .col-5 { flex: 5; }
+.flex-6, .col-6 { flex: 6; }
+.flex-7, .col-7 { flex: 7; }
+.flex-8, .col-8 { flex: 8; }
+.flex-9, .col-9 { flex: 9; }
+.flex-10, .col-10 { flex: 10; }
+.flex-11, .col-11 { flex: 11; }
+.flex-12, .col-12 { flex: 12; }
+.flex-13, .col-13 { flex: 13; }
+.flex-14, .col-14 { flex: 14; }
+.flex-15, .col-15 { flex: 15; }
+.flex-16, .col-16 { flex: 16; }
+.flex-17, .col-17 { flex: 17; }
+.flex-18, .col-18 { flex: 18; }
+.flex-19, .col-19 { flex: 19; }
+.flex-20, .col-20 { flex: 20; }
+.flex-21, .col-21 { flex: 21; }
+.flex-22, .col-22 { flex: 22; }
+.flex-23, .col-24 { flex: 23; }
+.flex-24, .col-24 { flex: 24; }
 
-.col-1 { width: 6.33333%; }
-.col-2 { width: 14.66666%; }
-.col-3 { width: 23%; }
-.col-4 { width: 31.33333%; }
-.col-5 { width: 39.66666%; }
-.col-6 { width: 48%; }
-.col-7 { width: 56.33333%; }
-.col-8 { width: 64.66666%; }
-.col-9 { width: 73%; }
-.col-10 { width: 81.33333%; }
-.col-11 { width: 89.66666%; }
-.col-12 { width: 98%; }
+[class*="col-"], [class*="flex-"] { margin: 0 0.5rem 0 0.5rem; padding: 0.5rem; }
 
-@media only screen and (max-width: 768px) {
-  [class*="col-"] { width: 100% !important; margin: 0; }
+@media (max-width: 575px) { .container { display: block; width: 100%; } }
+@media (min-width: 576px) { .container { width: 540px; } }
+@media (min-width: 768px) { .container { width: 720px; } }
+@media (min-width: 992px) { .container { width: 960px; } }
+@media (min-width: 1200px) { .container { width: 1140px; } }
+
+@media (max-width: 575px) {
+  .flex, .row { display: block; width: 100% !important; margin: 0; padding: 0; }
+  [class*="col-"], [class*="flex-"] {
+    display: block;
+    flex: 0 0 100%;
+    width: 100% !important;
+    margin: 0;
+  }
   .hide-on-mobile { display: none; }
 }
 
-@media only screen and (min-width: 769px) {
-  .hide-on-desktop { display: none; }
-}
+@media (min-width: 576px) { .hide-on-desktop { display: none; } }
 
-[class*="col-"], .container, .container-fluid, .row {
+[class*="container"], [class*="flex-"], [class*="col-"], .flex, .row,  {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-.nopadding { padding: 0; }
-.padding { padding: 1%; }
-.nomargin { margin: 0; }
-.noborder { border: 0; }
+/**********************/
+/* u87.css grid utils */
+/**********************/
+
+/* .flex */
+.flexbox-row { flex-direction: row; }
+.flexbox-row-reverse { flex-direction: row-reverse; }
+.flexbox-column { flex-direction: column; }
+.flexbox-column-reverse { flex-direction: column-reverse; }
+.flexbox-wrap { flex-wrap: wrap; }
+.flexbox-nowrap { flex-wrap: no-wrap;  }
+/* .flex - horizontal */
+.justify-content-start { justify-content: flex-start; }
+.justify-content-center { justify-content: center; }
+.justify-content-end { justify-content: flex-end; }
+.justify-content-around { justify-content: space-around; }
+.justify-content-between { justify-content: space-between; }
+.justify-content-evenly { justify-content: space-evenly; }
+/* .flex - vertical */
+.align-items-start { align-items: flex-start; }
+.align-items-center { align-items: center; }
+.align-items-end { align-items: flex-end; }
+.align-items-baseline { align-items: baseline; }
+.align-items-stretch { align-items: stretch; }
+
+/* .flex-XX - vertical */
+.align-self-start { align-self: flex-start; }
+.align-self-end { align-self: flex-end; }
+.align-self-center { align-self: center; }
+.align-self-baseline { align-self: baseline; }
+.align-self-stretch { align-self: stretch; }
+/* .flex-XX - order */
+.order-first { order: -1; }
+.order-last { order: 25; }
+.order-0 { order: 0; } /* default */
+.order-1 { order: 1; }
+.order-2 { order: 2; }
+.order-3 { order: 3; }
+.order-4 { order: 4; }
+.order-5 { order: 5; }
+.order-6 { order: 6; }
+.order-7 { order: 7; }
+.order-8 { order: 8; }
+.order-9 { order: 9; }
+.order-10 { order: 10; }
+.order-11 { order: 11; }
+.order-12 { order: 12; }
+.order-13 { order: 13; }
+.order-14 { order: 14; }
+.order-15 { order: 15; }
+.order-16 { order: 16; }
+.order-17 { order: 17; }
+.order-18 { order: 18; }
+.order-19 { order: 19; }
+.order-20 { order: 20; }
+.order-21 { order: 21; }
+.order-22 { order: 22; }
+.order-23 { order: 23; }
+.order-24 { order: 24; }

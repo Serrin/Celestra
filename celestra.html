@@ -42,15 +42,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   color: cyan;
 }
 
+@media (max-width: 575px) { td { display: block; width: 100% !important; } }
+
 </style>
 </head>
 <body>
 
 <header>
   <pre class="center" style="background-color: transparent;/*black*/ color: white; font-weight: bold">
-  ___  ____  __    ____  ___  ____  ____    __   
- / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
-( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
+  ___  ____  __    ____  ___  ____  ____    __
+ / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
+( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
  \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
                                                  </pre>
   <!--<h1 class="heading-d">Celestra</h1>-->
@@ -65,7 +67,11 @@ nav a, nav a:visited, nav a:active, nav a:hover {
     &nbsp;//&nbsp;
     <a href="#footer">Contact</a>
     &nbsp;//&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark mode</i></a>
+    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
   </b></nav>
 </header>
 <main class="container">
@@ -77,12 +83,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.2.0</p>
-<p>Date: 2019-10-05T19:05:11.487Z</p>
+<p>Latest version: 3.3.0</p>
+<p>Date: 2019-10-21T19:13:24.596Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42807 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32150 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33485 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42664 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32063 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33391 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
 
@@ -149,8 +155,8 @@ window.getType = getType;
   <li>Only modern browsers (ES6+) are supported. The Internet Explorer 11 and W10M Edge have been removed from the supported browsers.</li>
   <li>If you would like to use Celestra with older browsers, then you can download the latest v2.x version here: <a href="https://github.com/Serrin/Celestra/releases" target="_blank">https://github.com/Serrin/Celestra/releases</a>
   </li>
-  <li>The library sources have been merged and all of the ES6E function are available in the <b>celestra.js</b> and <b>celestra.min.js</b></li>
-  <li>The <code>celestra.version;</code> has been removed.</li>
+  <li>The library sources have been merged and all of the ES6E functions are available in the <b>celestra.js</b> and <b>celestra.min.js</b></li>
+  <li>More functions have been deprecated or removed.</li>
 </ul>
 
 <h2 id="functions">Functions</h2>
@@ -163,7 +169,7 @@ window.getType = getType;
 <div>
   <table>
     <tr>
-      <td><b>Name</b></td>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
     </tr>
     <tr>
@@ -250,14 +256,6 @@ window.getType = getType;
       </td>
     </tr>
     <tr>
-      <td><code>mapIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED in v3.2.0</span></p>
-        <p>The mapIn() method creates a new object with the results of calling a provided function on each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function.</p>
-        <p>The parameter function will be called with these arguments: key value, key, object.</p>
-      </td>
-    </tr>
-    <tr>
       <td><code>toFunction(&#60;function&#62;);</code></td>
       <td>Return a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
     </tr>
@@ -300,7 +298,7 @@ window.getType = getType;
 <div>
   <table>
     <tr>
-      <td><b>Name</b></td>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
     </tr>
     <tr>
@@ -398,15 +396,33 @@ window.getType = getType;
     </tr>
     <tr>
       <td><code>domOn(&#60;eventTarget&#62;,&#60;eventType&#62;,&#60;callback&#62;);</code></td>
-      <td>Add a callback to the eventType of the eventTarget.</td>
+      <td>
+        <p><span class="deprecated">DEPRECATED in v3.3.0</span></p>
+        <p>
+          <span class="info">Can be replaced with the <code>eventTarget.addEventListener(eventType, callback);</code></span>
+        </p>
+        <p>Add a callback to the eventType of the eventTarget.</p>
+      </td>
     </tr>
     <tr>
       <td><code>domOff(&#60;eventTarget&#62;,&#60;eventType&#62;,&#60;callback&#62;);</code></td>
-      <td>Remove a callback to the eventType of the eventTarget.</td>
+      <td>
+        <p><span class="deprecated">DEPRECATED in v3.3.0</span></p>
+        <p>
+          <span class="info">Can be replaced with the <code>eventTarget.removeEventListener(eventType, callback);</code></span>
+        </p>
+        <p>Remove a callback to the eventType of the eventTarget.</p>
+      </td>
     </tr>
     <tr>
       <td><code>domTrigger(&#60;eventTarget&#62;,&#60;eventType&#62;);</code></td>
-      <td>Trigger an eventType of the eventTarget.</td>
+      <td>
+        <p><span class="deprecated">DEPRECATED in v3.3.0</span></p>
+        <p>
+          <span class="info">Can be replaced with the <code>eventTarget.eventType();</code> or <code>eventTarget["eventType"]();</code></span>
+        </p>
+        <p>Trigger an eventType of the eventTarget.</p>
+      </td>
     </tr>
     <tr>
       <td><code>domSiblings(&#60;element&#62;);</code></td>
@@ -494,7 +510,7 @@ window.getType = getType;
 <div style="overflow-x:auto;">
   <table>
     <tr>
-      <td><b>Name</b></td>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
     </tr>
     <tr>
@@ -534,7 +550,7 @@ window.getType = getType;
 <div>
   <table>
     <tr>
-      <td><b>Name</b></td>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
     </tr>
     <tr>
@@ -681,15 +697,27 @@ window.getType = getType;
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.setCookie()</code></p>
 
+<p>
+  Cookie values help:
+  <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie" target="_blank">MDN</a>,
+  <a href="https://web.dev/samesite-cookies-explained" target="_blank">web.dev</a>
+</p>
+
 <div>
   <table>
     <tr>
-      <td><b>Name</b></td>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,HttpOnly]]]]]);</code></td>
+      <td><code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);</code></td>
       <td>
+        <p><span class="info">
+          In v3.3.0 the arguments has been changed from
+          <code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,HttpOnly]]]]]);</code>
+          to
+          <code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);</code>.
+        </span></p>
         Set a cookie.
         <br/>The name is mandatory and has to be a string.
         <br/>The value is mandatory and has to be a string.
@@ -697,6 +725,7 @@ window.getType = getType;
         <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
         <br/>The domain is optional and can be a string.
         <br/>The secure is optional and can be a boolean.
+        <br/>The SameSite is optional and can be a string ("Lax", "Strict", "None").
         <br/>The HttpOnly is optional and can be a boolean.
       </td>
     </tr>
@@ -715,24 +744,38 @@ window.getType = getType;
       </td>
     </tr>
     <tr>
-      <td><code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,HttpOnly]]]]);</code></td>
+      <td><code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code></td>
       <td>
+        <p><span class="info">
+          In v3.3.0 the arguments has been changed from
+          <code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,HttpOnly]]]]);</code>
+          to
+          <code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code>.
+        </span></p>
         Remove a cookie.
         <br/>The name is mandatory and has to be a string.
         <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
         <br/>The domain is optional and can be a string.
         <br/>The secure is optional and can be a boolean.
         <br/>The HttpOnly is optional and can be a boolean.
+        <br/>The SameSite is optional and can be a string ("Lax", "Strict", "None").
         <br/>The return value (boolean) is determines whether the cookie was set with the name before the removing.
       </td>
     </tr>
     <tr>
-      <td><code>clearCookies([path[,domain[,secure[,HttpOnly]]]]);</code></td>
+      <td><code>clearCookies([,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code></td>
       <td>
+        <p><span class="info">
+          In v3.3.0 the arguments has been changed from
+          <code>clearCookies([path[,domain[,secure[,HttpOnly]]]]);</code>
+          to
+          <code>clearCookies([,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code>.
+        </span></p>
         Clear all of the cookies.
         <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
         <br/>The domain is optional and can be a string.
         <br/>The secure is optional and can be a boolean.
+        <br/>The SameSite is optional and can be a string ("Lax", "Strict", "None").
         <br/>The HttpOnly is optional and can be a boolean.
       </td>
     </tr>
@@ -747,14 +790,14 @@ window.getType = getType;
 <div>
   <table>
     <tr>
-      <td><b>Name</b></td>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
     </tr>
     <tr>
       <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
         <p><span class="info">From the v3.2.0 this is an alias of the <code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></span></p>
-        <p><b>If need, then can be replaced with these:</b></p>
+        <p><b>Can be replaced with these:</b></p>
         <ul>
           <li><code>[...collection].forEach(&#60;callback&#62;);</code></li>
           <li><code>Array.from(&#60;collection&#62;).forEach(&#60;callback&#62;);</code></li>
@@ -766,7 +809,7 @@ window.getType = getType;
       <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
         <p><span class="info">From the v3.2.0 this is an alias of the <code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></span></p>
-        <p><b>If need, then can be replaced with these:</b></p>
+        <p><b>Can be replaced with these:</b></p>
         <ul>
           <li><code>[...collection].map(&#60;callback&#62;);</code></li>
           <li><code>Array.from(&#60;collection&#62;[,callback]);</code></li>
@@ -1016,7 +1059,7 @@ window.getType = getType;
 <div>
   <table>
     <tr>
-      <td><b>Name</b></td>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
     </tr>
     <tr>
@@ -1278,7 +1321,7 @@ alert( _.VERSION );</code></pre></td>
 <div>
   <table>
     <tr>
-      <td><b>domToElement(&#60;htmlString&#62;);</b></td>
+      <td style="min-width: 25%;"><b>domToElement(&#60;htmlString&#62;);</b></td>
       <td colspan="2">
         <p><button onclick='_.qs("#div2").append( _.domToElement("<div>Hello world!</div>") );'>Try</button></p>
         <p><code>_.qs("#div2").append( _.domToElement("&#60;div&#62;Hello world!&#60;/div&#62;") );</code></p>
@@ -1490,8 +1533,11 @@ alert(testArrayFillStr);</pre></td>
     </tr>
     <tr>
       <td><b>getUrlVar(name)</b></td>
-      <td><p><a href="?foo=fooValue%20Lorem%20Ipsum%202017%20%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%20%C3%89%C3%81%C5%B0%C5%90%C3%9A%C3%96%C3%9C%C3%93%C3%8D&bar=barValue#url">Test page</a></p><button onclick='alert( _.getUrlVar("foo") );'>Try</button></td>
-      <td><code>alert( _.getUrlVar("foo") );</code></td>
+      <td><button onclick='alert( _.getUrlVar("foo") );'>Try</button></td>
+      <td>
+        <p><a href="?foo=fooValue%20Lorem%20Ipsum%202017%20%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%20%C3%89%C3%81%C5%B0%C5%90%C3%9A%C3%96%C3%9C%C3%93%C3%8D&bar=barValue#url">Test page</a></p>
+        <code>alert( _.getUrlVar("foo") );</code>
+      </td>
     </tr>
     <tr>
       <td><b>getUrlVar()</b></td>
@@ -1742,8 +1788,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>Fullscreen functions</b></td>
-      <td></td>
-      <td>
+      <td colspan="2">
         <div id="fsdiv">
           <p>
             <button onclick='alert( _.getFullscreen() );'>getFullscreen</button>
@@ -1775,8 +1820,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>domFade functions</b></td>
-      <td></td>
-      <td>
+      <td colspan="2">
         <div>
           <div id="domFadetest"><i>This is the fade test area.</i></div><span>This is a span.</span>
           <hr/>
@@ -1817,8 +1861,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>domHide/Show/Toggle functions</b></td>
-      <td></td>
-      <td>
+      <td colspan="2">
           <div id="domhidetest"><i>This is the hide/show/toggle test area.</i></div><span>This is a span.</span>
           <hr/>
           <p>
@@ -1845,8 +1888,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>ChildNode and ParentNode methods</b></td>
-      <td></td>
-      <td>
+      <td colspan="2">
         <div>
           <div id="childnode"><i>This is the test area.</i></div>
           <p>
@@ -1926,8 +1968,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>Number ES6 polyfills</b></td>
-      <td></td>
-      <td>
+      <td colspan="2">
         <div>
           <p>
             <button onclick='alert( Number.MIN_SAFE_INTEGER );'>Number.MIN_SAFE_INTEGER</button>
@@ -1966,8 +2007,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>domGetCSS and domSetCSS</b></td>
-      <td></td>
-      <td>
+      <td colspan="2">
         <div>
           <p id="csstest1" style="color: red; border: 1px solid red;">Testarea</p>
           <p>
@@ -1987,8 +2027,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>importStyle and importStyles</b></td>
-      <td></td>
-      <td>
+      <td colspan="2">
         <div>
           <p id="csstest2" style="color: braun; border: 1px solid braun;">Testarea</p>
           <p>
@@ -2032,8 +2071,7 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>DOM event functions</b></td>
-      <td></td>
-      <td>
+      <td colspan="2">
         <p id="eventtestarea">Click here</p>
 <script>
 function clicked () { alert("clicked"); }
@@ -2061,17 +2099,12 @@ var eventtestarea = document.querySelector("#eventtestarea");</code></pre>
       </td>
     </tr>
     <tr>
-      <td><b>AJAX and CORS</b></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><b>getJson</b></td>
+      <td><b>AJAX and CORS - getJson</b></td>
       <td><button onclick='_.getJson("testdata.json",function(r) { alert("ajax json test (has value):\n"+r[0].image); } );'>Try</button></td>
       <td><code>_.getJson("testdata.json",<br/>function(r) { alert("ajax json test (has value):\n"+r[0].image); } <br/>);</code></td>
     </tr>
     <tr>
-      <td><b>getText</b></td>
+      <td><b>AJAX and CORS - getText</b></td>
       <td><button onclick='_.getText("testdata.txt",function(r) {alert("ajax text test:\n"+r); },function(e){ alert(e); } );'>Try</button></td>
       <td><code>_.getText("testdata.txt",<br/>function(r) {alert("ajax text test:\n"+r); },<br/>function(e){ alert(e); } <br/>);</code></td>
     </tr>
@@ -2731,7 +2764,7 @@ function kayleeEcho (s) { _.qs("#kayleeResults").innerHTML = s; }
 <div>
   <table>
     <tr>
-      <td><b>b64Encode();</b></td>
+      <td style="min-width: 25%;"><b>b64Encode();</b></td>
       <td><button onclick='kayleeEcho( _.b64Encode(str) );'>Try</button></td>
       <td><code>kayleeEcho( _.b64Encode(str) );</code></td>
     </tr>
@@ -3041,7 +3074,11 @@ alert(fromEntriesStr);</pre>
     &nbsp;//&nbsp;
     <a href="http://github.com/Serrin" target="_blank">Github</a>
     &nbsp;//&nbsp;
-    <a href="#footer" onclick=" _.importStyle('u87-dark.css'); "><i>Dark mode</i></a>
+    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
   </b></p>
   <p>&copy; Copyright 2017 Ferenc Czigler</p>
 </small></footer>
