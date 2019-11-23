@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.3.0
+ * @version 3.4.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -607,10 +607,6 @@ function domToggle (e, d = "") {
 const domIsHidden = (e) =>
   (window.getComputedStyle(e, null).display === "none");
 
-const domOn = (el, et, fn) => el.addEventListener(et, fn);
-const domOff = (el, et, fn) => el.removeEventListener(et, fn);
-const domTrigger = (el, et) => el[et]();
-
 const domSiblings = (el) =>
   Array.prototype.filter.call(el.parentNode.children, (e) => (e !== el));
 
@@ -779,6 +775,14 @@ function setFullscreenOff () {
   else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
   else if (document.msExitFullscreen) { document.msExitFullscreen(); }
 }
+
+const domGetCSSVar = (n) =>
+  getComputedStyle(document.documentElement).getPropertyValue(
+    n[0] === "-" ? n : "--" + n
+  );
+
+const domSetCSSVar = (n, v) =>
+  document.documentElement.style.setProperty((n[0] === "-" ? n : "--" + n), v);
 
 /* AJAX */
 
@@ -1065,37 +1069,34 @@ const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
-function arrayRange (start, end, step = 1) {
+function arrayRange (start = 0, end = 100, step = 1) {
   var i = Number(start), end2 = Number(end), res = [];
   while (i <= end2) { res.push(i); i += step; }
   return res;
 }
 
-function zip () {
-  var arrays = [], res = [], i, j, l, item;
-  for (i = 0, l = arguments.length; i < l; i++) {
-    arrays.push(Array.from(arguments[i]));
-  }
-  var min = arrays[0].length;
-  for (i = 1, l = arrays.length; i < l; i++) {
-    if (arrays[i].length < min) { min = arrays[i].length; }
+function zip (...a) {
+  a = a.map((v) => Array.from(v));
+  let r = [], i, j, l = a.length, min = a[0].length, item;
+  for (item of a) {
+    if (item.length < min) { min = item.length; }
   }
   for (i = 0; i < min; i++) {
     item = [];
-    for (j = 0; j < l; j++) { item.push(arrays[j][i]); }
-    res.push(item);
+    for (j = 0; j < l; j++) { item.push(a[j][i]); }
+    r.push(item);
   }
-  return res;
+  return r;
 }
 
 function unzip ([...a]) {
-  var a2 = a.map(([...v]) => v);
-  var res = [], i, j, l1 = a2[0].length, l2 = a2.length;
-  for (i = 0; i < l1; i++) { res.push([]); }
+  a = a.map(([...v]) => v);
+  let r = [], i, j, l1 = a[0].length, l2 = a.length;
+  for (i = 0; i < l1; i++) { r.push([]); }
   for (i = 0; i < l1; i++) {
-    for (j = 0; j < l2; j++) { res[i].push(a2[j][i]); }
+    for (j = 0; j < l2; j++) { r[i].push(a[j][i]); }
   }
-  return res;
+  return r;
 }
 
 const uniqueArray = ([...a]) => [...new Set(a)];
@@ -1335,7 +1336,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.3.0";
+const VERSION = "Celestra v3.4.0";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1386,9 +1387,6 @@ var celestra = {
   domShow: domShow,
   domToggle: domToggle,
   domIsHidden: domIsHidden,
-  domOn: domOn,
-  domOff: domOff,
-  domTrigger: domTrigger,
   domSiblings: domSiblings,
   importScript: importScript,
   importScripts: importScripts,
@@ -1402,6 +1400,8 @@ var celestra = {
   getFullscreen: getFullscreen,
   setFullscreenOn: setFullscreenOn,
   setFullscreenOff: setFullscreenOff,
+  domGetCSSVar: domGetCSSVar,
+  domSetCSSVar: domSetCSSVar,
   /* AJAX */
   getText: getText,
   getJson: getJson,

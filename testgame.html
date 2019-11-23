@@ -12,13 +12,16 @@
 <style>
 
 body {
-  max-width: 800px;
+  width: 100%;
+  max-width: 600px;
   font-size: 18px;
 }
 
-td { 
-  vertical-align: center;
-}
+table, tr, td { border: 0; }
+
+td { vertical-align: center; padding: 0.5rem; }
+
+span { padding: 0 0.5rem; }
 
 input {
   width: 80px;
@@ -40,7 +43,7 @@ input,button {
 input:hover,input:focus,button:hover {
   background-color: #333;
   color: white;
-} 
+}
 
 article {
   display: block;
@@ -48,12 +51,10 @@ article {
   padding: 5px;
 }
 
-span { padding: 0px 10px 0px 10px; }
-
 </style>
 
 </head>
-<body class="container">
+<body>
 
 <header>
   <h1>RPG dice roller</h1>
@@ -63,24 +64,20 @@ span { padding: 0px 10px 0px 10px; }
   <table>
     <tr>
       <td>Dice:</td>
-      <td>
-        <input type="number" id="dice" name="number" value="6"/>
-        <button id="resetButton">Reset</button>
-      </td>
+      <td><input type="number" id="dice" name="number" value="6"/></td>
+      <td><button id="resetButton">Reset</button></td>
     </tr>
     <tr>
       <td>Rolls:</td>
-      <td>
-        <input type="number" id="rolls" name="number" value="1"/>
-        <button id="getButton">Get rolls</button>
-      </td>
+      <td><input type="number" id="rolls" name="number" value="1"/></td>
+      <td><button id="getButton">Get rolls</button></td>
     </tr>
   </table>
 </article>
 
 <article>
-  <p><b>Results:</b></p>
-  <div id="results"></div>
+  <h2>Results:</h2>
+  <div id="results" class="padding"></div>
 </article>
 
 <footer id="footer"><small>
@@ -115,13 +112,11 @@ _.domReady(function () {
     rolls.value = 1;
   }
 
-  _.domOn(_.qs("#getButton"),"click",getResults);
-  _.domOn(_.qs("#resetButton"),"click",reset);
-  //_.qs("#getButton").addEventListener("click",getResults);
-  //_.qs("#resetButton").addEventListener("click",reset);
+  _.qs("#getButton").addEventListener("click", getResults);
+  _.qs("#resetButton").addEventListener("click", reset);
 
 });
-  
+
 </script>
 
 </body>

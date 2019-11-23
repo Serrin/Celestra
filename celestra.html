@@ -16,13 +16,6 @@
 
 #fsdiv { padding: 20px; }
 
-#eventtestarea {
-  background-color: lightblue;
-  padding: 10px;
-  text-align: center;
-  font-size: 1.5rem;
-}
-
 header {
   padding: 1rem;
   /*background-color: #222;*/
@@ -50,9 +43,9 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <header>
   <pre class="center" style="background-color: transparent;/*black*/ color: white; font-weight: bold">
-  ___  ____  __    ____  ___  ____  ____    __
- / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
-( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
+  ___  ____  __    ____  ___  ____  ____    __   
+ / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
+( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
  \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
                                                  </pre>
   <!--<h1 class="heading-d">Celestra</h1>-->
@@ -83,12 +76,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.3.0</p>
-<p>Date: 2019-10-21T19:13:24.596Z</p>
+<p>Latest version: 3.4.0</p>
+<p>Date: 2019-11-21T21:26:17.091Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42664 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32063 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33391 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42616 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32022 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33353 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
 
@@ -395,36 +388,6 @@ window.getType = getType;
       <td>This function determines whether the element is hidden. The element is mandatory and has to be a HTML element. The return value is boolean.</td>
     </tr>
     <tr>
-      <td><code>domOn(&#60;eventTarget&#62;,&#60;eventType&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED in v3.3.0</span></p>
-        <p>
-          <span class="info">Can be replaced with the <code>eventTarget.addEventListener(eventType, callback);</code></span>
-        </p>
-        <p>Add a callback to the eventType of the eventTarget.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>domOff(&#60;eventTarget&#62;,&#60;eventType&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED in v3.3.0</span></p>
-        <p>
-          <span class="info">Can be replaced with the <code>eventTarget.removeEventListener(eventType, callback);</code></span>
-        </p>
-        <p>Remove a callback to the eventType of the eventTarget.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>domTrigger(&#60;eventTarget&#62;,&#60;eventType&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED in v3.3.0</span></p>
-        <p>
-          <span class="info">Can be replaced with the <code>eventTarget.eventType();</code> or <code>eventTarget["eventType"]();</code></span>
-        </p>
-        <p>Trigger an eventType of the eventTarget.</p>
-      </td>
-    </tr>
-    <tr>
       <td><code>domSiblings(&#60;element&#62;);</code></td>
       <td>Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.</td>
     </tr>
@@ -498,6 +461,14 @@ window.getType = getType;
     <tr>
       <td><code>setFullscreenOff();</code></td>
       <td>Set off the fullscreen.</td>
+    </tr>
+    <tr>
+      <td><code>domGetCSSVar(&#60;name&#62;);</code></td>
+      <td>This function returns a value of a CSS variable or an empty string, if the variable is unset. The name parameter is mandatory and has to be a string. If the "--" characters are missing at the begin of the variable name, then the function will add these.</td>
+    </tr>
+    <tr>
+      <td><code>domSetCSSVar(&#60;name&#62;,&#60;value&#62;);</code></td>
+      <td>This function set a value of a CSS variable. Both of the parameters are mandatory and have to be a string. If the "--" characters are missing at the begin of the variable name, then the function will add these. </td>
     </tr>
   </table>
 </div>
@@ -879,7 +850,7 @@ window.getType = getType;
     </tr>
     <tr>
       <td><code>arrayRange(&#60;start&#62;,&#60;end&#62;[,step]);</code></td>
-      <td>Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number.</td>
+      <td>Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.</td>
     </tr>
     <tr>
       <td><code>zip(&#60;collection1&#62;[,collectionN]);</code></td>
@@ -2067,35 +2038,6 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
             <br/><code>_.importStyles("testmodule1.css", "module3.css", "testmodule1.css");</code>
           </p>
         </div>
-      </td>
-    </tr>
-    <tr>
-      <td><b>DOM event functions</b></td>
-      <td colspan="2">
-        <p id="eventtestarea">Click here</p>
-<script>
-function clicked () { alert("clicked"); }
-var eventtestarea = document.querySelector("#eventtestarea");
-</script>
-<pre><code>function clicked () { alert("clicked"); }
-var eventtestarea = document.querySelector("#eventtestarea");</code></pre>
-        <table>
-          <tr>
-            <td><b>domOn();</b></td>
-            <td><button onclick='_.domOn(eventtestarea, "click", clicked);'>Try</button></td>
-            <td><code>_.domOn(eventtestarea, "click", clicked);</code></td>
-          </tr>
-          <tr>
-            <td><b>domOff();</b></td>
-            <td><button onclick='_.domOff(eventtestarea, "click", clicked);'>Try</button></td>
-            <td><code>_.domOff(eventtestarea, "click", clicked);</code></td>
-          </tr>
-          <tr>
-            <td><b>domTrigger();</b></td>
-            <td><button onclick='_.domTrigger(eventtestarea, "click");'>Try</button></td>
-            <td><code>_.domTrigger(eventtestarea, "click");</code></td>
-          </tr>
-        </table>
       </td>
     </tr>
     <tr>

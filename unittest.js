@@ -148,7 +148,7 @@ _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.3.0 testcases */
+/* Celestra v3.4.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -527,6 +527,29 @@ _cut.isFalse("F()", _.F());
 
 /* DOM */
 
+_cut.isEqual(
+  "domGetCSSVar() and domSetCSSVar() without prefix 1",
+  "",
+  _.domGetCSSVar("testVar1")
+);
+_.domSetCSSVar("testVar1","value1");
+_cut.isEqual(
+  "domGetCSSVar() and domSetCSSVar() without prefix 2",
+  "value1",
+  _.domGetCSSVar("testVar1")
+);
+_cut.isEqual(
+  "domGetCSSVar() and domSetCSSVar() with prefix 1",
+  "",
+  _.domGetCSSVar("--testVar2")
+);
+_.domSetCSSVar("--testVar2","value2");
+_cut.isEqual(
+  "domGetCSSVar() and domSetCSSVar() with prefix 2",
+  "value2",
+  _.domGetCSSVar("--testVar2")
+);
+
 _cut.addElement(
   _.domCreate("p", {"id": "domTestElement", style: {"width": "250px"} }, "DOM test element")
 );
@@ -582,20 +605,6 @@ _.domShow(domTestElement);
 _cut.isFalse("domIsHidden() false", _.domIsHidden(domTestElement));
 _.domHide(domTestElement);
 _cut.isTrue("domIsHidden() true", _.domIsHidden(domTestElement));
-
-var domTestVar = 33;
-function domTestElementClick1 () { domTestVar = 42; }
-function domTestElementClick2 () { domTestVar = 56; }
-
-_.domOn(domTestElement, "click", domTestElementClick1);
-_.domTrigger(domTestElement, "click");
-_cut.isEqual("domOn() and domTrigger()", 42, domTestVar);
-
-_.domOff(domTestElement, "click", domTestElementClick1);
-_.domOn(domTestElement, "click", domTestElementClick2);
-_.domOff(domTestElement, "click", domTestElementClick2);
-_.domTrigger(domTestElement, "click");
-_cut.isEqual("domOff() and domTrigger()", 42, domTestVar);
 
 _cut.addElement(
   _.domCreate("div", {"id": "dsDiv"},
@@ -1062,6 +1071,14 @@ _cut.isEqual("arrayRange() - 2 - step 3",
 _cut.isEqual("arrayRange() - 3 - step 3.2 <i>(can be failed - float storage)<i>",
   "[1,4.2,7.4,10.600000000000001,13.8,17]", JSON.stringify(_.arrayRange(1,17,3.2))
 );
+_cut.isEqual("arrayRange() - 4 - without parameters",
+  "[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]",
+  JSON.stringify(_.arrayRange())
+);
+_cut.isEqual("arrayRange() - 4 - with 1 parameter",
+  "[42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]",
+  JSON.stringify(_.arrayRange(42))
+);
 
 var a = ["a","b","c","d"];
 var b = [3,4,5,6,7,8,9];
@@ -1075,15 +1092,23 @@ _cut.isEqual("zip() ES5 1",
   "[[\"a1\",\"c1\"],[\"a2\",\"c2\"],[\"a3\",\"c3\"]]",
   JSON.stringify(_.zip(zipA, zipC))
 );
+_cut.log("<code>"+JSON.stringify(_.zip(zipA, zipC))+"</code>");
 _cut.isEqual("zip() ES5 2",
   "[[\"a1\",\"b1\",\"c1\",\"d1\",\"e1\"],[\"a2\",\"b2\",\"c2\",\"d2\",\"e2\"]]",
   JSON.stringify(_.zip(zipA, zipB, zipC, zipD, zipE))
 );
+_cut.log("<code>"+JSON.stringify(_.zip(zipA, zipB, zipC, zipD, zipE))+"</code>");
 _cut.isEqual("zip() ES6 1",
   "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
   JSON.stringify(_.zip(
     new Set(a), new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values()
  ))
+);
+_cut.log(
+  "<code>"+JSON.stringify(_.zip(
+    new Set(a), new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values())
+  )
+  +"</code>"
 );
 _cut.isEqual("zip() ES6 2",
   "[[\"a\",3,\"c1\"],[\"b\",4,\"c2\"],[\"c\",5,\"c3\"],[\"d\",6,\"c4\"]]",
@@ -1091,13 +1116,26 @@ _cut.isEqual("zip() ES6 2",
     new Set(zipF),
     new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
     zipC.values()
- ))
+  ))
+);
+_cut.log(
+  "<code>"+JSON.stringify(_.zip(
+    new Set(zipF),
+    new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
+    zipC.values()
+  ))
+  +"</code>"
 );
 
 
 _cut.isEqual("unzip() ES5",
   "[[\"a1\",\"a2\"],[\"b1\",\"b2\"],[\"c1\",\"c2\"],[\"d1\",\"d2\"],[\"e1\",\"e2\"]]",
   JSON.stringify(_.unzip(_.zip(zipA, zipB, zipC, zipD, zipE)))
+);
+_cut.log(
+  "<code>"+
+  JSON.stringify(_.unzip(_.zip(zipA, zipB, zipC, zipD, zipE)))
+  +"</code>"
 );
 if(_cut.isNotIE11()) {
   _cut.isEqual("unzip() ES6",
@@ -1108,11 +1146,24 @@ if(_cut.isNotIE11()) {
           new Set(zipF),
           new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
           zipC.values()
-       ).values()
-     )
-   )
+        ).values()
+      )
+    )
  );
 }
+_cut.log(
+  "<code>"+
+  JSON.stringify(
+    _.unzip(
+      _.zip(
+        new Set(zipF),
+        new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
+        zipC.values()
+      ).values()
+    )
+  )
+  +"</code>"
+);
 
 var a = [21,11,41,51,31];
 _cut.isEqual("min() ES5", 11, _.min(a));

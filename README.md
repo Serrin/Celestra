@@ -1,10 +1,10 @@
-    
-        ___  ____  __    ____  ___  ____  ____    __   
-       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
-      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
+
+        ___  ____  __    ____  ___  ____  ____    __
+       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
+      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
        \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
-    
-    
+
+
 # Celestra
 
 
@@ -14,17 +14,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.3.0
+Latest version: 3.4.0
 
-Date: 2019-10-21T19:13:24.596Z
+Date: 2019-11-21T21:26:17.091Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (42664 bytes)
+Development version: celestra.js (42616 bytes)
 
-Minimal version: celestra.min.js (32063 bytes)
+Minimal version: celestra.min.js (32022 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (33391 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (33353 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
 
@@ -53,41 +53,41 @@ Celestra test results for minimized version: unittest.min.html
 
 Celestra test results for ESM version: unittest.esm.html
 
-Celestra test results for development version: unittest.dev.html 
+Celestra test results for development version: unittest.dev.html
 
 
 ### How to import the ESM version
 
-    
+
     <script type="module">
-    
+
     // import the celestra object
-    import { celestra } from "./celestra.esm.js"; 
+    import { celestra } from "./celestra.esm.js";
     window.celestra = celestra;
     window._ = celestra;
-    
+
     // import with default with name
     import { default as celestra } from "./celestra.esm.js";
     window.celestra = celestra;
     window._ = celestra;
-    
+
     // import with default export
     import defaultExport from "./celestra.esm.js";
     window.celestra = defaultExport;
     window._ = defaultExport;
-    
+
     // import all functions in an object
     import * as celestra from "./celestra.esm.js";
     window.celestra = celestra;
     window._ = celestra;
-    
+
     // import only functions
     import { identity, getType } from "./celestra.esm.js";
     window.identity = identity;
     window.getType = getType;
-    
+
     </script>
-    
+
 
 
 ### Celestra v3.0.0 (Hera) changes
@@ -98,14 +98,14 @@ Celestra test results for development version: unittest.dev.html
 
 - The library sources have been merged and all of the ES6E functions are available in the __celestra.js__ and __celestra.min.js__.
 
-- More functions have been deprecated or removed.    
+- More functions have been deprecated or removed.
 
 
 ## How to clone
 
-    
+
     $ git clone https://github.com/Serrin/Celestra/
-    
+
 
 
 ## Functions
@@ -171,9 +171,6 @@ Name | Description
 `domHide(<element>);` | Hide an element. The element is mandatory and has to be a HTML element.
 `domToggle(<element>[,display]);` | Show or hide an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).
 `domIsHidden(<element>);` | This function determines whether the element is hidden. The element is mandatory and has to be a HTML element. The return value is boolean.
-`domOn(<eventTarget>,<eventType>,<callback>);` | __DEPRECATED in v3.3.0__ __Can be replaced with the__ `eventTarget.addEventListener(eventType, callback);`__.__ Add a callback to the eventType of the eventTarget.
-`domOff(<eventTarget>,<eventType>,<callback>);` | __DEPRECATED in v3.3.0__ __Can be replaced with the__ `eventTarget.removeEventListener(eventType, callback);`__.__ Remove a callback to the eventType of the eventTarget.
-`domTrigger(<eventTarget>,<eventType>);` | __DEPRECATED in v3.3.0__ __Can be replaced with the__ `eventTarget.eventType();` __or__ `eventTarget["eventType"]();`__.__ Trigger an eventType of the eventTarget.
 `domSiblings(<element>);` | Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.
 `importScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
 `importScripts(<scripts>);` | Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
@@ -189,6 +186,8 @@ Name | Description
 `getFullscreen();` | Get the fullscreen element. If this isn't set, then the return value is undefined. Please check the incompatibility issues on the [http://caniuse.com/#search=fullscreen](http://caniuse.com/#search=fullscreen) page.
 `setFullscreenOn(<selector>);` | Set the fullscreen element. The selector can be a css selector string or an element.
 `setFullscreenOff();` | Set off the fullscreen.
+`domGetCSSVar(<name>);` | This function returns a value of a CSS variable or an empty string, if the variable is unset. The name parameter is mandatory and has to be a string. If the "--" characters are missing at the begin of the variable name, then the function will add these.
+`domSetCSSVar(<name>,<value>);` | This function set a value of a CSS variable. Both of the parameters are mandatory and have to be a string. If the "--" characters are missing at the begin of the variable name, then the function will add these.
 
 
 ### AJAX and CORS
@@ -271,7 +270,7 @@ Name | Description
 `getCookie([name]);` | Get a cookie value or all cookies in an object. With the name parameter (string) the return value is the current cookie value or null. Without the parameter the return value is an object with the values or an empty object.
 `hasCookie(<name>);` | This function determines whether the cookie is set with the name. The return value is boolean.
 `removeCookie(<name>[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` __to__ `removeCookie(<name>[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
-`clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `clearCookies([path[,domain[,secure[,HttpOnly]]]]);` __to__ `clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Clear all of the cookies. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean. 
+`clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `clearCookies([path[,domain[,secure[,HttpOnly]]]]);` __to__ `clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Clear all of the cookies. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean.
 
 
 ### Collections
@@ -299,7 +298,7 @@ Name | Description
 `maxIndex(<collection>);` | Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRepeat(<value>[,n]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
-`arrayRange(<start>,<end>[,step]);` | Returns the array of values between the start and end parameters. All of the parameters have to be a number.
+`arrayRange(<start>,<end>[,step]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.
 `zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array. Example: `_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
 `unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. Example: `_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);` => `Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
 `arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
@@ -321,8 +320,8 @@ Name | Description
 `findOf(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
 `forOf(<collection>,<callback>);` | This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `mapOf(<collection>,<callback>);` | This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter). 
-`sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity. 
+`filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
+`sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
 `everyOf(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
 `someOf(<collection>,<callback>);` | This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
 `noneOf(<collection>,<callback>);` | This function whether all elements in the collection do not pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
