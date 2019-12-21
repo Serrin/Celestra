@@ -1,5 +1,5 @@
 "use strict";
-/** Celestra * @version 3.4.0 * @see https://github.com/Serrin/Celestra/ * @license MIT */
+/** Celestra * @version 3.4.1 * @see https://github.com/Serrin/Celestra/ * @license MIT */
 if(!Object.assign){Object.assign=function(){var t=arguments[0]||{};for(var i=0,l=arguments.length;i<l;i++){var s=arguments[i];for(var a in s){if(s.hasOwnProperty(a)){t[a]=s[a];}}}return t;};}
 if(!Array.prototype.includes){Array.prototype.includes=function(v,f){return (this.indexOf(v,f)>-1);};}
 if(!String.prototype.includes){String.prototype.includes=function(v,f){return (this.indexOf(v,f)>-1);};}
@@ -19,7 +19,7 @@ if(!Element.prototype.getAttributeNames){Element.prototype.getAttributeNames=fun
 if(window.NodeList&&!NodeList.prototype.forEach){NodeList.prototype.forEach=function(callback,thisArg){thisArg=thisArg||window;for(var i=0;i<this.length;i++){callback.call(thisArg,this[i],i,this);}};}
 if(!Array.prototype.flat){Array.prototype.flat=function(depth){if(depth===undefined){depth=1;}else{depth=Math.floor(Number(depth));if(isNaN(depth)||depth<1){return this;}}function deepFlat(a,cd){a.forEach(function(e){if(Array.isArray(e)){if(cd<depth){deepFlat(e,cd+1);}else{res.push(e);}}else{res.push(e);}});}var res=[];deepFlat(this,0);return res;};}
 if(!Array.prototype.flatMap){Array.prototype.flatMap=function(fn){var res=[];this.map(fn).forEach(function(e){if(Array.isArray(e)){res=res.concat(e);}else{res.push(e);}});return res;};}
-if(!Object.fromEntries){Object.fromEntries=function(entries){var res={};if(Array.isArray(entries)){entries.forEach(function(e){res[e[0]]=e[1];});}else if(Object.prototype.toString.call(entries)==="[object Map]"){entries.forEach(function(value,key){res[key]=value;});}else{throw "TypeError: Object.fromEntries() polyfill supports only Array and Map parameters.";}return res;};}
+if(!Object.fromEntries){Object.fromEntries=function(entries){var r={};for(let e of entries){r[e[0]] =e[1];}return r;};}
 if(!Object.entries){Object.entries=function(o){return Object.keys(o).map(function(e){return[e,o[e]];});};}
 if(!Object.values){Object.values=function(o){return Object.keys(o).map(function(e){return o[e];});};}
 if(!Object.getOwnPropertyDescriptors){Object.getOwnPropertyDescriptors=function(obj){var res={};var n=Object.getOwnPropertyNames(obj);for(var i=0,l=n.length;i<l;i++){res[n[i]]=Object.getOwnPropertyDescriptor(obj,n[i]);}return res;};}
@@ -47,7 +47,7 @@ function deepAssign(){var s={},t=arguments[0];for(var i=1,l=arguments.length;i<l
 const strRemoveTags=(s)=>String(s).replace(/<[^>]*>/g," ").replace(/\s{2,}/g," ").trim();
 const strReverse=(s)=>Array.from(String(s)).reverse().join("");
 const strReplaceAll=(s,sv,rv)=>String(s).split(String(sv)).join(rv);
-function forIn(o,fn){for(var p in o){if(o.hasOwnProperty(p)){fn(o[p],p,o);}}return o;}
+function forIn(o,fn){for(var p in o){if(celestra.hasOwn(o,p)){fn(o[p],p,o);}}return o;}
 const toFunction=(fn)=>Function.prototype.call.bind(fn);
 const bind=Function.prototype.call.bind(Function.prototype.bind);
 const hasOwn=Function.prototype.call.bind(Object.prototype.hasOwnProperty);
@@ -102,7 +102,7 @@ const isEmptyArray=(v)=>(Array.isArray(v)&&v.length===0);
 const isArraylike=(v)=>((typeof v==="object"||typeof v==="string")&&v!==null&&typeof v.length==="number"&&v.length>=0&&v.length%1===0);
 const isNull=(v)=>(v===null);
 const isUndefined=(v)=>(v===undefined);
-const isNullOrUndefined=(v)=>(v===null||v=== undefined);
+const isNullOrUndefined=(v)=>(v==null);
 const isNil=isNullOrUndefined;
 const isPrimitive=(v)=>(v===null||typeof v!=="object"&&typeof v!=="function");
 const isSymbol=(v)=>(typeof v==="symbol");
@@ -181,7 +181,7 @@ function reduceOf(it,fn,iv){let acc=iv;let i=0;for(let item of it){if(i===0&&acc
 function*enumerateOf(it){let i=0;for(let item of it){yield [item,i++];}}
 function*flatOf(it){for(let item of it){yield* item;}}
 function joinOf(it,s=","){let r="",s2=String(s);for(let item of it){r+=s2+item;}return r.slice(s2.length);}
-const VERSION="Celestra v3.4.0";
+const VERSION="Celestra v3.4.1";
 function noConflict(){return celestra;}
 var celestra={VERSION:VERSION, noConflict:noConflict, random:random, randomString:randomString, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVar:getUrlVar, getUrlVarFromString:getUrlVarFromString, obj2string:obj2string, getType:getType, extend:extend, deepAssign:deepAssign, strRemoveTags:strRemoveTags, strReverse:strReverse, strReplaceAll:strReplaceAll, forIn:forIn, toFunction:toFunction, bind:bind, hasOwn:hasOwn, constant:constant, identity:identity, noop:noop, T:T, F:F, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, importScript:importScript, importScripts:importScripts, importStyle:importStyle, importStyles:importStyles, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff,   domGetCSSVar: domGetCSSVar, domSetCSSVar: domSetCSSVar, getText:getText, getJson:getJson, ajax:ajax, isEqual:isEqual, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGenerator:isGenerator, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, minIndex:minIndex, max:max, maxIndex:maxIndex, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, uniqueArray:uniqueArray, uniquePush:uniquePush, arrayClear:arrayClear, arrayRemove:arrayRemove, item:item, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, takeOf:takeOf, dropOf:dropOf, forOf:forOf, forEach:forEach, mapOf:mapOf, map:map, filterOf:filterOf, sliceOf:sliceOf, itemOf:itemOf, sizeOf:sizeOf, firstOf:firstOf, lastOf:lastOf, reverseOf:reverseOf, sortOf:sortOf, hasOf:hasOf, findOf:findOf, everyOf:everyOf, someOf:someOf, noneOf:noneOf, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concatOf:concatOf, reduceOf:reduceOf, enumerateOf:enumerateOf, flatOf:flatOf, joinOf:joinOf};
 /* ESM */

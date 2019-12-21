@@ -8,6 +8,7 @@
 <meta name="Author" content="Czigler Ferenc"/>
 <meta name="Copyright" content="(C) Copyright Czigler Ferenc"/>
 <link rel="stylesheet" href="u87.css" type="text/css" />
+<link rel="stylesheet" href="u87-blue.css" type="text/css" />
 
 <style>
 
@@ -32,15 +33,15 @@ button {
 
 input,button {
   background-color: transparent;
-  color: #333;
-  border: 1px solid #333;
+  color: white;
+  border: 1px solid white;
   font-size: 18px;
 }
 
 input:hover,input:focus,button:hover {
-  background-color: #333;
-  color: white;
-} 
+  background-color: white;
+  color: #333;
+}
 
 article {
   display: block;
@@ -49,6 +50,14 @@ article {
 }
 
 span { padding: 0px 10px 0px 10px; }
+
+#results {
+  padding: 1rem;
+  margin: 1rem;
+  background-color: slategrey;
+  color: white;
+  font-size: 14.5px;
+}
 
 </style>
 
@@ -60,11 +69,17 @@ span { padding: 0px 10px 0px 10px; }
 </header>
 
 <article>
-<pre id="results"></pre>
+<div id="results" class="font-monospace"></div>
+
 <div class="center"><button id="btn1">Refresh</button></div>
 </article>
 
 <footer id="footer"><small>
+  <p>
+    <a href="https://api.coindesk.com/v1/bpi/currentprice.json" target="_blank">
+      https://api.coindesk.com/v1/bpi/currentprice.json
+    </a>
+  </p>
   <p>Contact me on <a href="http://github.com/Serrin" target="_blank">Github</a></p>
   <p>&copy; Copyright 2019 Ferenc Czigler</p>
 </small></footer>
@@ -76,7 +91,7 @@ _.domReady(function () {
 
   window.results = _.qs("#results");
   window.btn1 = _.qs("#btn1");
-  
+
   window.getResults = function () {
     results.innerHTML="";
     _.ajax({
@@ -85,19 +100,18 @@ _.domReady(function () {
       format: "json",
       error: function (e) { window.results.innerHTML = e; },
       success: function (r) {
-        window.results.innerHTML = `${r.time.updated}
-        
-\$ ${r.bpi.USD.rate}
-&euro; ${r.bpi.EUR.rate}
-&pound; ${r.bpi.GBP.rate}
-
-${r.disclaimer}`;
+        window.results.innerHTML = `
+<p class="font-xx-large">\$${r.bpi.USD.rate}</p>
+<p class="font-x-large">&euro;${r.bpi.EUR.rate}</p>
+<p class="font-x-large">&pound;${r.bpi.GBP.rate}</p>
+<p class="font-x-large">${r.time.updated}</p>
+<p>${r.disclaimer}</p>`;
       }
     });
   };
-  
+
   window.getResults();
-  
+
   window.btn1.addEventListener("click", window.getResults);
 
 });

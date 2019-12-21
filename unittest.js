@@ -148,7 +148,7 @@ _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.4.0 testcases */
+/* Celestra v3.4.1 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");

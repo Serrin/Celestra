@@ -32,7 +32,7 @@ header {
 
 footer a, footer a:visited, footer a:active, footer a:hover,
 nav a, nav a:visited, nav a:active, nav a:hover {
-  color: cyan;
+  color: cyan !important; /* u87 v0.9.13-dev */
 }
 
 @media (max-width: 575px) { td { display: block; width: 100% !important; } }
@@ -76,12 +76,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.4.0</p>
-<p>Date: 2019-11-21T21:26:17.091Z</p>
+<p>Latest version: 3.4.1</p>
+<p>Date: 2019-12-21T19:41:02.583Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42616 bytes)</p>
-<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32022 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33353 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42321 bytes)</p>
+<p>Minimal version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (31749 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33080 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
 
@@ -1699,11 +1699,9 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
     </tr>
     <tr>
       <td><b>getLocation()</b></td>
-      <td>
-        <button onclick='_.getLocation(function (loc){
-            _.qs("#location").innerHTML = "latitude: "+loc.coords.latitude+"<br/>longitude: "+loc.coords.longitude+"<br/>"+"<img src=\"https://maps.googleapis.com/maps/api/staticmap?center="+loc.coords.latitude + "," + loc.coords.longitude+"&zoom=14&size="+"400"+"x"+"400"+"&sensor=false\" alt=\"map\">";},function (errorMessage) { _.qs("#location").innerHTML = errorMessage; });'>Try</button>
-      </td>
-      <td>
+      <td colspan="2">
+        <p><button onclick='_.getLocation(function (loc){
+          _.qs("#location").innerHTML = "latitude: "+loc.coords.latitude+"<br/>longitude: "+loc.coords.longitude+"<br/>"+"<img src=\"https://maps.googleapis.com/maps/api/staticmap?center="+loc.coords.latitude + "," + loc.coords.longitude+"&zoom=14&size="+"400"+"x"+"400"+"&sensor=false\" alt=\"map\">";},function (errorMessage) { _.qs("#location").innerHTML = errorMessage; });'>Try</button></p>
         <p><code>_.getLocation(<br/>function (loc){<br/>_.qs("#location").innerHTML = "latitude: "+loc.coords.latitude<br/>+"&#60;br/&#62;longitude: "+loc.coords.longitude<br/>+"&#60;br/&#62;"+"&#60;img src=\"https://maps.googleapis.com/maps/api/staticmap?center="<br/>+loc.coords.latitude + "," + loc.coords.longitude<br/>+"&#38;zoom=14&#38;size="+"400"+"x"+"400"+"&#38;sensor=false\" alt=\"map\"&#62;";},<br/>function (errorMessage) { _.qs("#location").innerHTML = errorMessage; }<br/>);</code></p>
         <p id="location"></p>
       </td>

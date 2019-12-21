@@ -1,9 +1,9 @@
 /**
  * @name Celestra demo plugin
- * @version 3.4.0
+ * @version 3.4.1
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 3.4.0
+ * Minimal required Celestra version: 3.4.1
  */
 
 (function(celestra){

@@ -1,7 +1,7 @@
 
-        ___  ____  __    ____  ___  ____  ____    __
-       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
-      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
+        ___  ____  __    ____  ___  ____  ____    __   
+       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
+      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
        \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
 
 
@@ -14,17 +14,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.4.0
+Latest version: 3.4.1
 
-Date: 2019-11-21T21:26:17.091Z
+Date: 2019-12-21T19:41:02.583Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (42616 bytes)
+Development version: celestra.js (42321 bytes)
 
-Minimal version: celestra.min.js (32022 bytes)
+Minimal version: celestra.min.js (31749 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (33353 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (33080 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
 

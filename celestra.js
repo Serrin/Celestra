@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.4.0
+ * @version 3.4.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -18,6 +18,7 @@
   domFadeToggle()  |   2  |  domFadeIn(), domFadeOut()
   arrayMerge()     |   1  |  arrayMerge()
   extend()         |   1  |  extend()
+  forIn()          |   1  |  hasOwn()
   deepAssign()     |   1  |  deepAssign()
   getJson()        |   1  |  ajax()
   getText()        |   1  |  ajax()
@@ -281,15 +282,9 @@ if (!Array.prototype.flatMap) {
 
 if (!Object.fromEntries) {
   Object.fromEntries = function (entries) {
-    var res = {};
-    if (Array.isArray(entries)) {
-      entries.forEach(function (e) { res[e[0]] = e[1]; });
-    } else if (Object.prototype.toString.call(entries) === "[object Map]") {
-      entries.forEach(function (value, key) { res[key] = value; });
-    } else {
-      throw "TypeError: Object.fromEntries() polyfill supports only Array and Map parameters.";
-    }
-    return res;
+    var r = {};
+    for (let e of entries) { r[e[0]] = e[1]; }
+    return r;
   };
 }
 
@@ -492,7 +487,7 @@ const strReplaceAll = (s, sv, rv) => String(s).split(String(sv)).join(rv);
 
 function forIn (o, fn) {
   for (var p in o) {
-    if (o.hasOwnProperty(p)) { fn(o[p], p, o); }
+    if (celestra.hasOwn(o, p)) { fn(o[p], p, o); }
   }
   return o;
 }
@@ -911,7 +906,7 @@ const isArraylike = (v) =>
 
 const isNull = (v) => (v === null);
 const isUndefined = (v) => (v === undefined);
-const isNullOrUndefined = (v) => (v === null || v === undefined);
+const isNullOrUndefined = (v) => (v == null);
 const isNil = isNullOrUndefined;
 
 const isPrimitive = (v) =>
@@ -1336,7 +1331,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.4.0";
+const VERSION = "Celestra v3.4.1";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
