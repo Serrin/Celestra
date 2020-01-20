@@ -4,7 +4,7 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.10";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.11";
 
 celTest.__results__ = document.querySelector("#results");
 
@@ -15,9 +15,6 @@ celTest.isNotIE11 = function isNotIE11 () {
 celTest.isNotEdge = function isNotEdge () {
   return navigator.userAgent.toLowerCase().indexOf("edge") === -1;
 };
-
-/* iter2JSON(<iter>); -> JSON string with iter convert to array */
-celTest.iter2JSON = ([...a]) => JSON.stringify(a);
 
 /* __addTest__("step", true, expr); */
 /* __addTest__("step", true, expr, true|false); */
@@ -148,7 +145,7 @@ _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.4.1 testcases */
+/* Celestra v3.4.2 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -173,8 +170,8 @@ _cut.addElement("ul",
 _cut.addElement("hr");
 _cut.addElement("h3", "Celestra object");
 
-_cut.isEqual("Object name: \"celestra\"", true, celestra.random(100,200)>99);
-_cut.isEqual("Object name: \"_\"", true, _.random(100,200)>99);
+_cut.isEqual("Object name: \"celestra\"", true, celestra.randomInt(100,200)>99);
+_cut.isEqual("Object name: \"_\"", true, _.randomInt(100,200)>99);
 
 
 /* core api and DOM */
@@ -404,10 +401,16 @@ _cut.isEqual("form2string()",
 _.qs("#testFormDiv").remove();
 
 
-_cut.isTrue("random()", _.random() <= 101);
-_cut.isTrue("random(max)", _.random(30) <= 30);
-var testRandom = _.random(51,55);
-_cut.isTrue("random(min,max)", testRandom >= 51 && testRandom <= 55);
+_cut.isTrue("randomInt()", _.randomInt() <= 101);
+_cut.isTrue("randomInt(max)", _.randomInt(30) <= 30);
+var testRandom = _.randomInt(51,55);
+_cut.isTrue("randomInt(min,max)", testRandom >= 51 && testRandom <= 55);
+
+_cut.isTrue("randomFloat()", _.randomFloat() <= 101);
+_cut.isTrue("randomFloat(max)", _.randomFloat(30) <= 30);
+var testRandom = _.randomFloat(51,55);
+_cut.isTrue("randomFloat(min,max)", testRandom >= 51 && testRandom <= 55);
+_cut.log(`<b>${testRandom}</b>`);
 
 var rndStr = _.randomString();
 _cut.isTrue("randomString() default length 100, default false", _.isString(rndStr) && rndStr.length === 100);
@@ -2058,7 +2061,28 @@ _cut.isFalse("isTypedArray - false 2 - ArrayBuffer", _.isTypedArray(new ArrayBuf
 
 /* Type checking - isEqual()*/
 _cut.addElement("hr");
+_cut.addElement("h4", "Type checking - isSameArray()");
+
+_cut.isTrue("step 1", _.isSameArray([], []) );
+_cut.isTrue("step 2", _.isSameArray([5,4,5], [4,5,5]) );
+_cut.isFalse("step 3", _.isSameArray([5,4,5], [4,5,6]) );
+_cut.isFalse("step 4", _.isSameArray([5,4,6], [4,5,5]) );
+_cut.isFalse("step 5", _.isSameArray([5,4,5], [4,4,5]) );
+_cut.isFalse("step 6", _.isSameArray([5,5], [5,5,4]) );
+_cut.isFalse("step 7", _.isSameArray([5,5,4], [5,5]) );
+_cut.isFalse("step 8", _.isSameArray([5,5], new Map([[5,5],[5,5]])) );
+_cut.isFalse("step 9", _.isSameArray([5,5], new Set([5,5])) );
+_cut.isFalse("step 10", _.isSameArray([], {}) );
+_cut.isFalse("step 11", _.isSameArray({}, {}) );
+_cut.isFalse("step 12", _.isSameArray("4", "4") );
+_cut.isFalse("step 13", _.isSameArray(4, 4) );
+_cut.isFalse("step 14", _.isSameArray(4, 5) );
+
+
+/* Type checking - isEqual()*/
+_cut.addElement("hr");
 _cut.addElement("h4", "Type checking - isEqual()");
+_cut.log('<span class="deprecated">DEPRECATED in v3.4.2</span>');
 
 _cut.log('<span class="info">Note: <code>isEqual();</code> Works only with ES5 types. Please use the <code>Array.from()</code> or the <code>spread syntax</code> to convert Map and Set types to Array!</span>');
 

@@ -1,14 +1,16 @@
 @charset "UTF-8";
 /**
  * @name u87-light.css
- * @version 0.9.13
+ * @version 0.9.14
  * @see https://github.com/Serrin/u87.css
  * @license MIT https://opensource.org/licenses/MIT
- * This is the dark theme for the default css for my code documentations.
- * Usage:
- *   <link rel="stylesheet" href="u87.css" type="text/css" />
- *   <link rel="stylesheet" href="u87-light.css" type="text/css" />
  */
-body { background-color: #fff; color: #333333; }
+body { background-color: #ffffff; color: #000000; }
 a, a:link, a:visited, a:active, a:hover, a:focus { color: #0052cc; }
 .header { background-color: #eeeeee; }
+blockquote, .blockquote {
+  background-color: #eeeeee;
+  border-left: 5px solid #333333;
+}
+.border { border: 1px solid #000000; }
+.outline { outline: 1px solid #000000; }

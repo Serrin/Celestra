@@ -14,17 +14,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.4.1
+Latest version: 3.4.2
 
-Date: 2019-12-21T19:41:02.583Z
+Date: 2020-01-20T19:19:48.638Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (42321 bytes)
+Development version: celestra.js (42945 bytes)
 
-Minimal version: celestra.min.js (31749 bytes)
+Minified version: celestra.min.js (32208 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (33080 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (33573 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
 
@@ -58,36 +58,36 @@ Celestra test results for development version: unittest.dev.html
 
 ### How to import the ESM version
 
+````javascript
+<script type="module">
 
-    <script type="module">
+// import the celestra object
+import { celestra } from "./celestra.esm.js";
+window.celestra = celestra;
+window._ = celestra;
 
-    // import the celestra object
-    import { celestra } from "./celestra.esm.js";
-    window.celestra = celestra;
-    window._ = celestra;
+// import with default with name
+import { default as celestra } from "./celestra.esm.js";
+window.celestra = celestra;
+window._ = celestra;
 
-    // import with default with name
-    import { default as celestra } from "./celestra.esm.js";
-    window.celestra = celestra;
-    window._ = celestra;
+// import with default export
+import defaultExport from "./celestra.esm.js";
+window.celestra = defaultExport;
+window._ = defaultExport;
 
-    // import with default export
-    import defaultExport from "./celestra.esm.js";
-    window.celestra = defaultExport;
-    window._ = defaultExport;
+// import all functions in an object
+import * as celestra from "./celestra.esm.js";
+window.celestra = celestra;
+window._ = celestra;
 
-    // import all functions in an object
-    import * as celestra from "./celestra.esm.js";
-    window.celestra = celestra;
-    window._ = celestra;
+// import only functions
+import { identity, getType } from "./celestra.esm.js";
+window.identity = identity;
+window.getType = getType;
 
-    // import only functions
-    import { identity, getType } from "./celestra.esm.js";
-    window.identity = identity;
-    window.getType = getType;
-
-    </script>
-
+</script>
+````
 
 
 ### Celestra v3.0.0 (Hera) changes
@@ -114,15 +114,18 @@ Celestra test results for development version: unittest.dev.html
 
 These functions are available in the `celestra` and/or `_` objects.
 
-Example: `_.random()`
+Example: `_.randomInt()`
 
 Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM version only returns the celestra object.__
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
-`random([max]);` | Get a random number value within 0 and max value. Without parameter the maximum value is 100.
-`random(<min>,<max>);` | Get a random number value within min and max value.
+`randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
+`randomInt(<min>,<max>);` | Get a random integer number value within min and max value.
+`random();` | __DEPRECATED in v3.4.2__ Alias of the `randomInt()`.
+`randomFloat([max]);` | Get a random float number value within 0 and max value. Without parameter the maximum value is 100.
+`randomFloat(<min>,<max>);` | Get a random float number value within min and max value.
 `randomString([length[,specialCharactersEnabled]]);` | Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.
 `b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
@@ -158,8 +161,8 @@ Name | Description
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
 `qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
 `domReady(<fn>);` | Set the document ready (content fully loaded) event.
-`domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, __style object/string - since v2.0.5 - in IE11 and W10M Edge 14 the style string doesn't work__, data-*, etc.) The innerHTML is optional and can be a string.
-`domCreate(<element descriptive object>);` | Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The `style` can be a subobject or a string. __In IE11 and W10M Edge 14 the style string doesn't work.__ __Sample code:__ `_.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});`
+`domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, style object/string, data-*, etc.) The innerHTML is optional and can be a string.
+`domCreate(<element descriptive object>);` | Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The `style` can be a subobject or a string. __Sample code:__ `_.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});`
 `domToElement(<htmlString>);` | This function returns a HTML element which is created from the htmlString parameter. The htmlString parameter is mandatory and has to be a string.
 `domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string.
 `domSetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string. The value is mandatory and has to be a string.
@@ -223,7 +226,8 @@ Example: `_.isString()`
 
 Name | Description
 ---- | -----------
-`isEqual(<value1>,<value2>);` | This function checks the value equality and type equality of the given values/objects. Can check the `NaN` objects too. The return value is boolean and both of the parameters are mandatory. __Note: Works only with ES5 types. Please use the `Array.from()` or the `spread syntax` to convert Map and Set types to Array!__
+`isSameArray(<array1>,<array2>);` | This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.
+`isEqual(<value1>,<value2>);` | __DEPRECATED in v3.4.2__ This function checks the value equality and type equality of the given values/objects. Can check the `NaN` objects too. The return value is boolean and both of the parameters are mandatory. __Note: Works only with ES5 types. Please use the `Array.from()` or the `spread syntax` to convert Map and Set types to Array!__
 `isGenerator(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 `isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
 `isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. The return value is boolean.
@@ -246,7 +250,7 @@ Name | Description
 `isSet(<value>);` | This function determines whether the provided value is a set. The return value is boolean.
 `isWeakMap(<value>);` | This function determines whether the provided value is a weakmap. The return value is boolean.
 `isWeakSet(<value>);` | This function determines whether the provided value is a weakset. The return value is boolean.
-`isIterator(<value>);` | This function determines whether the provided value is an iterator. The return value is boolean. ___Doesn't work in W10M Edge 14.___
+`isIterator(<value>);` | This function determines whether the provided value is an iterator. The return value is boolean.
 `isIterable(<value>);` | This function determines whether the provided value is an iterable collection. The return value is boolean.
 `isDate(<value>);` | This function determines whether the provided value is a date. The return value is boolean.
 `isRegexp(<value>);` | This function determines whether the provided value is a regexp. The return value is boolean.
@@ -356,16 +360,16 @@ Name | Description
 `Array.prototype.includes();` | The includes() method determines whether an array includes a certain element, returning true or false as appropriate.
 `String.prototype.includes();` | The includes() method determines whether one string may be found within another string, returning true or false as appropriate.
 `String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string.
-`String.prototype.trimLeft();` | Alias of the String.prototype.trimStart() method.
+`String.prototype.trimLeft();` | Alias of the `String.prototype.trimStart();` method.
 `String.prototype.trimEnd();` | The trimEnd() method removes whitespace from the end of a string.
-`String.prototype.trimRight();` | Alias of the String.prototype.trimEnd() method.
+`String.prototype.trimRight();` | Alias of the `String.prototype.trimEnd();` method.
 `String.prototype.padStart();` | The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string.
 `String.prototype.padEnd();` | The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string.
 `String.prototype.repeat();` | The repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together.
 `NodeList.prototype.forEach();` | The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order.
 `Object.values();` | The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
 `Object.entries();` | The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
-`Object.fromEntries();` | The Object.fromEntries() method transforms a list of key-value pairs into an object. __Stage 3 proposal - https://tc39.github.io/proposal-object-from-entries/#sec-object.fromentries__ __Celestra Object.fromEntries() polyfill supports only Array and Map parameters in the modern browsers.__ __In IE11 only the Array parameter is supported.__
+`Object.fromEntries();` | The Object.fromEntries() method transforms a list of key-value pairs into an object.
 `Array.prototype.flat();` | The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
 `Array.prototype.flatMap();` | A new array with each element being the result of the callback function and flattened to a depth of 1.
 `Element.prototype.closest();` | The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null.
@@ -380,8 +384,7 @@ Name | Description
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 `String.prototype[Symbol.iterator]();` | The [Symbol.iterator] method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value.
 `BigInt.prototype.toJSON();` | sing `JSON.stringify();` with any BigInt value will raise a TypeError as BigInt values aren't serialized in JSON by default. This added method can fix this. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
-
-__DEPRECATED in v3.0.2__ and __REMOVED in v3.1.0__: `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
+__REMOVED in v3.1.0__ | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
 
 
 ## Samples

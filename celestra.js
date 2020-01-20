@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.4.1
+ * @version 3.4.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -359,9 +359,16 @@ if (window.BigInt && !BigInt.prototype.toJSON) {
 
 /* core api */
 
-function random (i = 100, a) {
+function randomInt (i = 100, a) {
   if (a === undefined) { a = i; i = 0; }
   return Math.floor(Math.random() * (a - i + 1)) + i;
+}
+const random = randomInt;
+
+function randomFloat (i = 100, a) {
+  if (a === undefined) { a = i; i = 0; }
+  var r = (Math.random() * (a - i + 1)) + i;
+  return r > a ? a : r;
 }
 
 function randomString (pl = 100, sc = false) {
@@ -499,13 +506,11 @@ const bind = Function.prototype.call.bind(Function.prototype.bind);
 const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
 const constant = (v) => () => v;
-
 const identity = (v) => v;
+const noop = () => undefined;
 
-function noop () {}
-
-const T = () => !0;
-const F = () => !1;
+const T = () => true;
+const F = () => false;
 
 /* DOM */
 
@@ -802,7 +807,11 @@ function ajax (o) {
   } else {
     o.queryType = o.queryType.toLowerCase();
   }
-  if (!o.type) { o.type = "get"; } else { o.type = o.type.toLowerCase(); }
+  if (!o.type) {
+    o.type = "get";
+  } else {
+    o.type = o.type.toLowerCase();
+  }
   if (o.type === "get") {
     var typeStr = "GET";
   } else if (o.type === "post") {
@@ -871,6 +880,18 @@ function ajax (o) {
 
 /* type checking */
 
+function isSameArray (a, b) {
+  if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) {
+    var a2 = a.slice().sort();
+    var b2 = b.slice().sort();
+    for (var i = 0, l = a.length; i < l; i++) {
+      if (a2[i] !== b2[i]) { return false; }
+    }
+    return true;
+  }
+  return false;
+}
+
 const isEqual = (a, b) => (celestra.getType(a, celestra.getType(b))
   && JSON.stringify(a) === JSON.stringify(b));
 
@@ -931,7 +952,7 @@ const isRegexp = (v) => celestra.getType(v, "regexp");
 
 const isElement = (v) => (typeof v === "object" && v.nodeType === 1);
 
-const isIterable = (v) => (!!v[Symbol.iterator]);
+const isIterable = (v) => (typeof v[Symbol.iterator] === "function");
 
 const isBigInt = (v) => (typeof v === "bigint");
 
@@ -1094,7 +1115,7 @@ function unzip ([...a]) {
   return r;
 }
 
-const uniqueArray = ([...a]) => [...new Set(a)];
+const uniqueArray = (a) => [...new Set(a)];
 
 function uniquePush (a, v) {
   if (!a.includes(v)) { a.push(v); return true; }
@@ -1331,7 +1352,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.4.1";
+const VERSION = "Celestra v3.4.2";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1343,7 +1364,9 @@ var celestra = {
   VERSION: VERSION,
   noConflict: noConflict,
   /* core api */
+  randomInt: randomInt,
   random: random,
+  randomFloat: randomFloat,
   randomString: randomString,
   b64Encode: b64Encode,
   b64Decode: b64Decode,
@@ -1402,6 +1425,7 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /* type checking */
+  isSameArray: isSameArray,
   isEqual: isEqual,
   isString: isString,
   isChar: isChar,
