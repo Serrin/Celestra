@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.4.2
+ * @version 3.5.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -363,7 +363,6 @@ function randomInt (i = 100, a) {
   if (a === undefined) { a = i; i = 0; }
   return Math.floor(Math.random() * (a - i + 1)) + i;
 }
-const random = randomInt;
 
 function randomFloat (i = 100, a) {
   if (a === undefined) { a = i; i = 0; }
@@ -491,6 +490,19 @@ const strRemoveTags = (s) =>
 const strReverse = (s) => Array.from(String(s)).reverse().join("");
 
 const strReplaceAll = (s, sv, rv) => String(s).split(String(sv)).join(rv);
+
+const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
+
+const strFromCodePoints = ([...a]) =>
+  a.reduce( (acc, v) => acc + String.fromCodePoint(v) , "");
+
+function strAt (s, p) {
+  let i = 0;
+  for (let item of String(s)) {
+    if (i++ === p) { return item; }
+  }
+  return "";
+}
 
 function forIn (o, fn) {
   for (var p in o) {
@@ -891,9 +903,6 @@ function isSameArray (a, b) {
   }
   return false;
 }
-
-const isEqual = (a, b) => (celestra.getType(a, celestra.getType(b))
-  && JSON.stringify(a) === JSON.stringify(b));
 
 const isString = (v) => (typeof v==="string");
 const isChar = (v) => (typeof v === "string" && v.length === 1);
@@ -1352,7 +1361,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.4.2";
+const VERSION = "Celestra v3.5.0";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1365,7 +1374,6 @@ var celestra = {
   noConflict: noConflict,
   /* core api */
   randomInt: randomInt,
-  random: random,
   randomFloat: randomFloat,
   randomString: randomString,
   b64Encode: b64Encode,
@@ -1381,6 +1389,9 @@ var celestra = {
   strRemoveTags: strRemoveTags,
   strReverse: strReverse,
   strReplaceAll: strReplaceAll,
+  strCodePoints: strCodePoints,
+  strFromCodePoints: strFromCodePoints,
+  strAt: strAt,
   forIn: forIn,
   toFunction: toFunction,
   bind: bind,
@@ -1426,7 +1437,6 @@ var celestra = {
   ajax: ajax,
   /* type checking */
   isSameArray: isSameArray,
-  isEqual: isEqual,
   isString: isString,
   isChar: isChar,
   isNumber: isNumber,

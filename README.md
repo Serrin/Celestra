@@ -12,19 +12,19 @@
 
 __A helper JavaScript library with useful functions and polyfills.__
 
-Tested on desktop browsers (latest Chrome, latest Firefox, latest stable Edge, latest dev Edge - Chromium) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
+Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.4.2
+Latest version: 3.5.0
 
-Date: 2020-01-20T19:19:48.638Z
+Date: 2020-02-22T19:48:23.073Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (42945 bytes)
+Development version: celestra.js (43167 bytes)
 
-Minified version: celestra.min.js (32208 bytes)
+Minified version: celestra.min.js (32381 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (33573 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (33770 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
 
@@ -98,7 +98,7 @@ window.getType = getType;
 
 - The library sources have been merged and all of the ES6E functions are available in the __celestra.js__ and __celestra.min.js__.
 
-- More functions have been deprecated or removed.
+- Many functions have been deprecated or removed.
 
 
 ## How to clone
@@ -123,7 +123,6 @@ Name | Description
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
 `randomInt(<min>,<max>);` | Get a random integer number value within min and max value.
-`random();` | __DEPRECATED in v3.4.2__ Alias of the `randomInt()`.
 `randomFloat([max]);` | Get a random float number value within 0 and max value. Without parameter the maximum value is 100.
 `randomFloat(<min>,<max>);` | Get a random float number value within min and max value.
 `randomString([length[,specialCharactersEnabled]]);` | Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.
@@ -139,7 +138,10 @@ Name | Description
 `strRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `strReplaceAll(<string>,<search>,<replace>);` | This functions replaces all instances of a substring in a string without use of a global regexp. All of the parameters are mandatory and will be converted to string. The return value is the modified string.
-`forIn(<object>,<callback>);` | The forIn() method executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
+`strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
+`strFromCodePoints(<iter>);` | Returns the joined string of the given unicode codepoints. The iterator/iterable parameter is mandatory.
+`strAt(<string>,<pos>);` | Returns the unicode character, which has to be on the given position in the string. If the position is out of the string length, then the return value is an empty string. All of the parameters are mandatory and position has to be an integer.
+`forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
@@ -227,7 +229,6 @@ Example: `_.isString()`
 Name | Description
 ---- | -----------
 `isSameArray(<array1>,<array2>);` | This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.
-`isEqual(<value1>,<value2>);` | __DEPRECATED in v3.4.2__ This function checks the value equality and type equality of the given values/objects. Can check the `NaN` objects too. The return value is boolean and both of the parameters are mandatory. __Note: Works only with ES5 types. Please use the `Array.from()` or the `spread syntax` to convert Map and Set types to Array!__
 `isGenerator(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 `isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
 `isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. The return value is boolean.

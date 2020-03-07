@@ -145,7 +145,7 @@ _cut.isNotEqual("isNotEqual() failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.4.2 testcases */
+/* Celestra v3.5.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -478,13 +478,13 @@ _cut.isEqual("strReverse() without unicode",
   ".eid ot emiT .niar ni sraet ekil ,emit ni tsol eb lliw stnemom esoht llA .etaG resuähnnaT eht raen krad eht ni rettilg smaeb-C dehctaw I .noirO fo redluohs eht ffo erif no spihs kcattA .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   strReverseRes
 );
-_cut.log(strReverseRes);
+_cut.log("<code>"+strReverseRes+"</code>");
 var strReverseRes = _.strReverse("I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.");
 _cut.isEqual("strReverse() with unicode 1",
   ".noirO fo redluohs eht ffo erif no spihs kcattA \uD834\uDF06 .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   strReverseRes
 );
-_cut.log(strReverseRes);
+_cut.log("<code>"+strReverseRes+"</code>");
 /*_cut.isEqual(
   "strReverse() with unicode 2",
   ".noirO fo redluohs eht ffo erif no spihs kcattA \u{1D306} .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
@@ -508,6 +508,24 @@ _cut.isEqual(
     + _.strReplaceAll(false,"i","j")
     + _.strReplaceAll("","i","j")
 );
+
+const testUnicodeStr22222 = "foo \uD834\uDF06 bar \uD835\uDC01 baz";
+_cut.isEqual(
+  "strCodePoints()",
+  "[102,111,111,32,119558,32,98,97,114,32,119809,32,98,97,122]",
+  JSON.stringify(_.strCodePoints(testUnicodeStr22222))
+);
+_cut.log("<code>"+JSON.stringify(_.strCodePoints(testUnicodeStr22222))+"</code>");
+_cut.isEqual(
+  "strFromCodePoints() + strCodePoints()",
+  testUnicodeStr22222,
+  _.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))
+);
+_cut.log("<code>"+_.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))+"</code>");
+let strAtRes = "";
+for (let i = -1; i < 16; i++) { strAtRes += _.strAt(testUnicodeStr22222, i); }
+_cut.isEqual("strAt()", testUnicodeStr22222, strAtRes);
+_cut.log("<code>"+strAtRes+"</code>");
 
 var slice = _.toFunction([].slice);
 _cut.isEqual("toFunction()", true, Array.isArray(slice(document.querySelectorAll("h3"))));
@@ -2077,73 +2095,6 @@ _cut.isFalse("step 11", _.isSameArray({}, {}) );
 _cut.isFalse("step 12", _.isSameArray("4", "4") );
 _cut.isFalse("step 13", _.isSameArray(4, 4) );
 _cut.isFalse("step 14", _.isSameArray(4, 5) );
-
-
-/* Type checking - isEqual()*/
-_cut.addElement("hr");
-_cut.addElement("h4", "Type checking - isEqual()");
-_cut.log('<span class="deprecated">DEPRECATED in v3.4.2</span>');
-
-_cut.log('<span class="info">Note: <code>isEqual();</code> Works only with ES5 types. Please use the <code>Array.from()</code> or the <code>spread syntax</code> to convert Map and Set types to Array!</span>');
-
-_cut.isTrue("isEqual() - 01 ES5 object true", _.isEqual({a:1,b:2}, {a:1,b:2}));
-_cut.isTrue("isEqual() - 02 ES5 array true",
-  _.isEqual(["a","b",3.14,"c","d",42], ["a","b",3.14,"c","d",42])
-);
-_cut.isTrue("isEqual() - 03 ES5 nodelist true",
-  _.isEqual(document.querySelectorAll("h3"), document.querySelectorAll("h3"))
-);
-_cut.isEqual("isEqual() - 04 ES5 simple types true",
-  "truetruetruetruetruetruetruetruetruetruetruetrue",
-  "" + _.isEqual(true, true) + _.isEqual(false, false) + _.isEqual(42, 42)
-    + _.isEqual(3.14, 3.14) + _.isEqual(0, -0) + _.isEqual(Infinity, Infinity)
-    + _.isEqual(-Infinity, -Infinity) + _.isEqual("$", "$") + _.isEqual(
-      "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die.",
-      "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die."
-   )
-    + _.isEqual(null, null) + _.isEqual(undefined, undefined)
-    + _.isEqual(NaN, NaN)
-);
-_cut.isTrue("isEqual() - 05 ES5 array + subobject true",
-  _.isEqual(["a","b",3.14,"c","d",42,{a:1,b:2}], ["a","b",3.14,"c","d",42,{a:1,b:2}])
-);
-_cut.isFalse("isEqual() - 06 ES5 array + subobject false",
-  _.isEqual(["a","b",3.14,"c","d",42,{a:1,b:2}], ["a","b",3.14,"c","d",42,{a:1,b:3}])
-);
-_cut.isFalse("isEqual() - 07 ES5 array false",
-  _.isEqual(["a","b",3.14,"c","d",42], ["a","b",3.1415,"c","d",42])
-);
-
-_cut.isTrue("isEqual() - 08 ES6 map <b>with Array.from()</b> true",
-  _.isEqual(
-    Array.from(new Map([["a",1],["b",2],["c",3]])),
-    Array.from(new Map([["a",1],["b",2],["c",3]]))
-  )
-);
-_cut.isFalse("isEqual() - 09 ES6 map <b>with Array.from()</b> false",
-  _.isEqual(
-    Array.from(new Map([["a",1],["b",2],["c",3]])),
-    Array.from(new Map([["a",1],["b",4],["c",3]]))
-  )
-);
-_cut.isTrue("isEqual() - 10 ES6 set <b>with Array.from()</b> true",
-  _.isEqual(
-    Array.from(new Set([1,2,3,4,3,2,5,6,4,7])),
-    Array.from(new Set([1,2,3,4,3,2,5,6,4,7]))
-  )
-);
-_cut.isFalse("isEqual() - 11 ES6 set <b>with Array.from()</b> false",
-  _.isEqual(
-    Array.from(new Set([1,2,3,4,3,2,5,6,4,7])),
-    Array.from(new Set([1,2,3,4,3,2,5,6,4,6]))
-  )
-);
-_cut.isFalse("isEqual() - 12 ES6 map and set <b>with Array.from()</b> false",
-  _.isEqual(
-    Array.from(new Map([["a",1],["b",2],["c",3]])),
-    Array.from(new Set([1,2,3,4,3,2,5,6,4,6]))
-  )
-);
 
 
 /* ES6 type checking */
