@@ -1,17 +1,11 @@
 @charset "UTF-8";
 /**
  * @name u87-blue.css
- * @version 0.9.15
+ * @version 0.9.16
  * @see https://github.com/Serrin/u87.css
  * @license MIT https://opensource.org/licenses/MIT
  */
-html { scrollbar-color: #ffffff #191e28; } /* dark */
-::-webkit-scrollbar-track { background: #191e28; }
-::-webkit-scrollbar-thumb { background: #ffffff; }
-::-webkit-scrollbar-button { background: #ffffff; }
-::-webkit-scrollbar-track-piece { background: #191e28; }
-::-webkit-resizer { background: #ffffff; }
-body { background-color: #191e28; color: #ffffff; }
+html, body { background-color: #191e28; color: #ffffff; }
 a, a:link, a:visited, a:active, a:hover, a:focus { color: #9dc5ea; }
 .header { background-color: #283747; }
 blockquote, .blockquote {
