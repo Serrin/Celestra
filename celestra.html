@@ -8,7 +8,7 @@
 <meta name="Author" content="Czigler Ferenc" />
 <meta name="Copyright" content="(C) Copyright Czigler Ferenc" />
 <link rel="stylesheet" href="u87.css" type="text/css" />
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<!--<link rel="icon" href="favicon.ico" type="image/x-icon" />-->
 <script> var _ = { VERSION: "This is another sample library." }; </script>
 <script src="celestra.min.js"></script>
 <style>
@@ -31,7 +31,7 @@ header {
 
 footer a, footer a:link, footer a:visited, footer a:active, footer a:hover,
 nav a, nav a:visited, nav a:active, nav a:hover {
-  color: cyan !important; /* u87 v0.9.13 */
+  color: white !important; /* u87 v0.9.13 */
 }
 
 /*@media (max-width: 575.98px) { td { display: block; width: 100% !important; } }*/
@@ -41,7 +41,7 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 <body>
 
 <header class="center">
-  <pre class="center strong" style="background-color: transparent;/*black*/ color: white;">
+  <pre class="center b font-l" style="background-color: transparent;/*black*/ color: white; line-height: 1.2;">
   ___  ____  __    ____  ___  ____  ____    __   
  / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
 ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
@@ -75,14 +75,14 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.5.0</p>
-<p>Date: 2020-02-22T19:48:23.073Z</p>
+<p>Latest version: 3.5.1</p>
+<p>Date: Date: 2020-07-10T19:49:12.756Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43167 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32381 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33770 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43960 bytes)</p>
+<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33045 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34434 bytes)</p>
 
-<p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function. CommonJS (<code>celestra</code>) and AMD (<code>{ celestra: celestra }</code>) compatible.</p>
+<p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
 
 <h3>Cheatsheets</h3>
@@ -671,25 +671,29 @@ window.getType = getType;
       <td>
         <p class="info">
           In v3.3.0 the arguments has been changed from
-          <code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,HttpOnly]]]]]);</code>
-          to
-          <code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);</code>.
+          <br/><code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,HttpOnly]]]]]);</code>
+          <br/>to
+          <br/><code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);</code>.
         </p>
-        Set a cookie.
-        <br/>The name is mandatory and has to be a string.
-        <br/>The value is mandatory and has to be a string.
-        <br/>The hours is the expire value and optional and can be a number.
-        <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
-        <br/>The domain is optional and can be a string.
-        <br/>The secure is optional and can be a boolean.
-        <br/>The SameSite is optional and can be a string ("Lax", "Strict", "None").
-        <br/>The HttpOnly is optional and can be a boolean.
+        <p>Set a cookie.</p>
+        <p><b>Function parameters:</b></p>
+        <ul>
+          <li>The name is mandatory and has to be a string.</li>
+          <li>The value is mandatory and has to be a string.</li>
+          <li>The hours is the expire value and optional and can be a number.</li>
+          <li>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!</li>
+          <li>The domain is optional and can be a string.</li>
+          <li>The secure is optional and can be a boolean.</li>
+          <li>The SameSite is optional and can be a string ("Lax", "Strict", "None").</li>
+          <li>The HttpOnly is optional and can be a boolean.</li>
+          <li>The return value (boolean) is determines whether the cookie was set with the name before the removing.</li>
+        </ul>        
       </td>
     </tr>
     <tr>
       <td><code>getCookie([name]);</code></td>
       <td>
-        Get a cookie value or all cookies in an object.
+        Get the value of a cookie or all cookies in an object.
         <br/>With the name parameter (string) the return value is the current cookie value or null. <br/>Without the parameter the return value is an object with the values or an empty object.
       </td>
     </tr>
@@ -702,18 +706,20 @@ window.getType = getType;
       <td>
         <p class="info">
           In v3.3.0 the arguments has been changed from
-          <code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,HttpOnly]]]]);</code>
-          to
-          <code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code>.
+          <br/><code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,HttpOnly]]]]);</code>
+          <br/>to
+          <br/><code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code>.
         </p>
-        Remove a cookie.
-        <br/>The name is mandatory and has to be a string.
-        <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
-        <br/>The domain is optional and can be a string.
-        <br/>The secure is optional and can be a boolean.
-        <br/>The HttpOnly is optional and can be a boolean.
-        <br/>The SameSite is optional and can be a string ("Lax", "Strict", "None").
-        <br/>The return value (boolean) is determines whether the cookie was set with the name before the removing.
+        <p>Remove a cookie. The return value (boolean) is determines whether the cookie was set with the name before the removing.</p>
+        <p><b>Function parameters:</b></p>
+        <ul>
+          <li>The name is mandatory and has to be a string.</li>
+          <li>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!</li>
+          <li>The domain is optional and can be a string.</li>
+          <li>The secure is optional and can be a boolean.</li>
+          <li>The SameSite is optional and can be a string ("Lax", "Strict", "None").</li>
+          <li>The HttpOnly is optional and can be a boolean.</li>
+        </ul>
       </td>
     </tr>
     <tr>
@@ -721,16 +727,18 @@ window.getType = getType;
       <td>
         <p class="info">
           In v3.3.0 the arguments has been changed from
-          <code>clearCookies([path[,domain[,secure[,HttpOnly]]]]);</code>
-          to
-          <code>clearCookies([,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code>.
-        </p>
-        Clear all of the cookies.
-        <br/>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!
-        <br/>The domain is optional and can be a string.
-        <br/>The secure is optional and can be a boolean.
-        <br/>The SameSite is optional and can be a string ("Lax", "Strict", "None").
-        <br/>The HttpOnly is optional and can be a boolean.
+          <br/><code>clearCookies([path[,domain[,secure[,HttpOnly]]]]);</code>
+          <br/>to
+          <br/><code>clearCookies([,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code>.
+        <p>Clear all of the cookies. The return value (boolean) is determines whether the cookie was set with the name before the removing.</p>
+        <p><b>Function parameters:</b></p>
+        <ul>
+          <li>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!</li>
+          <li>The domain is optional and can be a string.</li>
+          <li>The secure is optional and can be a boolean.</li>
+          <li>The SameSite is optional and can be a string ("Lax", "Strict", "None").</li>
+          <li>The HttpOnly is optional and can be a boolean.</li>
+        </ul>   
       </td>
     </tr>
   </table>
@@ -1161,6 +1169,10 @@ window.getType = getType;
     <tr>
       <td><code>String.prototype[Symbol.iterator]();</code></td>
       <td>The [Symbol.iterator]() method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/@@iterator" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>String.prototype.replaceAll();</code></td>
+      <td>The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>BigInt.prototype.toJSON();</code></td>
@@ -2920,29 +2932,35 @@ alert(fromEntriesStr);</pre>
   </a>
 </div>
 
-
 </main>
-<footer id="footer" class="center" style="background-color: #222; color: white; margin: 0; padding: 1rem;"><small>
-  <!--<p>Background image: <a href="https://unsplash.com/photos/3cByQIPJBaE" target="_blank">Photo</a> by <a href="https://unsplash.com/@erikringsmuth?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Erik Ringsmuth</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText" target="_blank">Unsplash</a></p>-->
-  <p><b>
-    <a href="#download">Download</a>
-    &nbsp;//&nbsp;
-    <a href="#functions">Functions</a>
-    &nbsp;//&nbsp;
-    <a href="#samples">Samples</a>
-    &nbsp;//&nbsp;
-    <a href="#license">License</a>
-    &nbsp;//&nbsp;
-    <a href="http://github.com/Serrin" target="_blank">Github</a>
-    &nbsp;//&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
-    &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
-    &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
-  </b></p>
-  <p>&copy; Copyright 2017 Ferenc Czigler</p>
-</small></footer>
+
+<footer id="footer" class="container-fluid bg-black">
+  <div class="container">
+    <div class="flex nogap">
+      <div class="flex-w-33">
+        <p><a href="#download">Download</a></p>
+        <p><a href="#functions">Functions</a></p>
+        <p><a href="#samples">Samples</a></p>
+        <p><a href="#license">License</a></p>
+        <p><a href="http://github.com/Serrin" target="_blank">Contact</a></p>
+      </div>
+      <div class="flex-w-33">
+        <p><a href="unittest.dev.html" target="_blank">CUT- dev</a></p>
+        <p><a href="unittest.min.html" target="_blank">CUT- min</a></p>
+        <p><a href="unittest.esm.html" target="_blank">CUT- esm</a></p>
+      </div>
+      <div class="flex-w-33">
+        <p><a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a></p>
+        <p><a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a></p>
+        <p><a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a></p>
+      </div>
+      <div class="flex-w-100">
+        <hr class="hide-on-mobile" />
+        <p>&copy; Copyright 2017 Ferenc Czigler</p>
+      </div>
+    </div>
+  </div>
+</footer>
 
 
 <script>

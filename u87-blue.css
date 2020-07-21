@@ -1,13 +1,13 @@
 @charset "UTF-8";
 /**
  * @name u87-blue.css
- * @version 0.9.17
+ * @version 0.9.18
  * @see https://github.com/Serrin/u87.css
  * @license MIT https://opensource.org/licenses/MIT
  */
 html, body { background-color: #191e28; color: #ffffff; }
 a, a:link, a:visited, a:active, a:hover, a:focus { color: #9dc5ea; }
-.header { background-color: #283747; }
+.jumbotron { background-color: #283747; }
 blockquote, .blockquote {
   background-color: #283747;
   border-left: 5px solid #ffffff;

@@ -1,13 +1,11 @@
 /**
  * @name Celestra
- * @version 3.5.0
+ * @version 3.5.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 (function(window, document){
 "use strict";
-
-/* Celestra FP */
 
 /*-----------------+------+----------------------------------
   Function         |   #  |  Internal calls
@@ -124,6 +122,28 @@ if (!String.prototype[Symbol.iterator]) {
   String.prototype[Symbol.iterator] = function () {
     return Array.from(this).values();
   };
+}
+
+if (!("replaceAll" in String.prototype)) {
+  Object.defineProperty(String.prototype, "replaceAll", {
+    "configurable": true,
+    "writable": true,
+    "enumerable": false,
+    "value": function (searchValue, replaceValue) {
+      "use strict";
+      if (this == null) {
+        throw new TypeError("String.prototype.replaceAll requires |this| not to be null nor undefined");
+      }
+      if (Object.prototype.toString.call(searchValue)
+        .replace(/^\[object (.+)\]$/, "$1").toLowerCase() === "regexp") {
+        if (!searchValue.global) {
+          throw new TypeError("String.prototype.replaceAll must be called with a global RegExp");
+        }
+        return String(this).replace(searchValue, replaceValue);
+      }
+      return String(this).split(String(searchValue)).join(replaceValue);
+    }
+  });
 }
 
 [Element.prototype, CharacterData.prototype, DocumentType.prototype].forEach(function (p) {
@@ -800,9 +820,7 @@ const domSetCSSVar = (n, v) =>
 
 function getText (u, s) { celestra.ajax({url: u, success: s}); }
 
-function getJson (u, s) {
-  celestra.ajax({url: u, format: "json", success: s});
-}
+function getJson (u, s) { celestra.ajax({url: u, format: "json", success: s}); }
 
 function ajax (o) {
   if (typeof o.url !== "string") {
@@ -1361,7 +1379,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.5.0";
+const VERSION = "Celestra v3.5.1";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1533,17 +1551,17 @@ var celestra = {
   joinOf: joinOf
 };
 
-/* AMD loader */
+/* AMD */
 if (typeof define === "function" && define.amd) {
   define(function () { return { celestra: celestra }; });
 }
 
-/* CommonJS loader */
+/* CommonJS */
 if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
   module.exports = celestra;
 }
 
-/* global scope */
+/* global */
 if (typeof window !== "undefined") {
   window.celestra = celestra;
   celestra.__prevUnderscore__ = window._;

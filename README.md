@@ -14,19 +14,19 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.5.0
+Latest version: 3.5.1
 
-Date: 2020-02-22T19:48:23.073Z
+Date: 2020-07-10T19:49:12.756Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (43167 bytes)
+Development version: celestra.js (43960 bytes)
 
-Minified version: celestra.min.js (32381 bytes)
+Minified version: celestra.min.js (33045 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (33770 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (34434 bytes)
 
-DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function. CommonJS (`celestra`) and AMD (`{ celestra: celestra }`) compatible.
+DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
 
 ### Cheatsheets
@@ -384,8 +384,9 @@ Name | Description
 `GeneratorFunction();` | The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the `window` object.
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 `String.prototype[Symbol.iterator]();` | The [Symbol.iterator] method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value.
+`String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp.
 `BigInt.prototype.toJSON();` | sing `JSON.stringify();` with any BigInt value will raise a TypeError as BigInt values aren't serialized in JSON by default. This added method can fix this. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
-__REMOVED in v3.1.0__ | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
+__REMOVED polyfills in v3.1.0__ | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
 
 
 ## Samples
