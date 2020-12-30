@@ -147,13 +147,13 @@ _cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.5.1 testcases */
+/* Celestra v3.5.2 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
 _cut.addElement("h3", "Not tested functions");
 _cut.addElement("ul",
-  "<li>getUrlVar([name]);</li>"
+  "<li>getUrlVars(); no str parameter</li>"
     +"<li>getLocation(&#60;success&#62;[,error]);</li>"
     +"<li>importStyle(&#60;href&#62;[,success]);</li>"
     +"<li>importStyles(&#60;styles&#62;);</li>"
@@ -178,7 +178,7 @@ _cut.isEqual("Object name: \"_\"", true, _.randomInt(100,200)>99);
 
 /* core api and DOM */
 /*
-getUrlVar([name]);
+getUrlVars(); no str parameter
 getLocation(<success>[,error]);
 importStyle(<href>[,success]);
 importStyles(<styles>);
@@ -367,22 +367,33 @@ _cut.isEqual("inherit();",
 
 /* / inherit(); */
 
-_cut.isEqual("getUrlVarFromString();", "a1",
+_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString();', "a1",
   _.getUrlVarFromString("?testa=a1&testb=b2")["testa"]
 );
-_cut.isEqual("getUrlVarFromString(); prop", "b2",
+_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString(); prop', "b2",
   _.getUrlVarFromString("?testa=a1&testb=b2", "testb")
 );
 
-_cut.isEqual("getUrlVarFromString(); not found - null", null,
+_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString(); not found - null', null,
   _.getUrlVarFromString("?testa=a1&testb=b2", "testc")
 );
-_cut.isEqual("getUrlVarFromString(); prop not found - undefined", undefined,
+_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString(); prop not found - undefined', undefined,
   _.getUrlVarFromString("?testa=a1&testb=b2")["testc"]
 );
-_cut.isEqual("getUrlVarFromString(); empty object", "{}",
+_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString(); empty object', "{}",
   JSON.stringify(_.getUrlVarFromString("?"))
 );
+
+_cut.isEqual('getUrlVars(); prop order_by from <code>"?showall=true&order_by=updated&o=asc"</code>', "updated",
+  _.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"],
+);
+_cut.log("<code>"+_.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"]+"</code>");
+_cut.isEqual("getUrlVars(); prop not found - undefined", undefined,
+  _.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"],
+);
+_cut.log("<code>"+_.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"]+"</code>");
+_cut.isEqual("getUrlVars(); empty object", "{}", JSON.stringify(_.getUrlVars("?")) );
+_cut.log("<code>"+_.getUrlVars("?")+"</code>");
 
 _cut.addElement(
   _.domCreate("div", {"id": "testFormDiv"},
@@ -1538,6 +1549,10 @@ var sum = "";
 for (let x of testGenFn(3)) { sum += x; }
 _cut.isEqual("GeneratorFunction();", "912", sum);
 
+let afunction = new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);");
+_cut.isEqual("AsyncFunction();", "asyncfunction", _.getType(afunction));
+_cut.log("<code>"+_.getType(afunction)+"</code>");
+
 const regexp = RegExp('foo*','g');
 const str = 'table football, foosball';
 let matches1 = str.matchAll(regexp);
@@ -1992,7 +2007,17 @@ _cut.isTrue("isGenerator(); true",
 _cut.isFalse("isGenerator(); false 1 fn",
   _.isGenerator(function fn42 () { return 42; })
 );
-_cut.isFalse("isGenerator(); false 2 number", _.isGenerator(42));
+_cut.isFalse("isGenerator(); false 2 async fn",
+  _.isGenerator(new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);"))
+);
+_cut.isFalse("isGenerator(); false 3 number", _.isGenerator(42));
+
+_cut.isTrue("isAsyncFn(); true",
+  _.isAsyncFn(new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);"))
+);
+_cut.isFalse("isAsyncFn(); false 1 fn", _.isAsyncFn(function fn42 () { return 42; }) );
+_cut.isFalse("isAsyncFn(); false 2 generator fn", _.isAsyncFn(function* fn42g () { yield 42; }) );
+_cut.isFalse("isAsyncFn(); false 3 number", _.isAsyncFn(42));
 
 _cut.isTrue("isString(); true", _.isString("str"));
 _cut.isFalse("isString(); false", _.isString(533));

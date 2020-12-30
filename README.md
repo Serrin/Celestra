@@ -1,7 +1,7 @@
 
-        ___  ____  __    ____  ___  ____  ____    __   
-       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
-      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
+        ___  ____  __    ____  ___  ____  ____    __
+       / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
+      ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
        \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
 
 
@@ -14,17 +14,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.5.1
+Latest version: 3.5.2
 
-Date: 2020-07-10T19:49:12.756Z
+Date: 2020-12-30T19:45:08.334Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (43960 bytes)
+Development version: celestra.js (44428 bytes)
 
-Minified version: celestra.min.js (33045 bytes)
+Minified version: celestra.min.js (33456 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (34434 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (34868 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -129,8 +129,9 @@ Name | Description
 `b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
 `javaHash(<data>[,hexa]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
-`getUrlVar([name]);` | Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
-`getUrlVarFromString(<querystr>[,name]);` | Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
+`getUrlVars([str=location.search]);` | Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
+`getUrlVar([name]);` | __DEPRECATED IN v3.5.2__ Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
+`getUrlVarFromString(<querystr>[,name]);` | __DEPRECATED IN v3.5.2__ Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
@@ -229,6 +230,7 @@ Example: `_.isString()`
 Name | Description
 ---- | -----------
 `isSameArray(<array1>,<array2>);` | This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.
+`isAsyncFn(<value>);` | This function determines whether the provided value is an async function. The return value is boolean.
 `isGenerator(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 `isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
 `isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. The return value is boolean.
@@ -381,7 +383,8 @@ Name | Description
 `window.screenTop;` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
 `globalThis;` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
 `RegExp.prototype.flags;` | The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy").
-`GeneratorFunction();` | The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the `window` object.
+`window.GeneratorFunction();` | The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the Celestra this is available in the `window` object.
+`window.AsyncFunction();` | The AsyncFunction constructor creates a new async function object. In JavaScript, every asynchronous function is actually an AsyncFunction object. Note that AsyncFunction is not a global object, but in the Celestra this is available in the `window` object.
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 `String.prototype[Symbol.iterator]();` | The [Symbol.iterator] method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value.
 `String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp.

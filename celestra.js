@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.5.1
+ * @version 3.5.2
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -364,6 +364,10 @@ if (!window.GeneratorFunction) {
   window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
 }
 
+if (!window.AsyncFunction) {
+  window.AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+}
+
 if (!String.prototype.matchAll) {
   String.prototype.matchAll = function* (regex) {
     function ef (fls, fl) { return (fls.includes(fl) ? fls : fls + fl); }
@@ -428,6 +432,10 @@ function inherit (c, p) {
   c.prototype.constructor = c;
   return c;
 }
+
+var getUrlVars = (str = location.search) =>
+  [...new URLSearchParams(str).entries()]
+    .reduce(function (o, item) { o[item[0]] = item[1]; return o; }, {});
 
 function getUrlVar (n) {
   var r = {}, w = window.location.search.substring(1).split("&");
@@ -546,7 +554,7 @@ const F = () => false;
 
 /* DOM */
 
-const qsa = (s, c = document) => [...c.querySelectorAll(s)];
+const qsa = (s, c = document) => Array.from(c.querySelectorAll(s));
 
 const qs = (s, c = document) => c.querySelector(s);
 
@@ -993,6 +1001,9 @@ const isTypedArray = (v) =>
 const isGenerator = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(function*(){}).constructor);
 
+const isAsyncFn = (v) => (Object.getPrototypeOf(v).constructor ===
+  Object.getPrototypeOf(async function(){}).constructor);
+
 /* cookie */
 
 function setCookie (name, value, hours = 8760, path = "/", domain, secure, SameSite, HttpOnly) {
@@ -1379,7 +1390,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.5.1";
+const VERSION = "Celestra v3.5.2";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1398,6 +1409,7 @@ var celestra = {
   b64Decode: b64Decode,
   javaHash: javaHash,
   inherit: inherit,
+  getUrlVars: getUrlVars,
   getUrlVar: getUrlVar,
   getUrlVarFromString: getUrlVarFromString,
   obj2string: obj2string,
@@ -1485,6 +1497,7 @@ var celestra = {
   isArrayBuffer: isArrayBuffer,
   isTypedArray: isTypedArray,
   isGenerator: isGenerator,
+  isAsyncFn: isAsyncFn,
   /* cookie */
   setCookie: setCookie,
   getCookie: getCookie,

@@ -75,12 +75,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.5.1</p>
-<p>Date: Date: 2020-07-10T19:49:12.756Z</p>
+<p>Latest version: 3.5.2</p>
+<p>Date: Date: 2020-12-30T19:45:08.334Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43960 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33045 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34434 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (44428 bytes)</p>
+<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33456 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34868 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -211,12 +211,23 @@ window.getType = getType;
       <td>Java <code>String.hashCode()</code> implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.</td>
     </tr>
     <tr>
+      <td><code>getUrlVars([str=location.search]);</code></td>
+      <td>Get the values of the url variables in an object from the <code>location.search</code> <b>(default value)</b> or another given url. The str parameter name is optional and can be a string.
+      <br/>Example: <code>"?showall=true&amp;order_by=updated&amp;o=asc"</code> -> <code>Object { showall: "true", order_by: "updated", o: "asc" }</code></td>
+    </tr>
+    <tr>
       <td><code>getUrlVar([name]);</code></td>
-      <td>Get the value of a url search variable or all url variables in an object from the <code>document.location.search</code>. The variable name is optional and can be a string.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v3.5.2</span></p>
+        <p>Get the value of a url search variable or all url variables in an object from the <code>document.location.search</code>. The variable name is optional and can be a string.</p>
+      </td>
     </tr>
     <tr>
       <td><code>getUrlVarFromString(&#60;querystr&#62;[,name]);</code></td>
-      <td>Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v3.5.2</span></p>
+        <p>Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.</p>
+      </td>
     </tr>
     <tr>
       <td><code>obj2string(&#60;object&#62;);</code></td>
@@ -519,6 +530,10 @@ window.getType = getType;
     <tr>
       <td><code>isSameArray(&#60;array1&#62;,&#60;array2&#62;);</code></td>
       <td>This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.</td>
+    </tr>
+    <tr>
+      <td><code>isAsyncFn(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is an async function. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isGenerator(&#60;value&#62;);</td>
@@ -1159,8 +1174,12 @@ window.getType = getType;
       <td>The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy"). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/flags" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>GeneratorFunction();</code></td>
-      <td>The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the ES6 extension makes this available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
+      <td><code>window.GeneratorFunction();</code></td>
+      <td>The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the Celestra this is available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>window.AsyncFunction();</code></td>
+      <td>The AsyncFunction constructor creates a new async function object. In JavaScript, every asynchronous function is actually an AsyncFunction object. Note that AsyncFunction is not a global object, but in the Celestra this is available in the </code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncFunction" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>String.prototype.matchAll();</code></td>
@@ -1488,43 +1507,45 @@ alert(testArrayFillStr);</pre></td>
       <td><code>_.importScripts("testmodule1.js", "testmodule3.js", "testmodule2.js");</code></td>
     </tr>
     <tr>
-      <td><b>getUrlVar(name)</b></td>
-      <td><button onclick='alert( _.getUrlVar("foo") );'>Try</button></td>
+      <td><b></b></td>
+      <td></td>
       <td>
         <p><a href="?foo=fooValue%20Lorem%20Ipsum%202017%20%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%20%C3%89%C3%81%C5%B0%C5%90%C3%9A%C3%96%C3%9C%C3%93%C3%8D&bar=barValue#url">Test page</a></p>
-        <p><code>alert( _.getUrlVar("foo") );</code></p>
       </td>
     </tr>
+    
     <tr>
-      <td><b>getUrlVar()</b></td>
-      <td><button onclick='var params = _.getUrlVar(); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
-      <td><code>var params = _.getUrlVar();<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
+      <td><b>getUrlVars()</b></td>
+      <td><button onclick='var params = _.getUrlVars(); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
+      <td><code>var params = _.getUrlVars();<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
     </tr>
     <tr>
-      <td><b>getUrlVar() not found</b></td>
-      <td><button onclick='alert( _.getUrlVar("foobarbaznotfound") );'>Try</button></td>
-      <td><code>alert( _.getUrlVar("foobarbaznotfound") );</code></td>
+      <td><b>getUrlVars() found</b></td>
+      <td><button onclick='alert( _.getUrlVars()["foo"] );'>Try</button></td>
+      <td><code>alert( _.getUrlVars()["foo"] );</code></td>
     </tr>
     <tr>
-      <td><b>getUrlVarFromString() not found</b></td>
-      <td><button onclick='alert( _.getUrlVarFromString("?testa=a1&testb=b2", "foobarbaznotfound") );'>Try</button></td>
-      <td><code>alert( _.getUrlVarFromString("?testa=a1&amp;testb=b2", "foobarbaznotfound") );</code></td>
+      <td><b>getUrlVars() not found</b></td>
+      <td><button onclick='alert( _.getUrlVars()["foobarbaznotfound"] );'>Try</button></td>
+      <td><code>alert( _.getUrlVars()["foobarbaznotfound"] );</code></td>
+    </tr>
+    
+    <tr>
+      <td><b>getUrlVars() with "?showall=true&amp;order_by=updated&amp;o=asc"</b></td>
+      <td><button onclick='var params = _.getUrlVars("?showall=true&order_by=updated&o=asc"); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
+      <td><code>var params = _.getUrlVars();<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
     </tr>
     <tr>
-      <td><b>getUrlVarFromString() not found object</b></td>
-      <td><button onclick='alert( JSON.stringify( _.getUrlVarFromString("?") ) );'>Try</button></td>
-      <td><code>alert( JSON.stringify( _.getUrlVarFromString("?") ) );</code></td>
+      <td><b>getUrlVars() found with "?testa=a1&amp;testb=b2"</b></td>
+      <td><button onclick='alert( _.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"] );'>Try</button></td>
+      <td><code>alert( _.getUrlVars("?showall=true&amp;order_by=updated&amp;o=asc")["order_by"] );</code></td>
     </tr>
     <tr>
-      <td><b>getUrlVarFromString(querystr,name)</b></td>
-      <td><button onclick='alert( _.getUrlVarFromString("?testa=a1&testb=b2", "testb") );'>Try</button></td>
-      <td><code>alert( _.getUrlVarFromString("?testa=a1&amp;testb=b2", "testb") );</code></td>
+      <td><b>getUrlVars() not found with "?testa=a1&amp;testb=b2"</b></td>
+      <td><button onclick='alert( _.getUrlVars("?showall=true&order_by=updated&o=asc")["notfound"] );'>Try</button></td>
+      <td><code>alert( _.getUrlVars("?showall=true&amp;order_by=updated&amp;o=asc")["notfound"] );</code></td>
     </tr>
-    <tr>
-      <td><b>getUrlVarFromString(querystr)</b></td>
-      <td><button onclick='var params = _.getUrlVarFromString("?testa=a1&testb=b2"); for ( var name in params ) { alert(name+" = "+params[name]); }'>Try</button></td>
-      <td><code>var params = _.getUrlVarFromString("?testa=a1&amp;testb=b2");<br/>for ( var name in params ) { alert(name+" = "+params[name]); }</code></td>
-    </tr>
+    
     <tr>
       <td><b>obj2string(object);</b></td>
       <td><button onclick='var tos = { str: "éáűőúöüóíÉÁŰŐÚÖÜÓÍ", bool: true, pi: 3.141592653589793 }; alert( _.obj2string(tos) ); _.forIn( _.getUrlVarFromString( "?"+_.obj2string(tos) ), function (v, n) { alert(n+" = \""+v+"\"") } );'>Try</button></td>
