@@ -14,17 +14,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.5.2
+Latest version: 3.6.0
 
-Date: 2020-12-30T19:45:08.334Z
+Date: 2021-01-10T21:38:30.715Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (44428 bytes)
+Development version: celestra.js (43366 bytes)
 
-Minified version: celestra.min.js (33456 bytes)
+Minified version: celestra.min.js (32639 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (34868 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (32495 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -76,16 +76,6 @@ import defaultExport from "./celestra.esm.js";
 window.celestra = defaultExport;
 window._ = defaultExport;
 
-// import all functions in an object
-import * as celestra from "./celestra.esm.js";
-window.celestra = celestra;
-window._ = celestra;
-
-// import only functions
-import { identity, getType } from "./celestra.esm.js";
-window.identity = identity;
-window.getType = getType;
-
 </script>
 ````
 
@@ -97,6 +87,15 @@ window.getType = getType;
 - If you would like to use Celestra with older browsers, then you can download the latest v2.x version here: https://github.com/Serrin/Celestra/releases
 
 - The library sources have been merged and all of the ES6E functions are available in the __celestra.js__ and __celestra.min.js__.
+
+- Many functions have been deprecated or removed.
+
+
+### Celestra v3.6.0 (Galactica) changes
+
+- CommonJS and AMD module compatibility have been removed.
+
+- In the ESM (ECMAScript 6 module) version only the whole celestra object is exported as default export and as standalone object.
 
 - Many functions have been deprecated or removed.
 
@@ -130,8 +129,6 @@ Name | Description
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
 `javaHash(<data>[,hexa]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `getUrlVars([str=location.search]);` | Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
-`getUrlVar([name]);` | __DEPRECATED IN v3.5.2__ Get the value of a url search variable or all url variables in an object from the `document.location.search`. The variable name is optional and can be a string.
-`getUrlVarFromString(<querystr>[,name]);` | __DEPRECATED IN v3.5.2__ Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
@@ -231,7 +228,7 @@ Name | Description
 ---- | -----------
 `isSameArray(<array1>,<array2>);` | This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.
 `isAsyncFn(<value>);` | This function determines whether the provided value is an async function. The return value is boolean.
-`isGenerator(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
+`isGeneratorFn(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 `isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
 `isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. The return value is boolean.
 `isNumber(<value>);` | This function determines whether the provided value is a number. The return value is boolean.

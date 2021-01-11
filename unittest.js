@@ -147,7 +147,7 @@ _cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.5.2 testcases */
+/* Celestra v3.6.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -366,23 +366,6 @@ _cut.isEqual("inherit();",
 );
 
 /* / inherit(); */
-
-_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString();', "a1",
-  _.getUrlVarFromString("?testa=a1&testb=b2")["testa"]
-);
-_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString(); prop', "b2",
-  _.getUrlVarFromString("?testa=a1&testb=b2", "testb")
-);
-
-_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString(); not found - null', null,
-  _.getUrlVarFromString("?testa=a1&testb=b2", "testc")
-);
-_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString(); prop not found - undefined', undefined,
-  _.getUrlVarFromString("?testa=a1&testb=b2")["testc"]
-);
-_cut.isEqual('<span class="deprecated">Deprecated in v3.5.2</span> getUrlVarFromString(); empty object', "{}",
-  JSON.stringify(_.getUrlVarFromString("?"))
-);
 
 _cut.isEqual('getUrlVars(); prop order_by from <code>"?showall=true&order_by=updated&o=asc"</code>', "updated",
   _.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"],
@@ -2001,16 +1984,16 @@ _cut.isEqual("Math.trunc();", "3"+"-3"+"4"+"-4"+"NaN"+"1"+"0",
 _cut.addElement("hr");
 _cut.addElement("h3", "type checking");
 
-_cut.isTrue("isGenerator(); true",
-  _.isGenerator(function* fn42g () { yield 42; })
+_cut.isTrue("isGeneratorFn(); true",
+  _.isGeneratorFn(function* fn42g () { yield 42; })
 );
-_cut.isFalse("isGenerator(); false 1 fn",
-  _.isGenerator(function fn42 () { return 42; })
+_cut.isFalse("isGeneratorFn(); false 1 fn",
+  _.isGeneratorFn(function fn42 () { return 42; })
 );
-_cut.isFalse("isGenerator(); false 2 async fn",
-  _.isGenerator(new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);"))
+_cut.isFalse("isGeneratorFn(); false 2 async fn",
+  _.isGeneratorFn(new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);"))
 );
-_cut.isFalse("isGenerator(); false 3 number", _.isGenerator(42));
+_cut.isFalse("isGeneratorFn(); false 3 number", _.isGeneratorFn(42));
 
 _cut.isTrue("isAsyncFn(); true",
   _.isAsyncFn(new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);"))

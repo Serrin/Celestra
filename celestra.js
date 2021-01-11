@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.5.2
+ * @version 3.6.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -433,29 +433,9 @@ function inherit (c, p) {
   return c;
 }
 
-var getUrlVars = (str = location.search) =>
+const getUrlVars = (str = location.search) =>
   [...new URLSearchParams(str).entries()]
     .reduce(function (o, item) { o[item[0]] = item[1]; return o; }, {});
-
-function getUrlVar (n) {
-  var r = {}, w = window.location.search.substring(1).split("&");
-  for (var i = 0, l = w.length; i < l; i++) {
-    var e = w[i].split("=");
-    r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
-  }
-  if (JSON.stringify(r) === "{\"\":\"undefined\"}") { r = {}; }
-  if (n) { return r[n] ? r[n] : null; } else { return r; }
-}
-
-function getUrlVarFromString (qstr, n) {
-  var r = {}, w = qstr.substring(1).split("&");
-  for (var i = 0, l = w.length; i < l; i++) {
-    var e = w[i].split("=");
-    r[decodeURIComponent(e[0])] = decodeURIComponent(e[1]);
-  }
-  if (JSON.stringify(r) === "{\"\":\"undefined\"}") { r = {}; }
-  if (n) { return r[n] ? r[n] : null; } else { return r; }
-}
 
 function obj2string (o) {
   var s = "";
@@ -998,7 +978,7 @@ const isTypedArray = (v) =>
    "int32array", "uint32array", "float32array", "float64array",
    "bigint64array", "biguint64array"].includes(celestra.getType(v));
 
-const isGenerator = (v) => (Object.getPrototypeOf(v).constructor ===
+const isGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(function*(){}).constructor);
 
 const isAsyncFn = (v) => (Object.getPrototypeOf(v).constructor ===
@@ -1390,7 +1370,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.5.2";
+const VERSION = "Celestra v3.6.0";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1410,8 +1390,6 @@ var celestra = {
   javaHash: javaHash,
   inherit: inherit,
   getUrlVars: getUrlVars,
-  getUrlVar: getUrlVar,
-  getUrlVarFromString: getUrlVarFromString,
   obj2string: obj2string,
   getType: getType,
   extend: extend,
@@ -1496,7 +1474,7 @@ var celestra = {
   isBigInt: isBigInt,
   isArrayBuffer: isArrayBuffer,
   isTypedArray: isTypedArray,
-  isGenerator: isGenerator,
+  isGeneratorFn: isGeneratorFn,
   isAsyncFn: isAsyncFn,
   /* cookie */
   setCookie: setCookie,
@@ -1564,17 +1542,6 @@ var celestra = {
   joinOf: joinOf
 };
 
-/* AMD */
-if (typeof define === "function" && define.amd) {
-  define(function () { return { celestra: celestra }; });
-}
-
-/* CommonJS */
-if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
-  module.exports = celestra;
-}
-
-/* global */
 if (typeof window !== "undefined") {
   window.celestra = celestra;
   celestra.__prevUnderscore__ = window._;

@@ -75,12 +75,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.5.2</p>
-<p>Date: Date: 2020-12-30T19:45:08.334Z</p>
+<p>Latest version: 3.6.0</p>
+<p>Date: Date: 2021-01-10T21:38:30.715Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (44428 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33456 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (34868 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43366 bytes)</p>
+<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32639 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (32495 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -125,25 +125,22 @@ import defaultExport from "./celestra.esm.js";
 window.celestra = defaultExport;
 window._ = defaultExport;
 
-// import all functions in an object
-import * as celestra from "./celestra.esm.js";
-window.celestra = celestra;
-window._ = celestra;
-
-// import only functions
-import { identity, getType } from "./celestra.esm.js";
-window.identity = identity;
-window.getType = getType;
-
 &#60;/script&#62;</pre>
 
 <h3>Celestra v3.0.0 (Hera) changes</h3>
 
 <ul>
   <li>Only modern browsers (ES6+) are supported. The Internet Explorer 11 and W10M Edge have been removed from the supported browsers.</li>
-  <li>If you would like to use Celestra with older browsers, then you can download the latest v2.x version here: <a href="https://github.com/Serrin/Celestra/releases" target="_blank">https://github.com/Serrin/Celestra/releases</a>
-  </li>
+  <li>If you would like to use Celestra with older browsers, then you can download the latest v2.x version here: <a href="https://github.com/Serrin/Celestra/releases" target="_blank">https://github.com/Serrin/Celestra/releases</a></li>
   <li>The library sources have been merged and all of the ES6E functions are available in the <b>celestra.js</b> and <b>celestra.min.js</b></li>
+  <li>Many functions have been deprecated or removed.</li>
+</ul>
+
+<h3>Celestra v3.6.0 (Galactica) changes</h3>
+
+<ul>
+  <li>CommonJS and AMD module compatibility have been removed.</li>
+  <li>In the ESM (ECMAScript 6 module) version only the whole celestra object is exported as default export and as standalone object.</li>
   <li>Many functions have been deprecated or removed.</li>
 </ul>
 
@@ -214,20 +211,6 @@ window.getType = getType;
       <td><code>getUrlVars([str=location.search]);</code></td>
       <td>Get the values of the url variables in an object from the <code>location.search</code> <b>(default value)</b> or another given url. The str parameter name is optional and can be a string.
       <br/>Example: <code>"?showall=true&amp;order_by=updated&amp;o=asc"</code> -> <code>Object { showall: "true", order_by: "updated", o: "asc" }</code></td>
-    </tr>
-    <tr>
-      <td><code>getUrlVar([name]);</code></td>
-      <td>
-        <p><span class="deprecated">Deprecated in v3.5.2</span></p>
-        <p>Get the value of a url search variable or all url variables in an object from the <code>document.location.search</code>. The variable name is optional and can be a string.</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>getUrlVarFromString(&#60;querystr&#62;[,name]);</code></td>
-      <td>
-        <p><span class="deprecated">Deprecated in v3.5.2</span></p>
-        <p>Get the value of a url search variable or all url variables in an object from a querystring. The variable name is optional and can be a string.</p>
-      </td>
     </tr>
     <tr>
       <td><code>obj2string(&#60;object&#62;);</code></td>
@@ -536,7 +519,7 @@ window.getType = getType;
       <td>This function determines whether the provided value is an async function. The return value is boolean.</td>
     </tr>
     <tr>
-      <td><code>isGenerator(&#60;value&#62;);</td>
+      <td><code>isGeneratorFn(&#60;value&#62;);</td>
       <td>This function determines whether the provided value is a generator function. The return value is boolean.</td>
     </tr>
     <tr>
@@ -1548,8 +1531,8 @@ alert(testArrayFillStr);</pre></td>
     
     <tr>
       <td><b>obj2string(object);</b></td>
-      <td><button onclick='var tos = { str: "éáűőúöüóíÉÁŰŐÚÖÜÓÍ", bool: true, pi: 3.141592653589793 }; alert( _.obj2string(tos) ); _.forIn( _.getUrlVarFromString( "?"+_.obj2string(tos) ), function (v, n) { alert(n+" = \""+v+"\"") } );'>Try</button></td>
-      <td><code>var tos = {<br/> str: "éáűőúöüóíÉÁŰŐÚÖÜÓÍ",<br/> bool: true,<br/> pi: 3.141592653589793 };<br/>alert( _.obj2string(tos) );<br/>_.forIn(<br/> _.getUrlVarFromString( "?"+_.obj2string(tos) ),<br/> function (v, n) { alert(n+" = \""+v+"\"") }<br/>);</code></td>
+      <td><button onclick='var tos = { str: "éáűőúöüóíÉÁŰŐÚÖÜÓÍ", bool: true, pi: 3.141592653589793 }; alert( _.obj2string(tos) ); _.forIn( _.getUrlVars( "?"+_.obj2string(tos) ), function (v, n) { alert(n+" = \""+v+"\"") } );'>Try</button></td>
+      <td><code>var tos = {<br/> str: "éáűőúöüóíÉÁŰŐÚÖÜÓÍ",<br/> bool: true,<br/> pi: 3.141592653589793 };<br/>alert( _.obj2string(tos) );<br/>_.forIn(<br/> _.getUrlVars( "?"+_.obj2string(tos) ),<br/> function (v, n) { alert(n+" = \""+v+"\"") }<br/>);</code></td>
     </tr>
     <tr>
       <td><b>getType()</b></td>
