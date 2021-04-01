@@ -147,7 +147,7 @@ _cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.6.0 testcases */
+/* Celestra v3.6.1 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -2104,7 +2104,7 @@ _cut.addElement("hr");
 _cut.addElement("h4", "Type checking - isSameArray();");
 
 _cut.isTrue("step 1", _.isSameArray([], []) );
-_cut.isTrue("step 2", _.isSameArray([5,4,5], [4,5,5]) );
+_cut.isTrue("step 2", _.isSameArray([5,4,5], [5,4,5]) );
 _cut.isFalse("step 3", _.isSameArray([5,4,5], [4,5,6]) );
 _cut.isFalse("step 4", _.isSameArray([5,4,6], [4,5,5]) );
 _cut.isFalse("step 5", _.isSameArray([5,4,5], [4,4,5]) );

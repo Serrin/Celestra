@@ -1,29 +1,15 @@
 /**
  * @name Celestra demo plugin
- * @version 3.6.0
+ * @version 3.6.1
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 3.6.0
+ * Minimal required Celestra version: 3.6.1
  */
 
 (function(celestra){
 "use strict";
 
-celestra.addNumbers = function () {
-  if (arguments.length>0) {
-    var sum = 0;
-    for (var i=0, l=arguments.length; i<l; i++) {
-      if ( celestra.getType(arguments[i], "number") ) {
-        sum += arguments[i];
-      } else {
-        throw "celestra.addNumbers() error: all parameters have to be number - "
-          + JSON.stringify(arguments[i]);
-      }
-    }
-    return sum;
-  } else {
-    throw "celestra.addNumbers() error: no parameters";
-  }
-};
+celestra.sum = (...a) => a.slice(1).reduce((acc, cv) => acc + cv, a[0]);
+celestra.avg = (...a) => a.slice(1).reduce((acc, cv) => acc + cv, a[0]) / a.length;
 
 }(celestra));

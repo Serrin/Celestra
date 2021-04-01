@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.6.0
+ * @version 3.6.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -532,6 +532,10 @@ const noop = () => undefined;
 const T = () => true;
 const F = () => false;
 
+function assert (c, m="") { if (!c) { throw new Error("[assert] "+m); } }
+function assertLog (c, m="") { if (!c) { console.log("[assertLog] "+m); } }
+function assertAlert (c, m="") { if (!c) { alert("[assertAlert] "+m); } }
+
 /* DOM */
 
 const qsa = (s, c = document) => Array.from(c.querySelectorAll(s));
@@ -900,17 +904,15 @@ function ajax (o) {
 
 function isSameArray (a, b) {
   if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) {
-    var a2 = a.slice().sort();
-    var b2 = b.slice().sort();
     for (var i = 0, l = a.length; i < l; i++) {
-      if (a2[i] !== b2[i]) { return false; }
+      if (a[i] !== b[i]) { return false; }
     }
     return true;
   }
   return false;
 }
 
-const isString = (v) => (typeof v==="string");
+const isString = (v) => (typeof v === "string");
 const isChar = (v) => (typeof v === "string" && v.length === 1);
 
 const isNumber = (v) => (typeof v === "number");
@@ -1103,11 +1105,7 @@ const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
-function arrayRange (start = 0, end = 100, step = 1) {
-  var i = Number(start), end2 = Number(end), res = [];
-  while (i <= end2) { res.push(i); i += step; }
-  return res;
-}
+const arrayRange = (start = 0, end = 100, step = 1) => Array.from({ length: (end - start) / step + 1}, (_, i) => start + (i * step));
 
 function zip (...a) {
   a = a.map((v) => Array.from(v));
@@ -1370,7 +1368,7 @@ function joinOf (it, s = ",") {
 
 /* object */
 
-const VERSION = "Celestra v3.6.0";
+const VERSION = "Celestra v3.6.1";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1409,6 +1407,9 @@ var celestra = {
   noop: noop,
   T: T,
   F: F,
+  assert: assert,
+  assertLog: assertLog,
+  assertAlert: assertAlert,
   /* DOM */
   qsa: qsa,
   qs: qs,

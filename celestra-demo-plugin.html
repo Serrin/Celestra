@@ -28,11 +28,11 @@
 
 <h2>Download and informations</h2>
 
-<p>This is a Celestra demo plugin. The added function is the <code>addNumbers()</code>.</p>
+<p>This is a Celestra demo plugin.</p>
 
-<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge, IE11) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge and W10M Edge).</p>
+<p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).</p>
 
-<p>Latest version: 3.6.0</p>
+<p>Latest version: 3.6.1</p>
 
 <p>Download: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
@@ -42,31 +42,17 @@
 
 /**
  * @name Celestra demo plugin
- * @version 3.6.0
+ * @version 3.6.1
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 3.6.0
+ * Minimal required Celestra version: 3.6.1
  */
 
 (function(celestra){
 "use strict";
 
-celestra.addNumbers = function () {
-  if (arguments.length&#62;0) {
-    var sum = 0;
-    for (var i=0, l=arguments.length; i&#60;l; i++) {
-      if ( celestra.getType(arguments[i], "number") ) {
-        sum += arguments[i];
-      } else {
-        throw "celestra.addNumbers() error: all parameters have to be number - "
-          + JSON.stringify(arguments[i]);
-      }
-    }
-    return sum;
-  } else {
-    throw "celestra.addNumbers() error: no parameters";
-  }
-};
+celestra.sum = (...a) => a.slice(1).reduce((acc, cv) => acc + cv, a[0]);
+celestra.avg = (...a) => a.slice(1).reduce((acc, cv) => acc + cv, a[0]) / a.length;
 
 }(celestra));
 
@@ -81,39 +67,60 @@ celestra.addNumbers = function () {
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>addNumbers()</code></td>
-      <td>Make a sum from the numbers in the parameter values. The return value is a the sum. The function throwns an error, if there is no parameter or the type of a parameter isn't a number.</td>
+      <td><code>sum();</code></td>
+      <td>This function returns the sum value from the parameter values.</td>
+    </tr>
+    <tr>
+      <td><code>avg();</code></td>
+      <td>This function returns the average value from the parameter values.</td>
     </tr>
   </table>
 </div>
 
 <h2>Samples</h2>
 
-<div>
-  <table>
-    <tr>
-      <td><b>addNumbers() valid values</b></td>
-      <td>
-        <button onclick="alert( _.addNumbers(3) );">try 1</button>
-        <pre>alert( _.addNumbers(3) );</pre>
-        <button onclick="alert( _.addNumbers(3, 5) );">try 2</button>
-        <pre>alert( _.addNumbers(3, 5) );</pre>
-        <button onclick="alert( _.addNumbers(3.14, -5) );">try 3</button>
-        <pre>alert( _.addNumbers(3.14, -5) );</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>addNumbers() with erros</b></td>
-      <td>
-        <button onclick="alert( _.addNumbers() );">try no parameter</button>
-        <pre>alert( _.addNumbers() );</pre>
-        <button onclick='alert( _.addNumbers(3, "string") );'>try wrong parameter type</button>
-        <pre>alert( _.addNumbers(3, "string") );</pre>
-        <p>You can check the error messages in the browser console.</p>
-      </td>
-    </tr>
-  </table>
-</div>
+<h3>sum();</h3>
+
+<table>
+  <tr>
+    <td><button onclick="alert( _.sum(3) );">SUM - try 1</button></td>
+    <td><code>alert( _.sum(3) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.sum(3, 5) );">SUM - try 2</button></td>
+    <td><code>alert( _.sum(3, 5) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.sum(3.14, -5) );">SUM - try 3</button></td>
+    <td><code>alert( _.sum(3.14, -5) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.sum(true, 3.14, -9, 'Arthur Dent') );">SUM - try with many parameter types</button></td>
+    <td><code>alert( _.sum(true, 3.14, -9, 'Arthur Dent') );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.sum() );">SUM - try without parameter</button></td>
+    <td><code>alert( _.sum() );</code> </td>
+  </tr>
+</table>
+
+<h3>avg();</h3>
+
+<table>
+  <tr>
+    <td><button onclick="alert( _.avg(2, 4, 3) );">AVG1</button></td>
+    <td><code>alert( _.avg(2, 4, 3) );</code> </td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.avg(2, 4, 3.14) );">AVG2</button></td>
+    <td><code>alert( _.avg(2, 4, 3.14) );</code> </td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.avg(2, -8, 3.14) );">AVG3</button></td>
+    <td><code>alert( _.avg(2, -8, 3.14) );</code> </td>
+  </tr>
+</table>
+
 
 <h2 id="license">License</h2>
 
@@ -124,7 +131,7 @@ celestra.addNumbers = function () {
 
   <p><b>SPDX short identifier: MIT</b></p>
 
-  <p>Copyright (c) 2018 Ferenc Czigler</p>
+  <p>Copyright (c) 2021 Ferenc Czigler</p>
 
   <p>Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -153,7 +160,7 @@ celestra.addNumbers = function () {
     &nbsp;//&nbsp;
     <a href="http://github.com/Serrin" target="_blank">Github</a>
   </p>
-  <p>&copy; Copyright 2018 Ferenc Czigler</p>
+  <p>&copy; Copyright 2021 Ferenc Czigler</p>
 </small></footer>
 
 </body>
