@@ -1,5 +1,5 @@
 "use strict";
-/** Celestra * @version 3.6.1 * @see https://github.com/Serrin/Celestra/ * @license MIT */
+/** Celestra * @version 3.7.0 * @see https://github.com/Serrin/Celestra/ * @license MIT */
 if(!Object.assign){Object.assign=function(){var t=arguments[0]||{};for(var i=0,l=arguments.length;i<l;i++){var s=arguments[i];for(var a in s){if(s.hasOwnProperty(a)){t[a]=s[a];}}}return t;};}
 if(!Array.prototype.includes){Array.prototype.includes=function(v,f){return (this.indexOf(v,f)>-1);};}
 if(!String.prototype.includes){String.prototype.includes=function(v,f){return (this.indexOf(v,f)>-1);};}
@@ -34,6 +34,7 @@ if(!window.GeneratorFunction){window.GeneratorFunction=Object.getPrototypeOf(fun
 if(!window.AsyncFunction){window.AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;}
 if(!String.prototype.matchAll){String.prototype.matchAll=function*(regex){function ef(fls,fl){return (fls.includes(fl)?fls:fls+fl);}const lc=new RegExp(regex,ef(regex.flags,"g"));let match;while(match=lc.exec(this)){yield match;}};}
 if(window.BigInt&&!BigInt.prototype.toJSON){BigInt.prototype.toJSON=function(){return this.toString();};}
+const delay=(ms)=>new Promise(resolve=>setTimeout(resolve,ms));
 function randomInt(i=100,a){if(a===undefined){a=i;i=0;}return Math.floor(Math.random()*(a-i+1))+i;}
 function randomFloat(i=100,a){if(a===undefined){a=i;i=0;}var r=(Math.random()*(a-i+1))+i;return r>a?a:r;}
 function randomString(pl=100,sc=false){var chars="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";if(sc){chars+=",?,.:-_*$ß¤Łł÷×¸¨˝´˙`˛°˘^ˇ~§'+!%/=()[]#<>&@{}\"\\/| éáűőúöüóíÉÁŰŐÚÖÜÓÍß";}var s="",l=chars.length;for(var i=0;i<pl;i++){s+=chars[Math.floor(Math.random()*l)];}return s;}
@@ -43,14 +44,14 @@ function javaHash(s,hx){if(s!==undefined){s=""+s;}else{return 0;}var h=0,l=s.len
 function inherit(c,p){c.prototype=Object.create(p.prototype);c.prototype.constructor=c;return c;}
 const getUrlVars=(str=location.search)=>[...new URLSearchParams(str).entries()].reduce(function(o,item){o[item[0]]=item[1];return o;},{});
 function obj2string(o){var s="";for(var p in o){if(o.hasOwnProperty(p)){s+=encodeURIComponent(p)+"="+encodeURIComponent(o[p])+"&";}}return s.substring(0,s.length-1);}
-function getType(v,t){var ot=Object.prototype.toString.call(v).replace(/^\[object (.+)\]$/,"$1").toLowerCase();return (arguments.length===2?ot===t.toLowerCase():ot);}
+function getType(v,t){var ot=Object.prototype.toString.call(v).slice(8,-1).toLowerCase();return (arguments.length===2?ot===t.toLowerCase():ot);}
 function extend(){var so={};if(typeof arguments[0]==="boolean"){var t=arguments[1],d=arguments[0],s=2;}else{var t=arguments[0],d=false,s=1;}for(var i=s,l=arguments.length;i<l;i++){so=arguments[i];if(so!==null&&so!==undefined){for(var a in so){if(so.hasOwnProperty(a)){if(typeof so[a]==="object"&&d){t[a]=celestra.extend(true,{},so[a]);}else{t[a]=so[a];}}}}}return t;}
 function deepAssign(){var s={},t=arguments[0];for(var i=1,l=arguments.length;i<l;i++){s=arguments[i];if(s!==null&&s!==undefined){for(var a in s){if(s.hasOwnProperty(a)){if(typeof s[a]==="object"){t[a]=celestra.deepAssign({},s[a]);}else{t[a]=s[a];}}}}}return t;}
 const strRemoveTags=(s)=>String(s).replace(/<[^>]*>/g," ").replace(/\s{2,}/g," ").trim();
 const strReverse=(s)=>Array.from(String(s)).reverse().join("");
 const strReplaceAll=(s,sv,rv)=>String(s).split(String(sv)).join(rv);
 const strCodePoints=(s)=>Array.from(String(s),(v)=>v.codePointAt(0));
-const strFromCodePoints=([...a])=>a.reduce((acc, v)=>acc+String.fromCodePoint(v),"");
+const strFromCodePoints=([...a])=>String.fromCodePoint.apply(null,a);
 function strAt(s,p){let i=0;for(let item of String(s)){if(i++===p){return item;}}return "";}
 function forIn(o,fn){for(var p in o){if(celestra.hasOwn(o,p)){fn(o[p],p,o);}}return o;}
 const toFunction=(fn)=>Function.prototype.call.bind(fn);
@@ -69,7 +70,7 @@ const qs=(s,c=document)=>c.querySelector(s);
 function domReady(fn){if(document.readyState!=="loading"){fn();}else{document.addEventListener("DOMContentLoaded",function(event){fn();});}}
 function domCreate(t,ps,iH){if(arguments.length===1&&typeof t==="object"){var obj=t;t=obj.elementType;ps={};for(var p in obj){if(p!=="elementType"){ps[p]=obj[p];}}}var el=document.createElement(t);if(ps){for(var p in ps){if(p!=="style"||typeof ps[p]==="string"){el[p]=ps[p];}else{for(var s in ps[p]){el.style[s]=ps[p][s];}}}}if(iH){el.innerHTML=iH;}return el;}
 function domToElement(s){var e=document.createElement("div");e.innerHTML=s;return e.firstElementChild;}
-const domGetCSS=(e,p)=>window.getComputedStyle(e,null)[p];
+const domGetCSS=(e,p)=>(p?window.getComputedStyle(e,null)[p]:window.getComputedStyle(e,null));
 function domSetCSS(e,n,v){if(typeof n==="string"){e.style[n]=v;}else if(typeof n==="object"){for(var p in n){e.style[p]=n[p];}}}
 function domFadeIn(e,dur,d){var s=e.style,step=25/(dur||500);s.opacity=(s.opacity||0);s.display=(d||"");(function fade(){(s.opacity=parseFloat(s.opacity)+step)>1?s.opacity=1:setTimeout(fade,25);})();}
 function domFadeOut(e,dur){var s=e.style,step=25/(dur||500);s.opacity=(s.opacity||1);(function fade(){(s.opacity-=step)<0?s.display="none":setTimeout(fade,25);})();}
@@ -103,8 +104,8 @@ const isNumber=(v)=>(typeof v==="number");
 const isFloat=(v)=>(typeof v==="number"&&!!(v % 1));
 function isNumeric(v){return((typeof v==="number"&&v===v)?true:(!isNaN(parseFloat(v))&&isFinite(v)));}
 const isBoolean=(v)=>(typeof v==="boolean");
-const isObject=(v)=>(typeof v==="object");
-function isEmptyObject(v){if(typeof v==="object"){for(var n in v){return false;}return true;}return false;}
+const isObject=(v)=>(typeof v==="object"&&v!== null);
+function isEmptyObject(v){if(typeof v==="object"&&v!==null){for(var n in v){return false;}return true;}return false;}
 const isFunction=(v)=>(typeof v==="function");
 const isEmptyArray=(v)=>(Array.isArray(v)&&v.length===0);
 const isArraylike=(v)=>((typeof v==="object"||typeof v==="string")&&v!==null&&typeof v.length==="number"&&v.length>=0&&v.length%1===0);
@@ -128,12 +129,11 @@ const isArrayBuffer=(v)=>celestra.getType(v,"arraybuffer");
 const isTypedArray=(v)=>["int8array","uint8array","uint8clampedarray","int16array","uint16array","int32array","uint32array","float32array","float64array","bigint64array","biguint64array"].includes(celestra.getType(v));
 const isGeneratorFn=(v)=>(Object.getPrototypeOf(v).constructor===Object.getPrototypeOf(function*(){}).constructor);
 const isAsyncFn=(v)=>(Object.getPrototypeOf(v).constructor===Object.getPrototypeOf(async function(){}).constructor);
-function setCookie(name,value,hours=8760,path="/",domain,secure,SameSite,HttpOnly){var expire=new Date();expire.setTime(expire.getTime()+(Math.round(hours*60*60*1000)));document.cookie=encodeURIComponent(name)+"="+encodeURIComponent(value)+"; expires="+expire.toUTCString()+"; path="+path+(domain?"; domain="+domain:"")+(secure?"; secure":"")+(typeof SameSite==="string"&&SameSite.length>0?"; SameSite="+SameSite:"")+(HttpOnly?";HttpOnly":"")+";";}
+function setCookie(name,value,hours=8760,path="/",domain,secure,SameSite="Lax",HttpOnly){if(typeof name==="object"){var settings=name;name=settings.name;value=settings.value;hours=settings.hours||8760;path=settings.path||"/";domain=settings.domain;secure=settings.secure;SameSite=settings.SameSite||"Lax";HttpOnly=settings.HttpOnly;}var expire=new Date();expire.setTime(expire.getTime()+(Math.round(hours*60*60*1000)));document.cookie=encodeURIComponent(name)+"="+encodeURIComponent(value)+"; expires="+expire.toUTCString()+"; path="+path+(domain?"; domain="+domain:"")+(secure?"; secure":"")+(typeof SameSite==="string"&&SameSite.length>0?"; SameSite="+SameSite:"")+(HttpOnly?"; HttpOnly":"")+";";}
 function getCookie(name){if(document.cookie.length!==0){var r={},a=document.cookie.split(";");for(var i=0,l=a.length;i<l;i++){var e=a[i].trim().split("=");r[decodeURIComponent(e[0])]=decodeURIComponent(e[1]);}return (name?(r[name]?r[name]:null):r);}return (name?null:{});}
 const hasCookie=(name)=>(document.cookie.includes(encodeURIComponent(name)+"="));
-function removeCookie(name,path="/",domain,secure,SameSite,HttpOnly){var r=(document.cookie.includes(encodeURIComponent(name)+"="));document.cookie=encodeURIComponent(name)+"=; expires=Thu, 01 Jan 1970 00:00:01 GMT"+"; path="+path+(domain?"; domain="+domain:"")+(secure?"; secure":"")+(typeof SameSite==="string"&&SameSite.length>0?"; SameSite="+SameSite:"")+(HttpOnly?"; HttpOnly":"")+ ";";return r;}
-function clearCookies(path="/",domain,secure,SameSite,HttpOnly){for(var item in celestra.getCookie()){celestra.removeCookie(item,path,domain,secure,SameSite,HttpOnly);}}
-const arrayUnion=(...a)=>[...new Set(a.map(([...e])=>e).flat())];
+function removeCookie(name,path="/",domain,secure,SameSite="Lax",HttpOnly){if(typeof name==="object"){var settings=name;name=settings.name;path=settings.path||"/";domain=settings.domain;secure=settings.secure;SameSite=settings.SameSite||"Lax";HttpOnly=settings.HttpOnly;}var r=(document.cookie.includes(encodeURIComponent(name)+"="));document.cookie=encodeURIComponent(name)+"=; expires=Thu, 01 Jan 1970 00:00:01 GMT" + "; path="+path+(domain?"; domain="+domain:"")+(secure?"; secure":"")+(typeof SameSite==="string"&&SameSite.length>0?"; SameSite="+SameSite:"")+(HttpOnly?"; HttpOnly":"")+";";return r;}
+function clearCookies(path="/",domain,secure,SameSite="Lax",HttpOnly){if(typeof path==="object"){var settings=path;path=settings.path||"/";domain=settings.domain;secure=settings.secure;SameSite=settings.SameSite||"Lax";HttpOnly=settings.HttpOnly;}for(var item in celestra.getCookie()){celestra.removeCookie(item,path,domain,secure,SameSite,HttpOnly);}}const arrayUnion=(...a)=>[...new Set(a.map(([...e])=>e).flat())];
 const arrayIntersection=([...a],[...b])=>a.filter((v)=>b.includes(v)).filter((e,i,arr)=>arr.indexOf(e)===i);
 const arrayDifference=([...a],[...b])=>a.filter((v)=>!(b.includes(v))).filter((e,i,arr)=>arr.indexOf(e)===i);
 const arraySymmetricDifference=([...a],[...b])=>a.filter((v)=>!(b.includes(v))).concat(b.filter((v)=>!(a.includes(v)))).filter((e,i,arr)=>arr.indexOf(e)===i);
@@ -142,9 +142,9 @@ const setIntersection=([...a],b)=>new Set(a.filter((v)=>b.has(v)));
 const setDifference=([...a],b)=>new Set(a.filter((v)=>!(b.has(v))));
 const setSymmetricDifference=(a,b)=>new Set([...a].filter((v)=>!(b.has(v))).concat([...b].filter((v)=>!(a.has(v)))));
 const isSuperset=([...sup],[...sub])=>sub.every((v)=>sup.includes(v));
-function min([...a]){if(a.length>0){var r=a[0];a.forEach(function(v,i,arr){if(v<r){r=v;}});return r;}return null;}
+function min([...a]){if(a.length>0){let r=a[0];for(let item of a){if(r>item){r=item;}}return r;}return null;}
 function minIndex([...a]){if(a.length>0){var r=0;a.forEach(function(v,i,arr){if(v<arr[r]){r=i;}});return r;}return null;}
-function max([...a]){if(a.length>0){var r=a[0];a.forEach(function(v,i,arr){if(v>r){r=v;}});return r;}return null;}
+function max([...a]){if(a.length>0){let r=a[0];for(let item of a){if(r<item){r=item;}}return r;}return null;}
 function maxIndex([...a]){if(a.length>0){var r=0;a.forEach(function(v,i,arr){if(v>arr[r]){r=i;}});return r;}return null;}
 const arrayRepeat=(v,n=100)=>Array(n).fill(v);
 const arrayCycle=([...a],n=100)=>Array(n).fill(a).flat();
@@ -154,7 +154,7 @@ function unzip([...a]){a=a.map(([...v])=>v);let r=[],i,j,l1=a[0].length,l2=a.len
 const uniqueArray=(a)=>[...new Set(a)];
 function uniquePush(a,v){if(!a.includes(v)){a.push(v);return true;}return false;}
 function arrayClear(a){a.length=0;return a;}
-function arrayRemove(a,v,all){var found=a.includes(v);if(!all){var pos=a.indexOf(v);if(pos!==-1){a.splice(pos,1);}}else{var pos=-1;while((pos=a.indexOf(v))!==-1){a.splice(pos,1);}}return found;}
+function arrayRemove(a,v,all){var found=a.indexOf(v)>-1;if(!all){var pos = a.indexOf(v);if(pos>-1){a.splice(pos,1);}}else{var pos=-1;while((pos=a.indexOf(v))>-1){a.splice(pos,1);}}return found;}
 const item=([...a],i)=>a[(i<0?a.length+i:i)];
 function arrayMerge(){if(typeof arguments[0]==="boolean"){var t=arguments[1],d=arguments[0],s=2;}else{var t=arguments[0],d=false,s=1;}for(var i=s,il=arguments.length;i<il;i++){if(Array.isArray(arguments[i])){for(var j=0,a=arguments[i],jl=a.length;j<jl;j++){if(Array.isArray(a[j])&&d){celestra.arrayMerge(true,t,a[j]);}else{t.push(a[j]);}}}else{t.push(arguments[i]);}}return t;}
 function*iterRange(start=0,step=1,end=Infinity){let i=start;while(i<=end){yield i;i+=step;}}
@@ -189,10 +189,10 @@ function*concatOf(){for(let item of arguments){yield* item;}}
 function reduceOf(it,fn,iv){let acc=iv;let i=0;for(let item of it){if(i===0&&acc===undefined){acc=item;}else{acc=fn(acc,item,i++);}}return acc;}
 function*enumerateOf(it){let i=0;for(let item of it){yield [item,i++];}}
 function*flatOf(it){for(let item of it){yield* item;}}
-function joinOf(it,s=","){let r="",s2=String(s);for(let item of it){r+=s2+item;}return r.slice(s2.length);}
-const VERSION="Celestra v3.6.1";
+const joinOf=([...a],s=",")=>a.join(s);
+const VERSION="Celestra v3.7.0";
 function noConflict(){return celestra;}
-var celestra={VERSION:VERSION, noConflict:noConflict, randomInt:randomInt, randomFloat:randomFloat, randomString:randomString, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVars:getUrlVars, obj2string:obj2string, getType:getType, extend:extend, deepAssign:deepAssign, strRemoveTags:strRemoveTags, strReverse:strReverse, strReplaceAll:strReplaceAll, strCodePoints: strCodePoints, strFromCodePoints: strFromCodePoints, strAt: strAt, forIn:forIn, toFunction:toFunction, bind:bind, hasOwn:hasOwn, constant:constant, identity:identity, noop:noop, T:T, F:F, assert: assert, assertLog: assertLog, assertAlert:assertAlert, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, importScript:importScript, importScripts:importScripts, importStyle:importStyle, importStyles:importStyles, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff, domGetCSSVar:domGetCSSVar, domSetCSSVar:domSetCSSVar, getText:getText, getJson:getJson, ajax:ajax, isSameArray:isSameArray, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGeneratorFn:isGeneratorFn, isAsyncFn:isAsyncFn, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, minIndex:minIndex, max:max, maxIndex:maxIndex, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, uniqueArray:uniqueArray, uniquePush:uniquePush, arrayClear:arrayClear, arrayRemove:arrayRemove, item:item, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, takeOf:takeOf, dropOf:dropOf, forOf:forOf, forEach:forEach, mapOf:mapOf, map:map, filterOf:filterOf, sliceOf:sliceOf, itemOf:itemOf, sizeOf:sizeOf, firstOf:firstOf, lastOf:lastOf, reverseOf:reverseOf, sortOf:sortOf, hasOf:hasOf, findOf:findOf, everyOf:everyOf, someOf:someOf, noneOf:noneOf, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concatOf:concatOf, reduceOf:reduceOf, enumerateOf:enumerateOf, flatOf:flatOf, joinOf:joinOf};
+var celestra={VERSION:VERSION, noConflict:noConflict, delay:delay, randomInt:randomInt, randomFloat:randomFloat, randomString:randomString, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVars:getUrlVars, obj2string:obj2string, getType:getType, extend:extend, deepAssign:deepAssign, strRemoveTags:strRemoveTags, strReverse:strReverse, strReplaceAll:strReplaceAll, strCodePoints: strCodePoints, strFromCodePoints: strFromCodePoints, strAt: strAt, forIn:forIn, toFunction:toFunction, bind:bind, hasOwn:hasOwn, constant:constant, identity:identity, noop:noop, T:T, F:F, assert: assert, assertLog: assertLog, assertAlert:assertAlert, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, importScript:importScript, importScripts:importScripts, importStyle:importStyle, importStyles:importStyles, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff, domGetCSSVar:domGetCSSVar, domSetCSSVar:domSetCSSVar, getText:getText, getJson:getJson, ajax:ajax, isSameArray:isSameArray, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGeneratorFn:isGeneratorFn, isAsyncFn:isAsyncFn, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, minIndex:minIndex, max:max, maxIndex:maxIndex, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, uniqueArray:uniqueArray, uniquePush:uniquePush, arrayClear:arrayClear, arrayRemove:arrayRemove, item:item, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, takeOf:takeOf, dropOf:dropOf, forOf:forOf, forEach:forEach, mapOf:mapOf, map:map, filterOf:filterOf, sliceOf:sliceOf, itemOf:itemOf, sizeOf:sizeOf, firstOf:firstOf, lastOf:lastOf, reverseOf:reverseOf, sortOf:sortOf, hasOf:hasOf, findOf:findOf, everyOf:everyOf, someOf:someOf, noneOf:noneOf, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concatOf:concatOf, reduceOf:reduceOf, enumerateOf:enumerateOf, flatOf:flatOf, joinOf:joinOf};
 /* ESM */
 export default celestra;
 export {celestra};

@@ -1,15 +1,15 @@
 /**
  * @name Celestra demo plugin
- * @version 3.6.1
+ * @version 3.7.0
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Minimal required Celestra version: 3.6.1
+ * Required Celestra version: 3.7.0
  */
 
 (function(celestra){
 "use strict";
 
-celestra.sum = (...a) => a.slice(1).reduce((acc, cv) => acc + cv, a[0]);
-celestra.avg = (...a) => a.slice(1).reduce((acc, cv) => acc + cv, a[0]) / a.length;
+celestra.sum = (...a) => a.slice(1).reduce((acc, v) => acc + v, a[0]);
+celestra.avg = (...a) => a.slice(1).reduce((acc, v) => acc + v, a[0]) / a.length;
 
 }(celestra));

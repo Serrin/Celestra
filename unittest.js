@@ -6,19 +6,11 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.12";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.13";
 
 celTest.__results__ = document.querySelector("#results");
 
-celTest.isNotIE11 = function isNotIE11 () {
-  return navigator.userAgent.toLowerCase().indexOf("trident") === -1;
-};
-
-celTest.isNotEdge = function isNotEdge () {
-  return navigator.userAgent.toLowerCase().indexOf("edge") === -1;
-};
-
-/* __addTest__("step", true, expr); */
+/* __addTest__(a"step", true, expr); */
 /* __addTest__("step", true, expr, true|false); */
 /* only for inner calls and selftest */
 celTest.__addTest__ = function __addTest__ (step, expected, expression, strict) {
@@ -78,12 +70,17 @@ celTest.clear = function clear () { celTest.__results__.innerHTML = ""; };
 
 var _cut = celTest;
 
+/* ======================================================================== */
 
-_cut.log(celestra.VERSION);
-_cut.log((new Date()).toISOString());
+_cut.addElement("hr");
+_cut.addElement("table",
+  "<tr><td>CUT: </td><td><code>"+_cut.VERSION+"</code></td></tr>"
+    + "<tr><td>Celestra: </td><td><code>"+celestra.VERSION+"</code></td></tr>"
+    + "<tr><td>Date: </td><td><code>"+(new Date()).toISOString()+"</code></td></tr>"
+);
 
 _cut.addElement("table",
-  "<tr><td>navigator.appName: </td><td><code>"+navigator.appName+"</code></td></tr>"
+    "<tr><td>navigator.appName: </td><td><code>"+navigator.appName+"</code></td></tr>"
     + "<tr><td>navigator.appCodeName: </td><td><code>"+navigator.appCodeName+"</code></td></tr>"
     + "<tr><td>navigator.product: </td><td><code>"+navigator.product+"</code></td></tr>"
     + "<tr><td>navigator.appVersion: </td><td><code>"+navigator.appVersion+"</code></td></tr>"
@@ -117,8 +114,6 @@ window.saveResults = function saveResults () {
 _cut.addElement("hr");
 _cut.addElement("h3", "CUT Selftest");
 
-_cut.addElement("p", _cut.VERSION);
-
 _cut.__addTest__("__addTest__(); success", 1, 1);
 _cut.__addTest__("__addTest__(); failed", 1, 2);
 _cut.__addTest__("__addTest__(); success non-strict", 0, false, false);
@@ -147,7 +142,7 @@ _cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.6.1 testcases */
+/* Celestra v3.7.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -188,8 +183,11 @@ setFullscreenOff();
 createFile(<filename>,<content>[,dType]);
 noConflict();
 */
+
 _cut.addElement("hr");
 _cut.addElement("h3", "core api and DOM");
+
+_cut.addElement("p","<button onclick=\"_.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done'));\">try delay</button>");
 
 _cut.isEqual("VERSION", true, _.VERSION.includes("Celestra v"));
 
@@ -573,13 +571,10 @@ _cut.addElement(
 var domTestElement = _.qs("#domTestElement");
 
 _cut.isTrue("domCreate(); with style object", _.isElement(domTestElement));
-if (_cut.isNotEdge() && _cut.isNotIE11()) {
-  _cut.isTrue("domCreate(); with style string", _.isElement(_.domCreate("p", {"id": "domTestElement", style: "width: 250px; color: blue;" }, "DOM test element")));
-}
+_cut.isTrue("domCreate(); with style string", _.isElement(_.domCreate("p", {"id": "domTestElement", style: "width: 250px; color: blue;" }, "DOM test element")));
+
 _cut.isTrue("domCreate(object); with style object", _.isElement(_.domCreate({ elementType: "p", "id": "domTestElementObject", style: {"width": "250px"}, innerHTML: "DOM test element" })));
-if (_cut.isNotEdge() && _cut.isNotIE11()) {
-  _cut.isTrue("domCreate(object); with style string", _.isElement(_.domCreate({ elementType: "p", "id": "domTestElementObject", style: "width: 250px; color: blue;", innerHTML: "DOM test element" })));
-}
+_cut.isTrue("domCreate(object); with style string", _.isElement(_.domCreate({ elementType: "p", "id": "domTestElementObject", style: "width: 250px; color: blue;", innerHTML: "DOM test element" })));
 
 _cut.isTrue("domToElement(); simple element", _.isElement(_.domToElement("<div>Hello world!</div>")));
 
@@ -593,6 +588,9 @@ _cut.log("<code>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" 
 _.domSetCSS(domTestElement, {"width": "350px", "font-weight": "bold"});
 _cut.isEqual("domSetCSS(); properties object and domGetCSS();",
   "350px", _.domGetCSS(domTestElement, "width")
+);
+_cut.isEqual("domSetCSS(); properties object and domGetCSS() object;",
+  "350px", _.domGetCSS(domTestElement)["width"]
 );
 _cut.log("<code>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"350px\" </code>");
 
@@ -1049,6 +1047,12 @@ _cut.isEqual("joinOf();",
     + _.joinOf(joinOfSet, ";") + _.joinOf(joinOfSet, "abc")
     + _.joinOf(joinOfSet, true) + _.joinOf(joinOfSet, 11)
 );
+_cut.log("<code>\""+
+  _.joinOf(joinOfSet) + _.joinOf(joinOfSet, "")
+    + _.joinOf(joinOfSet, ";") + _.joinOf(joinOfSet, "abc")
+    + _.joinOf(joinOfSet, true) + _.joinOf(joinOfSet, 11)
+	+"\"</code>"	
+);
 
 var FPArray = [1,2,3];
 
@@ -1088,6 +1092,7 @@ _cut.isEqual("arrayRange(); - 2 - step 3",
 _cut.isEqual("arrayRange(); - 3 - step 3.2 <i>(can be failed - float storage)<i>",
   "[1,4.2,7.4,10.600000000000001,13.8,17]", JSON.stringify(_.arrayRange(1,17,3.2))
 );
+_cut.log("<code>"+JSON.stringify(_.arrayRange(1,17,3.2))+"</code>");
 _cut.isEqual("arrayRange(); - 4 - without parameters",
   "[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]",
   JSON.stringify(_.arrayRange())
@@ -1154,20 +1159,19 @@ _cut.log(
   JSON.stringify(_.unzip(_.zip(zipA, zipB, zipC, zipD, zipE)))
   +"</code>"
 );
-if(_cut.isNotIE11()) {
-  _cut.isEqual("unzip(); ES6",
-    "[[\"a\",\"b\",\"c\",\"d\"],[3,4,5,6],[\"c1\",\"c2\",\"c3\",\"c4\"]]",
-    JSON.stringify(
-      _.unzip(
-        _.zip(
-          new Set(zipF),
-          new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
-          zipC.values()
-        ).values()
-      )
+_cut.isEqual("unzip(); ES6",
+  "[[\"a\",\"b\",\"c\",\"d\"],[3,4,5,6],[\"c1\",\"c2\",\"c3\",\"c4\"]]",
+  JSON.stringify(
+    _.unzip(
+      _.zip(
+        new Set(zipF),
+        new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
+        zipC.values()
+      ).values()
     )
- );
-}
+  )
+);
+
 _cut.log(
   "<code>"+
   JSON.stringify(
@@ -1184,15 +1188,21 @@ _cut.log(
 
 var a = [21,11,41,51,31];
 _cut.isEqual("min(); ES5", 11, _.min(a));
+_cut.log("<code>"+_.min(a)+"</code>");
 _cut.isEqual("minIndex(); ES5", 1, _.minIndex(a));
 _cut.isEqual("max(); ES5", 51, _.max(a));
+_cut.log("<code>"+_.max(a)+"</code>");
 _cut.isEqual("maxIndex(); ES5", 3, _.maxIndex(a));
 _cut.isEqual("min(); ES6", 11, _.min(new Set(a)));
+_cut.log("<code>"+_.min(new Set(a))+"</code>");
 _cut.isEqual("minIndex(); ES6", 1, _.minIndex(new Set(a).values()));
 _cut.isEqual("max(); ES6", 51, _.max(new Set(a).keys()));
+_cut.log("<code>"+_.max(new Set(a).keys())+"</code>");
 _cut.isEqual("maxIndex(); ES6", 3,
   _.maxIndex(new Map([[21,1],[11,2],[41,3],[51,4],[31,5]]).keys())
 );
+_cut.isEqual("min(); number test", _.min([5, 10, 3]), 3);
+_cut.isEqual("max(); number test", _.max([5, 10, 3]), 10);
 
 var superset1 = [3,11,58,95,88];
 var superset2 = [88,95,11];
@@ -1217,54 +1227,50 @@ _cut.isEqual(
 _cut.isEqual("arraySymmetricDifference(); ES5",
   "[1,2,5,6]", JSON.stringify(_.arraySymmetricDifference(a,b))
 );
-if(_cut.isNotIE11()) {
-   try {
-    _cut.isEqual("arrayUnion(); ES6", "[1,2,3,4,5,6,7,8]",
-      JSON.stringify(_.arrayUnion(new Set(a),b.values(),new Set(c).values()))
-   );
-    _cut.isEqual("arrayIntersection(); ES6", "[3,4]",
-      JSON.stringify(_.arrayIntersection(a.values(),new Set(b)))
-   );
-    _cut.isEqual("arrayDifference(); ES6", "[1,2]",
-      JSON.stringify(
-        _.arrayDifference(new Map([[1,2],[2,3],[3,4],[4,5]]).keys(),b.values())
-      )
-   );
-    _cut.isEqual("arraySymmetricDifference(); ES6", "[1,2,5,6]",
-      JSON.stringify(_.arraySymmetricDifference(
-        new Set(a).keys(), new Map([[1,3],[2,4],[3,5],[4,6]]).values()
-      ))
-   );
-  } catch (e) {alert(e);}
-}
+try {
+  _cut.isEqual("arrayUnion(); ES6", "[1,2,3,4,5,6,7,8]",
+    JSON.stringify(_.arrayUnion(new Set(a),b.values(),new Set(c).values()))
+  );
+  _cut.isEqual("arrayIntersection(); ES6", "[3,4]",
+    JSON.stringify(_.arrayIntersection(a.values(),new Set(b)))
+  );
+  _cut.isEqual("arrayDifference(); ES6", "[1,2]",
+    JSON.stringify(
+      _.arrayDifference(new Map([[1,2],[2,3],[3,4],[4,5]]).keys(),b.values())
+    )
+  );
+  _cut.isEqual("arraySymmetricDifference(); ES6", "[1,2,5,6]",
+    JSON.stringify(_.arraySymmetricDifference(
+      new Set(a).keys(), new Map([[1,3],[2,4],[3,5],[4,6]]).values()
+    ))
+  );
+} catch (e) {alert(e);}
 
-if(_cut.isNotIE11()) {
-  function __setEquals__(set1, set2) {
-    if (!_.isSet(set1) || !_.isSet(set2)) { return false; }
-    if (set1.size !== set2.size) { return false; }
-    if (JSON.stringify(Array.from(set1)) !== JSON.stringify(Array.from(set2))) {
-      return false;
-    }
-    return true;
+function __setEquals__(set1, set2) {
+  if (!_.isSet(set1) || !_.isSet(set2)) { return false; }
+  if (set1.size !== set2.size) { return false; }
+  if (JSON.stringify(Array.from(set1)) !== JSON.stringify(Array.from(set2))) {
+    return false;
   }
-  var a = [1,2,3,4], b = [3,4,5,6], c = [5,6,7,8];
-  var sa = new Set(a), sb = new Set(b), sc = new Set(c);
-  _cut.isTrue("setUnion(); ES6",
-    __setEquals__(
-      _.setUnion(new Map([ [2,1],[3,2],[4,3],[5,4] ]).values(),sb,c),
-      _.setUnion(a,new Map([ [2,3],[3,4],[4,5],[5,6] ]).values(),sc.values())
-   )
- );
-  _cut.isTrue("setIntersection(); ES6",
-    __setEquals__(new Set([3,4]), _.setIntersection(sa,sb))
- );
-  _cut.isTrue("setDifference(); ES6",
-    __setEquals__(new Set([1,2]), _.setDifference(sa,sb))
- );
-  _cut.isTrue("setSymmetricDifference(); ES6",
-    __setEquals__(new Set([1,2,5,6]), _.setSymmetricDifference(sa,sb))
- );
+  return true;
 }
+var a = [1,2,3,4], b = [3,4,5,6], c = [5,6,7,8];
+var sa = new Set(a), sb = new Set(b), sc = new Set(c);
+_cut.isTrue("setUnion(); ES6",
+  __setEquals__(
+    _.setUnion(new Map([ [2,1],[3,2],[4,3],[5,4] ]).values(),sb,c),
+    _.setUnion(a,new Map([ [2,3],[3,4],[4,5],[5,6] ]).values(),sc.values())
+  )
+);
+_cut.isTrue("setIntersection(); ES6",
+  __setEquals__(new Set([3,4]), _.setIntersection(sa,sb))
+);
+_cut.isTrue("setDifference(); ES6",
+  __setEquals__(new Set([1,2]), _.setDifference(sa,sb))
+);
+_cut.isTrue("setSymmetricDifference(); ES6",
+  __setEquals__(new Set([1,2,5,6]), _.setSymmetricDifference(sa,sb))
+);
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,7,8,9,0];
 var arrTestClearRemove2 = _.arrayClear(arrTestClearRemove1);
@@ -1331,26 +1337,17 @@ _cut.isEqual("arrayRemove(); - 0 found - value check",
   "[1,2,3,4,5,6,5,7,8,5,9,0]", JSON.stringify(arrTestClearRemove1)
 );
 
-/*
-_cut.isEqual(
-  "uniqueArray(); 1 ES5 - Array and Array-like object",
-  JSON.stringify(_.uniqueArray([1,2,2,3,4,4,5,6,6,7])),
-  JSON.stringify(
-    _.uniqueArray({0:1,1:2,2:2,3:3,4:4,5:4,6:5,7:6,8:6,9:7,length:10})
- )
-);
-*/
-_cut.isEqual("uniqueArray(); 2 ES5 - Array and String",
+_cut.isEqual("uniqueArray(); 1 ES5 - Array and String",
   JSON.stringify(_.uniqueArray(
     ["A","r","r","a","y","y","a","n","d","d","M","M","a","p"]
  )),
   JSON.stringify(_.uniqueArray("ArrayyanddMMap"))
 );
-_cut.isEqual("uniqueArray(); 3 ES6 - Array and Set",
+_cut.isEqual("uniqueArray(); 2 ES6 - Array and Set",
   JSON.stringify(_.uniqueArray([1,2,2,3,4,4,5,6,6,7])),
   JSON.stringify(_.uniqueArray(new Set([1,2,2,3,4,4,5,6,6,7])))
 );
-_cut.isEqual("uniqueArray(); 4 ES6 - Array and Map values(); iterator",
+_cut.isEqual("uniqueArray(); 3 ES6 - Array and Map values(); iterator",
   JSON.stringify(_.uniqueArray([1,2,2,3,4,4,5,6,6,7])),
   JSON.stringify(
     _.uniqueArray(
@@ -1490,6 +1487,31 @@ cookieClearStr += String(_.hasCookie("ctest4")) + String(_.hasCookie("ctest5"));
 _.clearCookies();
 cookieClearStr += String(_.hasCookie("ctest4")) + String(_.hasCookie("ctest5"));
 _cut.isEqual("clearCookies();", "truetruefalsefalse", cookieClearStr);
+
+
+/* cookie with settings object */
+
+_cut.addElement("hr");
+_cut.addElement("h3", "cookie with settings object");
+
+_.setCookie({"name": "ctest3", "value": "cookieUnitTestStr", "SameSite": "Lax"});
+_cut.isTrue("setcookie(); + hasCookie(); true", _.hasCookie("ctest3"));
+_cut.isEqual("getCookie(name) value", "cookieUnitTestStr", _.getCookie("ctest3"));
+_cut.isEqual("getCookie();", "cookieUnitTestStr", _.getCookie()["ctest3"]);
+_cut.isTrue("removeCookie(); true", _.removeCookie({"name": "ctest3", "SameSite": "Lax"}));
+_cut.isFalse("removeCookie(); false", _.removeCookie({"name": "ctest3", "SameSite": "Lax"}));
+_cut.isFalse("hasCookie(); false", _.hasCookie("ctest3"));
+_cut.isEqual("getCookie(name) null", null, _.getCookie("ctest3"));
+_cut.isEqual("getCookie(); undefined", undefined, _.getCookie()["ctest3"]);
+
+var cookieClearStr = "";
+_.setCookie({"name": "ctest4", "value": "cookieUnitTestStr", "SameSite": "Lax"});
+_.setCookie({"name": "ctest5", "value": "cookieUnitTestStr", "SameSite": "Lax"});
+cookieClearStr += String(_.hasCookie("ctest4")) + String(_.hasCookie("ctest5"));
+_.clearCookies({"SameSite": "Lax"});
+cookieClearStr += String(_.hasCookie("ctest4")) + String(_.hasCookie("ctest5"));
+_cut.isEqual("clearCookies();", "truetruefalsefalse", cookieClearStr);
+
 
 
 /* polyfills */
@@ -2015,11 +2037,14 @@ _cut.isFalse("isFloat(); false 1", _.isFloat(98));
 _cut.isFalse("isFloat(); false 2", _.isFloat("str"));
 _cut.isTrue("isBoolean(); true", _.isBoolean(false));
 _cut.isFalse("isBoolean(); false", _.isBoolean(98));
-_cut.isTrue("isObject(); true", _.isObject({}));
-_cut.isFalse("isObject(); false ", _.isObject(98));
-_cut.isTrue("isEmptyObject(); true", _.isEmptyObject({}));
-_cut.isFalse("isEmptyObject(); false 1", _.isEmptyObject(document.querySelector("p")));
-_cut.isFalse("isEmptyObject(); false 2", _.isEmptyObject(98));
+_cut.isTrue("isObject(); 1 true {}", _.isObject({}));
+_cut.isTrue("isObject(); 2 true array", _.isObject([]));
+_cut.isFalse("isObject(); 3 false null", _.isObject(null));
+_cut.isFalse("isObject(); 4 false number", _.isObject(98));
+_cut.isTrue("isEmptyObject(); 1 true", _.isEmptyObject({}));
+_cut.isFalse("isEmptyObject(); 2 false", _.isEmptyObject(document.querySelector("p")));
+_cut.isFalse("isEmptyObject(); 3 false", _.isEmptyObject(98));
+_cut.isFalse("isEmptyObject(); 3 false null", _.isEmptyObject(null));
 _cut.isTrue("isFunction(); true", _.isFunction(_.noop));
 _cut.isFalse("isFunction(); false", _.isFunction(document.querySelector("p")));
 _cut.isTrue("isEmptyArray(); true", _.isEmptyArray([]));
@@ -2136,11 +2161,10 @@ _cut.isFalse("isWeakSet(); false", _.isWeakSet(_.noop));
 _cut.isTrue("isIterator(); true - Array values();",  _.isIterator([4,5,6].values()));
 _cut.isTrue("isIterator(); true - Set values();", _.isIterator(new Set([4,5,7]).values()));
 _cut.isTrue("isIterator(); true - Map values();", _.isIterator(new Map([[4,5],[5,6]]).values()));
-if (_cut.isNotEdge()) {
-  _cut.isTrue("isIterator(); true - Nodelist values();",
-    _.isIterator(document.querySelectorAll("h3").values())
-  );
-}
+_cut.isTrue("isIterator(); true - Nodelist values();",
+  _.isIterator(document.querySelectorAll("h3").values())
+);
+
 _cut.isFalse("isIterator(); false - Array", _.isIterator([4,5,7]));
 _cut.isTrue("isIterable(); true", _.isIterable([]) && _.isIterable("")
     && _.isIterable(new Map([[1,2],[3,4]])) && _.isIterable(new Set([1,2]))

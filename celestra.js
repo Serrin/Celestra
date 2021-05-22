@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.6.1
+ * @version 3.7.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -383,6 +383,8 @@ if (window.BigInt && !BigInt.prototype.toJSON) {
 
 /* core api */
 
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 function randomInt (i = 100, a) {
   if (a === undefined) { a = i; i = 0; }
   return Math.floor(Math.random() * (a - i + 1)) + i;
@@ -448,8 +450,7 @@ function obj2string (o) {
 }
 
 function getType (v, t) {
-  var ot = Object.prototype.toString.call(v)
-    .replace(/^\[object (.+)\]$/, "$1").toLowerCase();
+  var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
   return (arguments.length === 2 ? ot === t.toLowerCase() : ot);
 }
 
@@ -501,8 +502,7 @@ const strReplaceAll = (s, sv, rv) => String(s).split(String(sv)).join(rv);
 
 const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
 
-const strFromCodePoints = ([...a]) =>
-  a.reduce( (acc, v) => acc + String.fromCodePoint(v) , "");
+const strFromCodePoints = ([...a]) => String.fromCodePoint.apply(null, a);
 
 function strAt (s, p) {
   let i = 0;
@@ -579,7 +579,8 @@ function domToElement (s) {
   return e.firstElementChild;
 }
 
-const domGetCSS = (e, p) => window.getComputedStyle(e, null)[p];
+const domGetCSS = (e, p) =>
+  (p ? window.getComputedStyle(e, null)[p] : window.getComputedStyle(e, null));
 
 function domSetCSS (e, n, v) {
   if (typeof n === "string") {
@@ -926,9 +927,9 @@ function isNumeric (v) {
 
 const isBoolean = (v) => (typeof v === "boolean");
 
-const isObject = (v) => (typeof v === "object");
+const isObject = (v) => (typeof v === "object" && v !== null);
 function isEmptyObject(v) {
-  if (typeof v === "object") {
+  if (typeof v === "object" && v !== null) {
     for (var n in v) { return false; }
     return true;
   }
@@ -988,7 +989,18 @@ const isAsyncFn = (v) => (Object.getPrototypeOf(v).constructor ===
 
 /* cookie */
 
-function setCookie (name, value, hours = 8760, path = "/", domain, secure, SameSite, HttpOnly) {
+function setCookie (name, value, hours = 8760, path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
+  if (typeof name === "object") {
+    var settings = name;
+    name = settings.name;
+    value = settings.value;
+    hours = settings.hours || 8760;
+    path = settings.path || "/";
+    domain = settings.domain;
+    secure = settings.secure;
+    SameSite = settings.SameSite || "Lax";
+    HttpOnly = settings.HttpOnly;
+  }
   var expire = new Date();
   expire.setTime(expire.getTime()+(Math.round(hours*60*60*1000)));
   document.cookie = encodeURIComponent(name)
@@ -1018,7 +1030,16 @@ function getCookie (name) {
 const hasCookie = (name) =>
   (document.cookie.includes(encodeURIComponent(name)+"="));
 
-function removeCookie (name, path = "/", domain, secure, SameSite, HttpOnly) {
+function removeCookie (name, path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
+  if (typeof name === "object") {
+    var settings = name;
+    name = settings.name;
+    path = settings.path || "/";
+    domain = settings.domain;
+    secure = settings.secure;
+    SameSite = settings.SameSite || "Lax";
+    HttpOnly = settings.HttpOnly;
+  }
   var r = (document.cookie.includes(encodeURIComponent(name)+"="));
   document.cookie = encodeURIComponent(name)
     + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
@@ -1032,7 +1053,15 @@ function removeCookie (name, path = "/", domain, secure, SameSite, HttpOnly) {
   return r;
 }
 
-function clearCookies (path = "/", domain, secure, SameSite, HttpOnly) {
+function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
+  if (typeof path === "object") {
+    var settings = path;
+    path = settings.path || "/";
+    domain = settings.domain;
+    secure = settings.secure;
+    SameSite = settings.SameSite || "Lax";
+    HttpOnly = settings.HttpOnly;
+  }
   for (var item in celestra.getCookie()) {
     celestra.removeCookie(item, path, domain, secure, SameSite, HttpOnly);
   }
@@ -1067,8 +1096,8 @@ const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
 
 function min ([...a]) {
   if (a.length > 0) {
-    var r = a[0];
-    a.forEach(function (v, i, arr) { if (v < r) { r = v; } });
+    let r = a[0];
+    for (let item of a) { if (r > item) { r = item; } }
     return r;
   }
   return null;
@@ -1085,8 +1114,8 @@ function minIndex ([...a]) {
 
 function max ([...a]) {
   if (a.length > 0) {
-    var r = a[0];
-    a.forEach(function (v, i, arr) { if (v > r) { r = v; } });
+    let r = a[0];
+    for (let item of a) { if (r < item) { r = item; } }
     return r;
   }
   return null;
@@ -1105,7 +1134,8 @@ const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
-const arrayRange = (start = 0, end = 100, step = 1) => Array.from({ length: (end - start) / step + 1}, (_, i) => start + (i * step));
+const arrayRange = (start = 0, end = 100, step = 1) =>
+  Array.from({ length: (end - start) / step + 1}, (_, i) => start + (i * step));
 
 function zip (...a) {
   a = a.map((v) => Array.from(v));
@@ -1141,13 +1171,13 @@ function uniquePush (a, v) {
 function arrayClear (a) { a.length = 0; return a; }
 
 function arrayRemove (a, v, all) {
-  var found = a.includes(v);
+  var found = a.indexOf(v) > -1;
   if (!all) {
     var pos = a.indexOf(v);
-    if (pos !== -1) { a.splice(pos, 1); }
+    if (pos > -1) { a.splice(pos, 1); }
   } else {
     var pos = -1;
-    while ((pos = a.indexOf(v)) !== -1) { a.splice(pos, 1); }
+    while ((pos = a.indexOf(v)) > -1) { a.splice(pos, 1); }
   }
   return found;
 }
@@ -1360,15 +1390,11 @@ function* enumerateOf (it) {
 
 function* flatOf (it) { for (let item of it) { yield* item; } }
 
-function joinOf (it, s = ",") {
-  let r = "", s2 = String(s);
-  for (let item of it) { r += s2 + item; }
-  return r.slice(s2.length);
-}
+const joinOf = ([...a], s = ",") => a.join(s);
 
-/* object */
+/* object header */
 
-const VERSION = "Celestra v3.6.1";
+const VERSION = "Celestra v3.7.0";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1380,6 +1406,7 @@ var celestra = {
   VERSION: VERSION,
   noConflict: noConflict,
   /* core api */
+  delay: delay,
   randomInt: randomInt,
   randomFloat: randomFloat,
   randomString: randomString,

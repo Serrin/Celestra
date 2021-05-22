@@ -1,9 +1,10 @@
-
+````
         ___  ____  __    ____  ___  ____  ____    __
        / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
       ( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
        \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
 
+````
 
 # Celestra
 
@@ -14,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.6.1
+Latest version: 3.7.0
 
-Date: 2021-01-10T21:38:30.715Z
+Date: 2021-05-21T19:24:58.392Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (43366 bytes)
+Development version: celestra.js (44440 bytes)
 
-Minified version: celestra.min.js (32639 bytes)
+Minified version: celestra.min.js (33474 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (32495 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (33331 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -49,11 +50,11 @@ Demo plugin source: celestra-demo-plugin.js
 
 ### Celestra Unit Tester (CUT)
 
-Celestra test results for minimized version: unittest.min.html
+Test results for minimized version: unittest.min.html
 
-Celestra test results for ESM version: unittest.esm.html
+Test results for ESM version: unittest.esm.html
 
-Celestra test results for development version: unittest.dev.html
+Test results for development version: unittest.dev.html
 
 
 ### How to import the ESM version
@@ -119,6 +120,7 @@ Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM version only returns the celestra object.__
+`delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer. __Sample:__ `_.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
 `randomInt(<min>,<max>);` | Get a random integer number value within min and max value.
@@ -137,7 +139,7 @@ Name | Description
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `strReplaceAll(<string>,<search>,<replace>);` | This functions replaces all instances of a substring in a string without use of a global regexp. All of the parameters are mandatory and will be converted to string. The return value is the modified string.
 `strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
-`strFromCodePoints(<iter>);` | Returns the joined string of the given unicode codepoints. The iterator/iterable parameter is mandatory.
+`strFromCodePoints(<collection>);` | Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.
 `strAt(<string>,<pos>);` | Returns the unicode character, which has to be on the given position in the string. If the position is out of the string length, then the return value is an empty string. All of the parameters are mandatory and position has to be an integer.
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
@@ -162,12 +164,12 @@ Example: `_.domCreate()`
 Name | Description
 ---- | -----------
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
-`qs(<selector>[,context]).argument;` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
+`qs(<selector>[,context]);` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
 `domReady(<fn>);` | Set the document ready (content fully loaded) event.
 `domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, style object/string, data-*, etc.) The innerHTML is optional and can be a string.
 `domCreate(<element descriptive object>);` | Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The `style` can be a subobject or a string. __Sample code:__ `_.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});`
 `domToElement(<htmlString>);` | This function returns a HTML element which is created from the htmlString parameter. The htmlString parameter is mandatory and has to be a string.
-`domGetCSS(<element>,<property>);` | Get a CSS property value of an element. The function uses the `getComputedStyle` method, if it is available. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string.
+`domGetCSS(<element>[,property]);` | Get a CSS property value of an element or all of the css properties in an object. The element is mandatory and has to be a HTML element. The property is optional and can be a string.
 `domSetCSS(<element>,<property>,<value>);` | Set a CSS property value of an element. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string. The value is mandatory and has to be a string.
 `domSetCSS(<element>,<properties>);` | Set CSS property values of an element. The element is mandatory and has to be a HTML element. The properties object is mandatory. The object properties can be the CSS properties and the property values will be applied to the element.
 `domFadeIn(<element>[,duration[,display]]);` | Fade in and show animation for an element. The element is mandatory and has to be a HTML element. The duration parameter is optional and sets the animation time in millisecond (the default is 500ms). The display is optional and can be a string (CSS display property values).
@@ -273,11 +275,14 @@ Cookie values help: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Se
 
 Name | Description
 ---- | -----------
-`setCookie(<name>,<value>[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` __to__ `setCookie(<name>,<value>[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);`. Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean.
+`setCookie(<name>,<value>[,hours=8760[,path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `setCookie(<name>,<value>[,hours[,path[,domain[,secure[,HttpOnly]]]]]);` __to__ `setCookie(<name>,<value>[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);`. Set a cookie. The name is mandatory and has to be a string. The value is mandatory and has to be a string. The hours is the expire value and optional and can be a number _(default value: 8760 = 1 year)_. The path is optional and can be a string _(default value: "/")_. To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string _("Lax", "Strict", "None", default value: "Lax")_. The HttpOnly is optional and can be a boolean.
+`setCookie(<Options object>);` | __In v3.7.0 added the handle of the Options object.__ In this case the names of object properties are the same as the function arguments and the default values are the same too.
 `getCookie([name]);` | Get a cookie value or all cookies in an object. With the name parameter (string) the return value is the current cookie value or null. Without the parameter the return value is an object with the values or an empty object.
 `hasCookie(<name>);` | This function determines whether the cookie is set with the name. The return value is boolean.
-`removeCookie(<name>[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` __to__ `removeCookie(<name>[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
-`clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `clearCookies([path[,domain[,secure[,HttpOnly]]]]);` __to__ `clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Clear all of the cookies. The path is optional and can be a string. The default path is the entire site (`"/"`). To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string ("Lax", "Strict", "None"). The HttpOnly is optional and can be a boolean.
+`removeCookie(<name>[,path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `removeCookie(<name>[,path[,domain[,secure[,HttpOnly]]]]);` __to__ `removeCookie(<name>[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Remove a cookie. The name is mandatory and has to be a string. The path is optional and can be a string _(default value: "/")_. The To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string _("Lax", "Strict", "None", default value: "Lax")_. The HttpOnly is optional and can be a boolean. The return value (boolean) is determines whether the cookie was set with the name before the removing.
+`removeCookie(<Options object>);` | __In v3.7.0 added the handle of the Options object.__ In this case the names of object properties are the same as the function arguments and the default values are the same too.
+`clearCookies([path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]);` | __In v3.3.0 the arguments has been changed from:__ `clearCookies([path[,domain[,secure[,HttpOnly]]]]);` __to__ `clearCookies([path[,domain[,secure[,SameSite[,HttpOnly]]]]]);`. Clear all of the cookies. The path is optional and can be a string _(default value: "/")_. To the local path set the `""` value! The domain is optional and can be a string. The secure is optional and can be a boolean. The SameSite is optional and can be a string _("Lax", "Strict", "None", default value: "Lax")_. The HttpOnly is optional and can be a boolean.
+`clearCookies(<Options object>);` | __In v3.7.0 added the handle of the Options object.__ In this case the names of object properties are the same as the function arguments and the default values are the same too.
 
 
 ### Collections
@@ -300,9 +305,9 @@ Name | Description
 `setSymmetricDifference(<set1>,<set2>);` | Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
 `isSuperset(<superset>,<subset>);` | This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
 `min(<collection>);` | Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`minIndex(<collection>);` | Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`minIndex(<collection>);` | __DEPRECATED__ <br>Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `max(<collection>);` | Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`maxIndex(<collection>);` | Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`maxIndex(<collection>);` | __DEPRECATED__ <br>Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRepeat(<value>[,n]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRange([start=0[,end=100[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.
@@ -337,7 +342,7 @@ Name | Description
 `reduceOf(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.
 `enumerateOf(<collection>);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. Example: `enumerateOf(["Picard", "Riker", "Data"]);` -> `["Picard", 0]`, `["Riker", 1]`, `["Data", 2]`
 `flatOf(<collection>);` | Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.
-`joinOf(<collection>[,separator]);` | This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.
+`joinOf(<collection>[,separator=","]);` | This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.
 `takeWhile(<collection>,<callback>);` | Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `takeRight(<collection>[,n]);` | Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `takeRightWhile(<collection>,<callback>);` | Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
@@ -383,13 +388,19 @@ Name | Description
 `window.screenTop;` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
 `globalThis;` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
 `RegExp.prototype.flags;` | The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy").
-`window.GeneratorFunction();` | The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the Celestra this is available in the `window` object.
-`window.AsyncFunction();` | The AsyncFunction constructor creates a new async function object. In JavaScript, every asynchronous function is actually an AsyncFunction object. Note that AsyncFunction is not a global object, but in the Celestra this is available in the `window` object.
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 `String.prototype[Symbol.iterator]();` | The [Symbol.iterator] method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value.
 `String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp.
-`BigInt.prototype.toJSON();` | sing `JSON.stringify();` with any BigInt value will raise a TypeError as BigInt values aren't serialized in JSON by default. This added method can fix this. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
-__REMOVED polyfills in v3.1.0__ | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
+REMOVED polyfills in v3.1.0 | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
+
+
+### Non-standard polyfills
+
+Name | Description
+---- | -----------
+`BigInt.prototype.toJSON();` | Using `JSON.stringify();` with any BigInt value will raise a TypeError as BigInt values aren't serialized in JSON by default. This added method can fix this. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
+`window.GeneratorFunction();` | The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the Celestra this is available in the `window` object.
+`window.AsyncFunction();` | The AsyncFunction constructor creates a new async function object. In JavaScript, every asynchronous function is actually an AsyncFunction object. Note that AsyncFunction is not a global object, but in the Celestra this is available in the `window` object.
 
 
 ## Samples

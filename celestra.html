@@ -75,12 +75,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.6.1</p>
-<p>Date: Date: 2021-01-10T21:38:30.715Z</p>
+<p>Latest version: 3.7.0</p>
+<p>Date: Date: 2021-05-21T19:24:58.392Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (43366 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32639 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (32495 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (44440 bytes)</p>
+<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33474 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33331 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -101,9 +101,9 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
-<p>Celestra test results for minimal version: <a href="unittest.min.html" target="_blank">unittest.min.html</a></p>
-<p>Celestra test results for ESM version: <a href="unittest.esm.html" target="_blank">unittest.esm.html</a></p>
-<p>Celestra test results for development version: <a href="unittest.dev.html" target="_blank">unittest.dev.html</a></p>
+<p>Test results for minimal version: <a href="unittest.min.html" target="_blank">unittest.min.html</a></p>
+<p>Test results for ESM version: <a href="unittest.esm.html" target="_blank">unittest.esm.html</a></p>
+<p>Test results for development version: <a href="unittest.dev.html" target="_blank">unittest.dev.html</a></p>
 
 
 <h3>How to import the ESM version</h3>
@@ -170,6 +170,19 @@ window._ = defaultExport;
         <p><span class="info">Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code></span></p>
         <p><span class="info">In the ESM version only returns the celestra object.</code></span></p>
       </td>
+    </tr>
+    <tr>
+      <td><code>delay(&#60;ms&#62;).then(&#60;callback&#62;);</code></td>
+      <td>
+			  <p>A promise based delay function. The ms parameter is mandatory and have to be an integer (milliseconds).</p>
+        <p><b>Sample:</b></p>
+        <p><button onclick="_.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done'));">try</button></p>
+        <pre>
+_.delay(5000)
+  .then(() => alert("5 seconds"))
+  .catch(console.log.bind(console))
+  .finally(() => alert("done"));</pre>
+	    </td>
     </tr>
     <tr>
       <td><code>inherit(&#60;subclass&#62;,&#60;superclass&#62;);</code></td>
@@ -245,8 +258,8 @@ window._ = defaultExport;
       <td>Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>strFromCodePoints(&#60;iter&#62;);</code></td>
-      <td>Returns the joined string of the given unicode codepoints. The iterator/iterable parameter is mandatory.</td>
+      <td><code>strFromCodePoints(&#60;collection&#62;);</code></td>
+      <td>Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.</td>
     </tr>
     <tr>
       <td><code>strAt(&#60;string&#62;,&#60;pos&#62;);</code></td>
@@ -319,7 +332,7 @@ window._ = defaultExport;
       <td>Get matched HTML elements in an array. The context is optional and can be an element or a selector string.</td>
     </tr>
     <tr>
-      <td><code>qs(&#60;selector&#62;[,context]).argument;</code></td>
+      <td><code>qs(&#60;selector&#62;[,context]);</code></td>
       <td>Get the first matched HTML element. The context is optional and can be an element or a selector string.</td>
     </tr>
     <tr>
@@ -352,8 +365,8 @@ window._ = defaultExport;
       <td>This function returns a HTML element which is created from the htmlString parameter. The htmlString parameter is mandatory and has to be a string.</td>
     </tr>
     <tr>
-      <td><code>domGetCSS(&#60;element&#62;,&#60;property&#62;);</code></td>
-      <td>Get a CSS property value of an element. The function uses the <code>getComputedStyle</code> method, if it is available. The element is mandatory and has to be a HTML element. The property is mandatory and has to be a string.</td>
+      <td><code>domGetCSS(&#60;element&#62;[,property]);</code></td>
+      <td>Get a CSS property value of an element or all of the css properties in an object. The element is mandatory and has to be a HTML element. The property is optional and can be a string.</td>
     </tr>
     <tr>
       <td><code>domSetCSS(&#60;element&#62;,&#60;property&#62;,&#60;value&#62;);</code></td>
@@ -677,7 +690,7 @@ window._ = defaultExport;
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]]);</code></td>
+      <td><code>setCookie(&#60;name&#62;,&#60;value&#62;[,hours="8760"[,path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]]);</code></td>
       <td>
         <p class="info">
           In v3.3.0 the arguments has been changed from
@@ -690,14 +703,20 @@ window._ = defaultExport;
         <ul>
           <li>The name is mandatory and has to be a string.</li>
           <li>The value is mandatory and has to be a string.</li>
-          <li>The hours is the expire value and optional and can be a number.</li>
-          <li>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!</li>
+          <li>The hours is the expire value and optional and can be a number. <i>(Default value: 8760 = 1 year)</i></li>
+          <li>The path is optional and can be a string. <i>(Default value: "/")</i> To the local path set the <code>""</code> value!</li>
           <li>The domain is optional and can be a string.</li>
           <li>The secure is optional and can be a boolean.</li>
-          <li>The SameSite is optional and can be a string ("Lax", "Strict", "None").</li>
+          <li>The SameSite is optional and can be a string. <i>("Lax", "Strict", "None", default value: "Lax")</i></li>
           <li>The HttpOnly is optional and can be a boolean.</li>
-          <li>The return value (boolean) is determines whether the cookie was set with the name before the removing.</li>
         </ul>        
+      </td>
+    </tr>
+    <tr>
+      <td><code>setCookie(&#60;Options object&#62;);</code></td>
+      <td>
+        <p class="info">In v3.7.0 added the handle of the Options object.</p>
+        <p> In this case the names of object properties are the same as the function arguments and the default values are the same too.</p>
       </td>
     </tr>
     <tr>
@@ -712,7 +731,7 @@ window._ = defaultExport;
       <td>This function determines whether the cookie is set with the name parameter. The return value is boolean.</td>
     </tr>
     <tr>
-      <td><code>removeCookie(&#60;name&#62;[,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code></td>
+      <td><code>removeCookie(&#60;name&#62;[,path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]);</code></td>
       <td>
         <p class="info">
           In v3.3.0 the arguments has been changed from
@@ -724,16 +743,24 @@ window._ = defaultExport;
         <p><b>Function parameters:</b></p>
         <ul>
           <li>The name is mandatory and has to be a string.</li>
-          <li>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!</li>
+          <li>The path is optional and can be a string. <i>(Default value: "/")</i> To the local path set the <code>""</code> value!</li>
           <li>The domain is optional and can be a string.</li>
           <li>The secure is optional and can be a boolean.</li>
-          <li>The SameSite is optional and can be a string ("Lax", "Strict", "None").</li>
+          <li>The SameSite is optional and can be a string. <i>("Lax", "Strict", "None", default value: "Lax")</i></li>
           <li>The HttpOnly is optional and can be a boolean.</li>
         </ul>
+        <p>The return value (boolean) is determines whether the cookie was set with the name before the removing.</p>
       </td>
     </tr>
     <tr>
-      <td><code>clearCookies([,path[,domain[,secure[,SameSite[,HttpOnly]]]]]);</code></td>
+      <td><code>removeCookie(&#60;Options object&#62;);</code></td>
+      <td>
+        <p class="info">In v3.7.0 added the handle of the Options object.</p>
+        <p> In this case the names of object properties are the same as the function arguments and the default values are the same too.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>clearCookies([path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]);</code></td>
       <td>
         <p class="info">
           In v3.3.0 the arguments has been changed from
@@ -743,12 +770,19 @@ window._ = defaultExport;
         <p>Clear all of the cookies. The return value (boolean) is determines whether the cookie was set with the name before the removing.</p>
         <p><b>Function parameters:</b></p>
         <ul>
-          <li>The path is optional and can be a string. The default path is the entire site (<code>"/"</code>). To the local path set the <code>""</code> value!</li>
+          <li>The path is optional and can be a string. <i>(Default value: "/")</i> To the local path set the <code>""</code> value!</li>
           <li>The domain is optional and can be a string.</li>
           <li>The secure is optional and can be a boolean.</li>
-          <li>The SameSite is optional and can be a string ("Lax", "Strict", "None").</li>
+          <li>The SameSite is optional and can be a string. <i>("Lax", "Strict", "None", default value: "Lax")</i></li>
           <li>The HttpOnly is optional and can be a boolean.</li>
         </ul>   
+      </td>
+    </tr>
+    <tr>
+      <td><code>clearCookies(&#60;Options object&#62;);</code></td>
+      <td>
+        <p class="info">In v3.7.0 added the handle of the Options object.</p>
+        <p> In this case the names of object properties are the same as the function arguments and the default values are the same too.</p>
       </td>
     </tr>
   </table>
@@ -831,7 +865,7 @@ window._ = defaultExport;
     </tr>
     <tr>
       <td><code>minIndex(&#60;collection&#62;);</code></td>
-      <td>Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+      <td><span class="deprecated">Deprecated</span><br/>Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
       <td><code>max(&#60;collection&#62;);</code></td>
@@ -839,7 +873,7 @@ window._ = defaultExport;
     </tr>
     <tr>
       <td><code>maxIndex(&#60;collection&#62;);</code></td>
-      <td>Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+      <td><span class="deprecated">Deprecated</span><br/>Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
       <td><code>arrayCycle(&#60;collection&#62;[,n]);</code></td>
@@ -985,7 +1019,7 @@ window._ = defaultExport;
       <td>Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.</td>
     </tr>
     <tr>
-      <td><code>joinOf(&#60;collection&#62;[,separator]);</code></td>
+      <td><code>joinOf(&#60;collection&#62;[,separator=","]);</code></td>
       <td>This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.</td>
     </tr>
     <tr>
@@ -1169,14 +1203,6 @@ window._ = defaultExport;
       <td>The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy"). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/flags" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>window.GeneratorFunction();</code></td>
-      <td>The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the Celestra this is available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>window.AsyncFunction();</code></td>
-      <td>The AsyncFunction constructor creates a new async function object. In JavaScript, every asynchronous function is actually an AsyncFunction object. Note that AsyncFunction is not a global object, but in the Celestra this is available in the </code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncFunction" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
       <td><code>String.prototype.matchAll();</code></td>
       <td>The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll" target="_blank">MDN Article</a>!</td>
     </tr>
@@ -1189,14 +1215,34 @@ window._ = defaultExport;
       <td>The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
+      <td>REMOVED polyfills in v3.1.0</td>
+      <td><code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER();</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></td>
+    </tr>
+  </table>
+</div>
+
+
+<h3 id="non-standard-polyfills">Non-standard polyfills</h3>
+
+<div>
+  <table class="table-responsive table-striped">
+    <tr>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
       <td><code>BigInt.prototype.toJSON();</code></td>
       <td>Using <code>JSON.stringify();</code> with any BigInt value will raise a TypeError as BigInt values aren't serialized in JSON by default. This added method can fix this. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><span class="removed">REMOVED polyfills in v3.1.0</span></td>
-      <td><code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER();</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></td>
+      <td><code>window.GeneratorFunction();</code></td>
+      <td>The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the Celestra this is available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction" target="_blank">MDN Article</a>!</td>
     </tr>
-  </table>
+    <tr>
+      <td><code>window.AsyncFunction();</code></td>
+      <td>The AsyncFunction constructor creates a new async function object. In JavaScript, every asynchronous function is actually an AsyncFunction object. Note that AsyncFunction is not a global object, but in the Celestra this is available in the <code>window</code> object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncFunction" target="_blank">MDN Article</a>!</td>
+    </tr>
+	</table>
 </div>
 
 
