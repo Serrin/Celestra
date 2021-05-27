@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.7.0
+ * @version 3.8.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -25,27 +25,18 @@
 
 /* polyfills */
 
-if (!Object.assign) {
-  Object.assign = function () {
-    var t = arguments[0] || {};
-    for (var i = 0, l = arguments.length; i < l; i++) {
-      var s = arguments[i];
-      for (var a in s) { if (s.hasOwnProperty(a)) { t[a] = s[a]; } }
-    }
-    return t;
-  };
-}
-
-if (!Array.prototype.includes) {
-  Array.prototype.includes = function (v, f) {
-    return (this.indexOf(v, f) > -1);
-  };
-}
-
-if (!String.prototype.includes) {
-  String.prototype.includes = function (v, f) {
-    return (this.indexOf(v, f) > -1);
-  };
+if (!Object.hasOwn) {
+  Object.defineProperty(Object, "hasOwn", {
+    value: function (object, property) {
+      if (object == null) {
+        throw new TypeError("Cannot convert undefined or null to object");
+      }
+      return Object.prototype.hasOwnProperty.call(Object(object), property);
+    },
+    configurable: true,
+    enumerable: false,
+    writable: true
+  });
 }
 
 if (!String.prototype.trimStart) {
@@ -92,38 +83,6 @@ if (!String.prototype.padEnd) {
   };
 }
 
-if (!String.prototype.repeat) {
-  String.prototype.repeat = function (c) {
-    "use strict";
-    if (this == null) {
-      throw new TypeError("can\"t convert " + this + " to object");
-    }
-    var str = "" + this;
-    c = +c;
-    if (c != c) { c = 0; }
-    if (c < 0) { throw new RangeError("repeat count must be non-negative"); }
-    if (c == Infinity) {
-      throw new RangeError("repeat count must be less than infinity");
-    }
-    c = Math.floor(c);
-    if (str.length == 0 || c == 0) { return ""; }
-    if (str.length * c >= 1 << 28) {
-      throw new RangeError("repeat count must not overflow maximum string size");
-    }
-    var maxCount = str.length * c;
-    c = Math.floor(Math.log(c) / Math.log(2));
-    while (c) { str += str; c--; }
-    str += str.substring(0, maxCount - str.length);
-    return str;
-  }
-}
-
-if (!String.prototype[Symbol.iterator]) {
-  String.prototype[Symbol.iterator] = function () {
-    return Array.from(this).values();
-  };
-}
-
 if (!("replaceAll" in String.prototype)) {
   Object.defineProperty(String.prototype, "replaceAll", {
     "configurable": true,
@@ -144,127 +103,6 @@ if (!("replaceAll" in String.prototype)) {
       return String(this).split(String(searchValue)).join(replaceValue);
     }
   });
-}
-
-[Element.prototype, CharacterData.prototype, DocumentType.prototype].forEach(function (p) {
-  if (!p.after) {
-    p.after = function () {
-      var t = this;
-      Array.prototype.forEach.call(arguments, function (e) {
-        t.parentNode.insertBefore(
-          (e instanceof Node ? e : document.createTextNode(String(e))),
-          t.nextSibling
-        );
-      });
-    };
-  }
-  if (!p.before) {
-    p.before = function () {
-      var t = this;
-      Array.prototype.forEach.call(arguments, function (e) {
-        t.parentNode.insertBefore(
-          (e instanceof Node ? e : document.createTextNode(String(e))), t
-        );
-      });
-    };
-  }
-  if (!p.remove) {
-    p.remove = function () { this.parentNode.removeChild(this); };
-  }
-  if (!p.replaceWith) {
-    p.replaceWith = function () {
-      var t = this;
-      Array.prototype.forEach.call(arguments, function (e) {
-        t.parentNode.replaceChild(
-          (e instanceof Node ? e : document.createTextNode(String(e))), t
-        );
-      });
-    };
-  }
-  if (!p.append) {
-    p.append = function () {
-      var t = this;
-      Array.prototype.forEach.call(arguments, function (e) {
-        t.appendChild(
-          e instanceof Node ? e : document.createTextNode(String(e))
-        );
-      });
-    };
-  }
-  if (!p.prepend) {
-    p.prepend = function () {
-      var t = this;
-      Array.prototype.forEach.call(arguments, function (e) {
-        t.insertBefore(
-          (e instanceof Node ? e : document.createTextNode(String(e))),
-          t.firstChild
-        );
-      });
-    };
-  }
-});
-
-if (!Element.prototype.toggleAttribute) {
-  Element.prototype.toggleAttribute = function (name, force) {
-    var forcePassed = (arguments.length === 2);
-    var forceOn = !!force;
-    var forceOff = (forcePassed && !force);
-    if (this.getAttribute(name) !== null) {
-      if (forceOn) { return true; }
-      this.removeAttribute(name);
-      return false;
-    } else {
-      if (forceOff) { return false; }
-      this.setAttribute(name, "");
-      return true;
-    }
-  };
-}
-
-if (!Element.prototype.matches) {
-  Element.prototype.matches =
-    Element.prototype.msMatchesSelector ||
-    Element.prototype.webkitMatchesSelector ||
-    Element.prototype.matchesSelector ||
-    Element.prototype.mozMatchesSelector ||
-    Element.prototype.oMatchesSelector ||
-    function (s) {
-      var matches = (this.document || this.ownerDocument).querySelectorAll(s),
-        i = matches.length;
-      while (--i >= 0 && matches.item(i) !== this) {}
-      return i > -1;
-    };
-}
-
-if (!Element.prototype.closest) {
-  Element.prototype.closest = function (s) {
-    var el = this;
-    if (!document.documentElement.contains(el)) { return null; }
-    do {
-      if (el.matches(s)) { return el; }
-      el = el.parentElement || el.parentNode;
-    } while (el !== null && el.nodeType === 1);
-    return null;
-  };
-}
-
-if (!Element.prototype.getAttributeNames) {
-  Element.prototype.getAttributeNames = function () {
-    var attributes = this.attributes;
-    var length = attributes.length;
-    var result = new Array(length);
-    for (var i = 0; i < length; i++) { result[i] = attributes[i].name; }
-    return result;
-  };
-}
-
-if (window.NodeList && !NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = function (callback, thisArg) {
-    thisArg = thisArg || window;
-    for (var i = 0; i < this.length; i++) {
-      callback.call(thisArg, this[i], i, this);
-    }
-  };
 }
 
 if (!Array.prototype.flat) {
@@ -308,38 +146,6 @@ if (!Object.fromEntries) {
   };
 }
 
-if (!Object.entries) {
-  Object.entries = function (o) {
-    return Object.keys(o).map(function (e) { return [e, o[e]]; });
-  };
-}
-
-if (!Object.values) {
-  Object.values = function (o) {
-    return Object.keys(o).map(function (e) { return o[e]; });
-  };
-}
-
-if (!Object.getOwnPropertyDescriptors) {
-  Object.getOwnPropertyDescriptors = function (obj) {
-    var res = {};
-    var n = Object.getOwnPropertyNames(obj);
-    for (var i = 0, l = n.length; i < l; i++) {
-      res[n[i]] = Object.getOwnPropertyDescriptor(obj, n[i]);
-    }
-    return res;
-  };
-}
-
-if (Array.prototype.keys
-  && Array.prototype.entries
-  && !Array.prototype.values) {
-  Array.prototype.values = Array.prototype[Symbol.iterator];
-}
-
-if (!("screenLeft" in window)) { window.screenLeft = window.screenX; }
-if (!("screenTop" in window)) { window.screenTop = window.screenY; }
-
 /* https://github.com/tc39/proposal-global */
 (function (global) {
   if (!global.globalThis) {
@@ -352,13 +158,6 @@ if (!("screenTop" in window)) { window.screenTop = window.screenY; }
     }
   }
 })(typeof this === "object" ? this : Function("return this")());
-
-if (RegExp.prototype.flags === undefined) {
-  Object.defineProperty(RegExp.prototype, "flags", {
-    configurable: true,
-    get: function () { return this.toString().match(/[gimsuy]*$/)[0]; }
-  });
-}
 
 if (!window.GeneratorFunction) {
   window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
@@ -532,9 +331,18 @@ const noop = () => undefined;
 const T = () => true;
 const F = () => false;
 
-function assert (c, m="") { if (!c) { throw new Error("[assert] "+m); } }
-function assertLog (c, m="") { if (!c) { console.log("[assertLog] "+m); } }
-function assertAlert (c, m="") { if (!c) { alert("[assertAlert] "+m); } }
+function assert (c, m = "") {
+  if (!c) { throw new Error("[assert] " + m); }
+  return true;
+}
+function assertLog (c, m = "") {
+  if (!c) { console.log("[assertLog] " + m); }
+  return true;
+}
+function assertAlert (c, m = "") {
+  if (!c) { alert("[assertAlert] " + m); }
+  return true;
+}
 
 /* DOM */
 
@@ -903,6 +711,9 @@ function ajax (o) {
 
 /* type checking */
 
+const isPromise = (v) =>
+  (typeof v === "object" && typeof v.then === "function");
+
 function isSameArray (a, b) {
   if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) {
     for (var i = 0, l = a.length; i < l; i++) {
@@ -1069,6 +880,10 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
 
 /* collections */
 
+const partition = ([...a], fn) =>
+  [ a.filter(fn), a.filter( (e, i, a) => !(fn(e, i, a))) ];
+const groupBy = partition;
+
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
 
 const arrayIntersection = ([...a], [...b]) =>
@@ -1103,28 +918,10 @@ function min ([...a]) {
   return null;
 }
 
-function minIndex ([...a]) {
-  if (a.length > 0) {
-    var r = 0;
-    a.forEach(function (v, i, arr) { if (v < arr[r]) { r = i; } });
-    return r;
-  }
-  return null;
-}
-
 function max ([...a]) {
   if (a.length > 0) {
     let r = a[0];
     for (let item of a) { if (r < item) { r = item; } }
-    return r;
-  }
-  return null;
-}
-
-function maxIndex ([...a]) {
-  if (a.length > 0) {
-    var r = 0;
-    a.forEach(function (v, i, arr) { if (v > arr[r]) { r = i; } });
     return r;
   }
   return null;
@@ -1161,9 +958,9 @@ function unzip ([...a]) {
   return r;
 }
 
-const uniqueArray = (a) => [...new Set(a)];
+const arrayUnique = (a) => [...new Set(a)];
 
-function uniquePush (a, v) {
+function arrayAdd (a, v) {
   if (!a.includes(v)) { a.push(v); return true; }
   return false;
 }
@@ -1394,7 +1191,7 @@ const joinOf = ([...a], s = ",") => a.join(s);
 
 /* object header */
 
-const VERSION = "Celestra v3.7.0";
+const VERSION = "Celestra v3.8.0 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1472,6 +1269,7 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /* type checking */
+  isPromise: isPromise,
   isSameArray: isSameArray,
   isString: isString,
   isChar: isChar,
@@ -1511,6 +1309,8 @@ var celestra = {
   removeCookie: removeCookie,
   clearCookies: clearCookies,
   /* collections */
+  partition: partition,
+  groupBy: groupBy,
   arrayUnion: arrayUnion,
   arrayIntersection: arrayIntersection,
   arrayDifference: arrayDifference,
@@ -1521,16 +1321,14 @@ var celestra = {
   setSymmetricDifference: setSymmetricDifference,
   isSuperset: isSuperset,
   min: min,
-  minIndex: minIndex,
   max: max,
-  maxIndex: maxIndex,
   arrayRepeat: arrayRepeat,
   arrayCycle: arrayCycle,
   arrayRange: arrayRange,
   zip: zip,
   unzip: unzip,
-  uniqueArray: uniqueArray,
-  uniquePush: uniquePush,
+  arrayUnique: arrayUnique,
+  arrayAdd: arrayAdd,
   arrayClear: arrayClear,
   arrayRemove: arrayRemove,
   item: item,

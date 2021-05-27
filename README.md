@@ -15,19 +15,26 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.7.0
+Latest version: 3.8.0
 
-Date: 2021-05-21T19:24:58.392Z
+Date: 2021-05-27T19:42:08.207Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: celestra.js (44440 bytes)
+Development version: __celestra.js__ (38608 bytes)
 
-Minified version: celestra.min.js (33474 bytes)
+Minified version: __celestra.min.js__ (28954 bytes)
 
 ESM (ECMAScript 6 module) version: celestra.esm.js (33331 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
+
+
+### Removed polyfills
+
+Development version: __celestra-polyfills.js__ (18019 bytes)
+
+Minified version: __celestra-polyfills.min.js__ (11516 bytes)
 
 
 ### Cheatsheets
@@ -144,15 +151,15 @@ Name | Description
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `toFunction(<function>);` | Return a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
-`hasOwn(<object>,<property>);` | Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+`hasOwn(<object>,<property>);` | __DEPRECATED__ <br> Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `T();` | This function returns true.
 `F();` | This function returns false.
-`assert(<condition>[,message]);` | This function throws an error with the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string.
-`assertLog(<condition>[,message]);` | This function logs the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string.
-`assertAlert(<condition>[,message]);` | This function alerts the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string.
+`assert(<condition>[,message]);` | This function throws an error with the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is `true`, when the test was success.
+`assertLog(<condition>[,message]);` | This function logs the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is `true`, when the test was success.
+`assertAlert(<condition>[,message]);` | This function alerts the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is `true`, when the test was success.
 
 
 ### DOM functions
@@ -165,7 +172,7 @@ Name | Description
 ---- | -----------
 `qsa(<selector>[,context]);` | Get matched HTML elements in an array. The context is optional and can be an element or a selector string.
 `qs(<selector>[,context]);` | Get the first matched HTML element. The context is optional and can be an element or a selector string.
-`domReady(<fn>);` | Set the document ready (content fully loaded) event.
+`domReady(<callback>);` | Set the document ready (content fully loaded) event.
 `domCreate(<type>[,properties[,innerHTML]]);` | Create a new HTML element. The type is mandatory and has to be a string. The properties object is optional and sets the element properties. (class, style object/string, data-*, etc.) The innerHTML is optional and can be a string.
 `domCreate(<element descriptive object>);` | Since v2.0.5, a new element can be created with an object. In this case the element descriptive object is mandatory. The `style` can be a subobject or a string. __Sample code:__ `_.domCreate({elementType: "a", href: "https://developer.mozilla.org/en-US/", target: "_blank", style: {"background-color": "red", "color": "white"}, innerHTML: "MDN Sample url"});`
 `domToElement(<htmlString>);` | This function returns a HTML element which is created from the htmlString parameter. The htmlString parameter is mandatory and has to be a string.
@@ -231,6 +238,7 @@ Example: `_.isString()`
 
 Name | Description
 ---- | -----------
+`isPromise(<value>);` | This function determines whether the provided value is a promise object. The return value is boolean.
 `isSameArray(<array1>,<array2>);` | This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.
 `isAsyncFn(<value>);` | This function determines whether the provided value is an async function. The return value is boolean.
 `isGeneratorFn(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
@@ -295,6 +303,8 @@ Name | Description
 ---- | -----------
 `forEach(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `forOf(<collection>,<callback>);` __Can be replaced with these:__ `[...collection].forEach(<callback>);`, `Array.from(<collection>).forEach(<callback>);` and the Array, NodeList, Map and Set types have the own `.forEach(<callback>);`
 `map(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `mapOf(<collection>,<callback>);` __Can be replaced with these:__ `[...collection].map(<callback>);`, `Array.from(<collection>[,callback]);` and the Array type has the own `.map(<callback>);`
+`partition(<collection>,<callback>);` | Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.<br>__Example:__<br>`_.partition([-5, 2, -9, 7, 34], (e) => (e > 0) );`<br>-><br>`[[2, 7, 34], [-5, -9]]]`
+`groupBy(<collection>,<callback>);` | An alias of the `partition(<collection>,<callback>);`.
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
 `arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
 `arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
@@ -305,9 +315,7 @@ Name | Description
 `setSymmetricDifference(<set1>,<set2>);` | Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
 `isSuperset(<superset>,<subset>);` | This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
 `min(<collection>);` | Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`minIndex(<collection>);` | __DEPRECATED__ <br>Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `max(<collection>);` | Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`maxIndex(<collection>);` | __DEPRECATED__ <br>Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRepeat(<value>[,n]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRange([start=0[,end=100[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.
@@ -315,8 +323,8 @@ Name | Description
 `unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. Example: `_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);` => `Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
 `arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
 `arrayRemove(<array>,<value>[,all]);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
-`uniqueArray(<value>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
-`uniquePush(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
+`arrayUnique(<collection>);` | __Old name before v3.8.0:__ `uniqueArray(<value>);` <br>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
+`arrayAdd(<array>,<value>);` | __Old name before v3.8.0:__ `uniquePush(<array>,<value>);` <br>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `item(<collection>,<index>);` | Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers. __Tip1: This function uses the Spread syntax. It can be slow, when more items are requested with this function. In this case please convert the collection with the Spread syntax(`[...iter]`) or `Array.from()` instead of usage this function!__ __Tip2: From the v2.7.2 the function `itemOf(<collection>,<index>);` is available.__
 `arrayMerge([deep,]<target>,<source1>, ...sources);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
 `iterRange([start=0[,step=1[,end=Infinity]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
@@ -356,42 +364,21 @@ Name | Description
 
 Name | Description
 ---- | -----------
-`Array.prototype.values();` | The values() method returns a new Array Iterator object that contains the values for each index in the array.
-`Object.assign();` | The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object.
-`ChildNode.after();` | The ChildNode.after() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just after this ChildNode. DOMString objects are inserted as equivalent Text nodes.
-`ChildNode.before();` | The ChildNode.before() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just before this ChildNode. DOMString objects are inserted as equivalent Text nodes.
-`ChildNode.remove();` | The ChildNode.remove() method removes the object from the tree it belongs to.
-`ChildNode.replaceWith();` | The ChildNode.replaceWith() method replaces this ChildNode in the children list of its parent with a set of Node or DOMString objects. DOMString objects are inserted as equivalent Text nodes.
-`ParentNode.append();` | The ParentNode.append() method inserts a set of Node objects or DOMString objects after the last child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
-`ParentNode.prepend();` | The ParentNode.prepend() method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes.
-`Element.prototype.toggleAttribute();` | Toggle a boolean attribute (removing it if it is present and adding it if it is not present) on the specified element.
-`Array.prototype.includes();` | The includes() method determines whether an array includes a certain element, returning true or false as appropriate.
-`String.prototype.includes();` | The includes() method determines whether one string may be found within another string, returning true or false as appropriate.
+`Object.hasOwn(<object>,<property>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-accessible-object-hasownproperty](https://github.com/tc39/proposal-accessible-object-hasownproperty) <br> Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
 `String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string.
 `String.prototype.trimLeft();` | Alias of the `String.prototype.trimStart();` method.
 `String.prototype.trimEnd();` | The trimEnd() method removes whitespace from the end of a string.
 `String.prototype.trimRight();` | Alias of the `String.prototype.trimEnd();` method.
 `String.prototype.padStart();` | The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string.
 `String.prototype.padEnd();` | The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string.
-`String.prototype.repeat();` | The repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together.
-`NodeList.prototype.forEach();` | The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order.
-`Object.values();` | The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
-`Object.entries();` | The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well).
 `Object.fromEntries();` | The Object.fromEntries() method transforms a list of key-value pairs into an object.
 `Array.prototype.flat();` | The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
 `Array.prototype.flatMap();` | A new array with each element being the result of the callback function and flattened to a depth of 1.
-`Element.prototype.closest();` | The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null.
-`Element.prototype.matches();` | The Element.matches() method returns true if the element would be selected by the specified selector string; otherwise, returns false.
-`Element.prototype.getAttributeNames();` | Element.getAttributeNames() returns the attribute names of the element as an Array of strings. If the element has no attributes it returns an empty array. Using getAttributeNames() along with getAttribute(), is a memory efficient and performant alternative to accessing Element.attributes.
-`Object.getOwnPropertyDescriptors();` | The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object.
-`window.screenLeft;` | The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity.
-`window.screenTop;` | The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity.
-`globalThis;` | A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.  For more information please read these pages: https://tc39.github.io/proposal-global/ and https://github.com/tc39/proposal-global
-`RegExp.prototype.flags;` | The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy").
+`globalThis;` | The "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
-`String.prototype[Symbol.iterator]();` | The [Symbol.iterator] method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value.
 `String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp.
 REMOVED polyfills in v3.1.0 | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
+REMOVED polyfills in v3.8.0 | `Array.prototype.values();`, `Array.prototype.includes();`, `String.prototype.includes();`, `String.prototype.repeat();`, `String.prototype[Symbol.iterator]();`, `Object.assign();`, `Object.entries();`, `Object.values();`, `Object.getOwnPropertyDescriptors();`, `RegExp.prototype.flags;`, `NodeList.prototype.forEach();`, `ChildNode.after();`, `ChildNode.before();`, `ChildNode.remove();`, `ChildNode.replaceWith();`, `ParentNode.append();`, `ParentNode.prepend();`, `Element.prototype.matches();`, `Element.prototype.closest();`, `Element.prototype.toggleAttribute();`, `Element.prototype.getAttributeNames();`, `window.screenLeft;`, `window.screenTop;`
 
 
 ### Non-standard polyfills

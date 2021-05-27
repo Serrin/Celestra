@@ -142,7 +142,7 @@ _cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.7.0 testcases */
+/* Celestra v3.8.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -639,6 +639,18 @@ _.qs("#dsDiv").remove();
 _cut.addElement("hr");
 _cut.addElement("h3", "Collections");
 
+var arrPartition = [-5, 2, -9, 7, 34];
+_cut.isEqual(
+  "partition();",
+  JSON.stringify(_.partition(arrPartition, (e) => (e > 0) )),
+  "[[2,7,34],[-5,-9]]"
+);
+_cut.isEqual(
+  "groupBy();",
+  JSON.stringify(_.groupBy(arrPartition, (e) => (e > 0) )),
+  "[[2,7,34],[-5,-9]]"
+);
+
 var sum = "";
 for (let x of _.iterRange(10, 3, 20)) { sum += x; }
 _cut.isEqual("iterRange(); integer", "10131619", sum);
@@ -1051,7 +1063,7 @@ _cut.log("<code>\""+
   _.joinOf(joinOfSet) + _.joinOf(joinOfSet, "")
     + _.joinOf(joinOfSet, ";") + _.joinOf(joinOfSet, "abc")
     + _.joinOf(joinOfSet, true) + _.joinOf(joinOfSet, 11)
-	+"\"</code>"	
+	+"\"</code>"
 );
 
 var FPArray = [1,2,3];
@@ -1189,18 +1201,12 @@ _cut.log(
 var a = [21,11,41,51,31];
 _cut.isEqual("min(); ES5", 11, _.min(a));
 _cut.log("<code>"+_.min(a)+"</code>");
-_cut.isEqual("minIndex(); ES5", 1, _.minIndex(a));
 _cut.isEqual("max(); ES5", 51, _.max(a));
 _cut.log("<code>"+_.max(a)+"</code>");
-_cut.isEqual("maxIndex(); ES5", 3, _.maxIndex(a));
 _cut.isEqual("min(); ES6", 11, _.min(new Set(a)));
 _cut.log("<code>"+_.min(new Set(a))+"</code>");
-_cut.isEqual("minIndex(); ES6", 1, _.minIndex(new Set(a).values()));
 _cut.isEqual("max(); ES6", 51, _.max(new Set(a).keys()));
 _cut.log("<code>"+_.max(new Set(a).keys())+"</code>");
-_cut.isEqual("maxIndex(); ES6", 3,
-  _.maxIndex(new Map([[21,1],[11,2],[41,3],[51,4],[31,5]]).keys())
-);
 _cut.isEqual("min(); number test", _.min([5, 10, 3]), 3);
 _cut.isEqual("max(); number test", _.max([5, 10, 3]), 10);
 
@@ -1337,20 +1343,20 @@ _cut.isEqual("arrayRemove(); - 0 found - value check",
   "[1,2,3,4,5,6,5,7,8,5,9,0]", JSON.stringify(arrTestClearRemove1)
 );
 
-_cut.isEqual("uniqueArray(); 1 ES5 - Array and String",
-  JSON.stringify(_.uniqueArray(
+_cut.isEqual("arrayUnique(); 1 ES5 - Array and String",
+  JSON.stringify(_.arrayUnique(
     ["A","r","r","a","y","y","a","n","d","d","M","M","a","p"]
  )),
-  JSON.stringify(_.uniqueArray("ArrayyanddMMap"))
+  JSON.stringify(_.arrayUnique("ArrayyanddMMap"))
 );
-_cut.isEqual("uniqueArray(); 2 ES6 - Array and Set",
-  JSON.stringify(_.uniqueArray([1,2,2,3,4,4,5,6,6,7])),
-  JSON.stringify(_.uniqueArray(new Set([1,2,2,3,4,4,5,6,6,7])))
+_cut.isEqual("arrayUnique(); 2 ES6 - Array and Set",
+  JSON.stringify(_.arrayUnique([1,2,2,3,4,4,5,6,6,7])),
+  JSON.stringify(_.arrayUnique(new Set([1,2,2,3,4,4,5,6,6,7])))
 );
-_cut.isEqual("uniqueArray(); 3 ES6 - Array and Map values(); iterator",
-  JSON.stringify(_.uniqueArray([1,2,2,3,4,4,5,6,6,7])),
+_cut.isEqual("arrayUnique(); 3 ES6 - Array and Map values(); iterator",
+  JSON.stringify(_.arrayUnique([1,2,2,3,4,4,5,6,6,7])),
   JSON.stringify(
-    _.uniqueArray(
+    _.arrayUnique(
       (new Map([
         ["foo1", 1], ["bar1", 2], ["baz1", 2], ["foo2", 3], ["bar2", 4],
         ["baz2", 4], ["foo3", 5], ["bar3", 6], ["baz3", 6], ["foo4", 7]
@@ -1359,10 +1365,10 @@ _cut.isEqual("uniqueArray(); 3 ES6 - Array and Map values(); iterator",
   )
 );
 
-var uniquePushTest = [1,2,3,5];
-_cut.isTrue("uniquePush(); true", _.uniquePush(uniquePushTest, 4));
-_cut.isFalse("uniquePush(); false", _.uniquePush(uniquePushTest, 4));
-_cut.isEqual("uniquePush(); value check", "[1,2,3,5,4]", JSON.stringify(uniquePushTest));
+var arrayAddTest = [1,2,3,5];
+_cut.isTrue("arrayAdd(); true", _.arrayAdd(arrayAddTest, 4));
+_cut.isFalse("arrayAdd(); false", _.arrayAdd(arrayAddTest, 4));
+_cut.isEqual("arrayAdd(); value check", "[1,2,3,5,4]", JSON.stringify(arrayAddTest));
 
 var arrMerge1 = [1,2,3];
 var arrMerge2 = [4,5,6];
@@ -1518,6 +1524,30 @@ _cut.isEqual("clearCookies();", "truetruefalsefalse", cookieClearStr);
 
 _cut.addElement("hr");
 _cut.addElement("h3", "polyfills");
+
+var hasOwnObject = {"a": 1, "b": 2};
+var hasOwnArray = [4,5,6];
+_cut.isEqual(
+  "Object.hasOwn();",
+  "true false false true false false",
+  ""
+    + Object.hasOwn(hasOwnObject, "a")
+    + " " + Object.hasOwn(hasOwnObject, "hasOwnProperty")
+    + " " + Object.hasOwn(hasOwnObject, "c")
+    + " " + Object.hasOwn(hasOwnArray, "0")
+    + " " + Object.hasOwn(hasOwnArray, "map")
+    + " " + Object.hasOwn(hasOwnArray, "map2")
+);
+_cut.log(
+  "<code>"
+    + Object.hasOwn(hasOwnObject, "a")
+    + " " + Object.hasOwn(hasOwnObject, "hasOwnProperty")
+    + " " + Object.hasOwn(hasOwnObject, "c")
+    + " " + Object.hasOwn(hasOwnArray, "0")
+    + " " + Object.hasOwn(hasOwnArray, "map")
+    + " " + Object.hasOwn(hasOwnArray, "map2")
+    + "</code>"
+);
 
 _cut.isEqual(
   "String.prototype.replaceAll();",
@@ -2124,10 +2154,10 @@ _cut.isFalse("isTypedArray - false 1 - Array", _.isTypedArray([4,5,6]));
 _cut.isFalse("isTypedArray - false 2 - ArrayBuffer", _.isTypedArray(new ArrayBuffer(8)));
 
 
-/* Type checking - isEqual()*/
+/* Type checking */
 _cut.addElement("hr");
-_cut.addElement("h4", "Type checking - isSameArray();");
 
+_cut.addElement("h4", "Type checking - isSameArray();");
 _cut.isTrue("step 1", _.isSameArray([], []) );
 _cut.isTrue("step 2", _.isSameArray([5,4,5], [5,4,5]) );
 _cut.isFalse("step 3", _.isSameArray([5,4,5], [4,5,6]) );
@@ -2148,6 +2178,8 @@ _cut.isFalse("step 14", _.isSameArray(4, 5) );
 _cut.addElement("hr");
 _cut.addElement("h4", "ES6 type checking");
 
+_cut.isTrue("isPromise(); - true ", _.isPromise(_.delay(1000)));
+_cut.isFalse("isPromise(); - false ", _.isPromise({}));
 _cut.isTrue("isSymbol(); true", _.isSymbol(Symbol("str")));
 _cut.isFalse("isSymbol(); false", _.isSymbol(_.noop));
 _cut.isTrue("isMap(); true", _.isMap(new Map()));

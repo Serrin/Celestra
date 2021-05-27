@@ -75,14 +75,21 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.7.0</p>
-<p>Date: Date: 2021-05-21T19:24:58.392Z</p>
+<p>Latest version: 3.8.0</p>
+<p>Date: Date: 2021-05-27T19:42:08.207Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (44440 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (33474 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (33331 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (38608 bytes)</p>
+<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (29097 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (28954 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
+
+
+<h3>Removed polyfills</h3>
+
+<p>Development version: <a href="celestra-polyfills.js" target="_blank">celestra-polyfills.js</a> (18019 bytes)</p>
+
+<p>Minified version: <a href="celestra-polyfills.min.js" target="_blank">celestra-polyfills.min.js</a> (11516 bytes)</p>
 
 
 <h3>Cheatsheets</h3>
@@ -279,7 +286,10 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
-      <td>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.</td>
+      <td>
+        <span class="deprecated">DEPRECATED</span>
+        <br/>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+      </td>
     </tr>
     <tr>
       <td><code>constant(&#60;value&#62;);</code></td>
@@ -303,15 +313,15 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>assert(&#60;condition&#62;[,message]);</code></td>
-      <td>This function throws an error with the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string.</td>
+      <td>This function throws an error with the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is <code>true</code>, when the test was success.</td>
     </tr>
     <tr>
       <td><code>assertLog(&#60;condition&#62;[,message]);</code></td>
-      <td>This function logs the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string.</td>
+      <td>This function logs the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is <code>true</code>, when the test was success.</td>
     </tr>
     <tr>
       <td><code>assertAlert(&#60;condition&#62;[,message]);</code></td>
-      <td>This function alerts the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string.</td>
+      <td>This function alerts the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is <code>true</code>, when the test was success.</td>
     </tr>
   </table>
 </div>
@@ -336,7 +346,7 @@ _.delay(5000)
       <td>Get the first matched HTML element. The context is optional and can be an element or a selector string.</td>
     </tr>
     <tr>
-      <td><code>domReady(&#60;fn&#62;);</code></td>
+      <td><code>domReady(&#60;callback&#62;);</code></td>
       <td>Set the document ready (content fully loaded) event.</td>
     </tr>
     <tr>
@@ -534,6 +544,10 @@ _.delay(5000)
     <tr>
       <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>isPromise(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is a promise object. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isSameArray(&#60;array1&#62;,&#60;array2&#62;);</code></td>
@@ -823,6 +837,24 @@ _.delay(5000)
         </ul>
       </td>
     </tr>
+    
+    <tr>
+      <td><code>partition(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p>Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.</p>
+        <p>
+         <b>Example:</b>
+         <br/><code>_.partition([-5, 2, -9, 7, 34], (e) => (e > 0) );</code>
+         <br/>->
+         <br/><code>[[2, 7, 34], [-5, -9]]</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>groupBy(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>An alias of the <code>partition(&#60;collection&#62;,&#60;callback&#62;);</code>.</td>
+    </tr>
+    
     <tr>
       <td><code>arrayUnion(&#60;collection1&#62;[,collectionN]);</code></td>
       <td>Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.</td>
@@ -864,16 +896,8 @@ _.delay(5000)
       <td>Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
-      <td><code>minIndex(&#60;collection&#62;);</code></td>
-      <td><span class="deprecated">Deprecated</span><br/>Returns the index of the minimum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
-    </tr>
-    <tr>
       <td><code>max(&#60;collection&#62;);</code></td>
       <td>Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
-    </tr>
-    <tr>
-      <td><code>maxIndex(&#60;collection&#62;);</code></td>
-      <td><span class="deprecated">Deprecated</span><br/>Returns the index of the maximum value of the given collection. The parameter will be converted to array, so the index will be the index of converted array. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
       <td><code>arrayCycle(&#60;collection&#62;[,n]);</code></td>
@@ -904,12 +928,18 @@ _.delay(5000)
       <td>Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.</td>
     </tr>
     <tr>
-      <td><code>uniqueArray(&#60;value&#62;);</code></td>
-      <td>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
+      <td><code>arrayUnique(&#60;collection&#62;);</code></td>
+      <td>
+        <p><span class="info">Old name before v3.8.0: <code>uniqueArray(&#60;value&#62;);</code></span></p>
+        </p>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).</p>
+      </td>
     </tr>
     <tr>
-      <td><code>uniquePush(&#60;array&#62;,&#60;value&#62;);</code></td>
-      <td>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</td>
+      <td><code>arrayAdd(&#60;array&#62;,&#60;value&#62;);</code></td>
+      <td>
+        </p><span class="info">Old name before v3.8.0: <code>uniquePush(&#60;array&#62;,&#60;value&#62;);</code></span></p>
+        <p>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</p>
+      </td>
     </tr>
     <tr>
       <td><code>item(&#60;collection&#62;,&#60;index&#62;);</code></td>
@@ -1067,56 +1097,11 @@ _.delay(5000)
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>Array.prototype.values();</code></td>
-      <td>The values() method returns a new Array Iterator object that contains the values for each index in the array. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/values" target="_blank">MDN Article!</a></td>
-    </tr>
-    <tr>
-      <td>ChildNode API</td>
-      <td>For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td>ParentNode API</td>
-      <td>For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Object.assign();</code></td>
-      <td>The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. It will return the target object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>ChildNode.after();</code></td>
-      <td>The ChildNode.after() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just after this ChildNode. DOMString objects are inserted as equivalent Text nodes. It will return the target object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/after" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>ChildNode.before();</code></td>
-      <td>The ChildNode.before() method inserts a set of Node or DOMString objects in the children list of this ChildNode's parent, just before this ChildNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/before" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>ChildNode.remove();</code></td>
-      <td>The ChildNode.remove() method removes the object from the tree it belongs to. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>ChildNode.replaceWith();</code></td>
-      <td>The ChildNode.replaceWith() method replaces this ChildNode in the children list of its parent with a set of Node or DOMString objects. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/replaceWith" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>ParentNode.append();</code></td>
-      <td>The ParentNode.append() method inserts a set of Node objects or DOMString objects after the last child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/append" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>ParentNode.prepend();</code></td>
-      <td>The ParentNode.prepend() method inserts a set of Node objects or DOMString objects before the first child of the ParentNode. DOMString objects are inserted as equivalent Text nodes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Element.prototype.toggleAttribute();</code></td>
-      <td>Toggle a boolean attribute (removing it if it is present and adding it if it is not present) on the specified element. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/toggleAttribute" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Array.prototype.includes();</code></td>
-      <td>The includes() method determines whether an array includes a certain element, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>String.prototype.includes();</code></td>
-      <td>The includes() method determines whether one string may be found within another string, returning true or false as appropriate. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes" target="_blank">MDN Article</a>!</td>
+      <td><code>Object.hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td>
+        <span class="info">Proposal Stage 3</span>
+        <br>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean. 
+        <br>For more information please read the <a href="https://github.com/tc39/proposal-accessible-object-hasownproperty" target="_blank">proposal page</a>!</td>
     </tr>
     <tr>
       <td><code>String.prototype.trimStart();</code></td>
@@ -1143,22 +1128,6 @@ _.delay(5000)
       <td>The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
-      <td><code>String.prototype.repeat();</code></td>
-      <td>The repeat() method constructs and returns a new string which contains the specified number of copies of the string on which it was called, concatenated together. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>NodeList.prototype.forEach();</code></td>
-      <td>The forEach() method of the NodeList interface calls the callback given in parameter once for each value pair in the list, in insertion order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Object.values();</code></td>
-      <td>The Object.values() method returns an array of a given object's own enumerable property values, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Object.entries();</code></td>
-      <td>The Object.entries() method returns an array of a given object's own enumerable property [key, value] pairs, in the same order as that provided by a for...in loop (the difference being that a for-in loop enumerates properties in the prototype chain as well). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
       <td><code>Object.fromEntries();</code></td>
       <td>The Object.fromEntries() method transforms a list of key-value pairs into an object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries" target="_blank">MDN Article</a>!</td>
     </tr>
@@ -1171,44 +1140,12 @@ _.delay(5000)
       <td>A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!</td>
     </tr>
     <tr>
-      <td><code>Element.prototype.closest();</code></td>
-      <td>The Element.closest() method returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Element.prototype.matches();</code></td>
-      <td>The Element.matches() method returns true if the element would be selected by the specified selector string; otherwise, returns false. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Element.prototype.getAttributeNames();</code></td>
-      <td>Element.getAttributeNames() returns the attribute names of the element as an Array of strings. If the element has no attributes it returns an empty array. Using getAttributeNames() along with getAttribute(), is a memory efficient and performant alternative to accessing Element.attributes. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttributeNames" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>Object.getOwnPropertyDescriptors();</code></td>
-      <td>The Object.getOwnPropertyDescriptors() method returns all own property descriptors of a given object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>window.screenLeft;</code></td>
-      <td>The Window.screenLeft read-only property returns the horizontal distance, in CSS pixels, from the left border of the user's browser viewport to the left side of the screen. The screenLeft is an alias of the older Window.screenX property. screenLeft was originally supported only in IE but was introduced everywhere due to popularity. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/screenLeft" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>window.screenTop;</code></td>
-      <td>The Window.screenTop read-only property returns the vertical distance, in CSS pixels, from the top border of the user's browser viewport to the top side of the screen. The screenTop is an alias of the older Window.screenY property. screenTop was originally supported only in IE but was introduced everywhere due to popularity. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/screenTop" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
       <td><code>globalThis;</code></td>
-      <td>A Stage 3 feature at TC39 is the "global" property of the global object, a writable, configurable, non-enumerable alias of window/self. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis" target="_blank">MDN Article</a> and <a href="https://tc39.github.io/proposal-global/" target="_blank">proposal page</a> and <a href="https://github.com/tc39/proposal-global" target="_blank">proposal github page</a>!</td>
-    </tr>
-    <tr>
-      <td><code>RegExp.prototype.flags;</code></td>
-      <td>The flags property returns a string consisting of the flags of the current regular expression object. Flags in the flags property are sorted alphabetically (from left to right, e.g. "gimsuy"). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/flags" target="_blank">MDN Article</a>!</td>
+      <td>The "global" property of the global object, a writable, configurable, non-enumerable alias of window/self. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>String.prototype.matchAll();</code></td>
       <td>The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
-      <td><code>String.prototype[Symbol.iterator]();</code></td>
-      <td>The [Symbol.iterator]() method returns a new Iterator object that iterates over the code points of a String value, returning each code point as a String value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/@@iterator" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>String.prototype.replaceAll();</code></td>
@@ -1217,6 +1154,10 @@ _.delay(5000)
     <tr>
       <td>REMOVED polyfills in v3.1.0</td>
       <td><code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER();</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></td>
+    </tr>
+    <tr>
+      <td>REMOVED polyfills in v3.8.0</td>
+      <td><code>Array.prototype.values();</code>, <code>Array.prototype.includes();</code>, <code>String.prototype.includes();</code>, <code>String.prototype.repeat();</code>, <code>String.prototype[Symbol.iterator]();</code>, <code>Object.assign();</code>, <code>Object.entries();</code>, <code>Object.values();</code>, <code>Object.getOwnPropertyDescriptors();</code>, <code>RegExp.prototype.flags;</code>, <code>NodeList.prototype.forEach();</code>, <code>ChildNode.after();</code>, <code>ChildNode.before();</code>, <code>ChildNode.remove();</code>, <code>ChildNode.replaceWith();</code>, <code>ParentNode.append();</code>, <code>ParentNode.prepend();</code>, <code>Element.prototype.matches();</code>, <code>Element.prototype.closest();</code>, <code>Element.prototype.toggleAttribute();</code>, <code>Element.prototype.getAttributeNames();</code>, <code>window.screenLeft;</code>, <code>window.screenTop;</code></td>
     </tr>
   </table>
 </div>
@@ -1486,11 +1427,6 @@ var testArrayFill3 = Array(3).fill("ipsum");
 testArrayFillStr += "\n" + JSON.stringify(testArrayFill3);
 
 alert(testArrayFillStr);</pre></td>
-    </tr>
-    <tr>
-      <td><b>Array.prototype.includes()</b></td>
-      <td><button onclick='var arr = [6,2,93,31]; alert( "array true: " + arr.includes(2) + "\narray false: " + arr.includes(42) + "\narray true + fromIndex: " + arr.includes(31, 3) + "\narray false + fromIndex: " + arr.includes(2, 3) );'>Try</button></td>
-      <td><code>var arr = [6,2,93,31];<br/>alert(<br/> "array true: " + arr.includes(2)<br/> + "\narray false: " + arr.includes(42)<br/> + "\narray true + fromIndex: " + arr.includes(31, 3)<br/> + "\narray false + fromIndex: " + arr.includes(2, 3)<br/>);</code></td>
     </tr>
     <tr>
       <td><b>String.prototype.includes()</b></td>
@@ -1934,17 +1870,6 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
             <button onclick='_.qs("#childnode").remove();'>ChildNode.remove()</button>
             <br/><code>_.qs("#childnode").remove();</code>
           </p>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td><b>NodeList.prototype.forEach()</b></td>
-      <td><button onclick='var list = document.querySelectorAll("#feTestArea > p"); list.forEach( function (item) { item.style.color = "red"; } );'>try</button></td>
-      <td>
-        <p><code>var list = document.querySelectorAll("#feTestArea &#62; p");<br/>list.forEach( function (item) { item.style.color = "red"; } );</code></p>
-        <div id="feTestArea">
-          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
-          <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
         </div>
       </td>
     </tr>
