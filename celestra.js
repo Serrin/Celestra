@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.8.0
+ * @version 3.8.1
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -711,6 +711,8 @@ function ajax (o) {
 
 /* type checking */
 
+const isError = (v) => celestra.getType(v, "error");
+
 const isPromise = (v) =>
   (typeof v === "object" && typeof v.then === "function");
 
@@ -1033,7 +1035,7 @@ function* dropWhile (it, fn) {
   }
 }
 
-function* takeOf (it, n = 1) {
+function* take (it, n = 1) {
   let i = n;
   for (let item of it) {
     if (i <= 0) { break; }
@@ -1041,31 +1043,34 @@ function* takeOf (it, n = 1) {
     i--;
   }
 }
+const takeOf = take;
 
-function* dropOf (it, n = 1) {
+function* drop (it, n = 1) {
   let i = n;
   for (let item of it) {
     if (i < 1) { yield item; } else { i--; }
   }
 }
+const dropOf = drop;
 
-function forOf (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
-const forEach = forOf;
+function forEach (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
+const forOf = forEach;
 
-function* mapOf (it, fn) {
+function* map (it, fn) {
   let i = 0;
   for (let item of it) { yield fn(item, i++); }
 }
-const map = mapOf;
+const mapOf = map;
 
-function* filterOf (it, fn) {
+function* filter (it, fn) {
   let i = 0;
   for (let item of it) {
     if (fn(item, i++)) { yield item; }
   }
 }
+const filterOf = filter;
 
-function* sliceOf (it, begin = 0, end = Infinity) {
+function* slice (it, begin = 0, end = Infinity) {
   let i = 0;
   for (let item of it) {
     if (i >= begin && i <= end) {
@@ -1076,6 +1081,7 @@ function* sliceOf (it, begin = 0, end = Infinity) {
     i++;
   }
 }
+const sliceOf = slice;
 
 function itemOf (it, p) {
   let i = 0;
@@ -1084,31 +1090,38 @@ function itemOf (it, p) {
   }
 }
 
-function sizeOf (it) { let i = 0; for (let item of it) { i++; } return i; }
+function size (it) { let i = 0; for (let item of it) { i++; } return i; }
+const sizeOf = size;
 
-function firstOf (it) { for (let item of it) { return item; } }
+function first (it) { for (let item of it) { return item; } }
+const firstOf = first;
 
-function lastOf (it) { let item; for (item of it) { } return item; }
+function last (it) { let item; for (item of it) { } return item; }
+const lastOf = last;
 
-const reverseOf = ([...a]) => a.reverse().values();
+const reverse = ([...a]) => a.reverse().values();
+const reverseOf = reverse;
 
-const sortOf = ([...a]) => a.sort().values();
+const sort = ([...a]) => a.sort().values();
+const sortOf = sort;
 
-function hasOf (it, v) {
+function includes (it, v) {
   for (let item of it) {
     if (item === v) { return true; }
   }
   return false;
 }
+const hasOf = includes;
 
-function findOf (it, fn) {
+function find (it, fn) {
   let i = 0;
   for (let item of it) {
     if (fn(item, i++)) { return item; }
   }
 }
+const findOf = find;
 
-function everyOf (it, fn) {
+function every (it, fn) {
   let i = 0;
   for (let item of it) {
     if (!fn(item, i++)) { return false; }
@@ -1116,16 +1129,18 @@ function everyOf (it, fn) {
   if (i === 0) { return false; }
   return true;
 }
+const everyOf = every;
 
-function someOf (it, fn) {
+function some (it, fn) {
   let i = 0;
   for (let item of it) {
     if (fn(item, i++)) { return true; }
   }
   return false;
 }
+const someOf = some;
 
-function noneOf (it, fn) {
+function none (it, fn) {
   let i = 0;
   for (let item of it) {
     if (fn(item, i++)) { return false; }
@@ -1133,6 +1148,7 @@ function noneOf (it, fn) {
   if (i === 0) { return false; }
   return true;
 }
+const noneOf = none;
 
 function* takeRight ([...a], n = 1) {
   let i = n;
@@ -1165,9 +1181,10 @@ function* dropRightWhile ([...a], fn) {
   }
 }
 
-function* concatOf () { for (let item of arguments) { yield* item; } }
+function* concat () { for (let item of arguments) { yield* item; } }
+const concatOf = concat;
 
-function reduceOf (it, fn, iv) {
+function reduce (it, fn, iv) {
   let acc = iv;
   let i = 0;
   for (let item of it) {
@@ -1179,19 +1196,23 @@ function reduceOf (it, fn, iv) {
   }
   return acc;
 }
+const reduceOf = reduce;
 
-function* enumerateOf (it) {
+function* enumerate (it) {
   let i = 0;
   for (let item of it) { yield [item, i++]; }
 }
+const enumerateOf = enumerate;
 
-function* flatOf (it) { for (let item of it) { yield* item; } }
+function* flat (it) { for (let item of it) { yield* item; } }
+const flatOf = flat;
 
-const joinOf = ([...a], s = ",") => a.join(s);
+const join = ([...a], s = ",") => a.join(s);
+const joinOf = join;
 
 /* object header */
 
-const VERSION = "Celestra v3.8.0 dev";
+const VERSION = "Celestra v3.8.1 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1269,6 +1290,7 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /* type checking */
+  isError: isError,
   isPromise: isPromise,
   isSameArray: isSameArray,
   isString: isString,
@@ -1338,33 +1360,52 @@ var celestra = {
   iterRepeat: iterRepeat,
   takeWhile: takeWhile,
   dropWhile: dropWhile,
+  take: take,
   takeOf: takeOf,
+  drop: drop,
   dropOf: dropOf,
-  forOf: forOf,
   forEach: forEach,
-  mapOf: mapOf,
+  forOf: forOf,
   map: map,
+  mapOf: mapOf,
+  filter: filter,
   filterOf: filterOf,
+  slice: slice,
   sliceOf: sliceOf,
   itemOf: itemOf,
+  size: size,
   sizeOf: sizeOf,
+  first: first,
   firstOf: firstOf,
+  last: last,
   lastOf: lastOf,
+  reverse: reverse,
   reverseOf: reverseOf,
+  sort: sort,
   sortOf: sortOf,
+  includes: includes,
   hasOf: hasOf,
+  find: find,
   findOf: findOf,
+  every: every,
   everyOf: everyOf,
+  some: some,
   someOf: someOf,
+  none: none,
   noneOf: noneOf,
   takeRight: takeRight,
   takeRightWhile: takeRightWhile,
   dropRight: dropRight,
   dropRightWhile: dropRightWhile,
+  concat: concat,
   concatOf: concatOf,
+  reduce: reduce,
   reduceOf: reduceOf,
+  enumerate: enumerate,
   enumerateOf: enumerateOf,
+  flat: flat,
   flatOf: flatOf,
+  join: join,
   joinOf: joinOf
 };
 

@@ -142,7 +142,7 @@ _cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.8.0 testcases */
+/* Celestra v3.8.1 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -691,12 +691,7 @@ _.forOf(document.querySelectorAll("h3"), function (e) { forOfCount++; });
 _cut.isEqual("forOf(); 3 ES5 Nodelist",
   document.querySelectorAll("h3").length, forOfCount
 );
-/*
-// forOf - custom array-like object
-var forOfCount = 0;
-_.forOf({0:4,1:5,2:6,length:3}, function (e) { forOfCount += (e*3); });
-_cut.isEqual("forOf(); 4 ES5 custom array-like object", 45, forOfCount);
-*/
+
 forOfStr = "";
 _.forOf(
   new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
@@ -830,53 +825,53 @@ _cut.isEqual("map(); 7 ES6 Set values(); iterator", "369", mapStr);
 var FParray2 = ["A","B","C","D","E","F","G","H","I","J"];
 
 var iterStr = "";
-for (let item of _.takeOf(FParray2, 0)) { iterStr += item; }
-_cut.isEqual("takeOf(); - step 1 - 0", "", iterStr);
+for (let item of _.take(FParray2, 0)) { iterStr += item; }
+_cut.isEqual("take(); - step 1 - 0", "", iterStr);
 var iterStr = "";
-for (let item of _.takeOf(FParray2, 7)) { iterStr += item; }
-_cut.isEqual("takeOf(); - step 2 - 7", "ABCDEFG", iterStr);
+for (let item of _.take(FParray2, 7)) { iterStr += item; }
+_cut.isEqual("take(); - step 2 - 7", "ABCDEFG", iterStr);
 var iterStr = "";
-for (let item of _.takeOf(FParray2, 12)) { iterStr += item; }
-_cut.isEqual("takeOf(); - step 3 - 12", "ABCDEFGHIJ", iterStr);
+for (let item of _.take(FParray2, 12)) { iterStr += item; }
+_cut.isEqual("take(); - step 3 - 12", "ABCDEFGHIJ", iterStr);
 var iterStr = "";
-for (let item of _.takeOf(FParray2)) { iterStr += item; }
-_cut.isEqual("takeOf(); - step 4 - default 1", "A", iterStr);
+for (let item of _.take(FParray2)) { iterStr += item; }
+_cut.isEqual("take(); - step 4 - default 1", "A", iterStr);
 
 var iterStr = "";
-for (let item of _.dropOf(FParray2, 0)) { iterStr += item; }
-_cut.isEqual("dropOf(); - step 1 - 0", "ABCDEFGHIJ", iterStr);
+for (let item of _.drop(FParray2, 0)) { iterStr += item; }
+_cut.isEqual("drop(); - step 1 - 0", "ABCDEFGHIJ", iterStr);
 var iterStr = "";
-for (let item of _.dropOf(FParray2, 7)) { iterStr += item; }
-_cut.isEqual("dropOf(); - step 2 - 7", "HIJ", iterStr);
+for (let item of _.drop(FParray2, 7)) { iterStr += item; }
+_cut.isEqual("drop(); - step 2 - 7", "HIJ", iterStr);
 var iterStr = "";
-for (let item of _.dropOf(FParray2, 12)) { iterStr += item; }
-_cut.isEqual("dropOf(); - step 3 - 12", "", iterStr);
+for (let item of _.drop(FParray2, 12)) { iterStr += item; }
+_cut.isEqual("drop(); - step 3 - 12", "", iterStr);
 var iterStr = "";
-for (let item of _.dropOf(FParray2)) { iterStr += item; }
-_cut.isEqual("dropOf(); - step 4 - default 1", "BCDEFGHIJ", iterStr);
+for (let item of _.drop(FParray2)) { iterStr += item; }
+_cut.isEqual("drop(); - step 4 - default 1", "BCDEFGHIJ", iterStr);
 
 
 var FPArray3 = [1,2,3,4,5,6,7,8,9,10];
 
 var iterStr = "";
-for (let item of _.filterOf(FPArray3, (v) => (v>3 && v<9))) {
+for (let item of _.filter(FPArray3, (v) => (v>3 && v<9))) {
   iterStr += item;
 }
-_cut.isEqual("filterOf();", "45678", iterStr);
+_cut.isEqual("filter();", "45678", iterStr);
 
 
 var iterStr = "";
-for (let item of _.sliceOf(FPArray3,0,4)) { iterStr += item; }
-_cut.isEqual("sliceOf(); - step 1 - 0 to 4", "12345", iterStr);
+for (let item of _.slice(FPArray3,0,4)) { iterStr += item; }
+_cut.isEqual("slice(); - step 1 - 0 to 4", "12345", iterStr);
 var iterStr = "";
-for (let item of _.sliceOf(FPArray3,5)) { iterStr += item; }
-_cut.isEqual("sliceOf(); - step 2 - 5 to Infinity", "678910", iterStr);
+for (let item of _.slice(FPArray3,5)) { iterStr += item; }
+_cut.isEqual("slice(); - step 2 - 5 to Infinity", "678910", iterStr);
 var iterStr = "";
-for (let item of _.sliceOf(FPArray3,4,8)) { iterStr += item; }
-_cut.isEqual("sliceOf(); - step 3 - 4 to 8", "56789", iterStr);
+for (let item of _.slice(FPArray3,4,8)) { iterStr += item; }
+_cut.isEqual("slice(); - step 3 - 4 to 8", "56789", iterStr);
 var iterStr = "";
-for (let item of _.sliceOf(FPArray3)) { iterStr += item; }
-_cut.isEqual("sliceOf(); - step 4 - all", "12345678910", iterStr);
+for (let item of _.slice(FPArray3)) { iterStr += item; }
+_cut.isEqual("slice(); - step 4 - all", "12345678910", iterStr);
 
 
 let whileArray = [0,2,4,6,8,10,12,14,16];
@@ -924,41 +919,41 @@ _cut.isEqual("itemOf(); set",
 );
 
 let sizeLastArray = [4,5,6,7,8,"last"];
-_cut.isEqual("sizeOf();", 6, _.sizeOf(sizeLastArray));
-_cut.isEqual("firstOf();", 4, _.firstOf(sizeLastArray));
-_cut.isEqual("lastOf();", "last", _.lastOf(sizeLastArray));
+_cut.isEqual("size();", 6, _.size(sizeLastArray));
+_cut.isEqual("first();", 4, _.first(sizeLastArray));
+_cut.isEqual("last();", "last", _.last(sizeLastArray));
 
 let reverseSortArray = ["first",4,5,6,7,8,9,"last"];
 
-_cut.isEqual("reverseOf();", "[\"last\",9,8,7,6,5,4,\"first\"]",
-  JSON.stringify([..._.reverseOf(reverseSortArray)])
+_cut.isEqual("reverse();", "[\"last\",9,8,7,6,5,4,\"first\"]",
+  JSON.stringify([..._.reverse(reverseSortArray)])
 );
 
-_cut.isEqual("sortOf();", "[4,5,6,7,8,9,\"first\",\"last\"]",
-  JSON.stringify([..._.sortOf(reverseSortArray)])
+_cut.isEqual("sort();", "[4,5,6,7,8,9,\"first\",\"last\"]",
+  JSON.stringify([..._.sort(reverseSortArray)])
 );
 
-_cut.isTrue("hasOf(); true", _.hasOf(reverseSortArray, "last"));
-_cut.isFalse("hasOf(); false", _.hasOf(reverseSortArray, "world"));
+_cut.isTrue("includes(); true", _.includes(reverseSortArray, "last"));
+_cut.isFalse("includes(); false", _.includes(reverseSortArray, "world"));
 
-_cut.isEqual("findOf(); found", 6, _.findOf(reverseSortArray, (v) => (v > 5)));
-_cut.isEqual("findOf(); not found", undefined,
-  _.findOf(reverseSortArray, (v) => (v > 11))
+_cut.isEqual("find(); found", 6, _.find(reverseSortArray, (v) => (v > 5)));
+_cut.isEqual("find(); not found", undefined,
+  _.find(reverseSortArray, (v) => (v > 11))
 );
 
-var everySomeNoneOfArray = [2,9,3,5,8];
-var everySomeNoneOfEmptyArray = [];
-_cut.isTrue("everyOf(); true", _.everyOf(everySomeNoneOfArray, (v) => v > 1));
-_cut.isFalse("everyOf(); false 1 - some", _.everyOf(everySomeNoneOfArray, (v) => v > 3));
-_cut.isFalse("everyOf(); false 1 - none", _.everyOf(everySomeNoneOfArray, (v) => v < 0));
-_cut.isFalse("everyOf(); false 3 - empty", _.everyOf(everySomeNoneOfEmptyArray, (v) => v > 3));
-_cut.isTrue("someOf(); true", _.someOf(everySomeNoneOfArray, (v) => v > 3));
-_cut.isFalse("someOf(); false 1 - none", _.someOf(everySomeNoneOfArray, (v) => v < 0));
-_cut.isFalse("someOf(); false 2 - empty", _.someOf(everySomeNoneOfEmptyArray, (v) => v < 0));
-_cut.isTrue("noneOf(); true", _.noneOf(everySomeNoneOfArray, (v) => v < 0));
-_cut.isFalse("noneOf(); false 1 - every", _.noneOf(everySomeNoneOfArray, (v) => v > 1));
-_cut.isFalse("noneOf(); false 2 - some", _.noneOf(everySomeNoneOfArray, (v) => v > 3));
-_cut.isFalse("noneOf(); false 3 - empty", _.noneOf(everySomeNoneOfEmptyArray, (v) => v > 3));
+var everySomeNoneArray = [2,9,3,5,8];
+var everySomeNoneEmptyArray = [];
+_cut.isTrue("every(); true", _.every(everySomeNoneArray, (v) => v > 1));
+_cut.isFalse("every(); false 1 - some", _.every(everySomeNoneArray, (v) => v > 3));
+_cut.isFalse("every(); false 1 - none", _.every(everySomeNoneArray, (v) => v < 0));
+_cut.isFalse("every(); false 3 - empty", _.every(everySomeNoneEmptyArray, (v) => v > 3));
+_cut.isTrue("some(); true", _.some(everySomeNoneArray, (v) => v > 3));
+_cut.isFalse("some(); false 1 - none", _.some(everySomeNoneArray, (v) => v < 0));
+_cut.isFalse("some(); false 2 - empty", _.some(everySomeNoneEmptyArray, (v) => v < 0));
+_cut.isTrue("none(); true", _.none(everySomeNoneArray, (v) => v < 0));
+_cut.isFalse("none(); false 1 - every", _.none(everySomeNoneArray, (v) => v > 1));
+_cut.isFalse("none(); false 2 - some", _.none(everySomeNoneArray, (v) => v > 3));
+_cut.isFalse("none(); false 3 - empty", _.none(everySomeNoneEmptyArray, (v) => v > 3));
 
 
 FParray2.reverse();
@@ -1025,44 +1020,44 @@ for (let item of _.dropRightWhile(whileArray, (e) => (e<0))) {
 _cut.isEqual("dropRightWhile(); full list", whileSum, 72);
 
 
-_cut.isEqual("concatOf(); one", "[4,5,6]",
-  JSON.stringify([..._.concatOf([4,5,6])])
+_cut.isEqual("concat(); one", "[4,5,6]",
+  JSON.stringify([..._.concat([4,5,6])])
 );
-_cut.isEqual("concatOf(); more", "[\"1\",\"2\",\"3\",4,5,6,7,8,9]",
-  JSON.stringify([..._.concatOf("123", [4,5,6].values(), new Set([7,8,9]))])
-);
-
-let reduceOfArray = [4,5,6,7,8,9];
-_cut.isEqual("reduceOf(); with initialvalue", 39,
-  _.reduceOf(reduceOfArray.values(), (acc, v, i) => acc + v, 0)
-);
-_cut.isEqual("reduceOf(); without initialvalue", 39,
-  _.reduceOf(reduceOfArray.values(), (acc, v, i) => acc + v)
+_cut.isEqual("concat(); more", "[\"1\",\"2\",\"3\",4,5,6,7,8,9]",
+  JSON.stringify([..._.concat("123", [4,5,6].values(), new Set([7,8,9]))])
 );
 
-_cut.isEqual("enumerateOf();",
-  JSON.stringify([..._.enumerateOf(["Picard","Riker","Data"])]),
+let reduceArray = [4,5,6,7,8,9];
+_cut.isEqual("reduce(); with initialvalue", 39,
+  _.reduce(reduceArray.values(), (acc, v, i) => acc + v, 0)
+);
+_cut.isEqual("reduce(); without initialvalue", 39,
+  _.reduce(reduceArray.values(), (acc, v, i) => acc + v)
+);
+
+_cut.isEqual("enumerate();",
+  JSON.stringify([..._.enumerate(["Picard","Riker","Data"])]),
   "[[\"Picard\",0],[\"Riker\",1],[\"Data\",2]]"
 );
 
-_cut.isEqual("flatOf();",
+_cut.isEqual("flat();",
   "[1,2,3,4,5,6,7,8,9]",
   JSON.stringify([...
-    _.flatOf([ [1,2,3].values(), new Set([4,5,6,6,7,7,4]), [8, 9] ])
+    _.flat([ [1,2,3].values(), new Set([4,5,6,6,7,7,4]), [8, 9] ])
   ])
 );
 
-let joinOfSet = new Set([2,4,6,4,8,2]);
-_cut.isEqual("joinOf();",
+let joinSet = new Set([2,4,6,4,8,2]);
+_cut.isEqual("join();",
   "2,4,6,8"+"2468"+"2;4;6;8"+"2abc4abc6abc8"+"2true4true6true8"+"2114116118",
-  _.joinOf(joinOfSet) + _.joinOf(joinOfSet, "")
-    + _.joinOf(joinOfSet, ";") + _.joinOf(joinOfSet, "abc")
-    + _.joinOf(joinOfSet, true) + _.joinOf(joinOfSet, 11)
+  _.join(joinSet) + _.join(joinSet, "")
+    + _.join(joinSet, ";") + _.join(joinSet, "abc")
+    + _.join(joinSet, true) + _.join(joinSet, 11)
 );
 _cut.log("<code>\""+
-  _.joinOf(joinOfSet) + _.joinOf(joinOfSet, "")
-    + _.joinOf(joinOfSet, ";") + _.joinOf(joinOfSet, "abc")
-    + _.joinOf(joinOfSet, true) + _.joinOf(joinOfSet, 11)
+  _.join(joinSet) + _.join(joinSet, "")
+    + _.join(joinSet, ";") + _.join(joinSet, "abc")
+    + _.join(joinSet, true) + _.join(joinSet, 11)
 	+"\"</code>"
 );
 
@@ -2036,6 +2031,14 @@ _cut.isEqual("Math.trunc();", "3"+"-3"+"4"+"-4"+"NaN"+"1"+"0",
 _cut.addElement("hr");
 _cut.addElement("h3", "type checking");
 
+var isErrorStr = "" 
+  + _.isError(new Error)
+  + " " + _.isError(new RangeError)
+  + " " + _.isError(new SyntaxError)
+  + " " + _.isError({})
+  + " " + _.isError([]);
+_cut.isEqual("isError();", isErrorStr, "true true true false false" );
+
 _cut.isTrue("isGeneratorFn(); true",
   _.isGeneratorFn(function* fn42g () { yield 42; })
 );
@@ -2152,32 +2155,6 @@ if (window.BigUint64Array) {
 }
 _cut.isFalse("isTypedArray - false 1 - Array", _.isTypedArray([4,5,6]));
 _cut.isFalse("isTypedArray - false 2 - ArrayBuffer", _.isTypedArray(new ArrayBuffer(8)));
-
-
-/* Type checking */
-_cut.addElement("hr");
-
-_cut.addElement("h4", "Type checking - isSameArray();");
-_cut.isTrue("step 1", _.isSameArray([], []) );
-_cut.isTrue("step 2", _.isSameArray([5,4,5], [5,4,5]) );
-_cut.isFalse("step 3", _.isSameArray([5,4,5], [4,5,6]) );
-_cut.isFalse("step 4", _.isSameArray([5,4,6], [4,5,5]) );
-_cut.isFalse("step 5", _.isSameArray([5,4,5], [4,4,5]) );
-_cut.isFalse("step 6", _.isSameArray([5,5], [5,5,4]) );
-_cut.isFalse("step 7", _.isSameArray([5,5,4], [5,5]) );
-_cut.isFalse("step 8", _.isSameArray([5,5], new Map([[5,5],[5,5]])) );
-_cut.isFalse("step 9", _.isSameArray([5,5], new Set([5,5])) );
-_cut.isFalse("step 10", _.isSameArray([], {}) );
-_cut.isFalse("step 11", _.isSameArray({}, {}) );
-_cut.isFalse("step 12", _.isSameArray("4", "4") );
-_cut.isFalse("step 13", _.isSameArray(4, 4) );
-_cut.isFalse("step 14", _.isSameArray(4, 5) );
-
-
-/* ES6 type checking */
-_cut.addElement("hr");
-_cut.addElement("h4", "ES6 type checking");
-
 _cut.isTrue("isPromise(); - true ", _.isPromise(_.delay(1000)));
 _cut.isFalse("isPromise(); - false ", _.isPromise({}));
 _cut.isTrue("isSymbol(); true", _.isSymbol(Symbol("str")));
@@ -2211,6 +2188,53 @@ if (window.BigInt) {
   _cut.isFalse("isBigInt(); false 2", _.isBigInt(3.14));
   _cut.isFalse("isBigInt(); false 3", _.isBigInt("Arthur Dent"));
 }
+
+
+/* Type checking */
+_cut.addElement("hr");
+
+_cut.addElement("h4", "isSameArray();");
+_cut.isTrue("step 1", _.isSameArray([], []) );
+_cut.isTrue("step 2", _.isSameArray([5,4,5], [5,4,5]) );
+_cut.isFalse("step 3", _.isSameArray([5,4,5], [4,5,6]) );
+_cut.isFalse("step 4", _.isSameArray([5,4,6], [4,5,5]) );
+_cut.isFalse("step 5", _.isSameArray([5,4,5], [4,4,5]) );
+_cut.isFalse("step 6", _.isSameArray([5,5], [5,5,4]) );
+_cut.isFalse("step 7", _.isSameArray([5,5,4], [5,5]) );
+_cut.isFalse("step 8", _.isSameArray([5,5], new Map([[5,5],[5,5]])) );
+_cut.isFalse("step 9", _.isSameArray([5,5], new Set([5,5])) );
+_cut.isFalse("step 10", _.isSameArray([], {}) );
+_cut.isFalse("step 11", _.isSameArray({}, {}) );
+_cut.isFalse("step 12", _.isSameArray("4", "4") );
+_cut.isFalse("step 13", _.isSameArray(4, 4) );
+_cut.isFalse("step 14", _.isSameArray(4, 5) );
+
+
+/* v3.8.1 aliases */
+_cut.addElement("hr");
+_cut.addElement("h3", "v3.8.1 aliases");
+_cut.log("<b><i>Remove section when the aliases will be removed!</i></b>");
+_cut.isEqual("someOf();", _.someOf, _.some);
+_cut.isEqual("everyOf();", _.everyOf, _.every);
+_cut.isEqual("findOf();", _.findOf, _.find);
+_cut.isEqual("dropOf();", _.dropOf, _.drop);
+_cut.isEqual("takeOf();", _.takeOf, _.take);
+_cut.isEqual("joinOf();", _.joinOf, _.join);
+_cut.isEqual("enumerateOf();", _.enumerateOf, _.enumerate);
+_cut.isEqual("flatOf();", _.flatOf, _.flat);
+_cut.isEqual("concatOf();", _.concatOf, _.concat);
+_cut.isEqual("reduceOf();", _.reduceOf, _.reduce);
+_cut.isEqual("sortOf();", _.sortOf, _.sort);
+_cut.isEqual("reverseOf();", _.reverseOf, _.reverse);
+_cut.isEqual("sliceOf();", _.sliceOf, _.slice);
+_cut.isEqual("lastOf();", _.lastOf, _.last);
+_cut.isEqual("firstOf();", _.firstOf, _.first);
+_cut.isEqual("noneOf();", _.noneOf, _.none);
+_cut.isEqual("filterOf();", _.filterOf, _.filter);
+_cut.isEqual("sizeOf();", _.sizeOf, _.size);
+_cut.isEqual("hasOf();", _.hasOf, _.includes);
+_cut.isEqual("mapOf();", _.mapOf, _.map);
+_cut.isEqual("forOf();", _.forOf, _.forEach);
 
 
 /* AJAX, domReady(); and other callbacks */

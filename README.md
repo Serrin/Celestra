@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 3.8.0
+Latest version: 3.8.1
 
-Date: 2021-05-27T19:42:08.207Z
+Date: 2021-05-28T19:59:13.534Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: __celestra.js__ (38608 bytes)
+Development version: __celestra.js__ (39434 bytes)
 
-Minified version: __celestra.min.js__ (28954 bytes)
+Minified version: __celestra.min.js__ (29794 bytes)
 
-ESM (ECMAScript 6 module) version: celestra.esm.js (33331 bytes)
+ESM (ECMAScript 6 module) version: celestra.esm.js (29654 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -238,6 +238,7 @@ Example: `_.isString()`
 
 Name | Description
 ---- | -----------
+`isError(<value>);` | This function determines whether the provided value is an error. The return value is boolean.
 `isPromise(<value>);` | This function determines whether the provided value is a promise object. The return value is boolean.
 `isSameArray(<array1>,<array2>);` | This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.
 `isAsyncFn(<value>);` | This function determines whether the provided value is an async function. The return value is boolean.
@@ -301,8 +302,6 @@ Example: `_.arrayUnion()`
 
 Name | Description
 ---- | -----------
-`forEach(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `forOf(<collection>,<callback>);` __Can be replaced with these:__ `[...collection].forEach(<callback>);`, `Array.from(<collection>).forEach(<callback>);` and the Array, NodeList, Map and Set types have the own `.forEach(<callback>);`
-`map(<collection>,<callback>);` | __From the v3.2.0 this is an alias of the__ `mapOf(<collection>,<callback>);` __Can be replaced with these:__ `[...collection].map(<callback>);`, `Array.from(<collection>[,callback]);` and the Array type has the own `.map(<callback>);`
 `partition(<collection>,<callback>);` | Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.<br>__Example:__<br>`_.partition([-5, 2, -9, 7, 34], (e) => (e > 0) );`<br>-><br>`[[2, 7, 34], [-5, -9]]]`
 `groupBy(<collection>,<callback>);` | An alias of the `partition(<collection>,<callback>);`.
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
@@ -331,30 +330,51 @@ Name | Description
 `iterCycle(<iter>[,n]);` | Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRepeat(<value>[,n]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
 `itemOf(<collection>,<index>);` | This function is the faster ES6 version of the `item(<collection>,<index>);` and uses the `for...of` loop instead of the `Array.from()`, but cannot handle negative index values. The collection parameter is mandatory. The index is mandatory and has to be an integer. The return value is the item on the index or undefined. Compatible with the Unicode strings.
-`sizeOf(<collection>);` | This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.
-`firstOf(<collection>);` | This function returns the first element of the given collection. The collection parameter is mandatory.
-`lastOf(<collection>);` | This function returns the last element of the given collection. The collection parameter is mandatory.
-`reverseOf(<collection>);` | This function yields the elements of the given collection in reverse order. The collection parameter is mandatory.
-`sortOf(<collection>);` | This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.
-`hasOf(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
-`findOf(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
-`forOf(<collection>,<callback>);` | This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`mapOf(<collection>,<callback>);` | This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`filterOf(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`sliceOf(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
-`everyOf(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
-`someOf(<collection>,<callback>);` | This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
-`noneOf(<collection>,<callback>);` | This function whether all elements in the collection do not pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
-`concatOf(<collection1>[,collectionN]);` | This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.
-`concatOf(<collection1>[,collectionN]);` | This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.
-`reduceOf(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.
-`enumerateOf(<collection>);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. Example: `enumerateOf(["Picard", "Riker", "Data"]);` -> `["Picard", 0]`, `["Riker", 1]`, `["Data", 2]`
-`flatOf(<collection>);` | Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.
-`joinOf(<collection>[,separator=","]);` | This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.
+`size(<collection>);` | This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.
+`sizeOf(<collection>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `size(<collection>);`.
+`first(<collection>);` | This function returns the first element of the given collection. The collection parameter is mandatory.
+`firstOf(<collection>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `first(<collection>);`.
+`last(<collection>);` | This function returns the last element of the given collection. The collection parameter is mandatory.
+`lastOf(<collection>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `last(<collection>);`.
+`reverse(<collection>);` | This function yields the elements of the given collection in reverse order. The collection parameter is mandatory.
+`reverseOf(<collection>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `reverse(<collection>);`.
+`sort(<collection>);` | This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.
+`sortOf(<collection>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `sort(<collection>);`.
+`includes(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
+`hasOf(<collection>,<value>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `includes(<collection>,<callback>);`.
+`find(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
+`findOf(<collection>,<callback>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `find(<collection>,<callback>);`.
+`forEach(<collection>,<callback>);` | This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
+`forOf(<collection>,<callback>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `forEach(<collection>,<callback>);`.
+`map(<collection>,<callback>);` | This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
+`mapOf(<collection>,<callback>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `map(<collection>,<callback>);`.
+`filter(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
+`filterOf(<collection>,<callback>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `filter(<collection>,<callback>);`.
+`slice(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
+`sliceOf(<collection>[,begin[,end]]);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `slice(<collection>[,begin[,end]]);`.
+`every(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
+`everyOf(<collection>,<callback>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `every(<collection>,<callback>);`.
+`some(<collection>,<callback>);` | This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
+`someOf(<collection>,<callback>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `some(<collection>,<callback>);`.
+`none(<collection>,<callback>);` | This function whether all elements in the collection do not pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
+`noneOf(<collection>,<callback>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `none(<collection>,<callback>);`.
+`concat(<collection1>[,collectionN]);` | This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.
+`concatOf(<collection1>[,collectionN]);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `concat(<collection1>[,collectionN]);`.
+`reduce(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.
+`reduceOf(<collection>,<callback>[,initialvalue]);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `reduce(<collection>,<callback>[,initialvalue]);`.
+`enumerate(<collection>);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. Example: `_.enumerate(["Picard", "Riker", "Data"]);` -> `["Picard", 0]`, `["Riker", 1]`, `["Data", 2]`
+`enumerateOf(<collection>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `enumerate(<collection>);`.
+`flat(<collection>);` | Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.
+`flatOf(<collection>);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `flat(<collection>);`.
+`join(<collection>[,separator=","]);` | This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.
+`joinOf(<collection>[,separator=","]);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `join(<collection>[,separator=","]);`.
+`take(<collection>[,n]);` | Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`takeOf(<collection>[,n]);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `take(<collection>[,n]);`.
 `takeWhile(<collection>,<callback>);` | Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `takeRight(<collection>[,n]);` | Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `takeRightWhile(<collection>,<callback>);` | Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-`dropOf(<collection>[,n]);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`drop(<collection>[,n]);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`dropOf(<collection>[,n]);` | __DEPRECATED__ <br> Will be removed in __Celestra v4.0__. <br> This is an alias of the `drop(<collection>[,n]);`.
 `dropWhile(<collection>,<callback>);` | Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `dropRight(<collection>[,n]);` | Drop the last N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `dropRightWhile(<collection>,<callback>);` | Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.

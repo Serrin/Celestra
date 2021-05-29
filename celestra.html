@@ -75,12 +75,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.8.0</p>
-<p>Date: Date: 2021-05-27T19:42:08.207Z</p>
+<p>Latest version: 3.8.1</p>
+<p>Date: Date: 2021-05-28T19:59:13.534Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (38608 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (29097 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (28954 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (39434 bytes)</p>
+<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (29794 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (29654 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -546,6 +546,10 @@ _.delay(5000)
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>isError(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is an error. The return value is boolean.</td>
+    </tr>
+    <tr>
       <td><code>isPromise(&#60;value&#62;);</td>
       <td>This function determines whether the provided value is a promise object. The return value is boolean.</td>
     </tr>
@@ -814,31 +818,6 @@ _.delay(5000)
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p class="info">From the v3.2.0 this is an alias of the <code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
-        <p><b>Can be replaced with these:</b></p>
-        <ul>
-          <li><code>[...collection].forEach(&#60;callback&#62;);</code></li>
-          <li><code>Array.from(&#60;collection&#62;).forEach(&#60;callback&#62;);</code></li>
-          <li>The Array, NodeList, Map and Set types have the own <code>.forEach(&#60;callback&#62;);</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p class="info">From the v3.2.0 this is an alias of the <code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
-        <p><b>Can be replaced with these:</b></p>
-        <ul>
-          <li><code>[...collection].map(&#60;callback&#62;);</code></li>
-          <li><code>Array.from(&#60;collection&#62;[,callback]);</code></li>
-          <li>The Array type has the own <code>.map(&#60;callback&#62;);</code></li>
-        </ul>
-      </td>
-    </tr>
-    
-    <tr>
       <td><code>partition(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
         <p>Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.</p>
@@ -854,7 +833,6 @@ _.delay(5000)
       <td><code>groupBy(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>An alias of the <code>partition(&#60;collection&#62;,&#60;callback&#62;);</code>.</td>
     </tr>
-    
     <tr>
       <td><code>arrayUnion(&#60;collection1&#62;[,collectionN]);</code></td>
       <td>Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.</td>
@@ -973,88 +951,247 @@ _.delay(5000)
       <td>This function is the faster ES6 version of the <code>item(&#60;collection&#62;,&#60;index&#62;);</code> and uses the <code>for...of</code> loop instead of the <code>Array.from()</code>, but cannot handle negative index values. The collection parameter is mandatory. The index is mandatory and has to be an integer. The return value is the item on the index or undefined. Compatible with the Unicode strings.</td>
     </tr>
     <tr>
-      <td><code>sizeOf(&#60;collection&#62;);</code></td>
+      <td><code>size(&#60;collection&#62;);</code></td>
       <td>This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.</td>
     </tr>
     <tr>
-      <td><code>firstOf(&#60;collection&#62;);</code></td>
+      <td><code>sizeOf(&#60;collection&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>size(&#60;collection&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>first(&#60;collection&#62;);</code></td>
       <td>This function returns the first element of the given collection. The collection parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>lastOf(&#60;collection&#62;);</code></td>
+      <td><code>firstOf(&#60;collection&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>first(&#60;collection&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>last(&#60;collection&#62;);</code></td>
       <td>This function returns the last element of the given collection. The collection parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>reverseOf(&#60;collection&#62;);</code></td>
+      <td><code>lastOf(&#60;collection&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>last(&#60;collection&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>reverse(&#60;collection&#62;);</code></td>
       <td>This function yields the elements of the given collection in reverse order. The collection parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>sortOf(&#60;collection&#62;);</code></td>
+      <td><code>reverseOf(&#60;collection&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>reverse(&#60;collection&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>sort(&#60;collection&#62;);</code></td>
       <td>This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>hasOf(&#60;collection&#62;,&#60;value&#62;);</code></td>
+      <td><code>sortOf(&#60;collection&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>sort(&#60;collection&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>includes(&#60;collection&#62;,&#60;value&#62;);</code></td>
       <td>This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.</td>
     </tr>
     <tr>
-      <td><code>findOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td><code>hasOf(&#60;collection&#62;,&#60;value&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>includes(&#60;collection&#62;,&#60;value&#62;);</code>.</p>      
+      </td>
+    </tr>
+    <tr>
+      <td><code>find(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.</td>
     </tr>
     <tr>
-      <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td><code>findOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>find(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
-      <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
-      <td><code>filterOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
-    </tr>
+      <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
+      </td>
     </tr>
     <tr>
-      <td><code>sliceOf(&#60;collection&#62;[,begin[,end]]);</code></td>
+      <td><code>filter(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
+    </tr>
+    <tr>
+      <td><code>filterOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>filter(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>slice(&#60;collection&#62;[,begin[,end]]);</code></td>
       <td>Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.</td>
     </tr>
     <tr>
-      <td><code>everyOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td><code>sliceOf(&#60;collection&#62;[,begin[,end]]);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>slice(&#60;collection&#62;[,begin[,end]]);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>every(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
     </tr>
     <tr>
-      <td><code>someOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td><code>everyOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>every(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>some(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
     </tr>
     <tr>
-      <td><code>noneOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td><code>someOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>some(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>none(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function whether all elements in the collection do not pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
     </tr>
     <tr>
-      <td><code>concatOf(&#60;collection1&#62;[,collectionN]);</code></td>
+      <td><code>noneOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>none(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>concat(&#60;collection1&#62;[,collectionN]);</code></td>
       <td>This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.</td>
     </tr>
     <tr>
-      <td><code>reduceOf(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></td>
+      <td><code>concatOf(&#60;collection1&#62;[,collectionN]);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>concat(&#60;collection1&#62;[,collectionN]);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>reduce(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></td>
       <td>This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.</td>
+    </tr>
+    <tr>
+      <td><code>reduceOf(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>reduce(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>enumerate(&#60;collection&#62;);</code></td>
+      <td>
+        <p>Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory.</p>
+        <p>Example: <code>_.enumerate(["Picard", "Riker", "Data"]);</code> -> <code>["Picard", 0]</code>, <code>["Riker", 1]</code>, <code>["Data", 2]</code></p>
+      </td>
     </tr>
     <tr>
       <td><code>enumerateOf(&#60;collection&#62;);</code></td>
       <td>
-        <p>Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory.</p>
-        <p>Example: <code>enumerateOf(["Picard", "Riker", "Data"]);</code> -> <code>["Picard", 0]</code>, <code>["Riker", 1]</code>, <code>["Data", 2]</code></p>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>enumerate(&#60;collection&#62;);</code>.</p>
       </td>
     </tr>
     <tr>
-      <td><code>flatOf(&#60;collection&#62;);</code></td>
+      <td><code>flat(&#60;collection&#62;);</code></td>
       <td>Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.</td>
     </tr>
     <tr>
-      <td><code>joinOf(&#60;collection&#62;[,separator=","]);</code></td>
+      <td><code>flatOf(&#60;collection&#62;);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>flat(&#60;collection&#62;);</code>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>join(&#60;collection&#62;[,separator=","]);</code></td>
       <td>This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>takeOf(&#60;collection&#62;[,n]);</code></td>
+      <td><code>joinOf(&#60;collection&#62;[,separator=","]);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>join(&#60;collection&#62;[,separator=","]);</code>.</p>
+      </td>      
+    </tr>
+    <tr>
+      <td><code>take(&#60;collection&#62;[,n]);</code></td>
       <td>Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
+    </tr>
+    <tr>
+      <td><code>takeOf(&#60;collection&#62;[,n]);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>take(&#60;collection&#62;[,n]);</code>.</p>
+      </td>
     </tr>
     <tr>
       <td><code>takeWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1069,8 +1206,16 @@ _.delay(5000)
       <td>Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
-      <td><code>dropOf(&#60;collection&#62;[,n]);</code></td>
+      <td><code>drop(&#60;collection&#62;[,n]);</code></td>
       <td>Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
+    </tr>
+    <tr>
+      <td><code>dropOf(&#60;collection&#62;[,n]);</code></td>
+      <td>
+        <p><span class="deprecated">DEPRECATED</span></p>
+        <p>Will be removed in <b>Celestra v4.0</b>.</p>
+        <p>This is an alias of the <code>drop(&#60;collection&#62;[,n]);</code>.</p>
+      </td>
     </tr>
     <tr>
       <td><code>dropWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>

@@ -1,5 +1,5 @@
 "use strict";
-/** Celestra * @version 3.8.0 * @see https://github.com/Serrin/Celestra/ * @license MIT */
+/** Celestra * @version 3.8.1 * @see https://github.com/Serrin/Celestra/ * @license MIT */
 if(!Object.hasOwn){Object.defineProperty(Object,"hasOwn",{value:function(object,property){if(object==null){throw new TypeError("Cannot convert undefined or null to object");}return Object.prototype.hasOwnProperty.call(Object(object),property);},configurable:true,enumerable:false,writable:true});}
 if(!String.prototype.trimStart){String.prototype.trimStart=function(){return this.replace(/^\s+/,"");};}
 if(!String.prototype.trimLeft){String.prototype.trimLeft=function(){return this.replace(/^\s+/,"");};}
@@ -79,6 +79,7 @@ const domSetCSSVar=(n,v)=>document.documentElement.style.setProperty((n[0] ==="-
 function getText(u,s){celestra.ajax({url:u,success:s});}
 function getJson(u,s){celestra.ajax({url:u,format:"json",success:s});}
 function ajax(o){if(typeof o.url!=="string"){throw new TypeError("Celestra ajax error: The url parameter have to be a function.");}if(typeof o.success!=="function"){throw new TypeError("Celestra ajax error: The success parameter have to be a function.");}if(!(["function","undefined"].includes(typeof o.error))){throw new TypeError("Celestra ajax error: The error parameter have to be a function or undefined.");}if(!o.queryType){o.queryType="ajax";}else{o.queryType=o.queryType.toLowerCase();}if(!o.type){o.type="get";}else{o.type=o.type.toLowerCase();}if(o.type==="get"){var typeStr="GET";}else if(o.type==="post"){var typeStr="POST";}else{ throw "Celestra ajax error: The type parameter have to be \"get\" or \"post\".";}if(!o.format){o.format="text";}else{o.format=o.format.toLowerCase();if(!(["text","json","xml"].includes(o.format))){throw "Celestra ajax error: The format parameter have to be \"text\" or \"json\" or \"xml\".";}}var xhr;if(o.queryType==="ajax"){xhr=new XMLHttpRequest();}else if(o.queryType==="cors"){xhr=new XMLHttpRequest();if(!("withCredentials" in xhr)){xhr=new XDomainRequest();}}else{throw "Celestra ajax error: The querytype parameter have to be \"ajax\" or \"cors\".";}if(typeof user==="string"&&typeof password==="string"){xhr.open(typeStr,o.url,true,o.user,o.password);}else{xhr.open(typeStr,o.url,true);}if(o.queryType==="ajax"){xhr.onreadystatechange=function(){if(this.readyState===4&&this.status===200){switch(o.format.toLowerCase()){case "text":o.success(this.responseText);break;case"json":o.success(JSON.parse(this.responseText));break;case"xml":o.success(this.responseXML);break;default:o.success(this.responseText);}}};xhr.setRequestHeader("X-Requested-With","XMLHttpRequest");if(o.typeStr==="POST"){xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");}}else if(o.queryType==="cors"){xhr.onload=function(request){switch(o.format.toLowerCase()){case "text":o.success(request.target.responseText||request.currentTarget.response);break;case "json":o.success(JSON.parse(request.target.responseText||request.currentTarget.response));break;case "xml":o.success(request.target.responseXML||request.currentTarget.responseXML);break;default:o.success(request.target.responseText||request.currentTarget.response);}};}if(typeof o.error==="function"){xhr.onerror=o.error;}if(typeStr==="GET"){xhr.send();}else if(typeStr==="POST"){xhr.send(encodeURI(o.data));}}
+const isError=(v)=>celestra.getType(v,"error");
 const isPromise=(v)=>(typeof v==="object"&&typeof v.then==="function");
 function isSameArray(a,b){if(Array.isArray(a)&&Array.isArray(b)&&a.length===b.length){for(var i=0,l=a.length;i<l;i++){if(a[i]!==b[i]){return false;}}return true;}return false;}
 const isString=(v)=>(typeof v==="string");
@@ -146,37 +147,56 @@ function*iterCycle([...a],n=Infinity){let i=0;while(i<n){yield* a;i++;}}
 function*iterRepeat(v,n=Infinity){let i=0;while(i<n){yield v;i++;}}
 function*takeWhile(it,fn){for(let item of it){if(!fn(item)){break;}yield item;}}
 function*dropWhile(it,fn){let d=true;for(let item of it){if(d&&!fn(item)){d=false;}if(!d){yield item;}}}
-function*takeOf(it,n=1){let i=n;for(let item of it){if(i<=0){break;}yield item;i--;}}
-function*dropOf(it,n=1){let i=n;for(let item of it){if(i<1){yield item;}else{i--;}}}
-function forOf(it,fn){let i=0;for(let item of it){fn(item,i++);}}
-const forEach=forOf;
-function*mapOf(it,fn){let i=0;for(let item of it){yield fn(item,i++);}}
-const map=mapOf;
-function*filterOf(it,fn){let i=0;for(let item of it){if(fn(item,i++)){yield item;}}}
-function*sliceOf(it,begin=0,end=Infinity){let i=0;for(let item of it){if(i>=begin&&i<=end){yield item;}else if(i>end){return;}i++;}}
+function*take(it,n=1){let i=n;for(let item of it){if(i<=0){break;}yield item;i--;}}
+const takeOf=take;
+function*drop(it,n=1){let i=n;for(let item of it){if(i<1){yield item;}else{i--;}}}
+const dropOf=drop;
+function forEach(it,fn){let i=0;for(let item of it){fn(item,i++);}}
+const forOf=forEach;
+function*map(it,fn){let i=0;for(let item of it){yield fn(item,i++);}}
+const mapOf=map;
+function*filter(it,fn){let i=0;for(let item of it){if(fn(item,i++)){yield item;}}}
+const filterOf=filter;
+function*slice(it,begin=0,end=Infinity){let i=0;for(let item of it){if(i>=begin&&i<=end){yield item;}else if(i>end){return;}i++;}}
+const sliceOf = slice;
 function itemOf(it,p){let i=0;for(let item of it){if(i++===p){return item;}}}
-function sizeOf(it){let i=0;for(let item of it){i++;}return i;}
-function firstOf(it){for(let item of it){return item;}}
-function lastOf(it){let item;for(item of it){}return item;}
-const reverseOf=([...a])=>a.reverse().values();
-const sortOf=([...a])=>a.sort().values();
-function hasOf(it,v){for(let item of it){if(item===v){return true;}}return false;}
-function findOf(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return item;}}}
-function everyOf(it,fn){let i=0;for(let item of it){if(!fn(item,i++)){return false;}}if(i===0){return false;}return true;}
-function someOf(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return true;}}return false;}
-function noneOf(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return false;}}if(i===0){return false;}return true;}
+function size(it){let i=0;for(let item of it){i++;}return i;}
+const sizeOf=size;
+function first(it){for(let item of it){return item;}}
+const firstOf=first;
+function last(it){let item;for(item of it){}return item;}
+const lastOf=last;
+const reverse=([...a])=>a.reverse().values();
+const reverseOf=reverse;
+const sort=([...a])=>a.sort().values();
+const sortOf=sort;
+function includes(it,v){for(let item of it){if(item===v){return true;}}return false;}
+const hasOf=includes;
+function find(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return item;}}}
+const findOf=find;
+function every(it,fn){let i=0;for(let item of it){if(!fn(item,i++)){return false;}}if(i===0){return false;}return true;}
+const everyOf=every;
+function some(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return true;}}return false;}
+const someOf=some;
+function none(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return false;}}if(i===0){return false;}return true;}
+const noneOf = none;
 function*takeRight([...a],n=1){let i=n;for(let item of a.reverse()){if(i<=0){break;}yield item;i--;}}
 function*takeRightWhile([...a],fn){let i=0;for(let item of a.reverse()){if(fn(item,i)){yield item;}else{break;}}}
 function*dropRight([...a],n=1){let i=n;for(let item of a.reverse()){if(i<1){yield item;}else{i--;}}}
 function*dropRightWhile([...a],fn){let d=true;for(let item of a.reverse()){if(d&&!fn(item)){d=false;}if(!d){yield item;}}}
-function*concatOf(){for(let item of arguments){yield* item;}}
-function reduceOf(it,fn,iv){let acc=iv;let i=0;for(let item of it){if(i===0&&acc===undefined){acc=item;}else{acc=fn(acc,item,i++);}}return acc;}
-function*enumerateOf(it){let i=0;for(let item of it){yield [item,i++];}}
-function*flatOf(it){for(let item of it){yield* item;}}
-const joinOf=([...a],s=",")=>a.join(s);
-const VERSION="Celestra v3.8.0 esm";
+function*concat(){for(let item of arguments){yield* item;}}
+const concatOf=concat;
+function reduce(it,fn,iv){let acc=iv;let i=0;for(let item of it){if(i===0&&acc===undefined){acc=item;}else{acc=fn(acc,item,i++);}}return acc;}
+const reduceOf = reduce;
+function*enumerate(it){let i=0;for(let item of it){yield [item,i++];}}
+const enumerateOf=enumerate;
+function*flat(it){for(let item of it){yield* item;}}
+const flatOf=flat;
+const join=([...a],s=",")=>a.join(s);
+const joinOf=join;
+const VERSION="Celestra v3.8.1 esm";
 function noConflict(){return celestra;}
-var celestra={VERSION:VERSION, noConflict:noConflict, delay:delay, randomInt:randomInt, randomFloat:randomFloat, randomString:randomString, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVars:getUrlVars, obj2string:obj2string, getType:getType, extend:extend, deepAssign:deepAssign, strRemoveTags:strRemoveTags, strReverse:strReverse, strReplaceAll:strReplaceAll, strCodePoints: strCodePoints, strFromCodePoints: strFromCodePoints, strAt: strAt, forIn:forIn, toFunction:toFunction, bind:bind, hasOwn:hasOwn, constant:constant, identity:identity, noop:noop, T:T, F:F, assert: assert, assertLog: assertLog, assertAlert:assertAlert, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, importScript:importScript, importScripts:importScripts, importStyle:importStyle, importStyles:importStyles, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff, domGetCSSVar:domGetCSSVar, domSetCSSVar:domSetCSSVar, getText:getText, getJson:getJson, ajax:ajax, isPromise:isPromise, isSameArray:isSameArray, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGeneratorFn:isGeneratorFn, isAsyncFn:isAsyncFn, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, partition: partition, groupBy: groupBy, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, max:max, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, arrayUnique:arrayUnique, arrayAdd:arrayAdd, arrayClear:arrayClear, arrayRemove:arrayRemove, item:item, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, takeOf:takeOf, dropOf:dropOf, forOf:forOf, forEach:forEach, mapOf:mapOf, map:map, filterOf:filterOf, sliceOf:sliceOf, itemOf:itemOf, sizeOf:sizeOf, firstOf:firstOf, lastOf:lastOf, reverseOf:reverseOf, sortOf:sortOf, hasOf:hasOf, findOf:findOf, everyOf:everyOf, someOf:someOf, noneOf:noneOf, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concatOf:concatOf, reduceOf:reduceOf, enumerateOf:enumerateOf, flatOf:flatOf, joinOf:joinOf};
+var celestra={VERSION:VERSION, noConflict:noConflict, delay:delay, randomInt:randomInt, randomFloat:randomFloat, randomString:randomString, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVars:getUrlVars, obj2string:obj2string, getType:getType, extend:extend, deepAssign:deepAssign, strRemoveTags:strRemoveTags, strReverse:strReverse, strReplaceAll:strReplaceAll, strCodePoints:strCodePoints, strFromCodePoints:strFromCodePoints, strAt:strAt, forIn:forIn, toFunction:toFunction, bind:bind, hasOwn:hasOwn, constant:constant, identity:identity, noop:noop, T:T, F:F, assert:assert, assertLog:assertLog, assertAlert:assertAlert, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, importScript:importScript, importScripts:importScripts, importStyle:importStyle, importStyles:importStyles, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff, domGetCSSVar:domGetCSSVar, domSetCSSVar:domSetCSSVar, getText:getText, getJson:getJson, ajax:ajax, isError:isError, isPromise:isPromise, isSameArray:isSameArray, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGeneratorFn:isGeneratorFn, isAsyncFn:isAsyncFn, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, partition:partition, groupBy:groupBy, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, max:max, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, arrayUnique:arrayUnique, arrayAdd:arrayAdd, arrayClear:arrayClear, arrayRemove:arrayRemove, item:item, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, take:take, takeOf:takeOf, drop:drop, dropOf:dropOf, forEach:forEach, forOf:forOf, map:map, mapOf:mapOf, filter:filter, filterOf:filterOf, slice:slice, sliceOf:sliceOf, itemOf:itemOf, size:size, sizeOf:sizeOf, first:first, firstOf:firstOf, last:last, lastOf:lastOf, reverse:reverse, reverseOf:reverseOf, sort:sort, sortOf:sortOf, includes:includes, hasOf:hasOf, find:find, findOf:findOf, every:every, everyOf:everyOf, some:some, someOf:someOf, none:none, noneOf:noneOf, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concat:concat, concatOf:concatOf, reduce:reduce, reduceOf:reduceOf, enumerate:enumerate, enumerateOf:enumerateOf, flat:flat, flatOf:flatOf, join:join, joinOf:joinOf};
 /* ESM */
 export default celestra;
 export {celestra};
