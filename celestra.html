@@ -75,12 +75,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 3.8.1</p>
-<p>Date: Date: 2021-05-28T19:59:13.534Z</p>
+<p>Latest version: 4.0.0</p>
+<p>Date: Date: 2021-05-29T19:52:18.504Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (39434 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (29794 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (29654 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (38379 bytes)</p>
+<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (28924 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (28780 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -278,7 +278,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>toFunction(&#60;function&#62;);</code></td>
-      <td>Return a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
+      <td>Returns a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
     </tr>
     <tr>
       <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
@@ -287,8 +287,8 @@ _.delay(5000)
     <tr>
       <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
       <td>
-        <span class="deprecated">DEPRECATED</span>
-        <br/>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+        <span class="removed">REMOVED IN V4.0.0</span>
+        <p>Can be replaced with the <code>Object.hasOwn();</code> which is polyfilled in this library.</p>
       </td>
     </tr>
     <tr>
@@ -920,14 +920,6 @@ _.delay(5000)
       </td>
     </tr>
     <tr>
-      <td><code>item(&#60;collection&#62;,&#60;index&#62;);</code></td>
-      <td>
-        <p>Get an item from the given collection. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and has to be an integer. The index parameter can be positive numbers (examples: 1 = the second item, 2 = the third item, etc.) and negative numbers (examples: -1 = last item, -2 = the item before the last item, etc.) and zero (the first item). Compatible with the Unicode strings in the ES6 browsers.</p>
-        <p><span class="info">Tip1: This function uses the Spread syntax. It can be slow, when more items are requested with this function. In this case please convert the collection with the Spread syntax(<code>[...iter]</code>) or <code>Array.from()</code> instead of usage this function!</span></p>
-        <p><span class="info">Tip2: From the v2.7.2 the function <code>itemOf(&#60;collection&#62;,&#60;index&#62;);</code> is available.</span></p>
-      </td>
-    </tr>
-    <tr>
       <td><code>arrayMerge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
       <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
     </tr>
@@ -947,8 +939,8 @@ _.delay(5000)
       <td>Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity</td>
     </tr>
     <tr>
-      <td><code>itemOf(&#60;collection&#62;,&#60;index&#62;);</code></td>
-      <td>This function is the faster ES6 version of the <code>item(&#60;collection&#62;,&#60;index&#62;);</code> and uses the <code>for...of</code> loop instead of the <code>Array.from()</code>, but cannot handle negative index values. The collection parameter is mandatory. The index is mandatory and has to be an integer. The return value is the item on the index or undefined. Compatible with the Unicode strings.</td>
+      <td><code>item(&#60;collection&#62;,&#60;index&#62;);</code></td>
+      <td>This function returns the item from the given collection on the given index. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and can be positive number (examples: 0 = the first item, 1 = the second item, 2 = the third item, etc.) Compatible with the Unicode strings.</td>
     </tr>
     <tr>
       <td><code>size(&#60;collection&#62;);</code></td>
@@ -956,11 +948,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>sizeOf(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>size(&#60;collection&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>first(&#60;collection&#62;);</code></td>
@@ -968,11 +956,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>firstOf(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>first(&#60;collection&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>last(&#60;collection&#62;);</code></td>
@@ -980,11 +964,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>lastOf(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>last(&#60;collection&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>reverse(&#60;collection&#62;);</code></td>
@@ -992,11 +972,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>reverseOf(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>reverse(&#60;collection&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>sort(&#60;collection&#62;);</code></td>
@@ -1004,11 +980,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>sortOf(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>sort(&#60;collection&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>includes(&#60;collection&#62;,&#60;value&#62;);</code></td>
@@ -1016,11 +988,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>hasOf(&#60;collection&#62;,&#60;value&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>includes(&#60;collection&#62;,&#60;value&#62;);</code>.</p>      
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>find(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1028,11 +996,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>findOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>find(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1040,11 +1004,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1052,11 +1012,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>map(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>filter(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1064,11 +1020,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>filterOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>filter(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>slice(&#60;collection&#62;[,begin[,end]]);</code></td>
@@ -1076,11 +1028,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>sliceOf(&#60;collection&#62;[,begin[,end]]);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>slice(&#60;collection&#62;[,begin[,end]]);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>every(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1088,11 +1036,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>everyOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>every(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>some(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1100,11 +1044,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>someOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>some(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>none(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1112,11 +1052,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>noneOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>none(&#60;collection&#62;,&#60;callback&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>concat(&#60;collection1&#62;[,collectionN]);</code></td>
@@ -1124,11 +1060,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>concatOf(&#60;collection1&#62;[,collectionN]);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>concat(&#60;collection1&#62;[,collectionN]);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>reduce(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></td>
@@ -1136,11 +1068,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>reduceOf(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>reduce(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>enumerate(&#60;collection&#62;);</code></td>
@@ -1151,11 +1079,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>enumerateOf(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>enumerate(&#60;collection&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>flat(&#60;collection&#62;);</code></td>
@@ -1163,11 +1087,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>flatOf(&#60;collection&#62;);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>flat(&#60;collection&#62;);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>join(&#60;collection&#62;[,separator=","]);</code></td>
@@ -1175,11 +1095,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>joinOf(&#60;collection&#62;[,separator=","]);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>join(&#60;collection&#62;[,separator=","]);</code>.</p>
-      </td>      
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>      
     </tr>
     <tr>
       <td><code>take(&#60;collection&#62;[,n]);</code></td>
@@ -1187,11 +1103,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>takeOf(&#60;collection&#62;[,n]);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>take(&#60;collection&#62;[,n]);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>takeWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1211,11 +1123,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>dropOf(&#60;collection&#62;[,n]);</code></td>
-      <td>
-        <p><span class="deprecated">DEPRECATED</span></p>
-        <p>Will be removed in <b>Celestra v4.0</b>.</p>
-        <p>This is an alias of the <code>drop(&#60;collection&#62;[,n]);</code>.</p>
-      </td>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>dropWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>

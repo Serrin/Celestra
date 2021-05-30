@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 3.8.1
+ * @version 4.0.0
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -16,7 +16,6 @@
   domFadeToggle()  |   2  |  domFadeIn(), domFadeOut()
   arrayMerge()     |   1  |  arrayMerge()
   extend()         |   1  |  extend()
-  forIn()          |   1  |  hasOwn()
   deepAssign()     |   1  |  deepAssign()
   getJson()        |   1  |  ajax()
   getText()        |   1  |  ajax()
@@ -241,7 +240,7 @@ const getUrlVars = (str = location.search) =>
 function obj2string (o) {
   var s = "";
   for (var p in o) {
-    if (o.hasOwnProperty(p)) {
+    if (Object.prototype.hasOwnProperty.call(o,p)) {
       s += encodeURIComponent(p) + "=" + encodeURIComponent(o[p]) + "&";
     }
   }
@@ -264,7 +263,7 @@ function extend () {
     so = arguments[i];
     if (so !== null && so !== undefined) {
       for (var a in so) {
-        if (so.hasOwnProperty(a)) {
+        if (Object.prototype.hasOwnProperty.call(so,a)) {
           if (typeof so[a] === "object" && d) {
             t[a] = celestra.extend(true, {}, so[a]);
           } else { t[a] = so[a]; }
@@ -281,7 +280,7 @@ function deepAssign () {
     s = arguments[i];
     if (s !== null && s !== undefined) {
       for (var a in s) {
-        if (s.hasOwnProperty(a)) {
+        if (Object.prototype.hasOwnProperty.call(s,a)) {
           if (typeof s[a] === "object") {
             t[a] = celestra.deepAssign({}, s[a]);
           } else { t[a] = s[a]; }
@@ -313,7 +312,7 @@ function strAt (s, p) {
 
 function forIn (o, fn) {
   for (var p in o) {
-    if (celestra.hasOwn(o, p)) { fn(o[p], p, o); }
+    if (Object.prototype.hasOwnProperty.call(o, p)) { fn(o[p], p, o); }
   }
   return o;
 }
@@ -321,8 +320,6 @@ function forIn (o, fn) {
 const toFunction = (fn) => Function.prototype.call.bind(fn);
 
 const bind = Function.prototype.call.bind(Function.prototype.bind);
-
-const hasOwn = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
 const constant = (v) => () => v;
 const identity = (v) => v;
@@ -981,7 +978,7 @@ function arrayRemove (a, v, all) {
   return found;
 }
 
-const item = ([...a], i) => a[(i < 0 ? a.length + i : i)];
+
 
 function arrayMerge () {
   if (typeof arguments[0] === "boolean") {
@@ -1043,7 +1040,6 @@ function* take (it, n = 1) {
     i--;
   }
 }
-const takeOf = take;
 
 function* drop (it, n = 1) {
   let i = n;
@@ -1051,16 +1047,13 @@ function* drop (it, n = 1) {
     if (i < 1) { yield item; } else { i--; }
   }
 }
-const dropOf = drop;
 
 function forEach (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
-const forOf = forEach;
 
 function* map (it, fn) {
   let i = 0;
   for (let item of it) { yield fn(item, i++); }
 }
-const mapOf = map;
 
 function* filter (it, fn) {
   let i = 0;
@@ -1068,7 +1061,6 @@ function* filter (it, fn) {
     if (fn(item, i++)) { yield item; }
   }
 }
-const filterOf = filter;
 
 function* slice (it, begin = 0, end = Infinity) {
   let i = 0;
@@ -1081,9 +1073,8 @@ function* slice (it, begin = 0, end = Infinity) {
     i++;
   }
 }
-const sliceOf = slice;
 
-function itemOf (it, p) {
+function item (it, p) {
   let i = 0;
   for (let item of it) {
     if (i++ === p) { return item; }
@@ -1091,19 +1082,14 @@ function itemOf (it, p) {
 }
 
 function size (it) { let i = 0; for (let item of it) { i++; } return i; }
-const sizeOf = size;
 
 function first (it) { for (let item of it) { return item; } }
-const firstOf = first;
 
 function last (it) { let item; for (item of it) { } return item; }
-const lastOf = last;
 
 const reverse = ([...a]) => a.reverse().values();
-const reverseOf = reverse;
 
 const sort = ([...a]) => a.sort().values();
-const sortOf = sort;
 
 function includes (it, v) {
   for (let item of it) {
@@ -1111,7 +1097,6 @@ function includes (it, v) {
   }
   return false;
 }
-const hasOf = includes;
 
 function find (it, fn) {
   let i = 0;
@@ -1119,7 +1104,6 @@ function find (it, fn) {
     if (fn(item, i++)) { return item; }
   }
 }
-const findOf = find;
 
 function every (it, fn) {
   let i = 0;
@@ -1129,7 +1113,6 @@ function every (it, fn) {
   if (i === 0) { return false; }
   return true;
 }
-const everyOf = every;
 
 function some (it, fn) {
   let i = 0;
@@ -1138,7 +1121,6 @@ function some (it, fn) {
   }
   return false;
 }
-const someOf = some;
 
 function none (it, fn) {
   let i = 0;
@@ -1148,7 +1130,6 @@ function none (it, fn) {
   if (i === 0) { return false; }
   return true;
 }
-const noneOf = none;
 
 function* takeRight ([...a], n = 1) {
   let i = n;
@@ -1182,7 +1163,6 @@ function* dropRightWhile ([...a], fn) {
 }
 
 function* concat () { for (let item of arguments) { yield* item; } }
-const concatOf = concat;
 
 function reduce (it, fn, iv) {
   let acc = iv;
@@ -1196,23 +1176,19 @@ function reduce (it, fn, iv) {
   }
   return acc;
 }
-const reduceOf = reduce;
 
 function* enumerate (it) {
   let i = 0;
   for (let item of it) { yield [item, i++]; }
 }
-const enumerateOf = enumerate;
 
 function* flat (it) { for (let item of it) { yield* item; } }
-const flatOf = flat;
 
 const join = ([...a], s = ",") => a.join(s);
-const joinOf = join;
 
 /* object header */
 
-const VERSION = "Celestra v3.8.1 dev";
+const VERSION = "Celestra v4.0.0 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1246,7 +1222,7 @@ var celestra = {
   forIn: forIn,
   toFunction: toFunction,
   bind: bind,
-  hasOwn: hasOwn,
+
   constant: constant,
   identity: identity,
   noop: noop,
@@ -1353,7 +1329,6 @@ var celestra = {
   arrayAdd: arrayAdd,
   arrayClear: arrayClear,
   arrayRemove: arrayRemove,
-  item: item,
   arrayMerge: arrayMerge,
   iterRange: iterRange,
   iterCycle: iterCycle,
@@ -1361,52 +1336,31 @@ var celestra = {
   takeWhile: takeWhile,
   dropWhile: dropWhile,
   take: take,
-  takeOf: takeOf,
   drop: drop,
-  dropOf: dropOf,
   forEach: forEach,
-  forOf: forOf,
   map: map,
-  mapOf: mapOf,
   filter: filter,
-  filterOf: filterOf,
   slice: slice,
-  sliceOf: sliceOf,
-  itemOf: itemOf,
+  item: item,
   size: size,
-  sizeOf: sizeOf,
   first: first,
-  firstOf: firstOf,
   last: last,
-  lastOf: lastOf,
   reverse: reverse,
-  reverseOf: reverseOf,
   sort: sort,
-  sortOf: sortOf,
   includes: includes,
-  hasOf: hasOf,
   find: find,
-  findOf: findOf,
   every: every,
-  everyOf: everyOf,
   some: some,
-  someOf: someOf,
   none: none,
-  noneOf: noneOf,
   takeRight: takeRight,
   takeRightWhile: takeRightWhile,
   dropRight: dropRight,
   dropRightWhile: dropRightWhile,
   concat: concat,
-  concatOf: concatOf,
   reduce: reduce,
-  reduceOf: reduceOf,
   enumerate: enumerate,
-  enumerateOf: enumerateOf,
   flat: flat,
-  flatOf: flatOf,
-  join: join,
-  joinOf: joinOf
+  join: join
 };
 
 if (typeof window !== "undefined") {

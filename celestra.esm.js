@@ -1,5 +1,5 @@
 "use strict";
-/** Celestra * @version 3.8.1 * @see https://github.com/Serrin/Celestra/ * @license MIT */
+/** Celestra * @version 4.0.0 * @see https://github.com/Serrin/Celestra/ * @license MIT */
 if(!Object.hasOwn){Object.defineProperty(Object,"hasOwn",{value:function(object,property){if(object==null){throw new TypeError("Cannot convert undefined or null to object");}return Object.prototype.hasOwnProperty.call(Object(object),property);},configurable:true,enumerable:false,writable:true});}
 if(!String.prototype.trimStart){String.prototype.trimStart=function(){return this.replace(/^\s+/,"");};}
 if(!String.prototype.trimLeft){String.prototype.trimLeft=function(){return this.replace(/^\s+/,"");};}
@@ -25,20 +25,19 @@ function b64Decode(str){return decodeURIComponent(atob(str).split("").map(functi
 function javaHash(s,hx){if(s!==undefined){s=""+s;}else{return 0;}var h=0,l=s.length,c="";if(l==0){return h;}for(var i=0;i<l;i++){c=s.charCodeAt(i);h=((h<<5)-h)+c;h=h&h;}if(hx){return h.toString(16);}return h;}
 function inherit(c,p){c.prototype=Object.create(p.prototype);c.prototype.constructor=c;return c;}
 const getUrlVars=(str=location.search)=>[...new URLSearchParams(str).entries()].reduce(function(o,item){o[item[0]]=item[1];return o;},{});
-function obj2string(o){var s="";for(var p in o){if(o.hasOwnProperty(p)){s+=encodeURIComponent(p)+"="+encodeURIComponent(o[p])+"&";}}return s.substring(0,s.length-1);}
+function obj2string(o){var s="";for(var p in o){if(Object.prototype.hasOwnProperty.call(o,p)){s+=encodeURIComponent(p)+"="+encodeURIComponent(o[p])+"&";}}return s.substring(0,s.length-1);}
 function getType(v,t){var ot=Object.prototype.toString.call(v).slice(8,-1).toLowerCase();return (arguments.length===2?ot===t.toLowerCase():ot);}
-function extend(){var so={};if(typeof arguments[0]==="boolean"){var t=arguments[1],d=arguments[0],s=2;}else{var t=arguments[0],d=false,s=1;}for(var i=s,l=arguments.length;i<l;i++){so=arguments[i];if(so!==null&&so!==undefined){for(var a in so){if(so.hasOwnProperty(a)){if(typeof so[a]==="object"&&d){t[a]=celestra.extend(true,{},so[a]);}else{t[a]=so[a];}}}}}return t;}
-function deepAssign(){var s={},t=arguments[0];for(var i=1,l=arguments.length;i<l;i++){s=arguments[i];if(s!==null&&s!==undefined){for(var a in s){if(s.hasOwnProperty(a)){if(typeof s[a]==="object"){t[a]=celestra.deepAssign({},s[a]);}else{t[a]=s[a];}}}}}return t;}
+function extend(){var so={};if(typeof arguments[0]==="boolean"){var t=arguments[1],d=arguments[0],s=2;} else{var t=arguments[0],d=false,s=1;}for(var i=s,l=arguments.length;i<l;i++){so=arguments[i];if(so!==null&&so!==undefined){for(var a in so){if(Object.prototype.hasOwnProperty.call(so,a)){if(typeof so[a]==="object"&&d){t[a]=celestra.extend(true,{},so[a]);}else{t[a]=so[a];}}}}}return t;}
+function deepAssign(){var s={},t=arguments[0];for(var i=1,l=arguments.length;i<l;i++){s=arguments[i];if(s!==null&&s!==undefined){for(var a in s){if(Object.prototype.hasOwnProperty.call(s,a)){if(typeof s[a]==="object"){t[a]=celestra.deepAssign({},s[a]);}else{t[a]=s[a];}}}}}return t;}
 const strRemoveTags=(s)=>String(s).replace(/<[^>]*>/g," ").replace(/\s{2,}/g," ").trim();
 const strReverse=(s)=>Array.from(String(s)).reverse().join("");
 const strReplaceAll=(s,sv,rv)=>String(s).split(String(sv)).join(rv);
 const strCodePoints=(s)=>Array.from(String(s),(v)=>v.codePointAt(0));
 const strFromCodePoints=([...a])=>String.fromCodePoint.apply(null,a);
 function strAt(s,p){let i=0;for(let item of String(s)){if(i++===p){return item;}}return "";}
-function forIn(o,fn){for(var p in o){if(celestra.hasOwn(o,p)){fn(o[p],p,o);}}return o;}
+function forIn(o,fn){for(var p in o){if(Object.prototype.hasOwnProperty.call(o,p)){fn(o[p],p,o);}}return o;}
 const toFunction=(fn)=>Function.prototype.call.bind(fn);
 const bind=Function.prototype.call.bind(Function.prototype.bind);
-const hasOwn=Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 const constant=(v)=>()=>v;
 const identity=(v)=>v;
 const noop=()=>undefined;
@@ -140,7 +139,6 @@ const arrayUnique=(a)=>[...new Set(a)];
 function arrayAdd(a,v){if(!a.includes(v)){a.push(v);return true;}return false;}
 function arrayClear(a){a.length=0;return a;}
 function arrayRemove(a,v,all){var found=a.indexOf(v)>-1;if(!all){var pos = a.indexOf(v);if(pos>-1){a.splice(pos,1);}}else{var pos=-1;while((pos=a.indexOf(v))>-1){a.splice(pos,1);}}return found;}
-const item=([...a],i)=>a[(i<0?a.length+i:i)];
 function arrayMerge(){if(typeof arguments[0]==="boolean"){var t=arguments[1],d=arguments[0],s=2;}else{var t=arguments[0],d=false,s=1;}for(var i=s,il=arguments.length;i<il;i++){if(Array.isArray(arguments[i])){for(var j=0,a=arguments[i],jl=a.length;j<jl;j++){if(Array.isArray(a[j])&&d){celestra.arrayMerge(true,t,a[j]);}else{t.push(a[j]);}}}else{t.push(arguments[i]);}}return t;}
 function*iterRange(start=0,step=1,end=Infinity){let i=start;while(i<=end){yield i;i+=step;}}
 function*iterCycle([...a],n=Infinity){let i=0;while(i<n){yield* a;i++;}}
@@ -148,55 +146,34 @@ function*iterRepeat(v,n=Infinity){let i=0;while(i<n){yield v;i++;}}
 function*takeWhile(it,fn){for(let item of it){if(!fn(item)){break;}yield item;}}
 function*dropWhile(it,fn){let d=true;for(let item of it){if(d&&!fn(item)){d=false;}if(!d){yield item;}}}
 function*take(it,n=1){let i=n;for(let item of it){if(i<=0){break;}yield item;i--;}}
-const takeOf=take;
 function*drop(it,n=1){let i=n;for(let item of it){if(i<1){yield item;}else{i--;}}}
-const dropOf=drop;
 function forEach(it,fn){let i=0;for(let item of it){fn(item,i++);}}
-const forOf=forEach;
 function*map(it,fn){let i=0;for(let item of it){yield fn(item,i++);}}
-const mapOf=map;
 function*filter(it,fn){let i=0;for(let item of it){if(fn(item,i++)){yield item;}}}
-const filterOf=filter;
 function*slice(it,begin=0,end=Infinity){let i=0;for(let item of it){if(i>=begin&&i<=end){yield item;}else if(i>end){return;}i++;}}
-const sliceOf = slice;
-function itemOf(it,p){let i=0;for(let item of it){if(i++===p){return item;}}}
+function item(it,p){let i=0;for(let item of it){if(i++===p){return item;}}}
 function size(it){let i=0;for(let item of it){i++;}return i;}
-const sizeOf=size;
 function first(it){for(let item of it){return item;}}
-const firstOf=first;
 function last(it){let item;for(item of it){}return item;}
-const lastOf=last;
 const reverse=([...a])=>a.reverse().values();
-const reverseOf=reverse;
 const sort=([...a])=>a.sort().values();
-const sortOf=sort;
 function includes(it,v){for(let item of it){if(item===v){return true;}}return false;}
-const hasOf=includes;
 function find(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return item;}}}
-const findOf=find;
 function every(it,fn){let i=0;for(let item of it){if(!fn(item,i++)){return false;}}if(i===0){return false;}return true;}
-const everyOf=every;
 function some(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return true;}}return false;}
-const someOf=some;
 function none(it,fn){let i=0;for(let item of it){if(fn(item,i++)){return false;}}if(i===0){return false;}return true;}
-const noneOf = none;
 function*takeRight([...a],n=1){let i=n;for(let item of a.reverse()){if(i<=0){break;}yield item;i--;}}
 function*takeRightWhile([...a],fn){let i=0;for(let item of a.reverse()){if(fn(item,i)){yield item;}else{break;}}}
 function*dropRight([...a],n=1){let i=n;for(let item of a.reverse()){if(i<1){yield item;}else{i--;}}}
 function*dropRightWhile([...a],fn){let d=true;for(let item of a.reverse()){if(d&&!fn(item)){d=false;}if(!d){yield item;}}}
 function*concat(){for(let item of arguments){yield* item;}}
-const concatOf=concat;
 function reduce(it,fn,iv){let acc=iv;let i=0;for(let item of it){if(i===0&&acc===undefined){acc=item;}else{acc=fn(acc,item,i++);}}return acc;}
-const reduceOf = reduce;
 function*enumerate(it){let i=0;for(let item of it){yield [item,i++];}}
-const enumerateOf=enumerate;
 function*flat(it){for(let item of it){yield* item;}}
-const flatOf=flat;
 const join=([...a],s=",")=>a.join(s);
-const joinOf=join;
-const VERSION="Celestra v3.8.1 esm";
+const VERSION="Celestra v4.0.0 esm";
 function noConflict(){return celestra;}
-var celestra={VERSION:VERSION, noConflict:noConflict, delay:delay, randomInt:randomInt, randomFloat:randomFloat, randomString:randomString, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVars:getUrlVars, obj2string:obj2string, getType:getType, extend:extend, deepAssign:deepAssign, strRemoveTags:strRemoveTags, strReverse:strReverse, strReplaceAll:strReplaceAll, strCodePoints:strCodePoints, strFromCodePoints:strFromCodePoints, strAt:strAt, forIn:forIn, toFunction:toFunction, bind:bind, hasOwn:hasOwn, constant:constant, identity:identity, noop:noop, T:T, F:F, assert:assert, assertLog:assertLog, assertAlert:assertAlert, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, importScript:importScript, importScripts:importScripts, importStyle:importStyle, importStyles:importStyles, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff, domGetCSSVar:domGetCSSVar, domSetCSSVar:domSetCSSVar, getText:getText, getJson:getJson, ajax:ajax, isError:isError, isPromise:isPromise, isSameArray:isSameArray, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGeneratorFn:isGeneratorFn, isAsyncFn:isAsyncFn, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, partition:partition, groupBy:groupBy, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, max:max, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, arrayUnique:arrayUnique, arrayAdd:arrayAdd, arrayClear:arrayClear, arrayRemove:arrayRemove, item:item, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, take:take, takeOf:takeOf, drop:drop, dropOf:dropOf, forEach:forEach, forOf:forOf, map:map, mapOf:mapOf, filter:filter, filterOf:filterOf, slice:slice, sliceOf:sliceOf, itemOf:itemOf, size:size, sizeOf:sizeOf, first:first, firstOf:firstOf, last:last, lastOf:lastOf, reverse:reverse, reverseOf:reverseOf, sort:sort, sortOf:sortOf, includes:includes, hasOf:hasOf, find:find, findOf:findOf, every:every, everyOf:everyOf, some:some, someOf:someOf, none:none, noneOf:noneOf, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concat:concat, concatOf:concatOf, reduce:reduce, reduceOf:reduceOf, enumerate:enumerate, enumerateOf:enumerateOf, flat:flat, flatOf:flatOf, join:join, joinOf:joinOf};
+var celestra={VERSION:VERSION, noConflict:noConflict, delay:delay, randomInt:randomInt, randomFloat:randomFloat, randomString:randomString, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVars:getUrlVars, obj2string:obj2string, getType:getType, extend:extend, deepAssign:deepAssign, strRemoveTags:strRemoveTags, strReverse:strReverse, strReplaceAll:strReplaceAll, strCodePoints:strCodePoints, strFromCodePoints:strFromCodePoints, strAt:strAt, forIn:forIn, toFunction:toFunction, bind:bind, constant:constant, identity:identity, noop:noop, T:T, F:F, assert:assert, assertLog:assertLog, assertAlert:assertAlert, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, importScript:importScript, importScripts:importScripts, importStyle:importStyle, importStyles:importStyles, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff, domGetCSSVar:domGetCSSVar, domSetCSSVar:domSetCSSVar, getText:getText, getJson:getJson, ajax:ajax, isError:isError, isPromise:isPromise, isSameArray:isSameArray, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGeneratorFn:isGeneratorFn, isAsyncFn:isAsyncFn, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, partition:partition, groupBy:groupBy, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, max:max, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, arrayUnique:arrayUnique, arrayAdd:arrayAdd, arrayClear:arrayClear, arrayRemove:arrayRemove, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, take:take, drop:drop, forEach:forEach, map:map, filter:filter, slice:slice, item:item, size:size, first:first, last:last, reverse:reverse, sort:sort, includes:includes, find:find, every:every, some:some, none:none, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concat:concat, reduce:reduce, enumerate:enumerate, flat:flat, join:join};
 /* ESM */
 export default celestra;
 export {celestra};

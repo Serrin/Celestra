@@ -142,7 +142,7 @@ _cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v3.8.1 testcases */
+/* Celestra v4.0.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -529,9 +529,6 @@ var FPArray = [1,2,3];
 var dqsa = _.bind(document.querySelectorAll, document);
 _cut.isTrue("bind();", dqsa("h3").length > 0);
 
-_cut.isTrue("hasOwn(); true", _.hasOwn({0:1,1:2,2:3,length:3}, "length"));
-_cut.isFalse("hasOwn(); false", _.hasOwn([], "forEach"));
-
 _cut.isEqual("constant();", 3.14, _.constant(3.14)());
 _cut.isEqual("identity();", 100, _.identity(60) + _.identity(40));
 _cut.isEqual("noop();", undefined, _.noop());
@@ -680,31 +677,6 @@ _cut.isEqual("iterRepeat(); infinity", "HW2HW2HW2", sum);
 
 var FPArray = [1,2,3];
 
-var forOfStr = "";
-_.forOf(FPArray, function (e) { forOfStr += (e*2); });
-_cut.isEqual("forOf(); 1 ES5 Array", "246", forOfStr);
-forOfStr = "";
-_.forOf("cat, dog, pig", function (e) { forOfStr += e.toUpperCase(); });
-_cut.isEqual("forOf(); 2 ES5 String", "CAT, DOG, PIG", forOfStr);
-var forOfCount = 0;
-_.forOf(document.querySelectorAll("h3"), function (e) { forOfCount++; });
-_cut.isEqual("forOf(); 3 ES5 Nodelist",
-  document.querySelectorAll("h3").length, forOfCount
-);
-
-forOfStr = "";
-_.forOf(
-  new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
-  function (e,i) { forOfStr += i + "-" + e + "-"; }
-);
-_cut.isEqual("forOf(); 5 ES6 Map", "0-foo,3.14-1-bar,42-2-baz,Wilson-", forOfStr);
-forOfCount = 0;
-_.forOf(new Set([4,5,6]), function (e) { forOfCount += (e*3); });
-_cut.isEqual("forOf(); 6 ES6 Set", 45, forOfCount);
-forOfCount = 0;
-_.forOf((new Set([4,5,6])).values(), function (e) { forOfCount += (e*3); });
-_cut.isEqual("forOf(); 7 ES6 Set values(); iterator", 45, forOfCount);
-
 var forEachStr = "";
 _.forEach(FPArray, function (e) { forEachStr += (e*2); });
 _cut.isEqual("forEach(); 1 ES5 Array", "246", forEachStr);
@@ -716,12 +688,6 @@ _.forEach(document.querySelectorAll("h3"), function (e) { forEachCount++; });
 _cut.isEqual("forEach(); 3 ES5 Nodelist",
   document.querySelectorAll("h3").length, forEachCount
 );
-/*
-// forEach - custom array-like object
-var forEachCount = 0;
-_.forEach({0:4,1:5,2:6,length:3}, function (e) { forEachCount += (e*3); });
-_cut.isEqual("forEach(); 4 ES5 custom array-like object", 45, forEachCount);
-*/
 forEachStr = "";
 _.forEach(
   new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
@@ -734,49 +700,6 @@ _cut.isEqual("forEach(); 6 ES6 Set", 45, forEachCount);
 forEachCount = 0;
 _.forEach((new Set([4,5,6])).values(), function (e) { forEachCount += (e*3); });
 _cut.isEqual("forEach(); 7 ES6 Set values(); iterator", 45, forEachCount);
-
-
-var mapOfStr = "";
-for (let item of _.mapOf([1,2,3], function(e) { return e*2; })) {
-  mapOfStr += item;
-}
-_cut.isEqual("mapOf(); 1 ES5 Array", "246", mapOfStr);
-var mapOfStr = "";
-for (let item of _.mapOf("cat, dog, pig", function (e) { return e.toUpperCase(); })) {
-  mapOfStr += item;
-}
-_cut.isEqual("mapOf(); 2 ES5 String", "CAT, DOG, PIG", mapOfStr);
-
-var mapOfNL = [];
-for (let item of _.mapOf(document.querySelectorAll("h3"), function (e) { return e; })) {
-  mapOfNL.push(item);
-}
-_cut.isTrue("mapOf(); 3 ES5 Nodelist",
-  Array.isArray(mapOfNL) && mapOfNL.every(function(e) { return _.isElement(e); })
-);
-/*
-_cut.isEqual(
-  "mapOf(); 4 ES5 custom array-like object",
-  "[2,4,6]",
-  JSON.stringify(_.mapOf({0:1,1:2,2:3,length:3}, function(e) { return e*2; }))
-);
-*/
-var mapOfStr = "";
-for (let item of _.mapOf(
-  new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
-  function(e) { return [ e[0], e[1]*2 ]; }
-)) { mapOfStr += item[0] + item[1]; }
-_cut.isEqual("mapOf(); 5 ES6 Map", "foo2bar4baz6", mapOfStr);
-var mapOfStr = "";
-for (let item of _.mapOf(new Set([1,2,3]), function(e) { return e*2; })) {
-  mapOfStr += item;
-}
-_cut.isEqual("mapOf(); 6 ES6 Set", "246", mapOfStr);
-var mapOfStr = "";
-for (let item of _.mapOf((new Set([1,2,3])).values(), function(e) { return e*3; })) {
-  mapOfStr += item;
-}
-_cut.isEqual("mapOf(); 7 ES6 Set values(); iterator", "369", mapOfStr);
 
 
 var mapStr = "";
@@ -896,25 +819,25 @@ whileSum = 0;
 for (let item of _.dropWhile(whileArray, (e) => (e<0))) { whileSum += item; }
 _cut.isEqual("dropWhile(); full list", whileSum, 72);
 
-_cut.isEqual("itemOf(); string unicode",
-  _.itemOf("foo \uD834\uDF06 bar", 4)
-    + _.itemOf("foo \uD834\uDF06 bar", 8)
-    + _.itemOf("foo \uD834\uDF06 bar", 12),
+_cut.isEqual("item(); string unicode",
+  _.item("foo \uD834\uDF06 bar", 4)
+    + _.item("foo \uD834\uDF06 bar", 8)
+    + _.item("foo \uD834\uDF06 bar", 12),
   "\uD834\uDF06" + "r" + "undefined"
 );
 let itemOfArray = [4,5,6,7,8];
-_cut.isEqual("itemOf(); array",
-  "" + _.itemOf(itemOfArray, 3) + _.itemOf(itemOfArray, 12),
+_cut.isEqual("item(); array",
+  "" + _.item(itemOfArray, 3) + _.item(itemOfArray, 12),
   "7" + "undefined"
 );
 let itemOfMap = new Map([ ["a",1], ["b",2], ["c",3] ]);
-_cut.isEqual("itemOf(); map",
-  JSON.stringify(_.itemOf(itemOfMap, 1)) + _.itemOf(itemOfMap, 12),
+_cut.isEqual("item(); map",
+  JSON.stringify(_.item(itemOfMap, 1)) + _.item(itemOfMap, 12),
   "[\"b\",2]" + "undefined"
 );
 let itemOfSet = new Set([3,3,4,5,5,6,7,7,8]);
-_cut.isEqual("itemOf(); set",
-  "" + JSON.stringify(_.itemOf(itemOfSet, 3)) + _.itemOf(itemOfSet, 12),
+_cut.isEqual("item(); set",
+  "" + JSON.stringify(_.item(itemOfSet, 3)) + _.item(itemOfSet, 12),
   "6" + "undefined"
 );
 
@@ -1392,77 +1315,6 @@ _cut.isEqual("arrayMerge();",
     + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
     + "[1,2,3,7,8,10,11,12,13,14,15,9,42,3.14]",
   arrMergeStr
-);
-
-
-var itemSrc = ["A","B","C"];
-var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
-  + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
-  + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4);
-_cut.isEqual("item(); - step 1 - array","A B C undefined C B A undefined",res);
-_cut.log("<code>\""+res+"\"</code>");
-/*
-var itemSrc = {0: "A", 1: "B", 2: "C", length: 3};
-var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
-  + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
-  + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4);
-_cut.isEqual(
-  "item(); - step 2 - arrayLike object","A B C undefined C B A undefined",res
-);
-*/
-_cut.log("<code>\""+res+"\"</code>");
-var itemSrc = "ABC";
-var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
-  + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
-  + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4);
-_cut.isEqual("item(); - step 3 - string","A B C undefined C B A undefined",res);
-_cut.log("<code>\""+res+"\"</code>");
-
-var itemSrc = "AB\uD834\uDF06CD";
-var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
-  + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, 4) + " " + _.item(itemSrc, 5)
-  + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
-  + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4)
-  + " " + _.item(itemSrc, -5) + " " + _.item(itemSrc, -6);
-_cut.isEqual("item(); - step 4 - ES6 unicode string",
-  "A B \uD834\uDF06 C D undefined D C \uD834\uDF06 B A undefined",
-  res
-);
-var itemSrc = new Set(["A", "B", "C"]);
-var res = _.item(itemSrc, 0) + " " + _.item(itemSrc, 1)
-  + " " + _.item(itemSrc, 2) + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, -1) + " " + _.item(itemSrc, -2)
-  + " " + _.item(itemSrc, -3) + " " + _.item(itemSrc, -4);
-_cut.isEqual(
-  "item(); - step 5 - ES6 set", "A B C undefined C B A undefined", res
-);
-var itemSrc = new Set(["A", "B", "C"]);
-var res = _.item(itemSrc.values(), 0) + " " + _.item(itemSrc.values(), 1)
-  + " " + _.item(itemSrc.values(), 2) + " " + _.item(itemSrc.values(), 3)
-  + " " + _.item(itemSrc.values(), -1) + " " + _.item(itemSrc.values(), -2)
-  + " " + _.item(itemSrc.values(), -3) + " " + _.item(itemSrc.values(), -4);
-_cut.isEqual(
-  "item(); - step 6 - ES6 set values();","A B C undefined C B A undefined", res
-);
-var itemSrc = new Map([ ["A", 1], ["B", 2], ["C", 3] ]);
-var res = _.item(itemSrc, 0)[0] + " " + _.item(itemSrc, 1)[0]
-  + " " + _.item(itemSrc, 2)[0] + " " + _.item(itemSrc, 3)
-  + " " + _.item(itemSrc, -1)[0] + " " + _.item(itemSrc, -2)[0]
-  + " " + _.item(itemSrc, -3)[0] + " " + _.item(itemSrc, -4);
-_cut.isEqual(
-  "item(); - step 7 - ES6 map", "A B C undefined C B A undefined", res
-);
-var itemSrc = new Map([ ["A", 1], ["B", 2], ["C", 3] ]);
-var res = _.item(itemSrc.keys(), 0) + " " + _.item(itemSrc.keys(), 1)
-  + " " + _.item(itemSrc.keys(), 2) + " " + _.item(itemSrc.keys(), 3)
-  + " " + _.item(itemSrc.keys(), -1) + " " + _.item(itemSrc.keys(), -2)
-  + " " + _.item(itemSrc.keys(), -3) + " " + _.item(itemSrc.keys(), -4);
-_cut.isEqual(
-  "item(); - step 8 - ES6 map keys();", "A B C undefined C B A undefined", res
 );
 
 
@@ -2190,9 +2042,8 @@ if (window.BigInt) {
 }
 
 
-/* Type checking */
+/* isSameArray(); */
 _cut.addElement("hr");
-
 _cut.addElement("h4", "isSameArray();");
 _cut.isTrue("step 1", _.isSameArray([], []) );
 _cut.isTrue("step 2", _.isSameArray([5,4,5], [5,4,5]) );
@@ -2210,31 +2061,30 @@ _cut.isFalse("step 13", _.isSameArray(4, 4) );
 _cut.isFalse("step 14", _.isSameArray(4, 5) );
 
 
-/* v3.8.1 aliases */
+/* v3.8.1 aliases removed in v4.0.0 */
 _cut.addElement("hr");
-_cut.addElement("h3", "v3.8.1 aliases");
-_cut.log("<b><i>Remove section when the aliases will be removed!</i></b>");
-_cut.isEqual("someOf();", _.someOf, _.some);
-_cut.isEqual("everyOf();", _.everyOf, _.every);
-_cut.isEqual("findOf();", _.findOf, _.find);
-_cut.isEqual("dropOf();", _.dropOf, _.drop);
-_cut.isEqual("takeOf();", _.takeOf, _.take);
-_cut.isEqual("joinOf();", _.joinOf, _.join);
-_cut.isEqual("enumerateOf();", _.enumerateOf, _.enumerate);
-_cut.isEqual("flatOf();", _.flatOf, _.flat);
-_cut.isEqual("concatOf();", _.concatOf, _.concat);
-_cut.isEqual("reduceOf();", _.reduceOf, _.reduce);
-_cut.isEqual("sortOf();", _.sortOf, _.sort);
-_cut.isEqual("reverseOf();", _.reverseOf, _.reverse);
-_cut.isEqual("sliceOf();", _.sliceOf, _.slice);
-_cut.isEqual("lastOf();", _.lastOf, _.last);
-_cut.isEqual("firstOf();", _.firstOf, _.first);
-_cut.isEqual("noneOf();", _.noneOf, _.none);
-_cut.isEqual("filterOf();", _.filterOf, _.filter);
-_cut.isEqual("sizeOf();", _.sizeOf, _.size);
-_cut.isEqual("hasOf();", _.hasOf, _.includes);
-_cut.isEqual("mapOf();", _.mapOf, _.map);
-_cut.isEqual("forOf();", _.forOf, _.forEach);
+_cut.addElement("h3", "v3.8.1 aliases removed in v4.0.0");
+_cut.isNotEqual("someOf();", _.someOf, _.some);
+_cut.isNotEqual("everyOf();", _.everyOf, _.every);
+_cut.isNotEqual("findOf();", _.findOf, _.find);
+_cut.isNotEqual("dropOf();", _.dropOf, _.drop);
+_cut.isNotEqual("takeOf();", _.takeOf, _.take);
+_cut.isNotEqual("joinOf();", _.joinOf, _.join);
+_cut.isNotEqual("enumerateOf();", _.enumerateOf, _.enumerate);
+_cut.isNotEqual("flatOf();", _.flatOf, _.flat);
+_cut.isNotEqual("concatOf();", _.concatOf, _.concat);
+_cut.isNotEqual("reduceOf();", _.reduceOf, _.reduce);
+_cut.isNotEqual("sortOf();", _.sortOf, _.sort);
+_cut.isNotEqual("reverseOf();", _.reverseOf, _.reverse);
+_cut.isNotEqual("sliceOf();", _.sliceOf, _.slice);
+_cut.isNotEqual("lastOf();", _.lastOf, _.last);
+_cut.isNotEqual("firstOf();", _.firstOf, _.first);
+_cut.isNotEqual("noneOf();", _.noneOf, _.none);
+_cut.isNotEqual("filterOf();", _.filterOf, _.filter);
+_cut.isNotEqual("sizeOf();", _.sizeOf, _.size);
+_cut.isNotEqual("hasOf();", _.hasOf, _.includes);
+_cut.isNotEqual("mapOf();", _.mapOf, _.map);
+_cut.isNotEqual("forOf();", _.forOf, _.forEach);
 
 
 /* AJAX, domReady(); and other callbacks */
