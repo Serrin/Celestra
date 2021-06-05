@@ -6,9 +6,10 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.13";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.14";
 
 celTest.__results__ = document.querySelector("#results");
+celTest.__resultsFailed__ = document.querySelector("#resultsFailed");
 
 /* __addTest__(a"step", true, expr); */
 /* __addTest__("step", true, expr, true|false); */
@@ -18,10 +19,12 @@ celTest.__addTest__ = function __addTest__ (step, expected, expression, strict) 
   var el = document.createElement("p");
   if (strict ? expected === expression : expected == expression) {
     el.innerHTML = "["+Date.now().toString(36)+"] <span class='passed'>[passed]</span> "+step;
+    celTest.__results__.append(el);
   } else {
     el.innerHTML = "["+Date.now().toString(36)+"] <span class='failed'>[failed]</span> "+step;
+    celTest.__results__.append(el);
+    celTest.__resultsFailed__.append(el.cloneNode(true));
   }
-  celTest.__results__.append(el);
 };
 
 /* isTrue("step", expr); */
@@ -114,26 +117,64 @@ window.saveResults = function saveResults () {
 _cut.addElement("hr");
 _cut.addElement("h3", "CUT Selftest");
 
-_cut.__addTest__("__addTest__(); success", 1, 1);
-_cut.__addTest__("__addTest__(); failed", 1, 2);
-_cut.__addTest__("__addTest__(); success non-strict", 0, false, false);
-_cut.__addTest__("__addTest__(); failed strict", 0, false, true);
+_cut.__addTest__(
+  "<span class=\"info\">Selftest</span> - __addTest__(); success", 1, 1
+);
+_cut.__addTest__(
+  "<span class=\"info\">Selftest</span> - __addTest__(); failed", 1, 2
+);
+_cut.__addTest__(
+  "<span class=\"info\">Selftest</span> - __addTest__(); success non-strict",
+  0, false, false
+);
+_cut.__addTest__(
+  "<span class=\"info\">Selftest</span> - __addTest__(); failed strict",
+  0, false, true
+);
 
-_cut.isTrue("isTrue(); success", 1 < 10);
-_cut.isTrue("isTrue(); failed", 1 > 10);
+_cut.isTrue(
+  "<span class=\"info\">Selftest</span> - isTrue(); success", 1 < 10
+);
+_cut.isTrue(
+  "<span class=\"info\">Selftest</span> - isTrue(); failed", 1 > 10
+);
 
-_cut.isFalse("isFalse(); success", 1 > 10);
-_cut.isFalse("isFalse(); failed", 1 < 10);
+_cut.isFalse(
+  "<span class=\"info\">Selftest</span> - isFalse(); success", 1 > 10
+);
+_cut.isFalse(
+  "<span class=\"info\">Selftest</span> - isFalse(); failed", 1 < 10
+);
 
-_cut.isEqual("isEqual(); success", 1, 1);
-_cut.isEqual("isEqual(); failed", 1, 2);
-_cut.isEqual("isEqual(); success non-strict", 0, false, false);
-_cut.isEqual("isEqual(); failed strict", 0, false, true);
+_cut.isEqual(
+  "<span class=\"info\">Selftest</span> - isEqual(); success", 1, 1
+);
+_cut.isEqual(
+  "<span class=\"info\">Selftest</span> - isEqual(); failed", 1, 2
+);
+_cut.isEqual(
+  "<span class=\"info\">Selftest</span> - isEqual(); success non-strict",
+  0, false, false
+);
+_cut.isEqual(
+  "<span class=\"info\">Selftest</span> - isEqual(); failed strict",
+  0, false, true
+);
 
-_cut.isNotEqual("isNotEqual(); success", 1, 2);
-_cut.isNotEqual("isNotEqual(); failed", 1, 1);
-_cut.isNotEqual("isNotEqual(); success strict", 0, false, true);
-_cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
+_cut.isNotEqual(
+  "<span class=\"info\">Selftest</span> - isNotEqual(); success", 1, 2
+);
+_cut.isNotEqual(
+  "<span class=\"info\">Selftest</span> - isNotEqual(); failed", 1, 1
+);
+_cut.isNotEqual(
+  "<span class=\"info\">Selftest</span> - isNotEqual(); success strict",
+  0, false, true
+);
+_cut.isNotEqual(
+  "<span class=\"info\">Selftest</span> - isNotEqual(); failed non-strict",
+  0, false, false
+);
 
 
 /* ======================================================================== */
@@ -142,7 +183,7 @@ _cut.isNotEqual("isNotEqual(); failed non-strict", 0, false, false);
 (function(){
 "use strict";
 
-/* Celestra v4.0.0 testcases */
+/* Celestra v4.1.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -631,10 +672,16 @@ _cut.isTrue("domSiblings();", (Array.isArray(dsArray) && dsArray.length === 3));
 _.qs("#dsDiv").remove();
 
 
-/* Collection */
+/* Collections */
 
 _cut.addElement("hr");
 _cut.addElement("h3", "Collections");
+
+_cut.isEqual(
+  "withOut();",
+  JSON.stringify(_.withOut(["a","b","c","d"], ["b","d"])),
+   "[\"a\",\"c\"]"
+);
 
 var arrPartition = [-5, 2, -9, 7, 34];
 _cut.isEqual(
@@ -646,6 +693,11 @@ _cut.isEqual(
   "groupBy();",
   JSON.stringify(_.groupBy(arrPartition, (e) => (e > 0) )),
   "[[2,7,34],[-5,-9]]"
+);
+
+_cut.isTrue(
+  "initial();",
+  _.isSameArray(_.initial(["a","b","c","d"]), ["a","b","c"])
 );
 
 var sum = "";
@@ -720,13 +772,6 @@ for (let item of _.map(document.querySelectorAll("h3"), function (e) { return e;
 _cut.isTrue("map(); 3 ES5 Nodelist",
   Array.isArray(mapNL) && mapNL.every(function(e) { return _.isElement(e); })
 );
-/*
-_cut.isEqual(
-  "map(); 4 ES5 custom array-like object",
-  "[2,4,6]",
-  JSON.stringify(_.map({0:1,1:2,2:3,length:3}, function(e) { return e*2; }))
-);
-*/
 var mapStr = "";
 for (let item of _.map(
   new Map([ ["foo", 1], ["bar", 2], ["baz", 3] ]),
@@ -796,6 +841,9 @@ var iterStr = "";
 for (let item of _.slice(FPArray3)) { iterStr += item; }
 _cut.isEqual("slice(); - step 4 - all", "12345678910", iterStr);
 
+var iterStr = "";
+for (let item of _.tail(FPArray3)) { iterStr += item; }
+_cut.isEqual("tail();", "2345678910", iterStr);
 
 let whileArray = [0,2,4,6,8,10,12,14,16];
 
@@ -840,10 +888,12 @@ _cut.isEqual("item(); set",
   "" + JSON.stringify(_.item(itemOfSet, 3)) + _.item(itemOfSet, 12),
   "6" + "undefined"
 );
+_cut.isEqual("nth();", _.nth, _.item);
 
 let sizeLastArray = [4,5,6,7,8,"last"];
 _cut.isEqual("size();", 6, _.size(sizeLastArray));
 _cut.isEqual("first();", 4, _.first(sizeLastArray));
+_cut.isEqual("head();", 4, _.head(sizeLastArray));
 _cut.isEqual("last();", "last", _.last(sizeLastArray));
 
 let reverseSortArray = ["first",4,5,6,7,8,9,"last"];
@@ -852,9 +902,28 @@ _cut.isEqual("reverse();", "[\"last\",9,8,7,6,5,4,\"first\"]",
   JSON.stringify([..._.reverse(reverseSortArray)])
 );
 
-_cut.isEqual("sort();", "[4,5,6,7,8,9,\"first\",\"last\"]",
+_cut.isEqual("sort(); without numberShort", "[4,5,6,7,8,9,\"first\",\"last\"]",
   JSON.stringify([..._.sort(reverseSortArray)])
 );
+_cut.log(`<code>${JSON.stringify([..._.sort(reverseSortArray)])}</code>`)
+_cut.isEqual("sort(); with numberShort", "[\"first\",4,5,6,7,8,9,\"last\"]",
+  JSON.stringify([..._.sort(reverseSortArray, true)])
+);
+_cut.log(`<code>${JSON.stringify([..._.sort(reverseSortArray, true)])}</code>`)
+_cut.isEqual("sort(); numbers without numberShort", "[1,10,7,9]",
+  JSON.stringify([..._.sort([7,1,10,9])])
+);
+_cut.log(`<code>${JSON.stringify([..._.sort([7,1,10,9])])}</code>`);
+_cut.isEqual("sort(); numbers with numberShort", "[1,7,9,10]",
+  JSON.stringify([..._.sort([7,1,10,9], true)])
+);
+_cut.log(`<code>${JSON.stringify([..._.sort([7,1,10,9], true)])}</code>`);
+
+const shuffledReverseSortArray = _.shuffle(reverseSortArray);
+_cut.isFalse("shuffle();",
+  _.isSameArray(reverseSortArray, shuffledReverseSortArray)
+);
+_cut.log(`<code>${JSON.stringify(reverseSortArray)}</code> -> <code>${JSON.stringify(shuffledReverseSortArray)}</code>`);
 
 _cut.isTrue("includes(); true", _.includes(reverseSortArray, "last"));
 _cut.isFalse("includes(); false", _.includes(reverseSortArray, "world"));
@@ -1883,7 +1952,12 @@ _cut.isEqual("Math.trunc();", "3"+"-3"+"4"+"-4"+"NaN"+"1"+"0",
 _cut.addElement("hr");
 _cut.addElement("h3", "type checking");
 
-var isErrorStr = "" 
+_cut.isTrue("isDataView(); true",
+  _.isDataView(new DataView(new ArrayBuffer(2)), "dataview")
+);
+_cut.isFalse("isDataView(); false", _.isDataView({}, "dataview"));
+
+var isErrorStr = ""
   + _.isError(new Error)
   + " " + _.isError(new RangeError)
   + " " + _.isError(new SyntaxError)
@@ -2042,23 +2116,89 @@ if (window.BigInt) {
 }
 
 
-/* isSameArray(); */
+/* isSameType(); */
 _cut.addElement("hr");
-_cut.addElement("h4", "isSameArray();");
-_cut.isTrue("step 1", _.isSameArray([], []) );
-_cut.isTrue("step 2", _.isSameArray([5,4,5], [5,4,5]) );
-_cut.isFalse("step 3", _.isSameArray([5,4,5], [4,5,6]) );
-_cut.isFalse("step 4", _.isSameArray([5,4,6], [4,5,5]) );
-_cut.isFalse("step 5", _.isSameArray([5,4,5], [4,4,5]) );
-_cut.isFalse("step 6", _.isSameArray([5,5], [5,5,4]) );
-_cut.isFalse("step 7", _.isSameArray([5,5,4], [5,5]) );
-_cut.isFalse("step 8", _.isSameArray([5,5], new Map([[5,5],[5,5]])) );
-_cut.isFalse("step 9", _.isSameArray([5,5], new Set([5,5])) );
-_cut.isFalse("step 10", _.isSameArray([], {}) );
-_cut.isFalse("step 11", _.isSameArray({}, {}) );
-_cut.isFalse("step 12", _.isSameArray("4", "4") );
-_cut.isFalse("step 13", _.isSameArray(4, 4) );
-_cut.isFalse("step 14", _.isSameArray(4, 5) );
+_cut.addElement("h3", "isSameType();");
+_cut.isTrue("isSameArray(); step 1", _.isSameArray([], []) );
+_cut.isTrue("isSameArray(); step 2", _.isSameArray([5,4,5], [5,4,5]) );
+_cut.isFalse("isSameArray(); step 3", _.isSameArray([5,4,5], [4,5,6]) );
+_cut.isFalse("isSameArray(); step 4", _.isSameArray([5,4,6], [4,5,5]) );
+_cut.isFalse("isSameArray(); step 5", _.isSameArray([5,4,5], [4,4,5]) );
+_cut.isFalse("isSameArray(); step 6", _.isSameArray([5,5], [5,5,4]) );
+_cut.isFalse("isSameArray(); step 7", _.isSameArray([5,5,4], [5,5]) );
+_cut.isFalse("isSameArray(); step 8",
+  _.isSameArray([5,5], new Map([[5,5],[5,5]]))
+);
+_cut.isFalse("isSameArray(); step 9", _.isSameArray([5,5], new Set([5,5])) );
+_cut.isFalse("isSameArray(); step 10", _.isSameArray([], {}) );
+_cut.isFalse("isSameArray(); step 11", _.isSameArray({}, {}) );
+_cut.isFalse("isSameArray(); step 12", _.isSameArray("4", "4") );
+_cut.isFalse("isSameArray(); step 13", _.isSameArray(4, 4) );
+_cut.isFalse("isSameArray(); step 14", _.isSameArray(4, 5) );
+
+var
+  isSameObjectO1 = { "p1": 4, "p2": 5, "p3": 6 },
+  isSameObjectO2 = { "p1": 4, "p2": 5, "p3": 6 },
+  isSameObjectO3 = { "p1": 4, "p2": 5, "p3": 7 },
+  isSameObjectO4 = { "p1": 4, "p2": 5, "p3": 6, "p4": 7 };
+_cut.isTrue("isSameObject(); true 1",
+  _.isSameObject(isSameObjectO1, isSameObjectO2)
+);
+_cut.isTrue("isSameObject(); true 2 empty", _.isSameObject({}, {}) );
+_cut.isFalse("isSameObject(); false 1",
+  _.isSameObject(isSameObjectO1, isSameObjectO3)
+);
+_cut.isFalse("isSameObject(); false 2",
+  _.isSameObject(isSameObjectO1, isSameObjectO4)
+);
+_cut.isFalse("isSameObject(); false 3",
+  _.isSameObject([4,5], {"0": 4, "1": 5, "length": 2})
+);
+
+_cut.isTrue("isSameSet(); true",
+  _.isSameSet(new Set([4,6,8,2]), new Set([2, 4, 6, 8, 4]))
+);
+_cut.isFalse("isSameSet(); false 1",
+  _.isSameSet(new Set([4,6,8,2]), new Set([2, 4, 6, 9]))
+);
+_cut.isFalse("isSameSet(); false 2",
+  _.isSameSet(new Set([4,6,8,2]), new Set([2, 4, 6, 8, 9]))
+);
+_cut.isFalse("isSameSet(); false 3",
+  _.isSameSet(new Set([4,6,8,2]), [4,6,8,2])
+);
+
+_cut.isTrue("isSameMap(); true",
+  _.isSameMap(
+    new Map([["str", 1], [17, "x"], [true, 42]]), 
+    new Map([["str", 1], [17, "x"], [true, 42]])
+  )
+);
+_cut.isFalse("isSameMap(); false 1",
+  _.isSameMap(
+    new Map([["str", 1], [17, "x"], [true, 42]]), 
+    new Map([["str", 1], [17, "x"], [false, 42]])  
+  )
+);
+_cut.isFalse("isSameMap(); false 2",
+  _.isSameMap(
+    new Map([["str", 1], [17, "x"], [true, 42]]), 
+    new Map([["str", 1], [17, "x"], [false, 42], [true, 42]])  
+  )
+);
+_cut.isFalse("isSameMap(); false 3",
+  _.isSameMap(
+    new Map([["str", 1], [17, "x"], [true, 42]]), 
+    [["str", 1], [17, "x"], [true, 42]]
+  )
+);
+
+_cut.isTrue("isSameIterator(); true",
+  _.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2])
+);
+_cut.isFalse("isSameIterator(); false",
+  _.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2,5])
+);
 
 
 /* v3.8.1 aliases removed in v4.0.0 */

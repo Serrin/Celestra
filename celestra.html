@@ -75,12 +75,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.0.0</p>
-<p>Date: Date: 2021-05-29T19:52:18.504Z</p>
+<p>Latest version: 4.1.0</p>
+<p>Date: Date: 2021-06-05T19:52:18.504Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (38379 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (28924 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (28780 bytes)</p>
+<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (40287 bytes)</p>
+<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (30382 bytes)</p>
+<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (30238 bytes)</p>
 
 <p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
@@ -546,16 +546,36 @@ _.delay(5000)
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>isDataView(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is an DataView object. The return value is boolean.</td>
+    </tr>
+    <tr>
       <td><code>isError(&#60;value&#62;);</td>
-      <td>This function determines whether the provided value is an error. The return value is boolean.</td>
+      <td>This function determines whether the provided value is an error object. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isPromise(&#60;value&#62;);</td>
       <td>This function determines whether the provided value is a promise object. The return value is boolean.</td>
     </tr>
     <tr>
+      <td><code>isSameObject(&#60;object1&#62;,&#60;object2&#62;);</code></td>
+      <td>This function checks the property and value equality of the given objects. The return value is boolean and both of the parameters are mandatory and have to be an object.</td>
+    </tr>
+    <tr>
       <td><code>isSameArray(&#60;array1&#62;,&#60;array2&#62;);</code></td>
       <td>This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.</td>
+    </tr>
+    <tr>
+      <td><code>isSameMap(&#60;map1&#62;,&#60;map2&#62;);</code></td>
+      <td>This function checks the property and value equality of the given maps. The return value is boolean and both of the parameters are mandatory and have to be a map.</td>
+    </tr>
+    <tr>
+      <td><code>isSameSet(&#60;set1&#62;,&#60;set2&#62;);</code></td>
+      <td>This function checks the value equality of the given sets. The return value is boolean and both of the parameters are mandatory and have to be a set.</td>
+    </tr>
+    <tr>
+      <td><code>isSameIterator(&#60;iter1&#62;,&#60;iter2&#62;);</code></td>
+      <td>This function checks the value equality of the given iterator. The return value is boolean and both of the parameters are mandatory and have to be a collection (iterator / iterable object).</td>
     </tr>
     <tr>
       <td><code>isAsyncFn(&#60;value&#62;);</td>
@@ -818,6 +838,42 @@ _.delay(5000)
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>initial(&#60;collection&#62;);</code></td>
+      <td>
+        <p>Returns an array with the values of the given collection, but without the last value.</p>
+        <p>
+         <b>Example:</b>
+         <br/><code>_.initial([-5, 2, -9, 7, 34]);</code>
+         <br/>->
+         <br/><code>[-5, 2, -9, 7]</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>shuffle(&#60;collection&#62;);</code></td>
+      <td>
+        <p>Returns an array with the values of the given collection, but in shuffled order.</p>
+        <p>
+         <b>Example:</b>
+         <br/><code>_.shuffle(["first",4,5,6,7,8,9,"last"]);</code>
+         <br/>->
+         <br/><code>[4,8,5,6,"last",9,7,"first"]</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>withOut(&#60;collection&#62;,&#60;filterCollection&#62;);</code></td>
+      <td>
+        <p>Returns an array with the values of the first collection, but without the values of the filterCollection. All of the parameters are mandatory and can be any type of JavaScript collections.</p>
+        <p>
+         <b>Example:</b>
+         <br/><code>_.withOut(["a","b","c","d"], ["b","d"]);</code>
+         <br/>->
+         <br/><code>["a","c"]</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
       <td><code>partition(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>
         <p>Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.</p>
@@ -943,6 +999,10 @@ _.delay(5000)
       <td>This function returns the item from the given collection on the given index. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and can be positive number (examples: 0 = the first item, 1 = the second item, 2 = the third item, etc.) Compatible with the Unicode strings.</td>
     </tr>
     <tr>
+      <td><code>nth(&#60;collection&#62;,&#60;index&#62;);</code></td>
+      <td>This is an alias of the <code>item(&#60;collection&#62;,&#60;index&#62;);</code>.<td>
+    </tr>
+    <tr>
       <td><code>size(&#60;collection&#62;);</code></td>
       <td>This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.</td>
     </tr>
@@ -953,6 +1013,10 @@ _.delay(5000)
     <tr>
       <td><code>first(&#60;collection&#62;);</code></td>
       <td>This function returns the first element of the given collection. The collection parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>head(&#60;collection&#62;);</code></td>
+      <td>This is an alias of the <code>first(&#60;collection&#62;);</code>.</td>
     </tr>
     <tr>
       <td><code>firstOf(&#60;collection&#62;);</code></td>
@@ -968,15 +1032,15 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>reverse(&#60;collection&#62;);</code></td>
-      <td>This function yields the elements of the given collection in reverse order. The collection parameter is mandatory.</td>
+      <td>This function returns an array with values of the given collection in reverse order. The collection parameter is mandatory.</td>
     </tr>
     <tr>
       <td><code>reverseOf(&#60;collection&#62;);</code></td>
       <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
-      <td><code>sort(&#60;collection&#62;);</code></td>
-      <td>This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.</td>
+      <td><code>sort(&#60;collection&#62;[,numberSort]);</code></td>
+      <td>This function sorts the values of the given collection. The collection parameter is mandatory. The numberSort paramater is optional (boolean) and set true, if the collection contains only numbers. The return value is an array.</td>
     </tr>
     <tr>
       <td><code>sortOf(&#60;collection&#62;);</code></td>
@@ -1029,6 +1093,10 @@ _.delay(5000)
     <tr>
       <td><code>sliceOf(&#60;collection&#62;[,begin[,end]]);</code></td>
       <td><span class="removed">REMOVED IN V4.0.0</span></td>
+    </tr>
+    <tr>
+      <td><code>tail(&#60;collection&#62;);</code></td>
+      <td>Yield the values of a collection but without the first value. The collection parameter is mandatory.</td>
     </tr>
     <tr>
       <td><code>every(&#60;collection&#62;,&#60;callback&#62;);</code></td>

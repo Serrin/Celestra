@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.0.0
+Latest version: 4.1.0
 
-Date: 2021-05-29T19:52:18.504Z
+Date: 2021-06-05T19:52:18.504Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: __celestra.js__ (38379 bytes)
+Development version: __celestra.js__ (40287 bytes)
 
-Minified version: __celestra.min.js__ (28924 bytes)
+Minified version: __celestra.min.js__ (30382 bytes)
 
-ESM (ECMAScript 6 module) version: __celestra.esm.js__ (28780 bytes)
+ESM (ECMAScript 6 module) version: __celestra.esm.js__ (30238 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -238,9 +238,14 @@ Example: `_.isString()`
 
 Name | Description
 ---- | -----------
+`isDataView(<value>);` | This function determines whether the provided value is an DataView object. The return value is boolean.
 `isError(<value>);` | This function determines whether the provided value is an error. The return value is boolean.
 `isPromise(<value>);` | This function determines whether the provided value is a promise object. The return value is boolean.
+`isSameObject(<object1>,<object2>);` | This function checks the property and value equality of the given objects. The return value is boolean and both of the parameters are mandatory and have to be an object.
 `isSameArray(<array1>,<array2>);` | This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.
+`isSameMap(<map1>,<map2>);` | This function checks the property and value equality of the given maps. The return value is boolean and both of the parameters are mandatory and have to be a map.
+`isSameSet(<set1>,<set2>);` | This function checks the value equality of the given sets. The return value is boolean and both of the parameters are mandatory and have to be a set.
+`isSameIterator(<iter1>,<iter2>);` | This function checks the value equality of the given iterator. The return value is boolean and both of the parameters are mandatory and have to be a collection (iterator / iterable object).
 `isAsyncFn(<value>);` | This function determines whether the provided value is an async function. The return value is boolean.
 `isGeneratorFn(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
 `isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
@@ -302,6 +307,9 @@ Example: `_.arrayUnion()`
 
 Name | Description
 ---- | -----------
+`initial(<collection>);` | Returns an array with the values of the given collection, but without the last value. <br>__Example:__<br>`_.initial([-5, 2, -9, 7, 34]);`<br>-><br>`[-5, 2, -9, 7]`
+`shuffle(<collection>);` | Returns an array with the values of the given collection, but in shuffled order. <br>__Example:__<br>`_.shuffle(["first",4,5,6,7,8,9,"last"]);`<br>-><br>`[4,8,5,6,"last",9,7,"first"]`
+`withOut(<collection>,<filterCollection>);` | Returns an array with the values of the first collection, but without the values of the filterCollection. All of the parameters are mandatory and can be any type of JavaScript collections.<br>__Example:__<br>`_.withOut(["a","b","c","d"], ["b","d"]);`<br>-><br>`["a","c"]`
 `partition(<collection>,<callback>);` | Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.<br>__Example:__<br>`_.partition([-5, 2, -9, 7, 34], (e) => (e > 0) );`<br>-><br>`[[2, 7, 34], [-5, -9]]]`
 `groupBy(<collection>,<callback>);` | An alias of the `partition(<collection>,<callback>);`.
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
@@ -329,15 +337,17 @@ Name | Description
 `iterCycle(<iter>[,n]);` | Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRepeat(<value>[,n]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
 `item(<collection>,<index>);` | This function returns the item from the given collection on the given index. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and can be positive number (examples: 0 = the first item, 1 = the second item, 2 = the third item, etc.) Compatible with the Unicode strings.
+`nth(<collection>,<index>);` | This is an alias of the `item(<collection>,<index>);`.
 `size(<collection>);` | This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.
 `sizeOf(<collection>);` | __REMOVED IN V4.0.0__
 `first(<collection>);` | This function returns the first element of the given collection. The collection parameter is mandatory.
+`head(<collection>);` | This is an alias of the `first(<collection>);`.
 `firstOf(<collection>);` | __REMOVED IN V4.0.0__
 `last(<collection>);` | This function returns the last element of the given collection. The collection parameter is mandatory.
 `lastOf(<collection>);` | __REMOVED IN V4.0.0__
-`reverse(<collection>);` | This function yields the elements of the given collection in reverse order. The collection parameter is mandatory.
+`reverse(<collection>);` | This function returns an array with values of the given collection in reverse order. The collection parameter is mandatory.
 `reverseOf(<collection>);` | __REMOVED IN V4.0.0__
-`sort(<collection>);` | This function yields the elements of the given collection in sorted order. The collection parameter is mandatory.
+`sort(<collection>[,numberSort]);` | This function sorts the values of the given collection. The collection parameter is mandatory. The numberSort paramater is optional (boolean) and set true, if the collection contains only numbers. The return value is an array.
 `sortOf(<collection>);` | __REMOVED IN V4.0.0__
 `includes(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
 `hasOf(<collection>,<value>);` | __REMOVED IN V4.0.0__
@@ -351,6 +361,7 @@ Name | Description
 `filterOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `slice(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
 `sliceOf(<collection>[,begin[,end]]);` | __REMOVED IN V4.0.0__
+`tail(<collection>);` | Yield the values of a collection but without the first value. The collection parameter is mandatory.
 `every(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
 `everyOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `some(<collection>,<callback>);` | This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.

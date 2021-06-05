@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.0.0
+ * @version 4.1.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -708,10 +708,24 @@ function ajax (o) {
 
 /* type checking */
 
+const isDataView = (v) => celestra.getType(v, "dataview");
+
 const isError = (v) => celestra.getType(v, "error");
 
 const isPromise = (v) =>
   (typeof v === "object" && typeof v.then === "function");
+
+function isSameObject (o1, o2) {
+  if (o1.constructor !== o2.constructor ) { return false; }
+  var a1 = Object.keys(o1).sort(), a2 = Object.keys(o2).sort();
+  if (a1.length === a2.length) {
+    for (var i = 0, l = a1.length; i < l; i++) {
+      if (a1[i] !== a2[i] || o1[a1[i]] !== o2[a1[i]]) { return false; }
+    }
+    return true;
+  }
+  return false;
+}
 
 function isSameArray (a, b) {
   if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) {
@@ -722,6 +736,31 @@ function isSameArray (a, b) {
   }
   return false;
 }
+
+function isSameMap (m1, m2) {
+  if (celestra.getType(m1, "map") && celestra.getType(m2, "map")
+    && m1.size === m2.size) {
+    for (const item of m1.keys()) {
+      if (m1.get(item) !== m2.get(item)) { return false; }
+    }
+    return true;
+  }
+  return false;
+}
+
+function isSameSet (s1, s2) {
+  if (celestra.getType(s1, "set") && celestra.getType(s2, "set")
+    && s1.size === s2.size) {
+    for (const item of s1) {
+      if (!s2.has(item)) { return false; }
+    }
+    return true;
+  }
+  return false;
+}
+
+const isSameIterator = ([...a1], [...a2]) =>
+  celestra.isSameArray(a1.sort(), a2.sort());
 
 const isString = (v) => (typeof v === "string");
 const isChar = (v) => (typeof v === "string" && v.length === 1);
@@ -879,6 +918,16 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
 
 /* collections */
 
+const initial = ([...a]) => a.slice(0, -1);
+
+function shuffle([...a]) {
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 const partition = ([...a], fn) =>
   [ a.filter(fn), a.filter( (e, i, a) => !(fn(e, i, a))) ];
 const groupBy = partition;
@@ -978,8 +1027,6 @@ function arrayRemove (a, v, all) {
   return found;
 }
 
-
-
 function arrayMerge () {
   if (typeof arguments[0] === "boolean") {
     var t = arguments[1], d = arguments[0], s = 2;
@@ -1074,22 +1121,39 @@ function* slice (it, begin = 0, end = Infinity) {
   }
 }
 
+function* tail (it) {
+  let first = true;
+  for (let item of it) {
+    if (!first) {
+      yield item;
+    } else {
+      first = false;
+    }
+  }
+}
+
 function item (it, p) {
   let i = 0;
   for (let item of it) {
     if (i++ === p) { return item; }
   }
 }
+const nth = item;
 
 function size (it) { let i = 0; for (let item of it) { i++; } return i; }
 
 function first (it) { for (let item of it) { return item; } }
+const head = first;
 
 function last (it) { let item; for (item of it) { } return item; }
 
-const reverse = ([...a]) => a.reverse().values();
+const reverse = ([...a]) => a.reverse();
 
-const sort = ([...a]) => a.sort().values();
+const sort = ([...a], ns) => a.sort(
+  ns
+    ? (a, b ) => { if (a < b) { return -1; } if (a > b) { return 1; } return 0; }
+    : undefined
+);
 
 function includes (it, v) {
   for (let item of it) {
@@ -1186,9 +1250,11 @@ function* flat (it) { for (let item of it) { yield* item; } }
 
 const join = ([...a], s = ",") => a.join(s);
 
+const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
+
 /* object header */
 
-const VERSION = "Celestra v4.0.0 dev";
+const VERSION = "Celestra v4.1.0 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1266,9 +1332,14 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /* type checking */
+  isDataView: isDataView,
   isError: isError,
   isPromise: isPromise,
+  isSameObject: isSameObject,
   isSameArray: isSameArray,
+  isSameMap: isSameMap,
+  isSameSet: isSameSet,
+  isSameIterator: isSameIterator,
   isString: isString,
   isChar: isChar,
   isNumber: isNumber,
@@ -1307,6 +1378,8 @@ var celestra = {
   removeCookie: removeCookie,
   clearCookies: clearCookies,
   /* collections */
+  initial: initial,
+  shuffle: shuffle,
   partition: partition,
   groupBy: groupBy,
   arrayUnion: arrayUnion,
@@ -1341,9 +1414,12 @@ var celestra = {
   map: map,
   filter: filter,
   slice: slice,
+  tail: tail,
   item: item,
+  nth: nth,
   size: size,
   first: first,
+  head: head,
   last: last,
   reverse: reverse,
   sort: sort,
@@ -1360,7 +1436,8 @@ var celestra = {
   reduce: reduce,
   enumerate: enumerate,
   flat: flat,
-  join: join
+  join: join,
+  withOut: withOut
 };
 
 if (typeof window !== "undefined") {
