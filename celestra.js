@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.1.0 dev
+ * @version 4.2.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -23,6 +23,42 @@
 -------------------+------+--------------------------------*/
 
 /* polyfills */
+
+if (!("at" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "at", {
+    writable: true, enumerable: false, configurable: true,
+    value: function at(n) {
+      n = Math.trunc(n) || 0;
+      if (n < 0) { n += this.length; }
+      if (n < 0 || n >= this.length) { return undefined; }
+      return this[String(n)];
+    }
+  });
+}
+
+if (!("at" in Uint8Array.prototype)) {
+  Object.defineProperty(Uint8Array.prototype, "at", {
+    writable: true, enumerable: false, configurable: true,
+    value: function at(n) {
+      n = Math.trunc(n) || 0;
+      if (n < 0) { n += this.length; }
+      if (n < 0 || n >= this.length) { return undefined; }
+      return this[String(n)];
+    }
+  });
+}
+
+if (!("at" in String.prototype)) {
+  Object.defineProperty(String.prototype, "at", {
+    writable: true, enumerable: false, configurable: true,
+    value: function at(n) {
+      n = Math.trunc(n) || 0;
+      if (n < 0) { n += this.length; }
+      if (n < 0 || n >= this.length) { return undefined; }
+      return String(this)[n];
+    }
+  });
+}
 
 if (!Object.hasOwn) {
   Object.defineProperty(Object, "hasOwn", {
@@ -328,16 +364,27 @@ const noop = () => undefined;
 const T = () => true;
 const F = () => false;
 
-function assert (c, m = "") {
-  if (!c) { throw new Error("[assert] " + m); }
+function assertEq (msg, v1, v2, strict = true) {
+  if (strict ? v1 !== v2 : v1 != v2) {
+    throw new Error("[assertEq] - " + v1 + " - " +  v2 + " - "+ msg);
+  }
   return true;
 }
-function assertLog (c, m = "") {
-  if (!c) { console.log("[assertLog] " + m); }
+
+function assertNotEq (msg, v1, v2, strict = true) {
+  if (strict ? v1 === v2 : v1 == v2) {
+    throw new Error("[assertNotEq] - " + v1 + " - " +  v2 + " - "+ msg);
+  }
   return true;
 }
-function assertAlert (c, m = "") {
-  if (!c) { alert("[assertAlert] " + m); }
+
+function assertTrue (msg, v) {
+  if (!v) { throw new Error("[assertTrue] " + msg); }
+  return true;
+}
+
+function assertFalse (msg, v) {
+  if (!!v) { throw new Error("[assertFalse] " + msg); }
   return true;
 }
 
@@ -707,6 +754,15 @@ function ajax (o) {
 }
 
 /* type checking */
+
+const isEmptyMap = (v) => (celestra.getType(v, "map") && v.size === 0);
+
+const isEmptySet = (v) => (celestra.getType(v, "set") && v.size === 0);
+
+function isEmptyIterator (it) {
+  for (let item of it) { return false; }
+  return true;
+}
 
 const isDataView = (v) => celestra.getType(v, "dataview");
 
@@ -1254,7 +1310,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /* object header */
 
-const VERSION = "Celestra v4.1.0 dev";
+const VERSION = "Celestra v4.2.0 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1288,15 +1344,15 @@ var celestra = {
   forIn: forIn,
   toFunction: toFunction,
   bind: bind,
-
   constant: constant,
   identity: identity,
   noop: noop,
   T: T,
   F: F,
-  assert: assert,
-  assertLog: assertLog,
-  assertAlert: assertAlert,
+  assertEq: assertEq,
+  assertNotEq: assertNotEq,
+  assertTrue: assertTrue,
+  assertFalse: assertFalse,
   /* DOM */
   qsa: qsa,
   qs: qs,
@@ -1332,6 +1388,9 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /* type checking */
+  isEmptyMap: isEmptyMap,
+  isEmptySet: isEmptySet,
+  isEmptyIterator: isEmptyIterator,
   isDataView: isDataView,
   isError: isError,
   isPromise: isPromise,

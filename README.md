@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.1.0
+Latest version: 4.2.0
 
-Date: 2021-06-05T19:52:18.504Z
+Date: 2021-06-08T19:41:19.751Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: __celestra.js__ (40287 bytes)
+Development version: __celestra.js__ (42032 bytes)
 
-Minified version: __celestra.min.js__ (30382 bytes)
+Minified version: __celestra.min.js__ (31716 bytes)
 
-ESM (ECMAScript 6 module) version: __celestra.esm.js__ (30238 bytes)
+ESM (ECMAScript 6 module) version: __celestra.esm.js__ (31572 bytes)
 
 DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -147,7 +147,7 @@ Name | Description
 `strReplaceAll(<string>,<search>,<replace>);` | This functions replaces all instances of a substring in a string without use of a global regexp. All of the parameters are mandatory and will be converted to string. The return value is the modified string.
 `strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
 `strFromCodePoints(<collection>);` | Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.
-`strAt(<string>,<pos>);` | Returns the unicode character, which has to be on the given position in the string. If the position is out of the string length, then the return value is an empty string. All of the parameters are mandatory and position has to be an integer.
+`strAt(<string>,<index>);` | Returns the unicode character, which has to be on the given index in the string. If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `toFunction(<function>);` | Returns a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
@@ -157,9 +157,10 @@ Name | Description
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `T();` | This function returns true.
 `F();` | This function returns false.
-`assert(<condition>[,message]);` | This function throws an error with the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is `true`, when the test was success.
-`assertLog(<condition>[,message]);` | This function logs the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is `true`, when the test was success.
-`assertAlert(<condition>[,message]);` | This function alerts the optional message if the condition is false. The condition parameter is mandatory and the message is optional and can be a string. The return value is `true`, when the test was success.
+`assertEq(<msg>,<value1>,<value2>[,strict=true]);` | This function throws an error with the message if the value1 and value2 aren't equals. The message parameter is mandatory and has to be a string. The strict parameter is optional and can be a booelan. The return value is `true`, when the test was success.
+`assertNotEq(<msg>,<value1>,<value2>[,strict=true]);` | This function throws an error with the message if the value1 and value2 are equals. The message parameter is mandatory and has to be a string. The strict parameter is optional and can be a booelan. The return value is `true`, when the test was success.
+`assertTrue(<msg>,<value>);` | This function throws an error with the message if the value is false. The message parameter is mandatory and has to be a string. The return value is `true`, when the test was success.
+`assertFalse(<msg>,<value>);` | This function throws an error with the message if the value is true. The message parameter is mandatory and has to be a string. The return value is `true`, when the test was success.
 
 
 ### DOM functions
@@ -255,9 +256,12 @@ Name | Description
 `isNumeric(<value>);` | This function determines whether the provided value is a number or can be converted to number. The return value is boolean.
 `isBoolean(<value>);` | This function determines whether the provided value is a boolean. The return value is boolean.
 `isObject(<value>);` | This function determines whether the provided value is an object. The return value is boolean.
-`isEmptyObject(<value>);` | This function determines whether the provided value is an empty object (without properties). The return value is boolean.
 `isFunction(<value>);` | This function determines whether the provided value is a function. The return value is boolean.
+`isEmptyObject(<value>);` | This function determines whether the provided value is an empty object (without properties). The return value is boolean.
 `isEmptyArray(<value>);` | This function determines whether the provided value is an empty array (without values). The return value is boolean.
+`isEmptyMap(<value>);` | This function determines whether the provided value is an empty map (without properties). The return value is boolean.
+`isEmptySet(<value>);` | This function determines whether the provided value is an empty set (without values). The return value is boolean.
+`isEmptyIterator(<value>);` | This function determines whether the provided value is an iterator array (without values). The return value is boolean.
 `isArraylike(<value>);` | This function determines whether the provided value is an iterable object. The return value is boolean.
 `isNull(<value>);` | This function determines whether the provided value is null. The return value is boolean.
 `isUndefined(<value>);` | This function determines whether the provided value is undefined. The return value is boolean.
@@ -394,6 +398,9 @@ Name | Description
 
 Name | Description
 ---- | -----------
+`Array.prototype.at();` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+`TypedArray.prototype.at();` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+`String.prototype.at();` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at) <br> The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
 `Object.hasOwn(<object>,<property>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-accessible-object-hasownproperty](https://github.com/tc39/proposal-accessible-object-hasownproperty) <br> Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
 `String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string.
 `String.prototype.trimLeft();` | Alias of the `String.prototype.trimStart();` method.

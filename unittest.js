@@ -183,7 +183,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.1.0 testcases */
+/* Celestra v4.2.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -231,6 +231,11 @@ _cut.addElement("h3", "core api and DOM");
 _cut.addElement("p","<button onclick=\"_.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done'));\">try delay</button>");
 
 _cut.isEqual("VERSION", true, _.VERSION.includes("Celestra v"));
+
+_cut.isTrue("assertEq(); is a function", _.isFunction(_.assertEq));
+_cut.isTrue("assertNotEq(); is a function", _.isFunction(_.assertNotEq));
+_cut.isTrue("assertTrue(); is a function", _.isFunction(_.assertTrue));
+_cut.isTrue("assertFalse(); is a function", _.isFunction(_.assertFalse));
 
 _cut.addElement(
   _.domCreate(
@@ -1441,6 +1446,69 @@ _cut.isEqual("clearCookies();", "truetruefalsefalse", cookieClearStr);
 _cut.addElement("hr");
 _cut.addElement("h3", "polyfills");
 
+var arrayAt = [4,5,6,7,8];
+var arrayAtStr = "" 
+  + arrayAt.at(0)
+  + arrayAt.at(1)
+  + arrayAt.at(2)
+  + arrayAt.at(3)
+  + arrayAt.at(4)
+  + arrayAt.at(5)
+  + arrayAt.at(-0)
+  + arrayAt.at(-1)
+  + arrayAt.at(-2)
+  + arrayAt.at(-3)
+  + arrayAt.at(-4)
+  + arrayAt.at(-5)
+  + arrayAt.at(-6);
+_cut.isEqual("Array.prototype.at();",
+  arrayAtStr,
+  "45678undefined487654undefined"
+);
+_cut.log(`<code>"${arrayAtStr}"</code>`);
+
+var stringAt = "45678";
+var stringAtStr = "" 
+  + stringAt.at(0)
+  + stringAt.at(1)
+  + stringAt.at(2)
+  + stringAt.at(3)
+  + stringAt.at(4)
+  + stringAt.at(5)
+  + stringAt.at(-0)
+  + stringAt.at(-1)
+  + stringAt.at(-2)
+  + stringAt.at(-3)
+  + stringAt.at(-4)
+  + stringAt.at(-5)
+  + stringAt.at(-6);
+_cut.isEqual("String.prototype.at();",
+  stringAtStr,
+  "45678undefined487654undefined"
+);
+_cut.log(`<code>"${stringAtStr}"</code>`)
+
+var typedarrayAt = new Uint8Array([4,5,6,7,8]);
+var typedarrayAtStr = "" 
+  + typedarrayAt.at(0)
+  + typedarrayAt.at(1)
+  + typedarrayAt.at(2)
+  + typedarrayAt.at(3)
+  + typedarrayAt.at(4)
+  + typedarrayAt.at(5)
+  + typedarrayAt.at(-0)
+  + typedarrayAt.at(-1)
+  + typedarrayAt.at(-2)
+  + typedarrayAt.at(-3)
+  + typedarrayAt.at(-4)
+  + typedarrayAt.at(-5)
+  + typedarrayAt.at(-6);
+_cut.isEqual("Uint8Array.prototype.at();",
+  typedarrayAtStr,
+  "45678undefined487654undefined"
+);
+_cut.log(`<code>"${typedarrayAtStr}"</code>`);
+
 var hasOwnObject = {"a": 1, "b": 2};
 var hasOwnArray = [4,5,6];
 _cut.isEqual(
@@ -1951,6 +2019,17 @@ _cut.isEqual("Math.trunc();", "3"+"-3"+"4"+"-4"+"NaN"+"1"+"0",
 
 _cut.addElement("hr");
 _cut.addElement("h3", "type checking");
+
+_cut.isTrue("isEmptyMap(); true", _.isEmptyMap(new Map()));
+_cut.isFalse("isEmptyMap(); false 1", _.isEmptyMap(new Map([[4,5],[6,7]])));
+_cut.isFalse("isEmptyMap(); false 2 array", _.isEmptyMap([]));
+
+_cut.isTrue("isEmptySet(); true", _.isEmptySet(new Set()));
+_cut.isFalse("isEmptySet(); false 1", _.isEmptySet(new Set([4,5,6])));
+_cut.isFalse("isEmptySet(); false 2 array", _.isEmptySet([]));
+
+_cut.isTrue("isEmptyIterator(); true", _.isEmptyIterator([]));
+_cut.isFalse("isEmptyIterator(); false", _.isEmptyIterator([4,5,6]));
 
 _cut.isTrue("isDataView(); true",
   _.isDataView(new DataView(new ArrayBuffer(2)), "dataview")
