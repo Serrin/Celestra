@@ -6,7 +6,7 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.14";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.15";
 
 celTest.__results__ = document.querySelector("#results");
 celTest.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -183,7 +183,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.2.0 testcases */
+/* Celestra v4.3.0 testcases */
 
 /* Not tested functions */
 _cut.addElement("hr");
@@ -227,8 +227,6 @@ noConflict();
 
 _cut.addElement("hr");
 _cut.addElement("h3", "core api and DOM");
-
-_cut.addElement("p","<button onclick=\"_.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done'));\">try delay</button>");
 
 _cut.isEqual("VERSION", true, _.VERSION.includes("Celestra v"));
 
@@ -411,16 +409,18 @@ _cut.isEqual("inherit();",
 
 /* / inherit(); */
 
-_cut.isEqual('getUrlVars(); prop order_by from <code>"?showall=true&order_by=updated&o=asc"</code>', "updated",
+_cut.isEqual(
+  'getUrlVars(); prop order_by from <code>"?showall=true&order_by=updated&o=asc"</code>',
+  "updated",
   _.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"],
 );
-_cut.log("<code>"+_.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"]+"</code>");
+//_cut.log("<code>"+_.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"]+"</code>");
 _cut.isEqual("getUrlVars(); prop not found - undefined", undefined,
   _.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"],
 );
-_cut.log("<code>"+_.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"]+"</code>");
+//_cut.log("<code>"+_.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"]+"</code>");
 _cut.isEqual("getUrlVars(); empty object", "{}", JSON.stringify(_.getUrlVars("?")) );
-_cut.log("<code>"+_.getUrlVars("?")+"</code>");
+//_cut.log("<code>"+_.getUrlVars("?")+"</code>");
 
 _cut.addElement(
   _.domCreate("div", {"id": "testFormDiv"},
@@ -450,23 +450,23 @@ _cut.isTrue("randomFloat();", _.randomFloat() <= 101);
 _cut.isTrue("randomFloat(max);", _.randomFloat(30) <= 30);
 var testRandom = _.randomFloat(51,55);
 _cut.isTrue("randomFloat(min,max);", testRandom >= 51 && testRandom <= 55);
-_cut.log(`<code>${testRandom}</code>`);
+//_cut.log(`<code>${testRandom}</code>`);
 
 var rndStr = _.randomString();
 _cut.isTrue("randomString(); default length 100, default false", _.isString(rndStr) && rndStr.length === 100);
-_cut.addElement("p","<code>"+rndStr+"</code>");
+_cut.log("<code>"+rndStr+"</code>");
 rndStr = _.randomString(10);
 _cut.isTrue("randomString(10) default false", _.isString(rndStr) && rndStr.length === 10);
-_cut.addElement("p","<code>"+rndStr+"</code>");
+_cut.log("<code>"+rndStr+"</code>");
 rndStr = _.randomString(15,true);
 _cut.isTrue("randomString(15,true);", _.isString(rndStr) && rndStr.length === 15);
-_cut.addElement("p","<code>"+rndStr+"</code>");
+_cut.log("<code>"+rndStr+"</code>");
 rndStr = _.randomString(20,false);
 _cut.isTrue("randomString(20,false);", _.isString(rndStr) && rndStr.length === 20);
-_cut.addElement("p","<code>"+rndStr+"</code>");
+_cut.log("<code>"+rndStr+"</code>");
 rndStr = "1" + _.randomString(32,false);
 _cut.isEqual("randomString(); random \"btc\" address", true, _.isString(rndStr) && rndStr.length === 33);
-_cut.addElement("p","<code>"+rndStr+"</code>");
+_cut.log("<code>"+rndStr+"</code>");
 
 var kayleeStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
 _cut.isEqual("b64Encode();",
@@ -502,12 +502,25 @@ _cut.isEqual("javaHash();",
 
 var FPObject = {a:2, b:3, c:4};
 
+_cut.isEqual("sizeIn();", "" + _.sizeIn(FPObject) + _.sizeIn({}), "30");
+
 var forInStr = "";
 _.forIn(FPObject, function (e) { forInStr += (e*2); });
 _cut.isEqual("forIn();", "468", forInStr);
 _cut.isEqual("forIn(); return value", FPObject, _.forIn(FPObject, function(){}));
 
+_cut.isEqual("filterIn();",
+  "{\"b\":2,\"c\":3}",
+  JSON.stringify( _.filterIn({"a": 1, "b": 2, "c": 3}, (v, p, o) => (v > 1)) )
+);
+
+_cut.isEqual("popIn();", "1undefined", ""+_.popIn({"a":1},"a")+_.popIn({},"a"));
+
 _cut.isEqual("getDoNotTrack();", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false);
+
+_cut.isEqual("strCapitalize();", _.strCapitalize("lorEm Ipsum"), "Lorem ipsum");
+_cut.isEqual("strUpFirst();", _.strUpFirst("lorEm Ipsum"), "LorEm Ipsum");
+_cut.isEqual("strDownFirst();", _.strDownFirst("LorEm Ipsum"), "lorEm Ipsum");
 
 _cut.isEqual("strRemoveTags();","lorem ipsum dolor sit amet , consectetuer",
   _.strRemoveTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
@@ -518,36 +531,18 @@ _cut.isEqual("strReverse(); without unicode",
   ".eid ot emiT .niar ni sraet ekil ,emit ni tsol eb lliw stnemom esoht llA .etaG resuähnnaT eht raen krad eht ni rettilg smaeb-C dehctaw I .noirO fo redluohs eht ffo erif no spihs kcattA .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   strReverseRes
 );
-_cut.log("<code>"+strReverseRes+"</code>");
+//_cut.log("<code>"+strReverseRes+"</code>");
 var strReverseRes = _.strReverse("I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.");
 _cut.isEqual("strReverse(); with unicode 1",
   ".noirO fo redluohs eht ffo erif no spihs kcattA \uD834\uDF06 .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   strReverseRes
 );
-_cut.log("<code>"+strReverseRes+"</code>");
+//_cut.log("<code>"+strReverseRes+"</code>");
 /*_cut.isEqual(
   "strReverse(); with unicode 2",
   ".noirO fo redluohs eht ffo erif no spihs kcattA \u{1D306} .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   _.strReverse("I've seen things you people wouldn't believe. \u{1D306} Attack ships on fire off the shoulder of Orion.")
 );*/
-
-_cut.isEqual(
-  "strReplaceAll();",
-  "34 ab 34 cd 34 ef 34"
-    +"34 ab 34 cd 34 ef 34"
-    + "249ue"
-    + "12 ab <br/> cd 12 ef <br/>"
-    + "a-b-c-d-e"
-    + "false"
-    + "",
-  _.strReplaceAll("12 ab 12 cd 12 ef 12", "12", "34")
-    + _.strReplaceAll("12 ab 12 cd 12 ef 12", 12, "34")
-    + _.strReplaceAll(true, "tr", 249)
-    + _.strReplaceAll("12 ab \n cd 12 ef \n", "\n", "<br/>")
-    + _.strReplaceAll("abcde","","-")
-    + _.strReplaceAll(false,"i","j")
-    + _.strReplaceAll("","i","j")
-);
 
 const testUnicodeStr22222 = "foo \uD834\uDF06 bar \uD835\uDC01 baz";
 _cut.isEqual(
@@ -555,17 +550,17 @@ _cut.isEqual(
   "[102,111,111,32,119558,32,98,97,114,32,119809,32,98,97,122]",
   JSON.stringify(_.strCodePoints(testUnicodeStr22222))
 );
-_cut.log("<code>"+JSON.stringify(_.strCodePoints(testUnicodeStr22222))+"</code>");
+//_cut.log("<code>"+JSON.stringify(_.strCodePoints(testUnicodeStr22222))+"</code>");
 _cut.isEqual(
   "strFromCodePoints(); + strCodePoints();",
   testUnicodeStr22222,
   _.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))
 );
-_cut.log("<code>"+_.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))+"</code>");
+//_cut.log("<code>"+_.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))+"</code>");
 let strAtRes = "";
 for (let i = -1; i < 16; i++) { strAtRes += _.strAt(testUnicodeStr22222, i); }
 _cut.isEqual("strAt();", testUnicodeStr22222, strAtRes);
-_cut.log("<code>"+strAtRes+"</code>");
+//_cut.log("<code>"+strAtRes+"</code>");
 
 var slice = _.toFunction([].slice);
 _cut.isEqual("toFunction();", true, Array.isArray(slice(document.querySelectorAll("h3"))));
@@ -627,7 +622,7 @@ _cut.isTrue("domToElement(); complex element",
 
 _.domSetCSS(domTestElement, "width", "300px");
 _cut.isEqual("domSetCSS(); property and domGetCSS();", "300px", _.domGetCSS(domTestElement, "width"));
-_cut.log("<code>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"300px\" </code>");
+//_cut.log("<code>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"300px\" </code>");
 _.domSetCSS(domTestElement, {"width": "350px", "font-weight": "bold"});
 _cut.isEqual("domSetCSS(); properties object and domGetCSS();",
   "350px", _.domGetCSS(domTestElement, "width")
@@ -635,7 +630,7 @@ _cut.isEqual("domSetCSS(); properties object and domGetCSS();",
 _cut.isEqual("domSetCSS(); properties object and domGetCSS() object;",
   "350px", _.domGetCSS(domTestElement)["width"]
 );
-_cut.log("<code>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"350px\" </code>");
+//_cut.log("<code>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"350px\" </code>");
 
 _.domHide(domTestElement);
 _cut.isEqual("domHide();", "none", _.domGetCSS(domTestElement, "display"));
@@ -910,25 +905,25 @@ _cut.isEqual("reverse();", "[\"last\",9,8,7,6,5,4,\"first\"]",
 _cut.isEqual("sort(); without numberShort", "[4,5,6,7,8,9,\"first\",\"last\"]",
   JSON.stringify([..._.sort(reverseSortArray)])
 );
-_cut.log(`<code>${JSON.stringify([..._.sort(reverseSortArray)])}</code>`)
+//_cut.log(`<code>${JSON.stringify([..._.sort(reverseSortArray)])}</code>`)
 _cut.isEqual("sort(); with numberShort", "[\"first\",4,5,6,7,8,9,\"last\"]",
   JSON.stringify([..._.sort(reverseSortArray, true)])
 );
-_cut.log(`<code>${JSON.stringify([..._.sort(reverseSortArray, true)])}</code>`)
+//_cut.log(`<code>${JSON.stringify([..._.sort(reverseSortArray, true)])}</code>`)
 _cut.isEqual("sort(); numbers without numberShort", "[1,10,7,9]",
   JSON.stringify([..._.sort([7,1,10,9])])
 );
-_cut.log(`<code>${JSON.stringify([..._.sort([7,1,10,9])])}</code>`);
+//_cut.log(`<code>${JSON.stringify([..._.sort([7,1,10,9])])}</code>`);
 _cut.isEqual("sort(); numbers with numberShort", "[1,7,9,10]",
   JSON.stringify([..._.sort([7,1,10,9], true)])
 );
-_cut.log(`<code>${JSON.stringify([..._.sort([7,1,10,9], true)])}</code>`);
+//_cut.log(`<code>${JSON.stringify([..._.sort([7,1,10,9], true)])}</code>`);
 
 const shuffledReverseSortArray = _.shuffle(reverseSortArray);
 _cut.isFalse("shuffle();",
   _.isSameArray(reverseSortArray, shuffledReverseSortArray)
 );
-_cut.log(`<code>${JSON.stringify(reverseSortArray)}</code> -> <code>${JSON.stringify(shuffledReverseSortArray)}</code>`);
+//_cut.log(`<code>${JSON.stringify(reverseSortArray)}</code> -> <code>${JSON.stringify(shuffledReverseSortArray)}</code>`);
 
 _cut.isTrue("includes(); true", _.includes(reverseSortArray, "last"));
 _cut.isFalse("includes(); false", _.includes(reverseSortArray, "world"));
@@ -1034,7 +1029,11 @@ _cut.isEqual("reduce(); without initialvalue", 39,
 
 _cut.isEqual("enumerate();",
   JSON.stringify([..._.enumerate(["Picard","Riker","Data"])]),
-  "[[\"Picard\",0],[\"Riker\",1],[\"Data\",2]]"
+  "[[0,\"Picard\"],[1,\"Riker\"],[2,\"Data\"]]"
+);
+_cut.isEqual("entries();",
+  JSON.stringify([..._.entries(["Picard","Riker","Data"])]),
+  "[[0,\"Picard\"],[1,\"Riker\"],[2,\"Data\"]]"
 );
 
 _cut.isEqual("flat();",
@@ -1051,12 +1050,14 @@ _cut.isEqual("join();",
     + _.join(joinSet, ";") + _.join(joinSet, "abc")
     + _.join(joinSet, true) + _.join(joinSet, 11)
 );
+/*
 _cut.log("<code>\""+
   _.join(joinSet) + _.join(joinSet, "")
     + _.join(joinSet, ";") + _.join(joinSet, "abc")
     + _.join(joinSet, true) + _.join(joinSet, 11)
 	+"\"</code>"
 );
+*/
 
 var FPArray = [1,2,3];
 
@@ -1096,7 +1097,7 @@ _cut.isEqual("arrayRange(); - 2 - step 3",
 _cut.isEqual("arrayRange(); - 3 - step 3.2 <i>(can be failed - float storage)<i>",
   "[1,4.2,7.4,10.600000000000001,13.8,17]", JSON.stringify(_.arrayRange(1,17,3.2))
 );
-_cut.log("<code>"+JSON.stringify(_.arrayRange(1,17,3.2))+"</code>");
+//_cut.log("<code>"+JSON.stringify(_.arrayRange(1,17,3.2))+"</code>");
 _cut.isEqual("arrayRange(); - 4 - without parameters",
   "[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]",
   JSON.stringify(_.arrayRange())
@@ -1118,24 +1119,26 @@ _cut.isEqual("zip(); ES5 1",
   "[[\"a1\",\"c1\"],[\"a2\",\"c2\"],[\"a3\",\"c3\"]]",
   JSON.stringify(_.zip(zipA, zipC))
 );
-_cut.log("<code>"+JSON.stringify(_.zip(zipA, zipC))+"</code>");
+//_cut.log("<code>"+JSON.stringify(_.zip(zipA, zipC))+"</code>");
 _cut.isEqual("zip(); ES5 2",
   "[[\"a1\",\"b1\",\"c1\",\"d1\",\"e1\"],[\"a2\",\"b2\",\"c2\",\"d2\",\"e2\"]]",
   JSON.stringify(_.zip(zipA, zipB, zipC, zipD, zipE))
 );
-_cut.log("<code>"+JSON.stringify(_.zip(zipA, zipB, zipC, zipD, zipE))+"</code>");
+//_cut.log("<code>"+JSON.stringify(_.zip(zipA, zipB, zipC, zipD, zipE))+"</code>");
 _cut.isEqual("zip(); ES6 1",
   "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
   JSON.stringify(_.zip(
     new Set(a), new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values()
  ))
 );
+/*
 _cut.log(
   "<code>"+JSON.stringify(_.zip(
     new Set(a), new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values())
   )
   +"</code>"
 );
+*/
 _cut.isEqual("zip(); ES6 2",
   "[[\"a\",3,\"c1\"],[\"b\",4,\"c2\"],[\"c\",5,\"c3\"],[\"d\",6,\"c4\"]]",
   JSON.stringify(_.zip(
@@ -1144,6 +1147,7 @@ _cut.isEqual("zip(); ES6 2",
     zipC.values()
   ))
 );
+/*
 _cut.log(
   "<code>"+JSON.stringify(_.zip(
     new Set(zipF),
@@ -1152,17 +1156,20 @@ _cut.log(
   ))
   +"</code>"
 );
+*/
 
 
 _cut.isEqual("unzip(); ES5",
   "[[\"a1\",\"a2\"],[\"b1\",\"b2\"],[\"c1\",\"c2\"],[\"d1\",\"d2\"],[\"e1\",\"e2\"]]",
   JSON.stringify(_.unzip(_.zip(zipA, zipB, zipC, zipD, zipE)))
 );
+/*
 _cut.log(
   "<code>"+
   JSON.stringify(_.unzip(_.zip(zipA, zipB, zipC, zipD, zipE)))
   +"</code>"
 );
+*/
 _cut.isEqual("unzip(); ES6",
   "[[\"a\",\"b\",\"c\",\"d\"],[3,4,5,6],[\"c1\",\"c2\",\"c3\",\"c4\"]]",
   JSON.stringify(
@@ -1175,7 +1182,7 @@ _cut.isEqual("unzip(); ES6",
     )
   )
 );
-
+/*
 _cut.log(
   "<code>"+
   JSON.stringify(
@@ -1189,16 +1196,17 @@ _cut.log(
   )
   +"</code>"
 );
+*/
 
 var a = [21,11,41,51,31];
 _cut.isEqual("min(); ES5", 11, _.min(a));
-_cut.log("<code>"+_.min(a)+"</code>");
+//_cut.log("<code>"+_.min(a)+"</code>");
 _cut.isEqual("max(); ES5", 51, _.max(a));
-_cut.log("<code>"+_.max(a)+"</code>");
+//_cut.log("<code>"+_.max(a)+"</code>");
 _cut.isEqual("min(); ES6", 11, _.min(new Set(a)));
-_cut.log("<code>"+_.min(new Set(a))+"</code>");
+//_cut.log("<code>"+_.min(new Set(a))+"</code>");
 _cut.isEqual("max(); ES6", 51, _.max(new Set(a).keys()));
-_cut.log("<code>"+_.max(new Set(a).keys())+"</code>");
+//_cut.log("<code>"+_.max(new Set(a).keys())+"</code>");
 _cut.isEqual("min(); number test", _.min([5, 10, 3]), 3);
 _cut.isEqual("max(); number test", _.max([5, 10, 3]), 10);
 
@@ -1447,7 +1455,7 @@ _cut.addElement("hr");
 _cut.addElement("h3", "polyfills");
 
 var arrayAt = [4,5,6,7,8];
-var arrayAtStr = "" 
+var arrayAtStr = ""
   + arrayAt.at(0)
   + arrayAt.at(1)
   + arrayAt.at(2)
@@ -1465,10 +1473,31 @@ _cut.isEqual("Array.prototype.at();",
   arrayAtStr,
   "45678undefined487654undefined"
 );
-_cut.log(`<code>"${arrayAtStr}"</code>`);
+//_cut.log(`<code>"${arrayAtStr}"</code>`);
+
+var arraylikeAt = {0:4, 1:5, 2:6, 3:7, 4:8, length:5};
+var arralikeAtStr = ""
+  + Array.prototype.at.call(arraylikeAt,0)
+  + Array.prototype.at.call(arraylikeAt,1)
+  + Array.prototype.at.call(arraylikeAt,2)
+  + Array.prototype.at.call(arraylikeAt,3)
+  + Array.prototype.at.call(arraylikeAt,4)
+  + Array.prototype.at.call(arraylikeAt,5)
+  + Array.prototype.at.call(arraylikeAt,-0)
+  + Array.prototype.at.call(arraylikeAt,-1)
+  + Array.prototype.at.call(arraylikeAt,-2)
+  + Array.prototype.at.call(arraylikeAt,-3)
+  + Array.prototype.at.call(arraylikeAt,-4)
+  + Array.prototype.at.call(arraylikeAt,-5)
+  + Array.prototype.at.call(arraylikeAt,-6);
+_cut.isEqual("Array.prototype.at(); - arraylike object",
+  arralikeAtStr,
+  "45678undefined487654undefined"
+);
+//_cut.log(`<code>"${arralikeAtStr}"</code>`);
 
 var stringAt = "45678";
-var stringAtStr = "" 
+var stringAtStr = ""
   + stringAt.at(0)
   + stringAt.at(1)
   + stringAt.at(2)
@@ -1486,10 +1515,10 @@ _cut.isEqual("String.prototype.at();",
   stringAtStr,
   "45678undefined487654undefined"
 );
-_cut.log(`<code>"${stringAtStr}"</code>`)
+//_cut.log(`<code>"${stringAtStr}"</code>`)
 
 var typedarrayAt = new Uint8Array([4,5,6,7,8]);
-var typedarrayAtStr = "" 
+var typedarrayAtStr = ""
   + typedarrayAt.at(0)
   + typedarrayAt.at(1)
   + typedarrayAt.at(2)
@@ -1507,7 +1536,7 @@ _cut.isEqual("Uint8Array.prototype.at();",
   typedarrayAtStr,
   "45678undefined487654undefined"
 );
-_cut.log(`<code>"${typedarrayAtStr}"</code>`);
+//_cut.log(`<code>"${typedarrayAtStr}"</code>`);
 
 var hasOwnObject = {"a": 1, "b": 2};
 var hasOwnArray = [4,5,6];
@@ -1522,6 +1551,7 @@ _cut.isEqual(
     + " " + Object.hasOwn(hasOwnArray, "map")
     + " " + Object.hasOwn(hasOwnArray, "map2")
 );
+/*
 _cut.log(
   "<code>"
     + Object.hasOwn(hasOwnObject, "a")
@@ -1532,18 +1562,21 @@ _cut.log(
     + " " + Object.hasOwn(hasOwnArray, "map2")
     + "</code>"
 );
+*/
 
 _cut.isEqual(
   "String.prototype.replaceAll();",
   "aabbcc".replaceAll("b", ".") + "aabbcc".replaceAll(/b/g, '.'),
   "aa..cc" + "aa..cc"
 );
+/*
 _cut.log(
   "<code>"
   + "aabbcc".replaceAll("b", ".")
   + "aabbcc".replaceAll(/b/g, '.')
   + "</code>"
 );
+*/
 
 if (window.BigInt) {
   _cut.isEqual("BigInt.prototype.toJSON();", '"42"', JSON.stringify(BigInt(42)));
@@ -1554,14 +1587,14 @@ _cut.isEqual("String.prototype[Symbol.iterator](); without unicode",
   "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion.",
   strIterRes
 );
-_cut.log("<code>" + strIterRes + "</code>");
+//_cut.log("<code>" + strIterRes + "</code>");
 
 var strIterRes = [..."I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion."[Symbol.iterator]()].join("");
 _cut.isEqual("String.prototype[Symbol.iterator](); with unicode",
   "I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.",
   strIterRes
 );
-_cut.log("<code>" + strIterRes + "</code>");
+//_cut.log("<code>" + strIterRes + "</code>");
 
 const testGenFn = new GeneratorFunction("v", "yield v * 3; yield v * 4;");
 var sum = "";
@@ -1570,7 +1603,7 @@ _cut.isEqual("GeneratorFunction();", "912", sum);
 
 let afunction = new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);");
 _cut.isEqual("AsyncFunction();", "asyncfunction", _.getType(afunction));
-_cut.log("<code>"+_.getType(afunction)+"</code>");
+_//cut.log("<code>"+_.getType(afunction)+"</code>");
 
 const regexp = RegExp('foo*','g');
 const str = 'table football, foosball';
@@ -1744,8 +1777,8 @@ _cut.isEqual("Object.is();",
   " 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10 true 11 true 12 true 13 true 14 true 15 false 16 false 17 false 18 false 19 false 20 false 21 false 22 false ",
   objIsStr
 );
-_cut.log("<code>Result:<br/>\""+objIsStr+"\"</code>");
-_cut.log("<code>Expected:<br/>\" 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10 true 11 true 12 true 13 true 14 true 15 false 16 false 17 false 18 false 19 false 20 false 21 false 22 false \"</code>");
+//_cut.log("<code>Result:<br/>\""+objIsStr+"\"</code>");
+//_cut.log("<code>Expected:<br/>\" 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10 true 11 true 12 true 13 true 14 true 15 false 16 false 17 false 18 false 19 false 20 false 21 false 22 false \"</code>");
 
 var entriesObj = {a: 1, b:2, c: 3};
 var entriesStr = JSON.stringify(Object.entries(entriesObj));
@@ -2249,25 +2282,25 @@ _cut.isFalse("isSameSet(); false 3",
 
 _cut.isTrue("isSameMap(); true",
   _.isSameMap(
-    new Map([["str", 1], [17, "x"], [true, 42]]), 
+    new Map([["str", 1], [17, "x"], [true, 42]]),
     new Map([["str", 1], [17, "x"], [true, 42]])
   )
 );
 _cut.isFalse("isSameMap(); false 1",
   _.isSameMap(
-    new Map([["str", 1], [17, "x"], [true, 42]]), 
-    new Map([["str", 1], [17, "x"], [false, 42]])  
+    new Map([["str", 1], [17, "x"], [true, 42]]),
+    new Map([["str", 1], [17, "x"], [false, 42]])
   )
 );
 _cut.isFalse("isSameMap(); false 2",
   _.isSameMap(
-    new Map([["str", 1], [17, "x"], [true, 42]]), 
-    new Map([["str", 1], [17, "x"], [false, 42], [true, 42]])  
+    new Map([["str", 1], [17, "x"], [true, 42]]),
+    new Map([["str", 1], [17, "x"], [false, 42], [true, 42]])
   )
 );
 _cut.isFalse("isSameMap(); false 3",
   _.isSameMap(
-    new Map([["str", 1], [17, "x"], [true, 42]]), 
+    new Map([["str", 1], [17, "x"], [true, 42]]),
     [["str", 1], [17, "x"], [true, 42]]
   )
 );

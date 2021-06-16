@@ -99,12 +99,15 @@ alert(importStr);
 </div>
 
 <hr/>
-<h2>Results</h2>
 <p><button onclick=" _.importScript('unittest.js'); ">load unittest.js</button></p>
-
 <p><button onclick="saveResults();">Save result in HTML</button></p>
+<p><button onclick=" _.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done')); ">try delay</button></p>
+
+<hr/>
+<h2>Results</h2>
 <div id="results"></div>
 
+<hr/>
 <h2 id="license">License</h2>
 
 <div>

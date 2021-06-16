@@ -15,26 +15,26 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.2.0
+Latest version: 4.3.0
 
-Date: 2021-06-08T19:41:19.751Z
+Date: 2021-06-16T19:35:42.188Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development version: __celestra.js__ (42032 bytes)
+Development edition: __celestra.js__ (42634 bytes)
 
-Minified version: __celestra.min.js__ (31716 bytes)
+Minified edition: __celestra.min.js__ (32217 bytes)
 
-ESM (ECMAScript 6 module) version: __celestra.esm.js__ (31572 bytes)
+ESM (ECMAScript 6 module) edition: __celestra.esm.js__ (32072 bytes)
 
-DEV and MIN version: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
+DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
 
 ### Removed polyfills
 
-Development version: __celestra-polyfills.js__ (18019 bytes)
+Development edition: __celestra-polyfills.js__ (18019 bytes)
 
-Minified version: __celestra-polyfills.min.js__ (11516 bytes)
+Minified edition: __celestra-polyfills.min.js__ (11516 bytes)
 
 
 ### Cheatsheets
@@ -57,14 +57,14 @@ Demo plugin source: __celestra-demo-plugin.js__
 
 ### Celestra Unit Tester (CUT)
 
-Test results for minimized version: __unittest.min.html__
+Test results for minimized edition: __unittest.min.html__
 
-Test results for ESM version: __unittest.esm.html__
+Test results for ESM edition: __unittest.esm.html__
 
-Test results for development version: __unittest.dev.html__
+Test results for development edition: __unittest.dev.html__
 
 
-### How to import the ESM version
+### How to import the ESM edition
 
 ````javascript
 <script type="module">
@@ -103,7 +103,7 @@ window._ = defaultExport;
 
 - CommonJS and AMD module compatibility have been removed.
 
-- In the ESM (ECMAScript 6 module) version only the whole celestra object is exported as default export and as standalone object.
+- In the ESM (ECMAScript 6 module) edition only the whole celestra object is exported as default export and as standalone object.
 
 - Many functions have been deprecated or removed.
 
@@ -126,7 +126,7 @@ Example: `_.randomInt()`
 Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
-`celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM version only returns the celestra object.__
+`celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM edition only returns the celestra object.__
 `delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer. __Sample:__ `_.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
@@ -142,13 +142,19 @@ Name | Description
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
 `deepAssign(<target>,<source1>, ...sources);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
+`strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
+`strUpFirst(<string>);` | This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.
+`strDownFirst(<string>);` | This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.
 `strRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
-`strReplaceAll(<string>,<search>,<replace>);` | This functions replaces all instances of a substring in a string without use of a global regexp. All of the parameters are mandatory and will be converted to string. The return value is the modified string.
+`strReplaceAll(<string>,<search>,<replace>);` | __REMOVED IN V4.3.0__ <br> Can be replaced with the `String.prototype.replaceAll();` which is polyfilled in this library.
 `strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
 `strFromCodePoints(<collection>);` | Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.
 `strAt(<string>,<index>);` | Returns the unicode character, which has to be on the given index in the string. If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.
-`forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
+`sizeIn(<object>);` | Returns the count of the owned properties of the given object. The object parameter is mandatory.
+`forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
+`filterIn(<object>,<callback>);` | The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.<br>__Example:__<br>`var o1 = {"a": 1, "b": 2, "c": 3};`<br>`console.log(o1);`<br>`// Object { a: 1, b: 2, c: 3 }`<br>`var o2 = _.filterIn(o1, (v, p, o) => (v > 1));`<br>`console.log(o2);`<br>`// Object { b: 2, c: 3 }`
+`popIn(<object>,<property>);` | The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.
 `toFunction(<function>);` | Returns a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `hasOwn(<object>,<property>);` | __REMOVED IN V4.0.0__ <br> Can be replaced with the `Object.hasOwn();` which is polyfilled in this library.
@@ -376,7 +382,8 @@ Name | Description
 `concatOf(<collection1>[,collectionN]);` | __REMOVED IN V4.0.0__
 `reduce(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.
 `reduceOf(<collection>,<callback>[,initialvalue]);` | __REMOVED IN V4.0.0__
-`enumerate(<collection>);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. Example: `_.enumerate(["Picard", "Riker", "Data"]);` -> `["Picard", 0]`, `["Riker", 1]`, `["Data", 2]`
+`enumerate(<collection>);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. Example: `_.enumerate(["Picard", "Riker", "Data"]);` -> `[0, "Picard"]`, `[1, "Riker"]`, `[2, "Data"]`
+`entries(<collection>);` | An alias of the `enumerate(<collection>);`.
 `enumerateOf(<collection>);` | __REMOVED IN V4.0.0__
 `flat(<collection>);` | Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.
 `flatOf(<collection>);` | __REMOVED IN V4.0.0__

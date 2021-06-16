@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.2.0 dev
+ * @version 4.3.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -55,7 +55,7 @@ if (!("at" in String.prototype)) {
       n = Math.trunc(n) || 0;
       if (n < 0) { n += this.length; }
       if (n < 0 || n >= this.length) { return undefined; }
-      return String(this)[n];
+      return String(this)[String(n)];
     }
   });
 }
@@ -327,12 +327,28 @@ function deepAssign () {
   return t;
 }
 
+function strCapitalize (s) {
+  var a = [...String(s).toLowerCase()];
+  a[0] = a[0].toUpperCase();
+  return a.join("");
+}
+
+function strUpFirst (s) {
+  var a = [...String(s)];
+  a[0] = a[0].toUpperCase();
+  return a.join("");
+}
+
+function strDownFirst (s) {
+  var a = [...String(s)];
+  a[0] = a[0].toLowerCase();
+  return a.join("");
+}
+
 const strRemoveTags = (s) =>
   String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 
 const strReverse = (s) => Array.from(String(s)).reverse().join("");
-
-const strReplaceAll = (s, sv, rv) => String(s).split(String(sv)).join(rv);
 
 const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
 
@@ -346,12 +362,24 @@ function strAt (s, p) {
   return "";
 }
 
+const sizeIn = (o) => Object.keys(o).length;
+
 function forIn (o, fn) {
   for (var p in o) {
     if (Object.prototype.hasOwnProperty.call(o, p)) { fn(o[p], p, o); }
   }
   return o;
 }
+
+function filterIn (o, fn) {
+  var r = {};
+  for (var p in o) {
+    if (fn(o[p], p, o)) { r[p] = o[p]; }
+  }
+  return r;
+}
+
+function popIn (o, p) { if (p in o) { var v = o[p]; delete o[p]; return v; } }
 
 const toFunction = (fn) => Function.prototype.call.bind(fn);
 
@@ -783,15 +811,10 @@ function isSameObject (o1, o2) {
   return false;
 }
 
-function isSameArray (a, b) {
-  if (Array.isArray(a) && Array.isArray(b) && a.length === b.length) {
-    for (var i = 0, l = a.length; i < l; i++) {
-      if (a[i] !== b[i]) { return false; }
-    }
-    return true;
-  }
-  return false;
-}
+const isSameArray = (a, b) => (
+  Array.isArray(a) && Array.isArray(b) && (a.length === b.length)
+  && a.every((v,i) => v === b[i])
+);
 
 function isSameMap (m1, m2) {
   if (celestra.getType(m1, "map") && celestra.getType(m2, "map")
@@ -1299,8 +1322,9 @@ function reduce (it, fn, iv) {
 
 function* enumerate (it) {
   let i = 0;
-  for (let item of it) { yield [item, i++]; }
+  for (let item of it) { yield [i++, item]; }
 }
+const entries = enumerate;
 
 function* flat (it) { for (let item of it) { yield* item; } }
 
@@ -1310,7 +1334,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /* object header */
 
-const VERSION = "Celestra v4.2.0 dev";
+const VERSION = "Celestra v4.3.0 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1335,13 +1359,18 @@ var celestra = {
   getType: getType,
   extend: extend,
   deepAssign: deepAssign,
+  strCapitalize: strCapitalize,
+  strUpFirst: strUpFirst,
+  strDownFirst: strDownFirst,
   strRemoveTags: strRemoveTags,
   strReverse: strReverse,
-  strReplaceAll: strReplaceAll,
   strCodePoints: strCodePoints,
   strFromCodePoints: strFromCodePoints,
   strAt: strAt,
+  sizeIn: sizeIn,
   forIn: forIn,
+  filterIn: filterIn,
+  popIn: popIn,
   toFunction: toFunction,
   bind: bind,
   constant: constant,
@@ -1494,6 +1523,7 @@ var celestra = {
   concat: concat,
   reduce: reduce,
   enumerate: enumerate,
+  entries: entries,
   flat: flat,
   join: join,
   withOut: withOut

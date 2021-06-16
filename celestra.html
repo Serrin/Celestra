@@ -75,21 +75,21 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.2.0</p>
-<p>Date: Date: 2021-06-08T19:41:19.751Z</p>
+<p>Latest version: 4.3.0</p>
+<p>Date: Date: 2021-06-16T19:35:42.188Z</p>
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development version: <a href="celestra.js" target="_blank">celestra.js</a> (42032 bytes)</p>
-<p>Minified version: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (31716 bytes)</p>
-<p>ESM (ECMAScript 6 module) version: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (31572 bytes)</p>
+<p>Development edition: <a href="celestra.js" target="_blank">celestra.js</a> (42634 bytes)</p>
+<p>Minified edition: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32217 bytes)</p>
+<p>ESM (ECMAScript 6 module) edition: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (32072 bytes)</p>
 
-<p>DEV and MIN version: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
+<p>DEV and MIN editions: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
 
 <h3>Removed polyfills</h3>
 
-<p>Development version: <a href="celestra-polyfills.js" target="_blank">celestra-polyfills.js</a> (18019 bytes)</p>
+<p>Development edition: <a href="celestra-polyfills.js" target="_blank">celestra-polyfills.js</a> (18019 bytes)</p>
 
-<p>Minified version: <a href="celestra-polyfills.min.js" target="_blank">celestra-polyfills.min.js</a> (11516 bytes)</p>
+<p>Minified edition: <a href="celestra-polyfills.min.js" target="_blank">celestra-polyfills.min.js</a> (11516 bytes)</p>
 
 
 <h3>Cheatsheets</h3>
@@ -108,12 +108,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <h3>Celestra Unit Tester (CUT)</h3>
 
-<p>Test results for minimal version: <a href="unittest.min.html" target="_blank">unittest.min.html</a></p>
-<p>Test results for ESM version: <a href="unittest.esm.html" target="_blank">unittest.esm.html</a></p>
-<p>Test results for development version: <a href="unittest.dev.html" target="_blank">unittest.dev.html</a></p>
+<p>Test results for minimal edition: <a href="unittest.min.html" target="_blank">unittest.min.html</a></p>
+<p>Test results for ESM edition: <a href="unittest.esm.html" target="_blank">unittest.esm.html</a></p>
+<p>Test results for development edition: <a href="unittest.dev.html" target="_blank">unittest.dev.html</a></p>
 
 
-<h3>How to import the ESM version</h3>
+<h3>How to import the ESM edition</h3>
 
 <pre>&#60;script type="module"&#62;
 
@@ -147,7 +147,7 @@ window._ = defaultExport;
 
 <ul>
   <li>CommonJS and AMD module compatibility have been removed.</li>
-  <li>In the ESM (ECMAScript 6 module) version only the whole celestra object is exported as default export and as standalone object.</li>
+  <li>In the ESM (ECMAScript 6 module) edition only the whole celestra object is exported as default export and as standalone object.</li>
   <li>Many functions have been deprecated or removed.</li>
 </ul>
 
@@ -175,7 +175,7 @@ window._ = defaultExport;
       <td>
         <p>Restore the previous <code>_</code> object value and return the <code>celestra</code> object to create a new alias.</p>
         <p><span class="info">Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code></span></p>
-        <p><span class="info">In the ESM version only returns the celestra object.</code></span></p>
+        <p><span class="info">In the ESM edition only returns the celestra object.</code></span></p>
       </td>
     </tr>
     <tr>
@@ -249,6 +249,18 @@ _.delay(5000)
       <td>This is another enhanced version of the <code>Object.assign</code> method and create an always deep copy (recursive) of the sources.</td>
     </tr>
     <tr>
+      <td><code>strCapitalize(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.</td>
+    </tr>
+    <tr>
+      <td><code>strUpFirst(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.</td>
+    </tr>
+    <tr>
+      <td><code>strDownFirst(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.</td>
+    </tr>
+    <tr>
       <td><code>strRemoveTags(&#60;string&#62;);</code></td>
       <td>Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.</td>
     </tr>
@@ -258,7 +270,10 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>strReplaceAll(&#60;string&#62;,&#60;search&#62;,&#60;replace&#62;);</code></td>
-      <td>This functions replaces all instances of a substring in a string without use of a global regexp. All of the parameters are mandatory and will be converted to string. The return value is the modified string.</td>
+      <td>
+        <p><span class="removed">REMOVED IN V4.3.0</span></p>
+        <p>Can be replaced with the <code>String.prototype.replaceAll();</code> which is polyfilled in this library.</p>
+      </td>
     </tr>
     <tr>
       <td><code>strCodePoints(&#60;string&#62;);</code></td>
@@ -273,8 +288,28 @@ _.delay(5000)
       <td>Returns the unicode character, which has to be on the given index in the string. If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.</td>
     </tr>
     <tr>
+      <td><code>sizeIn(&#60;object&#62;);</code></td>
+      <td>Returns the count of the owned properties of the given object. The object parameter is mandatory.</td>
+    </tr>
+    <tr>
       <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
-      <td>The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object (not array and nodelist). The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.</td>
+      <td>The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.</td>
+    </tr>
+    <tr>
+      <td><code>filterIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
+      <td>
+        <p></p>The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.</p>
+        <p><b>Example:</b><pre>var o1 = {"a": 1, "b": 2, "c": 3};
+console.log(o1);
+// Object { a: 1, b: 2, c: 3 }
+var o2 = _.filterIn(o1, (v, p, o) => (v > 1));
+console.log(o2);
+// Object { b: 2, c: 3 }</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><code>popIn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td>The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.</td>
     </tr>
     <tr>
       <td><code>toFunction(&#60;function&#62;);</code></td>
@@ -1158,8 +1193,12 @@ _.delay(5000)
       <td><code>enumerate(&#60;collection&#62;);</code></td>
       <td>
         <p>Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory.</p>
-        <p>Example: <code>_.enumerate(["Picard", "Riker", "Data"]);</code> -> <code>["Picard", 0]</code>, <code>["Riker", 1]</code>, <code>["Data", 2]</code></p>
+        <p>Example: <code>_.enumerate(["Picard", "Riker", "Data"]);</code> -> <code>[0, "Picard"]</code>, <code>[1, "Riker"]</code>, <code>[2, "Data"]</code></p>
       </td>
+    </tr>
+    <tr>
+      <td><code>entries(&#60;collection&#62;);</code></td>
+      <td>An alias of the <code>enumerate(&#60;collection&#62;);</code>.</td>
     </tr>
     <tr>
       <td><code>enumerateOf(&#60;collection&#62;);</code></td>
