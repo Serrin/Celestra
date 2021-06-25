@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.3.0 dev
+ * @version 4.3.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -354,13 +354,7 @@ const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
 
 const strFromCodePoints = ([...a]) => String.fromCodePoint.apply(null, a);
 
-function strAt (s, p) {
-  let i = 0;
-  for (let item of String(s)) {
-    if (i++ === p) { return item; }
-  }
-  return "";
-}
+const strAt = (s, i) => (Array.from(String(s)).at(i)||"");
 
 const sizeIn = (o) => Object.keys(o).length;
 
@@ -394,14 +388,14 @@ const F = () => false;
 
 function assertEq (msg, v1, v2, strict = true) {
   if (strict ? v1 !== v2 : v1 != v2) {
-    throw new Error("[assertEq] - " + v1 + " - " +  v2 + " - "+ msg);
+    throw new Error("[assertEq] - " + msg + " - " +  v1 + " - " + v2);
   }
   return true;
 }
 
 function assertNotEq (msg, v1, v2, strict = true) {
   if (strict ? v1 === v2 : v1 == v2) {
-    throw new Error("[assertNotEq] - " + v1 + " - " +  v2 + " - "+ msg);
+    throw new Error("[assertNotEq] - " + msg + " - " +  v1 + " - " + v2);
   }
   return true;
 }
@@ -1334,7 +1328,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /* object header */
 
-const VERSION = "Celestra v4.3.0 dev";
+const VERSION = "Celestra v4.3.1 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;

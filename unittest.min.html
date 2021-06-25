@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Celestra Unit Tester (CUT)</title>
+<title>Celestra Unit Tester (CUT) - MIN</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
@@ -9,6 +9,7 @@
 <meta name="Copyright" content="(C) Copyright Czigler Ferenc"/>
 <link rel="stylesheet" href="u87.css" type="text/css"/>
 <link rel="stylesheet" href="u87-blue.css" type="text/css"/>
+<script> var _ = { VERSION: "This is another sample library." }; </script>
 <style>
 .passed, .failed { display: inline-block; padding: 5px; border-radius: 3px; }
 .passed { background-color: #3d9970 !important; color: white !important; }
@@ -105,7 +106,7 @@ isBoolean false - ${ _.isBoolean("ggg") }
 <body class="container">
 
 <header class="center">
-  <h1>Celestra Unit Tester (CUT)</h1>
+  <h1>Celestra Unit Tester (CUT) - MIN</h1>
   <nav><b>
      <a href="#license">License</a>
     &nbsp;//&nbsp;
@@ -127,8 +128,43 @@ isBoolean false - ${ _.isBoolean("ggg") }
 
 <hr/>
 <p><button onclick=" _.importScript('unittest.js'); ">load unittest.js</button></p>
-<p><button onclick="saveResults();">Save result in HTML</button></p>
-<p><button onclick=" _.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done')); ">try delay</button></p>
+<p><button onclick="saveResults();">try createFile() - Save result in HTML</button></p>
+
+<hr/>
+<h2>Manual testcases</h2>
+
+<table class="table-responsive">
+  <tr>
+    <td><button onclick=" _.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done')); ">delay();</button></td>
+    <td>2x alert (5s + finally)</td>
+  </tr>
+  <tr>
+    <td><button onclick="var alertStr = ''; try { _.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; } try { _.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; } try { _.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; } try { _.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; } try { _.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; } try { _.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; } alert(alertStr);">assert functions</button></td>
+    <td>
+      <p>1x alert, 6x cases</p>
+      <pre>var alertStr = '';
+try { _.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; }
+try { _.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; }
+try { _.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; }
+try { _.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; }
+try { _.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; }
+try { _.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; }
+alert(alertStr);</pre>
+    </td>
+  </tr>
+  <tr>
+    <td><button onclick=" _.importStyles('u87-dark.css','u87-light.css'); ">importStyles</button></td>
+    <td>Have to be light ('u87-dark.css' then 'u87-light.css').</td>
+  </tr>
+  <tr>
+    <td><button onclick=" _.importStyle('u87-blue.css'); ">importStyle</button></td>
+    <td>Have to be blue.</td>
+  </tr>
+  <tr>
+    <td><button onclick=" window['_cel'] = _.noConflict(); alert(_cel.VERSION+'\n'+_.VERSION); "> noConflict();</button></td>
+    <td>1x alert</td>
+  </tr>
+</table>
 
 <hr/>
 <h2>Results</h2>

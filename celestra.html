@@ -75,21 +75,62 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.3.0</p>
-<p>Date: 2021-06-16T19:35:42.188Z</p>
+<p>Latest version: 4.3.1</p>
+<p>Date: 2021-06-24T19:16:34.073Z</p>
+
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
-<p>Development edition: <a href="celestra.js" target="_blank">celestra.js</a> (42634 bytes)</p>
-<p>Minified edition: <a href="celestra.min.js" target="_blank">celestra.min.js</a> (32217 bytes)</p>
-<p>ESM (ECMAScript 6 module) edition: <a href="celestra.esm.js" target="_blank">celestra.esm.js</a> (32072 bytes)</p>
+
+<table class="table-responsive-sm table-striped">
+  <tr>
+    <td class="center"><b>edition</b></td>
+    <td class="center"><b>filename</b></td>
+    <td class="center"><b>size</b></td>
+    <td class="center"><b>CUT testpage<br/>Celestra Unit Tester</b></td>
+  </tr>
+  <tr>
+    <td>developer</td>
+    <td><a href="celestra.js" target="_blank">celestra.js</a>
+    </td><td>42565 byte</td>
+    <td><a href="unittest.dev.html" target="_blank">unittest.dev.html</a></td>
+  </tr>
+  <tr>
+    <td>minimalized</td>
+    <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
+    <td>32178 byte</td>
+    <td><a href="unittest.min.html" target="_blank">unittest.min.html</a></td>
+  </tr>
+  <tr>
+    <td>ES6 module</td>
+    <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
+    <td>32033 byte</td>
+    <td><a href="unittest.esm.html" target="_blank">unittest.esm.html</a></td>
+  </tr>
+</table>
 
 <p>DEV and MIN editions: If the <code>_</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
 
 
 <h3>Removed polyfills</h3>
 
-<p>Development edition: <a href="celestra-polyfills.js" target="_blank">celestra-polyfills.js</a> (18019 bytes)</p>
+<p>Some polyfills have been removed in v3.1.0 and v3.8.0. With these files can be reusued the old polyfills if needed.</p>
 
-<p>Minified edition: <a href="celestra-polyfills.min.js" target="_blank">celestra-polyfills.min.js</a> (11516 bytes)</p>
+<table class="table-responsive-sm table-striped">
+  <tr>
+    <td class="center"><b>edition</b></td>
+    <td class="center"><b>filename</b></td>
+    <td class="center"><b>size</b></td>
+  </tr>
+  <tr>
+    <td>developer</td>
+    <td><a href="celestra-polyfills.js" target="_blank">celestra-polyfills.js</a></td>
+    <td>18019 byte</td>
+  </tr>
+  <tr>
+    <td>minimalized</td>
+    <td><a href="celestra-polyfills.min.js" target="_blank">celestra-polyfills.min.js</a></td>
+    <td>11516 byte</td>
+  </tr>
+</table>
 
 
 <h3>Cheatsheets</h3>
@@ -104,13 +145,6 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 <p>CORS testpage: <a href="testcors.html" target="_blank">testcors.html</a></p>
 <p>Demo plugin documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
 <p>Demo plugin source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
-
-
-<h3>Celestra Unit Tester (CUT)</h3>
-
-<p>Test results for minimal edition: <a href="unittest.min.html" target="_blank">unittest.min.html</a></p>
-<p>Test results for ESM edition: <a href="unittest.esm.html" target="_blank">unittest.esm.html</a></p>
-<p>Test results for development edition: <a href="unittest.dev.html" target="_blank">unittest.dev.html</a></p>
 
 
 <h3>How to import the ESM edition</h3>
@@ -285,7 +319,7 @@ _.delay(5000)
     </tr>
     <tr>
       <td><code>strAt(&#60;string&#62;,&#60;index&#62;);</code></td>
-      <td>Returns the unicode character, which has to be on the given index in the string. If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.</td>
+      <td>Returns the unicode character, which has to be on the given index in the string. The index can be negative value (<code>-1 -> last</code>). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.</td>
     </tr>
     <tr>
       <td><code>sizeIn(&#60;object&#62;);</code></td>
@@ -534,6 +568,10 @@ console.log(o2);
 </div>
 
 <h3>AJAX and CORS</h3>
+
+<p class="info">
+  These functions aren't deprecated, but it's recommend to use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">Fetch API</a>, because it's <a href="https://caniuse.com/?search=fetch" target="_blank">supported</a> in every modern browsers.
+</p>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
 <br/>Example: <code>_.getJson()</code></p>
@@ -973,7 +1011,7 @@ console.log(o2);
       <td>Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
     </tr>
     <tr>
-      <td><code>isSuperset(&#60;superset&#62;,&#60;subset&#62;);</code></td>
+      <td><code>isSuperset(&#60;superCollection&#62;,&#60;subCollection&#62;);</code></td>
       <td>This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.</td>
     </tr>
     <tr>

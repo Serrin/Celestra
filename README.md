@@ -15,26 +15,29 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.3.0
+Latest version: 4.3.1
 
-Date: 2021-06-16T19:35:42.188Z
+Date: 2021-06-24T19:16:34.073Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-Development edition: __celestra.js__ (42634 bytes)
-
-Minified edition: __celestra.min.js__ (32217 bytes)
-
-ESM (ECMAScript 6 module) edition: __celestra.esm.js__ (32072 bytes)
+edition|filename|size|CUT testpage<br>Celestra Unit Tester
+-------|--------|----|------------------------------------
+developer|__celestra.js__|42565 byte|__unittest.dev.html__
+minimalized|__celestra.min.js__|32178 byte|__unittest.min.html__
+ES6 module|__celestra.esm.js__|32033 byte|__unittest.esm.html__
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
 
 ### Removed polyfills
 
-Development edition: __celestra-polyfills.js__ (18019 bytes)
+Some polyfills have been removed in v3.1.0 and v3.8.0. With these files can be reusued the old polyfills if needed.
 
-Minified edition: __celestra-polyfills.min.js__ (11516 bytes)
+edition|filename|size
+-------|--------|----
+developer|__celestra-polyfills.js__|18019 byte
+minimalized|__celestra-polyfills.min.js__|11516 byte
 
 
 ### Cheatsheets
@@ -53,15 +56,6 @@ CORS testpage: __testcors.html__
 Demo plugin documentation: __celestra-demo-plugin.html__
 
 Demo plugin source: __celestra-demo-plugin.js__
-
-
-### Celestra Unit Tester (CUT)
-
-Test results for minimized edition: __unittest.min.html__
-
-Test results for ESM edition: __unittest.esm.html__
-
-Test results for development edition: __unittest.dev.html__
 
 
 ### How to import the ESM edition
@@ -150,7 +144,7 @@ Name | Description
 `strReplaceAll(<string>,<search>,<replace>);` | __REMOVED IN V4.3.0__ <br> Can be replaced with the `String.prototype.replaceAll();` which is polyfilled in this library.
 `strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
 `strFromCodePoints(<collection>);` | Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.
-`strAt(<string>,<index>);` | Returns the unicode character, which has to be on the given index in the string. If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.
+`strAt(<string>,<index>);` | Returns the unicode character, which has to be on the given index in the string. The index can be negative value (`-1 -> last`). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.
 `sizeIn(<object>);` | Returns the count of the owned properties of the given object. The object parameter is mandatory.
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `filterIn(<object>,<callback>);` | The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.<br>__Example:__<br>`var o1 = {"a": 1, "b": 2, "c": 3};`<br>`console.log(o1);`<br>`// Object { a: 1, b: 2, c: 3 }`<br>`var o2 = _.filterIn(o1, (v, p, o) => (v > 1));`<br>`console.log(o2);`<br>`// Object { b: 2, c: 3 }`
@@ -213,6 +207,8 @@ Name | Description
 
 
 ### AJAX and CORS
+
+__These functions aren't deprecated, but it's recommend to use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), because it's [supported](https://caniuse.com/?search=fetch) in every modern browsers.__
 
 These functions are available in the `celestra` and/or `_` objects.
 
@@ -330,7 +326,7 @@ Name | Description
 `setIntersection(<set1>,<set2>);` | Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
 `setDifference(<set1>,<set2>);` | Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.
 `setSymmetricDifference(<set1>,<set2>);` | Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
-`isSuperset(<superset>,<subset>);` | This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
+`isSuperset(<superCollection>,<subCollection>);` | This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
 `min(<collection>);` | Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `max(<collection>);` | Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.

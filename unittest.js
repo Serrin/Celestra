@@ -6,7 +6,7 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.15";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.16";
 
 celTest.__results__ = document.querySelector("#results");
 celTest.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -183,11 +183,11 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.3.0 testcases */
+/* Celestra v4.3.1 testcases */
 
-/* Not tested functions */
+/* Not auto tested functions */
 _cut.addElement("hr");
-_cut.addElement("h3", "Not tested functions");
+_cut.addElement("h3", "Not auto tested functions");
 _cut.addElement("ul",
   "<li>getUrlVars(); no str parameter</li>"
     +"<li>getLocation(&#60;success&#62;[,error]);</li>"
@@ -213,27 +213,42 @@ _cut.isEqual("Object name: \"_\"", true, _.randomInt(100,200)>99);
 
 
 /* core api and DOM */
-/*
-getUrlVars(); no str parameter
-getLocation(<success>[,error]);
-importStyle(<href>[,success]);
-importStyles(<styles>);
-getFullscreen();
-setFullscreenOn(<selector> or <element>);
-setFullscreenOff();
-createFile(<filename>,<content>[,dType]);
-noConflict();
-*/
 
 _cut.addElement("hr");
 _cut.addElement("h3", "core api and DOM");
 
 _cut.isEqual("VERSION", true, _.VERSION.includes("Celestra v"));
 
-_cut.isTrue("assertEq(); is a function", _.isFunction(_.assertEq));
-_cut.isTrue("assertNotEq(); is a function", _.isFunction(_.assertNotEq));
-_cut.isTrue("assertTrue(); is a function", _.isFunction(_.assertTrue));
-_cut.isTrue("assertFalse(); is a function", _.isFunction(_.assertFalse));
+_cut.isTrue("v3.8.1 aliases removed in v4.0.0",
+  _.isUndefined(_.someOf)
+  && _.isUndefined(_.everyOf)
+  && _.isUndefined(_.findOf)
+  && _.isUndefined(_.dropOf)
+  && _.isUndefined(_.takeOf)
+  && _.isUndefined(_.joinOf)
+  && _.isUndefined(_.enumerateOf)
+  && _.isUndefined(_.flatOf)
+  && _.isUndefined(_.concatOf)
+  && _.isUndefined(_.reduceOf)
+  && _.isUndefined(_.sortOf)
+  && _.isUndefined(_.reverseOf)
+  && _.isUndefined(_.sliceOf)
+  && _.isUndefined(_.lastOf)
+  && _.isUndefined(_.firstOf)
+  && _.isUndefined(_.noneOf)
+  && _.isUndefined(_.filterOf)
+  && _.isUndefined(_.sizeOf)
+  && _.isUndefined(_.hasOf)
+  && _.isUndefined(_.mapOf)
+  && _.isUndefined(_.forOf)
+);
+
+_cut.isTrue("assertTrue();",    _.assertTrue("lorem ipsum", true) );
+_cut.isTrue("assertFalse();",   _.assertFalse("lorem ipsum", false) );
+_cut.isTrue("assertEq(); 1",    _.assertEq("lorem ipsum", 1, 1) );
+_cut.isTrue("assertEq(); 2",    _.assertEq("lorem ipsum", 1, true, false) );
+_cut.isTrue("assertNotEq(); 1", _.assertNotEq("lorem ipsum", 1, 2) );
+_cut.isTrue("assertNotEq(); 2", _.assertNotEq("lorem ipsum", 1, 2, false) );
 
 _cut.addElement(
   _.domCreate(
@@ -557,10 +572,16 @@ _cut.isEqual(
   _.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))
 );
 //_cut.log("<code>"+_.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))+"</code>");
-let strAtRes = "";
-for (let i = -1; i < 16; i++) { strAtRes += _.strAt(testUnicodeStr22222, i); }
-_cut.isEqual("strAt();", testUnicodeStr22222, strAtRes);
-//_cut.log("<code>"+strAtRes+"</code>");
+
+_cut.isTrue("strAt(); unicode 1", _.strAt("\uD834\uDF06 ab cd",0) === "\uD834\uDF06");
+_cut.isTrue("strAt(); unicode 2", _.strAt("ab \uD834\uDF06 cd",3) === "\uD834\uDF06");
+_cut.isTrue("strAt(); unicode 3", _.strAt("ab cd \uD834\uDF06",-1) === "\uD834\uDF06");
+_cut.isTrue("strAt(); non unicode 1", _.strAt("ab \uD834\uDF06 cd",0) === "a");
+_cut.isTrue("strAt(); non unicode 2", _.strAt("ab \uD834\uDF06 cd",5) === "c");
+_cut.isTrue("strAt(); non unicode 3", _.strAt("ab \uD834\uDF06 cd",-1) === "d");
+_cut.isTrue("strAt(); empty string 1", _.strAt("",0) === "");
+_cut.isTrue("strAt(); empty string 2", _.strAt("",3) === "");
+_cut.isTrue("strAt(); empty string 3", _.strAt("",-1) === "");
 
 var slice = _.toFunction([].slice);
 _cut.isEqual("toFunction();", true, Array.isArray(slice(document.querySelectorAll("h3"))));
@@ -2311,33 +2332,6 @@ _cut.isTrue("isSameIterator(); true",
 _cut.isFalse("isSameIterator(); false",
   _.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2,5])
 );
-
-
-/* v3.8.1 aliases removed in v4.0.0 */
-_cut.addElement("hr");
-_cut.addElement("h3", "v3.8.1 aliases removed in v4.0.0");
-_cut.isNotEqual("someOf();", _.someOf, _.some);
-_cut.isNotEqual("everyOf();", _.everyOf, _.every);
-_cut.isNotEqual("findOf();", _.findOf, _.find);
-_cut.isNotEqual("dropOf();", _.dropOf, _.drop);
-_cut.isNotEqual("takeOf();", _.takeOf, _.take);
-_cut.isNotEqual("joinOf();", _.joinOf, _.join);
-_cut.isNotEqual("enumerateOf();", _.enumerateOf, _.enumerate);
-_cut.isNotEqual("flatOf();", _.flatOf, _.flat);
-_cut.isNotEqual("concatOf();", _.concatOf, _.concat);
-_cut.isNotEqual("reduceOf();", _.reduceOf, _.reduce);
-_cut.isNotEqual("sortOf();", _.sortOf, _.sort);
-_cut.isNotEqual("reverseOf();", _.reverseOf, _.reverse);
-_cut.isNotEqual("sliceOf();", _.sliceOf, _.slice);
-_cut.isNotEqual("lastOf();", _.lastOf, _.last);
-_cut.isNotEqual("firstOf();", _.firstOf, _.first);
-_cut.isNotEqual("noneOf();", _.noneOf, _.none);
-_cut.isNotEqual("filterOf();", _.filterOf, _.filter);
-_cut.isNotEqual("sizeOf();", _.sizeOf, _.size);
-_cut.isNotEqual("hasOf();", _.hasOf, _.includes);
-_cut.isNotEqual("mapOf();", _.mapOf, _.map);
-_cut.isNotEqual("forOf();", _.forOf, _.forEach);
-
 
 /* AJAX, domReady(); and other callbacks */
 
