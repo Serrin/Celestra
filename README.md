@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.3.1
+Latest version: 4.3.2
 
-Date: 2021-06-24T19:16:34.073Z
+Date: 2021-06-30T19:17:32.036Z
 
 The functions are available in the `celestra` and/or `_` object.
 
 edition|filename|size|CUT testpage<br>Celestra Unit Tester
 -------|--------|----|------------------------------------
-developer|__celestra.js__|42565 byte|__unittest.dev.html__
-minimalized|__celestra.min.js__|32178 byte|__unittest.min.html__
-ES6 module|__celestra.esm.js__|32033 byte|__unittest.esm.html__
+developer|__celestra.js__|43166 byte|__unittest.dev.html__
+minified|__celestra.min.js__|32715 byte|__unittest.min.html__
+ES6 module|__celestra.esm.js__|32569 byte|__unittest.esm.html__
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -37,7 +37,7 @@ Some polyfills have been removed in v3.1.0 and v3.8.0. With these files can be r
 edition|filename|size
 -------|--------|----
 developer|__celestra-polyfills.js__|18019 byte
-minimalized|__celestra-polyfills.min.js__|11516 byte
+minified|__celestra-polyfills.min.js__|11516 byte
 
 
 ### Cheatsheets
@@ -187,7 +187,11 @@ Name | Description
 `domHide(<element>);` | Hide an element. The element is mandatory and has to be a HTML element.
 `domToggle(<element>[,display]);` | Show or hide an element. The element is mandatory and has to be a HTML element. The display is optional and can be a string (CSS display values).
 `domIsHidden(<element>);` | This function determines whether the element is hidden. The element is mandatory and has to be a HTML element. The return value is boolean.
-`domSiblings(<element>);` | Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.
+`domSiblings(<element>);` | Get the siblings of an element. The element parameter is mandatory and the return value is the array.
+`domSiblingsPrev(<element>);` | Get the previous siblings of an element. The element parameter is mandatory and the return value is the array.
+`domSiblingsLeft(<element>);` | Alias of the `domSiblingsPrev(<element>);`.
+`domSiblingsNext(<element>);` | Get the nextsiblings of an element. The element parameter is mandatory and the return value is the array.
+`domSiblingsRight(<element>);` | Alias of the `domSiblingsNext(<element>);`.
 `importScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
 `importScripts(<scripts>);` | Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
 `importScripts(<script1>[,scriptN]);` | Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
@@ -378,8 +382,8 @@ Name | Description
 `concatOf(<collection1>[,collectionN]);` | __REMOVED IN V4.0.0__
 `reduce(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.
 `reduceOf(<collection>,<callback>[,initialvalue]);` | __REMOVED IN V4.0.0__
-`enumerate(<collection>);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. Example: `_.enumerate(["Picard", "Riker", "Data"]);` -> `[0, "Picard"]`, `[1, "Riker"]`, `[2, "Data"]`
-`entries(<collection>);` | An alias of the `enumerate(<collection>);`.
+`enumerate(<collection>[,offset=0]);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. The offset parameter is optional and can be an integer and it's default value is 0. <br>__Example:__<br> `_.enumerate(["Picard", "Riker", "Data"], 2);` -> `[2, "Picard"]`, `[3, "Riker"]`, `[4, "Data"]`
+`entries(<collection>[,offset=0]);` | An alias of the `enumerate(<collection>);`.
 `enumerateOf(<collection>);` | __REMOVED IN V4.0.0__
 `flat(<collection>);` | Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.
 `flatOf(<collection>);` | __REMOVED IN V4.0.0__

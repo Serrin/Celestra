@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.3.1 dev
+ * @version 4.3.2 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -508,6 +508,19 @@ const domIsHidden = (e) =>
 
 const domSiblings = (el) =>
   Array.prototype.filter.call(el.parentNode.children, (e) => (e !== el));
+
+const domSiblingsPrev = (el) => Array.prototype.slice.call(
+  el.parentNode.children, 0,
+  Array.prototype.indexOf.call(el.parentNode.children, el)
+);
+const domSiblingsLeft = domSiblingsPrev;
+
+const domSiblingsNext = (el) => Array.prototype.slice.call(
+  el.parentNode.children,
+  Array.prototype.indexOf.call(el.parentNode.children, el) + 1,
+  el.parentNode.children.length
+);
+const domSiblingsRight = domSiblingsNext;
 
 function importScript (u, s) {
   var scr = document.createElement("script");
@@ -1314,8 +1327,8 @@ function reduce (it, fn, iv) {
   return acc;
 }
 
-function* enumerate (it) {
-  let i = 0;
+function* enumerate (it, offset = 0) {
+  let i = offset;
   for (let item of it) { yield [i++, item]; }
 }
 const entries = enumerate;
@@ -1328,7 +1341,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /* object header */
 
-const VERSION = "Celestra v4.3.1 dev";
+const VERSION = "Celestra v4.3.2 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1392,6 +1405,10 @@ var celestra = {
   domToggle: domToggle,
   domIsHidden: domIsHidden,
   domSiblings: domSiblings,
+  domSiblingsPrev: domSiblingsPrev,
+  domSiblingsLeft: domSiblingsLeft,
+  domSiblingsNext: domSiblingsNext,
+  domSiblingsRight: domSiblingsRight,
   importScript: importScript,
   importScripts: importScripts,
   importStyle: importStyle,

@@ -42,9 +42,9 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <header class="center">
   <pre class="center b font-l" style="background-color: transparent;/*black*/ color: white; line-height: 1.2;">
- ___  ____  __    ____  ___  ____  ____    __  
- / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\  
-( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\ 
+ ___  ____  __    ____  ___  ____  ____    __
+ / __)( ___)(  )  ( ___)/ __)(_  _)(  _ \  /__\
+( (__  )__)  )(__  )__) \__ \  )(   )   / /(__)\
  \___)(____)(____)(____)(___/ (__) (_)\_)(__)(__)
                                                  </pre>
   <!--<h1 class="heading-d">Celestra</h1>-->
@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.3.1</p>
-<p>Date: 2021-06-24T19:16:34.073Z</p>
+<p>Latest version: 4.3.2</p>
+<p>Date: 2021-06-30T19:17:32.036Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 
@@ -90,19 +90,19 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>42565 byte</td>
+    </td><td>43166 byte</td>
     <td><a href="unittest.dev.html" target="_blank">unittest.dev.html</a></td>
   </tr>
   <tr>
-    <td>minimalized</td>
+    <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>32178 byte</td>
+    <td>32715 byte</td>
     <td><a href="unittest.min.html" target="_blank">unittest.min.html</a></td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>32033 byte</td>
+    <td>32569 byte</td>
     <td><a href="unittest.esm.html" target="_blank">unittest.esm.html</a></td>
   </tr>
 </table>
@@ -126,7 +126,7 @@ nav a, nav a:visited, nav a:active, nav a:hover {
     <td>18019 byte</td>
   </tr>
   <tr>
-    <td>minimalized</td>
+    <td>minified</td>
     <td><a href="celestra-polyfills.min.js" target="_blank">celestra-polyfills.min.js</a></td>
     <td>11516 byte</td>
   </tr>
@@ -489,7 +489,23 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>domSiblings(&#60;element&#62;);</code></td>
-      <td>Get the siblings of an element in an array. The element parameter is mandatory and the return value is the array.</td>
+      <td>Get the siblings of an element. The element parameter is mandatory and the return value is the array.</td>
+    </tr>
+    <tr>
+      <td><code>domSiblingsPrev(&#60;element&#62;);</code></td>
+      <td>Get the previous siblings of an element. The element parameter is mandatory and the return value is the array.</td>
+    </tr>
+    <tr>
+      <td><code>domSiblingsLeft(&#60;element&#62;);</code></td>
+      <td>Alias of the <code>domSiblingsPrev(&#60;element&#62;);</code>.</td>
+    </tr>
+    <tr>
+      <td><code>domSiblingsNext(&#60;element&#62;);</code></td>
+      <td>Get the next siblings of an element. The element parameter is mandatory and the return value is the array.</td>
+    </tr>
+    <tr>
+      <td><code>domSiblingsRight(&#60;element&#62;);</code></td>
+      <td>Alias of the <code>domSiblingsNext(&#60;element&#62;);</code>.</td>
     </tr>
     <tr>
       <td><code>importScript(&#60;url&#62;[,success]);</code></td>
@@ -1228,14 +1244,14 @@ console.log(o2);
       <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
-      <td><code>enumerate(&#60;collection&#62;);</code></td>
+      <td><code>enumerate(&#60;collection&#62;[,offset=0]);</code></td>
       <td>
-        <p>Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory.</p>
-        <p>Example: <code>_.enumerate(["Picard", "Riker", "Data"]);</code> -> <code>[0, "Picard"]</code>, <code>[1, "Riker"]</code>, <code>[2, "Data"]</code></p>
+        <p>Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. The offset parameter is optional and can be an integer and it's default value is 0.</p>
+        <p>Example: <code>_.enumerate(["Picard", "Riker", "Data"], 2);</code> -> <code>[2, "Picard"]</code>, <code>[3, "Riker"]</code>, <code>[4, "Data"]</code></p>
       </td>
     </tr>
     <tr>
-      <td><code>entries(&#60;collection&#62;);</code></td>
+      <td><code>entries(&#60;collection&#62;[,offset=0]);</code></td>
       <td>An alias of the <code>enumerate(&#60;collection&#62;);</code>.</td>
     </tr>
     <tr>

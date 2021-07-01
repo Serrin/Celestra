@@ -183,7 +183,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.3.1 testcases */
+/* Celestra v4.3.2 testcases */
 
 /* Not auto tested functions */
 _cut.addElement("hr");
@@ -682,14 +682,38 @@ _cut.isTrue("domIsHidden(); true", _.domIsHidden(domTestElement));
 
 _cut.addElement(
   _.domCreate("div", {"id": "dsDiv"},
-    '<p><b>This is the #dsDiv</b></p>'
-      +'<p id="dsDivP1">This is the #dsDivP1</p>'
-      +'<p id="dsDivP2">This is the #dsDivP2</p>'
-      +'<p id="dsDivP3">This is the #dsDivP3</p>'
+    '<p id="dsDivP1">#dsDivP1</p>'
+      +'<p id="dsDivP2">#dsDivP2</p>'
+      +'<p id="dsDivP3">#dsDivP3</p>'
+      +'<p id="dsDivP4">#dsDivP4</p>'
+      +'<p id="dsDivP5">#dsDivP5</p>'
  )
 );
-var dsArray = _.domSiblings(_.qs("#dsDivP2"));
-_cut.isTrue("domSiblings();", (Array.isArray(dsArray) && dsArray.length === 3));
+var dsArray = _.domSiblings(_.qs("#dsDivP3"));
+_cut.isTrue("domSiblings();", (
+  Array.isArray(dsArray) 
+    && dsArray.length === 4
+    && dsArray[0].innerHTML === "#dsDivP1"
+    && dsArray[1].innerHTML === "#dsDivP2"
+    && dsArray[2].innerHTML === "#dsDivP4"
+    && dsArray[3].innerHTML === "#dsDivP5"
+));
+var dsArray = _.domSiblingsPrev(_.qs("#dsDivP3"));
+_cut.isTrue("domSiblingsPrev();", (
+  Array.isArray(dsArray) 
+    && dsArray.length === 2
+    && dsArray[0].innerHTML === "#dsDivP1"
+    && dsArray[1].innerHTML === "#dsDivP2"
+));
+_cut.isEqual("domSiblingsLeft();", _.domSiblingsLeft, _.domSiblingsPrev);
+var dsArray = _.domSiblingsNext(_.qs("#dsDivP3"));
+_cut.isTrue("domSiblingsNext();", (
+  Array.isArray(dsArray) 
+    && dsArray.length === 2
+    && dsArray[0].innerHTML === "#dsDivP4"
+    && dsArray[1].innerHTML === "#dsDivP5"
+));
+_cut.isEqual("domSiblingsRight();", _.domSiblingsRight, _.domSiblingsNext);
 _.qs("#dsDiv").remove();
 
 
@@ -1052,9 +1076,17 @@ _cut.isEqual("enumerate();",
   JSON.stringify([..._.enumerate(["Picard","Riker","Data"])]),
   "[[0,\"Picard\"],[1,\"Riker\"],[2,\"Data\"]]"
 );
+_cut.isEqual("enumerate(); with offset",
+  JSON.stringify([..._.enumerate(["Picard","Riker","Data"],2)]),
+  "[[2,\"Picard\"],[3,\"Riker\"],[4,\"Data\"]]"
+);
 _cut.isEqual("entries();",
   JSON.stringify([..._.entries(["Picard","Riker","Data"])]),
   "[[0,\"Picard\"],[1,\"Riker\"],[2,\"Data\"]]"
+);
+_cut.isEqual("entries(); with offset",
+  JSON.stringify([..._.entries(["Picard","Riker","Data"],2)]),
+  "[[2,\"Picard\"],[3,\"Riker\"],[4,\"Data\"]]"
 );
 
 _cut.isEqual("flat();",
