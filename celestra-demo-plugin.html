@@ -32,7 +32,7 @@
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).</p>
 
-<p>Latest version: 4.3.2</p>
+<p>Latest version: 4.4.0</p>
 
 <p>Download: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
@@ -42,17 +42,17 @@
 
 /**
  * @name Celestra demo plugin
- * @version 4.3.2
+ * @version 4.4.0
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Required Celestra version: 4.3.2
+ * Required Celestra version: 4.4.0
  */
 
 (function(celestra){
 "use strict";
 
 celestra.sum = (f, ...a) => a.reduce((acc, v) => acc + v, f);
-celestra.avg = (f, ...a) => a.reduce((acc, v) => acc + v, f) / (a.length + 1 );
+celestra.avg = (f, ...a) => a.reduce((acc, v) => acc + v, f) / (a.length + 1);
 
 }(celestra));
 

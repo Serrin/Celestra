@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.3.2</p>
-<p>Date: 2021-06-30T19:17:32.036Z</p>
+<p>Latest version: 4.4.0</p>
+<p>Date: 2021-07-04T19:01:32.519Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 
@@ -90,19 +90,19 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>43166 byte</td>
+    </td><td>43899 byte</td>
     <td><a href="unittest.dev.html" target="_blank">unittest.dev.html</a></td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>32715 byte</td>
+    <td>33352 byte</td>
     <td><a href="unittest.min.html" target="_blank">unittest.min.html</a></td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>32569 byte</td>
+    <td>33206 byte</td>
     <td><a href="unittest.esm.html" target="_blank">unittest.esm.html</a></td>
   </tr>
 </table>
@@ -213,6 +213,20 @@ window._ = defaultExport;
       </td>
     </tr>
     <tr>
+      <td><code>signbit(&#60;value&#62;);</code></td>
+      <td>
+        <p>This function is based on this proposal:
+          <br/><a href="https://github.com/tc39/proposal-Math.signbit" target="_blank">https://github.com/tc39/proposal-Math.signbit</a>
+        </p>
+        <pre>Returns whether the sign bit of x is set.
+If n is NaN, the result is false.
+If n is -0, the result is true.
+If n is negative, the result is true.
+Otherwise, the result is false.</pre>
+        <p>The value parameter is mandatory.</p>
+      </td>
+    </tr>
+    <tr>
       <td><code>delay(&#60;ms&#62;).then(&#60;callback&#62;);</code></td>
       <td>
 			  <p>A promise based delay function. The ms parameter is mandatory and have to be an integer (milliseconds).</p>
@@ -244,6 +258,10 @@ _.delay(5000)
     <tr>
       <td><code>randomFloat(&#60;min&#62;,&#60;max&#62;);</code></td>
       <td>Get a random float number value within min and max value.</td>
+    </tr>
+    <tr>
+      <td><code>randomBoolean();</code></td>
+      <td>Get a random boolean value. The return value is <code>true</code> or <code>false</code>.</td>
     </tr>
     <tr>
       <td><code>randomString([length[,specialCharactersEnabled]]);</code></td>
@@ -295,8 +313,11 @@ _.delay(5000)
       <td>This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.</td>
     </tr>
     <tr>
-      <td><code>strRemoveTags(&#60;string&#62;);</code></td>
-      <td>Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.</td>
+      <td><code>strHTMLRemoveTags(&#60;string&#62;);</code></td>
+      <td>
+        <p><span class="info">Old name before v4.4.0: <code>strRemoveTags(&#60;string&#62;);</code></span></p>     
+        <p>Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.</p>
+      </td>
     </tr>
     <tr>
       <td><code>strReverse(&#60;string&#62;);</code></td>
@@ -379,6 +400,14 @@ console.log(o2);
     <tr>
       <td><code>F();</code></td>
       <td>This function returns false.</td>
+    </tr>
+    <tr>
+      <td><code>strHTMLEscape(&#60;string&#62;);</code></td>
+      <td>This function escapes these characters: <code>&#60;</code>, <code>&#62;</code>, <code>&amp;</code>, <code>"</code>, <code>'</code>. The String parameter is mandatory. The return value is the escaped string.</td>
+    </tr>
+    <tr>
+      <td><code>strUnHTMLEscape(&#60;string&#62;);</code></td>
+      <td>This function unescapes these characters: <code>&#60;</code>, <code>&#62;</code>, <code>&amp;</code>, <code>"</code>, <code>'</code>. The String parameter is mandatory. The return value is the unescaped string.</td>
     </tr>
     <tr>
       <td><code>assertEq(&#60;msg&#62;,&#60;value1&#62;,&#60;value2&#62;[,strict=true]);</code></td>

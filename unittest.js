@@ -6,7 +6,7 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.16";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.17";
 
 celTest.__results__ = document.querySelector("#results");
 celTest.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -183,7 +183,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.3.2 testcases */
+/* Celestra v4.4.0 testcases */
 
 /* Not auto tested functions */
 _cut.addElement("hr");
@@ -241,6 +241,25 @@ _cut.isTrue("v3.8.1 aliases removed in v4.0.0",
   && _.isUndefined(_.hasOf)
   && _.isUndefined(_.mapOf)
   && _.isUndefined(_.forOf)
+);
+
+_cut.isTrue(
+  "signbit();",
+  !_.signbit("str")
+  && !_.signbit("5")
+  && _.signbit("-5")
+  && !_.signbit("4.2")
+  && _.signbit("-4.2")
+  && _.signbit(-3.14)
+  && !_.signbit(3.14)
+  && _.signbit(-1)
+  && !_.signbit(1)
+  && !_.signbit(0)
+  && _.signbit(-0)
+  && !_.signbit(+0)
+  && !_.signbit(Infinity)
+  && _.signbit(-Infinity)
+  && !_.signbit(+Infinity)
 );
 
 _cut.isTrue("assertTrue();",    _.assertTrue("lorem ipsum", true) );
@@ -467,6 +486,11 @@ var testRandom = _.randomFloat(51,55);
 _cut.isTrue("randomFloat(min,max);", testRandom >= 51 && testRandom <= 55);
 //_cut.log(`<code>${testRandom}</code>`);
 
+var testRandom = _.randomBoolean();
+_cut.isTrue("randomBoolean(); - <code>" + testRandom + "</code>",
+  _.isBoolean(testRandom) && (testRandom === true || testRandom === false)  
+);
+
 var rndStr = _.randomString();
 _cut.isTrue("randomString(); default length 100, default false", _.isString(rndStr) && rndStr.length === 100);
 _cut.log("<code>"+rndStr+"</code>");
@@ -537,8 +561,8 @@ _cut.isEqual("strCapitalize();", _.strCapitalize("lorEm Ipsum"), "Lorem ipsum");
 _cut.isEqual("strUpFirst();", _.strUpFirst("lorEm Ipsum"), "LorEm Ipsum");
 _cut.isEqual("strDownFirst();", _.strDownFirst("LorEm Ipsum"), "lorEm Ipsum");
 
-_cut.isEqual("strRemoveTags();","lorem ipsum dolor sit amet , consectetuer",
-  _.strRemoveTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
+_cut.isEqual("strHTMLRemoveTags();","lorem ipsum dolor sit amet , consectetuer",
+  _.strHTMLRemoveTags("<p><img src=\"x.js\" /><img src=\"x.js\"/><img src=\"x.js\">lorem</p><p><a href=\"#\"><b>ipsum<br /><br/><br>dolor</b></a><script src=\"x.js\"></script></p>< p>< img src=\"x.js\" />< img src=\"x.js\"/>< img src=\"x.js\">sit< /p>< p>< a href=\"#\">< b>amet< br />< br/>< br>, consectetuer< /b>< / b>< /a>< script src=\"x.js\">< /script>< /p>")
 );
 
 var strReverseRes = _.strReverse("I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate. All those moments will be lost in time, like tears in rain. Time to die.");
@@ -598,6 +622,17 @@ _cut.isEqual("noop();", undefined, _.noop());
 _cut.isTrue("T();", _.T());
 _cut.isFalse("F();", _.F());
 
+_cut.isEqual(
+  "strHTMLEscape();",
+  "&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;&amp;#64;echo&amp;#65;&lt;/a&gt;&apos;str2&apos;",
+  _.strHTMLEscape('<a href="#" target="_blank">&#64;echo&#65;</a>\'str2\'')
+);
+
+_cut.isEqual(
+  "strHTMLUnEscape();",
+  '<a href="#" target="_blank">&#64;echo&#65;</a>\'str2\'',
+  _.strHTMLUnEscape("&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;&amp;#64;echo&amp;#65;&lt;/a&gt;&apos;str2&#39;")
+);
 
 /* DOM */
 
@@ -691,7 +726,7 @@ _cut.addElement(
 );
 var dsArray = _.domSiblings(_.qs("#dsDivP3"));
 _cut.isTrue("domSiblings();", (
-  Array.isArray(dsArray) 
+  Array.isArray(dsArray)
     && dsArray.length === 4
     && dsArray[0].innerHTML === "#dsDivP1"
     && dsArray[1].innerHTML === "#dsDivP2"
@@ -700,7 +735,7 @@ _cut.isTrue("domSiblings();", (
 ));
 var dsArray = _.domSiblingsPrev(_.qs("#dsDivP3"));
 _cut.isTrue("domSiblingsPrev();", (
-  Array.isArray(dsArray) 
+  Array.isArray(dsArray)
     && dsArray.length === 2
     && dsArray[0].innerHTML === "#dsDivP1"
     && dsArray[1].innerHTML === "#dsDivP2"
@@ -708,7 +743,7 @@ _cut.isTrue("domSiblingsPrev();", (
 _cut.isEqual("domSiblingsLeft();", _.domSiblingsLeft, _.domSiblingsPrev);
 var dsArray = _.domSiblingsNext(_.qs("#dsDivP3"));
 _cut.isTrue("domSiblingsNext();", (
-  Array.isArray(dsArray) 
+  Array.isArray(dsArray)
     && dsArray.length === 2
     && dsArray[0].innerHTML === "#dsDivP4"
     && dsArray[1].innerHTML === "#dsDivP5"
@@ -1483,14 +1518,14 @@ _cut.addElement("hr");
 _cut.addElement("h3", "cookie with settings object");
 
 _.setCookie({"name": "ctest3", "value": "cookieUnitTestStr", "SameSite": "Lax"});
-_cut.isTrue("setcookie(); + hasCookie(); true", _.hasCookie("ctest3"));
-_cut.isEqual("getCookie(name) value", "cookieUnitTestStr", _.getCookie("ctest3"));
-_cut.isEqual("getCookie();", "cookieUnitTestStr", _.getCookie()["ctest3"]);
-_cut.isTrue("removeCookie(); true", _.removeCookie({"name": "ctest3", "SameSite": "Lax"}));
-_cut.isFalse("removeCookie(); false", _.removeCookie({"name": "ctest3", "SameSite": "Lax"}));
-_cut.isFalse("hasCookie(); false", _.hasCookie("ctest3"));
-_cut.isEqual("getCookie(name) null", null, _.getCookie("ctest3"));
-_cut.isEqual("getCookie(); undefined", undefined, _.getCookie()["ctest3"]);
+_cut.isTrue("setcookie(); + hasCookie(); true <i>(settings object)</i>", _.hasCookie("ctest3"));
+_cut.isEqual("getCookie(name) value <i>(settings object)</i>", "cookieUnitTestStr", _.getCookie("ctest3"));
+_cut.isEqual("getCookie(); <i>(settings object)</i>", "cookieUnitTestStr", _.getCookie()["ctest3"]);
+_cut.isTrue("removeCookie(); true <i>(settings object)</i>", _.removeCookie({"name": "ctest3", "SameSite": "Lax"}));
+_cut.isFalse("removeCookie(); false <i>(settings object)</i>", _.removeCookie({"name": "ctest3", "SameSite": "Lax"}));
+_cut.isFalse("hasCookie(); false <i>(settings object)</i>", _.hasCookie("ctest3"));
+_cut.isEqual("getCookie(name) null <i>(settings object)</i>", null, _.getCookie("ctest3"));
+_cut.isEqual("getCookie(); undefined <i>(settings object)</i>", undefined, _.getCookie()["ctest3"]);
 
 var cookieClearStr = "";
 _.setCookie({"name": "ctest4", "value": "cookieUnitTestStr", "SameSite": "Lax"});
@@ -1498,8 +1533,7 @@ _.setCookie({"name": "ctest5", "value": "cookieUnitTestStr", "SameSite": "Lax"})
 cookieClearStr += String(_.hasCookie("ctest4")) + String(_.hasCookie("ctest5"));
 _.clearCookies({"SameSite": "Lax"});
 cookieClearStr += String(_.hasCookie("ctest4")) + String(_.hasCookie("ctest5"));
-_cut.isEqual("clearCookies();", "truetruefalsefalse", cookieClearStr);
-
+_cut.isEqual("clearCookies(); <i>(settings object)</i>", "truetruefalsefalse", cookieClearStr);
 
 
 /* polyfills */

@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.3.2 dev
+ * @version 4.4.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -217,6 +217,8 @@ if (window.BigInt && !BigInt.prototype.toJSON) {
 
 /* core api */
 
+const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
+
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 function randomInt (i = 100, a) {
@@ -229,6 +231,8 @@ function randomFloat (i = 100, a) {
   var r = (Math.random() * (a - i + 1)) + i;
   return r > a ? a : r;
 }
+
+const randomBoolean = () => (Math.random() >= 0.5);
 
 function randomString (pl = 100, sc = false) {
   var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -345,7 +349,7 @@ function strDownFirst (s) {
   return a.join("");
 }
 
-const strRemoveTags = (s) =>
+const strHTMLRemoveTags = (s) =>
   String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 
 const strReverse = (s) => Array.from(String(s)).reverse().join("");
@@ -409,6 +413,17 @@ function assertFalse (msg, v) {
   if (!!v) { throw new Error("[assertFalse] " + msg); }
   return true;
 }
+
+const strHTMLEscape = (s) => String(s).replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+
+const strHTMLUnEscape = (s) => String(s)
+  .replace(/&amp;/g, "&").replace(/&#38;/g, "&")
+  .replace(/&lt;/g, "<").replace(/&#60;/g, "<")
+  .replace(/&gt;/g, ">").replace(/&#62;/g, ">")
+  .replace(/&quot;/g, '"').replace(/&#34;/g, '"')
+  .replace(/&apos;/g, "'").replace(/&#39;/g, "'");
 
 /* DOM */
 
@@ -704,7 +719,7 @@ function getJson (u, s) { celestra.ajax({url: u, format: "json", success: s}); }
 
 function ajax (o) {
   if (typeof o.url !== "string") {
-    throw new TypeError("Celestra ajax error: The url parameter have to be a function.");
+    throw new TypeError("Celestra ajax error: The url parameter have to be a string.");
   }
   if (typeof o.success !== "function") {
     throw new TypeError("Celestra ajax error: The success parameter have to be a function.");
@@ -1341,7 +1356,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /* object header */
 
-const VERSION = "Celestra v4.3.2 dev";
+const VERSION = "Celestra v4.4.0 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1353,9 +1368,11 @@ var celestra = {
   VERSION: VERSION,
   noConflict: noConflict,
   /* core api */
+  signbit: signbit,
   delay: delay,
   randomInt: randomInt,
   randomFloat: randomFloat,
+  randomBoolean: randomBoolean,
   randomString: randomString,
   b64Encode: b64Encode,
   b64Decode: b64Decode,
@@ -1369,7 +1386,7 @@ var celestra = {
   strCapitalize: strCapitalize,
   strUpFirst: strUpFirst,
   strDownFirst: strDownFirst,
-  strRemoveTags: strRemoveTags,
+  strHTMLRemoveTags: strHTMLRemoveTags,
   strReverse: strReverse,
   strCodePoints: strCodePoints,
   strFromCodePoints: strFromCodePoints,
@@ -1389,6 +1406,8 @@ var celestra = {
   assertNotEq: assertNotEq,
   assertTrue: assertTrue,
   assertFalse: assertFalse,
+  strHTMLEscape: strHTMLEscape,
+  strHTMLUnEscape: strHTMLUnEscape,
   /* DOM */
   qsa: qsa,
   qs: qs,

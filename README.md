@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.3.2
+Latest version: 4.4.0
 
-Date: 2021-06-30T19:17:32.036Z
+Date: 2021-07-04T19:01:32.519Z
 
 The functions are available in the `celestra` and/or `_` object.
 
 edition|filename|size|CUT testpage<br>Celestra Unit Tester
 -------|--------|----|------------------------------------
-developer|__celestra.js__|43166 byte|__unittest.dev.html__
-minified|__celestra.min.js__|32715 byte|__unittest.min.html__
-ES6 module|__celestra.esm.js__|32569 byte|__unittest.esm.html__
+developer|__celestra.js__|43899 byte|__unittest.dev.html__
+minified|__celestra.min.js__|33352 byte|__unittest.min.html__
+ES6 module|__celestra.esm.js__|33206 byte|__unittest.esm.html__
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -121,12 +121,14 @@ Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM edition only returns the celestra object.__
-`delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer. __Sample:__ `_.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
+`delay(<ms>).then(<callback>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
+`delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer.<br>__Sample:__<br>`_.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
 `randomInt(<min>,<max>);` | Get a random integer number value within min and max value.
 `randomFloat([max]);` | Get a random float number value within 0 and max value. Without parameter the maximum value is 100.
 `randomFloat(<min>,<max>);` | Get a random float number value within min and max value.
+`randomBoolean();` | Get a random boolean value. The return value is `true` or `false`.
 `randomString([length[,specialCharactersEnabled]]);` | Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.
 `b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
@@ -139,7 +141,7 @@ Name | Description
 `strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
 `strUpFirst(<string>);` | This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.
 `strDownFirst(<string>);` | This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.
-`strRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
+`strHTMLRemoveTags(<string>);` | __Old name before v4.4.0:__ `strRemoveTags(<string>);` <br>Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
 `strReplaceAll(<string>,<search>,<replace>);` | __REMOVED IN V4.3.0__ <br> Can be replaced with the `String.prototype.replaceAll();` which is polyfilled in this library.
 `strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
@@ -157,6 +159,8 @@ Name | Description
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `T();` | This function returns true.
 `F();` | This function returns false.
+`strHTMLEscape(<string>);` | This function escapes these characters: `<`, `>`, `&`, `"`, `'`. The String parameter is mandatory. The return value is the escaped string.
+`strHTMLUnEscape(<string>);` | This function unescapes these characters: `<`, `>`, `&`, `"`, `'`. The String parameter is mandatory. The return value is the unescaped string.
 `assertEq(<msg>,<value1>,<value2>[,strict=true]);` | This function throws an error with the message if the value1 and value2 aren't equals. The message parameter is mandatory and has to be a string. The strict parameter is optional and can be a booelan. The return value is `true`, when the test was success.
 `assertNotEq(<msg>,<value1>,<value2>[,strict=true]);` | This function throws an error with the message if the value1 and value2 are equals. The message parameter is mandatory and has to be a string. The strict parameter is optional and can be a booelan. The return value is `true`, when the test was success.
 `assertTrue(<msg>,<value>);` | This function throws an error with the message if the value is false. The message parameter is mandatory and has to be a string. The return value is `true`, when the test was success.
