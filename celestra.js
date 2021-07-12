@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.4.0 dev
+ * @version 4.4.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -194,14 +194,6 @@ if (!Object.fromEntries) {
   }
 })(typeof this === "object" ? this : Function("return this")());
 
-if (!window.GeneratorFunction) {
-  window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
-}
-
-if (!window.AsyncFunction) {
-  window.AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
-}
-
 if (!String.prototype.matchAll) {
   String.prototype.matchAll = function* (regex) {
     function ef (fls, fl) { return (fls.includes(fl) ? fls : fls + fl); }
@@ -209,6 +201,80 @@ if (!String.prototype.matchAll) {
     let match;
     while (match = lc.exec(this)) { yield match; }
   };
+}
+
+if (!("findLast" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "findLast", {
+    writable: true, enumerable: false, configurable: true,
+    value: function findLast (fn) {
+      if (typeof fn !== "function") {
+        throw new TypeError(String(fn) + " is not a function");
+      }
+      var i = this.length;
+      while (i--) {
+        if (fn(this[i],i,this)) { return this[i]; }
+      }
+      return undefined;
+    }
+  });
+}
+
+if (!("findLastIndex" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "findLastIndex", {
+    writable: true, enumerable: false, configurable: true,
+    value: function findLastIndex (fn) {
+      if (typeof fn !== "function") {
+        throw new TypeError(String(fn) + " is not a function");
+      }
+      var i = this.length;
+      while (i--) {
+        if (fn(this[i],i,this)) { return i; }
+      }
+      return -1;
+    }
+  });
+}
+
+if (!("findLast" in Uint8Array.prototype)) {
+  Object.defineProperty(Uint8Array.prototype, "findLast", {
+    writable: true, enumerable: false, configurable: true,
+    value: function findLast (fn) {
+      if (typeof fn !== "function") {
+        throw new TypeError(String(fn) + " is not a function");
+      }
+      var i = this.length;
+      while (i--) {
+        if (fn(this[i],i,this)) { return this[i]; }
+      }
+      return undefined;
+    }
+  });
+}
+
+if (!("findLastIndex" in Uint8Array.prototype)) {
+  Object.defineProperty(Uint8Array.prototype, "findLastIndex", {
+    writable: true, enumerable: false, configurable: true,
+    value: function findLastIndex (fn) {
+      if (typeof fn !== "function") {
+        throw new TypeError(String(fn) + " is not a function");
+      }
+      var i = this.length;
+      while (i--) {
+        if (fn(this[i],i,this)) { return i; }
+      }
+      return -1;
+    }
+  });
+}
+
+/* non-standard polyfills */
+
+if (!window.GeneratorFunction) {
+  window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
+}
+
+if (!window.AsyncFunction) {
+  window.AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 }
 
 if (window.BigInt && !BigInt.prototype.toJSON) {
@@ -1210,6 +1276,13 @@ function* filter (it, fn) {
   }
 }
 
+function* reject (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (!fn(item, i++)) { yield item; }
+  }
+}
+
 function* slice (it, begin = 0, end = Infinity) {
   let i = 0;
   for (let item of it) {
@@ -1356,7 +1429,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /* object header */
 
-const VERSION = "Celestra v4.4.0 dev";
+const VERSION = "Celestra v4.4.1 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1531,6 +1604,7 @@ var celestra = {
   forEach: forEach,
   map: map,
   filter: filter,
+  reject: reject,
   slice: slice,
   tail: tail,
   item: item,

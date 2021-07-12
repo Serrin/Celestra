@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.4.0</p>
-<p>Date: 2021-07-04T19:01:32.519Z</p>
+<p>Latest version: 4.4.1</p>
+<p>Date: 2021-07-11T19:00:20.096Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 
@@ -90,19 +90,19 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>43899 byte</td>
+    </td><td>45942 byte</td>
     <td><a href="unittest.dev.html" target="_blank">unittest.dev.html</a></td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>33352 byte</td>
+    <td>34828 byte</td>
     <td><a href="unittest.min.html" target="_blank">unittest.min.html</a></td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>33206 byte</td>
+    <td>34682 byte</td>
     <td><a href="unittest.esm.html" target="_blank">unittest.esm.html</a></td>
   </tr>
 </table>
@@ -141,8 +141,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <h3>Demo pages</h3>
 
+<p>Demo BTC standalone app: <a href="btc.app.html" target="_blank">btc.app.html</a></p>
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
-<p>CORS testpage: <a href="testcors.html" target="_blank">testcors.html</a></p>
 <p>Demo plugin documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
 <p>Demo plugin source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
@@ -1221,6 +1221,10 @@ console.log(o2);
       <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
+      <td><code>reject(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This is the opposite of the function <code>filter(&#60;collection&#62;,&#60;callback&#62;);</code>. The elements to which the given callback gives a false will be yield. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
+    </tr>
+    <tr>
       <td><code>slice(&#60;collection&#62;[,begin[,end]]);</code></td>
       <td>Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.</td>
     </tr>
@@ -1356,7 +1360,35 @@ console.log(o2);
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>Array.prototype.at();</code></td>
+      <td><code>Array.prototype.findLast(&#60;callback&#62;);</code></td>
+      <td>
+        <span class="info">Proposal Stage 2</span>
+        <br>The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
+      </td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.findLastIndex(&#60;callback&#62;);</code></td>
+      <td>
+        <span class="info">Proposal Stage 2</span>
+        <br>The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
+      </td>
+    </tr>
+    <tr>
+      <td><code>TypedArray.prototype.findLast(&#60;callback&#62;);</code></td>
+      <td>
+        <span class="info">Proposal Stage 2</span>
+        <br>The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
+      </td>
+    </tr>
+    <tr>
+      <td><code>TypedArray.prototype.findLastIndex(&#60;callback&#62;);</code></td>
+      <td>
+        <span class="info">Proposal Stage 2</span>
+        <br>The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
+      </td>
+    </tr>  
+    <tr>
+      <td><code>Array.prototype.at(&#60;index&#62;);</code></td>
       <td>
         <span class="info">Proposal Stage 3</span>
         <br>The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
@@ -1364,7 +1396,7 @@ console.log(o2);
       </td>
     </tr>
     <tr>
-      <td><code>TypedArray.prototype.at();</code></td>
+      <td><code>TypedArray.prototype.at(&#60;index&#62;);</code></td>
       <td>
         <span class="info">Proposal Stage 3</span>
         <br>The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
@@ -1372,7 +1404,7 @@ console.log(o2);
       </td>
     </tr>
     <tr>
-      <td><code>String.prototype.at();</code></td>
+      <td><code>String.prototype.at(&#60;index&#62;);</code></td>
       <td>
         <span class="info">Proposal Stage 3</span>
         <br>The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.

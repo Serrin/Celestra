@@ -6,7 +6,7 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.17";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.18";
 
 celTest.__results__ = document.querySelector("#results");
 celTest.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -73,7 +73,9 @@ celTest.clear = function clear () { celTest.__results__.innerHTML = ""; };
 
 var _cut = celTest;
 
+
 /* ======================================================================== */
+
 
 _cut.addElement("hr");
 _cut.addElement("table",
@@ -112,6 +114,10 @@ window.saveResults = function saveResults () {
     "text/html"
  );
 };
+
+
+/* ======================================================================== */
+
 
 /* Selftest */
 _cut.addElement("hr");
@@ -183,7 +189,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.4.0 testcases */
+/* Celestra v4.4.1 testcases */
 
 /* Not auto tested functions */
 _cut.addElement("hr");
@@ -448,13 +454,10 @@ _cut.isEqual(
   "updated",
   _.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"],
 );
-//_cut.log("<code>"+_.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"]+"</code>");
 _cut.isEqual("getUrlVars(); prop not found - undefined", undefined,
   _.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"],
 );
-//_cut.log("<code>"+_.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"]+"</code>");
 _cut.isEqual("getUrlVars(); empty object", "{}", JSON.stringify(_.getUrlVars("?")) );
-//_cut.log("<code>"+_.getUrlVars("?")+"</code>");
 
 _cut.addElement(
   _.domCreate("div", {"id": "testFormDiv"},
@@ -484,11 +487,10 @@ _cut.isTrue("randomFloat();", _.randomFloat() <= 101);
 _cut.isTrue("randomFloat(max);", _.randomFloat(30) <= 30);
 var testRandom = _.randomFloat(51,55);
 _cut.isTrue("randomFloat(min,max);", testRandom >= 51 && testRandom <= 55);
-//_cut.log(`<code>${testRandom}</code>`);
 
 var testRandom = _.randomBoolean();
 _cut.isTrue("randomBoolean(); - <code>" + testRandom + "</code>",
-  _.isBoolean(testRandom) && (testRandom === true || testRandom === false)  
+  _.isBoolean(testRandom) && (testRandom === true || testRandom === false)
 );
 
 var rndStr = _.randomString();
@@ -570,18 +572,11 @@ _cut.isEqual("strReverse(); without unicode",
   ".eid ot emiT .niar ni sraet ekil ,emit ni tsol eb lliw stnemom esoht llA .etaG resuähnnaT eht raen krad eht ni rettilg smaeb-C dehctaw I .noirO fo redluohs eht ffo erif no spihs kcattA .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   strReverseRes
 );
-//_cut.log("<code>"+strReverseRes+"</code>");
 var strReverseRes = _.strReverse("I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.");
 _cut.isEqual("strReverse(); with unicode 1",
   ".noirO fo redluohs eht ffo erif no spihs kcattA \uD834\uDF06 .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
   strReverseRes
 );
-//_cut.log("<code>"+strReverseRes+"</code>");
-/*_cut.isEqual(
-  "strReverse(); with unicode 2",
-  ".noirO fo redluohs eht ffo erif no spihs kcattA \u{1D306} .eveileb t'ndluow elpoep uoy sgniht nees ev'I",
-  _.strReverse("I've seen things you people wouldn't believe. \u{1D306} Attack ships on fire off the shoulder of Orion.")
-);*/
 
 const testUnicodeStr22222 = "foo \uD834\uDF06 bar \uD835\uDC01 baz";
 _cut.isEqual(
@@ -589,13 +584,11 @@ _cut.isEqual(
   "[102,111,111,32,119558,32,98,97,114,32,119809,32,98,97,122]",
   JSON.stringify(_.strCodePoints(testUnicodeStr22222))
 );
-//_cut.log("<code>"+JSON.stringify(_.strCodePoints(testUnicodeStr22222))+"</code>");
 _cut.isEqual(
   "strFromCodePoints(); + strCodePoints();",
   testUnicodeStr22222,
   _.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))
 );
-//_cut.log("<code>"+_.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))+"</code>");
 
 _cut.isTrue("strAt(); unicode 1", _.strAt("\uD834\uDF06 ab cd",0) === "\uD834\uDF06");
 _cut.isTrue("strAt(); unicode 2", _.strAt("ab \uD834\uDF06 cd",3) === "\uD834\uDF06");
@@ -678,7 +671,6 @@ _cut.isTrue("domToElement(); complex element",
 
 _.domSetCSS(domTestElement, "width", "300px");
 _cut.isEqual("domSetCSS(); property and domGetCSS();", "300px", _.domGetCSS(domTestElement, "width"));
-//_cut.log("<code>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"300px\" </code>");
 _.domSetCSS(domTestElement, {"width": "350px", "font-weight": "bold"});
 _cut.isEqual("domSetCSS(); properties object and domGetCSS();",
   "350px", _.domGetCSS(domTestElement, "width")
@@ -686,7 +678,6 @@ _cut.isEqual("domSetCSS(); properties object and domGetCSS();",
 _cut.isEqual("domSetCSS(); properties object and domGetCSS() object;",
   "350px", _.domGetCSS(domTestElement)["width"]
 );
-//_cut.log("<code>Result / Expected: \""+_.domGetCSS(domTestElement, "width")+"\" / \"350px\" </code>");
 
 _.domHide(domTestElement);
 _cut.isEqual("domHide();", "none", _.domGetCSS(domTestElement, "display"));
@@ -902,11 +893,12 @@ _cut.isEqual("drop(); - step 4 - default 1", "BCDEFGHIJ", iterStr);
 var FPArray3 = [1,2,3,4,5,6,7,8,9,10];
 
 var iterStr = "";
-for (let item of _.filter(FPArray3, (v) => (v>3 && v<9))) {
-  iterStr += item;
-}
+for (let item of _.filter(FPArray3, (v) => (v>3 && v<9))) { iterStr += item; }
 _cut.isEqual("filter();", "45678", iterStr);
 
+var iterStr = "";
+for (let item of _.reject(FPArray3, (v) => (v>3 && v<9))) { iterStr += item; }
+_cut.isEqual("reject();", "123910", iterStr);
 
 var iterStr = "";
 for (let item of _.slice(FPArray3,0,4)) { iterStr += item; }
@@ -985,25 +977,20 @@ _cut.isEqual("reverse();", "[\"last\",9,8,7,6,5,4,\"first\"]",
 _cut.isEqual("sort(); without numberShort", "[4,5,6,7,8,9,\"first\",\"last\"]",
   JSON.stringify([..._.sort(reverseSortArray)])
 );
-//_cut.log(`<code>${JSON.stringify([..._.sort(reverseSortArray)])}</code>`)
 _cut.isEqual("sort(); with numberShort", "[\"first\",4,5,6,7,8,9,\"last\"]",
   JSON.stringify([..._.sort(reverseSortArray, true)])
 );
-//_cut.log(`<code>${JSON.stringify([..._.sort(reverseSortArray, true)])}</code>`)
 _cut.isEqual("sort(); numbers without numberShort", "[1,10,7,9]",
   JSON.stringify([..._.sort([7,1,10,9])])
 );
-//_cut.log(`<code>${JSON.stringify([..._.sort([7,1,10,9])])}</code>`);
 _cut.isEqual("sort(); numbers with numberShort", "[1,7,9,10]",
   JSON.stringify([..._.sort([7,1,10,9], true)])
 );
-//_cut.log(`<code>${JSON.stringify([..._.sort([7,1,10,9], true)])}</code>`);
 
 const shuffledReverseSortArray = _.shuffle(reverseSortArray);
 _cut.isFalse("shuffle();",
   _.isSameArray(reverseSortArray, shuffledReverseSortArray)
 );
-//_cut.log(`<code>${JSON.stringify(reverseSortArray)}</code> -> <code>${JSON.stringify(shuffledReverseSortArray)}</code>`);
 
 _cut.isTrue("includes(); true", _.includes(reverseSortArray, "last"));
 _cut.isFalse("includes(); false", _.includes(reverseSortArray, "world"));
@@ -1138,14 +1125,6 @@ _cut.isEqual("join();",
     + _.join(joinSet, ";") + _.join(joinSet, "abc")
     + _.join(joinSet, true) + _.join(joinSet, 11)
 );
-/*
-_cut.log("<code>\""+
-  _.join(joinSet) + _.join(joinSet, "")
-    + _.join(joinSet, ";") + _.join(joinSet, "abc")
-    + _.join(joinSet, true) + _.join(joinSet, 11)
-	+"\"</code>"
-);
-*/
 
 var FPArray = [1,2,3];
 
@@ -1185,7 +1164,6 @@ _cut.isEqual("arrayRange(); - 2 - step 3",
 _cut.isEqual("arrayRange(); - 3 - step 3.2 <i>(can be failed - float storage)<i>",
   "[1,4.2,7.4,10.600000000000001,13.8,17]", JSON.stringify(_.arrayRange(1,17,3.2))
 );
-//_cut.log("<code>"+JSON.stringify(_.arrayRange(1,17,3.2))+"</code>");
 _cut.isEqual("arrayRange(); - 4 - without parameters",
   "[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]",
   JSON.stringify(_.arrayRange())
@@ -1207,26 +1185,16 @@ _cut.isEqual("zip(); ES5 1",
   "[[\"a1\",\"c1\"],[\"a2\",\"c2\"],[\"a3\",\"c3\"]]",
   JSON.stringify(_.zip(zipA, zipC))
 );
-//_cut.log("<code>"+JSON.stringify(_.zip(zipA, zipC))+"</code>");
 _cut.isEqual("zip(); ES5 2",
   "[[\"a1\",\"b1\",\"c1\",\"d1\",\"e1\"],[\"a2\",\"b2\",\"c2\",\"d2\",\"e2\"]]",
   JSON.stringify(_.zip(zipA, zipB, zipC, zipD, zipE))
 );
-//_cut.log("<code>"+JSON.stringify(_.zip(zipA, zipB, zipC, zipD, zipE))+"</code>");
 _cut.isEqual("zip(); ES6 1",
   "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
   JSON.stringify(_.zip(
     new Set(a), new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values()
  ))
 );
-/*
-_cut.log(
-  "<code>"+JSON.stringify(_.zip(
-    new Set(a), new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values())
-  )
-  +"</code>"
-);
-*/
 _cut.isEqual("zip(); ES6 2",
   "[[\"a\",3,\"c1\"],[\"b\",4,\"c2\"],[\"c\",5,\"c3\"],[\"d\",6,\"c4\"]]",
   JSON.stringify(_.zip(
@@ -1235,29 +1203,12 @@ _cut.isEqual("zip(); ES6 2",
     zipC.values()
   ))
 );
-/*
-_cut.log(
-  "<code>"+JSON.stringify(_.zip(
-    new Set(zipF),
-    new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
-    zipC.values()
-  ))
-  +"</code>"
-);
-*/
 
 
 _cut.isEqual("unzip(); ES5",
   "[[\"a1\",\"a2\"],[\"b1\",\"b2\"],[\"c1\",\"c2\"],[\"d1\",\"d2\"],[\"e1\",\"e2\"]]",
   JSON.stringify(_.unzip(_.zip(zipA, zipB, zipC, zipD, zipE)))
 );
-/*
-_cut.log(
-  "<code>"+
-  JSON.stringify(_.unzip(_.zip(zipA, zipB, zipC, zipD, zipE)))
-  +"</code>"
-);
-*/
 _cut.isEqual("unzip(); ES6",
   "[[\"a\",\"b\",\"c\",\"d\"],[3,4,5,6],[\"c1\",\"c2\",\"c3\",\"c4\"]]",
   JSON.stringify(
@@ -1270,31 +1221,12 @@ _cut.isEqual("unzip(); ES6",
     )
   )
 );
-/*
-_cut.log(
-  "<code>"+
-  JSON.stringify(
-    _.unzip(
-      _.zip(
-        new Set(zipF),
-        new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
-        zipC.values()
-      ).values()
-    )
-  )
-  +"</code>"
-);
-*/
 
 var a = [21,11,41,51,31];
 _cut.isEqual("min(); ES5", 11, _.min(a));
-//_cut.log("<code>"+_.min(a)+"</code>");
 _cut.isEqual("max(); ES5", 51, _.max(a));
-//_cut.log("<code>"+_.max(a)+"</code>");
 _cut.isEqual("min(); ES6", 11, _.min(new Set(a)));
-//_cut.log("<code>"+_.min(new Set(a))+"</code>");
 _cut.isEqual("max(); ES6", 51, _.max(new Set(a).keys()));
-//_cut.log("<code>"+_.max(new Set(a).keys())+"</code>");
 _cut.isEqual("min(); number test", _.min([5, 10, 3]), 3);
 _cut.isEqual("max(); number test", _.max([5, 10, 3]), 10);
 
@@ -1541,6 +1473,38 @@ _cut.isEqual("clearCookies(); <i>(settings object)</i>", "truetruefalsefalse", c
 _cut.addElement("hr");
 _cut.addElement("h3", "polyfills");
 
+var arrFindLast = [1,2,5,6,3,4,7,8];
+_cut.isTrue("Array.prototype.findLast();",
+  arrFindLast.findLast( (v) => (v < 5) ) === 4
+  && arrFindLast.findLast( (v) => (v < 0) ) === undefined
+  && arrFindLast.findLast( (v) => (v < 2) ) === 1
+  && arrFindLast.findLast( (v) => (v > 1) ) === 8
+  && [].findLast( (v) => (v < 0) ) === undefined
+);
+_cut.isTrue("Array.prototype.findLastIndex();",
+  arrFindLast.findLastIndex( (v) => (v < 5) ) === 5
+  && arrFindLast.findLastIndex( (v) => (v < 0) ) === -1
+  && arrFindLast.findLastIndex( (v) => (v < 2) ) === 0
+  && arrFindLast.findLastIndex( (v) => (v > 1) ) === 7
+  && [].findLastIndex( (v) => (v < 0) ) === -1
+);
+
+var arrFindLast = new Uint8Array([1,2,5,6,3,4,7,8]);
+_cut.isTrue("Uint8Array.prototype.findLast();",
+  arrFindLast.findLast( (v) => (v < 5) ) === 4
+  && arrFindLast.findLast( (v) => (v < 0) ) === undefined
+  && arrFindLast.findLast( (v) => (v < 2) ) === 1
+  && arrFindLast.findLast( (v) => (v > 1) ) === 8
+  && [].findLast( (v) => (v < 0) ) === undefined
+);
+_cut.isTrue("Uint8Array.prototype.findLastIndex();",
+  arrFindLast.findLastIndex( (v) => (v < 5) ) === 5
+  && arrFindLast.findLastIndex( (v) => (v < 0) ) === -1
+  && arrFindLast.findLastIndex( (v) => (v < 2) ) === 0
+  && arrFindLast.findLastIndex( (v) => (v > 1) ) === 7
+  && [].findLastIndex( (v) => (v < 0) ) === -1
+);
+
 var arrayAt = [4,5,6,7,8];
 var arrayAtStr = ""
   + arrayAt.at(0)
@@ -1560,7 +1524,6 @@ _cut.isEqual("Array.prototype.at();",
   arrayAtStr,
   "45678undefined487654undefined"
 );
-//_cut.log(`<code>"${arrayAtStr}"</code>`);
 
 var arraylikeAt = {0:4, 1:5, 2:6, 3:7, 4:8, length:5};
 var arralikeAtStr = ""
@@ -1581,7 +1544,6 @@ _cut.isEqual("Array.prototype.at(); - arraylike object",
   arralikeAtStr,
   "45678undefined487654undefined"
 );
-//_cut.log(`<code>"${arralikeAtStr}"</code>`);
 
 var stringAt = "45678";
 var stringAtStr = ""
@@ -1602,7 +1564,6 @@ _cut.isEqual("String.prototype.at();",
   stringAtStr,
   "45678undefined487654undefined"
 );
-//_cut.log(`<code>"${stringAtStr}"</code>`)
 
 var typedarrayAt = new Uint8Array([4,5,6,7,8]);
 var typedarrayAtStr = ""
@@ -1623,7 +1584,6 @@ _cut.isEqual("Uint8Array.prototype.at();",
   typedarrayAtStr,
   "45678undefined487654undefined"
 );
-//_cut.log(`<code>"${typedarrayAtStr}"</code>`);
 
 var hasOwnObject = {"a": 1, "b": 2};
 var hasOwnArray = [4,5,6];
@@ -1638,59 +1598,12 @@ _cut.isEqual(
     + " " + Object.hasOwn(hasOwnArray, "map")
     + " " + Object.hasOwn(hasOwnArray, "map2")
 );
-/*
-_cut.log(
-  "<code>"
-    + Object.hasOwn(hasOwnObject, "a")
-    + " " + Object.hasOwn(hasOwnObject, "hasOwnProperty")
-    + " " + Object.hasOwn(hasOwnObject, "c")
-    + " " + Object.hasOwn(hasOwnArray, "0")
-    + " " + Object.hasOwn(hasOwnArray, "map")
-    + " " + Object.hasOwn(hasOwnArray, "map2")
-    + "</code>"
-);
-*/
 
 _cut.isEqual(
   "String.prototype.replaceAll();",
   "aabbcc".replaceAll("b", ".") + "aabbcc".replaceAll(/b/g, '.'),
   "aa..cc" + "aa..cc"
 );
-/*
-_cut.log(
-  "<code>"
-  + "aabbcc".replaceAll("b", ".")
-  + "aabbcc".replaceAll(/b/g, '.')
-  + "</code>"
-);
-*/
-
-if (window.BigInt) {
-  _cut.isEqual("BigInt.prototype.toJSON();", '"42"', JSON.stringify(BigInt(42)));
-}
-
-var strIterRes = [..."I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion."[Symbol.iterator]()].join("");
-_cut.isEqual("String.prototype[Symbol.iterator](); without unicode",
-  "I've seen things you people wouldn't believe. Attack ships on fire off the shoulder of Orion.",
-  strIterRes
-);
-//_cut.log("<code>" + strIterRes + "</code>");
-
-var strIterRes = [..."I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion."[Symbol.iterator]()].join("");
-_cut.isEqual("String.prototype[Symbol.iterator](); with unicode",
-  "I've seen things you people wouldn't believe. \uD834\uDF06 Attack ships on fire off the shoulder of Orion.",
-  strIterRes
-);
-//_cut.log("<code>" + strIterRes + "</code>");
-
-const testGenFn = new GeneratorFunction("v", "yield v * 3; yield v * 4;");
-var sum = "";
-for (let x of testGenFn(3)) { sum += x; }
-_cut.isEqual("GeneratorFunction();", "912", sum);
-
-let afunction = new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);");
-_cut.isEqual("AsyncFunction();", "asyncfunction", _.getType(afunction));
-_//cut.log("<code>"+_.getType(afunction)+"</code>");
 
 const regexp = RegExp('foo*','g');
 const str = 'table football, foosball';
@@ -1702,101 +1615,6 @@ let resMatchAll2 = JSON.stringify(Array.from(matches2, m => m[0]));
 _cut.isTrue("String.prototype.matchAll();",
   (resMatchAll1 === "foofoo" && resMatchAll2 === "[\"foo\",\"foo\"]")
 );
-
-var vstr = "";
-var vstrit = ["X","Y","Z","X"].values();
-vstr += vstrit.next().value
-  + vstrit.next().value + vstrit.next().value + vstrit.next().value;
-_cut.isEqual("Array.prototype.values();", "XYZX", vstr);
-
-_cut.isEqual("String.fromCodePoint();",
-  "*"+"AZ"+"Є",
-  String.fromCodePoint(42)+String.fromCodePoint(65,90)+String.fromCodePoint(0x404)
-);
-
-_cut.isEqual("String.fromCodePointAt();",
-  "66"+"65536"+"undefined",
-  ""+"ABC".codePointAt(1)+"\uD800\uDC00".codePointAt(0)+"XYZ".codePointAt(42)
-);
-
-_cut.isEqual("Array.prototype.copyWithin();",
-  "[1,2,3,1,2]"+"[4,5,3,4,5]"+"[4,2,3,4,5]"+"[1,2,3,3,4]"
-  +"{\"0\":1,\"3\":1,\"length\":5}",
-  JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2))
-    +JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3))
-    +JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3, 4))
-    +JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2, -3, -1))
-    +JSON.stringify([].copyWithin.call({length: 5, 3: 1}, 0, 3))
-);
-
-var objA = {a:1,b:2};
-var objB = Object.create(objA);
-objB.c = 3;
-objB.d = 4;
-var objC = Object.create(objB);
-var objStr = JSON.stringify(Object.getOwnPropertyDescriptors(objA));
-objStr += JSON.stringify(Object.getOwnPropertyDescriptors(objB));
-objStr += JSON.stringify(Object.getOwnPropertyDescriptors(objC));
-_cut.isEqual("Object.getOwnPropertyDescriptors();",
-  '{"a":{"value":1,"writable":true,"enumerable":true,"configurable":true},"b":{"value":2,"writable":true,"enumerable":true,"configurable":true}}'
-  +'{"c":{"value":3,"writable":true,"enumerable":true,"configurable":true},"d":{"value":4,"writable":true,"enumerable":true,"configurable":true}}'
-  +'{}',
-  objStr
-);
-
-_cut.isTrue("Element.prototype.matches(); present", !!Element.prototype.matches);
-_cut.isTrue("Element.prototype.closest(); present", !!Element.prototype.closest);
-_cut.isTrue("Element.prototype.getAttributeNames(); present", !!Element.prototype.getAttributeNames);
-
-_cut.addElement(_.domCreate("input",{id: "etgi1", value: "etgi1"}));
-_cut.addElement(_.domCreate("input",{id: "etgi2", value: "etgi2"}));
-_cut.addElement(_.domCreate("input",{id: "etgi3", value: "etgi3"}));
-_cut.addElement(_.domCreate("input",{id: "etgi4", value: "etgi4", readOnly: true}));
-_cut.addElement(_.domCreate("input",{id: "etgi5", value: "etgi5", readOnly: true}));
-_cut.addElement(_.domCreate("input",{id: "etgi6", value: "etgi6", readOnly: true}));
-var
-  etgStr = "",
-  etgi1 = document.querySelector("#etgi1"),
-  etgi2 = document.querySelector("#etgi2"),
-  etgi3 = document.querySelector("#etgi3"),
-  etgi4 = document.querySelector("#etgi4"),
-  etgi5 = document.querySelector("#etgi5"),
-  etgi6 = document.querySelector("#etgi6");
-etgStr += etgi1.toggleAttribute("readonly");
-etgStr += etgi1.hasAttribute("readonly");
-etgStr += etgi1.toggleAttribute("readonly");
-etgStr += etgi1.hasAttribute("readonly");
-etgStr += etgi2.toggleAttribute("readonly", false);
-etgStr += etgi2.hasAttribute("readonly", false);
-etgStr += etgi2.toggleAttribute("readonly", false);
-etgStr += etgi2.hasAttribute("readonly", false);
-etgStr += etgi3.toggleAttribute("readonly", true);
-etgStr += etgi3.hasAttribute("readonly", true);
-etgStr += etgi3.toggleAttribute("readonly", true);
-etgStr += etgi3.hasAttribute("readonly", true);
-etgStr += etgi4.toggleAttribute("readonly");
-etgStr += etgi4.hasAttribute("readonly");
-etgStr += etgi4.toggleAttribute("readonly");
-etgStr += etgi4.hasAttribute("readonly");
-etgStr += etgi5.toggleAttribute("readonly", false);
-etgStr += etgi5.hasAttribute("readonly", false);
-etgStr += etgi5.toggleAttribute("readonly", false);
-etgStr += etgi5.hasAttribute("readonly", false);
-etgStr += etgi6.toggleAttribute("readonly", true);
-etgStr += etgi6.hasAttribute("readonly", true);
-etgStr += etgi6.toggleAttribute("readonly", true);
-etgStr += etgi6.hasAttribute("readonly", true);
-_cut.isEqual("Element.prototype.toggleAttribute();",
-  "truetruefalsefalse"+"falsefalsefalsefalse"+"truetruetruetrue"
-    +"falsefalsetruetrue"+"falsefalsefalsefalse"+"truetruetruetrue",
-  etgStr
-);
-etgi1.remove();
-etgi2.remove();
-etgi3.remove();
-etgi4.remove();
-etgi5.remove();
-etgi6.remove();
 
 var padStr = "lorem".padStart(10);
 padStr += "lorem".padStart(10, "foo") + "lorem".padStart(6,"123465");
@@ -1831,68 +1649,6 @@ _cut.isEqual("String.prototype.padEnd();",
   padStr
 );
 
-padStr = "ipsum".repeat(0) + "ipsum".repeat(1) + "ipsum".repeat(2) + "ipsum".repeat(3.5);
-_cut.isEqual("String.prototype.repeat();",
-  ""+"ipsum"+"ipsumipsum"+"ipsumipsumipsum", padStr
-);
-
-let objIsStrCount = 1;
-var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
-objIsStr += " " + objIsStrCount++ + " " + Object.is("lorem", "lorem");
-objIsStr += " " + objIsStrCount++ + " " + Object.is(-0, -0);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(0, 0);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(NaN, 0/0);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(NaN, NaN);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(42, 42);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(3.14, 3.14);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(true, true);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(false, false);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(undefined, undefined);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(null, null);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(isArr, isArr);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(isTest, isTest);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(window, window);
-objIsStr += " " + objIsStrCount++ + " " + Object.is([], []);
-objIsStr += " " + objIsStrCount++ + " " + Object.is([1,2], [1,2]);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(isArr, [1,2]);
-objIsStr += " " + objIsStrCount++ + " " + Object.is(isTest, { x: 12 });
-objIsStr += " " + objIsStrCount++ + " " + Object.is("lorem", "ipsum");
-objIsStr += " " + objIsStrCount++ + " " + Object.is("lorem", "Lorem");
-objIsStr += " " + objIsStrCount++ + " " + Object.is("lorem", "dolorem");
-objIsStr += " " + objIsStrCount++ + " " + Object.is(0, -0) + " ";
-_cut.isEqual("Object.is();",
-  " 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10 true 11 true 12 true 13 true 14 true 15 false 16 false 17 false 18 false 19 false 20 false 21 false 22 false ",
-  objIsStr
-);
-//_cut.log("<code>Result:<br/>\""+objIsStr+"\"</code>");
-//_cut.log("<code>Expected:<br/>\" 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10 true 11 true 12 true 13 true 14 true 15 false 16 false 17 false 18 false 19 false 20 false 21 false 22 false \"</code>");
-
-var entriesObj = {a: 1, b:2, c: 3};
-var entriesStr = JSON.stringify(Object.entries(entriesObj));
-var valuesStr = JSON.stringify(Object.values(entriesObj));
-entriesObj = {name: "John Smith", age:42, male: true};
-entriesStr += JSON.stringify(Object.entries(entriesObj)),
-valuesStr += JSON.stringify(Object.values(entriesObj));
-_cut.isEqual("Object.entries();",
-  '[["a",1],["b",2],["c",3]]' + '[["name","John Smith"],["age",42],["male",true]]',
-  entriesStr
-);
-_cut.isEqual("Object.values();", '[1,2,3]'+'["John Smith",42,true]', valuesStr);
-
-var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";
-_cut.isEqual("String.prototype.startsWith();", "truefalsetruefalse",
-  ""+ startStr.startsWith("Lorem ipsum dolor")
-    + startStr.startsWith("consectetuer adipiscing elit")
-    + startStr.startsWith("consectetuer adipiscing elit", 28)
-    + startStr.startsWith("consectetuer adipiscing elit", 57)
-);
-_cut.isEqual("String.prototype.endsWith();", "truefalsetruefalse",
-  ""+ startStr.endsWith("Aenean commodo ligula eget dolor.")
-    + startStr.endsWith("Lorem ipsum dolor sit amet")
-    + startStr.endsWith("consectetuer adipiscing elit.", 57)
-    + startStr.endsWith("consectetuer adipiscing elit.", 47)
-);
-
 var trimStr = "\n \t   Lorem ipsum dolor sit amet, consectetuer adipiscing elit.   \t \n";
 _cut.isEqual("String.prototype.trimStart();",
   "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.   \t \n",
@@ -1911,54 +1667,7 @@ _cut.isEqual("String.prototype.trimRight();",
   trimStr.trimRight()
 );
 
-var testArrayFill1 = [1, 2, 3, 4];
-var testArrayFillStr = JSON.stringify(testArrayFill1);
-testArrayFillStr += JSON.stringify(testArrayFill1.fill(3.14, 3, 4));
-testArrayFillStr += JSON.stringify(testArrayFill1);
-testArrayFillStr += JSON.stringify(testArrayFill1.fill(42, 2));
-testArrayFillStr += JSON.stringify(testArrayFill1);
-testArrayFillStr += JSON.stringify(testArrayFill1.fill(56));
-testArrayFillStr += JSON.stringify(testArrayFill1);
-testArrayFillStr += JSON.stringify(testArrayFill1.fill({}));
-testArrayFillStr += JSON.stringify(testArrayFill1);
-testArrayFill1[0].p1 = "lorem";
-testArrayFillStr += JSON.stringify(testArrayFill1);
-var testArrayFill2 = Array(5).fill();
-testArrayFillStr += JSON.stringify(testArrayFill2);
-var testArrayFill3 = Array(3).fill("ipsum");
-testArrayFillStr += JSON.stringify(testArrayFill3);
-_cut.isEqual("Array.prototype.fill();",
-  '[1,2,3,4]'+'[1,2,3,3.14]'+'[1,2,3,3.14]'+'[1,2,42,42]'+'[1,2,42,42]'
-    +'[56,56,56,56]'+'[56,56,56,56]'+'[{},{},{},{}]'+'[{},{},{},{}]'
-    +'[{"p1":"lorem"},{"p1":"lorem"},{"p1":"lorem"},{"p1":"lorem"}]'
-    +'[null,null,null,null,null]'+'["ipsum","ipsum","ipsum"]',
-  testArrayFillStr
-);
-
-_cut.isEqual("Array.from();", 3, Array.from({0:1,1:2,2:3,length:3})[2]);
-_cut.isEqual("Array.from(); with mapFN", 6,
-  Array.from({0:1,1:2,2:3,length:3}, function (e) { return e*3; })[1]
-);
-_cut.isEqual("Array.of();", 4, Array.of(2,4,6)[1]);
-_cut.isEqual("Object.create();", 1, Object.create({ a: 1, b: 2 }).a);
-_cut.isEqual("Object.assign();", 3, Object.assign({ a: 1}, {b: 2}, {c: 3}).c);
 var testArrayFI = [66, 7, 135, 75, 190, 89];
-_cut.isEqual("Array.prototype.find(); true", 135,
-  testArrayFI.find(function (e) { return e > 100; })
-);
-_cut.isEqual("Array.prototype.find(); false", undefined,
-  testArrayFI.find(function (e) { return e > 200; })
-);
-_cut.isEqual("Array.prototype.findIndex(); true", 2,
-  testArrayFI.findIndex(function (e) { return e > 100; })
-);
-_cut.isEqual("Array.prototype.findIndex(); false", -1,
-  testArrayFI.findIndex(function (e) { return e > 200; })
-);
-_cut.isEqual("Array.prototype.includes(); true", true, testArrayFI.includes(190));
-_cut.isEqual("Array.prototype.includes(); false", false, testArrayFI.includes(195));
-_cut.isEqual("String.prototype.includes(); true", true, "lorem ipsum".includes("ipsum"));
-_cut.isEqual("String.prototype.includes(); false", false, "lorem ipsum".includes("erdei"));
 
 _cut.addElement(_.domCreate("div", {"id": "testDivNode"}, "#testDivNode"));
 var testDivNode = _.qs("#testDivNode");
@@ -1974,43 +1683,7 @@ _cut.isEqual("NodeList.prototype.forEach();", true,
 var testNodeP1 = _.qs("#testNodeP1");
 var testNodeP2 = _.qs("#testNodeP2");
 
-testNodeP1.after("after text");
-_cut.isEqual("ChildNode.after(); text", true, testDivNode.innerHTML.includes("after text"))
-testNodeP1.after(_.domCreate("b", {}, "after element"));
-_cut.isEqual("ChildNode.after(); element", true, testDivNode.innerHTML.includes("after element"));
-
-testNodeP1.before("before text");
-_cut.isEqual("ChildNode.before(); text", true, testDivNode.innerHTML.includes("before text"))
-testNodeP1.before(_.domCreate("b", {}, "before element"));
-_cut.isEqual("ChildNode.before(); element", true, testDivNode.innerHTML.includes("before element"));
-
-testNodeP1.append("append text");
-_cut.isEqual("ParentNode.append(); text", true, testDivNode.innerHTML.includes("append text"))
-testNodeP1.append(_.domCreate("b", {}, "append element"));
-_cut.isEqual("ParentNode.append(); element", true, testDivNode.innerHTML.includes("append element"));
-
-testNodeP1.prepend("prepend text");
-_cut.isEqual("ParentNode.prepend(); text", true, testDivNode.innerHTML.includes("prepend text"))
-testNodeP1.prepend(_.domCreate("b", {}, "prepend element"));
-_cut.isEqual("ParentNode.prepend(); element", true, testDivNode.innerHTML.includes("prepend element"));
-
-testNodeP1.replaceWith("testElement");
-_cut.isEqual("ChildNode.replaceWith(); text", null, _.qs("#testNodeP1"));
-
-testNodeP2.replaceWith(_.domCreate("p", {}, "testElement"));
-_cut.isEqual("ChildNode.replaceWith(); element", null, _.qs("#testNodeP2"));
-
-testDivNode.remove();
-_cut.isEqual("ChildNode.remove();", null, _.qs("#testDivNode"));
-
-_cut.isTrue("window.screenLeft present", ("screenLeft" in window));
-_cut.isTrue("window.screenTop present", ("screenTop" in window));
-
 _cut.isEqual("globalThis", window, globalThis);
-
-_cut.isTrue("RegExp.prototype.flags",
-  (/foo/ig.flags === "gi" && /bar/mig.flags === "gim")
-);
 
 var arr = [ ["0","a"], ["1","b"], ["2","c"] ];
 _cut.isEqual("Object.fromEntries(); step 1 array",'{"0":"a","1":"b","2":"c"}', JSON.stringify(Object.fromEntries(arr)));
@@ -2021,118 +1694,52 @@ _cut.isEqual("Object.fromEntries(); step 2 Object.entries",'{"a":1,"b":2,"c":3}'
 var fromEntriesMap = new Map([ ["foo","bar"], ["baz",42] ]);
 _cut.isEqual("Object.fromEntries(); step 3 Map - doesn't work in IE11",'{"foo":"bar","baz":42}', JSON.stringify(Object.fromEntries(fromEntriesMap)));
 
+var flatArr1 = [1,2,3,4];
+var flatArr2 = [1,2,[3,4]];
+var flatArr3 = [1,2,[3,4,[5,6]]];
+_cut.isTrue("Array.prototype.flat();",
+  "[1,2,3,4]" === JSON.stringify(flatArr1.flat())
+  && "[1,2,3,4]" === JSON.stringify(flatArr1.flat(1000))
+  && "[1,2,3,4]" === JSON.stringify(flatArr1.flat(Infinity))
+  && "[1,2,3,4]" === JSON.stringify(flatArr2.flat())
+  && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat())
+  && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat(1))
+  && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(2))
+  && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(1000))
+  && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(Infinity))
+  && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(0))
+  && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(-1))
+  && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat("a2"))
+  && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(false))
+  && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat(true))
+);
 
-/* Array.prototype.flat(); */
-_cut.addElement("hr");
-_cut.addElement("h4", "Array.prototype.flat();");
+var flatMapArr1 = [1,2,3,4];
+var flatMapArr2 = ["lorem ipsum dolor", "", "sit"];
+_cut.isTrue("Array.prototype.flatMap();",
+  "[[2],[4],[6],[8]]" === JSON.stringify(flatMapArr1.map(function (x) { return [x * 2]; }))
+  && "[2,4,6,8]" === JSON.stringify(flatMapArr1.flatMap(function (x) { return [x * 2]; }))
+  && "[[2],[4],[6],[8]]" === JSON.stringify(flatMapArr1.flatMap(function (x) { return [[x * 2]]; }))
+  && '[["lorem","ipsum","dolor"],[""],["sit"]]' === JSON.stringify(flatMapArr2.map(function (x) { return x.split(" "); }))
+  && '["lorem","ipsum","dolor","","sit"]' === JSON.stringify(flatMapArr2.flatMap(function (x) { return x.split(" "); }))
+);
 
-var flatArr = [1,2,3,4];
-_cut.isEqual("step 1", "[1,2,3,4]", JSON.stringify(flatArr.flat()));
-_cut.isEqual("step 2a", "[1,2,3,4]", JSON.stringify(flatArr.flat(1000)));
-_cut.isEqual("step 2b", "[1,2,3,4]", JSON.stringify(flatArr.flat(Infinity)));
-
-flatArr = [1,2,[3,4]];
-_cut.isEqual("step 3", "[1,2,3,4]", JSON.stringify(flatArr.flat()));
-
-flatArr = [1,2,[3,4,[5,6]]];
-_cut.isEqual("step 4", "[1,2,3,4,[5,6]]", JSON.stringify(flatArr.flat()));
-_cut.isEqual("step 5", "[1,2,3,4,[5,6]]", JSON.stringify(flatArr.flat(1)));
-_cut.isEqual("step 6", "[1,2,3,4,5,6]", JSON.stringify(flatArr.flat(2)));
-_cut.isEqual("step 7a", "[1,2,3,4,5,6]", JSON.stringify(flatArr.flat(1000)));
-_cut.isEqual("step 7b", "[1,2,3,4,5,6]", JSON.stringify(flatArr.flat(Infinity)));
-_cut.isEqual("step 8", "[1,2,[3,4,[5,6]]]", JSON.stringify(flatArr.flat(0)));
-_cut.isEqual("step 9", "[1,2,[3,4,[5,6]]]", JSON.stringify(flatArr.flat(-1)));
-_cut.isEqual("step 10", "[1,2,[3,4,[5,6]]]", JSON.stringify(flatArr.flat("a2")));
-_cut.isEqual("step 11", "[1,2,[3,4,[5,6]]]", JSON.stringify(flatArr.flat(false)));
-_cut.isEqual("step 12", "[1,2,3,4,[5,6]]", JSON.stringify(flatArr.flat(true)));
-
-
-/* Array.prototype.flatMap(callback) */
-_cut.addElement("hr");
-_cut.addElement("h4", "Array.prototype.flatMap(callback);");
-var flatMapArr = [1,2,3,4];
-_cut.isEqual("step 13", "[[2],[4],[6],[8]]", JSON.stringify(flatMapArr.map(function (x) { return [x * 2]; })));
-_cut.isEqual("step 14", "[2,4,6,8]", JSON.stringify(flatMapArr.flatMap(function (x) { return [x * 2]; })));
-_cut.isEqual("step 15", "[[2],[4],[6],[8]]", JSON.stringify(flatMapArr.flatMap(function (x) { return [[x * 2]]; })));
-flatMapArr = ["lorem ipsum dolor", "", "sit"];
-_cut.isEqual("step 16", '[["lorem","ipsum","dolor"],[""],["sit"]]', JSON.stringify(flatMapArr.map(function (x) { return x.split(" "); })));
-_cut.isEqual("step 17", '["lorem","ipsum","dolor","","sit"]', JSON.stringify(flatMapArr.flatMap(function (x) { return x.split(" "); })));
-
-
-/* Number ES6 */
+/* non-standard polyfills */
 
 _cut.addElement("hr");
-_cut.addElement("h3", "Number ES6");
+_cut.addElement("h3", "non-standard polyfills");
 
-_cut.isEqual("Number.parseInt();", parseInt("44.83"), Number.parseInt("44.83"));
-_cut.isEqual("Number.parseFloat();", parseFloat("44.83"), Number.parseFloat("44.83"));
-_cut.isEqual("Number.MIN_SAFE_INTEGER", -9007199254740991, Number.MIN_SAFE_INTEGER );
-_cut.isEqual("Number.MAX_SAFE_INTEGER", 9007199254740991, Number.MAX_SAFE_INTEGER);
-_cut.isEqual("Number.EPSILON", Math.pow(2, -52), Number.EPSILON);
-_cut.isEqual("Number.isNaN();",
-  "false  false  false  false  false  false  false  true  false  false",
-  Number.isNaN(42)+"  "+Number.isNaN(3.14)+"  "+Number.isNaN(-42)
-    +"  "+Number.isNaN(-3.14)+"  "+Number.isNaN(0)+"  "+Number.isNaN(null)
-    +"  "+Number.isNaN(undefined)+"  "+Number.isNaN(NaN)
-    +"  "+Number.isNaN("The life")+"  "+Number.isNaN(true)
-);
-_cut.isEqual("isNaN();",
-  "false  false  false  false  false  false  true  true  true  false",
-  isNaN(42)+"  "+isNaN(3.14)+"  "+isNaN(-42)+"  "+isNaN(-3.14)
-    +"  "+isNaN(0)+"  "+isNaN(null)+"  "+isNaN(undefined)
-    +"  "+isNaN(NaN)+"  "+isNaN("The life")+"  "+isNaN(true)
-);
-_cut.isEqual("Number.isInteger();",
-  "true  false  true  false  true  false  false  false  false  false",
-  Number.isInteger(42)+"  "+Number.isInteger(3.14)
-    +"  "+Number.isInteger(-42)+"  "+Number.isInteger(-3.14)
-    +"  "+Number.isInteger(0)+"  "+Number.isInteger(null)
-    +"  "+Number.isInteger(undefined)+"  "+Number.isInteger(NaN)
-    +"  "+Number.isInteger("The life")+"  "+Number.isInteger(true)
-);
-_cut.isEqual("Number.isFinite();",
-  "true  true  true  true  true  false  false  false  false  false",
-  Number.isFinite(42)+"  "+Number.isFinite(3.14)
-    +"  "+Number.isFinite(-42)+"  "+Number.isFinite(-3.14)
-    +"  "+Number.isFinite(0)+"  "+Number.isFinite(null)
-    +"  "+Number.isFinite(undefined)+"  "+Number.isFinite(NaN)
-    +"  "+Number.isFinite("The life")+"  "+Number.isFinite(true)
-);
-_cut.isEqual("Number.isSafeInteger();",
-  "true  false  true  false  true  false  false  false  false  false",
-  Number.isSafeInteger(42)+"  "+Number.isSafeInteger(3.14)
-    +"  "+Number.isSafeInteger(-42)+"  "+Number.isSafeInteger(-3.14)
-    +"  "+Number.isSafeInteger(0)+"  "+Number.isSafeInteger(null)
-    +"  "+Number.isSafeInteger(undefined)+"  "+Number.isSafeInteger(NaN)
-    +"  "+Number.isSafeInteger("The life")+"  "+Number.isSafeInteger(true)
-);
+if (window.BigInt) {
+  _cut.isEqual("BigInt.prototype.toJSON();", '"42"', JSON.stringify(BigInt(42)));
+}
 
+const testGenFn = new GeneratorFunction("v", "yield v * 3; yield v * 4;");
+var sum = "";
+for (let x of testGenFn(3)) { sum += x; }
+_cut.isEqual("GeneratorFunction();", "912", sum);
 
-/* Math ES6 */
-
-_cut.addElement("hr");
-_cut.addElement("h3", "Math ES6")
-
-_cut.isEqual("Math.acosh();", 0, Math.acosh(1));
-_cut.isEqual("Math.asinh();", 0, Math.asinh(0));
-_cut.isEqual("Math.atanh();", Infinity, Math.atanh(1));
-_cut.isEqual("Math.cbrt();", 1, Math.cbrt(1));
-_cut.isEqual("Math.clz32();", 26, Math.clz32(32));
-_cut.isEqual("Math.cosh();", 1, Math.cosh(0));
-_cut.isTrue("Math.expm1();", Math.expm1(1) > 1.7);
-_cut.isFalse("Math.fround();", Math.fround(1.337) === 1.337);
-_cut.isTrue("Math.hypot();", Math.hypot(3, 4, 5) > 7);
-_cut.isEqual("Math.imul();", -10, Math.imul(0xfffffffe, 5));
-_cut.isTrue("Math.log1p();", Math.log1p(1) < 7);
-_cut.isEqual("Math.log10();", 5, Math.log10(100000));
-_cut.isEqual("Math.log2();", 1, Math.log2(2));
-_cut.isEqual("Math.sign();", -1, Math.sign(-3));
-_cut.isTrue("Math.sinh();", Math.sinh(2) > 3.6);
-_cut.isEqual("Math.tanh();", 1, Math.tanh(Infinity));
-_cut.isEqual("Math.trunc();", "3"+"-3"+"4"+"-4"+"NaN"+"1"+"0",
-  ""+Math.trunc(3.5)+Math.trunc(-3.5)+Math.trunc("4.8")+Math.trunc("-4.8")
-    +Math.trunc("fff")+Math.trunc(true)+Math.trunc(false)
-);
+let afunction = new AsyncFunction("a","b","return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);");
+_cut.isEqual("AsyncFunction();", "asyncfunction", _.getType(afunction));
 
 
 /* type checking */
@@ -2307,6 +1914,7 @@ _cut.isFalse("isIterable(); false",
   _.isIterable(42) || _.isIterable(3.14) || _.isIterable({a:1,b:2})
     || _.isIterable(true) || _.isIterable(false)
 );
+
 if (window.BigInt) {
   _cut.isTrue("isBigInt(); true", _.isBigInt(BigInt(9007199254740991) + BigInt(5)));
   _cut.isFalse("isBigInt(); false 1", _.isBigInt(9007199254740990));
@@ -2412,40 +2020,40 @@ _cut.addElement("ul",
   "<li>1x domReady(); (core api) is working</li>"
     +"<li>3x importScript(); (core api) - first script loaded</li>"
     +"<li>3x importScript(); (core api) - second script loaded</li>"
-    +"<li>1x importScripts(); (core api) with success gs1</li>"
-    +"<li>1x importScripts(); (core api) with success gs2</li>"
-    +"<li>1x importScripts(); (core api) with error gs1</li>"
-    +"<li>1x importScripts(); (core api) with error gs2</li>"
+    +"<li>1x importScripts(); (core api) with success is1</li>"
+    +"<li>1x importScripts(); (core api) with success is2</li>"
+    +"<li>1x importScripts(); (core api) with error is1</li>"
+    +"<li>1x importScripts(); (core api) with error is2</li>"
     +"<li>4x importScripts(); (core api) - with more scripts"
     +"<li>1x getJson()</li>"
     +"<li>1x getText()</li>"
     +"<li>12x ajax()</li>"
 );
 
-_.importScript("unittest-gs1.js");
-_.importScript("unittest-gs2.js");
-_.importScripts("unittest-gsi.js");
-_.importScripts("unittest-gsi.js", "unittest-gsi.js", "unittest-gsi.js");
+_.importScript("unittest-is1.js");
+_.importScript("unittest-is2.js");
+_.importScripts("unittest-is3.js");
+_.importScripts("unittest-is3.js", "unittest-is3.js", "unittest-is3.js");
 
 var scripts=[
-  { url: "unittest-gs1.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with success gs1", true, true);
+  { url: "unittest-is1.js", success: function () {
+    _cut.isEqual("importScripts(); (core api) with success is1", true, true);
   } },
-  { url: "unittest-gs2.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with success gs2", true, true);
+  { url: "unittest-is2.js", success: function () {
+    _cut.isEqual("importScripts(); (core api) with success is2", true, true);
   } }
 ];
 _.importScripts(scripts);
 
 scripts=[
-  { url: "unittest-gs1.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with error gs1", true, true);
+  { url: "unittest-is1.js", success: function () {
+    _cut.isEqual("importScripts(); (core api) with error is1", true, true);
   } },
-  { url: "unittest-gs3.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with error gs3", true, true);
+  { url: "unittest-notexist.js", success: function () {
+    _cut.isEqual("importScripts(); (core api) with error notexist.js", true, true);
   } },
-  { url: "unittest-gs2.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with error gs2", true, true);
+  { url: "unittest-is2.js", success: function () {
+    _cut.isEqual("importScripts(); (core api) with error is2", true, true);
   } }
 ];
 _.importScripts(scripts);

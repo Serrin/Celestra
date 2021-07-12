@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.4.0
+Latest version: 4.4.1
 
-Date: 2021-07-04T19:01:32.519Z
+Date: 2021-07-11T19:00:20.096Z
 
 The functions are available in the `celestra` and/or `_` object.
 
 edition|filename|size|CUT testpage<br>Celestra Unit Tester
 -------|--------|----|------------------------------------
-developer|__celestra.js__|43899 byte|__unittest.dev.html__
-minified|__celestra.min.js__|33352 byte|__unittest.min.html__
-ES6 module|__celestra.esm.js__|33206 byte|__unittest.esm.html__
+developer|__celestra.js__|45942 byte|__unittest.dev.html__
+minified|__celestra.min.js__|34828 byte|__unittest.min.html__
+ES6 module|__celestra.esm.js__|34682 byte|__unittest.esm.html__
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -49,9 +49,9 @@ JavaScript cheatsheet: __js-cheatsheet.pdf__
 
 ### Demo pages
 
-RPG dice roller: __testgame.html__
+Demo BTC standalone app: __btc.app.html__
 
-CORS testpage: __testcors.html__
+RPG dice roller: __testgame.html__
 
 Demo plugin documentation: __celestra-demo-plugin.html__
 
@@ -373,6 +373,7 @@ Name | Description
 `mapOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `filter(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `filterOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
+`reject(<collection>,<callback>);` | This is the opposite of the function `filter(<collection>,<callback>);`. The elements to which the given callback gives a false will be yield. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `slice(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
 `sliceOf(<collection>[,begin[,end]]);` | __REMOVED IN V4.0.0__
 `tail(<collection>);` | Yield the values of a collection but without the first value. The collection parameter is mandatory.
@@ -409,9 +410,13 @@ Name | Description
 
 Name | Description
 ---- | -----------
-`Array.prototype.at();` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
-`TypedArray.prototype.at();` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
-`String.prototype.at();` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at) <br> The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
+`Array.prototype.findLast(<callback>);` | __Proposal Stage 2__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+`Array.prototype.findLastIndex(<callback>);` | __Proposal Stage 2__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+`TypedArray.prototype.findLast(<callback>);` | __Proposal Stage 2__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+`TypedArray.prototype.findLastIndex(<callback>);` | __Proposal Stage 2__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+`Array.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+`TypedArray.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+`String.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at) <br> The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
 `Object.hasOwn(<object>,<property>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-accessible-object-hasownproperty](https://github.com/tc39/proposal-accessible-object-hasownproperty) <br> Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
 `String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string.
 `String.prototype.trimLeft();` | Alias of the `String.prototype.trimStart();` method.
