@@ -32,31 +32,9 @@
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).</p>
 
-<p>Latest version: 4.4.1</p>
+<p>Latest version: 4.4.2</p>
 
 <p>Download: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
-
-<h2>Source of the plugin</h2>
-
-<pre>
-
-/**
- * @name Celestra demo plugin
- * @version 4.4.1
- * @see https://github.com/Serrin/Celestra
- * @license MIT https://opensource.org/licenses/MIT
- * Required Celestra version: 4.4.1
- */
-
-(function(celestra){
-"use strict";
-
-celestra.sum = (f, ...a) => a.reduce((acc, v) => acc + v, f);
-celestra.avg = (f, ...a) => a.reduce((acc, v) => acc + v, f) / (a.length + 1);
-
-}(celestra));
-
-</pre>
 
 <h2>Functions</h2>
 
@@ -67,12 +45,20 @@ celestra.avg = (f, ...a) => a.reduce((acc, v) => acc + v, f) / (a.length + 1);
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>sum();</code></td>
+      <td><code>sum(&#60;value1&#62;[,valueN]);</code></td>
       <td>This function returns the sum value from the parameter values.</td>
     </tr>
     <tr>
-      <td><code>avg();</code></td>
+      <td><code>avg(&#60;value1&#62;[,valueN]);</code></td>
       <td>This function returns the average value from the parameter values.</td>
+    </tr>
+    <tr>
+      <td><code>isEven(&#60;value&#62;);</code></td>
+      <td>This function determines whether the provided value is an even number. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>isOdd(&#60;value&#62;);</code></td>
+      <td>This function determines whether the provided value is an odd number. The return value is boolean.</td>
     </tr>
   </table>
 </div>
@@ -127,6 +113,66 @@ celestra.avg = (f, ...a) => a.reduce((acc, v) => acc + v, f) / (a.length + 1);
     <td><button onclick="alert( _.avg() );">AVG5</button></td>
     <td><code>alert( _.avg() );</code> </td>
   </tr>
+</table>
+
+<h3>isEven();</h3>
+
+<table>
+  <tr>
+    <td><button onclick="alert( _.isEven(8) );">isEven1</button></td>
+    <td><code>alert( _.isEven(8) );</code></td>
+    <td>true</td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.isEven(9) );">isEven2</button></td>
+    <td><code>alert( _.isEven(9) );</code></td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.isEven(8.5) );">isEven3</button></td>
+    <td><code>alert( _.isEven(8.5) );</code></td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.isEven(9.5) );">isEven4</button></td>
+    <td><code>alert( _.isEven(9.5) );</code></td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.isEven('Arthur Dent') );">isEven5</button></td>
+    <td><code>alert( _.isEven('Arthur Dent') );</code></td>
+    <td>false</td>
+  </tr>
+</table>
+
+<h3>isOdd();</h3>
+
+<table>
+  <tr>
+    <td><button onclick="alert( _.isOdd(9) );">isOdd2</button></td>
+    <td><code>alert( _.isOdd(9) );</code></td>
+    <td>true</td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.isOdd(8) );">isOdd1</button></td>
+    <td><code>alert( _.isOdd(8) );</code></td>
+    <td>false</td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.isOdd(8.5) );">isOdd3</button></td>
+    <td><code>alert( _.isOdd(8.5) );</code></td>
+    <td>true</td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.isOdd(9.5) );">isOdd4</button></td>
+    <td><code>alert( _.isOdd(9.5) );</code></td>
+    <td>true</td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.isOdd('Arthur Dent') );">isOdd5</button></td>
+    <td><code>alert( _.isOdd('Arthur Dent') );</code></td>
+    <td>false</td>
+  </tr>  
 </table>
 
 

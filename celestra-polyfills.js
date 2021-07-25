@@ -22,7 +22,7 @@ Array.prototype.find();
 Array.prototype.findIndex();
 Array.prototype.copyWithin();
 Number.MIN_SAFE_INTEGER;
-Number.MAX_SAFE_INTEGER();
+Number.MAX_SAFE_INTEGER;
 Number.EPSILON;
 Number.isNaN();
 isNaN();

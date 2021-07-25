@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.4.1 dev
+ * @version 4.4.2 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -1097,7 +1097,17 @@ function shuffle([...a]) {
 
 const partition = ([...a], fn) =>
   [ a.filter(fn), a.filter( (e, i, a) => !(fn(e, i, a))) ];
-const groupBy = partition;
+
+function groupBy (it, fn) {
+  let res = {};
+  let i = 0;
+  for (let item of it) {
+    let key = fn(item, i++);
+    if (!(Object.prototype.hasOwnProperty.call(res, key))) { res[key] = []; }
+    res[key].push(item);
+  }
+  return res;
+}
 
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
 
@@ -1429,7 +1439,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /* object header */
 
-const VERSION = "Celestra v4.4.1 dev";
+const VERSION = "Celestra v4.4.2 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;

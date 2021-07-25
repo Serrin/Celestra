@@ -189,7 +189,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.4.1 testcases */
+/* Celestra v4.4.2 testcases */
 
 /* Not auto tested functions */
 _cut.addElement("hr");
@@ -760,10 +760,13 @@ _cut.isEqual(
   JSON.stringify(_.partition(arrPartition, (e) => (e > 0) )),
   "[[2,7,34],[-5,-9]]"
 );
-_cut.isEqual(
-  "groupBy();",
-  JSON.stringify(_.groupBy(arrPartition, (e) => (e > 0) )),
-  "[[2,7,34],[-5,-9]]"
+
+let strGroupBy = JSON.stringify( _.groupBy([1,2,3,4,5],  
+  (i) => (i % 2 === 0 ? "even" : "odd")
+));
+_cut.isTrue("groupBy();",
+  strGroupBy === "{\"odd\":[1,3,5],\"even\":[2,4]}"
+  || strGroupBy === "{\"even\":[2,4],\"odd\":[1,3,5]}"
 );
 
 _cut.isTrue(
@@ -1683,7 +1686,7 @@ _cut.isEqual("NodeList.prototype.forEach();", true,
 var testNodeP1 = _.qs("#testNodeP1");
 var testNodeP2 = _.qs("#testNodeP2");
 
-_cut.isEqual("globalThis", window, globalThis);
+_cut.isEqual("globalThis;", window, globalThis);
 
 var arr = [ ["0","a"], ["1","b"], ["2","c"] ];
 _cut.isEqual("Object.fromEntries(); step 1 array",'{"0":"a","1":"b","2":"c"}', JSON.stringify(Object.fromEntries(arr)));

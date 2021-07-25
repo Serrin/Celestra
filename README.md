@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.4.1
+Latest version: 4.4.2
 
-Date: 2021-07-11T19:00:20.096Z
+Date: 2021-07-23T19:30:19.844Z
 
 The functions are available in the `celestra` and/or `_` object.
 
 edition|filename|size|CUT testpage<br>Celestra Unit Tester
 -------|--------|----|------------------------------------
-developer|__celestra.js__|45942 byte|__unittest.dev.html__
-minified|__celestra.min.js__|34828 byte|__unittest.min.html__
-ES6 module|__celestra.esm.js__|34682 byte|__unittest.esm.html__
+developer|__celestra.js__|46160 byte|__unittest.dev.html__
+minified|__celestra.min.js__|34987 byte|__unittest.min.html__
+ES6 module|__celestra.esm.js__|34841 byte|__unittest.esm.html__
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -102,20 +102,13 @@ window._ = defaultExport;
 - Many functions have been deprecated or removed.
 
 
-## How to clone
-
-
-    $ git clone https://github.com/Serrin/Celestra/
-
-
-
 ## Functions
 
 ### Core API
 
 These functions are available in the `celestra` and/or `_` objects.
 
-Example: `_.randomInt()`
+Example: `_.randomInt();`
 
 Name | Description
 ---- | -----------
@@ -171,7 +164,7 @@ Name | Description
 
 These functions are available in the `celestra` and/or `_` objects.
 
-Example: `_.domCreate()`
+Example: `_.domCreate();`
 
 Name | Description
 ---- | -----------
@@ -220,7 +213,7 @@ __These functions aren't deprecated, but it's recommend to use the [Fetch API](h
 
 These functions are available in the `celestra` and/or `_` objects.
 
-Example: `_.getJson()`
+Example: `_.getJson();`
 
 Name | Description
 ---- | -----------
@@ -245,7 +238,7 @@ __Options object properties:__
 
 These functions are available in the `celestra` and/or `_` objects.
 
-Example: `_.isString()`
+Example: `_.isString();`
 
 Name | Description
 ---- | -----------
@@ -297,7 +290,7 @@ Name | Description
 
 These functions are available in the `celestra` and/or `_` objects.
 
-Example: `_.setCookie()`
+Example: `_.setCookie();`
 
 Cookie values help: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie, https://web.dev/samesite-cookies-explained
 
@@ -317,7 +310,7 @@ Name | Description
 
 These functions are available in the `celestra` and/or `_` objects.
 
-Example: `_.arrayUnion()`
+Example: `_.arrayUnion();`
 
 Name | Description
 ---- | -----------
@@ -325,7 +318,7 @@ Name | Description
 `shuffle(<collection>);` | Returns an array with the values of the given collection, but in shuffled order. <br>__Example:__<br>`_.shuffle(["first",4,5,6,7,8,9,"last"]);`<br>-><br>`[4,8,5,6,"last",9,7,"first"]`
 `withOut(<collection>,<filterCollection>);` | Returns an array with the values of the first collection, but without the values of the filterCollection. All of the parameters are mandatory and can be any type of JavaScript collections.<br>__Example:__<br>`_.withOut(["a","b","c","d"], ["b","d"]);`<br>-><br>`["a","c"]`
 `partition(<collection>,<callback>);` | Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.<br>__Example:__<br>`_.partition([-5, 2, -9, 7, 34], (e) => (e > 0) );`<br>-><br>`[[2, 7, 34], [-5, -9]]]`
-`groupBy(<collection>,<callback>);` | An alias of the `partition(<collection>,<callback>);`.
+`groupBy(<collection>,<callback>);` | Returns an object with array properties. The object keys are the returned values of the given function. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.<br>__Example:__<br>`_.groupBy([1,2,3,4,5], (i) => (i % 2 === 0 ? "even" : "odd");`<br>-><br>`{ "even": [ 2, 4 ], "odd": [ 1, 3, 5 ] }`
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
 `arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
 `arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
@@ -410,10 +403,10 @@ Name | Description
 
 Name | Description
 ---- | -----------
-`Array.prototype.findLast(<callback>);` | __Proposal Stage 2__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
-`Array.prototype.findLastIndex(<callback>);` | __Proposal Stage 2__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
-`TypedArray.prototype.findLast(<callback>);` | __Proposal Stage 2__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
-`TypedArray.prototype.findLastIndex(<callback>);` | __Proposal Stage 2__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+`Array.prototype.findLast(<callback>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+`Array.prototype.findLastIndex(<callback>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+`TypedArray.prototype.findLast(<callback>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+`TypedArray.prototype.findLastIndex(<callback>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
 `Array.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
 `TypedArray.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
 `String.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at) <br> The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
@@ -430,7 +423,7 @@ Name | Description
 `globalThis;` | The "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 `String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp.
-REMOVED polyfills in v3.1.0 | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER();`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
+REMOVED polyfills in v3.1.0 | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER;`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
 REMOVED polyfills in v3.8.0 | `Array.prototype.values();`, `Array.prototype.includes();`, `String.prototype.includes();`, `String.prototype.repeat();`, `String.prototype[Symbol.iterator]();`, `Object.assign();`, `Object.entries();`, `Object.values();`, `Object.getOwnPropertyDescriptors();`, `RegExp.prototype.flags;`, `NodeList.prototype.forEach();`, `ChildNode.after();`, `ChildNode.before();`, `ChildNode.remove();`, `ChildNode.replaceWith();`, `ParentNode.append();`, `ParentNode.prepend();`, `Element.prototype.matches();`, `Element.prototype.closest();`, `Element.prototype.toggleAttribute();`, `Element.prototype.getAttributeNames();`, `window.screenLeft;`, `window.screenTop;`
 
 

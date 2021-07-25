@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.4.1</p>
-<p>Date: 2021-07-11T19:00:20.096Z</p>
+<p>Latest version: 4.4.2</p>
+<p>Date: 2021-07-23T19:30:19.844Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 
@@ -90,19 +90,19 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>45942 byte</td>
+    </td><td>46160 byte</td>
     <td><a href="unittest.dev.html" target="_blank">unittest.dev.html</a></td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>34828 byte</td>
+    <td>34987 byte</td>
     <td><a href="unittest.min.html" target="_blank">unittest.min.html</a></td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>34682 byte</td>
+    <td>34841 byte</td>
     <td><a href="unittest.esm.html" target="_blank">unittest.esm.html</a></td>
   </tr>
 </table>
@@ -192,7 +192,7 @@ window._ = defaultExport;
 <h3>Core API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
-<br/>Example: <code>_.randomInt()</code></p>
+<br/>Example: <code>_.randomInt();</code></p>
 
 <div>
   <table class="table-responsive table-striped">
@@ -431,7 +431,7 @@ console.log(o2);
 <h3>DOM functions</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
-<br/>Example: <code>_.domCreate()</code></p>
+<br/>Example: <code>_.domCreate();</code></p>
 
 <div>
   <table class="table-responsive table-striped">
@@ -619,7 +619,7 @@ console.log(o2);
 </p>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
-<br/>Example: <code>_.getJson()</code></p>
+<br/>Example: <code>_.getJson();</code></p>
 
 <div style="overflow-x:auto;">
   <table class="table-responsive table-striped">
@@ -659,7 +659,7 @@ console.log(o2);
 <h3 id="typechecking">Type checking functions</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
-<br/>Example: <code>_.isString()</code></p>
+<br/>Example: <code>_.isString();</code></p>
 
 <div>
   <table class="table-responsive table-striped">
@@ -847,7 +847,7 @@ console.log(o2);
 <h3 id="cookie">Cookie functions</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
-<br/>Example: <code>_.setCookie()</code></p>
+<br/>Example: <code>_.setCookie();</code></p>
 
 <p>
   Cookie values help:
@@ -963,7 +963,7 @@ console.log(o2);
 <h3 id="cookie">Collections</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>_</code> objects.
-<br/>Example: <code>_.arrayUnion()</code></p>
+<br/>Example: <code>_.arrayUnion();</code></p>
 
 <div>
   <table class="table-responsive table-striped">
@@ -1021,7 +1021,15 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>groupBy(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td>An alias of the <code>partition(&#60;collection&#62;,&#60;callback&#62;);</code>.</td>
+      <td>
+        <p>Returns an object with array properties. The object keys are the returned values of the given function. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+        <p>
+         <b>Example:</b>
+         <br/><code>_.groupBy([1,2,3,4,5], (i) => (i % 2 === 0 ? "even" : "odd");</code>
+         <br/>->
+         <br/><code>{ "even": [ 2, 4 ], "odd": [ 1, 3, 5 ] }</code>
+        </p>
+      </td>
     </tr>
     <tr>
       <td><code>arrayUnion(&#60;collection1&#62;[,collectionN]);</code></td>
@@ -1362,28 +1370,28 @@ console.log(o2);
     <tr>
       <td><code>Array.prototype.findLast(&#60;callback&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 2</span>
+        <span class="info">Proposal Stage 3</span>
         <br>The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>Array.prototype.findLastIndex(&#60;callback&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 2</span>
+        <span class="info">Proposal Stage 3</span>
         <br>The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>TypedArray.prototype.findLast(&#60;callback&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 2</span>
+        <span class="info">Proposal Stage 3</span>
         <br>The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>TypedArray.prototype.findLastIndex(&#60;callback&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 2</span>
+        <span class="info">Proposal Stage 3</span>
         <br>The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>  
@@ -1469,7 +1477,7 @@ console.log(o2);
     </tr>
     <tr>
       <td>REMOVED polyfills in v3.1.0</td>
-      <td><code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER();</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></td>
+      <td><code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER;</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></td>
     </tr>
     <tr>
       <td>REMOVED polyfills in v3.8.0</td>
@@ -1699,55 +1707,6 @@ _.qs("#div2").append(el2);</pre></td>
       <td><b>randomFloat(min,max)</b></td>
       <td><button onclick='alert( _.randomFloat(51,55) );'>Try</button></td>
       <td><code>alert( _.randomFloat(51,55) );</code></td>
-    </tr>
-    <tr>
-      <td><b>Array.from()</b></td>
-      <td><button onclick='alert( Array.isArray( Array.from(document.querySelectorAll("td")) ) );'>Try</button></td>
-      <td><code>alert( Array.isArray( Array.from(document.querySelectorAll("td")) ) );</code></td>
-    </tr>
-    <tr>
-      <td><b>Array.from() with mapFn</b></td>
-      <td><button onclick='alert( String( Array.from( {0:1,1:2,2:3,length:3} , function(item) { return item*3; } ) ) );'>Try</button></td>
-      <td><code>alert( String(<br/>Array.from( {0:1,1:2,2:3,length:3} , function(item) { return item*3; } )<br/>) );</code></td>
-    </tr>
-    <tr>
-      <td><b>Array.of()</b></td>
-      <td><button onclick='alert( Array.isArray( Array.of(1,3,2,8,23) ) );'>Try</button></td>
-      <td><code>alert( Array.isArray( Array.of(1,3,2,8,23) ) );</code></td>
-    </tr>
-    <tr>
-      <td><b>Array.prototype.fill()</b></td>
-      <td><button onclick='var testArrayFill1 = [1, 2, 3, 4];var testArrayFillStr = JSON.stringify(testArrayFill1); testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(3.14, 3, 4) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(42, 2) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(56) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill({}) );testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);testArrayFill1[0].p1 = "lorem";testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);var testArrayFill2 = Array(5).fill();testArrayFillStr += "\n" + JSON.stringify(testArrayFill2);var testArrayFill3 = Array(3).fill("ipsum");testArrayFillStr += "\n" + JSON.stringify(testArrayFill3);alert(testArrayFillStr);'>Try</button></td>
-      <td><pre>var testArrayFill1 = [1, 2, 3, 4];
-
-var testArrayFillStr = JSON.stringify(testArrayFill1);
-
-testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(3.14, 3, 4) );
-testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
-
-testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(42, 2) );
-testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
-
-testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill(56) );
-testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
-
-testArrayFillStr += "\n" + JSON.stringify( testArrayFill1.fill({}) );
-testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
-testArrayFill1[0].p1 = "lorem";
-testArrayFillStr += "\n" + JSON.stringify(testArrayFill1);
-
-var testArrayFill2 = Array(5).fill();
-testArrayFillStr += "\n" + JSON.stringify(testArrayFill2);
-
-var testArrayFill3 = Array(3).fill("ipsum");
-testArrayFillStr += "\n" + JSON.stringify(testArrayFill3);
-
-alert(testArrayFillStr);</pre></td>
-    </tr>
-    <tr>
-      <td><b>String.prototype.includes()</b></td>
-      <td><button onclick='var str = "lorem ipsum"; alert( "string true: " + str.includes("ipsum") + "\nstring false: " + str.includes("agradzsag") + "\nstring true + fromIndex: " + str.includes("ipsum", 3) + "\nstring false + fromIndex: " + str.includes("ipsum", 8) );'>Try</button></td>
-      <td><code>var str = "lorem ipsum";<br/>alert(<br/> "string true: " + str.includes("ipsum")<br/> + "\nstring false: " + str.includes("agradzsag")<br/> + "\nstring true + fromIndex: " + str.includes("ipsum", 3)<br/> + "\nstring false + fromIndex: " + str.includes("ipsum", 8)<br/>);</code></td>
     </tr>
     <tr>
       <td><b>importScript(url)</b></td>
@@ -2018,30 +1977,6 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       <td><code>alert("\"" + trimStr.trimRight() + "\"");</code></td>
     </tr>
     <tr>
-      <td><b>String.prototype.startsWith()</b></td>
-      <td colspan="2">
-        <script>var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";</script>
-        <code>var startStr = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.";</code>
-        <p><button onclick='alert(startStr.startsWith("Lorem ipsum dolor") + " - true\n" + startStr.startsWith("consectetuer adipiscing elit") + " - false\n" + startStr.startsWith("consectetuer adipiscing elit", 28) + " - true\n" + startStr.startsWith("consectetuer adipiscing elit", 57) + " - false\n");'>try</button></p>
-        <pre>alert(startStr.startsWith("Lorem ipsum dolor") + " - true\n"
-  + startStr.startsWith("consectetuer adipiscing elit") + " - false\n"
-  + startStr.startsWith("consectetuer adipiscing elit", 28) + " - true\n"
-  + startStr.startsWith("consectetuer adipiscing elit", 57) + " - false\n"
-);</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>String.prototype.endsWith()</b></td>
-      <td colspan="2">
-        <p><button onclick='alert(startStr.endsWith("Aenean commodo ligula eget dolor.") + " - true\n" + startStr.endsWith("Lorem ipsum dolor sit amet") + " - false\n" + startStr.endsWith("consectetuer adipiscing elit.", 57) + " - true\n" + startStr.endsWith("consectetuer adipiscing elit.", 47) + " - false" );'>try</button></p>
-        <pre>alert(startStr.endsWith("Aenean commodo ligula eget dolor.") + " - true\n"
-  + startStr.endsWith("Lorem ipsum dolor sit amet") + " - false\n"
-  + startStr.endsWith("consectetuer adipiscing elit.", 57) + " - true\n"
-  + startStr.endsWith("consectetuer adipiscing elit.", 47) + " - false"
-);</pre>
-      </td>
-    </tr>
-    <tr>
       <td><b>Fullscreen functions</b></td>
       <td colspan="2">
         <div id="fsdiv">
@@ -2134,98 +2069,6 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
           <button onclick='_.domToggle( _.qs("#domhidetest"), "inline-block" );'>domToggle display</button>
           <code>_.domToggle( _.qs("#domhidetest"), "inline-block" );</code>
         </p>
-      </td>
-    </tr>
-    <tr>
-      <td><b>ChildNode and ParentNode methods</b></td>
-      <td colspan="2">
-        <div>
-          <div id="childnode"><i>This is the test area.</i></div>
-          <p>
-            <button onclick='var newEl=document.createElement("b"); newEl.innerHTML="after element"; _.qs("#childnode").after(newEl);'>ChildNode.after() element</button>
-            <br/><code>var newEl=document.createElement("b");<br/>newEl.innerHTML="after element";<br/>_.qs("#childnode").after(newEl);</code>
-          </p>
-          <p>
-            <button onclick='_.qs("#childnode").after("after text");'>ChildNode.after() text</button>
-            <br/><code>_.qs("#childnode").after("after text");</code>
-          </p>
-          <p>
-            <button onclick='var newEl=document.createElement("b"); newEl.innerHTML="before element"; _.qs("#childnode").before(newEl);'>ChildNode.before() element</button>
-            <br/><code>var newEl=document.createElement("b");<br/>newEl.innerHTML="before element";<br/>_.qs("#childnode").before(newEl);</code>
-          </p>
-          <p>
-            <button onclick='_.qs("#childnode").before("before text");'>ChildNode.before() text</button>
-            <br/><code>_.qs("#childnode").before("before text");</code>
-          </p>
-          <p>
-            <button onclick='var newEl=document.createElement("b"); newEl.innerHTML="append element"; _.qs("#childnode").append(newEl);'>ParentNode.append() element</button>
-            <br/><code>var newEl=document.createElement("b");<br/>newEl.innerHTML="append element";<br/>_.qs("#childnode").append(newEl);</code>
-          </p>
-          <p>
-            <button onclick='_.qs("#childnode").append("append text");'>ParentNode.append() text</button>
-            <br/><code>_.qs("#childnode").append("append text");</code>
-          </p>
-          <p>
-            <button onclick='var newEl=document.createElement("b"); newEl.innerHTML="prepend element"; _.qs("#childnode").prepend(newEl);'>ParentNode.prepend() element</button>
-            <br/><code>var newEl=document.createElement("b");<br/>newEl.innerHTML="prepend element";<br/>_.qs("#childnode").prepend(newEl);</code>
-          </p>
-          <p>
-            <button onclick='_.qs("#childnode").prepend("prepend text");'>ParentNode.prepend() text</button>
-            <br/><code>_.qs("#childnode").prepend("prepend text");</code>
-          </p>
-          <p>
-            <button onclick='var newEl=document.createElement("div"); newEl.innerHTML="replaceWith element"; _.qs("#childnode").replaceWith(newEl);'>ChildNode.replaceWith() element</button>
-            <br/>
-            <code>var newEl=document.createElement("div");<br/>newEl.innerHTML="replaceWith element";<br/>_.qs("#childnode").replaceWith(newEl);</code>
-          </p>
-          <p>
-            <button onclick='_.qs("#childnode").replaceWith("replaceWith text");'>ChildNode.replaceWith() text</button>
-            <br/><code>_.qs("#childnode").replaceWith("replaceWith text");</code>
-          </p>
-          <p>
-            <button onclick='_.qs("#childnode").remove();'>ChildNode.remove()</button>
-            <br/><code>_.qs("#childnode").remove();</code>
-          </p>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td><b>Number ES6 polyfills</b></td>
-      <td colspan="2">
-        <div>
-          <p>
-            <button onclick='alert( Number.MIN_SAFE_INTEGER );'>Number.MIN_SAFE_INTEGER</button>
-            <br/><code>alert( Number.MIN_SAFE_INTEGER );</code>
-          </p>
-          <p>
-            <button onclick='alert( Number.MAX_SAFE_INTEGER );'>Number.MAX_SAFE_INTEGER</button>
-            <br/><code>alert( Number.MAX_SAFE_INTEGER );</code>
-          </p>
-          <p>
-            <button onclick='alert( Number.EPSILON );'>Number.EPSILON</button>
-            <br/><code>alert( Number.EPSILON );</code>
-          </p>
-          <p>
-            <button onclick='alert( Number.isNaN(42)+"  "+Number.isNaN(3.14)+"  "+ Number.isNaN(-42)+"  "+Number.isNaN(-3.14)+"  "+Number.isNaN(0)+"  "+Number.isNaN(null)+"  "+Number.isNaN(undefined)+"  "+Number.isNaN(NaN)+"  "+Number.isNaN("The life")+"  "+Number.isNaN(true) );'>Number.isNaN()</button>
-            <br/><code>alert(<br/> Number.isNaN(42)<br/> +"  "+Number.isNaN(3.14)<br/> +"  "+Number.isNaN(-42)<br/> +"  "+Number.isNaN(-3.14)<br/> +"  "+Number.isNaN(0)<br/> +"  "+Number.isNaN(null)<br/> +"  "+Number.isNaN(undefined)<br/> +"  "+Number.isNaN(NaN)<br/> +"  "+Number.isNaN("The life")<br/> +"  "+Number.isNaN(true)<br/>);</code>
-          </p>
-          <p>
-            <button onclick='alert( isNaN(42)+"  "+isNaN(3.14)+"  "+ isNaN(-42)+"  "+isNaN(-3.14)+"  "+isNaN(0)+"  "+isNaN(null)+"  "+isNaN(undefined)+"  "+isNaN(NaN)+"  "+isNaN("The life")+"  "+isNaN(true) );'>isNaN()</button>
-            <br/><code>alert(<br/> isNaN(42)<br/> +"  "+isNaN(3.14)<br/> +"  "+isNaN(-42)<br/> +"  "+isNaN(-3.14)<br/> +"  "+isNaN(0)<br/> +"  "+isNaN(null)<br/> +"  "+isNaN(undefined)<br/> +"  "+isNaN(NaN)<br/> +"  "+isNaN("The life")<br/> +"  "+isNaN(true)<br/>);</code>
-          </p>
-          <p>
-            <button onclick='alert( Number.isInteger(42)+"  "+Number.isInteger(3.14)+"  "+ Number.isInteger(-42)+"  "+Number.isInteger(-3.14)+"  "+Number.isInteger(0)+"  "+Number.isInteger(null)+"  "+Number.isInteger(undefined)+"  "+Number.isInteger(NaN)+"  "+Number.isInteger("The life")+"  "+Number.isInteger(true) );'>Number.isInteger()</button>
-            <br/><code>alert(<br/> Number.isInteger(42)<br/> +"  "+Number.isInteger(3.14)<br/> +"  "+Number.isInteger(-42)<br/> +"  "+Number.isInteger(-3.14)<br/> +"  "+Number.isInteger(0)<br/> +"  "+Number.isInteger(null)<br/> +"  "+Number.isInteger(undefined)<br/> +"  "+Number.isInteger(NaN)<br/> +"  "+Number.isInteger("The life")<br/> +"  "+Number.isInteger(true)<br/>);</code>
-          </p>
-          <p>
-            <button onclick='alert( Number.isFinite(42)+"  "+Number.isFinite(3.14)+"  "+ Number.isFinite(-42)+"  "+Number.isFinite(-3.14)+"  "+Number.isFinite(0)+"  "+Number.isFinite(null)+"  "+Number.isFinite(undefined)+"  "+Number.isFinite(NaN)+"  "+Number.isFinite("The life")+"  "+Number.isFinite(true) );'>Number.isFinite()</button>
-            <br/><code>alert(<br/> Number.isFinite(42)<br/> +"  "+Number.isFinite(3.14)<br/> +"  "+Number.isFinite(-42)<br/> +"  "+Number.isFinite(-3.14)<br/> +"  "+Number.isFinite(0)<br/> +"  "+Number.isFinite(null)<br/> +"  "+Number.isFinite(undefined)<br/> +"  "+Number.isFinite(NaN)<br/> +"  "+Number.isFinite("The life")<br/> +"  "+Number.isFinite(true)<br/>);</code>
-          </p>
-          <p>
-            <button onclick='alert( Number.isSafeInteger(42)+"  "+Number.isSafeInteger(3.14)+"  "+ Number.isSafeInteger(-42)+"  "+Number.isSafeInteger(-3.14)+"  "+Number.isSafeInteger(0)+"  "+Number.isSafeInteger(null)+"  "+Number.isSafeInteger(undefined)+"  "+Number.isSafeInteger(NaN)+"  "+Number.isSafeInteger("The life")+"  "+Number.isSafeInteger(true) );'>Number.isSafeInteger()</button>
-            <br/><code>alert(<br/> Number.isSafeInteger(42)<br/> +"  "+Number.isSafeInteger(3.14)<br/> +"  "+Number.isSafeInteger(-42)<br/> +"  "+Number.isSafeInteger(-3.14)<br/> +"  "+Number.isSafeInteger(0)<br/> +"  "+Number.isSafeInteger(null)<br/> +"  "+Number.isSafeInteger(undefined)<br/> +"  "+Number.isSafeInteger(NaN)<br/> +"  "+Number.isSafeInteger("The life")<br/> +"  "+Number.isSafeInteger(true)<br/>);</code>
-          </p>
-        </div>
       </td>
     </tr>
     <tr>
@@ -2696,58 +2539,6 @@ alert(
       </td>
     </tr>
     <tr>
-      <td><b>Array.prototype.find() and Array.prototype.findIndex()</b></td>
-      <td colspan="2">
-        <p><button onclick='var testArrayFI=[66,7,135,75,190,89];var testArrayString="";testArrayString+=testArrayFI.find(function(e){return e>100;})+" - 135";testArrayString+="\n"+testArrayFI.find(function(e){return e>200;})+" - undefined";testArrayString+="\n"+testArrayFI.findIndex(function(e){return e>100;})+ " - 2";testArrayString+="\n"+testArrayFI.findIndex(function(e){return e>200;})+" - -1";alert(testArrayString);'>try</button></p>
-        <pre>var testArrayFI = [66, 7, 135, 75, 190, 89];
-var testArrayString = "";
-testArrayString += testArrayFI.find(function (e) { return e &#62; 100; }) + " - 135";
-testArrayString += "\n" + testArrayFI.find(function (e) { return e &#62; 200; }) + " - undefined";
-testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e &#62; 100; }) + " - 2";
-testArrayString += "\n" + testArrayFI.findIndex(function (e) { return e &#62; 200; }) + " - -1";
-alert(testArrayString);</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>Object.values() and Object.entries()</b></td>
-      <td><button onclick='var entriesObj = {a: 1, b:2, c: 3};var objStr = JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) );entriesObj = {name: "John Smith", age:42, male: true};objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );objStr += "\n" + JSON.stringify( Object.values(entriesObj) ); alert(objStr);'>try</button></td>
-      <td><pre>var entriesObj = {a: 1, b:2, c: 3};
-var objStr = JSON.stringify( Object.entries(entriesObj) );
-objStr += "\n" + JSON.stringify( Object.values(entriesObj) );
-entriesObj = {name: "John Smith", age:42, male: true};
-objStr += "\n" + JSON.stringify( Object.entries(entriesObj) );
-objStr += "\n" + JSON.stringify( Object.values(entriesObj) );
-alert(objStr);</pre></td>
-    </tr>
-    <tr>
-      <td><b>Object.is()</b></td>
-      <td><button onclick=' var objIsStr = "", isArr = [1,2], isTest = { x: 12 }; objIsStr += Object.is("lorem", "lorem") + " - true"; objIsStr += "\n" + Object.is(-0, -0) + " - true"; objIsStr += "\n" + Object.is(0, 0) + " - true"; objIsStr += "\n" + Object.is(NaN, 0/0) + " - true"; objIsStr += "\n" + Object.is(NaN, NaN) + " - true"; objIsStr += "\n" + Object.is(42, 42) + " - true"; objIsStr += "\n" + Object.is(3.14, 3.14) + " - true"; objIsStr += "\n" + Object.is(true, true) + " - true"; objIsStr += "\n" + Object.is(false, false) + " - true"; objIsStr += "\n" + Object.is(undefined, undefined) + " - true"; objIsStr += "\n" + Object.is(null, null) + " - true"; objIsStr += "\n" + Object.is(isArr, isArr) + " - true"; objIsStr += "\n" + Object.is(isTest, isTest) + " - true"; objIsStr += "\n" + Object.is(window, window) + " - true"; objIsStr += "\n" + Object.is([], []) + " - false"; objIsStr += "\n" + Object.is([1,2], [1,2]) + " - false"; objIsStr += "\n" + Object.is(isArr, [1,2]) + " - false"; objIsStr += "\n" + Object.is(isTest, { x: 12 }) + " - false"; objIsStr += "\n" + Object.is("lorem", "ipsum") + " - false"; objIsStr += "\n" + Object.is("lorem", "Lorem") + " - false"; objIsStr += "\n" + Object.is("lorem", "dolorem") + " - false"; objIsStr += "\n" + Object.is(0, -0) + " - false"; alert(objIsStr);'>try</button></td>
-      <td><pre>var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
-objIsStr += Object.is("lorem", "lorem") + " - true";
-objIsStr += "\n" + Object.is(-0, -0) + " - true";
-objIsStr += "\n" + Object.is(0, 0) + " - true";
-objIsStr += "\n" + Object.is(NaN, 0/0) + " - true";
-objIsStr += "\n" + Object.is(NaN, NaN) + " - true";
-objIsStr += "\n" + Object.is(42, 42) + " - true";
-objIsStr += "\n" + Object.is(3.14, 3.14) + " - true";
-objIsStr += "\n" + Object.is(true, true) + " - true";
-objIsStr += "\n" + Object.is(false, false) + " - true";
-objIsStr += "\n" + Object.is(undefined, undefined) + " - true";
-objIsStr += "\n" + Object.is(null, null) + " - true";
-objIsStr += "\n" + Object.is(isArr, isArr) + " - true";
-objIsStr += "\n" + Object.is(isTest, isTest) + " - true";
-objIsStr += "\n" + Object.is(window, window) + " - true";
-objIsStr += "\n" + Object.is([], []) + " - false";
-objIsStr += "\n" + Object.is([1,2], [1,2]) + " - false";
-objIsStr += "\n" + Object.is(isArr, [1,2]) + " - false";
-objIsStr += "\n" + Object.is(isTest, { x: 12 }) + " - false";
-objIsStr += "\n" + Object.is("lorem", "ipsum") + " - false";
-objIsStr += "\n" + Object.is("lorem", "Lorem") + " - false";
-objIsStr += "\n" + Object.is("lorem", "dolorem") + " - false";
-objIsStr += "\n" + Object.is(0, -0) + " - false";
-alert(objIsStr);</pre></td>
-    </tr>
-    <tr>
       <td><b>Array.prototype.flat()</b></td>
       <td><button onclick='var flatArr = [1, 2, 3, 4], flatStr = "";flatStr += "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat(Infinity) );flatArr = [1, 2, [3, 4]];flatStr += "\n" + "[1,2,3,4] - " + JSON.stringify( flatArr.flat() );flatArr = [1,2,[3,4,[5,6]]];flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat() );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(1) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(2) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(1000) );flatStr += "\n" + "[1,2,3,4,5,6] - " + JSON.stringify( flatArr.flat(Infinity) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(0) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(-1) );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat("a2") );flatStr += "\n" + "[1,2,[3,4,[5,6]]] - " + JSON.stringify( flatArr.flat(false) );flatStr += "\n" + "[1,2,3,4,[5,6]] - " + JSON.stringify( flatArr.flat(true) );alert(flatStr);'>try</button></td>
       <td><pre>var flatArr = [1, 2, 3, 4], flatStr = "";
@@ -2872,24 +2663,6 @@ cookiestr += "\n"+(_.hasCookie("ctest2"))+" - (false)"; // false
 
 _.qs("#cookieresults").innerHTML = cookiestr;
 </script>
-      </td>
-    </tr>
-    <tr>
-      <td><b>Object.assign()</b></td>
-      <td colspan="2">
-        <p>Test results:</p>
-        <p><code id="output2"></code></p>
-        <p>Test Code:</p>
-        <pre>function echo2 (str) {
-  _.qs("#output2").innerHTML += str + "&#60;br/&#62;";
-}
-
-var obj1 = { a : "1", b : "2" };
-var obj2 = { c : "3", d : "4" };
-var obj3 = { e : "5", f : "6" };
-
-Object.assign(obj1,obj2,obj3);
-for (var a in obj1) { echo2(a+": "+obj1[a]); }</pre>
       </td>
     </tr>
     <tr>
@@ -3033,155 +2806,6 @@ padStr += "\n\"" + "lorem".padEnd(15,[1,2,"c"]) + "\"" ;
 padStr += "\n\"" + "lorem".padEnd(15,42) + "\"" ;
 padStr += "\n\"" + "lorem".padEnd(15,3.14) + "\"" ;
 alert(padStr);</pre></td>
-    </tr>
-    <tr>
-      <td><b>String.prototype.repeat()</b></td>
-      <td colspan="2">
-        <button onclick='var padStr = "\"" + "ipsum".repeat(0) + "\""; padStr += "\n\"" + "ipsum".repeat(1) + "\""; padStr += "\n\"" + "ipsum".repeat(2) + "\""; padStr += "\n\"" + "ipsum".repeat(3.5) + "\""; alert(padStr);'>Try</button>
-        <pre>var padStr = "\"" + "ipsum".repeat(0) + "\"";
-padStr += "\n\"" + "ipsum".repeat(1) + "\"";
-padStr += "\n\"" + "ipsum".repeat(2) + "\"";
-padStr += "\n\"" + "ipsum".repeat(3.5) + "\"";
-alert(padStr);</pre>
-        <button onclick='alert( "ipsum".repeat(-1) );'>Try RangeError -1</button>
-        <pre>alert( "ipsum".repeat(-1) );</pre>
-        <button onclick='alert( "ipsum".repeat(1/0) );'>Try RangeError 1/0</button>
-        <pre>alert( "ipsum".repeat(1/0) );</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>Element.prototype.toggleAttribute()</b></td>
-      <td colspan="2">
-        <p><input id="etgi1" value="etgi1"></p>
-        <p><input id="etgi2" value="etgi2"></p>
-        <p><input id="etgi3" value="etgi3"></p>
-        <p><input id="etgi4" value="etgi4 readonly" readonly></p>
-        <p><input id="etgi5" value="etgi5 readonly" readonly></p>
-        <p><input id="etgi6" value="etgi6 readonly" readonly></p>
-        <p><button onclick='var   etgStr = "",  etgi1 = document.querySelector("#etgi1"),  etgi2 = document.querySelector("#etgi2"),  etgi3 = document.querySelector("#etgi3"),  etgi4 = document.querySelector("#etgi4"),  etgi5 = document.querySelector("#etgi5"),  etgi6 = document.querySelector("#etgi6");  etgStr += etgi1.toggleAttribute("readonly"); etgStr += " " + etgi1.hasAttribute("readonly"); etgStr += " " + etgi1.toggleAttribute("readonly"); etgStr += " " + etgi1.hasAttribute("readonly");alert(etgStr);etgStr = etgi2.toggleAttribute("readonly", false); etgStr += " " + etgi2.hasAttribute("readonly", false); etgStr += " " + etgi2.toggleAttribute("readonly", false); etgStr += " " + etgi2.hasAttribute("readonly", false);alert(etgStr);etgStr = etgi3.toggleAttribute("readonly", true); etgStr += " " + etgi3.hasAttribute("readonly", true); etgStr += " " + etgi3.toggleAttribute("readonly", true); etgStr += " " + etgi3.hasAttribute("readonly", true); alert(etgStr);etgStr = etgi4.toggleAttribute("readonly"); etgStr += " " + etgi4.hasAttribute("readonly"); etgStr += " " + etgi4.toggleAttribute("readonly"); etgStr += " " + etgi4.hasAttribute("readonly"); alert(etgStr);etgStr = etgi5.toggleAttribute("readonly", false); etgStr += " " + etgi5.hasAttribute("readonly", false); etgStr += " " + etgi5.toggleAttribute("readonly", false); etgStr += " " + etgi5.hasAttribute("readonly", false); alert(etgStr);etgStr = etgi6.toggleAttribute("readonly", true); etgStr += " " + etgi6.hasAttribute("readonly", true); etgStr += " " + etgi6.toggleAttribute("readonly", true); etgStr += " " + etgi6.hasAttribute("readonly", true);   alert(etgStr);'>Try</button></p>
-        <pre>var etgStr = "",
-  etgi1 = document.querySelector("#etgi1"),
-  etgi2 = document.querySelector("#etgi2"),
-  etgi3 = document.querySelector("#etgi3"),
-  etgi4 = document.querySelector("#etgi4"),
-  etgi5 = document.querySelector("#etgi5"),
-  etgi6 = document.querySelector("#etgi6");
-
-etgStr += etgi1.toggleAttribute("readonly");
-etgStr += " " + etgi1.hasAttribute("readonly");
-etgStr += " " + etgi1.toggleAttribute("readonly");
-etgStr += " " + etgi1.hasAttribute("readonly");
-alert(etgStr);
-
-etgStr = etgi2.toggleAttribute("readonly", false);
-etgStr += " " + etgi2.hasAttribute("readonly", false);
-etgStr += " " + etgi2.toggleAttribute("readonly", false);
-etgStr += " " + etgi2.hasAttribute("readonly", false);
-alert(etgStr);
-
-etgStr = etgi3.toggleAttribute("readonly", true);
-etgStr += " " + etgi3.hasAttribute("readonly", true);
-etgStr += " " + etgi3.toggleAttribute("readonly", true);
-etgStr += " " + etgi3.hasAttribute("readonly", true);
-alert(etgStr);
-
-etgStr = etgi4.toggleAttribute("readonly");
-etgStr += " " + etgi4.hasAttribute("readonly");
-etgStr += " " + etgi4.toggleAttribute("readonly");
-etgStr += " " + etgi4.hasAttribute("readonly");
-alert(etgStr);
-
-etgStr = etgi5.toggleAttribute("readonly", false);
-etgStr += " " + etgi5.hasAttribute("readonly", false);
-etgStr += " " + etgi5.toggleAttribute("readonly", false);
-etgStr += " " + etgi5.hasAttribute("readonly", false);
-alert(etgStr);
-
-etgStr = etgi6.toggleAttribute("readonly", true);
-etgStr += " " + etgi6.hasAttribute("readonly", true);
-etgStr += " " + etgi6.toggleAttribute("readonly", true);
-etgStr += " " + etgi6.hasAttribute("readonly", true);
-alert(etgStr);</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>Number.parseInt() and Number.parseFloat()</b></td>
-      <td colspan="2">
-        <button onclick='alert( parseInt("44.83") + "\n" + Number.parseInt("44.83") + "\n" + parseFloat("44.83") + "\n" + Number.parseFloat("44.83") );'>Try</button>
-        <pre>alert(
-  parseInt("44.83")
-  + "\n" + Number.parseInt("44.83")
-  + "\n" + parseFloat("44.83")
-  + "\n" + Number.parseFloat("44.83")
-);</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>Object.getOwnPropertyDescriptors()</b></td>
-      <td colspan="2">
-        <p><button onclick='var objA = {a:1,b:2}; var objB = Object.create(objA); objB.c = 3; objB.d = 4; var objC = Object.create(objB); var objStr = JSON.stringify( Object.getOwnPropertyDescriptors(objA) ); objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objB) ); objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objC) ); alert(objStr);'>Try</button></p>
-        <pre>var objA = {a:1,b:2};
-var objB = Object.create(objA);
-objB.c = 3;
-objB.d = 4;
-var objC = Object.create(objB);
-
-// objA.a 1          own
-// objA.b 2          own
-// objA.c undefined  not own
-// objA.d undefined  not own
-
-// objB.a 1          not own
-// objB.b 2          not own
-// objB.c 3          own
-// objB.d 4          own
-
-// objC.a 1          not own
-// objC.b 2          not own
-// objC.c 3          not own
-// objC.d 4          not own
-
-var objStr = JSON.stringify( Object.getOwnPropertyDescriptors(objA) );
-objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objB) );
-objStr += "\n" + JSON.stringify( Object.getOwnPropertyDescriptors(objC) );
-alert(objStr);
-
-/*
-objStr:
-'
-{"a":{"value":1,"writable":true,"enumerable":true,"configurable":true},"b":{"value":2,"writable":true,"enumerable":true,"configurable":true}}
-{"c":{"value":3,"writable":true,"enumerable":true,"configurable":true},"d":{"value":4,"writable":true,"enumerable":true,"configurable":true}}
-{}
-'
-*/</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>Array.prototype.copyWithin()</b></td>
-      <td colspan="2">
-        <p><button onclick='alert( JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2)) + "\n" + JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3)) + "\n" + JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3, 4)) + "\n" + JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2, -3, -1)) + "\n" + JSON.stringify([].copyWithin.call({length: 5, 3: 1}, 0, 3)) );
-'>Try</button></p>
-        <pre>alert(
-  JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2))
-  + "\n" + JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3))
-  + "\n" + JSON.stringify([1, 2, 3, 4, 5].copyWithin(0, 3, 4))
-  + "\n" + JSON.stringify([1, 2, 3, 4, 5].copyWithin(-2, -3, -1))
-  + "\n" + JSON.stringify([].copyWithin.call({length: 5, 3: 1}, 0, 3))
-);</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><b>String.fromCodePoint() and String.prototype.codePointAt()</b></td>
-      <td colspan="2">
-        <p><button onclick='var res_str = String.fromCodePoint(42); res_str += "\n" + String.fromCodePoint(65, 90); res_str += "\n" + String.fromCodePoint(0x404); res_str += "\n" + "ABC".codePointAt(1); res_str += "\n" + "\uD800\uDC00".codePointAt(0); res_str += "\n" + "XYZ".codePointAt(42); alert(res_str);'>Try</button></p>
-        <pre>var res_str = String.fromCodePoint(42);           // "*"
-res_str += "\n" + String.fromCodePoint(65, 90);   // "AZ"
-res_str += "\n" + String.fromCodePoint(0x404);    // "\u0404", euro
-res_str += "\n" + "ABC".codePointAt(1);           // 66
-res_str += "\n" + "\uD800\uDC00".codePointAt(0);  // 65536
-res_str += "\n" + "XYZ".codePointAt(42);          // undefined
-alert(res_str);</pre>
-      </td>
     </tr>
     <tr>
       <td><b>Object.fromEntries();</b></td>
