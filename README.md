@@ -15,17 +15,18 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.4.2
+Latest version: 4.4.3
 
-Date: 2021-07-23T19:30:19.844Z
+Date: 2021-07-30T19:50:39.531Z
 
 The functions are available in the `celestra` and/or `_` object.
 
-edition|filename|size|CUT testpage<br>Celestra Unit Tester
--------|--------|----|------------------------------------
-developer|__celestra.js__|46160 byte|__unittest.dev.html__
-minified|__celestra.min.js__|34987 byte|__unittest.min.html__
-ES6 module|__celestra.esm.js__|34841 byte|__unittest.esm.html__
+edition|filename|size
+-------|--------|----
+developer|__celestra.js__|46384 byte
+minified|__celestra.min.js__|35157 byte
+ES6 module|__celestra.esm.js__|35011 byte
+CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -122,10 +123,10 @@ Name | Description
 `randomFloat([max]);` | Get a random float number value within 0 and max value. Without parameter the maximum value is 100.
 `randomFloat(<min>,<max>);` | Get a random float number value within min and max value.
 `randomBoolean();` | Get a random boolean value. The return value is `true` or `false`.
-`randomString([length[,specialCharactersEnabled]]);` | Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.
+`randomString([length[,specialCharactersEnabled=false]]);` | Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.
 `b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
-`javaHash(<data>[,hexa]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
+`javaHash(<data>[,hexa=false]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `getUrlVars([str=location.search]);` | Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
@@ -330,73 +331,55 @@ Name | Description
 `isSuperset(<superCollection>,<subCollection>);` | This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
 `min(<collection>);` | Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `max(<collection>);` | Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`arrayCycle(<collection>[,n]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
-`arrayRepeat(<value>[,n]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
+`arrayCycle(<collection>[,n=100]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
+`arrayRepeat(<value>[,n=100]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRange([start=0[,end=100[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.
 `zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array. Example: `_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
 `unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. Example: `_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);` => `Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
 `arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
-`arrayRemove(<array>,<value>[,all]);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
+`arrayRemove(<array>,<value>[,all=false]);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayUnique(<collection>);` | __Old name before v3.8.0:__ `uniqueArray(<value>);` <br>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `arrayAdd(<array>,<value>);` | __Old name before v3.8.0:__ `uniquePush(<array>,<value>);` <br>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `arrayMerge([deep,]<target>,<source1>, ...sources);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
 `iterRange([start=0[,step=1[,end=Infinity]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
-`iterCycle(<iter>[,n]);` | Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
-`iterRepeat(<value>[,n]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
+`iterCycle(<iter>[,n=Infinity]);` | Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
+`iterRepeat(<value>[,n=Infinity]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
 `item(<collection>,<index>);` | This function returns the item from the given collection on the given index. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and can be positive number (examples: 0 = the first item, 1 = the second item, 2 = the third item, etc.) Compatible with the Unicode strings.
 `nth(<collection>,<index>);` | This is an alias of the `item(<collection>,<index>);`.
 `size(<collection>);` | This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.
-`sizeOf(<collection>);` | __REMOVED IN V4.0.0__
 `first(<collection>);` | This function returns the first element of the given collection. The collection parameter is mandatory.
 `head(<collection>);` | This is an alias of the `first(<collection>);`.
-`firstOf(<collection>);` | __REMOVED IN V4.0.0__
 `last(<collection>);` | This function returns the last element of the given collection. The collection parameter is mandatory.
-`lastOf(<collection>);` | __REMOVED IN V4.0.0__
 `reverse(<collection>);` | This function returns an array with values of the given collection in reverse order. The collection parameter is mandatory.
-`reverseOf(<collection>);` | __REMOVED IN V4.0.0__
 `sort(<collection>[,numberSort]);` | This function sorts the values of the given collection. The collection parameter is mandatory. The numberSort paramater is optional (boolean) and set true, if the collection contains only numbers. The return value is an array.
-`sortOf(<collection>);` | __REMOVED IN V4.0.0__
 `includes(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
-`hasOf(<collection>,<value>);` | __REMOVED IN V4.0.0__
+`contains(<collection>,<value>);` | This is an alias of the `includes(<collection>,<value>);`.
 `find(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
-`findOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
+`findLast(<collection>,<callback>);` | This function returns the value of the last element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
 `forEach(<collection>,<callback>);` | This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`forOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `map(<collection>,<callback>);` | This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`mapOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `filter(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`filterOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `reject(<collection>,<callback>);` | This is the opposite of the function `filter(<collection>,<callback>);`. The elements to which the given callback gives a false will be yield. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `slice(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
-`sliceOf(<collection>[,begin[,end]]);` | __REMOVED IN V4.0.0__
 `tail(<collection>);` | Yield the values of a collection but without the first value. The collection parameter is mandatory.
 `every(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
-`everyOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `some(<collection>,<callback>);` | This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
-`someOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `none(<collection>,<callback>);` | This function whether all elements in the collection do not pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
-`noneOf(<collection>,<callback>);` | __REMOVED IN V4.0.0__
 `concat(<collection1>[,collectionN]);` | This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.
-`concatOf(<collection1>[,collectionN]);` | __REMOVED IN V4.0.0__
 `reduce(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.
-`reduceOf(<collection>,<callback>[,initialvalue]);` | __REMOVED IN V4.0.0__
 `enumerate(<collection>[,offset=0]);` | Yield generated pairs (arrays) from the elements of a collection and a counter. The collection parameter is mandatory. The offset parameter is optional and can be an integer and it's default value is 0. <br>__Example:__<br> `_.enumerate(["Picard", "Riker", "Data"], 2);` -> `[2, "Picard"]`, `[3, "Riker"]`, `[4, "Data"]`
 `entries(<collection>[,offset=0]);` | An alias of the `enumerate(<collection>);`.
-`enumerateOf(<collection>);` | __REMOVED IN V4.0.0__
 `flat(<collection>);` | Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.
-`flatOf(<collection>);` | __REMOVED IN V4.0.0__
 `join(<collection>[,separator=","]);` | This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.
-`joinOf(<collection>[,separator=","]);` | __REMOVED IN V4.0.0__
-`take(<collection>[,n]);` | Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
-`takeOf(<collection>[,n]);` | __REMOVED IN V4.0.0__
+`take(<collection>[,n=1]);` | Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `takeWhile(<collection>,<callback>);` | Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-`takeRight(<collection>[,n]);` | Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`takeRight(<collection>[,n=1]);` | Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `takeRightWhile(<collection>,<callback>);` | Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-`drop(<collection>[,n]);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
-`dropOf(<collection>[,n]);` | __REMOVED IN V4.0.0__
+`drop(<collection>[,n=1]);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `dropWhile(<collection>,<callback>);` | Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-`dropRight(<collection>[,n]);` | Drop the last N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`dropRight(<collection>[,n=1]);` | Drop the last N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `dropRightWhile(<collection>,<callback>);` | Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
+__REMOVED IN V4.0.0__ | `forOf(<collection>,<callback>);`<br>`mapOf(<collection>,<callback>);`<br>`sizeOf(<collection>);`<br>`filterOf(<collection>,<callback>);`<br>`hasOf(<collection>,<value>);`<br>`findOf(<collection>,<callback>);`<br>`everyOf(<collection>,<callback>);`<br>`someOf(<collection>,<callback>);`<br>`noneOf(<collection>,<callback>);`<br>`firstOf(<collection>);`<br>`lastOf(<collection>);`<br>`sliceOf(<collection>[,begin[,end]]);`<br>`reverseOf(<collection>);`<br>`sortOf(<collection>);`<br>`reduceOf(<collection>,<callback>[,initialvalue]);`<br>`concatOf(<collection1>[,collectionN]);`<br>`flatOf(<collection>);`<br>`enumerateOf(<collection>);`<br>`joinOf(<collection>[,separator=","]);`<br>`takeOf(<collection>[,n]);`<br>`dropOf(<collection>[,n]);`
 
 
 ### Polyfills

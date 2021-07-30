@@ -6,7 +6,7 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.18";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.19";
 
 celTest.__results__ = document.querySelector("#results");
 celTest.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -189,7 +189,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.4.2 testcases */
+/* Celestra v4.4.3 testcases */
 
 /* Not auto tested functions */
 _cut.addElement("hr");
@@ -761,7 +761,7 @@ _cut.isEqual(
   "[[2,7,34],[-5,-9]]"
 );
 
-let strGroupBy = JSON.stringify( _.groupBy([1,2,3,4,5],  
+let strGroupBy = JSON.stringify( _.groupBy([1,2,3,4,5],
   (i) => (i % 2 === 0 ? "even" : "odd")
 ));
 _cut.isTrue("groupBy();",
@@ -998,9 +998,17 @@ _cut.isFalse("shuffle();",
 _cut.isTrue("includes(); true", _.includes(reverseSortArray, "last"));
 _cut.isFalse("includes(); false", _.includes(reverseSortArray, "world"));
 
+_cut.isTrue("contains(); true", _.contains(reverseSortArray, "last"));
+_cut.isFalse("contains(); false", _.contains(reverseSortArray, "world"));
+
 _cut.isEqual("find(); found", 6, _.find(reverseSortArray, (v) => (v > 5)));
 _cut.isEqual("find(); not found", undefined,
   _.find(reverseSortArray, (v) => (v > 11))
+);
+
+_cut.isTrue("findLast();",
+  _.findLast( [4,1,7,2,9], (v) => v < 5 ) === 2
+  && _.findLast( [4,1,7,2,9], (v) => v > 10 ) === undefined
 );
 
 var everySomeNoneArray = [2,9,3,5,8];

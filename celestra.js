@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.4.2 dev
+ * @version 4.4.3 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -320,7 +320,7 @@ function b64Decode (str) {
   }).join(""));
 }
 
-function javaHash (s, hx) {
+function javaHash (s, hx = false) {
   if (s !== undefined) { s = "" + s; } else { return 0; }
   var h = 0, l = s.length, c = "";
   if (l == 0) { return h; }
@@ -1192,7 +1192,7 @@ function arrayAdd (a, v) {
 
 function arrayClear (a) { a.length = 0; return a; }
 
-function arrayRemove (a, v, all) {
+function arrayRemove (a, v, all = false) {
   var found = a.indexOf(v) > -1;
   if (!all) {
     var pos = a.indexOf(v);
@@ -1345,12 +1345,21 @@ function includes (it, v) {
   }
   return false;
 }
+const contains = includes;
 
 function find (it, fn) {
   let i = 0;
   for (let item of it) {
     if (fn(item, i++)) { return item; }
   }
+}
+
+function findLast (it, fn) {
+  let i = 0, r;
+  for (let item of it) {
+    if (fn(item, i++)) { r = item; }
+  }
+  return r;
 }
 
 function every (it, fn) {
@@ -1439,7 +1448,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /* object header */
 
-const VERSION = "Celestra v4.4.2 dev";
+const VERSION = "Celestra v4.4.3 dev";
 
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
@@ -1626,7 +1635,9 @@ var celestra = {
   reverse: reverse,
   sort: sort,
   includes: includes,
+  contains: contains,
   find: find,
+  findLast: findLast,
   every: every,
   some: some,
   none: none,

@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.4.2</p>
-<p>Date: 2021-07-23T19:30:19.844Z</p>
+<p>Latest version: 4.4.3</p>
+<p>Date: 2021-07-30T19:50:39.531Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 
@@ -85,25 +85,27 @@ nav a, nav a:visited, nav a:active, nav a:hover {
     <td class="center"><b>edition</b></td>
     <td class="center"><b>filename</b></td>
     <td class="center"><b>size</b></td>
-    <td class="center"><b>CUT testpage<br/>Celestra Unit Tester</b></td>
+
   </tr>
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>46160 byte</td>
-    <td><a href="unittest.dev.html" target="_blank">unittest.dev.html</a></td>
+    </td><td>46384 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>34987 byte</td>
-    <td><a href="unittest.min.html" target="_blank">unittest.min.html</a></td>
+    <td>35157 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>34841 byte</td>
-    <td><a href="unittest.esm.html" target="_blank">unittest.esm.html</a></td>
+    <td>35011 byte</td>
+  </tr>
+  <tr>
+    <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
+    <td><a href="unittest.html" target="_blank">unittest.html</a></td>
+    <td></td>
   </tr>
 </table>
 
@@ -264,7 +266,7 @@ _.delay(5000)
       <td>Get a random boolean value. The return value is <code>true</code> or <code>false</code>.</td>
     </tr>
     <tr>
-      <td><code>randomString([length[,specialCharactersEnabled]]);</code></td>
+      <td><code>randomString([length[,specialCharactersEnabled=false]]);</code></td>
       <td>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.</td>
     </tr>
     <tr>
@@ -276,7 +278,7 @@ _.delay(5000)
       <td>Unicode compatible base64 to string converter. Return the original string.</td>
     </tr>
     <tr>
-      <td><code>javaHash(&#60;data&#62;[,hexa]);</code></td>
+      <td><code>javaHash(&#60;data&#62;[,hexa=false]);</code></td>
       <td>Java <code>String.hashCode()</code> implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.</td>
     </tr>
     <tr>
@@ -1048,7 +1050,7 @@ console.log(o2);
       <td>Returns the array of unique values that are only in one of given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</td>
     </tr>
     <tr>
-      <td><code>setUnion(&#60;collection1&#62;,[,collectionN]);</code></td>
+      <td><code>setUnion(&#60;collection1&#62;[,collectionN]);</code></td>
       <td>Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.</td>
     </tr>
     <tr>
@@ -1076,11 +1078,11 @@ console.log(o2);
       <td>Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
-      <td><code>arrayCycle(&#60;collection&#62;[,n]);</code></td>
+      <td><code>arrayCycle(&#60;collection&#62;[,n=100]);</code></td>
       <td>Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.</td>
     </tr>
     <tr>
-      <td><code>arrayRepeat(&#60;value&#62;[,step]);</code></td>
+      <td><code>arrayRepeat(&#60;value&#62;[,step=100]);</code></td>
       <td>Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.</td>
     </tr>
     <tr>
@@ -1100,7 +1102,7 @@ console.log(o2);
       <td>Clear the array and returns the empty array. The array parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>arrayRemove(&#60;array&#62;,&#60;value&#62;[,all]);</code></td>
+      <td><code>arrayRemove(&#60;array&#62;,&#60;value&#62;[,all=false]);</code></td>
       <td>Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.</td>
     </tr>
     <tr>
@@ -1126,14 +1128,14 @@ console.log(o2);
       <td>Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.</td>
     </tr>
     <tr>
-      <td><code>iterCycle(&#60;iter&#62;[,n]);</code></td>
+      <td><code>iterCycle(&#60;iter&#62;[,n=Infinity]);</code></td>
       <td>
         <p>Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity</p>
         <p><code>Note: PLease don't use with infinite iterators!</code></p>
       </td>
     </tr>
     <tr>
-      <td><code>iterRepeat(&#60;value&#62;[,n]);</code></td>
+      <td><code>iterRepeat(&#60;value&#62;[,n=Infinity]);</code></td>
       <td>Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity</td>
     </tr>
     <tr>
@@ -1149,10 +1151,6 @@ console.log(o2);
       <td>This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.</td>
     </tr>
     <tr>
-      <td><code>sizeOf(&#60;collection&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>first(&#60;collection&#62;);</code></td>
       <td>This function returns the first element of the given collection. The collection parameter is mandatory.</td>
     </tr>
@@ -1161,72 +1159,44 @@ console.log(o2);
       <td>This is an alias of the <code>first(&#60;collection&#62;);</code>.</td>
     </tr>
     <tr>
-      <td><code>firstOf(&#60;collection&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>last(&#60;collection&#62;);</code></td>
       <td>This function returns the last element of the given collection. The collection parameter is mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>lastOf(&#60;collection&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>reverse(&#60;collection&#62;);</code></td>
       <td>This function returns an array with values of the given collection in reverse order. The collection parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>reverseOf(&#60;collection&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>sort(&#60;collection&#62;[,numberSort]);</code></td>
       <td>This function sorts the values of the given collection. The collection parameter is mandatory. The numberSort paramater is optional (boolean) and set true, if the collection contains only numbers. The return value is an array.</td>
-    </tr>
-    <tr>
-      <td><code>sortOf(&#60;collection&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>includes(&#60;collection&#62;,&#60;value&#62;);</code></td>
       <td>This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.</td>
     </tr>
     <tr>
-      <td><code>hasOf(&#60;collection&#62;,&#60;value&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
+      <td><code>contains(&#60;collection&#62;,&#60;value&#62;);</code></td>
+      <td>This is an alias of the <code>includes(&#60;collection&#62;,&#60;value&#62;);</code>.</td>
     </tr>
     <tr>
       <td><code>find(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.</td>
     </tr>
     <tr>
-      <td><code>findOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
+      <td><code>findLast(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This function returns the value of the last element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.</td>
     </tr>
     <tr>
       <td><code>forEach(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
-      <td><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
-      <td><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>filter(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
-    </tr>
-    <tr>
-      <td><code>filterOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>reject(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1237,10 +1207,6 @@ console.log(o2);
       <td>Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.</td>
     </tr>
     <tr>
-      <td><code>sliceOf(&#60;collection&#62;[,begin[,end]]);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>tail(&#60;collection&#62;);</code></td>
       <td>Yield the values of a collection but without the first value. The collection parameter is mandatory.</td>
     </tr>
@@ -1249,40 +1215,20 @@ console.log(o2);
       <td>This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
     </tr>
     <tr>
-      <td><code>everyOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>some(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
-    </tr>
-    <tr>
-      <td><code>someOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>none(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function whether all elements in the collection do not pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.</td>
     </tr>
     <tr>
-      <td><code>noneOf(&#60;collection&#62;,&#60;callback&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>concat(&#60;collection1&#62;[,collectionN]);</code></td>
       <td>This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.</td>
     </tr>
     <tr>
-      <td><code>concatOf(&#60;collection1&#62;[,collectionN]);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>reduce(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></td>
       <td>This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.</td>
-    </tr>
-    <tr>
-      <td><code>reduceOf(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>enumerate(&#60;collection&#62;[,offset=0]);</code></td>
@@ -1296,39 +1242,23 @@ console.log(o2);
       <td>An alias of the <code>enumerate(&#60;collection&#62;);</code>.</td>
     </tr>
     <tr>
-      <td><code>enumerateOf(&#60;collection&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
       <td><code>flat(&#60;collection&#62;);</code></td>
       <td>Yield the subelements of the elements of the given collection. The collection parameter is mandatory and all of the elements have to be an iterator or iterable.</td>
-    </tr>
-    <tr>
-      <td><code>flatOf(&#60;collection&#62;);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>join(&#60;collection&#62;[,separator=","]);</code></td>
       <td>This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>joinOf(&#60;collection&#62;[,separator=","]);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
-    </tr>
-    <tr>
-      <td><code>take(&#60;collection&#62;[,n]);</code></td>
+      <td><code>take(&#60;collection&#62;[,n=1]);</code></td>
       <td>Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
-    </tr>
-    <tr>
-      <td><code>takeOf(&#60;collection&#62;[,n]);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>takeWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
-      <td><code>takeRight(&#60;collection&#62;[,n]);</code></td>
+      <td><code>takeRight(&#60;collection&#62;[,n=1]);</code></td>
       <td>Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
     </tr>
     <tr>
@@ -1336,24 +1266,46 @@ console.log(o2);
       <td>Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
-      <td><code>drop(&#60;collection&#62;[,n]);</code></td>
+      <td><code>drop(&#60;collection&#62;[,n=1]);</code></td>
       <td>Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
-    </tr>
-    <tr>
-      <td><code>dropOf(&#60;collection&#62;[,n]);</code></td>
-      <td><span class="removed">REMOVED IN V4.0.0</span></td>
     </tr>
     <tr>
       <td><code>dropWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
-      <td><code>dropRight(&#60;collection&#62;[,n]);</code></td>
+      <td><code>dropRight(&#60;collection&#62;[,n=1]);</code></td>
       <td>Drop the last N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
     </tr>
     <tr>
       <td><code>dropRightWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
+    </tr>
+    <tr>
+      <td><span class="removed">REMOVED IN V4.0.0</span></td>
+      <td>  
+        <p><code>forOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
+        <p><code>mapOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
+        <p><code>sizeOf(&#60;collection&#62;);</code></p>
+        <p><code>filterOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
+        <p><code>hasOf(&#60;collection&#62;,<value>);</code></p>
+        <p><code>findOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
+        <p><code>everyOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
+        <p><code>someOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
+        <p><code>noneOf(&#60;collection&#62;,&#60;callback&#62;);</code></p>
+        <p><code>firstOf(&#60;collection&#62;);</code></p>
+        <p><code>lastOf(&#60;collection&#62;);</code></p>
+        <p><code>sliceOf(&#60;collection&#62;[,begin[,end]]);</code></p>
+        <p><code>reverseOf(&#60;collection&#62;);</code></p>
+        <p><code>sortOf(&#60;collection&#62;);</code></p>
+        <p><code>reduceOf(&#60;collection&#62;,&#60;callback&#62;[,initialvalue]);</code></p>
+        <p><code>concatOf(&#60;collection1&#62;[,collectionN]);</code></p>
+        <p><code>flatOf(&#60;collection&#62;);</code></p>
+        <p><code>enumerateOf(&#60;collection&#62;);</code></p>
+        <p><code>joinOf(&#60;collection&#62;[,separator=","]);</code></p>
+        <p><code>takeOf(&#60;collection&#62;[,n]);</code></p>
+        <p><code>dropOf(&#60;collection&#62;[,n]);</code></p>
+      </td>
     </tr>
   </table>
 </div>
