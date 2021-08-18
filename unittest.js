@@ -6,7 +6,7 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.19";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.20";
 
 celTest.__results__ = document.querySelector("#results");
 celTest.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -78,14 +78,12 @@ var _cut = celTest;
 
 
 _cut.addElement("hr");
-_cut.addElement("table",
-  "<tr><td>CUT: </td><td><code>"+_cut.VERSION+"</code></td></tr>"
-    + "<tr><td>Celestra: </td><td><code>"+celestra.VERSION+"</code></td></tr>"
-    + "<tr><td>Date: </td><td><code>"+(new Date()).toISOString()+"</code></td></tr>"
-);
 
 _cut.addElement("table",
-    "<tr><td>navigator.appName: </td><td><code>"+navigator.appName+"</code></td></tr>"
+    "<tr><td>CUT: </td><td><code>"+_cut.VERSION+"</code></td></tr>"
+    + "<tr><td>Celestra: </td><td><code>"+celestra.VERSION+"</code></td></tr>"
+    + "<tr><td>Date: </td><td><code>"+(new Date()).toISOString()+"</code></td></tr>"
+    + "<tr><td>navigator.appName: </td><td><code>"+navigator.appName+"</code></td></tr>"
     + "<tr><td>navigator.appCodeName: </td><td><code>"+navigator.appCodeName+"</code></td></tr>"
     + "<tr><td>navigator.product: </td><td><code>"+navigator.product+"</code></td></tr>"
     + "<tr><td>navigator.appVersion: </td><td><code>"+navigator.appVersion+"</code></td></tr>"
@@ -189,7 +187,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.4.3 testcases */
+/* Celestra v4.5.0 testcases */
 
 /* Not auto tested functions */
 _cut.addElement("hr");
@@ -197,8 +195,6 @@ _cut.addElement("h3", "Not auto tested functions");
 _cut.addElement("ul",
   "<li>getUrlVars(); no str parameter</li>"
     +"<li>getLocation(&#60;success&#62;[,error]);</li>"
-    +"<li>importStyle(&#60;href&#62;[,success]);</li>"
-    +"<li>importStyles(&#60;styles&#62;);</li>"
     +"<li>getFullscreen();</li>"
     +"<li>setFullscreenOn(&#60;selector&#62; or &#60;element&#62;);</li>"
     +"<li>setFullscreenOff();</li>"
@@ -414,6 +410,7 @@ _cut.isEqual("obj2string();",
   "str=%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%C3%89%C3%81%C5%B0%C5%90%C3%9A%C3%96%C3%9C%C3%93%C3%8D&bool=true&pi=3.141592653589793",
   _.obj2string(obj2stringObj)
 );
+_cut.log(`<code>"${_.obj2string(obj2stringObj)}"</code>`);
 
 /* inherit(); */
 
@@ -559,8 +556,15 @@ _cut.isEqual("popIn();", "1undefined", ""+_.popIn({"a":1},"a")+_.popIn({},"a"));
 
 _cut.isEqual("getDoNotTrack();", true, _.getDoNotTrack() === true || _.getDoNotTrack() === false);
 
+_cut.isTrue("strPropercase();",
+  _.strPropercase("arthur conan doyle") === "Arthur Conan Doyle" &&
+  _.strPropercase("arthur conan   doyle") === "Arthur Conan   Doyle"
+);
+
 _cut.isEqual("strCapitalize();", _.strCapitalize("lorEm Ipsum"), "Lorem ipsum");
+
 _cut.isEqual("strUpFirst();", _.strUpFirst("lorEm Ipsum"), "LorEm Ipsum");
+
 _cut.isEqual("strDownFirst();", _.strDownFirst("LorEm Ipsum"), "lorEm Ipsum");
 
 _cut.isEqual("strHTMLRemoveTags();","lorem ipsum dolor sit amet , consectetuer",
@@ -590,15 +594,17 @@ _cut.isEqual(
   _.strFromCodePoints(_.strCodePoints(testUnicodeStr22222))
 );
 
-_cut.isTrue("strAt(); unicode 1", _.strAt("\uD834\uDF06 ab cd",0) === "\uD834\uDF06");
-_cut.isTrue("strAt(); unicode 2", _.strAt("ab \uD834\uDF06 cd",3) === "\uD834\uDF06");
-_cut.isTrue("strAt(); unicode 3", _.strAt("ab cd \uD834\uDF06",-1) === "\uD834\uDF06");
-_cut.isTrue("strAt(); non unicode 1", _.strAt("ab \uD834\uDF06 cd",0) === "a");
-_cut.isTrue("strAt(); non unicode 2", _.strAt("ab \uD834\uDF06 cd",5) === "c");
-_cut.isTrue("strAt(); non unicode 3", _.strAt("ab \uD834\uDF06 cd",-1) === "d");
-_cut.isTrue("strAt(); empty string 1", _.strAt("",0) === "");
-_cut.isTrue("strAt(); empty string 2", _.strAt("",3) === "");
-_cut.isTrue("strAt(); empty string 3", _.strAt("",-1) === "");
+_cut.isTrue("strAt();",
+  _.strAt("\uD834\uDF06 ab cd",0) === "\uD834\uDF06"
+  && _.strAt("ab \uD834\uDF06 cd",3) === "\uD834\uDF06"
+  && _.strAt("ab cd \uD834\uDF06",-1) === "\uD834\uDF06"
+  && _.strAt("ab \uD834\uDF06 cd",0) === "a"
+  && _.strAt("ab \uD834\uDF06 cd",5) === "c"
+  && _.strAt("ab \uD834\uDF06 cd",-1) === "d"
+  && _.strAt("",0) === ""
+  && _.strAt("",3) === ""
+  && _.strAt("",-1) === ""
+);
 
 var slice = _.toFunction([].slice);
 _cut.isEqual("toFunction();", true, Array.isArray(slice(document.querySelectorAll("h3"))));
@@ -977,16 +983,16 @@ _cut.isEqual("reverse();", "[\"last\",9,8,7,6,5,4,\"first\"]",
   JSON.stringify([..._.reverse(reverseSortArray)])
 );
 
-_cut.isEqual("sort(); without numberShort", "[4,5,6,7,8,9,\"first\",\"last\"]",
+_cut.isEqual("sort(); without numbers", "[4,5,6,7,8,9,\"first\",\"last\"]",
   JSON.stringify([..._.sort(reverseSortArray)])
 );
-_cut.isEqual("sort(); with numberShort", "[\"first\",4,5,6,7,8,9,\"last\"]",
+_cut.isEqual("sort(); with numbers", "[\"first\",4,5,6,7,8,9,\"last\"]",
   JSON.stringify([..._.sort(reverseSortArray, true)])
 );
-_cut.isEqual("sort(); numbers without numberShort", "[1,10,7,9]",
+_cut.isEqual("sort(); numbers without numbers", "[1,10,7,9]",
   JSON.stringify([..._.sort([7,1,10,9])])
 );
-_cut.isEqual("sort(); numbers with numberShort", "[1,7,9,10]",
+_cut.isEqual("sort(); numbers with numbers", "[1,7,9,10]",
   JSON.stringify([..._.sort([7,1,10,9], true)])
 );
 
@@ -2029,13 +2035,10 @@ _.domReady(function () { _cut.isTrue("domReady(); is working", true); });
 _cut.addElement("p", "Here have to be these results:");
 _cut.addElement("ul",
   "<li>1x domReady(); (core api) is working</li>"
-    +"<li>3x importScript(); (core api) - first script loaded</li>"
-    +"<li>3x importScript(); (core api) - second script loaded</li>"
-    +"<li>1x importScripts(); (core api) with success is1</li>"
-    +"<li>1x importScripts(); (core api) with success is2</li>"
-    +"<li>1x importScripts(); (core api) with error is1</li>"
-    +"<li>1x importScripts(); (core api) with error is2</li>"
-    +"<li>4x importScripts(); (core api) - with more scripts"
+    +"<li>2x importScript(); (core api) - first script loaded</li>"
+    +"<li>2x importScript(); (core api) - second script loaded</li>"
+    +"<li>1x importScript(); (core api) - with more scripts"
+    +"<li>1x importScript(); (core api) with error</li>"
     +"<li>1x getJson()</li>"
     +"<li>1x getText()</li>"
     +"<li>12x ajax()</li>"
@@ -2043,31 +2046,8 @@ _cut.addElement("ul",
 
 _.importScript("unittest-is1.js");
 _.importScript("unittest-is2.js");
-_.importScripts("unittest-is3.js");
-_.importScripts("unittest-is3.js", "unittest-is3.js", "unittest-is3.js");
-
-var scripts=[
-  { url: "unittest-is1.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with success is1", true, true);
-  } },
-  { url: "unittest-is2.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with success is2", true, true);
-  } }
-];
-_.importScripts(scripts);
-
-scripts=[
-  { url: "unittest-is1.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with error is1", true, true);
-  } },
-  { url: "unittest-notexist.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with error notexist.js", true, true);
-  } },
-  { url: "unittest-is2.js", success: function () {
-    _cut.isEqual("importScripts(); (core api) with error is2", true, true);
-  } }
-];
-_.importScripts(scripts);
+_.importScript("unittest-is1.js", "unittest-is2.js", "unittest-is3.js");
+_.importScript("unittest-notExist.js");
 
 /* AJAX functions */
 

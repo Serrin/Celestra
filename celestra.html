@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.4.3</p>
-<p>Date: 2021-07-30T19:50:39.531Z</p>
+<p>Latest version: 4.5.0</p>
+<p>Date: 2021-08-17T19:07:36.141Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 
@@ -90,17 +90,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>46384 byte</td>
+    </td><td>56804 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>35157 byte</td>
+    <td>34718 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>35011 byte</td>
+    <td>34576 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -301,6 +301,10 @@ _.delay(5000)
     <tr>
       <td><code>deepAssign(&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
       <td>This is another enhanced version of the <code>Object.assign</code> method and create an always deep copy (recursive) of the sources.</td>
+    </tr>
+    <tr>
+      <td><code>strPropercase(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br/><b>Example:</b><br/><code>_.strPropercase("arthur conan doyle");</code><br/>-><br/><code>"Arthur Conan Doyle"</code></td>
     </tr>
     <tr>
       <td><code>strCapitalize(&#60;string&#62;);</code></td>
@@ -539,31 +543,23 @@ console.log(o2);
       <td>Alias of the <code>domSiblingsNext(&#60;element&#62;);</code>.</td>
     </tr>
     <tr>
-      <td><code>importScript(&#60;url&#62;[,success]);</code></td>
+      <td><code>importScript(&#60;script1&#62;[,scriptN]);</code></td>
       <td>
-        <p>Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function.</p>
-        <p><b>Tip:</b> To prevent the caching of a js/css file use versioning in the file url. Example: <code>mylib.js?version=1.10.0</code></p>
+        <p>Load JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</p>
+        <p><b>Tip:</b><br/>To prevent the caching of a js/css file use versioning in the file url. Example: <code>mylib.js?version=1.10.0</code></p>
       </td>
     </tr>
     <tr>
-      <td><code>importScripts(&#60;scripts&#62;);</code></td>
-      <td>Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
+      <td><code>importScripts();</code></td>
+      <td><span class="removed">REMOVED IN V4.5.0</span></td>
     </tr>
     <tr>
-      <td><code>importScripts(&#60;script1&#62;[,scriptN]);</code></td>
-      <td>Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
+      <td><code>importStyle(&#60;style1&#62;[,styleN]);</code></td>
+      <td>Load CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
     </tr>
     <tr>
-      <td><code>importStyle(&#60;href&#62;[,success]);</code></td>
-      <td>Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.</td>
-    </tr>
-    <tr>
-      <td><code>importStyles(&#60;styles&#62;);</code></td>
-      <td>Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.</td>
-    </tr>
-    <tr>
-      <td><code>importStyles(&#60;style1&#62;[,styleN]);</code></td>
-      <td>Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.</td>
+      <td><code>importStyles();</code></td>
+      <td><span class="removed">REMOVED IN V4.5.0</span></td>
     </tr>
     <tr>
       <td><code>form2array(&#60;form&#62;);</code></td>
@@ -1087,11 +1083,14 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>arrayRange([start=0[,end=100[,step=1]]]);</code></td>
-      <td>Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.</td>
+      <td>
+        Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.
+        <br/><b>Example:</b><br/><code>_.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));</code><br/>-><br/><code>code>Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]</code>
+      </td>
     </tr>
     <tr>
       <td><code>zip(&#60;collection1&#62;[,collectionN]);</code></td>
-      <td>Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. <br/>Example: <code>_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);</code> => <code>Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]</code></td>
+      <td>Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. <br/><b>Example:</b><br/><code>_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);</code><br/>-><br/><code>Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]</code></td>
     </tr>
     <tr>
       <td><code>unzip(&#60;collection&#62;);</code></td>
@@ -1120,8 +1119,8 @@ console.log(o2);
       </td>
     </tr>
     <tr>
-      <td><code>arrayMerge([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
-      <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
+      <td><code>arrayMerge([flat=false,]&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
+      <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
     </tr>
     <tr>
       <td><code>iterRange([start=0[,step=1[,end=Infinity]]]);</code></td>
@@ -1167,8 +1166,8 @@ console.log(o2);
       <td>This function returns an array with values of the given collection in reverse order. The collection parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>sort(&#60;collection&#62;[,numberSort]);</code></td>
-      <td>This function sorts the values of the given collection. The collection parameter is mandatory. The numberSort paramater is optional (boolean) and set true, if the collection contains only numbers. The return value is an array.</td>
+      <td><code>sort(&#60;collection&#62;[,numbers=false]);</code></td>
+      <td>This function sorts the values of the given collection. The collection parameter is mandatory. The numbers paramater is optional (boolean) and set true, if the collection contains only numbers. The return value is an array.</td>
     </tr>
     <tr>
       <td><code>includes(&#60;collection&#62;,&#60;value&#62;);</code></td>
@@ -1203,7 +1202,7 @@ console.log(o2);
       <td>This is the opposite of the function <code>filter(&#60;collection&#62;,&#60;callback&#62;);</code>. The elements to which the given callback gives a false will be yield. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
-      <td><code>slice(&#60;collection&#62;[,begin[,end]]);</code></td>
+      <td><code>slice(&#60;collection&#62;[,begin=0[,end=Infinity]]);</code></td>
       <td>Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.</td>
     </tr>
     <tr>
@@ -1429,11 +1428,11 @@ console.log(o2);
     </tr>
     <tr>
       <td>REMOVED polyfills in v3.1.0</td>
-      <td><code>Array.from();</code>, <code>Array.of();</code>, <code>Array.prototype.fill();</code>, <code>Array.prototype.find();</code>, <code>Array.prototype.findIndex();</code>, <code>Object.create();</code>, <code>String.prototype.startsWith();</code>, <code>String.prototype.endsWith();</code>, <code>Object.is();</code>, <code>Array.prototype.copyWithin();</code>, <code>String.fromCodePoint();</code>, <code>String.prototype.codePointAt();</code>, <code>Number.MIN_SAFE_INTEGER;</code>, <code>Number.MAX_SAFE_INTEGER;</code>, <code>Number.EPSILON;</code>, <code>Number.isNaN();</code>, <code>isNaN();</code>, <code>Number.isInteger();</code>, <code>Number.isFinite();</code>, <code>Number.isSafeInteger();</code>, <code>Number.parseInt();</code>, <code>Number.parseFloat();</code>, <code>Math.acosh();</code>, <code>Math.asinh();</code>, <code>Math.atanh();</code>, <code>Math.cbrt();</code>, <code>Math.clz32();</code>, <code>Math.cosh();</code>, <code>Math.expm1();</code>, <code>Math.fround();</code>, <code>Math.hypot();</code>, <code>Math.imul();</code>, <code>Math.log1p();</code>, <code>Math.log10();</code>, <code>Math.log2();</code>, <code>Math.sign();</code>, <code>Math.sinh();</code>, <code>Math.tanh();</code>, <code>Math.trunc();</code></td>
+      <td><code>Array.from();</code><br/><code>Array.of();</code><br/><code>Array.prototype.fill();</code><br/><code>Array.prototype.find();</code><br/><code>Array.prototype.findIndex();</code><br/><code>Object.create();</code><br/><code>String.prototype.startsWith();</code><br/><code>String.prototype.endsWith();</code><br/><code>Object.is();</code><br/><code>Array.prototype.copyWithin();</code><br/><code>String.fromCodePoint();</code><br/><code>String.prototype.codePointAt();</code><br/><code>Number.MIN_SAFE_INTEGER;</code><br/><code>Number.MAX_SAFE_INTEGER;</code><br/><code>Number.EPSILON;</code><br/><code>Number.isNaN();</code><br/><code>isNaN();</code><br/><code>Number.isInteger();</code><br/><code>Number.isFinite();</code><br/><code>Number.isSafeInteger();</code><br/><code>Number.parseInt();</code><br/><code>Number.parseFloat();</code><br/><code>Math.acosh();</code><br/><code>Math.asinh();</code><br/><code>Math.atanh();</code><br/><code>Math.cbrt();</code><br/><code>Math.clz32();</code><br/><code>Math.cosh();</code><br/><code>Math.expm1();</code><br/><code>Math.fround();</code><br/><code>Math.hypot();</code><br/><code>Math.imul();</code><br/><code>Math.log1p();</code><br/><code>Math.log10();</code><br/><code>Math.log2();</code><br/><code>Math.sign();</code><br/><code>Math.sinh();</code><br/><code>Math.tanh();</code><br/><code>Math.trunc();</code></td>
     </tr>
     <tr>
       <td>REMOVED polyfills in v3.8.0</td>
-      <td><code>Array.prototype.values();</code>, <code>Array.prototype.includes();</code>, <code>String.prototype.includes();</code>, <code>String.prototype.repeat();</code>, <code>String.prototype[Symbol.iterator]();</code>, <code>Object.assign();</code>, <code>Object.entries();</code>, <code>Object.values();</code>, <code>Object.getOwnPropertyDescriptors();</code>, <code>RegExp.prototype.flags;</code>, <code>NodeList.prototype.forEach();</code>, <code>ChildNode.after();</code>, <code>ChildNode.before();</code>, <code>ChildNode.remove();</code>, <code>ChildNode.replaceWith();</code>, <code>ParentNode.append();</code>, <code>ParentNode.prepend();</code>, <code>Element.prototype.matches();</code>, <code>Element.prototype.closest();</code>, <code>Element.prototype.toggleAttribute();</code>, <code>Element.prototype.getAttributeNames();</code>, <code>window.screenLeft;</code>, <code>window.screenTop;</code></td>
+      <td><code>Array.prototype.values();</code><br/><code>Array.prototype.includes();</code><br/><code>String.prototype.includes();</code><br/><code>String.prototype.repeat();</code><br/><code>String.prototype[Symbol.iterator]();</code><br/><code>Object.assign();</code><br/><code>Object.entries();</code><br/><code>Object.values();</code><br/><code>Object.getOwnPropertyDescriptors();</code><br/><code>RegExp.prototype.flags;</code><br/><code>NodeList.prototype.forEach();</code><br/><code>ChildNode.after();</code><br/><code>ChildNode.before();</code><br/><code>ChildNode.remove();</code><br/><code>ChildNode.replaceWith();</code><br/><code>ParentNode.append();</code><br/><code>ParentNode.prepend();</code><br/><code>Element.prototype.matches();</code><br/><code>Element.prototype.closest();</code><br/><code>Element.prototype.toggleAttribute();</code><br/><code>Element.prototype.getAttributeNames();</code><br/><code>window.screenLeft;</code><br/><code>window.screenTop;</code></td>
     </tr>
   </table>
 </div>
@@ -1661,54 +1660,19 @@ _.qs("#div2").append(el2);</pre></td>
       <td><code>alert( _.randomFloat(51,55) );</code></td>
     </tr>
     <tr>
-      <td><b>importScript(url)</b></td>
+      <td><b>importScript(url) 1</b></td>
       <td><button onclick='_.importScript("testmodule1.js");'>Try</button></td>
       <td><code>_.importScript("testmodule1.js");</code></td>
     </tr>
     <tr>
-      <td><b>importScript(url,success)</b></td>
-      <td><button onclick='_.importScript("testmodule1.js",function(){ alert("External file is loaded."); });'>Try</button></td>
-      <td><code>_.importScript("testmodule1.js",function(){ alert("External file is loaded."); });</code></td>
+      <td><b>importScript(url) 2</b></td>
+      <td><button onclick='_.importScript("testmodule1.js", "testmodule2.js");'>Try</button></td>
+      <td><code>_.importScript("testmodule1.js", "testmodule2.js");</code></td>
     </tr>
     <tr>
-      <td id="url"><b>importScript(url,success) with error</b></td>
-      <td><button onclick='_.importScript("test2.js",function(){ alert("External file is loaded."); });'>Try</button></td>
-      <td><code>_.importScript("test2.js",function(){ alert("External file is loaded."); });</code></td>
-    </tr>
-    <tr>
-      <td><b>importScripts(scripts)</b></td>
-      <td><button onclick='var scripts=[ { url: "testmodule1.js" } , { url: "testmodule2.js" } ]; _.importScripts(scripts);'>Try</button></td>
-      <td><code>var scripts=[ { url: "testmodule1.js" } , { url: "testmodule2.js" } ];<br/>_.importScripts(scripts);</code></td>
-    </tr>
-    <tr>
-      <td><b>importScripts(scripts) with error</b></td>
-      <td><button onclick='var scripts=[ { url: "testmodule1.js" } , { url: "module0.js" }, { url: "testmodule2.js" } ]; _.importScripts(scripts);'>Try</button></td>
-      <td><code>var scripts=[ { url: "testmodule1.js" } , { url: "module0.js" } , { url: "testmodule2.js" } ];<br/>_.importScripts(scripts);</code></td>
-    </tr>
-    <tr>
-      <td><b>importScripts(scripts) with successs</b></td>
-      <td><button onclick='var scripts=[{ url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } , { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } } ]; _.importScripts(scripts);'>Try</button></td>
-      <td><code>var scripts=[<br/> { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } ,<br/> { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } }<br/>];<br/>_.importScripts(scripts);</code></td>
-    </tr>
-    <tr>
-      <td><b>importScripts(scripts) with successs with error</b></td>
-      <td><button onclick='var scripts=[ { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } , { url: "module0.js", success: function () { alert("Module 0 success function is executed.") } } , { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } } ]; _.importScripts(scripts);'>Try</button></td>
-      <td><code>var scripts=[<br/> { url: "testmodule1.js", success: function () { alert("Module 1 success function is executed.") } } ,<br/> { url: "module0.js", success: function () { alert("Module 0 success function is executed.") } } ,<br/> { url: "testmodule2.js", success: function () { alert("Module 2 success function is executed.") } }<br/>];<br/>_.importScripts(scripts);</code></td>
-    </tr>
-    <tr>
-      <td><b>importScripts(script1)</b></td>
-      <td><button onclick='_.importScripts("testmodule1.js");'>Try</button></td>
-      <td><code>_.importScripts("testmodule1.js");</code></td>
-    </tr>
-    <tr>
-      <td><b>importScripts(script1, ... scriptN)</b></td>
-      <td><button onclick='_.importScripts("testmodule1.js", "testmodule2.js");'>Try</button></td>
-      <td><code>_.importScripts("testmodule1.js", "testmodule2.js");</code></td>
-    </tr>
-    <tr>
-      <td><b>importScripts(script1, ... scriptN) with error</b></td>
-      <td><button onclick='_.importScripts("testmodule1.js", "testmodule3.js", "testmodule2.js");'>Try</button></td>
-      <td><code>_.importScripts("testmodule1.js", "testmodule3.js", "testmodule2.js");</code></td>
+      <td><b>importScript(url) 3 error</b></td>
+      <td><button onclick='_.importScript("testmodule-notExist.js");'>Try</button></td>
+      <td><code>_.importScript("testmodule-notExist.js");</code></td>
     </tr>
     <tr>
       <td><b></b></td>
@@ -2044,45 +2008,25 @@ var txt = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       </td>
     </tr>
     <tr>
-      <td><b>importStyle and importStyles</b></td>
+      <td><b>importStyle</b></td>
       <td colspan="2">
         <div>
           <p id="csstest2" style="color: braun; border: 1px solid braun;">Testarea</p>
           <p>
-            <button onclick='_.importStyle("testmodule1.css");'>importStyle</button>
+            <button onclick='_.importStyle("testmodule1.css");'>importStyle 1</button>
             <br/><code>_.importStyle("testmodule1.css");</code>
           </p>
           <p>
-            <button onclick='_.importStyle("testmodule2.css", function () { alert("testmodule2.css is loaded.") } );'>importStyle with success</button>
-            <br/><code>_.importStyle("testmodule2.css", function () { alert("testmodule2.css is loaded.") } );</code>
+            <button onclick='_.importStyle("testmodule2.css");'>importStyle 2</button>
+            <br/><code>_.importStyle("testmodule2.css");</code>
           </p>
           <p>
-            <button onclick='_.importStyle("module3.css", function () { alert("module3.css is loaded.") } );'>importStyle with error</button>
-            <br/><code>_.importStyle("module3.css", function () { alert("module3.css is loaded.") } );</code>
+            <button onclick='_.importStyle("testmodule1.css", "testmodule2.css");'>importStyle 3</button>
+            <br/><code>_.importStyle("testmodule1.css, "testmodule2.css"");</code>
           </p>
           <p>
-            <button onclick='_.importStyles( [ { href: "testmodule1.css" }, { href: "testmodule2.css" } ] );'>importStyles</button>
-            <br/><code>_.importStyles( [ { href: "testmodule1.css" }, { href: "testmodule2.css" } ] );</code>
-          </p>
-          <p>
-            <button onclick='_.importStyles( [ { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } }, { href: "testmodule2.css", success: function () { alert("testmodule2.css is loaded.") } } ] );'>importStyles with success</button>
-            <br/><code>_.importStyles( [<br/> { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } },<br/> { href: "testmodule2.css", success: function () { alert("testmodule2.css is loaded.") } }<br/>] );</code>
-          </p>
-          <p>
-            <button onclick='_.importStyles( [ { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } }, { href: "module3.css", success: function () { alert("module3.css is loaded.") } } ] );'>importStyles with error</button>
-            <br/><code>_.importStyles( [<br/> { href: "testmodule1.css", success: function () { alert("testmodule1.css is loaded.") } },<br/> { href: "module3.css", success: function () { alert("module3.css is loaded.") } }<br/>] );</code>
-          </p>
-          <p>
-            <button onclick='_.importStyles("testmodule1.css");'>importStyles more (1) parameters</button>
-            <br/><code>_.importStyles("testmodule1.css");</code>
-          </p>
-          <p>
-            <button onclick='_.importStyles("testmodule1.css", "testmodule2.css");'>importStyles more parameters</button>
-            <br/><code>_.importStyles("testmodule1.css", "testmodule1.css");</code>
-          </p>
-          <p>
-            <button onclick='_.importStyles("testmodule1.css", "module3.css", "testmodule2.css");'>importStyles more parameters with errors</button>
-            <br/><code>_.importStyles("testmodule1.css", "module3.css", "testmodule1.css");</code>
+            <button onclick='_.importStyle("testmodule-notExist.css");'>importStyle 4 error</button>
+            <br/><code>_.importStyle("testmodule-notExist.css");</code>
           </p>
         </div>
       </td>
@@ -2825,9 +2769,7 @@ alert(fromEntriesStr);</pre>
       </div>
       <div class="flex-w-33">
         <p><b>Celestra Unit Tester</b></p>
-        <p><a href="unittest.dev.html" target="_blank">CUT- dev</a></p>
-        <p><a href="unittest.min.html" target="_blank">CUT- min</a></p>
-        <p><a href="unittest.esm.html" target="_blank">CUT- esm</a></p>
+        <p><a href="unittest.html" target="_blank">CUT</a></p>
       </div>
       <div class="flex-w-33">
         <p><b>Themes</b></p>

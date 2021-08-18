@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.4.3 dev
+ * @version 4.5.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -11,10 +11,7 @@
   Function         |   #  |  Internal calls
 -------------------+------+----------------------------------
   CTRL-F           |   N  |  getType()
-  importScripts()  |   2  |  importScript(), importScript()
-  importStyles()   |   2  |  importStyle(), importStyle()
   domFadeToggle()  |   2  |  domFadeIn(), domFadeOut()
-  arrayMerge()     |   1  |  arrayMerge()
   extend()         |   1  |  extend()
   deepAssign()     |   1  |  deepAssign()
   getJson()        |   1  |  ajax()
@@ -22,8 +19,9 @@
   clearCookies()   |   2  |  getCookie(), removeCookie()
 -------------------+------+--------------------------------*/
 
-/* polyfills */
+/** polyfills **/
 
+/* Array.prototype.at(<index>); */
 if (!("at" in Array.prototype)) {
   Object.defineProperty(Array.prototype, "at", {
     writable: true, enumerable: false, configurable: true,
@@ -36,6 +34,7 @@ if (!("at" in Array.prototype)) {
   });
 }
 
+/* TypedArray.prototype.at(<index>); */
 if (!("at" in Uint8Array.prototype)) {
   Object.defineProperty(Uint8Array.prototype, "at", {
     writable: true, enumerable: false, configurable: true,
@@ -48,6 +47,7 @@ if (!("at" in Uint8Array.prototype)) {
   });
 }
 
+/* String.prototype.at(<index>); */
 if (!("at" in String.prototype)) {
   Object.defineProperty(String.prototype, "at", {
     writable: true, enumerable: false, configurable: true,
@@ -60,6 +60,7 @@ if (!("at" in String.prototype)) {
   });
 }
 
+/* Object.hasOwn(); */
 if (!Object.hasOwn) {
   Object.defineProperty(Object, "hasOwn", {
     value: function (object, property) {
@@ -74,20 +75,25 @@ if (!Object.hasOwn) {
   });
 }
 
+/* String.prototype.trimStart(); */
 if (!String.prototype.trimStart) {
   String.prototype.trimStart = function () { return this.replace(/^\s+/, ""); };
 }
+/* String.prototype.trimLeft(); */
 if (!String.prototype.trimLeft) {
   String.prototype.trimLeft = function () { return this.replace(/^\s+/, ""); };
 }
 
+/* String.prototype.trimEnd(); */
 if (!String.prototype.trimEnd) {
   String.prototype.trimEnd = function () { return this.replace(/\s+$/, ""); };
 }
+/* String.prototype.trimRight(); */
 if (!String.prototype.trimRight) {
   String.prototype.trimRight = function () { return this.replace(/\s+$/, ""); };
 }
 
+/* String.prototype.padStart(); */
 if (!String.prototype.padStart) {
   String.prototype.padStart = function (len, str) {
     len = Math.floor(Number(len));
@@ -103,6 +109,7 @@ if (!String.prototype.padStart) {
   };
 }
 
+/* String.prototype.padEnd(); */
 if (!String.prototype.padEnd) {
   String.prototype.padEnd = function (len, str) {
     len =  Math.floor(Number(len));
@@ -118,6 +125,7 @@ if (!String.prototype.padEnd) {
   };
 }
 
+/* String.prototype.replaceAll(); */
 if (!("replaceAll" in String.prototype)) {
   Object.defineProperty(String.prototype, "replaceAll", {
     "configurable": true,
@@ -140,6 +148,7 @@ if (!("replaceAll" in String.prototype)) {
   });
 }
 
+/* Array.prototype.flat(); */
 if (!Array.prototype.flat) {
   Array.prototype.flat = function (depth) {
     if (depth === undefined) {
@@ -163,6 +172,7 @@ if (!Array.prototype.flat) {
   };
 }
 
+/* Array.prototype.flatMap(); */
 if (!Array.prototype.flatMap) {
   Array.prototype.flatMap = function (fn) {
     var res = [];
@@ -173,6 +183,7 @@ if (!Array.prototype.flatMap) {
   };
 }
 
+/* Object.fromEntries(); */
 if (!Object.fromEntries) {
   Object.fromEntries = function (entries) {
     var r = {};
@@ -181,7 +192,7 @@ if (!Object.fromEntries) {
   };
 }
 
-/* https://github.com/tc39/proposal-global */
+/* globalThis; */
 (function (global) {
   if (!global.globalThis) {
     if (Object.defineProperty) {
@@ -194,6 +205,7 @@ if (!Object.fromEntries) {
   }
 })(typeof this === "object" ? this : Function("return this")());
 
+/* String.prototype.matchAll(); */
 if (!String.prototype.matchAll) {
   String.prototype.matchAll = function* (regex) {
     function ef (fls, fl) { return (fls.includes(fl) ? fls : fls + fl); }
@@ -203,6 +215,7 @@ if (!String.prototype.matchAll) {
   };
 }
 
+/* Array.prototype.findLast(); */
 if (!("findLast" in Array.prototype)) {
   Object.defineProperty(Array.prototype, "findLast", {
     writable: true, enumerable: false, configurable: true,
@@ -219,6 +232,7 @@ if (!("findLast" in Array.prototype)) {
   });
 }
 
+/* Array.prototype.findLastIndex(); */
 if (!("findLastIndex" in Array.prototype)) {
   Object.defineProperty(Array.prototype, "findLastIndex", {
     writable: true, enumerable: false, configurable: true,
@@ -235,6 +249,7 @@ if (!("findLastIndex" in Array.prototype)) {
   });
 }
 
+/* TypedArray.prototype.findLast(); */
 if (!("findLast" in Uint8Array.prototype)) {
   Object.defineProperty(Uint8Array.prototype, "findLast", {
     writable: true, enumerable: false, configurable: true,
@@ -251,6 +266,7 @@ if (!("findLast" in Uint8Array.prototype)) {
   });
 }
 
+/* TypedArray.prototype.findLastIndex(); */
 if (!("findLastIndex" in Uint8Array.prototype)) {
   Object.defineProperty(Uint8Array.prototype, "findLastIndex", {
     writable: true, enumerable: false, configurable: true,
@@ -267,39 +283,50 @@ if (!("findLastIndex" in Uint8Array.prototype)) {
   });
 }
 
-/* non-standard polyfills */
+/** non-standard polyfills **/
 
+/* window.GeneratorFunction(); */
 if (!window.GeneratorFunction) {
   window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
 }
 
+/* window.AsyncFunction(); */
 if (!window.AsyncFunction) {
   window.AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 }
 
+/* BigInt.prototype.toJSON(); */
 if (window.BigInt && !BigInt.prototype.toJSON) {
   BigInt.prototype.toJSON = function () { return this.toString(); };
 }
 
-/* core api */
+/** core api **/
 
+/* signbit(<value: any>): boolean */
 const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
 
+/* delay(<ms: integer>).then(<callback: function>): promise */
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+/* randomInt([max: integer]): integer */
+/* randomInt(<min: integer>,<max: integer>): integer */
 function randomInt (i = 100, a) {
   if (a === undefined) { a = i; i = 0; }
   return Math.floor(Math.random() * (a - i + 1)) + i;
 }
 
+/* randomFloat([max: float]): float */
+/* randomFloat(<min: float>,<max: float>): float */
 function randomFloat (i = 100, a) {
   if (a === undefined) { a = i; i = 0; }
   var r = (Math.random() * (a - i + 1)) + i;
   return r > a ? a : r;
 }
 
+/* randomBoolean(): boolean */
 const randomBoolean = () => (Math.random() >= 0.5);
 
+/* randomString([length:integer[,specialCharactersEnabled=false]]): string */
 function randomString (pl = 100, sc = false) {
   var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   if (sc) { chars += ",?,.:-_*$ß¤Łł÷×¸¨˝´˙`˛°˘^ˇ~§'+!%/=()[]#<>&@{}\"\\/| éáűőúöüóíÉÁŰŐÚÖÜÓÍß"; }
@@ -308,18 +335,21 @@ function randomString (pl = 100, sc = false) {
   return s;
 }
 
+/* b64Encode(<string>): string */
 function b64Encode (str) {
   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
     function toSolidBytes (match, p1) { return String.fromCharCode("0x" + p1); }
   ));
 }
 
+/* b64Decode(<string>): string */
 function b64Decode (str) {
   return decodeURIComponent(atob(str).split("").map(function (c) {
     return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(""));
 }
 
+/* javaHash(<data: any>[,hexa=false]): integer */
 function javaHash (s, hx = false) {
   if (s !== undefined) { s = "" + s; } else { return 0; }
   var h = 0, l = s.length, c = "";
@@ -333,31 +363,32 @@ function javaHash (s, hx = false) {
   return h;
 }
 
+/* inherit(<subclass: function>,<superclass: function>): function */
 function inherit (c, p) {
   c.prototype = Object.create(p.prototype);
   c.prototype.constructor = c;
   return c;
 }
 
+/* getUrlVars([str=location.search]): string */
 const getUrlVars = (str = location.search) =>
   [...new URLSearchParams(str).entries()]
     .reduce(function (o, item) { o[item[0]] = item[1]; return o; }, {});
 
-function obj2string (o) {
-  var s = "";
-  for (var p in o) {
-    if (Object.prototype.hasOwnProperty.call(o,p)) {
-      s += encodeURIComponent(p) + "=" + encodeURIComponent(o[p]) + "&";
-    }
-  }
-  return s.substring(0, s.length-1);
-}
+/* obj2string(<object>): string */
+const obj2string = (o) => Object.keys(o).reduce(
+  (s,p) => s += encodeURIComponent(p) + "=" + encodeURIComponent(o[p]) + "&", ""
+  ).slice(0, -1);
 
+/* getType(<variable: any>): string */
+/* getType(<variable: any>[,type: string]): boolean */
 function getType (v, t) {
   var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
   return (arguments.length === 2 ? ot === t.toLowerCase() : ot);
 }
 
+/* extend([deep: boolean,]<target: object>,<source1: object>, ...sources):
+  object */
 function extend () {
   var so = {};
   if (typeof arguments[0] === "boolean") {
@@ -372,7 +403,9 @@ function extend () {
         if (Object.prototype.hasOwnProperty.call(so,a)) {
           if (typeof so[a] === "object" && d) {
             t[a] = celestra.extend(true, {}, so[a]);
-          } else { t[a] = so[a]; }
+          } else {
+            t[a] = so[a];
+          }
         }
       }
     }
@@ -380,6 +413,7 @@ function extend () {
   return t;
 }
 
+/* deepAssign(<target: object>,<source1: object>, ...sources): object */
 function deepAssign () {
   var s = {}, t = arguments[0];
   for (var i = 1, l = arguments.length; i < l; i++) {
@@ -389,7 +423,9 @@ function deepAssign () {
         if (Object.prototype.hasOwnProperty.call(s,a)) {
           if (typeof s[a] === "object") {
             t[a] = celestra.deepAssign({}, s[a]);
-          } else { t[a] = s[a]; }
+          } else {
+            t[a] = s[a];
+          }
         }
       }
     }
@@ -397,37 +433,54 @@ function deepAssign () {
   return t;
 }
 
+/* strPropercase(<string>): string */
+const strPropercase = (s) => String(s).split(" ").map(function (v) {
+    var a = Array.from(v).map( (c) => c.toLowerCase() );
+    if (a.length > 0) { a[0] = a[0].toUpperCase(); }
+    return a.join("");
+  }).join(" ");
+
+/* strCapitalize(<string>): string */
 function strCapitalize (s) {
   var a = [...String(s).toLowerCase()];
   a[0] = a[0].toUpperCase();
   return a.join("");
 }
 
+/* strUpFirst(<string>): string */
 function strUpFirst (s) {
   var a = [...String(s)];
   a[0] = a[0].toUpperCase();
   return a.join("");
 }
 
+/* strDownFirst(<string>): string */
 function strDownFirst (s) {
   var a = [...String(s)];
   a[0] = a[0].toLowerCase();
   return a.join("");
 }
 
+/* strHTMLRemoveTags(<string>): string */
 const strHTMLRemoveTags = (s) =>
   String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 
+/* strReverse(<string>): string */
 const strReverse = (s) => Array.from(String(s)).reverse().join("");
 
+/* strCodePoints(<string>): array of strings */
 const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
 
+/* strFromCodePoints(<collection>): string */
 const strFromCodePoints = ([...a]) => String.fromCodePoint.apply(null, a);
 
+/* strAt(<string>,<index: integer>): string */
 const strAt = (s, i) => (Array.from(String(s)).at(i)||"");
 
+/* sizeIn(<object>): integer */
 const sizeIn = (o) => Object.keys(o).length;
 
+/* forIn(<object>,<callback: function>): object */
 function forIn (o, fn) {
   for (var p in o) {
     if (Object.prototype.hasOwnProperty.call(o, p)) { fn(o[p], p, o); }
@@ -435,27 +488,45 @@ function forIn (o, fn) {
   return o;
 }
 
-function filterIn (o, fn) {
-  var r = {};
-  for (var p in o) {
-    if (fn(o[p], p, o)) { r[p] = o[p]; }
+/* filterIn(<object>,<callback: function>): object */
+const filterIn = (o, fn) => Object.keys(o)
+  .reduce( (r, p) => { if (fn(o[p], p, o)) { r[p] = o[p]; } return r; } , {} );
+
+/* popIn(<object>,<property: string>): any */
+/* popIn(<object>,<property: string>): undefined */
+function popIn (o, p) {
+  if (Object.prototype.hasOwnProperty.call(o, p)) {
+    var v = o[p];
+    delete o[p];
+    return v;
   }
-  return r;
 }
 
-function popIn (o, p) { if (p in o) { var v = o[p]; delete o[p]; return v; } }
-
+/* toFunction(<function>): function */
 const toFunction = (fn) => Function.prototype.call.bind(fn);
 
+/* bind(<function>,<context: any>): function */
 const bind = Function.prototype.call.bind(Function.prototype.bind);
 
+/* constant(<value: any>): any */
 const constant = (v) => () => v;
+
+/* identity(<value: any>): any */
 const identity = (v) => v;
+
+/* noop(): undefined */
 const noop = () => undefined;
 
+/* T(): true (boolean) */
 const T = () => true;
+
+/* F(): false (boolean) */
 const F = () => false;
 
+/* assertEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
+  throw error */
+/* assertEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
+  true (boolean) */
 function assertEq (msg, v1, v2, strict = true) {
   if (strict ? v1 !== v2 : v1 != v2) {
     throw new Error("[assertEq] - " + msg + " - " +  v1 + " - " + v2);
@@ -463,6 +534,10 @@ function assertEq (msg, v1, v2, strict = true) {
   return true;
 }
 
+/* assertNotEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
+  throw error */
+/* assertNotEq(<message>,<value1: any>,<value2: any>[,strict=true]):
+  true (boolean) */
 function assertNotEq (msg, v1, v2, strict = true) {
   if (strict ? v1 === v2 : v1 == v2) {
     throw new Error("[assertNotEq] - " + msg + " - " +  v1 + " - " + v2);
@@ -470,20 +545,26 @@ function assertNotEq (msg, v1, v2, strict = true) {
   return true;
 }
 
+/* assertTrue(<message: string>,<value: any>): throw error */
+/* assertTrue(<message: string>,<value: any>): true (boolean) */
 function assertTrue (msg, v) {
   if (!v) { throw new Error("[assertTrue] " + msg); }
   return true;
 }
 
+/* assertFalse(<message: string>,<value: any>): throw error */
+/* assertFalse(<message: string>,<value: any>): true (boolean) */
 function assertFalse (msg, v) {
   if (!!v) { throw new Error("[assertFalse] " + msg); }
   return true;
 }
 
+/* strHTMLEscape(<string>): string */
 const strHTMLEscape = (s) => String(s).replace(/&/g, "&amp;")
   .replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 
+/* strHTMLUnEscape(<string>): string */
 const strHTMLUnEscape = (s) => String(s)
   .replace(/&amp;/g, "&").replace(/&#38;/g, "&")
   .replace(/&lt;/g, "<").replace(/&#60;/g, "<")
@@ -491,12 +572,16 @@ const strHTMLUnEscape = (s) => String(s)
   .replace(/&quot;/g, '"').replace(/&#34;/g, '"')
   .replace(/&apos;/g, "'").replace(/&#39;/g, "'");
 
-/* DOM */
+/** DOM **/
 
+/* qsa(<selector: string>[,context: element object]): array */
 const qsa = (s, c = document) => Array.from(c.querySelectorAll(s));
 
+/* qs(<selector: string>[,context: element object]): element object */
+/* qs(<selector: string>[,context: element object]): null */
 const qs = (s, c = document) => c.querySelector(s);
 
+/* domReady(<callback: function>): undefined */
 function domReady (fn) {
   if (document.readyState !== "loading") {
     fn();
@@ -505,6 +590,9 @@ function domReady (fn) {
   }
 }
 
+/* domCreate(<type: string>[,properties: object[,innerHTML: string]]):
+  element object */
+/* domCreate(<element descriptive object>): element object */
 function domCreate (t, ps, iH) {
   if (arguments.length === 1 && typeof t === "object") {
     var obj = t;
@@ -528,23 +616,31 @@ function domCreate (t, ps, iH) {
   return el;
 }
 
+/* domToElement(<htmlString>): element object */
 function domToElement (s) {
   var e = document.createElement("div");
   e.innerHTML = s;
   return e.firstElementChild;
 }
 
+/* domGetCSS(<element object>[,property: string]): string */
 const domGetCSS = (e, p) =>
   (p ? window.getComputedStyle(e, null)[p] : window.getComputedStyle(e, null));
 
+/* domSetCSS(<element object>,<property: string>,<value: string>): undefined */
+/* domSetCSS(<element object>,<properties: object>): undefined */
 function domSetCSS (e, n, v) {
   if (typeof n === "string") {
     e.style[n] = v;
   } else if (typeof n === "object") {
-    for (var p in n) { e.style[p] = n[p]; }
+    for (var p in n) {
+      if (Object.prototype.hasOwnProperty.call(n, p)) { e.style[p] = n[p]; }
+    }
   }
 }
 
+/* domFadeIn(<element object>[,duration: integer[,display: string]]):
+  undefined */
 function domFadeIn (e, dur, d) {
   var s = e.style, step = 25/(dur || 500);
   s.opacity = (s.opacity || 0);
@@ -556,6 +652,7 @@ function domFadeIn (e, dur, d) {
   })();
 }
 
+/* domFadeOut(<element object>[,duration: integer]): undefined */
 function domFadeOut (e, dur) {
   var s = e.style, step = 25/(dur || 500);
   s.opacity = (s.opacity || 1);
@@ -564,6 +661,8 @@ function domFadeOut (e, dur) {
   })();
 }
 
+/* domFadeToggle(<element object>[,duration: integer[,display: string]]):
+  undefined */
 function domFadeToggle (e, dur, d = "") {
   if (window.getComputedStyle(e, null).display === "none") {
     celestra.domFadeIn(e, dur, d);
@@ -572,10 +671,13 @@ function domFadeToggle (e, dur, d = "") {
   }
 }
 
+/* domHide(<element object>): undefined */
 const domHide = (e) => e.style.display = "none";
 
+/* domShow(<element object>[,display: string]): undefined */
 const domShow = (e, d = "") => e.style.display = d;
 
+/* domToggle(<element object>[,display: string]): undefined */
 function domToggle (e, d = "") {
   if (window.getComputedStyle(e, null).display === "none") {
     e.style.display = d;
@@ -584,72 +686,65 @@ function domToggle (e, d = "") {
   }
 }
 
+/* domIsHidden(<element object>): boolean */
 const domIsHidden = (e) =>
   (window.getComputedStyle(e, null).display === "none");
 
+/* domSiblings(<element object>): array */
 const domSiblings = (el) =>
   Array.prototype.filter.call(el.parentNode.children, (e) => (e !== el));
 
+/* domSiblingsPrev(<element object>): array */
 const domSiblingsPrev = (el) => Array.prototype.slice.call(
   el.parentNode.children, 0,
   Array.prototype.indexOf.call(el.parentNode.children, el)
 );
+/* domSiblingsLeft(<element object>): array */
 const domSiblingsLeft = domSiblingsPrev;
 
+/* domSiblingsNext(<element object>): array */
 const domSiblingsNext = (el) => Array.prototype.slice.call(
   el.parentNode.children,
   Array.prototype.indexOf.call(el.parentNode.children, el) + 1,
   el.parentNode.children.length
 );
+/* domSiblingsRight(<element object>): array */
 const domSiblingsRight = domSiblingsNext;
 
-function importScript (u, s) {
-  var scr = document.createElement("script");
-  scr.type = "text\/javascript";
-  scr.src = u;
-  scr.onerror = function (e) {
-    throw new URIError(
-      "Loading failed for the script with source " + e.target.src
-    );
-  };
-  if (s) { scr.onreadystatechange = s; scr.onload = s; }
-  (document.head || document.getElementsByTagName("head")[0]).appendChild(scr);
-}
-
-function importScripts (s) {
-  if (Array.isArray(s)) {
-    s.forEach(function (e) { celestra.importScript(e.url, e.success); });
-  } else {
-    Array.prototype.forEach.call(
-      arguments, function (e) { celestra.importScript(e); }
-    );
+/* importScript(<script1: string>[,scriptN: string]): undefined */
+function importScript (...args) {
+  for (let item of args) {
+    let scr = document.createElement("script");
+    scr.type = "text\/javascript";
+    scr.src = item;
+    scr.onerror = function (e) {
+      throw new URIError(
+        "Loading failed for the script with source " + e.target.src
+      );
+    };
+    (document.head || document.getElementsByTagName("head")[0])
+      .appendChild(scr);
   }
 }
 
-function importStyle (h, s) {
-  var stl = document.createElement("link");
-  stl.rel = "stylesheet";
-  stl.type = "text\/css";
-  stl.href = h;
-  stl.onerror = function (e) {
-    throw new URIError(
-      "Loading failed for the style with source " + e.target.href
-    );
-  };
-  if (s) { stl.onreadystatechange = s; stl.onload = s; }
-  (document.head || document.getElementsByTagName("head")[0]).appendChild(stl);
-}
-
-function importStyles (s) {
-  if (Array.isArray(s)) {
-    s.forEach(function (e) { celestra.importStyle(e.href, e.success); });
-  } else {
-    Array.prototype.forEach.call(
-      arguments, function (e) { celestra.importStyle(e); }
-    );
+/* importStyle(<style1: string>[,styleN: string]): undefined */
+function importStyle (...args) {
+  for (let item of args) {
+    let stl = document.createElement("link");
+    stl.rel = "stylesheet";
+    stl.type = "text\/css";
+    stl.href = item;
+    stl.onerror = function (e) {
+      throw new URIError(
+        "Loading failed for the style with source " + e.target.href
+      );
+    };
+    (document.head || document.getElementsByTagName("head")[0])
+      .appendChild(stl);
   }
 }
 
+/* form2array(<form object>): array */
 function form2array (f) {
   var fld, a = [];
   if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
@@ -682,6 +777,7 @@ function form2array (f) {
   return a;
 }
 
+/* form2string(<form object>): string */
 function form2string (f) {
   var fld, a = [];
   if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
@@ -710,9 +806,11 @@ function form2string (f) {
   return a.join("&").replace(/%20/g, "+");
 }
 
+/* getDoNotTrack(): boolean */
 const getDoNotTrack = () =>
   (!!window.doNotTrack || !!navigator.doNotTrack || !!navigator.msDoNotTrack);
 
+/* getLocation(<success: function>[,error: function]): undefined */
 function getLocation (s, e) {
   if (!e) { var e = function () {}; }
   function getE (error) { e("ERROR(" + error.code + "): " + error.message); }
@@ -723,6 +821,8 @@ function getLocation (s, e) {
   }
 }
 
+/* createFile(<filename: string>,<content: string>[,dataType: string]):
+  undefined */
 function createFile (fln, c, dt) {
   var l = arguments.length;
   if (l > 1) {
@@ -744,6 +844,7 @@ function createFile (fln, c, dt) {
   }
 }
 
+/* getFullscreen(): element object */
 function getFullscreen () {
   return (document.fullscreenElement
     || document.mozFullScreenElement
@@ -753,6 +854,8 @@ function getFullscreen () {
   );
 }
 
+/* setFullscreenOn(<element object>): undefined */
+/* setFullscreenOn(<selector string>): undefined */
 function setFullscreenOn (s) {
   if (typeof s === "string") { var e = document.querySelector(s); }
   else if (typeof s === "object") { var e = s; }
@@ -762,6 +865,7 @@ function setFullscreenOn (s) {
   else if (e.msRequestFullscreen) { e.msRequestFullscreen(); }
 }
 
+/* setFullscreenOff(): undefined */
 function setFullscreenOff () {
   if (document.exitFullscreen) { document.exitFullscreen(); }
   else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); }
@@ -769,20 +873,23 @@ function setFullscreenOff () {
   else if (document.msExitFullscreen) { document.msExitFullscreen(); }
 }
 
-const domGetCSSVar = (n) =>
-  getComputedStyle(document.documentElement).getPropertyValue(
-    n[0] === "-" ? n : "--" + n
-  );
+/*  domGetCSSVar(<name: string>): string */
+const domGetCSSVar = (n) => getComputedStyle(document.documentElement)
+  .getPropertyValue( n[0] === "-" ? n : "--" + n );
 
+/* domSetCSSVar(<name: string>,<value: string>): undefined */
 const domSetCSSVar = (n, v) =>
   document.documentElement.style.setProperty((n[0] === "-" ? n : "--" + n), v);
 
-/* AJAX */
+/** AJAX **/
 
+/* getText(<url: string>,<success: function>): undefined */
 function getText (u, s) { celestra.ajax({url: u, success: s}); }
 
+/* getJson(<url: string>,<success: function>): undefined */
 function getJson (u, s) { celestra.ajax({url: u, format: "json", success: s}); }
 
+/* ajax(<Options object>): undefined */
 function ajax (o) {
   if (typeof o.url !== "string") {
     throw new TypeError("Celestra ajax error: The url parameter have to be a string.");
@@ -869,24 +976,30 @@ function ajax (o) {
   }
 }
 
-/* type checking */
+/** type checking **/
 
+/* isEmptyMap(<value: any>): boolean */
 const isEmptyMap = (v) => (celestra.getType(v, "map") && v.size === 0);
 
+/* isEmptySet(<value: any>): boolean */
 const isEmptySet = (v) => (celestra.getType(v, "set") && v.size === 0);
 
+/* isEmptyIterator(<value: any>): boolean */
 function isEmptyIterator (it) {
   for (let item of it) { return false; }
   return true;
 }
 
+/* isDataView(<value: any>): boolean */
 const isDataView = (v) => celestra.getType(v, "dataview");
 
+/* isError(<value: any>): boolean */
 const isError = (v) => celestra.getType(v, "error");
 
-const isPromise = (v) =>
-  (typeof v === "object" && typeof v.then === "function");
+/* isPromise(<value: any>): boolean */
+const isPromise = (v) =>(typeof v === "object" && typeof v.then === "function");
 
+/* isSameObject(<object1>,<object2>): boolean */
 function isSameObject (o1, o2) {
   if (o1.constructor !== o2.constructor ) { return false; }
   var a1 = Object.keys(o1).sort(), a2 = Object.keys(o2).sort();
@@ -899,11 +1012,11 @@ function isSameObject (o1, o2) {
   return false;
 }
 
-const isSameArray = (a, b) => (
-  Array.isArray(a) && Array.isArray(b) && (a.length === b.length)
-  && a.every((v,i) => v === b[i])
-);
+/* isSameArray(<array1>,<array2>): boolean */
+const isSameArray = (a, b) => ( Array.isArray(a) && Array.isArray(b)
+  && (a.length === b.length) && a.every((v,i) => v === b[i]) );
 
+/* isSameMap(<map1>,<map2>): boolean */
 function isSameMap (m1, m2) {
   if (celestra.getType(m1, "map") && celestra.getType(m2, "map")
     && m1.size === m2.size) {
@@ -915,6 +1028,7 @@ function isSameMap (m1, m2) {
   return false;
 }
 
+/* isSameSet(<set1>,<set2>): boolean */
 function isSameSet (s1, s2) {
   if (celestra.getType(s1, "set") && celestra.getType(s2, "set")
     && s1.size === s2.size) {
@@ -926,14 +1040,23 @@ function isSameSet (s1, s2) {
   return false;
 }
 
+/* isSameIterator(<iterator1>,<iterator2>): boolean */
 const isSameIterator = ([...a1], [...a2]) =>
   celestra.isSameArray(a1.sort(), a2.sort());
 
+/* isString(<value: any>): boolean */
 const isString = (v) => (typeof v === "string");
+
+/* isChar(<value: any>): boolean */
 const isChar = (v) => (typeof v === "string" && v.length === 1);
 
+/* isNumber(<value: any>): boolean */
 const isNumber = (v) => (typeof v === "number");
+
+/* isFloat(<value: any>): boolean */
 const isFloat = (v) => (typeof v === "number" && !!(v % 1));
+
+/* isNumeric(<value: any>): boolean */
 function isNumeric (v) {
   return ((typeof v === "number" && v === v)
     ? true
@@ -941,9 +1064,13 @@ function isNumeric (v) {
   );
 }
 
+/* isBoolean(<value: any>): boolean */
 const isBoolean = (v) => (typeof v === "boolean");
 
+/* isObject(<value: any>): boolean */
 const isObject = (v) => (typeof v === "object" && v !== null);
+
+/* isEmptyObject(<value: any>): boolean */
 function isEmptyObject(v) {
   if (typeof v === "object" && v !== null) {
     for (var n in v) { return false; }
@@ -952,60 +1079,91 @@ function isEmptyObject(v) {
   return false;
 }
 
+/* isFunction(<value: any>): boolean */
 const isFunction = (v) => (typeof v === "function");
 
+/* isEmptyArray(<value: any>): boolean */
 const isEmptyArray = (v) => (Array.isArray(v) && v.length === 0);
+
+/* isArraylike(<value: any>): boolean */
 const isArraylike = (v) =>
   ((typeof v === "object" || typeof v === "string") && v !== null
     && typeof v.length === "number" && v.length >= 0 && v.length % 1 === 0);
 
+/* isNull(<value: any>): boolean */
 const isNull = (v) => (v === null);
+
+/* isUndefined(<value: any>): boolean */
 const isUndefined = (v) => (v === undefined);
+
+/* isNullOrUndefined(<value: any>): boolean */
 const isNullOrUndefined = (v) => (v == null);
+/* isNil(<value: any>): boolean */
 const isNil = isNullOrUndefined;
 
+/* isPrimitive(<value: any>): boolean */
 const isPrimitive = (v) =>
   (v === null || typeof v !== "object" && typeof v !== "function");
 
+/* isSymbol(<value: any>): boolean */
 const isSymbol = (v) => (typeof v === "symbol");
 
+/* isMap(<value: any>): boolean */
 const isMap = (v) => celestra.getType(v, "map");
 
+/* isSet(<value: any>): boolean */
 const isSet = (v) => celestra.getType(v, "set");
 
+/* isWeakMap(<value: any>): boolean */
 const isWeakMap = (v) => celestra.getType(v, "weakmap");
 
+/* isWeakSet(<value: any>): boolean */
 const isWeakSet = (v) => celestra.getType(v, "weakset");
 
+/* isIterator(<value: any>): boolean */
 const isIterator = (v) =>
   (celestra.getType(v).includes("iterator") || (typeof v.next === "function"));
 
+/* isDate(<value: any>): boolean */
 const isDate = (v) => celestra.getType(v, "date");
 
+/* isRegexp(<value: any>): boolean */
 const isRegexp = (v) => celestra.getType(v, "regexp");
 
+/* isElement(<value: any>): boolean */
 const isElement = (v) => (typeof v === "object" && v.nodeType === 1);
 
+/* isIterable(<value: any>): boolean */
 const isIterable = (v) => (typeof v[Symbol.iterator] === "function");
 
+/* isBigInt(<value: any>): boolean */
 const isBigInt = (v) => (typeof v === "bigint");
 
+/* isArrayBuffer(<value: any>): boolean */
 const isArrayBuffer = (v) => celestra.getType(v, "arraybuffer");
 
+/* isTypedArray(<value: any>): boolean */
 const isTypedArray = (v) =>
   ["int8array", "uint8array", "uint8clampedarray", "int16array", "uint16array",
    "int32array", "uint32array", "float32array", "float64array",
    "bigint64array", "biguint64array"].includes(celestra.getType(v));
 
+/* isGeneratorFn(<value: any>): boolean */
 const isGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(function*(){}).constructor);
 
+/* isAsyncFn(<value: any>): boolean */
 const isAsyncFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(async function(){}).constructor);
 
-/* cookie */
+/** cookie **/
 
-function setCookie (name, value, hours = 8760, path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
+/* setCookie(<Options object>): undefined */
+/* setCookie(<name: string>,<value: string>
+  [,hours=8760[,path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]]):
+  undefined */
+function setCookie (name, value, hours = 8760, path = "/", domain, secure,
+  SameSite = "Lax", HttpOnly) {
   if (typeof name === "object") {
     var settings = name;
     name = settings.name;
@@ -1031,6 +1189,8 @@ function setCookie (name, value, hours = 8760, path = "/", domain, secure, SameS
     + ";";
 }
 
+/* getCookie(): object */
+/* getCookie([name: string]): string */
 function getCookie (name) {
   if (document.cookie.length !== 0) {
     var r = {}, a = document.cookie.split(";");
@@ -1043,10 +1203,15 @@ function getCookie (name) {
   return (name ? null : {});
 }
 
+/* hasCookie(<name: string>): boolean */
 const hasCookie = (name) =>
-  (document.cookie.includes(encodeURIComponent(name)+"="));
+  (document.cookie.includes(encodeURIComponent(name) + "="));
 
-function removeCookie (name, path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
+/* removeCookie(<Options object>);: boolean */
+/* removeCookie(<name: string>
+  [,path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]): boolean */
+function removeCookie (name, path = "/", domain, secure,
+  SameSite = "Lax", HttpOnly) {
   if (typeof name === "object") {
     var settings = name;
     name = settings.name;
@@ -1069,6 +1234,9 @@ function removeCookie (name, path = "/", domain, secure, SameSite = "Lax", HttpO
   return r;
 }
 
+/* clearCookies(<Options object>): boolean */
+/* clearCookies(
+  [path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]): boolean */
 function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
   if (typeof path === "object") {
     var settings = path;
@@ -1083,10 +1251,12 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
   }
 }
 
-/* collections */
+/** collections **/
 
+/* initial(<collection>): array */
 const initial = ([...a]) => a.slice(0, -1);
 
+/* shuffle(<collection>): array */
 function shuffle([...a]) {
   for (let i = a.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -1095,9 +1265,11 @@ function shuffle([...a]) {
   return a;
 }
 
+/* partition(<collection>,<callback: function>): array */
 const partition = ([...a], fn) =>
   [ a.filter(fn), a.filter( (e, i, a) => !(fn(e, i, a))) ];
 
+/* groupBy(<collection>,<callback: function>): object */
 function groupBy (it, fn) {
   let res = {};
   let i = 0;
@@ -1109,31 +1281,41 @@ function groupBy (it, fn) {
   return res;
 }
 
+/* arrayUnion(<collection1>[,collectionN]): array */
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
 
+/* arrayIntersection(<collection1>,<collection2>): array */
 const arrayIntersection = ([...a], [...b]) =>
   a.filter((v) => b.includes(v)).filter((e, i, arr) => arr.indexOf(e) === i);
 
+/* arrayDifference(<collection1>,<collection2>): array */
 const arrayDifference = ([...a], [...b]) =>
   a.filter((v) => !(b.includes(v))).filter((e, i, arr) => arr.indexOf(e) === i);
 
+/* arraySymmetricDifference(<collection1>,<collection2>): array */
 const arraySymmetricDifference = ([...a], [...b]) =>
   a.filter((v) => !(b.includes(v)))
     .concat(b.filter((v) => !(a.includes(v))))
     .filter((e, i, arr) => arr.indexOf(e) === i);
 
+/* setUnion(<collection1>[,collectionN]): set */
 const setUnion = (...a) => new Set(a.map(([...e]) => e).flat());
 
+/* setIntersection(<set1>,<set2>): set */
 const setIntersection = ([...a], b) => new Set(a.filter((v) => b.has(v)));
 
+/* setDifference(<set1>,<set2>): set */
 const setDifference = ([...a], b) => new Set(a.filter((v) => !(b.has(v))));
 
+/* setSymmetricDifference(<set1>,<set2>): set */
 const setSymmetricDifference = (a, b) => new Set(
   [...a].filter((v) => !(b.has(v))).concat([...b].filter((v) => !(a.has(v))))
 );
 
+/* isSuperset(<superCollection>,<subCollection>): boolean */
 const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
 
+/* min(<collection>): any */
 function min ([...a]) {
   if (a.length > 0) {
     let r = a[0];
@@ -1143,6 +1325,7 @@ function min ([...a]) {
   return null;
 }
 
+/* max(<collection>): any */
 function max ([...a]) {
   if (a.length > 0) {
     let r = a[0];
@@ -1152,13 +1335,17 @@ function max ([...a]) {
   return null;
 }
 
+/* arrayRepeat(<value: any>[,n=100]): array */
 const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
+/* arrayCycle(<collection>[,n=100]): array */
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
-const arrayRange = (start = 0, end = 100, step = 1) =>
-  Array.from({ length: (end - start) / step + 1}, (_, i) => start + (i * step));
+/* arrayRange([start=0[,end=100[,step=1]]]): array */
+const arrayRange = (s = 0, e = 100, st = 1) =>
+  Array.from({ length: (e - s) / st + 1}, (v, i) => s + (i * st));
 
+/* zip(<collection1>[,collectionN]): array */
 function zip (...a) {
   a = a.map((v) => Array.from(v));
   let r = [], i, j, l = a.length, min = a[0].length, item;
@@ -1173,6 +1360,7 @@ function zip (...a) {
   return r;
 }
 
+/* unzip(<collection>): array */
 function unzip ([...a]) {
   a = a.map(([...v]) => v);
   let r = [], i, j, l1 = a[0].length, l2 = a.length;
@@ -1183,15 +1371,19 @@ function unzip ([...a]) {
   return r;
 }
 
+/* arrayUnique(<collection>): array */
 const arrayUnique = (a) => [...new Set(a)];
 
+/* arrayAdd(<array>,<value: any>): boolean */
 function arrayAdd (a, v) {
   if (!a.includes(v)) { a.push(v); return true; }
   return false;
 }
 
+/* arrayClear(<array>): array */
 function arrayClear (a) { a.length = 0; return a; }
 
+/* arrayRemove(<array>,<value: any>[,all=false]): boolean */
 function arrayRemove (a, v, all = false) {
   var found = a.indexOf(v) > -1;
   if (!all) {
@@ -1204,43 +1396,43 @@ function arrayRemove (a, v, all = false) {
   return found;
 }
 
-function arrayMerge () {
-  if (typeof arguments[0] === "boolean") {
-    var t = arguments[1], d = arguments[0], s = 2;
+/* arrayMerge([flat=false,]<target: array>,<source1: any>[,sourceN: any]):
+  array */
+function arrayMerge (flat, ...a) {
+  if (typeof flat === "boolean") {
+    var t = a[0];
+    a = a.slice(1);
   } else {
-    var t = arguments[0], d = false, s = 1;
+    var t = flat;
+    flat = false;
   }
-  for(var i = s, il = arguments.length; i < il; i++) {
-    if (Array.isArray(arguments[i])) {
-      for(var j = 0, a = arguments[i], jl = a.length; j < jl; j++) {
-        if (Array.isArray(a[j]) && d) {
-          celestra.arrayMerge(true, t, a[j]);
-        } else {
-          t.push(a[j]);
-        }
-      }
-    } else {
-      t.push(arguments[i]);
-    }
+  if (flat) {
+    t.push(...[].concat(...a.flat(Infinity)));
+  } else {
+    t.push(...[].concat(...a));
   }
   return t;
 }
 
+/* iterRange([start=0[,step=1[,end=Infinity]]]): iterator */
 function* iterRange (start = 0, step = 1, end = Infinity) {
   let i = start;
   while (i <= end) { yield i; i += step; }
 }
 
+/* iterCycle(<iter>[,n=Infinity]): iterator */
 function* iterCycle ([...a], n = Infinity) {
   let i = 0;
   while (i < n) { yield* a; i++; }
 }
 
+/* iterRepeat(<value: any>[,n=Infinity]): iterator */
 function* iterRepeat (v, n = Infinity) {
   let i = 0;
   while (i < n) { yield v; i++; }
 }
 
+/* takeWhile(<collection>,<callback: function>): iterator */
 function* takeWhile (it, fn) {
   for (let item of it) {
     if (!fn(item)) { break; }
@@ -1248,6 +1440,7 @@ function* takeWhile (it, fn) {
   }
 }
 
+/* dropWhile(<collection>,<callback: function>): iterator */
 function* dropWhile (it, fn) {
   let d = true;
   for (let item of it) {
@@ -1256,6 +1449,7 @@ function* dropWhile (it, fn) {
   }
 }
 
+/* take(<collection>[,n=1]): iterator */
 function* take (it, n = 1) {
   let i = n;
   for (let item of it) {
@@ -1265,6 +1459,7 @@ function* take (it, n = 1) {
   }
 }
 
+/* drop(<collection>[,n=1]): iterator */
 function* drop (it, n = 1) {
   let i = n;
   for (let item of it) {
@@ -1272,13 +1467,16 @@ function* drop (it, n = 1) {
   }
 }
 
+/* forEach(<collection>,<callback: function>): undefined */
 function forEach (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
 
+/* map(<collection>,<callback: function>): iterator */
 function* map (it, fn) {
   let i = 0;
   for (let item of it) { yield fn(item, i++); }
 }
 
+/* filter(<collection>,<callback: function>): iterator */
 function* filter (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1286,6 +1484,7 @@ function* filter (it, fn) {
   }
 }
 
+/* reject(<collection>,<callback: function>): iterator */
 function* reject (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1293,6 +1492,7 @@ function* reject (it, fn) {
   }
 }
 
+/* slice(<collection>[,begin=0[,end=Infinity]]): iterator */
 function* slice (it, begin = 0, end = Infinity) {
   let i = 0;
   for (let item of it) {
@@ -1305,6 +1505,7 @@ function* slice (it, begin = 0, end = Infinity) {
   }
 }
 
+/* tail(<collection>): iterator */
 function* tail (it) {
   let first = true;
   for (let item of it) {
@@ -1316,37 +1517,48 @@ function* tail (it) {
   }
 }
 
+/* item(<collection>,<index: integer>): any */
 function item (it, p) {
   let i = 0;
   for (let item of it) {
     if (i++ === p) { return item; }
   }
 }
+/* nth(<collection>,<index: integer>): any */
 const nth = item;
 
+/* size(<collection>): integer */
 function size (it) { let i = 0; for (let item of it) { i++; } return i; }
 
+/* first(<collection>): any */
 function first (it) { for (let item of it) { return item; } }
+/* head(<collection>): any */
 const head = first;
 
+/* last(<collection>): any */
 function last (it) { let item; for (item of it) { } return item; }
 
+/* reverse(<collection>): array */
 const reverse = ([...a]) => a.reverse();
 
+/* sort(<collection>[,numbers=false]): array */
 const sort = ([...a], ns) => a.sort(
   ns
-    ? (a, b ) => { if (a < b) { return -1; } if (a > b) { return 1; } return 0; }
+    ? (a, b) => { if (a < b) { return -1; } if (a > b) { return 1; } return 0; }
     : undefined
 );
 
+/* includes(<collection>,<value: any>): boolean */
 function includes (it, v) {
   for (let item of it) {
     if (item === v) { return true; }
   }
   return false;
 }
+/* contains(<collection>,<value: any>): boolean */
 const contains = includes;
 
+/* find(<collection>,<callback: function>): any */
 function find (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1354,6 +1566,7 @@ function find (it, fn) {
   }
 }
 
+/* findLast(<collection>,<callback: function>): any */
 function findLast (it, fn) {
   let i = 0, r;
   for (let item of it) {
@@ -1362,6 +1575,7 @@ function findLast (it, fn) {
   return r;
 }
 
+/* every(<collection>,<callback: function>): boolean */
 function every (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1371,6 +1585,7 @@ function every (it, fn) {
   return true;
 }
 
+/* some(<collection>,<callback: function>): boolean */
 function some (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1379,6 +1594,7 @@ function some (it, fn) {
   return false;
 }
 
+/* none(<collection>,<callback: function>): boolean */
 function none (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1388,6 +1604,7 @@ function none (it, fn) {
   return true;
 }
 
+/* takeRight(<collection>[,n=1]): iterator */
 function* takeRight ([...a], n = 1) {
   let i = n;
   for (let item of a.reverse()) {
@@ -1397,6 +1614,7 @@ function* takeRight ([...a], n = 1) {
   }
 }
 
+/* takeRightWhile(<collection>,<callback: function>): iterator */
 function* takeRightWhile ([...a], fn) {
   let i = 0;
   for (let item of a.reverse()) {
@@ -1404,6 +1622,7 @@ function* takeRightWhile ([...a], fn) {
   }
 }
 
+/* dropRight(<collection>[,n=1]): iterator */
 function* dropRight ([...a], n = 1) {
   let i = n;
   for (let item of a.reverse()) {
@@ -1411,6 +1630,7 @@ function* dropRight ([...a], n = 1) {
   }
 }
 
+/* dropRightWhile(<collection>,<callback: function>): iterator */
 function* dropRightWhile ([...a], fn) {
   let d = true;
   for (let item of a.reverse()) {
@@ -1419,8 +1639,10 @@ function* dropRightWhile ([...a], fn) {
   }
 }
 
+/* concat(<collection1>[,collectionN]): iterator */
 function* concat () { for (let item of arguments) { yield* item; } }
 
+/* reduce(<collection>,<callback: function>[,initialvalue: any]): any */
 function reduce (it, fn, iv) {
   let acc = iv;
   let i = 0;
@@ -1434,32 +1656,38 @@ function reduce (it, fn, iv) {
   return acc;
 }
 
+/* enumerate(<collection>): iterator */
 function* enumerate (it, offset = 0) {
   let i = offset;
   for (let item of it) { yield [i++, item]; }
 }
+/* entries(<collection>[,offset=0]): iterator */
 const entries = enumerate;
 
+/* flat(<collection>): iterator */
 function* flat (it) { for (let item of it) { yield* item; } }
 
+/* join(<collection>[,separator=","]): string */
 const join = ([...a], s = ",") => a.join(s);
 
+/* withOut(<collection>,<filterCollection>): array */
 const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
-/* object header */
+/** object header **/
 
-const VERSION = "Celestra v4.4.3 dev";
+const VERSION = "Celestra v4.5.0 dev";
 
+/* celestra.noConflict(): celestra object */
 function noConflict () {
   window._ = celestra.__prevUnderscore__;
   return celestra;
 }
 
 var celestra = {
-  /* header */
+  /** object header **/
   VERSION: VERSION,
   noConflict: noConflict,
-  /* core api */
+  /** core api **/
   signbit: signbit,
   delay: delay,
   randomInt: randomInt,
@@ -1475,6 +1703,7 @@ var celestra = {
   getType: getType,
   extend: extend,
   deepAssign: deepAssign,
+  strPropercase: strPropercase,
   strCapitalize: strCapitalize,
   strUpFirst: strUpFirst,
   strDownFirst: strDownFirst,
@@ -1500,7 +1729,7 @@ var celestra = {
   assertFalse: assertFalse,
   strHTMLEscape: strHTMLEscape,
   strHTMLUnEscape: strHTMLUnEscape,
-  /* DOM */
+  /** DOM **/
   qsa: qsa,
   qs: qs,
   domReady: domReady,
@@ -1521,9 +1750,7 @@ var celestra = {
   domSiblingsNext: domSiblingsNext,
   domSiblingsRight: domSiblingsRight,
   importScript: importScript,
-  importScripts: importScripts,
   importStyle: importStyle,
-  importStyles: importStyles,
   form2array: form2array,
   form2string: form2string,
   getDoNotTrack: getDoNotTrack,
@@ -1534,11 +1761,11 @@ var celestra = {
   setFullscreenOff: setFullscreenOff,
   domGetCSSVar: domGetCSSVar,
   domSetCSSVar: domSetCSSVar,
-  /* AJAX */
+  /** AJAX **/
   getText: getText,
   getJson: getJson,
   ajax: ajax,
-  /* type checking */
+  /** type checking **/
   isEmptyMap: isEmptyMap,
   isEmptySet: isEmptySet,
   isEmptyIterator: isEmptyIterator,
@@ -1581,13 +1808,13 @@ var celestra = {
   isTypedArray: isTypedArray,
   isGeneratorFn: isGeneratorFn,
   isAsyncFn: isAsyncFn,
-  /* cookie */
+  /** cookie **/
   setCookie: setCookie,
   getCookie: getCookie,
   hasCookie: hasCookie,
   removeCookie: removeCookie,
   clearCookies: clearCookies,
-  /* collections */
+  /** collections **/
   initial: initial,
   shuffle: shuffle,
   partition: partition,

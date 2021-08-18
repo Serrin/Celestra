@@ -30,7 +30,6 @@
 
 <!--script src="celestra.js"></script-->
 <!--script src="celestra.min.js"></script-->
-<!--script src="celestra-loader.js" type="module"></script-->
 
 <!--
 <script type="module">
@@ -104,18 +103,19 @@ isBoolean false - ${ _.isBoolean("ggg") }
 
 <script>
 const _preCel = {
-  // copied from v4.4.3
-  importScript: function importScript (u, s) {
-    var scr = document.createElement("script");
-    scr.type = "text\/javascript";
-    scr.src = u;
-    scr.onerror = function (e) {
-      throw new URIError(
-        "Loading failed for the script with source " + e.target.src
-      );
-    };
-    if (s) { scr.onreadystatechange = s; scr.onload = s; }
-    (document.head || document.getElementsByTagName("head")[0]).appendChild(scr);
+  // copied from v4.5.0
+  importScript: function importScript (...args) {
+    for (let item of args) {
+      let scr = document.createElement("script");
+      scr.type = "text\/javascript";
+      scr.src = item;
+      scr.onerror = function (e) {
+        throw new URIError(
+          "Loading failed for the script with source " + e.target.src
+        );
+      };
+      (document.head || document.getElementsByTagName("head")[0]).appendChild(scr);
+    }
   },
 
   importESM: function importESM () {
@@ -185,14 +185,20 @@ const _preCel = {
 </div>
 
 <hr/>
-<p><button onclick=" _preCel.importScript('celestra.js'); ">load celestra.js</button></p>
-<p><button onclick=" _preCel.importScript('celestra.min.js'); ">load celestra.min.js</button></p>
-<p><button onclick=" _preCel.importESM(); ">load celestra.esm.js</button></p>
-
-
-<hr/>
-<p><button onclick=" _.importScript('unittest.js'); ">load unittest.js</button></p>
-<p><button onclick="saveResults();">try createFile() - Save result in HTML</button></p>
+<table class="table-responsive noborder">
+  <tr>
+    <td class="noborder">
+      <p><button onclick=" _preCel.importScript('celestra.js'); ">load celestra.js</button></p>
+      <p><button onclick=" _preCel.importScript('celestra.min.js'); ">load celestra.min.js</button></p>
+      <p><button onclick=" _preCel.importESM(); ">load celestra.esm.js</button></p>
+    </td>
+    <td class="noborder">
+      <p><button onclick=" _.importScript('unittest.js'); ">load unittest.js</button></p>
+      <p><button onclick=" window.location.reload(true) ">reset page</button></p>
+      <p><button onclick=" saveResults(); ">try createFile() - Save result in HTML</button></p>    
+    </td>
+  </tr>
+</table>
 
 <hr/>
 <h2>Manual testcases</h2>
@@ -217,11 +223,11 @@ alert(alertStr);</pre>
     </td>
   </tr>
   <tr>
-    <td><button onclick=" _.importStyles('u87-dark.css','u87-light.css'); ">importStyles</button></td>
+    <td><button onclick=" _.importStyle('u87-dark.css','u87-light.css'); ">importStyle 1</button></td>
     <td>Have to be light ('u87-dark.css' then 'u87-light.css').</td>
   </tr>
   <tr>
-    <td><button onclick=" _.importStyle('u87-blue.css'); ">importStyle</button></td>
+    <td><button onclick=" _.importStyle('u87-blue.css'); ">importStyle 2</button></td>
     <td>Have to be blue.</td>
   </tr>
   <tr>

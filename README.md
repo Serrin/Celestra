@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.4.3
+Latest version: 4.5.0
 
-Date: 2021-07-30T19:50:39.531Z
+Date: 2021-08-17T19:07:36.141Z
 
 The functions are available in the `celestra` and/or `_` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.js__|46384 byte
-minified|__celestra.min.js__|35157 byte
-ES6 module|__celestra.esm.js__|35011 byte
+developer|__celestra.js__|56804 byte
+minified|__celestra.min.js__|34718 byte
+ES6 module|__celestra.esm.js__|34576 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
@@ -115,7 +115,7 @@ Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM edition only returns the celestra object.__
-`delay(<ms>).then(<callback>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
+`signbit(v>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
 `delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer.<br>__Sample:__<br>`_.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
@@ -132,6 +132,7 @@ Name | Description
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
 `extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
 `deepAssign(<target>,<source1>, ...sources);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
+`strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`_.strPropercase("arthur conan doyle");`<br>-><br>`"Arthur Conan Doyle"`
 `strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
 `strUpFirst(<string>);` | This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.
 `strDownFirst(<string>);` | This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.
@@ -190,12 +191,10 @@ Name | Description
 `domSiblingsLeft(<element>);` | Alias of the `domSiblingsPrev(<element>);`.
 `domSiblingsNext(<element>);` | Get the nextsiblings of an element. The element parameter is mandatory and the return value is the array.
 `domSiblingsRight(<element>);` | Alias of the `domSiblingsNext(<element>);`.
-`importScript(<url>[,success]);` | Load a JavaScript file and then execute it. The url parameter is mandatory and has to be a string. The success is optional and can be a function. <br/> __Tip:__ To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
-`importScripts(<scripts>);` | Load more JavaScript files and then execute it. The scripts parameter is mandatory and has to be an array with object elements. The element.url property is mandatory and has to be a string. The element.success property is optional and can be a function.
-`importScripts(<script1>[,scriptN]);` | Load more JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
-`importStyle(<href>[,success]);` | Load a CSS file. The href parameter is mandatory and has to be a string. The success is optional and can be a function.
-`importStyles(<styles>);` | Load more CSS files. The styles parameter is mandatory and has to be an array with object elements. The element.href property is mandatory and has to be a string. The element.success property is optional and can be a function.
-`importStyles(<style1>[,styleN]);` | Load more CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
+`importScript(<script1>[,scriptN]);` | Load JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string. <br/> __Tip:__ <br> To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
+`importScripts();` | __REMOVED IN V4.5.0__
+`importStyle(<style1>[,styleN]);` | Load CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
+`importStyles(<styles>);` | __REMOVED IN V4.5.0__
 `form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element.
 `form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
@@ -333,14 +332,14 @@ Name | Description
 `max(<collection>);` | Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
 `arrayCycle(<collection>[,n=100]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRepeat(<value>[,n=100]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
-`arrayRange([start=0[,end=100[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.
+`arrayRange([start=0[,end=100[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.<br>__Example:__<br>`_.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));`<br>-><br>`Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]`
 `zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array. Example: `_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
 `unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. Example: `_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);` => `Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
 `arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
 `arrayRemove(<array>,<value>[,all=false]);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayUnique(<collection>);` | __Old name before v3.8.0:__ `uniqueArray(<value>);` <br>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `arrayAdd(<array>,<value>);` | __Old name before v3.8.0:__ `uniquePush(<array>,<value>);` <br>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
-`arrayMerge([deep,]<target>,<source1>, ...sources);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The deep (flat) parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
+`arrayMerge([flat=false,]<target>,<source1>[,sourceN]);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
 `iterRange([start=0[,step=1[,end=Infinity]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
 `iterCycle(<iter>[,n=Infinity]);` | Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRepeat(<value>[,n=Infinity]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
@@ -351,7 +350,7 @@ Name | Description
 `head(<collection>);` | This is an alias of the `first(<collection>);`.
 `last(<collection>);` | This function returns the last element of the given collection. The collection parameter is mandatory.
 `reverse(<collection>);` | This function returns an array with values of the given collection in reverse order. The collection parameter is mandatory.
-`sort(<collection>[,numberSort]);` | This function sorts the values of the given collection. The collection parameter is mandatory. The numberSort paramater is optional (boolean) and set true, if the collection contains only numbers. The return value is an array.
+`sort(<collection>[,numbers=false]);` | This function sorts the values of the given collection. The collection parameter is mandatory. The numbers paramater is optional (boolean) and set true, if the collection contains only numbers. The return value is an array.
 `includes(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
 `contains(<collection>,<value>);` | This is an alias of the `includes(<collection>,<value>);`.
 `find(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
@@ -360,7 +359,7 @@ Name | Description
 `map(<collection>,<callback>);` | This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `filter(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `reject(<collection>,<callback>);` | This is the opposite of the function `filter(<collection>,<callback>);`. The elements to which the given callback gives a false will be yield. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
-`slice(<collection>[,begin[,end]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
+`slice(<collection>[,begin=0[,end=Infinity]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
 `tail(<collection>);` | Yield the values of a collection but without the first value. The collection parameter is mandatory.
 `every(<collection>,<callback>);` | This function whether all elements in the collection pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
 `some(<collection>,<callback>);` | This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the collection is empty, then the return value is false.
@@ -406,8 +405,8 @@ Name | Description
 `globalThis;` | The "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
 `String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp.
-REMOVED polyfills in v3.1.0 | `Array.from();`, `Array.of();`, `Array.prototype.fill();`, `Array.prototype.find();`, `Array.prototype.findIndex();`, `Object.create();`, `String.prototype.startsWith();`, `String.prototype.endsWith();`, `Object.is();`, `Array.prototype.copyWithin();`, `String.fromCodePoint();`, `String.prototype.codePointAt();`, `Number.MIN_SAFE_INTEGER;`, `Number.MAX_SAFE_INTEGER;`, `Number.EPSILON;`, `Number.isNaN();`, `isNaN();`, `Number.isInteger();`, `Number.isFinite();`, `Number.isSafeInteger();`, `Number.parseInt();`, `Number.parseFloat();`, `Math.acosh();`, `Math.asinh();`, `Math.atanh();`, `Math.cbrt();`, `Math.clz32();`, `Math.cosh();`, `Math.expm1();`, `Math.fround();`, `Math.hypot();`, `Math.imul();`, `Math.log1p();`, `Math.log10();`, `Math.log2();`, `Math.sign();`, `Math.sinh();`, `Math.tanh();`, `Math.trunc();`
-REMOVED polyfills in v3.8.0 | `Array.prototype.values();`, `Array.prototype.includes();`, `String.prototype.includes();`, `String.prototype.repeat();`, `String.prototype[Symbol.iterator]();`, `Object.assign();`, `Object.entries();`, `Object.values();`, `Object.getOwnPropertyDescriptors();`, `RegExp.prototype.flags;`, `NodeList.prototype.forEach();`, `ChildNode.after();`, `ChildNode.before();`, `ChildNode.remove();`, `ChildNode.replaceWith();`, `ParentNode.append();`, `ParentNode.prepend();`, `Element.prototype.matches();`, `Element.prototype.closest();`, `Element.prototype.toggleAttribute();`, `Element.prototype.getAttributeNames();`, `window.screenLeft;`, `window.screenTop;`
+REMOVED polyfills in v3.1.0 | `Array.from();`<br>`Array.of();`<br>`Array.prototype.fill();`<br>`Array.prototype.find();`<br>`Array.prototype.findIndex();`<br>`Object.create();`<br>`String.prototype.startsWith();`<br>`String.prototype.endsWith();`<br>`Object.is();`<br>`Array.prototype.copyWithin();`<br>`String.fromCodePoint();`<br>`String.prototype.codePointAt();`<br>`Number.MIN_SAFE_INTEGER;`<br>`Number.MAX_SAFE_INTEGER;`<br>`Number.EPSILON;`<br>`Number.isNaN();`<br>`isNaN();`<br>`Number.isInteger();`<br>`Number.isFinite();`<br>`Number.isSafeInteger();`<br>`Number.parseInt();`<br>`Number.parseFloat();`<br>`Math.acosh();`<br>`Math.asinh();`<br>`Math.atanh();`<br>`Math.cbrt();`<br>`Math.clz32();`<br>`Math.cosh();`<br>`Math.expm1();`<br>`Math.fround();`<br>`Math.hypot();`<br>`Math.imul();`<br>`Math.log1p();`<br>`Math.log10();`<br>`Math.log2();`<br>`Math.sign();`<br>`Math.sinh();`<br>`Math.tanh();`<br>`Math.trunc();`
+REMOVED polyfills in v3.8.0 | `Array.prototype.values();`<br>`Array.prototype.includes();`<br>`String.prototype.includes();`<br>`String.prototype.repeat();`<br>`String.prototype[Symbol.iterator]();`<br>`Object.assign();`<br>`Object.entries();`<br>`Object.values();`<br>`Object.getOwnPropertyDescriptors();`<br>`RegExp.prototype.flags;`<br>`NodeList.prototype.forEach();`<br>`ChildNode.after();`<br>`ChildNode.before();`<br>`ChildNode.remove();`<br>`ChildNode.replaceWith();`<br>`ParentNode.append();`<br>`ParentNode.prepend();`<br>`Element.prototype.matches();`<br>`Element.prototype.closest();`<br>`Element.prototype.toggleAttribute();`<br>`Element.prototype.getAttributeNames();`<br>`window.screenLeft;`<br>`window.screenTop;`
 
 
 ### Non-standard polyfills
