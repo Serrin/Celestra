@@ -193,9 +193,9 @@ Name | Description
 `domSiblingsNext(<element>);` | Get the nextsiblings of an element. The element parameter is mandatory and the return value is the array.
 `domSiblingsRight(<element>);` | Alias of the `domSiblingsNext(<element>);`.
 `importScript(<script1>[,scriptN]);` | Load JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string. <br/> __Tip:__ <br> To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
-`importScripts();` | __REMOVED IN V4.5.1__
+`importScripts();` | __REMOVED IN V4.5.0__
 `importStyle(<style1>[,styleN]);` | Load CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
-`importStyles(<styles>);` | __REMOVED IN V4.5.1__
+`importStyles(<styles>);` | __REMOVED IN V4.5.0__
 `form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element.
 `form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
