@@ -27,6 +27,146 @@
 }
 @media (max-width: 575.98px) { td { display: block; width: 100% !important; } }
 </style>
+</head>
+<body class="container">
+
+<header class="center">
+  <h1>Celestra Unit Tester (CUT)</h1>
+  <nav><b>
+     <a href="#license">License</a>
+    &nbsp;//&nbsp;
+    <a href="#footer">Contact</a>
+    &nbsp;//&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
+  </b></nav>
+</header>
+
+<hr/>
+<h2>Control panel</h2>
+<table class="table-responsive noborder">
+  <tr>
+    <td class="noborder">
+      <p><button onclick=" _preCel.importScript('celestra.js'); preCelLog('<b>celestra.js</b> is loaded.'); ">
+        load celestra.js
+      </button></p>
+      <p><button onclick=" _preCel.importScript('celestra.min.js'); preCelLog('<b>celestra.min.js</b> is loaded.'); ">
+        load celestra.min.js
+      </button></p>
+      <p><button onclick=" _preCel.importESM(); preCelLog('<b>celestra.esm.js</b> is loaded.'); ">
+        load celestra.esm.js
+      </button></p>
+    </td>
+    <td class="noborder">
+      <p><button onclick=" _.importScript('unittest.js'); preCelLog('<b>unittest.js</b> is loaded.');">load unittest.js</button></p>
+      <p><button onclick=" window.location.reload(true) ">reset page</button></p>
+      <p><button onclick=" saveResults(); ">try createFile() - Save result in HTML</button></p>    
+    </td>
+    <td class="noborder">
+      <div id="preCelLog" class="padding bg-black font-monospace border" style="min-height: 150px; min-width: 300px;"></div>
+    </td>
+  </tr>
+</table>
+
+<hr/>
+<div>
+  <h2>Failed steps</h2>
+  <div id="resultsFailed"></div>
+</div>
+
+<hr/>
+<h2>Manual testcases</h2>
+
+<table class="table-responsive">
+  <tr>
+    <td><button onclick=" _.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done')); ">delay();</button></td>
+    <td>2x alert (5s + finally)</td>
+  </tr>
+  <tr>
+    <td><button onclick="var alertStr = ''; try { _.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; } try { _.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; } try { _.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; } try { _.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; } try { _.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; } try { _.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; } alert(alertStr);">assert functions</button></td>
+    <td>
+      <p>1x alert, 6x cases</p>
+      <pre>var alertStr = '';
+try { _.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; }
+try { _.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; }
+try { _.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; }
+try { _.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; }
+try { _.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; }
+try { _.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; }
+alert(alertStr);</pre>
+    </td>
+  </tr>
+  <tr>
+    <td><button onclick=" _.importStyle('u87-dark.css','u87-light.css'); ">importStyle 1</button></td>
+    <td>Have to be light ('u87-dark.css' then 'u87-light.css').</td>
+  </tr>
+  <tr>
+    <td><button onclick=" _.importStyle('u87-blue.css'); ">importStyle 2</button></td>
+    <td>Have to be blue.</td>
+  </tr>
+  <tr>
+    <td><button onclick=" window['_cel'] = _.noConflict(); alert(_cel.VERSION+'\n'+_.VERSION); "> noConflict();</button></td>
+    <td>1x alert</td>
+  </tr>
+</table>
+
+<hr/>
+<h2>Results</h2>
+<div id="results"></div>
+
+<hr>
+<h2 id="license">License</h2>
+
+<div>
+  <p><a href="https://opensource.org/licenses/MIT" target="_blank">https://opensource.org/licenses/MIT</a></p>
+
+  <h3>MIT License</h3>
+
+  <p><b>SPDX short identifier: MIT</b></p>
+
+  <p>Copyright (c) 2018 Ferenc Czigler</p>
+
+  <p>Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:</p>
+
+  <p>The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.</p>
+
+  <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.</p>
+</div>
+
+<hr/>
+
+<footer id="footer" class="center"><small>
+  <p>
+    <a href="#license">License</a>
+    &nbsp;//&nbsp;
+    <a href="http://github.com/Serrin" target="_blank">Github</a>
+    &nbsp;//&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
+    &nbsp;/&nbsp;
+    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
+  </p>
+  <p>&copy; Copyright 2018 Ferenc Czigler</p>
+</small></footer>
+
+<!--script src="unittest.js"></script-->
+
 
 <!--script src="celestra.js"></script-->
 <!--script src="celestra.min.js"></script-->
@@ -157,138 +297,15 @@ const _preCel = {
     document.body.append(scrTag);
   }
 };
+
+const preCelLogElement = document.querySelector("#preCelLog");
+const preCelLog = (str) => {
+  let pElement = document.createElement("p");
+  pElement.innerHTML = str;
+  preCelLogElement.appendChild(pElement);
+};
 </script>
 
-
-</head>
-<body class="container">
-
-<header class="center">
-  <h1>Celestra Unit Tester (CUT)</h1>
-  <nav><b>
-     <a href="#license">License</a>
-    &nbsp;//&nbsp;
-    <a href="#footer">Contact</a>
-    &nbsp;//&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
-    &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
-    &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
-  </b></nav>
-</header>
-
-<hr/>
-<div>
-  <h2>Failed steps</h2>
-  <div id="resultsFailed"></div>
-</div>
-
-<hr/>
-<table class="table-responsive noborder">
-  <tr>
-    <td class="noborder">
-      <p><button onclick=" _preCel.importScript('celestra.js'); ">load celestra.js</button></p>
-      <p><button onclick=" _preCel.importScript('celestra.min.js'); ">load celestra.min.js</button></p>
-      <p><button onclick=" _preCel.importESM(); ">load celestra.esm.js</button></p>
-    </td>
-    <td class="noborder">
-      <p><button onclick=" _.importScript('unittest.js'); ">load unittest.js</button></p>
-      <p><button onclick=" window.location.reload(true) ">reset page</button></p>
-      <p><button onclick=" saveResults(); ">try createFile() - Save result in HTML</button></p>    
-    </td>
-  </tr>
-</table>
-
-<hr/>
-<h2>Manual testcases</h2>
-
-<table class="table-responsive">
-  <tr>
-    <td><button onclick=" _.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done')); ">delay();</button></td>
-    <td>2x alert (5s + finally)</td>
-  </tr>
-  <tr>
-    <td><button onclick="var alertStr = ''; try { _.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; } try { _.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; } try { _.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; } try { _.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; } try { _.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; } try { _.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; } alert(alertStr);">assert functions</button></td>
-    <td>
-      <p>1x alert, 6x cases</p>
-      <pre>var alertStr = '';
-try { _.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; }
-try { _.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; }
-try { _.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; }
-try { _.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; }
-try { _.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; }
-try { _.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; }
-alert(alertStr);</pre>
-    </td>
-  </tr>
-  <tr>
-    <td><button onclick=" _.importStyle('u87-dark.css','u87-light.css'); ">importStyle 1</button></td>
-    <td>Have to be light ('u87-dark.css' then 'u87-light.css').</td>
-  </tr>
-  <tr>
-    <td><button onclick=" _.importStyle('u87-blue.css'); ">importStyle 2</button></td>
-    <td>Have to be blue.</td>
-  </tr>
-  <tr>
-    <td><button onclick=" window['_cel'] = _.noConflict(); alert(_cel.VERSION+'\n'+_.VERSION); "> noConflict();</button></td>
-    <td>1x alert</td>
-  </tr>
-</table>
-
-<hr/>
-<h2>Results</h2>
-<div id="results"></div>
-
-<hr/>
-<h2 id="license">License</h2>
-
-<div>
-  <p><a href="https://opensource.org/licenses/MIT" target="_blank">https://opensource.org/licenses/MIT</a></p>
-
-  <h3>MIT License</h3>
-
-  <p><b>SPDX short identifier: MIT</b></p>
-
-  <p>Copyright (c) 2018 Ferenc Czigler</p>
-
-  <p>Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to deal
-  in the Software without restriction, including without limitation the rights
-  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:</p>
-
-  <p>The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.</p>
-
-  <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  SOFTWARE.</p>
-</div>
-
-<hr/>
-
-<footer id="footer" class="center"><small>
-  <p>
-    <a href="#license">License</a>
-    &nbsp;//&nbsp;
-    <a href="http://github.com/Serrin" target="_blank">Github</a>
-    &nbsp;//&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
-    &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
-    &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
-  </p>
-  <p>&copy; Copyright 2018 Ferenc Czigler</p>
-</small></footer>
-
-<!--script src="unittest.js"></script-->
 
 </body>
 </html>

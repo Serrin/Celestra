@@ -1,23 +1,25 @@
 /**
  * @name Celestra
- * @version 4.5.0 dev
+ * @version 4.5.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 (function(window, document){
 "use strict";
 
-/*-----------------+------+----------------------------------
-  Function         |   #  |  Internal calls
--------------------+------+----------------------------------
-  CTRL-F           |   N  |  getType()
-  domFadeToggle()  |   2  |  domFadeIn(), domFadeOut()
-  extend()         |   1  |  extend()
-  deepAssign()     |   1  |  deepAssign()
-  getJson()        |   1  |  ajax()
-  getText()        |   1  |  ajax()
-  clearCookies()   |   2  |  getCookie(), removeCookie()
--------------------+------+--------------------------------*/
+/*-------------------+------+-----------------------------------------
+  Function           |   #  |  Internal calls
+---------------------+------+-----------------------------------------
+  CTRL-F             |   N  |  getType();
+  domFadeToggle();   |   2  |  domFadeIn(); domFadeOut();
+  extend();          |   1  |  extend();
+  deepAssign();      |   1  |  deepAssign();
+  getJson();         |   1  |  ajax();
+  getText();         |   1  |  ajax();
+  clearCookies();    |   2  |  getCookie(); removeCookie();
+  isSameIterator();  |   1  |  isSameArray();
+  zipObj();          |   1  |  zip();
+---------------------+------+----------------------------------------*/
 
 /** polyfills **/
 
@@ -335,6 +337,9 @@ function randomString (pl = 100, sc = false) {
   return s;
 }
 
+/* inRange(<value: number>,<min: number>,<max: number>): boolean */
+const inRange = (v, min, max) => (v >= min && v <= max);
+
 /* b64Encode(<string>): string */
 function b64Encode (str) {
   return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
@@ -481,12 +486,7 @@ const strAt = (s, i) => (Array.from(String(s)).at(i)||"");
 const sizeIn = (o) => Object.keys(o).length;
 
 /* forIn(<object>,<callback: function>): object */
-function forIn (o, fn) {
-  for (var p in o) {
-    if (Object.prototype.hasOwnProperty.call(o, p)) { fn(o[p], p, o); }
-  }
-  return o;
-}
+const forIn = (o,fn) => { Object.keys(o).forEach((v)=>fn(o[v],v,o)); return o; }
 
 /* filterIn(<object>,<callback: function>): object */
 const filterIn = (o, fn) => Object.keys(o)
@@ -536,7 +536,7 @@ function assertEq (msg, v1, v2, strict = true) {
 
 /* assertNotEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
   throw error */
-/* assertNotEq(<message>,<value1: any>,<value2: any>[,strict=true]):
+/* assertNotEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
   true (boolean) */
 function assertNotEq (msg, v1, v2, strict = true) {
   if (strict ? v1 === v2 : v1 == v2) {
@@ -633,9 +633,7 @@ function domSetCSS (e, n, v) {
   if (typeof n === "string") {
     e.style[n] = v;
   } else if (typeof n === "object") {
-    for (var p in n) {
-      if (Object.prototype.hasOwnProperty.call(n, p)) { e.style[p] = n[p]; }
-    }
+    Object.keys(n).forEach((p) => (e.style[p] = n[p]));
   }
 }
 
@@ -687,8 +685,7 @@ function domToggle (e, d = "") {
 }
 
 /* domIsHidden(<element object>): boolean */
-const domIsHidden = (e) =>
-  (window.getComputedStyle(e, null).display === "none");
+const domIsHidden = (e) => (window.getComputedStyle(e,null).display === "none");
 
 /* domSiblings(<element object>): array */
 const domSiblings = (el) =>
@@ -722,8 +719,7 @@ function importScript (...args) {
         "Loading failed for the script with source " + e.target.src
       );
     };
-    (document.head || document.getElementsByTagName("head")[0])
-      .appendChild(scr);
+    (document.head||document.getElementsByTagName("head")[0]).appendChild(scr);
   }
 }
 
@@ -739,8 +735,7 @@ function importStyle (...args) {
         "Loading failed for the style with source " + e.target.href
       );
     };
-    (document.head || document.getElementsByTagName("head")[0])
-      .appendChild(stl);
+    (document.head||document.getElementsByTagName("head")[0]).appendChild(stl);
   }
 }
 
@@ -978,6 +973,11 @@ function ajax (o) {
 
 /** type checking **/
 
+/* isPlainObject(<value: any>): boolean */
+const isPlainObject = (v) => (!!v && typeof v === "object" &&
+  (Object.getPrototypeOf(v) === Object.prototype
+    || Object.getPrototypeOf(v) === null));
+
 /* isEmptyMap(<value: any>): boolean */
 const isEmptyMap = (v) => (celestra.getType(v, "map") && v.size === 0);
 
@@ -1057,12 +1057,8 @@ const isNumber = (v) => (typeof v === "number");
 const isFloat = (v) => (typeof v === "number" && !!(v % 1));
 
 /* isNumeric(<value: any>): boolean */
-function isNumeric (v) {
-  return ((typeof v === "number" && v === v)
-    ? true
-    : (!isNaN(parseFloat(v)) && isFinite(v))
-  );
-}
+const isNumeric = (v) => ( (typeof v === "number" && v === v)
+  ? true : (!isNaN(parseFloat(v)) && isFinite(v)) );
 
 /* isBoolean(<value: any>): boolean */
 const isBoolean = (v) => (typeof v === "boolean");
@@ -1176,7 +1172,7 @@ function setCookie (name, value, hours = 8760, path = "/", domain, secure,
     HttpOnly = settings.HttpOnly;
   }
   var expire = new Date();
-  expire.setTime(expire.getTime()+(Math.round(hours*60*60*1000)));
+  expire.setTime(expire.getTime() + (Math.round(hours * 60 * 60 * 1000)));
   document.cookie = encodeURIComponent(name)
     + "=" + encodeURIComponent(value)
     + "; expires=" + expire.toUTCString()
@@ -1246,7 +1242,7 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
     SameSite = settings.SameSite || "Lax";
     HttpOnly = settings.HttpOnly;
   }
-  for (var item in celestra.getCookie()) {
+  for (let item of Object.keys(celestra.getCookie())) {
     celestra.removeCookie(item, path, domain, secure, SameSite, HttpOnly);
   }
 }
@@ -1316,24 +1312,10 @@ const setSymmetricDifference = (a, b) => new Set(
 const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
 
 /* min(<collection>): any */
-function min ([...a]) {
-  if (a.length > 0) {
-    let r = a[0];
-    for (let item of a) { if (r > item) { r = item; } }
-    return r;
-  }
-  return null;
-}
+const min = ([...a]) => a.reduce((acc, v) => (v < acc ? v : acc), a[0]);
 
 /* max(<collection>): any */
-function max ([...a]) {
-  if (a.length > 0) {
-    let r = a[0];
-    for (let item of a) { if (r < item) { r = item; } }
-    return r;
-  }
-  return null;
-}
+const max = ([...a]) => a.reduce((acc, v) => (v > acc ? v : acc), a[0]);
 
 /* arrayRepeat(<value: any>[,n=100]): array */
 const arrayRepeat = (v, n = 100) => Array(n).fill(v);
@@ -1343,7 +1325,7 @@ const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
 /* arrayRange([start=0[,end=100[,step=1]]]): array */
 const arrayRange = (s = 0, e = 100, st = 1) =>
-  Array.from({ length: (e - s) / st + 1}, (v, i) => s + (i * st));
+  Array.from({length: (e - s) / st + 1}, (v, i) => s + (i * st));
 
 /* zip(<collection1>[,collectionN]): array */
 function zip (...a) {
@@ -1371,14 +1353,14 @@ function unzip ([...a]) {
   return r;
 }
 
-/* arrayUnique(<collection>): array */
+/* zipObj(<collection1>,<collection2>): object */
+const zipObj = ([...a1], [...a2]) => Object.fromEntries(celestra.zip(a1, a2));
+
+/* arrayUnique(<collection>[,callback: function]): array */
 const arrayUnique = (a) => [...new Set(a)];
 
 /* arrayAdd(<array>,<value: any>): boolean */
-function arrayAdd (a, v) {
-  if (!a.includes(v)) { a.push(v); return true; }
-  return false;
-}
+const arrayAdd = (a, v) => !a.includes(v) ? !!a.push(v) : false;
 
 /* arrayClear(<array>): array */
 function arrayClear (a) { a.length = 0; return a; }
@@ -1392,6 +1374,19 @@ function arrayRemove (a, v, all = false) {
   } else {
     var pos = -1;
     while ((pos = a.indexOf(v)) > -1) { a.splice(pos, 1); }
+  }
+  return found;
+}
+
+/* arrayRemoveBy(<array>,<callback: function>[,all=false]): boolean */
+function arrayRemoveBy (a, fn, all = false) {
+  var found = a.findIndex(fn) > -1;
+  if (!all) {
+    var pos = a.findIndex(fn);
+    if (pos > -1) { a.splice(pos, 1); }
+  } else {
+    var pos = -1;
+    while ((pos = a.findIndex(fn)) > -1) { a.splice(pos, 1); }
   }
   return found;
 }
@@ -1427,10 +1422,7 @@ function* iterCycle ([...a], n = Infinity) {
 }
 
 /* iterRepeat(<value: any>[,n=Infinity]): iterator */
-function* iterRepeat (v, n = Infinity) {
-  let i = 0;
-  while (i < n) { yield v; i++; }
-}
+function* iterRepeat (v, n=Infinity) { let i=0; while (i<n) { yield v; i++; } }
 
 /* takeWhile(<collection>,<callback: function>): iterator */
 function* takeWhile (it, fn) {
@@ -1471,10 +1463,7 @@ function* drop (it, n = 1) {
 function forEach (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
 
 /* map(<collection>,<callback: function>): iterator */
-function* map (it, fn) {
-  let i = 0;
-  for (let item of it) { yield fn(item, i++); }
-}
+function* map (it, fn) { let i=0; for (let item of it) { yield fn(item,i++); } }
 
 /* filter(<collection>,<callback: function>): iterator */
 function* filter (it, fn) {
@@ -1542,99 +1531,50 @@ function last (it) { let item; for (item of it) { } return item; }
 const reverse = ([...a]) => a.reverse();
 
 /* sort(<collection>[,numbers=false]): array */
-const sort = ([...a], ns) => a.sort(
-  ns
-    ? (a, b) => { if (a < b) { return -1; } if (a > b) { return 1; } return 0; }
-    : undefined
+const sort = ([...a], ns) => a.sort(ns
+  ? (a, b) => { if (a < b) { return -1; } if (a > b) { return 1; } return 0; }
+  : undefined
 );
 
 /* includes(<collection>,<value: any>): boolean */
-function includes (it, v) {
-  for (let item of it) {
-    if (item === v) { return true; }
-  }
-  return false;
-}
+const includes = ([...a], v) => (a.indexOf(v) > -1);
 /* contains(<collection>,<value: any>): boolean */
 const contains = includes;
 
 /* find(<collection>,<callback: function>): any */
-function find (it, fn) {
-  let i = 0;
-  for (let item of it) {
-    if (fn(item, i++)) { return item; }
-  }
-}
+const find = ([...a], fn) => a.find((v, i) => fn(v, i));
 
 /* findLast(<collection>,<callback: function>): any */
-function findLast (it, fn) {
-  let i = 0, r;
-  for (let item of it) {
-    if (fn(item, i++)) { r = item; }
-  }
-  return r;
-}
+const findLast = ([...a], fn) => a.findLast((v, i) => fn(v, i));
 
 /* every(<collection>,<callback: function>): boolean */
-function every (it, fn) {
-  let i = 0;
-  for (let item of it) {
-    if (!fn(item, i++)) { return false; }
-  }
-  if (i === 0) { return false; }
-  return true;
-}
+const every = ([...a], fn) => a.length > 0 ? a.every((v, i) => fn(v, i)): false;
 
 /* some(<collection>,<callback: function>): boolean */
-function some (it, fn) {
-  let i = 0;
-  for (let item of it) {
-    if (fn(item, i++)) { return true; }
-  }
-  return false;
-}
+const some = ([...a], fn) => a.length > 0 ? a.some((v, i) => fn(v, i)): false;
 
 /* none(<collection>,<callback: function>): boolean */
-function none (it, fn) {
-  let i = 0;
-  for (let item of it) {
-    if (fn(item, i++)) { return false; }
-  }
-  if (i === 0) { return false; }
-  return true;
-}
+const none = ([...a], fn) => a.length > 0 ? a.every((v,i) => !(fn(v,i))): false;
 
-/* takeRight(<collection>[,n=1]): iterator */
-function* takeRight ([...a], n = 1) {
-  let i = n;
-  for (let item of a.reverse()) {
-    if (i <= 0) { break; }
-    yield item;
-    i--;
-  }
-}
+/* takeRight(<collection>[,n=1]): array */
+const takeRight = ([...a], n = 1) => a.reverse().slice(0, n);
 
 /* takeRightWhile(<collection>,<callback: function>): iterator */
 function* takeRightWhile ([...a], fn) {
   let i = 0;
   for (let item of a.reverse()) {
-    if (fn(item, i)) { yield item; } else { break; }
+    if (fn(item, i++)) { yield item; } else { break; }
   }
 }
 
-/* dropRight(<collection>[,n=1]): iterator */
-function* dropRight ([...a], n = 1) {
-  let i = n;
-  for (let item of a.reverse()) {
-    if (i < 1) { yield item; } else { i--; }
-  }
-}
+/* dropRight(<collection>[,n=1]): array */
+const dropRight = ([...a], n = 1) => a.reverse().slice(n);
 
 /* dropRightWhile(<collection>,<callback: function>): iterator */
 function* dropRightWhile ([...a], fn) {
-  let d = true;
+  let d = true, i = 0;
   for (let item of a.reverse()) {
-    if (d && !fn(item)) { d = false; }
+    if (d && !fn(item, i++)) { d = false; }
     if (!d) { yield item; }
   }
 }
@@ -1675,7 +1615,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /** object header **/
 
-const VERSION = "Celestra v4.5.0 dev";
+const VERSION = "Celestra v4.5.1 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {
@@ -1694,6 +1634,7 @@ var celestra = {
   randomFloat: randomFloat,
   randomBoolean: randomBoolean,
   randomString: randomString,
+  inRange: inRange,
   b64Encode: b64Encode,
   b64Decode: b64Decode,
   javaHash: javaHash,
@@ -1766,6 +1707,7 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /** type checking **/
+  isPlainObject: isPlainObject,
   isEmptyMap: isEmptyMap,
   isEmptySet: isEmptySet,
   isEmptyIterator: isEmptyIterator,
@@ -1835,10 +1777,12 @@ var celestra = {
   arrayRange: arrayRange,
   zip: zip,
   unzip: unzip,
+  zipObj: zipObj,
   arrayUnique: arrayUnique,
   arrayAdd: arrayAdd,
   arrayClear: arrayClear,
   arrayRemove: arrayRemove,
+  arrayRemoveBy: arrayRemoveBy,
   arrayMerge: arrayMerge,
   iterRange: iterRange,
   iterCycle: iterCycle,

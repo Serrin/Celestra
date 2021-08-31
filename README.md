@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.5.0
+Latest version: 4.5.1
 
-Date: 2021-08-17T19:07:36.141Z
+Date: 2021-08-31T19:49:36.072Z
 
 The functions are available in the `celestra` and/or `_` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.js__|56804 byte
-minified|__celestra.min.js__|34718 byte
-ES6 module|__celestra.esm.js__|34576 byte
+developer|__celestra.js__|56957 byte
+minified|__celestra.min.js__|34758 byte
+ES6 module|__celestra.esm.js__|34612 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
@@ -124,6 +124,7 @@ Name | Description
 `randomFloat(<min>,<max>);` | Get a random float number value within min and max value.
 `randomBoolean();` | Get a random boolean value. The return value is `true` or `false`.
 `randomString([length[,specialCharactersEnabled=false]]);` | Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.
+`inRange(<value>,<min>,<max>);`| This function determines whether the provided value is between the min and max values. All of the parameters are mandatory and have to be number. The return value is boolean.
 `b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
 `javaHash(<data>[,hexa=false]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
@@ -192,9 +193,9 @@ Name | Description
 `domSiblingsNext(<element>);` | Get the nextsiblings of an element. The element parameter is mandatory and the return value is the array.
 `domSiblingsRight(<element>);` | Alias of the `domSiblingsNext(<element>);`.
 `importScript(<script1>[,scriptN]);` | Load JavaScript files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string. <br/> __Tip:__ <br> To prevent the caching of a js/css file use versioning in the file url. Example: `mylib.js?version=1.10.0`
-`importScripts();` | __REMOVED IN V4.5.0__
+`importScripts();` | __REMOVED IN V4.5.1__
 `importStyle(<style1>[,styleN]);` | Load CSS files. The first parameter is mandatory and has to be a string. The other parameters are optional and can be a string.
-`importStyles(<styles>);` | __REMOVED IN V4.5.0__
+`importStyles(<styles>);` | __REMOVED IN V4.5.1__
 `form2array(<form>);` | Convert (serialize) form input tag names and values to an array with object elements (name and value properties). The return value is the array. The form parameter is mandatory and has to be a html form element.
 `form2string(<form>);` | Convert (serialize) form input tag names and values to a query string. The return value is the string. The form parameter is mandatory and has to be a html form element.
 `getDoNotTrack();` | Return the DoNotTrack setting (boolean) of the browser.
@@ -242,6 +243,7 @@ Example: `_.isString();`
 
 Name | Description
 ---- | -----------
+`isPlainObject(<value>);` | This function determines whether the provided value is an object, which own prototype is the Object.prototype or null. The return value is boolean.
 `isDataView(<value>);` | This function determines whether the provided value is an DataView object. The return value is boolean.
 `isError(<value>);` | This function determines whether the provided value is an error. The return value is boolean.
 `isPromise(<value>);` | This function determines whether the provided value is a promise object. The return value is boolean.
@@ -333,10 +335,12 @@ Name | Description
 `arrayCycle(<collection>[,n=100]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRepeat(<value>[,n=100]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRange([start=0[,end=100[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.<br>__Example:__<br>`_.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));`<br>-><br>`Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]`
-`zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array. Example: `_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);` => `Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
-`unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. Example: `_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);` => `Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
+`zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array.<br>__Example:__<br>`_.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);`<br>-><br>`Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
+`unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators.<br>__Example:__<br>`_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);`<br>-><br>`Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
+`zipObj(<collection1>,<collection2>);` | Returns an object, whose properties are from the first collection and its values are from the second collection. The two collections must be the same size. In the modern browsers compatible with finite iterators.<br>__Example:__<br>`zipObj(["a","b","c"],[1,2,3])`<br>-><br>`{"a":1,"b":2,"c":3}`
 `arrayClear(<array>);` | Clear the array and returns the empty array. The array parameter is mandatory.
 `arrayRemove(<array>,<value>[,all=false]);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
+`arrayRemoveBy(<array>,<callback>[,all=false]);` | Remove the first or all values from the array with which the given function returns true. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayUnique(<collection>);` | __Old name before v3.8.0:__ `uniqueArray(<value>);` <br>This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `arrayAdd(<array>,<value>);` | __Old name before v3.8.0:__ `uniquePush(<array>,<value>);` <br>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `arrayMerge([flat=false,]<target>,<source1>[,sourceN]);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
@@ -372,11 +376,11 @@ Name | Description
 `join(<collection>[,separator=","]);` | This function creates and returns a new string by concatenating all of the elements in a collection, separated by commas or a specified separator string. The separator is converted to a string if necessary. If the collection has only one item, then that item will be returned without using the separator. The collection parameter is mandatory.
 `take(<collection>[,n=1]);` | Yield the first N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `takeWhile(<collection>,<callback>);` | Yield the elements of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-`takeRight(<collection>[,n=1]);` | Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`takeRight(<collection>[,n=1]);` | Take the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1. The return value is an array.
 `takeRightWhile(<collection>,<callback>);` | Yield the elements from the end of a collection while the callback (filter) function returns true. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `drop(<collection>[,n=1]);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `dropWhile(<collection>,<callback>);` | Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
-`dropRight(<collection>[,n=1]);` | Drop the last N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
+`dropRight(<collection>[,n=1]);` | Drop the last N elements of a collection and return the remained elements in an array. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1.
 `dropRightWhile(<collection>,<callback>);` | Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 __REMOVED IN V4.0.0__ | `forOf(<collection>,<callback>);`<br>`mapOf(<collection>,<callback>);`<br>`sizeOf(<collection>);`<br>`filterOf(<collection>,<callback>);`<br>`hasOf(<collection>,<value>);`<br>`findOf(<collection>,<callback>);`<br>`everyOf(<collection>,<callback>);`<br>`someOf(<collection>,<callback>);`<br>`noneOf(<collection>,<callback>);`<br>`firstOf(<collection>);`<br>`lastOf(<collection>);`<br>`sliceOf(<collection>[,begin[,end]]);`<br>`reverseOf(<collection>);`<br>`sortOf(<collection>);`<br>`reduceOf(<collection>,<callback>[,initialvalue]);`<br>`concatOf(<collection1>[,collectionN]);`<br>`flatOf(<collection>);`<br>`enumerateOf(<collection>);`<br>`joinOf(<collection>[,separator=","]);`<br>`takeOf(<collection>[,n]);`<br>`dropOf(<collection>[,n]);`
 
@@ -385,14 +389,14 @@ __REMOVED IN V4.0.0__ | `forOf(<collection>,<callback>);`<br>`mapOf(<collection>
 
 Name | Description
 ---- | -----------
-`Array.prototype.findLast(<callback>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
-`Array.prototype.findLastIndex(<callback>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
-`TypedArray.prototype.findLast(<callback>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
-`TypedArray.prototype.findLastIndex(<callback>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-array-find-from-last](https://github.com/tc39/proposal-array-find-from-last) <br> The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
-`Array.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
-`TypedArray.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at) <br> The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
-`String.prototype.at(<index>);` | __Proposal Stage 3__ <br>  [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at) <br> The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
-`Object.hasOwn(<object>,<property>);` | __Proposal Stage 3__ <br>  [https://github.com/tc39/proposal-accessible-object-hasownproperty](https://github.com/tc39/proposal-accessible-object-hasownproperty) <br> Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
+`Array.prototype.findLast(<callback>);` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+`Array.prototype.findLastIndex(<callback>);` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+`TypedArray.prototype.findLast(<callback>);` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+`TypedArray.prototype.findLastIndex(<callback>);` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+`Array.prototype.at(<index>);` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+`TypedArray.prototype.at(<index>);` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+`String.prototype.at(<index>);` | The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
+`Object.hasOwn(<object>,<property>);` | The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false.
 `String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string.
 `String.prototype.trimLeft();` | Alias of the `String.prototype.trimStart();` method.
 `String.prototype.trimEnd();` | The trimEnd() method removes whitespace from the end of a string.

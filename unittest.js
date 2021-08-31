@@ -6,7 +6,7 @@ try {
 
 var celTest = {};
 
-celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.20";
+celTest.VERSION = "Celestra Unit Tester (CUT) v0.8.21";
 
 celTest.__results__ = document.querySelector("#results");
 celTest.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -77,7 +77,7 @@ var _cut = celTest;
 /* ======================================================================== */
 
 
-_cut.addElement("hr");
+//_cut.addElement("hr");
 
 _cut.addElement("table",
     "<tr><td>CUT: </td><td><code>"+_cut.VERSION+"</code></td></tr>"
@@ -187,7 +187,7 @@ _cut.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v4.5.0 testcases */
+/* Celestra v4.5.1 testcases */
 
 /* Not auto tested functions */
 _cut.addElement("hr");
@@ -506,6 +506,12 @@ rndStr = "1" + _.randomString(32,false);
 _cut.isEqual("randomString(); random \"btc\" address", true, _.isString(rndStr) && rndStr.length === 33);
 _cut.log("<code>"+rndStr+"</code>");
 
+_cut.isTrue("inRange();",
+  _.inRange(4,3,6) && _.inRange(-3.14, -4.5, 9.21)
+    && !_.inRange(2,3,6) && !_.inRange(7,3,6)
+    && !_.inRange(-5.14, -4.5, 9.21) && !_.inRange(-9.24, -4.5, 9.21)
+);
+
 var kayleeStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
 _cut.isEqual("b64Encode();",
   "4pyTIMOgIA0KCSDDoXJ2w616dMWxcsWRIHTDvGvDtnJmw7pyw7Nnw6lwIMOBUlbDjVpUxbBSxZAgVMOcS8OWUkbDmlLDk0fDiVAgLD87LjotXyogwqTDt8OXwqjCuMK0y5lgy5vCsMuYXsuHficrISUvPSgpfFw8PiAiIC8gIyZAe31bXeKCrCDDjcOEw63FgcOfIDAxMjM0NTY3ODkgYXNkZmdoamtscXdlcnR6dWlvcHl4Y3Zibm0gQVNERkdISktMUVdFUlRaVUlPUFlYQ1ZCTk0=",
@@ -543,7 +549,7 @@ var FPObject = {a:2, b:3, c:4};
 _cut.isEqual("sizeIn();", "" + _.sizeIn(FPObject) + _.sizeIn({}), "30");
 
 var forInStr = "";
-_.forIn(FPObject, function (e) { forInStr += (e*2); });
+_.forIn(FPObject, (e) => forInStr += (e*2) );
 _cut.isEqual("forIn();", "468", forInStr);
 _cut.isEqual("forIn(); return value", FPObject, _.forIn(FPObject, function(){}));
 
@@ -1239,6 +1245,10 @@ _cut.isEqual("unzip(); ES6",
   )
 );
 
+_cut.isEqual("zipObj();",
+  '{"a":1,"b":2,"c":3}', JSON.stringify(_.zipObj(["a","b","c"],[1,2,3]))
+);
+
 var a = [21,11,41,51,31];
 _cut.isEqual("min(); ES5", 11, _.min(a));
 _cut.isEqual("max(); ES5", 51, _.max(a));
@@ -1324,6 +1334,7 @@ _cut.isTrue("arrayClear();",
  )
 );
 
+/* arrayremove begin */
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
 _cut.isTrue("arrayRemove(); - 1 found - not all - true",
   _.arrayRemove(arrTestClearRemove1, 6)
@@ -1345,7 +1356,6 @@ _cut.isFalse("arrayRemove(); - 1 found - all - false",
 _cut.isEqual("arrayRemove(); - 1 found - all - value check",
   "[1,2,3,4,5,5,7,8,5,9,0]", JSON.stringify(arrTestClearRemove1)
 );
-
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
 _cut.isTrue("arrayRemove(); - 3 found - not all - true",
@@ -1379,6 +1389,65 @@ _cut.isFalse("arrayRemove(); - 0 found - all - false",
 _cut.isEqual("arrayRemove(); - 0 found - value check",
   "[1,2,3,4,5,6,5,7,8,5,9,0]", JSON.stringify(arrTestClearRemove1)
 );
+/* arrayremove end */
+
+
+/* arrayremoveby begin */
+var arrTestClearRemove1 = [1,3,2,4,5,9,3,2];
+_cut.isTrue("arrayRemoveBy(); - 1 found - not all - true",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>6) )
+);
+_cut.isFalse("arrayRemoveBy(); - 1 found - not all - false",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>6))
+);
+_cut.isEqual("arrayRemoveBy(); - 1 found - not all - value check",
+  "[1,3,2,4,5,3,2]", JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,3,2,4,5,9,3,2];
+_cut.isTrue("arrayRemoveBy(); - 1 found - all - true",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>6), true)
+);
+_cut.isFalse("arrayRemoveBy(); - 1 found - all - false",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>6), true)
+);
+_cut.isEqual("arrayRemoveBy(); - 1 found - all - value check",
+  "[1,3,2,4,5,3,2]", JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,3,2,4,5,9,3,2];
+_cut.isTrue("arrayRemoveBy(); - 3 found - not all - true",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>3))
+);
+_cut.isTrue("arrayRemoveBy(); - 3 found - not all - true",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>3), false)
+);
+_cut.isEqual("arrayRemoveBy(); - 3 found - not all - value check",
+  "[1,3,2,9,3,2]", JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,3,2,4,5,9,3,2];
+_cut.isTrue("arrayRemoveBy(); - 3 found - all - true",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>3), true)
+);
+_cut.isFalse("arrayRemoveBy(); - 3 found - all - false",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>3), true)
+);
+_cut.isEqual("arrayRemoveBy(); - 3 found - all - value check",
+  "[1,3,2,3,2]", JSON.stringify(arrTestClearRemove1)
+);
+
+var arrTestClearRemove1 = [1,3,2,4,5,9,3,2];
+_cut.isFalse("arrayRemoveBy(); - 0 found - not all - false",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>13))
+);
+_cut.isFalse("arrayRemoveBy(); - 0 found - all - false",
+  _.arrayRemoveBy(arrTestClearRemove1, (v) => (v>13), true)
+);
+_cut.isEqual("arrayRemoveBy(); - 0 found - value check",
+  "[1,3,2,4,5,9,3,2]", JSON.stringify(arrTestClearRemove1)
+);
+/* arrayremoveby end */
 
 _cut.isEqual("arrayUnique(); 1 ES5 - Array and String",
   JSON.stringify(_.arrayUnique(
@@ -1763,6 +1832,16 @@ _cut.isEqual("AsyncFunction();", "asyncfunction", _.getType(afunction));
 
 _cut.addElement("hr");
 _cut.addElement("h3", "type checking");
+
+_cut.isTrue("isPlainObject();",
+  !_.isPlainObject(null)
+    && !_.isPlainObject("")
+    && !_.isPlainObject([])
+    && !_.isPlainObject(function(){})
+    && _.isPlainObject({})
+    && _.isPlainObject({a: "1", b: "2"})
+    && _.isPlainObject(Object.create(null))
+);
 
 _cut.isTrue("isEmptyMap(); true", _.isEmptyMap(new Map()));
 _cut.isFalse("isEmptyMap(); false 1", _.isEmptyMap(new Map([[4,5],[6,7]])));

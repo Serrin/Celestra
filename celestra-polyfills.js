@@ -427,7 +427,7 @@ if (Array.prototype.keys
 }
 
 if (!Array.prototype.includes) {
-  Array.prototype.includes = function (v, f) {
+  Array.prototype.includes = function (v, f) { 
     return (this.indexOf(v, f) > -1);
   };
 }

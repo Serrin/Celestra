@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.5.0</p>
-<p>Date: 2021-08-17T19:07:36.141Z</p>
+<p>Latest version: 4.5.1</p>
+<p>Date: 2021-08-31T19:49:36.072Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 
@@ -90,17 +90,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>56804 byte</td>
+    </td><td>56957 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>34718 byte</td>
+    <td>34758 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>34576 byte</td>
+    <td>34612 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -268,6 +268,10 @@ _.delay(5000)
     <tr>
       <td><code>randomString([length[,specialCharactersEnabled=false]]);</code></td>
       <td>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.</td>
+    </tr>
+    <tr>
+      <td><code>inRange(&#60;value&#62;,&#60;min&#62;,&#60;max&#62;);</code></td>
+      <td>This function determines whether the provided value is between the min and max values. All of the parameters are mandatory and have to be number. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>b64Encode(&#60;string&#62;);</code></td>
@@ -664,6 +668,10 @@ console.log(o2);
     <tr>
       <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>isPlainObject(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is an object, which own prototype is the Object.prototype or null. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isDataView(&#60;value&#62;);</td>
@@ -1094,7 +1102,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>unzip(&#60;collection&#62;);</code></td>
-      <td>Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. <br/>Example: <code>_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);</code> => <code>Array (2) [ ["a","b","c","d"], [3,4,5,6] ]</code></td>
+      <td>Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. <br/><b>Example:</b><br/><code>_.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);</code><br/>-><br/><code>Array (2) [ ["a","b","c","d"], [3,4,5,6] ]</code></td>
+    </tr>
+    <tr>
+      <td><code>zipObj(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
+      <td>Returns an object, whose properties are from the first collection and its values are from the second collection. The two collections must be the same size. In the modern browsers compatible with finite iterators.<br/><b>Example:</b><br/><code>zipObj(["a","b","c"],[1,2,3])</code><br/>-><br/><code>{"a":1,"b":2,"c":3}</code></td>
     </tr>
     <tr>
       <td><code>arrayClear(&#60;array&#62;);</code></td>
@@ -1103,6 +1115,10 @@ console.log(o2);
     <tr>
       <td><code>arrayRemove(&#60;array&#62;,&#60;value&#62;[,all=false]);</code></td>
       <td>Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.</td>
+    </tr>
+    <tr>
+      <td><code>arrayRemoveBy(&#60;array&#62;,&#60;callback&#62;[,all=false]);</code></td>
+      <td>Remove the first or all values from the array with which the given function returns true. Returns true, when the value was found and false when not found. The array and callback parameters are mandatory. The all parameter is optional and has to be a boolean.</td>
     </tr>
     <tr>
       <td><code>arrayUnique(&#60;collection&#62;);</code></td>
@@ -1258,7 +1274,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>takeRight(&#60;collection&#62;[,n=1]);</code></td>
-      <td>Yield the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
+      <td>Take the last N elements of a collection. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1. The return value is an array.</td>
     </tr>
     <tr>
       <td><code>takeRightWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1274,7 +1290,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>dropRight(&#60;collection&#62;[,n=1]);</code></td>
-      <td>Drop the last N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
+      <td>Drop the last N elements of a collection and return the remained elements in an array. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1.</td>
     </tr>
     <tr>
       <td><code>dropRightWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
@@ -1321,61 +1337,51 @@ console.log(o2);
     <tr>
       <td><code>Array.prototype.findLast(&#60;callback&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 3</span>
-        <br>The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
+        The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>Array.prototype.findLastIndex(&#60;callback&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 3</span>
-        <br>The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
+        The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>TypedArray.prototype.findLast(&#60;callback&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 3</span>
-        <br>The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
+        The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>TypedArray.prototype.findLastIndex(&#60;callback&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 3</span>
-        <br>The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
+        The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>  
     <tr>
       <td><code>Array.prototype.at(&#60;index&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 3</span>
-        <br>The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+        The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
         For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at" target="_blank">MDN Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>TypedArray.prototype.at(&#60;index&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 3</span>
-        <br>The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+        The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
         For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at" target="_blank">MDN Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>String.prototype.at(&#60;index&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 3</span>
-        <br>The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
-        For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at" target="_blank">MDN Article</a>!
+        The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at" target="_blank">MDN Article</a>!
       </td>
     </tr>
     <tr>
       <td><code>Object.hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
       <td>
-        <span class="info">Proposal Stage 3</span>
-        <br>Returns the object parameter has the specified property as its own property. Both of the parameters are mandatory and the property has to be string. The return value is boolean.
-        <br>For more information please read the <a href="https://github.com/tc39/proposal-accessible-object-hasownproperty" target="_blank">proposal page</a>!
+        The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn" target="_blank">MDN Article</a>!
       </td>
     </tr>
     <tr>
