@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.
 
-Latest version: 4.5.1
+Latest version: 4.5.2
 
-Date: 2021-08-31T19:49:36.072Z
+Date: 2021-09-12T19:30:57.482Z
 
 The functions are available in the `celestra` and/or `_` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.js__|56957 byte
-minified|__celestra.min.js__|34758 byte
-ES6 module|__celestra.esm.js__|34612 byte
+developer|__celestra.js__|56989 byte
+minified|__celestra.min.js__|34894 byte
+ES6 module|__celestra.esm.js__|34748 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 
 DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
@@ -103,6 +103,11 @@ window._ = defaultExport;
 - Many functions have been deprecated or removed.
 
 
+### Celestra v5.0.0 changes
+
+- The underscore `_` short object name will be changed to `CEL` to avoid the compatibility issues.<br>If need to use the old short name, then with this code will be available again: `window._ = window.celestra;`.
+
+
 ## Functions
 
 ### Core API
@@ -115,6 +120,7 @@ Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
 `celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM edition only returns the celestra object.__
+`randomID([hyphens=false]);` | Generate a GUID/UUID like random ID. The hyphens parameter is optional. The return value is a string.<br><b>Example:</b><br>`randomID();`<br>-><br>`"17bbfa109da866175d0c7ca1741f021e"`<br>`randomID(true);´`<br>-><br><code>"17bbfa10-9da7-69a0-cbbc-248d835d09c4"`
 `signbit(v>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
 `delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer.<br>__Sample:__<br>`_.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
@@ -131,15 +137,14 @@ Name | Description
 `getUrlVars([str=location.search]);` | Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
-`extend([deep,]<target>,<source1>, ...sources);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
-`deepAssign(<target>,<source1>, ...sources);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
+`extend([deep,]<target>,<source1>[,sourceN]);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
+`deepAssign(<target>,<source1>[,sourceN]);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
 `strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`_.strPropercase("arthur conan doyle");`<br>-><br>`"Arthur Conan Doyle"`
 `strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
 `strUpFirst(<string>);` | This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.
 `strDownFirst(<string>);` | This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.
 `strHTMLRemoveTags(<string>);` | __Old name before v4.4.0:__ `strRemoveTags(<string>);` <br>Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
 `strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
-`strReplaceAll(<string>,<search>,<replace>);` | __REMOVED IN V4.3.0__ <br> Can be replaced with the `String.prototype.replaceAll();` which is polyfilled in this library.
 `strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
 `strFromCodePoints(<collection>);` | Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.
 `strAt(<string>,<index>);` | Returns the unicode character, which has to be on the given index in the string. The index can be negative value (`-1 -> last`). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.
@@ -149,7 +154,6 @@ Name | Description
 `popIn(<object>,<property>);` | The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.
 `toFunction(<function>);` | Returns a "detach" function from an object method. The first parameter of the returned function will be the context object.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
-`hasOwn(<object>,<property>);` | __REMOVED IN V4.0.0__ <br> Can be replaced with the `Object.hasOwn();` which is polyfilled in this library.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
@@ -389,14 +393,14 @@ __REMOVED IN V4.0.0__ | `forOf(<collection>,<callback>);`<br>`mapOf(<collection>
 
 Name | Description
 ---- | -----------
-`Array.prototype.findLast(<callback>);` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
-`Array.prototype.findLastIndex(<callback>);` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
-`TypedArray.prototype.findLast(<callback>);` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
-`TypedArray.prototype.findLastIndex(<callback>);` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
-`Array.prototype.at(<index>);` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
-`TypedArray.prototype.at(<index>);` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
-`String.prototype.at(<index>);` | The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
-`Object.hasOwn(<object>,<property>);` | The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false.
+`Array.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+`Array.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+`TypedArray.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
+`TypedArray.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+`Array.prototype.at();` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+`TypedArray.prototype.at();` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+`String.prototype.at();` | The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
+`Object.hasOwn();` | The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false.
 `String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string.
 `String.prototype.trimLeft();` | Alias of the `String.prototype.trimStart();` method.
 `String.prototype.trimEnd();` | The trimEnd() method removes whitespace from the end of a string.

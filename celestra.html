@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.JS.</p>
 
-<p>Latest version: 4.5.1</p>
-<p>Date: 2021-08-31T19:49:36.072Z</p>
+<p>Latest version: 4.5.2</p>
+<p>Date: 2021-09-12T19:30:57.482Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>_</code> object.</p>
 
@@ -90,17 +90,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>56957 byte</td>
+    </td><td>56989 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>34758 byte</td>
+    <td>34894 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>34612 byte</td>
+    <td>34748 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -187,6 +187,13 @@ window._ = defaultExport;
   <li>Many functions have been deprecated or removed.</li>
 </ul>
 
+<h3>Celestra v5.0.0 changes</h3>
+
+<ul>
+  <li>The underscore <code>_</code> short object name will be changed to <code>CEL</code> to avoid the compatibility issues.<br/>If need to use the old short name, then with this code will be available again: <code>window._ = window.celestra;</code>.</li>
+</ul>
+
+
 <h2 id="functions">Functions</h2>
 
 <p><span class="removed">Removed</span> and <span class="deprecated">Deprecated</span> labels: Don't use these in production.</p>
@@ -212,6 +219,19 @@ window._ = defaultExport;
         <p>Restore the previous <code>_</code> object value and return the <code>celestra</code> object to create a new alias.</p>
         <p><span class="info">Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code></span></p>
         <p><span class="info">In the ESM edition only returns the celestra object.</code></span></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>randomID([hyphens=false]);</code></td>
+      <td>
+        Generate a GUID/UUID like random ID. The hyphens parameter is optional. The return value is a string.
+        <br/><b>Example:</b>
+        <br/><code>randomID();</code>
+        <br/>->
+        <br/><code>"17bbfa109da866175d0c7ca1741f021e"</code>
+        <br/><code>randomID(true);</code>
+        <br/>->
+        <br/><code>"17bbfa10-9da7-69a0-cbbc-248d835d09c4"</code>
       </td>
     </tr>
     <tr>
@@ -299,11 +319,11 @@ _.delay(5000)
       <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.</td>
     </tr>
     <tr>
-      <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
+      <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
       <td>This is an enhanced version of the <code>Object.assign</code> method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.</td>
     </tr>
     <tr>
-      <td><code>deepAssign(&#60;target&#62;,&#60;source1&#62;, ...sources);</code></td>
+      <td><code>deepAssign(&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
       <td>This is another enhanced version of the <code>Object.assign</code> method and create an always deep copy (recursive) of the sources.</td>
     </tr>
     <tr>
@@ -332,13 +352,6 @@ _.delay(5000)
     <tr>
       <td><code>strReverse(&#60;string&#62;);</code></td>
       <td>Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>strReplaceAll(&#60;string&#62;,&#60;search&#62;,&#60;replace&#62;);</code></td>
-      <td>
-        <p><span class="removed">REMOVED IN V4.3.0</span></p>
-        <p>Can be replaced with the <code>String.prototype.replaceAll();</code> which is polyfilled in this library.</p>
-      </td>
     </tr>
     <tr>
       <td><code>strCodePoints(&#60;string&#62;);</code></td>
@@ -383,13 +396,6 @@ console.log(o2);
     <tr>
       <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
       <td>Returns a function that is bound to a context. Both of the parameters are mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
-      <td>
-        <span class="removed">REMOVED IN V4.0.0</span>
-        <p>Can be replaced with the <code>Object.hasOwn();</code> which is polyfilled in this library.</p>
-      </td>
     </tr>
     <tr>
       <td><code>constant(&#60;value&#62;);</code></td>
@@ -1335,51 +1341,51 @@ console.log(o2);
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>Array.prototype.findLast(&#60;callback&#62;);</code></td>
+      <td><code>Array.prototype.findLast();</code></td>
       <td>
         The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
-      <td><code>Array.prototype.findLastIndex(&#60;callback&#62;);</code></td>
+      <td><code>Array.prototype.findLastIndex();</code></td>
       <td>
         The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
-      <td><code>TypedArray.prototype.findLast(&#60;callback&#62;);</code></td>
+      <td><code>TypedArray.prototype.findLast();</code></td>
       <td>
         The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>
     <tr>
-      <td><code>TypedArray.prototype.findLastIndex(&#60;callback&#62;);</code></td>
+      <td><code>TypedArray.prototype.findLastIndex();</code></td>
       <td>
         The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
     </tr>  
     <tr>
-      <td><code>Array.prototype.at(&#60;index&#62;);</code></td>
+      <td><code>Array.prototype.at();</code></td>
       <td>
         The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
         For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at" target="_blank">MDN Article</a>!
       </td>
     </tr>
     <tr>
-      <td><code>TypedArray.prototype.at(&#60;index&#62;);</code></td>
+      <td><code>TypedArray.prototype.at();</code></td>
       <td>
         The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
         For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at" target="_blank">MDN Article</a>!
       </td>
     </tr>
     <tr>
-      <td><code>String.prototype.at(&#60;index&#62;);</code></td>
+      <td><code>String.prototype.at();</code></td>
       <td>
         The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at" target="_blank">MDN Article</a>!
       </td>
     </tr>
     <tr>
-      <td><code>Object.hasOwn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td><code>Object.hasOwn();</code></td>
       <td>
         The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn" target="_blank">MDN Article</a>!
       </td>

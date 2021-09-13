@@ -26,11 +26,26 @@
   white-space: pre-wrap;
 }
 @media (max-width: 575.98px) { td { display: block; width: 100% !important; } }
+#toplink, #bottomlink {
+  border-radius: 50%;
+  font-size: 30px;
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  padding-top: 0px;
+}
+#toplink { right: 20px; top: 20px; }
+#bottomlink { right: 20px; bottom: 20px;}
 </style>
 </head>
 <body class="container">
 
-<header class="center">
+<!--div><a href="#top" id="toplink">&Uparrow;</a></div>
+<div><a href="#bottom" id="bottomlink">&Downarrow;</a></div-->
+<div><a href="#top"><button id="toplink">&Uparrow;</button></a></div>
+<div><a href="#bottom"><button id="bottomlink">&Downarrow;</button></a></div>
+
+<header class="center" id="top" name="top">
   <h1>Celestra Unit Tester (CUT)</h1>
   <nav><b>
      <a href="#license">License</a>
@@ -62,14 +77,27 @@
     </td>
     <td class="noborder">
       <p><button onclick=" _.importScript('unittest.js'); preCelLog('<b>unittest.js</b> is loaded.');">load unittest.js</button></p>
-      <p><button onclick=" window.location.reload(true) ">reset page</button></p>
-      <p><button onclick=" saveResults(); ">try createFile() - Save result in HTML</button></p>    
+      <p><button onclick=" window.location.reload(true); ">reset page</button></p>
+      <p><button onclick=" saveResults(); ">Save result in HTML</button></p>
     </td>
     <td class="noborder">
-      <div id="preCelLog" class="padding bg-black font-monospace border" style="min-height: 150px; min-width: 300px;"></div>
+      <div id="preCelLog" class="padding bg-black font-monospace border" style="min-height: 150px; min-width: 250px;"></div>
     </td>
   </tr>
 </table>
+
+<hr/>
+<div>
+  <h2>Debug Console</h2>
+  <p><textarea id="consolejs" class="padding bg-black font-monospace border" style="max-width: 750px; width: 100%; height:100px;"></textarea></p>
+  <p>
+    <button onclick=" runConsoleJS(); ">run</button>
+    &nbsp;
+    <button onclick=" consoleJSElement.value = ''; ">clear</button>
+    &nbsp;
+    <button onclick=" saveConsoleJS(); ">save</button>
+  </p>
+</div>
 
 <hr/>
 <div>
@@ -162,7 +190,7 @@ alert(alertStr);</pre>
     &nbsp;/&nbsp;
     <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
   </p>
-  <p>&copy; Copyright 2018 Ferenc Czigler</p>
+  <p id="bottom" name="bottom">&copy; Copyright 2018 Ferenc Czigler</p>
 </small></footer>
 
 <!--script src="unittest.js"></script-->
@@ -304,8 +332,22 @@ const preCelLog = (str) => {
   pElement.innerHTML = str;
   preCelLogElement.appendChild(pElement);
 };
-</script>
 
+const consoleJSElement = document.querySelector("#consolejs");
+function runConsoleJS () {
+  var scr = document.createElement("script");
+  scr.innerHTML = consoleJSElement.value;
+  document.body.appendChild(scr);
+}
+function saveConsoleJS () {
+  _.createFile(
+    "cut-"+Date.now().toString(36)+".js",
+    consoleJSElement.value,
+    "text/javascript"
+  );
+}
+
+</script>
 
 </body>
 </html>

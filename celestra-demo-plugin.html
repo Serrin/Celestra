@@ -32,7 +32,7 @@
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).</p>
 
-<p>Latest version: 4.5.1</p>
+<p>Latest version: 4.5.2</p>
 
 <p>Download: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
@@ -53,6 +53,14 @@
       <td>This function returns the average value from the parameter values.</td>
     </tr>
     <tr>
+      <td><code>product(&#60;value1&#62;[,valueN]);</code></td>
+      <td>This function returns the product value from the parameter values.</td>
+    </tr>
+    <tr>
+      <td><code>clamp(&#60;value&#62;,&#60;min&#62;,&#60;max&#62;);</code></td>
+      <td>If the given value is between the min and max values, then return the value. If smaller then the min value, then the return value is the min. If greater then the max value, then the return value is the max.</td>
+    </tr>
+    <tr>
       <td><code>isEven(&#60;value&#62;);</code></td>
       <td>This function determines whether the provided value is an even number. The return value is boolean.</td>
     </tr>
@@ -64,6 +72,52 @@
 </div>
 
 <h2>Samples</h2>
+
+<h3>clamp();</h3>
+
+<table>
+  <tr>
+    <td><button onclick="alert( _.clamp(3,2,5) );">clamp - try 1</button></td>
+    <td><code>alert( _.clamp(3,2,5) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.clamp(-2.5,3.1,5) );">clamp - try 2</button></td>
+    <td><code>alert( _.clamp(-2.5,3.1,5) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.clamp(8,3,5) );">clamp - try 3</button></td>
+    <td><code>alert( _.clamp(8,3,5) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.clamp() );">clamp - try without parameter</button></td>
+    <td><code>alert( _.clamp() );</code></td>
+  </tr>
+</table>
+
+<h3>product();</h3>
+
+<table>
+  <tr>
+    <td><button onclick="alert( _.product(3) );">product - try 1</button></td>
+    <td><code>alert( _.sum(3) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.product(3, 5) );">product - try 2</button></td>
+    <td><code>alert( _.product(3, 5) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.product(3.14, -5) );">product - try 3</button></td>
+    <td><code>alert( _.sum(3.14, -5) );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.product(true, 3.14, -9, 'Arthur Dent') );">product - try with many parameter types</button></td>
+    <td><code>alert( _.product(true, 3.14, -9, 'Arthur Dent') );</code></td>
+  </tr>
+  <tr>
+    <td><button onclick="alert( _.product() );">product - try without parameter</button></td>
+    <td><code>alert( _.product() );</code></td>
+  </tr>
+</table>
 
 <h3>sum();</h3>
 

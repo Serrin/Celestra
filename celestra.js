@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.5.1 dev
+ * @version 4.5.2 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -71,9 +71,7 @@ if (!Object.hasOwn) {
       }
       return Object.prototype.hasOwnProperty.call(Object(object), property);
     },
-    configurable: true,
-    enumerable: false,
-    writable: true
+    configurable: true, enumerable: false, writable: true
   });
 }
 
@@ -114,7 +112,7 @@ if (!String.prototype.padStart) {
 /* String.prototype.padEnd(); */
 if (!String.prototype.padEnd) {
   String.prototype.padEnd = function (len, str) {
-    len =  Math.floor(Number(len));
+    len = Math.floor(Number(len));
     if (len <= this.length || len === NaN ) {
       return String(this);
     } else {
@@ -130,9 +128,7 @@ if (!String.prototype.padEnd) {
 /* String.prototype.replaceAll(); */
 if (!("replaceAll" in String.prototype)) {
   Object.defineProperty(String.prototype, "replaceAll", {
-    "configurable": true,
-    "writable": true,
-    "enumerable": false,
+    "configurable": true, "writable": true, "enumerable": false,
     "value": function (searchValue, replaceValue) {
       "use strict";
       if (this == null) {
@@ -304,6 +300,18 @@ if (window.BigInt && !BigInt.prototype.toJSON) {
 
 /** core api **/
 
+/* randomID([hyphens = false]): string */
+function randomID (hyphens = false) {
+  var r = (new Date()).getTime().toString(16);
+  for (var i=0; i<3; i++) { r += Math.random().toString(16).slice(2); }
+  r = r.slice(0, 32);
+  return !hyphens ? r : r.slice(0, 8)
+    + "-" + r.slice(8, 12)
+    + "-" + r.slice(12, 16)
+    + "-" + r.slice(16, 20)
+    + "-" + r.slice(20);
+}
+
 /* signbit(<value: any>): boolean */
 const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
 
@@ -338,7 +346,7 @@ function randomString (pl = 100, sc = false) {
 }
 
 /* inRange(<value: number>,<min: number>,<max: number>): boolean */
-const inRange = (v, min, max) => (v >= min && v <= max);
+const inRange = (v, i, a) => (v >= i && v <= a);
 
 /* b64Encode(<string>): string */
 function b64Encode (str) {
@@ -361,7 +369,7 @@ function javaHash (s, hx = false) {
   if (l == 0) { return h; }
   for (var i = 0; i < l; i++) {
     c = s.charCodeAt(i);
-    h = ((h<<5) - h) + c;
+    h = ((h << 5) - h) + c;
     h = h & h;
   }
   if (hx) { return h.toString(16); }
@@ -382,8 +390,8 @@ const getUrlVars = (str = location.search) =>
 
 /* obj2string(<object>): string */
 const obj2string = (o) => Object.keys(o).reduce(
-  (s,p) => s += encodeURIComponent(p) + "=" + encodeURIComponent(o[p]) + "&", ""
-  ).slice(0, -1);
+  (s,p) => s += encodeURIComponent(p) + "=" + encodeURIComponent(o[p]) + "&","")
+  .slice(0, -1);
 
 /* getType(<variable: any>): string */
 /* getType(<variable: any>[,type: string]): boolean */
@@ -392,8 +400,7 @@ function getType (v, t) {
   return (arguments.length === 2 ? ot === t.toLowerCase() : ot);
 }
 
-/* extend([deep: boolean,]<target: object>,<source1: object>, ...sources):
-  object */
+/* extend([deep: boolean,]<target: object>,<source1: object>[,sourceN]):object*/
 function extend () {
   var so = {};
   if (typeof arguments[0] === "boolean") {
@@ -405,7 +412,7 @@ function extend () {
     so = arguments[i];
     if (so !== null && so !== undefined) {
       for (var a in so) {
-        if (Object.prototype.hasOwnProperty.call(so,a)) {
+        if (Object.hasOwn(so, a)) {
           if (typeof so[a] === "object" && d) {
             t[a] = celestra.extend(true, {}, so[a]);
           } else {
@@ -418,14 +425,14 @@ function extend () {
   return t;
 }
 
-/* deepAssign(<target: object>,<source1: object>, ...sources): object */
+/* deepAssign(<target: object>,<source1: object>[,sourceN]): object */
 function deepAssign () {
   var s = {}, t = arguments[0];
   for (var i = 1, l = arguments.length; i < l; i++) {
     s = arguments[i];
     if (s !== null && s !== undefined) {
       for (var a in s) {
-        if (Object.prototype.hasOwnProperty.call(s,a)) {
+        if (Object.hasOwn(s, a)) {
           if (typeof s[a] === "object") {
             t[a] = celestra.deepAssign({}, s[a]);
           } else {
@@ -448,21 +455,21 @@ const strPropercase = (s) => String(s).split(" ").map(function (v) {
 /* strCapitalize(<string>): string */
 function strCapitalize (s) {
   var a = [...String(s).toLowerCase()];
-  a[0] = a[0].toUpperCase();
+  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
   return a.join("");
 }
 
 /* strUpFirst(<string>): string */
 function strUpFirst (s) {
   var a = [...String(s)];
-  a[0] = a[0].toUpperCase();
+  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
   return a.join("");
 }
 
 /* strDownFirst(<string>): string */
 function strDownFirst (s) {
   var a = [...String(s)];
-  a[0] = a[0].toLowerCase();
+  if (a.length > 0) { a[0] = a[0].toLowerCase(); }
   return a.join("");
 }
 
@@ -480,7 +487,7 @@ const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
 const strFromCodePoints = ([...a]) => String.fromCodePoint.apply(null, a);
 
 /* strAt(<string>,<index: integer>): string */
-const strAt = (s, i) => (Array.from(String(s)).at(i)||"");
+const strAt = (s, i) => (Array.from(String(s)).at(i) || "");
 
 /* sizeIn(<object>): integer */
 const sizeIn = (o) => Object.keys(o).length;
@@ -494,13 +501,7 @@ const filterIn = (o, fn) => Object.keys(o)
 
 /* popIn(<object>,<property: string>): any */
 /* popIn(<object>,<property: string>): undefined */
-function popIn (o, p) {
-  if (Object.prototype.hasOwnProperty.call(o, p)) {
-    var v = o[p];
-    delete o[p];
-    return v;
-  }
-}
+function popIn (o,p){if(Object.hasOwn(o,p)){var v=o[p]; delete o[p]; return v;}}
 
 /* toFunction(<function>): function */
 const toFunction = (fn) => Function.prototype.call.bind(fn);
@@ -515,7 +516,7 @@ const constant = (v) => () => v;
 const identity = (v) => v;
 
 /* noop(): undefined */
-const noop = () => undefined;
+const noop = () => {};
 
 /* T(): true (boolean) */
 const T = () => true;
@@ -644,9 +645,7 @@ function domFadeIn (e, dur, d) {
   s.opacity = (s.opacity || 0);
   s.display = (d || "");
   (function fade () {
-    (s.opacity = parseFloat(s.opacity)+step) > 1
-      ? s.opacity = 1
-      : setTimeout(fade, 25);
+    (s.opacity=parseFloat(s.opacity)+step)>1 ? s.opacity=1 :setTimeout(fade,25);
   })();
 }
 
@@ -709,8 +708,8 @@ const domSiblingsNext = (el) => Array.prototype.slice.call(
 const domSiblingsRight = domSiblingsNext;
 
 /* importScript(<script1: string>[,scriptN: string]): undefined */
-function importScript (...args) {
-  for (let item of args) {
+function importScript (...a) {
+  for (let item of a) {
     let scr = document.createElement("script");
     scr.type = "text\/javascript";
     scr.src = item;
@@ -724,8 +723,8 @@ function importScript (...args) {
 }
 
 /* importStyle(<style1: string>[,styleN: string]): undefined */
-function importStyle (...args) {
-  for (let item of args) {
+function importStyle (...a) {
+  for (let item of a) {
     let stl = document.createElement("link");
     stl.rel = "stylesheet";
     stl.type = "text\/css";
@@ -985,10 +984,7 @@ const isEmptyMap = (v) => (celestra.getType(v, "map") && v.size === 0);
 const isEmptySet = (v) => (celestra.getType(v, "set") && v.size === 0);
 
 /* isEmptyIterator(<value: any>): boolean */
-function isEmptyIterator (it) {
-  for (let item of it) { return false; }
-  return true;
-}
+function isEmptyIterator (it) {for(let item of it) {return false;} return true;}
 
 /* isDataView(<value: any>): boolean */
 const isDataView = (v) => celestra.getType(v, "dataview");
@@ -1067,13 +1063,8 @@ const isBoolean = (v) => (typeof v === "boolean");
 const isObject = (v) => (typeof v === "object" && v !== null);
 
 /* isEmptyObject(<value: any>): boolean */
-function isEmptyObject(v) {
-  if (typeof v === "object" && v !== null) {
-    for (var n in v) { return false; }
-    return true;
-  }
-  return false;
-}
+const isEmptyObject = (v) =>
+  (v != null && typeof v === "object" && Object.keys(v).length === 0);
 
 /* isFunction(<value: any>): boolean */
 const isFunction = (v) => (typeof v === "function");
@@ -1179,8 +1170,7 @@ function setCookie (name, value, hours = 8760, path = "/", domain, secure,
     + "; path=" + path
     + (domain ? "; domain=" + domain : "")
     + (secure ? "; secure" : "")
-    + (typeof SameSite === "string" && SameSite.length > 0
-      ? "; SameSite="+SameSite : "")
+    + (typeof SameSite==="string"&&SameSite.length>0 ?"; SameSite="+SameSite:"")
     + (HttpOnly ? "; HttpOnly" : "")
     + ";";
 }
@@ -1200,8 +1190,7 @@ function getCookie (name) {
 }
 
 /* hasCookie(<name: string>): boolean */
-const hasCookie = (name) =>
-  (document.cookie.includes(encodeURIComponent(name) + "="));
+const hasCookie = (n) => (document.cookie.includes(encodeURIComponent(n)+"="));
 
 /* removeCookie(<Options object>);: boolean */
 /* removeCookie(<name: string>
@@ -1223,8 +1212,7 @@ function removeCookie (name, path = "/", domain, secure,
     + "; path=" + path
     + (domain ? "; domain=" + domain : "")
     + (secure ? "; secure" : "")
-    + (typeof SameSite === "string" && SameSite.length > 0
-      ? "; SameSite="+SameSite : "")
+    + (typeof SameSite==="string"&&SameSite.length>0 ?"; SameSite="+SameSite:"")
     + (HttpOnly ? "; HttpOnly" : "")
     + ";";
   return r;
@@ -1262,19 +1250,17 @@ function shuffle([...a]) {
 }
 
 /* partition(<collection>,<callback: function>): array */
-const partition = ([...a], fn) =>
-  [ a.filter(fn), a.filter( (e, i, a) => !(fn(e, i, a))) ];
+const partition = ([...a],fn) => [a.filter(fn),a.filter((e,i,a)=>!(fn(e,i,a)))];
 
 /* groupBy(<collection>,<callback: function>): object */
 function groupBy (it, fn) {
-  let res = {};
-  let i = 0;
+  let r = {}, i = 0;
   for (let item of it) {
     let key = fn(item, i++);
-    if (!(Object.prototype.hasOwnProperty.call(res, key))) { res[key] = []; }
-    res[key].push(item);
+    if (!(Object.hasOwn(r, key))) { r[key] = []; }
+    r[key].push(item);
   }
-  return res;
+  return r;
 }
 
 /* arrayUnion(<collection1>[,collectionN]): array */
@@ -1410,16 +1396,13 @@ function arrayMerge (flat, ...a) {
 }
 
 /* iterRange([start=0[,step=1[,end=Infinity]]]): iterator */
-function* iterRange (start = 0, step = 1, end = Infinity) {
-  let i = start;
-  while (i <= end) { yield i; i += step; }
+function* iterRange (s = 0, st = 1, e = Infinity) {
+  let i = s;
+  while (i <= e) { yield i; i += st; }
 }
 
 /* iterCycle(<iter>[,n=Infinity]): iterator */
-function* iterCycle ([...a], n = Infinity) {
-  let i = 0;
-  while (i < n) { yield* a; i++; }
-}
+function* iterCycle ([...a], n = Infinity){let i=0; while(i<n) {yield* a; i++;}}
 
 /* iterRepeat(<value: any>[,n=Infinity]): iterator */
 function* iterRepeat (v, n=Infinity) { let i=0; while (i<n) { yield v; i++; } }
@@ -1498,21 +1481,12 @@ function* slice (it, begin = 0, end = Infinity) {
 function* tail (it) {
   let first = true;
   for (let item of it) {
-    if (!first) {
-      yield item;
-    } else {
-      first = false;
-    }
+    if (!first) { yield item; } else { first = false; }
   }
 }
 
 /* item(<collection>,<index: integer>): any */
-function item (it, p) {
-  let i = 0;
-  for (let item of it) {
-    if (i++ === p) { return item; }
-  }
-}
+function item (it,p) {let i=0; for(let item of it) {if(i++===p) {return item;}}}
 /* nth(<collection>,<index: integer>): any */
 const nth = item;
 
@@ -1532,8 +1506,7 @@ const reverse = ([...a]) => a.reverse();
 
 /* sort(<collection>[,numbers=false]): array */
 const sort = ([...a], ns) => a.sort(ns
-  ? (a, b) => { if (a < b) { return -1; } if (a > b) { return 1; } return 0; }
-  : undefined
+  ? (a, b) => { if (a<b){return -1;} if (a>b){return 1;} return 0; } : undefined
 );
 
 /* includes(<collection>,<value: any>): boolean */
@@ -1615,7 +1588,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /** object header **/
 
-const VERSION = "Celestra v4.5.1 dev";
+const VERSION = "Celestra v4.5.2 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {
@@ -1628,6 +1601,7 @@ var celestra = {
   VERSION: VERSION,
   noConflict: noConflict,
   /** core api **/
+  randomID: randomID,
   signbit: signbit,
   delay: delay,
   randomInt: randomInt,
