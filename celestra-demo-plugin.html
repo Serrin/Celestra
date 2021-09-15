@@ -32,7 +32,7 @@
 
 <p>Tested on desktop browsers (latest Chrome, latest Firefox, latest Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge).</p>
 
-<p>Latest version: 4.5.2</p>
+<p>Latest version: 5.0.0</p>
 
 <p>Download: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
 
@@ -77,20 +77,20 @@
 
 <table>
   <tr>
-    <td><button onclick="alert( _.clamp(3,2,5) );">clamp - try 1</button></td>
-    <td><code>alert( _.clamp(3,2,5) );</code></td>
+    <td><button onclick="alert( CEL.clamp(3,2,5) );">clamp - try 1</button></td>
+    <td><code>alert( CEL.clamp(3,2,5) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.clamp(-2.5,3.1,5) );">clamp - try 2</button></td>
-    <td><code>alert( _.clamp(-2.5,3.1,5) );</code></td>
+    <td><button onclick="alert( CEL.clamp(-2.5,3.1,5) );">clamp - try 2</button></td>
+    <td><code>alert( CEL.clamp(-2.5,3.1,5) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.clamp(8,3,5) );">clamp - try 3</button></td>
-    <td><code>alert( _.clamp(8,3,5) );</code></td>
+    <td><button onclick="alert( CEL.clamp(8,3,5) );">clamp - try 3</button></td>
+    <td><code>alert( CEL.clamp(8,3,5) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.clamp() );">clamp - try without parameter</button></td>
-    <td><code>alert( _.clamp() );</code></td>
+    <td><button onclick="alert( CEL.clamp() );">clamp - try without parameter</button></td>
+    <td><code>alert( CEL.clamp() );</code></td>
   </tr>
 </table>
 
@@ -98,24 +98,24 @@
 
 <table>
   <tr>
-    <td><button onclick="alert( _.product(3) );">product - try 1</button></td>
-    <td><code>alert( _.sum(3) );</code></td>
+    <td><button onclick="alert( CEL.product(3) );">product - try 1</button></td>
+    <td><code>alert( CEL.sum(3) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.product(3, 5) );">product - try 2</button></td>
-    <td><code>alert( _.product(3, 5) );</code></td>
+    <td><button onclick="alert( CEL.product(3, 5) );">product - try 2</button></td>
+    <td><code>alert( CEL.product(3, 5) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.product(3.14, -5) );">product - try 3</button></td>
-    <td><code>alert( _.sum(3.14, -5) );</code></td>
+    <td><button onclick="alert( CEL.product(3.14, -5) );">product - try 3</button></td>
+    <td><code>alert( CEL.sum(3.14, -5) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.product(true, 3.14, -9, 'Arthur Dent') );">product - try with many parameter types</button></td>
-    <td><code>alert( _.product(true, 3.14, -9, 'Arthur Dent') );</code></td>
+    <td><button onclick="alert( CEL.product(true, 3.14, -9, 'Arthur Dent') );">product - try with many parameter types</button></td>
+    <td><code>alert( CEL.product(true, 3.14, -9, 'Arthur Dent') );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.product() );">product - try without parameter</button></td>
-    <td><code>alert( _.product() );</code></td>
+    <td><button onclick="alert( CEL.product() );">product - try without parameter</button></td>
+    <td><code>alert( CEL.product() );</code></td>
   </tr>
 </table>
 
@@ -123,24 +123,24 @@
 
 <table>
   <tr>
-    <td><button onclick="alert( _.sum(3) );">SUM - try 1</button></td>
-    <td><code>alert( _.sum(3) );</code></td>
+    <td><button onclick="alert( CEL.sum(3) );">SUM - try 1</button></td>
+    <td><code>alert( CEL.sum(3) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.sum(3, 5) );">SUM - try 2</button></td>
-    <td><code>alert( _.sum(3, 5) );</code></td>
+    <td><button onclick="alert( CEL.sum(3, 5) );">SUM - try 2</button></td>
+    <td><code>alert( CEL.sum(3, 5) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.sum(3.14, -5) );">SUM - try 3</button></td>
-    <td><code>alert( _.sum(3.14, -5) );</code></td>
+    <td><button onclick="alert( CEL.sum(3.14, -5) );">SUM - try 3</button></td>
+    <td><code>alert( CEL.sum(3.14, -5) );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.sum(true, 3.14, -9, 'Arthur Dent') );">SUM - try with many parameter types</button></td>
-    <td><code>alert( _.sum(true, 3.14, -9, 'Arthur Dent') );</code></td>
+    <td><button onclick="alert( CEL.sum(true, 3.14, -9, 'Arthur Dent') );">SUM - try with many parameter types</button></td>
+    <td><code>alert( CEL.sum(true, 3.14, -9, 'Arthur Dent') );</code></td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.sum() );">SUM - try without parameter</button></td>
-    <td><code>alert( _.sum() );</code> </td>
+    <td><button onclick="alert( CEL.sum() );">SUM - try without parameter</button></td>
+    <td><code>alert( CEL.sum() );</code> </td>
   </tr>
 </table>
 
@@ -148,24 +148,24 @@
 
 <table>
   <tr>
-    <td><button onclick="alert( _.avg(2, 4, 3) );">AVG1</button></td>
-    <td><code>alert( _.avg(2, 4, 3) );</code> </td>
+    <td><button onclick="alert( CEL.avg(2, 4, 3) );">AVG1</button></td>
+    <td><code>alert( CEL.avg(2, 4, 3) );</code> </td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.avg(2, 4, 3.14) );">AVG2</button></td>
-    <td><code>alert( _.avg(2, 4, 3.14) );</code> </td>
+    <td><button onclick="alert( CEL.avg(2, 4, 3.14) );">AVG2</button></td>
+    <td><code>alert( CEL.avg(2, 4, 3.14) );</code> </td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.avg(2, -8, 3.14) );">AVG3</button></td>
-    <td><code>alert( _.avg(2, -8, 3.14) );</code> </td>
+    <td><button onclick="alert( CEL.avg(2, -8, 3.14) );">AVG3</button></td>
+    <td><code>alert( CEL.avg(2, -8, 3.14) );</code> </td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.avg(5) );">AVG4</button></td>
-    <td><code>alert( _.avg(5) );</code> </td>
+    <td><button onclick="alert( CEL.avg(5) );">AVG4</button></td>
+    <td><code>alert( CEL.avg(5) );</code> </td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.avg() );">AVG5</button></td>
-    <td><code>alert( _.avg() );</code> </td>
+    <td><button onclick="alert( CEL.avg() );">AVG5</button></td>
+    <td><code>alert( CEL.avg() );</code> </td>
   </tr>
 </table>
 
@@ -173,28 +173,28 @@
 
 <table>
   <tr>
-    <td><button onclick="alert( _.isEven(8) );">isEven1</button></td>
-    <td><code>alert( _.isEven(8) );</code></td>
+    <td><button onclick="alert( CEL.isEven(8) );">isEven1</button></td>
+    <td><code>alert( CEL.isEven(8) );</code></td>
     <td>true</td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.isEven(9) );">isEven2</button></td>
-    <td><code>alert( _.isEven(9) );</code></td>
+    <td><button onclick="alert( CEL.isEven(9) );">isEven2</button></td>
+    <td><code>alert( CEL.isEven(9) );</code></td>
     <td>false</td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.isEven(8.5) );">isEven3</button></td>
-    <td><code>alert( _.isEven(8.5) );</code></td>
+    <td><button onclick="alert( CEL.isEven(8.5) );">isEven3</button></td>
+    <td><code>alert( CEL.isEven(8.5) );</code></td>
     <td>false</td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.isEven(9.5) );">isEven4</button></td>
-    <td><code>alert( _.isEven(9.5) );</code></td>
+    <td><button onclick="alert( CEL.isEven(9.5) );">isEven4</button></td>
+    <td><code>alert( CEL.isEven(9.5) );</code></td>
     <td>false</td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.isEven('Arthur Dent') );">isEven5</button></td>
-    <td><code>alert( _.isEven('Arthur Dent') );</code></td>
+    <td><button onclick="alert( CEL.isEven('Arthur Dent') );">isEven5</button></td>
+    <td><code>alert( CEL.isEven('Arthur Dent') );</code></td>
     <td>false</td>
   </tr>
 </table>
@@ -203,28 +203,28 @@
 
 <table>
   <tr>
-    <td><button onclick="alert( _.isOdd(9) );">isOdd2</button></td>
-    <td><code>alert( _.isOdd(9) );</code></td>
+    <td><button onclick="alert( CEL.isOdd(9) );">isOdd2</button></td>
+    <td><code>alert( CEL.isOdd(9) );</code></td>
     <td>true</td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.isOdd(8) );">isOdd1</button></td>
-    <td><code>alert( _.isOdd(8) );</code></td>
+    <td><button onclick="alert( CEL.isOdd(8) );">isOdd1</button></td>
+    <td><code>alert( CEL.isOdd(8) );</code></td>
     <td>false</td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.isOdd(8.5) );">isOdd3</button></td>
-    <td><code>alert( _.isOdd(8.5) );</code></td>
+    <td><button onclick="alert( CEL.isOdd(8.5) );">isOdd3</button></td>
+    <td><code>alert( CEL.isOdd(8.5) );</code></td>
     <td>true</td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.isOdd(9.5) );">isOdd4</button></td>
-    <td><code>alert( _.isOdd(9.5) );</code></td>
+    <td><button onclick="alert( CEL.isOdd(9.5) );">isOdd4</button></td>
+    <td><code>alert( CEL.isOdd(9.5) );</code></td>
     <td>true</td>
   </tr>
   <tr>
-    <td><button onclick="alert( _.isOdd('Arthur Dent') );">isOdd5</button></td>
-    <td><code>alert( _.isOdd('Arthur Dent') );</code></td>
+    <td><button onclick="alert( CEL.isOdd('Arthur Dent') );">isOdd5</button></td>
+    <td><code>alert( CEL.isOdd('Arthur Dent') );</code></td>
     <td>false</td>
   </tr>  
 </table>

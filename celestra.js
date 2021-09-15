@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 4.5.2 dev
+ * @version 5.0.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -1588,11 +1588,11 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /** object header **/
 
-const VERSION = "Celestra v4.5.2 dev";
+const VERSION = "Celestra v5.0.0 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {
-  window._ = celestra.__prevUnderscore__;
+  window.CEL = celestra.__prevCEL__;
   return celestra;
 }
 
@@ -1801,8 +1801,8 @@ var celestra = {
 
 if (typeof window !== "undefined") {
   window.celestra = celestra;
-  celestra.__prevUnderscore__ = window._;
-  window._ = celestra;
+  celestra.__prevCEL__ = window.CEL;
+  window.CEL = celestra;
 }
 
 }(window, document));

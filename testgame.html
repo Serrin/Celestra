@@ -89,31 +89,31 @@ article {
 <script src="celestra.min.js"></script>
 <script>
 
-_.domReady(function () {
+CEL.domReady(function () {
 
-  window.results = _.qs("#results");
-  window.dice = _.qs("#dice");
-  window.rolls = _.qs("#rolls");
+  window.results = CEL.qs("#results");
+  window.dice = CEL.qs("#dice");
+  window.rolls = CEL.qs("#rolls");
 
   function getResults () {
-    _.qsa("span",results).forEach(function (e) { e.remove(); });
+    CEL.qsa("span",results).forEach(function (e) { e.remove(); });
     //results.innerHTML = "";
     var diceValue = parseInt(dice.value),
       repeat = parseInt(rolls.value);
     for (var i=0; i<repeat; i++) {
-      results.append( _.domCreate("span",{},"<i>#"+(i+1)+":</i> <b>"+_.randomInt(1,diceValue)+"</b>") );
+      results.append( CEL.domCreate("span",{},"<i>#"+(i+1)+":</i> <b>"+CEL.randomInt(1,diceValue)+"</b>") );
     }
   }
 
   function reset () {
-    _.qsa("span",results).forEach(function (e) { e.remove(); });
+    CEL.qsa("span",results).forEach(function (e) { e.remove(); });
     //results.innerHTML = "";
     dice.value = 6;
     rolls.value = 1;
   }
 
-  _.qs("#getButton").addEventListener("click", getResults);
-  _.qs("#resetButton").addEventListener("click", reset);
+  CEL.qs("#getButton").addEventListener("click", getResults);
+  CEL.qs("#resetButton").addEventListener("click", reset);
 
 });
 

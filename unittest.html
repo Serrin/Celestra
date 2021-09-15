@@ -9,7 +9,7 @@
 <meta name="Copyright" content="(C) Copyright Czigler Ferenc"/>
 <link rel="stylesheet" href="u87.css" type="text/css"/>
 <link rel="stylesheet" href="u87-blue.css" type="text/css"/>
-<script> var _ = { VERSION: "This is another sample library." }; </script>
+<script> var CEL = { VERSION: "This is another sample library." }; </script>
 <style>
 .passed, .failed { display: inline-block; padding: 5px; border-radius: 3px; }
 .passed { background-color: #3d9970 !important; color: white !important; }
@@ -32,7 +32,9 @@
   position: fixed;
   width: 45px;
   height: 45px;
-  padding-top: 0px;
+  padding: 0px 10px; 10px;
+  background-color: #eee;
+  color: black;
 }
 #toplink { right: 20px; top: 20px; }
 #bottomlink { right: 20px; bottom: 20px;}
@@ -52,11 +54,11 @@
     &nbsp;//&nbsp;
     <a href="#footer">Contact</a>
     &nbsp;//&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
+    <a href="#" onclick=" CEL.importStyle('u87-dark.css'); "><i>Dark</i></a>
     &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
+    <a href="#" onclick=" CEL.importStyle('u87-blue.css'); "><i>Blue</i></a>
     &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
+    <a href="#" onclick=" CEL.importStyle('u87-light.css'); "><i>Light</i></a>
   </b></nav>
 </header>
 
@@ -76,7 +78,7 @@
       </button></p>
     </td>
     <td class="noborder">
-      <p><button onclick=" _.importScript('unittest.js'); preCelLog('<b>unittest.js</b> is loaded.');">load unittest.js</button></p>
+      <p><button onclick=" CEL.importScript('unittest.js'); preCelLog('<b>unittest.js</b> is loaded.');">load unittest.js</button></p>
       <p><button onclick=" window.location.reload(true); ">reset page</button></p>
       <p><button onclick=" saveResults(); ">Save result in HTML</button></p>
     </td>
@@ -110,33 +112,33 @@
 
 <table class="table-responsive">
   <tr>
-    <td><button onclick=" _.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done')); ">delay();</button></td>
+    <td><button onclick=" CEL.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done')); ">delay();</button></td>
     <td>2x alert (5s + finally)</td>
   </tr>
   <tr>
-    <td><button onclick="var alertStr = ''; try { _.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; } try { _.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; } try { _.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; } try { _.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; } try { _.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; } try { _.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; } alert(alertStr);">assert functions</button></td>
+    <td><button onclick="var alertStr = ''; try { CEL.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; } try { CEL.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; } try { CEL.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; } try { CEL.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; } try { CEL.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; } try { CEL.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; } alert(alertStr);">assert functions</button></td>
     <td>
       <p>1x alert, 6x cases</p>
       <pre>var alertStr = '';
-try { _.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; }
-try { _.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; }
-try { _.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; }
-try { _.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; }
-try { _.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; }
-try { _.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; }
+try { CEL.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; }
+try { CEL.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; }
+try { CEL.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; }
+try { CEL.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; }
+try { CEL.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; }
+try { CEL.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; }
 alert(alertStr);</pre>
     </td>
   </tr>
   <tr>
-    <td><button onclick=" _.importStyle('u87-dark.css','u87-light.css'); ">importStyle 1</button></td>
+    <td><button onclick=" CEL.importStyle('u87-dark.css','u87-light.css'); ">importStyle 1</button></td>
     <td>Have to be light ('u87-dark.css' then 'u87-light.css').</td>
   </tr>
   <tr>
-    <td><button onclick=" _.importStyle('u87-blue.css'); ">importStyle 2</button></td>
+    <td><button onclick=" CEL.importStyle('u87-blue.css'); ">importStyle 2</button></td>
     <td>Have to be blue.</td>
   </tr>
   <tr>
-    <td><button onclick=" window['_cel'] = _.noConflict(); alert(_cel.VERSION+'\n'+_.VERSION); "> noConflict();</button></td>
+    <td><button onclick=" window['_cel'] = CEL.noConflict(); alert(_cel.VERSION+'\n'+CEL.VERSION); "> noConflict();</button></td>
     <td>1x alert</td>
   </tr>
 </table>
@@ -184,11 +186,11 @@ alert(alertStr);</pre>
     &nbsp;//&nbsp;
     <a href="http://github.com/Serrin" target="_blank">Github</a>
     &nbsp;//&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-dark.css'); "><i>Dark</i></a>
+    <a href="#" onclick=" CEL.importStyle('u87-dark.css'); "><i>Dark</i></a>
     &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-blue.css'); "><i>Blue</i></a>
+    <a href="#" onclick=" CEL.importStyle('u87-blue.css'); "><i>Blue</i></a>
     &nbsp;/&nbsp;
-    <a href="#" onclick=" _.importStyle('u87-light.css'); "><i>Light</i></a>
+    <a href="#" onclick=" CEL.importStyle('u87-light.css'); "><i>Light</i></a>
   </p>
   <p id="bottom" name="bottom">&copy; Copyright 2018 Ferenc Czigler</p>
 </small></footer>
@@ -210,7 +212,7 @@ alert(alertStr);</pre>
 import("./celestra.js")
   .then((module) => {
     window.celestra = module.celestra;
-    window._ = module.celestra;
+    window.CEL = module.celestra;
   });
 */
 
@@ -220,7 +222,7 @@ var importStr = "";
 // import the celestra object
 import { celestra } from "./celestra.esm.js";
 window.celestra = celestra;
-window._ = celestra;
+window.CEL = celestra;
 
 importStr += "\nimport the celestra object - "
   + (typeof celestra.getType === "function");
@@ -228,21 +230,21 @@ importStr += "\nimport the celestra object - "
 // import with default with name
 import { default as celestra2 } from "./celestra.esm.js";
 //window.celestra = celestra;
-//window._ = celestra;
+//window.CEL = celestra;
 importStr += "\nimport with default with name - "
   + (typeof celestra2.getType === "function");
 
 // import all functions in an object
 import * as celestra3 from "./celestra.esm.js";
 //window.celestra = celestra;
-//window._ = celestra;
+//window.CEL = celestra;
 importStr += "\nimport all functions in an object - "
   + (typeof celestra3.getType === "function");
 
 // import with defaultExport
 import defaultExport from "./celestra.esm.js";
 //window.celestra = defaultExport;
-//window._ = defaultExport;
+//window.CEL = defaultExport;
 importStr += "\nimport with defaultExport - "
   + (typeof defaultExport.getType === "function");
 
@@ -256,13 +258,13 @@ alert(importStr);
 /*
 // to test the loading of the module:
 console.log(`celestra.VERSION - ${ window.celestra.VERSION }
-_.VERSION - ${ _.VERSION }
-true - ${ _.isString("ggg") }
-isString false - ${ _.isString(42) }
-isChar true - ${ _.isChar("g") }
-isChar false - ${ _.isChar("ggg") }
-isBoolean true - ${ _.isBoolean(false) }
-isBoolean false - ${ _.isBoolean("ggg") }
+CEL.VERSION - ${ CEL.VERSION }
+true - ${ CEL.isString("ggg") }
+isString false - ${ CEL.isString(42) }
+isChar true - ${ CEL.isChar("g") }
+isChar false - ${ CEL.isChar("ggg") }
+isBoolean true - ${ CEL.isBoolean(false) }
+isBoolean false - ${ CEL.isBoolean("ggg") }
 `);
 */
 
@@ -297,26 +299,26 @@ const _preCel = {
       import("./celestra.js")
         .then((module) => {
           window.celestra = module.celestra;
-          window._ = module.celestra;
+          window.CEL = module.celestra;
         });
       */
       var importStr = "";
       // import the celestra object
       import { celestra } from "./celestra.esm.js";
       window.celestra = celestra;
-      window._ = celestra;
+      window.CEL = celestra;
       importStr += "\\nimport the celestra object - "
         + (typeof celestra.getType === "function");
       // import with default with name
       import { default as celestra2 } from "./celestra.esm.js";
       //window.celestra = celestra;
-      //window._ = celestra;
+      //window.CEL = celestra;
       importStr += "\\nimport with default with name - "
         + (typeof celestra2.getType === "function");
       // import with defaultExport
       import defaultExport from "./celestra.esm.js";
       //window.celestra = defaultExport;
-      //window._ = defaultExport;
+      //window.CEL = defaultExport;
       importStr += "\\nimport with defaultExport - "
         + (typeof defaultExport.getType === "function");
       alert(importStr);
@@ -340,7 +342,7 @@ function runConsoleJS () {
   document.body.appendChild(scr);
 }
 function saveConsoleJS () {
-  _.createFile(
+  CEL.createFile(
     "cut-"+Date.now().toString(36)+".js",
     consoleJSElement.value,
     "text/javascript"
