@@ -239,7 +239,7 @@ __Options object properties:__
 
 ### Type checking functions
 
-These functions are available in the `celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `CEL` objects.
 
 Example: `CEL.isString();`
 
