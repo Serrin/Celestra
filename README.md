@@ -19,7 +19,7 @@ Latest version: 5.0.0
 
 Date: 2021-09-14T19:46:41.255Z
 
-The functions are available in the `celestra` and/or `_` object.
+The functions are available in the `celestra` and/or `CEL` object.
 
 edition|filename|size
 -------|--------|----
