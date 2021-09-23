@@ -28,7 +28,7 @@ minified|__celestra.min.js__|34887 byte
 ES6 module|__celestra.esm.js__|34748 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 
-DEV and MIN editions: If the `_` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
+DEV and MIN editions: If the `CEL` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
 
 ### Removed polyfills
