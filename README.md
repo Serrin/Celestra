@@ -67,17 +67,17 @@ Demo plugin source: __celestra-demo-plugin.js__
 // import the celestra object
 import { celestra } from "./celestra.esm.js";
 window.celestra = celestra;
-window._ = celestra;
+window.CEL = celestra;
 
 // import with default with name
 import { default as celestra } from "./celestra.esm.js";
 window.celestra = celestra;
-window._ = celestra;
+window.CEL = celestra;
 
 // import with default export
 import defaultExport from "./celestra.esm.js";
 window.celestra = defaultExport;
-window._ = defaultExport;
+window.CEL = defaultExport;
 
 </script>
 ````
@@ -112,14 +112,14 @@ window._ = defaultExport;
 
 ### Core API
 
-These functions are available in the `celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `CEL` objects.
 
 Example: `CEL.randomInt();`
 
 Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
-`celestra.noConflict();` | Restore the previous `_` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM edition only returns the celestra object.__
+`celestra.noConflict();` | Restore the previous `CEL` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM edition only returns the celestra object.__
 `randomID([hyphens=false]);` | Generate a GUID/UUID like random ID. The hyphens parameter is optional. The return value is a string.<br><b>Example:</b><br>`randomID();`<br>-><br>`"17bbfa109da866175d0c7ca1741f021e"`<br>`randomID(true);´`<br>-><br><code>"17bbfa10-9da7-69a0-cbbc-248d835d09c4"`
 `signbit(v>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
 `delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer.<br>__Sample:__<br>`CEL.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
@@ -169,7 +169,7 @@ Name | Description
 
 ### DOM functions
 
-These functions are available in the `celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `CEL` objects.
 
 Example: `CEL.domCreate();`
 
@@ -214,7 +214,7 @@ Name | Description
 
 __These functions aren't deprecated, but it's recommend to use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), because it's [supported](https://caniuse.com/?search=fetch) in every modern browsers.__
 
-These functions are available in the `celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `CEL` objects.
 
 Example: `CEL.getJson();`
 
@@ -292,7 +292,7 @@ Name | Description
 
 ### Cookie functions
 
-These functions are available in the `celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `CEL` objects.
 
 Example: `CEL.setCookie();`
 
@@ -312,7 +312,7 @@ Name | Description
 
 ### Collections
 
-These functions are available in the `celestra` and/or `_` objects.
+These functions are available in the `celestra` and/or `CEL` objects.
 
 Example: `CEL.arrayUnion();`
 
