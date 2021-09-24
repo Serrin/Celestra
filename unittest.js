@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.0.0 testcases */
+/* Celestra v5.1.0 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -381,12 +381,6 @@ CUT.isEqual("extend(); false 2", "1  2  3  4  5  121",
     +"  "+extObj1.baz.fn(11)
 );
 
-var extObj1 = CEL.deepAssign({},foo1,bar1);
-CUT.isEqual("deepAssign();", "1  2  3  4  5  121",
-  extObj1.a+"  "+extObj1.b+"  "+extObj1.c+"  "+extObj1.d+"  "+extObj1.baz.e
-    +"  "+extObj1.baz.fn(11)
-);
-
 var obj2stringObj = {str:"éáűőúöüóíÉÁŰŐÚÖÜÓÍ",bool:true,pi:3.141592653589793};
 CUT.isEqual("obj2string();",
   "str=%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%C3%89%C3%81%C5%B0%C5%90%C3%9A%C3%96%C3%9C%C3%93%C3%8D&bool=true&pi=3.141592653589793",
@@ -536,6 +530,15 @@ var forInStr = "";
 CEL.forIn(FPObject, (e) => forInStr += (e*2) );
 CUT.isEqual("forIn();", "468", forInStr);
 CUT.isEqual("forIn(); return value",FPObject,CEL.forIn(FPObject,function(){}));
+
+var getSetHasObj = {};
+CUT.isTrue("getIn(); + setIn(); + hasIn();",
+  !CEL.hasIn(getSetHasObj, "pr1")
+    && CEL.getIn(getSetHasObj, "pr1") === undefined
+    && CEL.setIn(getSetHasObj, "pr1", 42) === getSetHasObj
+    && CEL.hasIn(getSetHasObj, "pr1")
+    && CEL.getIn(getSetHasObj, "pr1") === 42 
+);
 
 CUT.isEqual("filterIn();",
   "{\"b\":2,\"c\":3}",
@@ -1189,12 +1192,12 @@ CUT.isEqual("zipObj();",
 );
 
 var a = [21,11,41,51,31];
-CUT.isEqual("min(); ES5", 11, CEL.min(a));
-CUT.isEqual("max(); ES5", 51, CEL.max(a));
-CUT.isEqual("min(); ES6", 11, CEL.min(new Set(a)));
-CUT.isEqual("max(); ES6", 51, CEL.max(new Set(a).keys()));
-CUT.isEqual("min(); number test", CEL.min([5, 10, 3]), 3);
-CUT.isEqual("max(); number test", CEL.max([5, 10, 3]), 10);
+CUT.isEqual("min(); array", 11, CEL.min(...a));
+CUT.isEqual("max(); array", 51, CEL.max(...a));
+CUT.isEqual("min(); Set", 11, CEL.min(...new Set(a)));
+CUT.isEqual("max(); Set keys", 51, CEL.max(...new Set(a).keys()));
+CUT.isEqual("min(); number test", CEL.min(5, 10, 3), 3);
+CUT.isEqual("max(); number test", CEL.max(5, 10, 3), 10);
 
 var superset1 = [3,11,58,95,88];
 var superset2 = [88,95,11];

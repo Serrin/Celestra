@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.0.0 dev
+ * @version 5.1.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -13,7 +13,6 @@
   CTRL-F             |   N  |  getType();
   domFadeToggle();   |   2  |  domFadeIn(); domFadeOut();
   extend();          |   1  |  extend();
-  deepAssign();      |   1  |  deepAssign();
   getJson();         |   1  |  ajax();
   getText();         |   1  |  ajax();
   clearCookies();    |   2  |  getCookie(); removeCookie();
@@ -425,26 +424,6 @@ function extend () {
   return t;
 }
 
-/* deepAssign(<target: object>,<source1: object>[,sourceN]): object */
-function deepAssign () {
-  var s = {}, t = arguments[0];
-  for (var i = 1, l = arguments.length; i < l; i++) {
-    s = arguments[i];
-    if (s !== null && s !== undefined) {
-      for (var a in s) {
-        if (Object.hasOwn(s, a)) {
-          if (typeof s[a] === "object") {
-            t[a] = celestra.deepAssign({}, s[a]);
-          } else {
-            t[a] = s[a];
-          }
-        }
-      }
-    }
-  }
-  return t;
-}
-
 /* strPropercase(<string>): string */
 const strPropercase = (s) => String(s).split(" ").map(function (v) {
     var a = Array.from(v).map( (c) => c.toLowerCase() );
@@ -494,6 +473,15 @@ const sizeIn = (o) => Object.keys(o).length;
 
 /* forIn(<object>,<callback: function>): object */
 const forIn = (o,fn) => { Object.keys(o).forEach((v)=>fn(o[v],v,o)); return o; }
+
+/* getIn(<object>,<property: string>): any */
+const getIn = (o, p) => o[p];
+
+/* setIn(<object>,<property: string>,<value: any>): object */
+const setIn = (o, p, v) => { o[p] = v; return o; }
+
+/* hasIn(<object>,<property: string>): boolean */
+const hasIn = (o, p) => (p in o);
 
 /* filterIn(<object>,<callback: function>): object */
 const filterIn = (o, fn) => Object.keys(o)
@@ -609,7 +597,7 @@ function domCreate (t, ps, iH) {
       if (p !== "style" || typeof ps[p] === "string") {
         el[p] = ps[p];
       } else {
-        for (var s in ps[p]) { el.style[s] = ps[p][s]; }
+        Object.assign(el.style, ps[p]);
       }
     }
   }
@@ -1297,11 +1285,11 @@ const setSymmetricDifference = (a, b) => new Set(
 /* isSuperset(<superCollection>,<subCollection>): boolean */
 const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
 
-/* min(<collection>): any */
-const min = ([...a]) => a.reduce((acc, v) => (v < acc ? v : acc), a[0]);
+/* max(<value1: any>[,valueN]): any */
+const min = (...a) => a.reduce((acc, v) => (v < acc ? v : acc), a[0]);
 
-/* max(<collection>): any */
-const max = ([...a]) => a.reduce((acc, v) => (v > acc ? v : acc), a[0]);
+/* max(<value1: any>[,valueN]): any */
+const max = (...a) => a.reduce((acc, v) => (v > acc ? v : acc), a[0]);
 
 /* arrayRepeat(<value: any>[,n=100]): array */
 const arrayRepeat = (v, n = 100) => Array(n).fill(v);
@@ -1588,7 +1576,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /** object header **/
 
-const VERSION = "Celestra v5.0.0 dev";
+const VERSION = "Celestra v5.1.0 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {
@@ -1617,7 +1605,6 @@ var celestra = {
   obj2string: obj2string,
   getType: getType,
   extend: extend,
-  deepAssign: deepAssign,
   strPropercase: strPropercase,
   strCapitalize: strCapitalize,
   strUpFirst: strUpFirst,
@@ -1629,6 +1616,9 @@ var celestra = {
   strAt: strAt,
   sizeIn: sizeIn,
   forIn: forIn,
+  getIn: getIn,
+  setIn: setIn,
+  hasIn: hasIn,
   filterIn: filterIn,
   popIn: popIn,
   toFunction: toFunction,

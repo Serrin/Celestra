@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.0.0
+Latest version: 5.1.0
 
-Date: 2021-09-14T19:46:41.255Z
+Date: 2021-09-23T19:10:34.015Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.js__|56981 byte
-minified|__celestra.min.js__|34887 byte
-ES6 module|__celestra.esm.js__|34748 byte
+developer|__celestra.js__|56727 byte
+minified|__celestra.min.js__|34734 byte
+ES6 module|__celestra.esm.js__|34584 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 
 DEV and MIN editions: If the `CEL` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
@@ -48,15 +48,15 @@ Celestra cheatsheet: __celestra-cheatsheet.pdf__
 JavaScript cheatsheet: __js-cheatsheet.pdf__
 
 
-### Demo pages
+### Apps
 
-Demo BTC standalone app: __btc.app.html__
+BTC standalone app: __btc.app.html__
 
 RPG dice roller: __testgame.html__
 
-Demo plugin documentation: __celestra-demo-plugin.html__
+Math plugin documentation: __celestra-math.html__
 
-Demo plugin source: __celestra-demo-plugin.js__
+Math plugin source: __celestra-math.js__
 
 
 ### How to import the ESM edition
@@ -119,7 +119,7 @@ Example: `CEL.randomInt();`
 Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
-`celestra.noConflict();` | Restore the previous `CEL` object value and return the `celestra` object to create a new alias. __Tip: You can make a new alias without this function too. Example: `var _cel = celestra;`__ __In the ESM edition only returns the celestra object.__
+`celestra.noConflict();` | Restore the previous `CEL` object value and return the `celestra` object to create a new alias.<br>__Tip: You can make a new alias without this function too. Example: `window._cel = window.celestra;`__<br>__In the ESM edition only returns the celestra object.__
 `randomID([hyphens=false]);` | Generate a GUID/UUID like random ID. The hyphens parameter is optional. The return value is a string.<br><b>Example:</b><br>`randomID();`<br>-><br>`"17bbfa109da866175d0c7ca1741f021e"`<br>`randomID(true);´`<br>-><br><code>"17bbfa10-9da7-69a0-cbbc-248d835d09c4"`
 `signbit(v>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
 `delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer.<br>__Sample:__<br>`CEL.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
@@ -138,7 +138,6 @@ Name | Description
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
 `extend([deep,]<target>,<source1>[,sourceN]);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
-`deepAssign(<target>,<source1>[,sourceN]);` | This is another enhanced version of the `Object.assign` method and create an always deep copy (recursive) of the sources.
 `strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`CEL.strPropercase("arthur conan doyle");`<br>-><br>`"Arthur Conan Doyle"`
 `strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
 `strUpFirst(<string>);` | This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.
@@ -150,6 +149,9 @@ Name | Description
 `strAt(<string>,<index>);` | Returns the unicode character, which has to be on the given index in the string. The index can be negative value (`-1 -> last`). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.
 `sizeIn(<object>);` | Returns the count of the owned properties of the given object. The object parameter is mandatory.
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
+`getIn(<object>,<property>);` | This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.
+`setIn(<object>,<property>,<value>);` | This function set the property value of the given object. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type.
+`hasIn(<object>,<property>);` | This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.
 `filterIn(<object>,<callback>);` | The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.<br>__Example:__<br>`var o1 = {"a": 1, "b": 2, "c": 3};`<br>`console.log(o1);`<br>`// Object { a: 1, b: 2, c: 3 }`<br>`var o2 = CEL.filterIn(o1, (v, p, o) => (v > 1));`<br>`console.log(o2);`<br>`// Object { b: 2, c: 3 }`
 `popIn(<object>,<property>);` | The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.
 `toFunction(<function>);` | Returns a "detach" function from an object method. The first parameter of the returned function will be the context object.
@@ -332,8 +334,8 @@ Name | Description
 `setDifference(<set1>,<set2>);` | Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.
 `setSymmetricDifference(<set1>,<set2>);` | Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
 `isSuperset(<superCollection>,<subCollection>);` | This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
-`min(<collection>);` | Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
-`max(<collection>);` | Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.
+`min(<value1>[,valueN]);` | Returns the minimum value of the given values. The first value parameter is mandatory and can be any type. Works with any type of values, not only with numbers.
+`max(<value1>[,valueN]);` | Returns the maximum value of the given values. The first value parameter is mandatory and can be any type. Works with any type of values, not only with numbers.
 `arrayCycle(<collection>[,n=100]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRepeat(<value>[,n=100]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRange([start=0[,end=100[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.<br>__Example:__<br>`CEL.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));`<br>-><br>`Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]`

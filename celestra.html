@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.0.0</p>
-<p>Date: 2021-09-14T19:46:41.255Z</p>
+<p>Latest version: 5.1.0</p>
+<p>Date: 2021-09-23T19:10:34.015Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -90,17 +90,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>56981 byte</td>
+    </td><td>56727 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>34887 byte</td>
+    <td>34734 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>34748 byte</td>
+    <td>34584 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -141,12 +141,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 <p>JavaScript cheatsheet: <a href="js-cheatsheet.pdf" target="_blank">js-cheatsheet.pdf</a></p>
 
 
-<h3>Demo pages</h3>
+<h3>Apps</h3>
 
-<p>Demo BTC standalone app: <a href="btc.app.html" target="_blank">btc.app.html</a></p>
+<p>BTC standalone app: <a href="btc.app.html" target="_blank">btc.app.html</a></p>
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
-<p>Demo plugin documentation: <a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></p>
-<p>Demo plugin source: <a href="celestra-demo-plugin.js" target="_blank">celestra-demo-plugin.js</a></p>
+<p>Math plugin documentation: <a href="celestra-math.html" target="_blank">celestra-math.html</a></p>
+<p>Math plugin source: <a href="celestra-math.js" target="_blank">celestra-math.js</a></p>
 
 
 <h3>How to import the ESM edition</h3>
@@ -187,7 +187,7 @@ window.CEL = defaultExport;
   <li>Many functions have been deprecated or removed.</li>
 </ul>
 
-<h3>Celestra v5.0.0 (Defiant) changes</h3>
+<h3>Celestra v5.1.0 (Defiant) changes</h3>
 
 <ul>
   <li>The underscore <code>_</code> short object name has been changed to <code>CEL</code> to avoid the compatibility issues.<br/>If need to use the old short name, then with this code will be available again: <code>window._ = window.celestra;</code>.</li>
@@ -217,7 +217,7 @@ window.CEL = defaultExport;
       <td><code>celestra.noConflict();</code></td>
       <td>
         <p>Restore the previous <code>CEL</code> object value and return the <code>celestra</code> object to create a new alias.</p>
-        <p><span class="info">Tip: You can make a new alias without this function too. Example: <code>var _cel = celestra;</code></span></p>
+        <p><span class="info">Tip: You can make a new alias without this function too. Example: <code>window._cel = window.celestra;</code></span></p>
         <p><span class="info">In the ESM edition only returns the celestra object.</code></span></p>
       </td>
     </tr>
@@ -323,10 +323,6 @@ CEL.delay(5000)
       <td>This is an enhanced version of the <code>Object.assign</code> method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.</td>
     </tr>
     <tr>
-      <td><code>deepAssign(&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
-      <td>This is another enhanced version of the <code>Object.assign</code> method and create an always deep copy (recursive) of the sources.</td>
-    </tr>
-    <tr>
       <td><code>strPropercase(&#60;string&#62;);</code></td>
       <td>This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br/><b>Example:</b><br/><code>CEL.strPropercase("arthur conan doyle");</code><br/>-><br/><code>"Arthur Conan Doyle"</code></td>
     </tr>
@@ -369,6 +365,18 @@ CEL.delay(5000)
     <tr>
       <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
       <td>The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.</td>
+    </tr>
+    <tr>
+      <td><code>getIn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td>This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.</td>
+    </tr>
+    <tr>
+      <td><code>setIn(&#60;object&#62;,&#60;property&#62;,&#60;value&#62);</code></td>
+      <td>This function set the property value of the given object.The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type.</td>
+    </tr>
+    <tr>
+      <td><code>hasIn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td>This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>filterIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
@@ -1043,12 +1051,12 @@ console.log(o2);
       <td>This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.</td>
     </tr>
     <tr>
-      <td><code>min(&#60;collection&#62;);</code></td>
-      <td>Returns the minimum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+      <td><code>min(&#60;value1&#62;[,valueN]);</code></td>
+      <td>Returns the minimum value of the given values. The first value parameter is mandatory and can be any type. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
-      <td><code>max(&#60;collection&#62;);</code></td>
-      <td>Returns the maximum value of the given collection. The collection parameter is mandatory and can be any type of JavaScript collections. Works with any type of values, not only with numbers.</td>
+      <td><code>max(&#60;value1&#62;[,valueN]);</code></td>
+      <td>Returns the maximum value of the given values. The first value parameter is mandatory and can be any type. Works with any type of values, not only with numbers.</td>
     </tr>
     <tr>
       <td><code>arrayCycle(&#60;collection&#62;[,n=100]);</code></td>
