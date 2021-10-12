@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.1.0</p>
-<p>Date: 2021-09-23T19:10:34.015Z</p>
+<p>Latest version: 5.2.0</p>
+<p>Date: 2021-10-11T19:39:43.732Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -187,13 +187,14 @@ window.CEL = defaultExport;
   <li>Many functions have been deprecated or removed.</li>
 </ul>
 
-<h3>Celestra v5.1.0 (Defiant) changes</h3>
+<h3>Celestra v5.0.0 (Defiant) changes</h3>
 
 <ul>
   <li>The underscore <code>_</code> short object name has been changed to <code>CEL</code> to avoid the compatibility issues.<br/>If need to use the old short name, then with this code will be available again: <code>window._ = window.celestra;</code>.</li>
 </ul>
 
 
+<hr/>
 <h2 id="functions">Functions</h2>
 
 <p><span class="removed">Removed</span> and <span class="deprecated">Deprecated</span> labels: Don't use these in production.</p>
@@ -222,16 +223,19 @@ window.CEL = defaultExport;
       </td>
     </tr>
     <tr>
-      <td><code>randomID([hyphens=false]);</code></td>
+      <td><code>randomID([hyphens=true][,usedate=false]);</code></td>
       <td>
-        Generate a GUID/UUID like random ID. The hyphens parameter is optional. The return value is a string.
+        Generate a GUID/UUID v4 random ID. The hyphens and useDate parameters are optional and can be a boolean. The return value is a string.
         <br/><b>Example:</b>
+        <br/><code>randomID(false);</code>
+        <br/>->
+        <br/><code>"0e0f739a306b4faad62e3e8080826c9c"</code>
+        <br/><code>randomID(true, true);</code>
+        <br/>->
+        <br/><code>"17c3d79b-d413-4443-b4cd-5426c7299726"</code>
         <br/><code>randomID();</code>
         <br/>->
-        <br/><code>"17bbfa109da866175d0c7ca1741f021e"</code>
-        <br/><code>randomID(true);</code>
-        <br/>->
-        <br/><code>"17bbfa10-9da7-69a0-cbbc-248d835d09c4"</code>
+        <br/><code>"bc897cdf-da26-42de-83e2-d1fd458e079f"</code>
       </td>
     </tr>
     <tr>
@@ -315,8 +319,8 @@ CEL.delay(5000)
       <td>Convert object to a querystring. The return value is the string. The object parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>getType(&#60;variable&#62;[, type]);</code></td>
-      <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.</td>
+      <td><code>getType(&#60;variable&#62;[,type][,throw=false]);</code></td>
+      <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a <code>TypeError();</code>, else the return value is true.</td>
     </tr>
     <tr>
       <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
@@ -1177,6 +1181,10 @@ console.log(o2);
       <td>This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr>
+      <td><code>forEachRight(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td>This function executes a provided function once for each collection element in reversed order. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a reversed counter).</td>
+    </tr>
+    <tr>
       <td><code>map(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
@@ -1359,11 +1367,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>Array.prototype.flat();</code></td>
-      <td>The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!</td>
+      <td>The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>Array.prototype.flatMap();</code></td>
-      <td>A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap" target="_blank">MDN Article</a> and the <a href="https://tc39.github.io/proposal-flatMap/" target="_blank">proposal</a>!</td>
+      <td>A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>globalThis;</code></td>
@@ -1413,6 +1421,7 @@ console.log(o2);
 </div>
 
 
+<hr/>
 <h2 id="samples">Samples</h2>
 
 <p class="big">There are more samples in the <a href="unittest.js" target="_blank">unittest.js</a>.</p>
@@ -1872,6 +1881,7 @@ var str = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
 </script>
 
 
+<hr/>
 <h2 id="license">License</h2>
 
 <div>

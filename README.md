@@ -15,9 +15,9 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.1.0
+Latest version: 5.2.0
 
-Date: 2021-09-23T19:10:34.015Z
+Date: 2021-10-11T19:39:43.732Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
@@ -108,6 +108,8 @@ window.CEL = defaultExport;
 - The underscore `_` short object name has been changed to `CEL` to avoid the compatibility issues.<br>If need to use the old short name, then with this code will be available again: `window._ = window.celestra;`.
 
 
+-----
+
 ## Functions
 
 ### Core API
@@ -120,7 +122,7 @@ Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
 `celestra.noConflict();` | Restore the previous `CEL` object value and return the `celestra` object to create a new alias.<br>__Tip: You can make a new alias without this function too. Example: `window._cel = window.celestra;`__<br>__In the ESM edition only returns the celestra object.__
-`randomID([hyphens=false]);` | Generate a GUID/UUID like random ID. The hyphens parameter is optional. The return value is a string.<br><b>Example:</b><br>`randomID();`<br>-><br>`"17bbfa109da866175d0c7ca1741f021e"`<br>`randomID(true);´`<br>-><br><code>"17bbfa10-9da7-69a0-cbbc-248d835d09c4"`
+`randomID([hyphens=true][,usedate=false]);` | Generate a GUID/UUID v4 random ID. The hyphens and useDate parameters are optional and can be a boolean. The return value is a string.<br><b>Example:</b><br>`randomID(false);`<br>-><br>`"0e0f739a306b4faad62e3e8080826c9c"`<br>`randomID(true, true);`<br>-><br>`"17c3d79b-d413-4443-b4cd-5426c7299726"`<br>`randomID();`<br>-><br>`"bc897cdf-da26-42de-83e2-d1fd458e079f"`
 `signbit(v>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
 `delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer.<br>__Sample:__<br>`CEL.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
@@ -136,7 +138,7 @@ Name | Description
 `javaHash(<data>[,hexa=false]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `getUrlVars([str=location.search]);` | Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
-`getType(<variable>[, type]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter.
+`getType(<variable>[,type][,throw=false]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
 `extend([deep,]<target>,<source1>[,sourceN]);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
 `strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`CEL.strPropercase("arthur conan doyle");`<br>-><br>`"Arthur Conan Doyle"`
 `strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
@@ -364,6 +366,7 @@ Name | Description
 `find(<collection>,<callback>);` | This function returns the value of the first element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
 `findLast(<collection>,<callback>);` | This function returns the value of the last element in the collection that satisfies the provided testing function. Otherwise undefined is returned. All of the parameters are mandatory.
 `forEach(<collection>,<callback>);` | This function executes a provided function once for each collection element. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
+`forEachRight(<collection>,<callback>);` | This function executes a provided function once for each collection element in reversed order. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a reversed counter).
 `map(<collection>,<callback>);` | This function creates a new iterator with the results of calling a provided function on every element in the calling collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `filter(<collection>,<callback>);` | Filter and yield elements of a collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `reject(<collection>,<callback>);` | This is the opposite of the function `filter(<collection>,<callback>);`. The elements to which the given callback gives a false will be yield. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
@@ -392,26 +395,26 @@ Name | Description
 
 Name | Description
 ---- | -----------
-`Array.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
-`Array.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
-`TypedArray.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned.
-`TypedArray.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
-`Array.prototype.at();` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
-`TypedArray.prototype.at();` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
-`String.prototype.at();` | The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character.
-`Object.hasOwn();` | The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false.
-`String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string.
+`Array.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
+`Array.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
+`TypedArray.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
+`TypedArray.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
+`Array.prototype.at();` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at)!
+`TypedArray.prototype.at();` | The at() method takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/at)!
+`String.prototype.at();` | The at() method takes an integer value and returns a new String consisting of the single UTF-16 code unit located at the specified offset. This method allows for positive and negative integers. Negative integers count back from the last string character. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/at)!
+`Object.hasOwn();` | The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)!
+`String.prototype.trimStart();` | The trimStart() method removes whitespace from the beginning of a string. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart)!
 `String.prototype.trimLeft();` | Alias of the `String.prototype.trimStart();` method.
-`String.prototype.trimEnd();` | The trimEnd() method removes whitespace from the end of a string.
+`String.prototype.trimEnd();` | The trimEnd() method removes whitespace from the end of a string. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd)!
 `String.prototype.trimRight();` | Alias of the `String.prototype.trimEnd();` method.
-`String.prototype.padStart();` | The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string.
-`String.prototype.padEnd();` | The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string.
-`Object.fromEntries();` | The Object.fromEntries() method transforms a list of key-value pairs into an object.
-`Array.prototype.flat();` | The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
-`Array.prototype.flatMap();` | A new array with each element being the result of the callback function and flattened to a depth of 1.
-`globalThis;` | The "global" property of the global object, a writable, configurable, non-enumerable alias of window/self.
-`String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups.
-`String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp.
+`String.prototype.padStart();` | The padStart() method pads the current string with another string (multiple times, if needed) until the resulting string reaches the given length. The padding is applied from the start (left) of the current string. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart)!
+`String.prototype.padEnd();` | The padEnd() method pads the current string with a given string (repeated, if needed) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd)!
+`Object.fromEntries();` | The Object.fromEntries() method transforms a list of key-value pairs into an object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries)!
+`Array.prototype.flat();` | The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)!
+`Array.prototype.flatMap();` | A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap)!
+`globalThis;` | The "global" property of the global object, a writable, configurable, non-enumerable alias of window/self. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)!
+`String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll)!
+`String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll)!
 REMOVED polyfills in v3.1.0 | `Array.from();`<br>`Array.of();`<br>`Array.prototype.fill();`<br>`Array.prototype.find();`<br>`Array.prototype.findIndex();`<br>`Object.create();`<br>`String.prototype.startsWith();`<br>`String.prototype.endsWith();`<br>`Object.is();`<br>`Array.prototype.copyWithin();`<br>`String.fromCodePoint();`<br>`String.prototype.codePointAt();`<br>`Number.MIN_SAFE_INTEGER;`<br>`Number.MAX_SAFE_INTEGER;`<br>`Number.EPSILON;`<br>`Number.isNaN();`<br>`isNaN();`<br>`Number.isInteger();`<br>`Number.isFinite();`<br>`Number.isSafeInteger();`<br>`Number.parseInt();`<br>`Number.parseFloat();`<br>`Math.acosh();`<br>`Math.asinh();`<br>`Math.atanh();`<br>`Math.cbrt();`<br>`Math.clz32();`<br>`Math.cosh();`<br>`Math.expm1();`<br>`Math.fround();`<br>`Math.hypot();`<br>`Math.imul();`<br>`Math.log1p();`<br>`Math.log10();`<br>`Math.log2();`<br>`Math.sign();`<br>`Math.sinh();`<br>`Math.tanh();`<br>`Math.trunc();`
 REMOVED polyfills in v3.8.0 | `Array.prototype.values();`<br>`Array.prototype.includes();`<br>`String.prototype.includes();`<br>`String.prototype.repeat();`<br>`String.prototype[Symbol.iterator]();`<br>`Object.assign();`<br>`Object.entries();`<br>`Object.values();`<br>`Object.getOwnPropertyDescriptors();`<br>`RegExp.prototype.flags;`<br>`NodeList.prototype.forEach();`<br>`ChildNode.after();`<br>`ChildNode.before();`<br>`ChildNode.remove();`<br>`ChildNode.replaceWith();`<br>`ParentNode.append();`<br>`ParentNode.prepend();`<br>`Element.prototype.matches();`<br>`Element.prototype.closest();`<br>`Element.prototype.toggleAttribute();`<br>`Element.prototype.getAttributeNames();`<br>`window.screenLeft;`<br>`window.screenTop;`
 
@@ -425,9 +428,14 @@ Name | Description
 `window.AsyncFunction();` | The AsyncFunction constructor creates a new async function object. In JavaScript, every asynchronous function is actually an AsyncFunction object. Note that AsyncFunction is not a global object, but in the Celestra this is available in the `window` object.
 
 
+-----
+
 ## Samples
 
 There are code samples in the __celestra.html__ and __unittest.js__.
+
+
+-----
 
 ## License
 

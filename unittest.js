@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.1.0 testcases */
+/* Celestra v5.2.0 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -230,17 +230,59 @@ CUT.isTrue("v3.8.1 aliases removed in v4.0.0",
   && CEL.isUndefined(CEL.forOf)
 );
 
-var rIDstr = CEL.randomID();
-CUT.isTrue("randomID();", rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr));
+// randomID begin
+
+var rIDstr = CEL.randomID(false);
+CUT.isTrue("randomID(false); without date without date default", 
+  rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr)
+);
 CUT.log("<code>\"" + rIDstr + "\"</code>");
 
-var rIDstr = CEL.randomID(true);
-CUT.isTrue("randomID(true); with hyphens",
+var rIDstr = CEL.randomID();
+CUT.isTrue("randomID(); with hyphens without date default",
   rIDstr.length === 36 &&
   /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
     .test(rIDstr)
 );
 CUT.log("<code>\"" + rIDstr + "\"</code>");
+
+var rIDstr = CEL.randomID(false, true);
+CUT.isTrue("randomID(); without hyphens with date",
+  rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr)
+);
+CUT.log("<code>\"" + rIDstr + "\"</code>");
+
+var rIDstr = CEL.randomID(true);
+CUT.isTrue("randomID(true); with hyphens without date default",
+  rIDstr.length === 36 &&
+  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
+    .test(rIDstr)
+);
+CUT.log("<code>\"" + rIDstr + "\"</code>");
+
+var rIDstr = CEL.randomID(false, true);
+CUT.isTrue("randomID(false); with date with date", 
+  rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr)
+);
+CUT.log("<code>\"" + rIDstr + "\"</code>");
+
+var rIDstr = CEL.randomID(true, true);
+CUT.isTrue("randomID(); with hyphens with date",
+  rIDstr.length === 36 &&
+  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
+    .test(rIDstr)
+);
+CUT.log("<code>\"" + rIDstr + "\"</code>");
+
+var rIDstr = CEL.randomID(true, false);
+CUT.isTrue("randomID(true); with hyphens without date",
+  rIDstr.length === 36 &&
+  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
+    .test(rIDstr)
+);
+CUT.log("<code>\"" + rIDstr + "\"</code>");
+
+// randomID end
 
 CUT.isTrue(
   "signbit();",
@@ -801,6 +843,9 @@ forEachCount = 0;
 CEL.forEach((new Set([4,5,6])).values(), function (e) { forEachCount+=(e*3); });
 CUT.isEqual("forEach(); 7 ES6 Set values(); iterator", 45, forEachCount);
 
+var forEachStr = "";
+CEL.forEachRight(FPArray, function (e) { forEachStr += (e*2); });
+CUT.isEqual("forEachRight();", "642", forEachStr);
 
 var mapStr = "";
 for (let item of CEL.map([1,2,3], function(e){ return e*2; })){ mapStr += item;}

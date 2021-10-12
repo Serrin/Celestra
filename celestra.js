@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.1.0 dev
+ * @version 5.2.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -22,7 +22,7 @@
 
 /** polyfills **/
 
-/* Array.prototype.at(<index>); */
+/* Array.prototype.at(); */
 if (!("at" in Array.prototype)) {
   Object.defineProperty(Array.prototype, "at", {
     writable: true, enumerable: false, configurable: true,
@@ -35,7 +35,7 @@ if (!("at" in Array.prototype)) {
   });
 }
 
-/* TypedArray.prototype.at(<index>); */
+/* TypedArray.prototype.at(); */
 if (!("at" in Uint8Array.prototype)) {
   Object.defineProperty(Uint8Array.prototype, "at", {
     writable: true, enumerable: false, configurable: true,
@@ -48,7 +48,7 @@ if (!("at" in Uint8Array.prototype)) {
   });
 }
 
-/* String.prototype.at(<index>); */
+/* String.prototype.at(); */
 if (!("at" in String.prototype)) {
   Object.defineProperty(String.prototype, "at", {
     writable: true, enumerable: false, configurable: true,
@@ -196,9 +196,7 @@ if (!Object.fromEntries) {
       Object.defineProperty(global, "globalThis", {
         configurable: true, enumerable: false, value: global, writable: true
       });
-    } else {
-      global.globalThis = global;
-    }
+    } else { global.globalThis = global; }
   }
 })(typeof this === "object" ? this : Function("return this")());
 
@@ -293,17 +291,23 @@ if (!window.AsyncFunction) {
 }
 
 /* BigInt.prototype.toJSON(); */
-if (window.BigInt && !BigInt.prototype.toJSON) {
-  BigInt.prototype.toJSON = function () { return this.toString(); };
+if (!!window.BigInt && !("toJSON" in BigInt.prototype)) {
+  Object.defineProperty(BigInt.prototype, "toJSON", {
+    writable: true, enumerable: false, configurable: true,
+    value: function toJSON () { return this.toString(); }
+  });
 }
 
 /** core api **/
 
-/* randomID([hyphens = false]): string */
-function randomID (hyphens = false) {
-  var r = (new Date()).getTime().toString(16);
+/* randomID([hyphens = true][,usedate = false]) : string */
+function randomID (hyphens = true, useDate = false) {
+  var r = useDate ? (new Date()).getTime().toString(16) : "";
   for (var i=0; i<3; i++) { r += Math.random().toString(16).slice(2); }
-  r = r.slice(0, 32);
+  r = [...r.slice(0, 32)];
+  r["12"] = "4";
+  r["16"] = (Math.random() * 16 | 0 & 0x3 | 0x8).toString(16);
+  r = r.join("");
   return !hyphens ? r : r.slice(0, 8)
     + "-" + r.slice(8, 12)
     + "-" + r.slice(12, 16)
@@ -393,10 +397,15 @@ const obj2string = (o) => Object.keys(o).reduce(
   .slice(0, -1);
 
 /* getType(<variable: any>): string */
-/* getType(<variable: any>[,type: string]): boolean */
-function getType (v, t) {
+/* getType(<variable: any>[,type: string][,throw=false]): boolean or throw */
+function getType (v, t, th = false) {
   var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
-  return (arguments.length === 2 ? ot === t.toLowerCase() : ot);
+  if (arguments.length < 2) { return ot; }
+  if (!th) { return ot === t.toLowerCase(); }
+  if (ot !== t.toLowerCase()) {
+    throw TypeError("Celestra getType(); type error: " + ot + " - "  + t);
+  }
+  return true;
 }
 
 /* extend([deep: boolean,]<target: object>,<source1: object>[,sourceN]):object*/
@@ -485,10 +494,9 @@ const hasIn = (o, p) => (p in o);
 
 /* filterIn(<object>,<callback: function>): object */
 const filterIn = (o, fn) => Object.keys(o)
-  .reduce( (r, p) => { if (fn(o[p], p, o)) { r[p] = o[p]; } return r; } , {} );
+  .reduce( (r, p) => { if (fn(o[p], p, o)) { r[p] = o[p]; } return r; }, {} );
 
-/* popIn(<object>,<property: string>): any */
-/* popIn(<object>,<property: string>): undefined */
+/* popIn(<object>,<property: string>): any OR undefined*/
 function popIn (o,p){if(Object.hasOwn(o,p)){var v=o[p]; delete o[p]; return v;}}
 
 /* toFunction(<function>): function */
@@ -513,9 +521,7 @@ const T = () => true;
 const F = () => false;
 
 /* assertEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
-  throw error */
-/* assertEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
-  true (boolean) */
+  true (boolean) OR throw error */
 function assertEq (msg, v1, v2, strict = true) {
   if (strict ? v1 !== v2 : v1 != v2) {
     throw new Error("[assertEq] - " + msg + " - " +  v1 + " - " + v2);
@@ -524,9 +530,7 @@ function assertEq (msg, v1, v2, strict = true) {
 }
 
 /* assertNotEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
-  throw error */
-/* assertNotEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
-  true (boolean) */
+  true (boolean) OR throw error */
 function assertNotEq (msg, v1, v2, strict = true) {
   if (strict ? v1 === v2 : v1 == v2) {
     throw new Error("[assertNotEq] - " + msg + " - " +  v1 + " - " + v2);
@@ -534,15 +538,13 @@ function assertNotEq (msg, v1, v2, strict = true) {
   return true;
 }
 
-/* assertTrue(<message: string>,<value: any>): throw error */
-/* assertTrue(<message: string>,<value: any>): true (boolean) */
+/* assertTrue(<message: string>,<value: any>): true (boolean) OR throw error */
 function assertTrue (msg, v) {
   if (!v) { throw new Error("[assertTrue] " + msg); }
   return true;
 }
 
-/* assertFalse(<message: string>,<value: any>): throw error */
-/* assertFalse(<message: string>,<value: any>): true (boolean) */
+/* assertFalse(<message: string>,<value: any>): true (boolean) OR throw error */
 function assertFalse (msg, v) {
   if (!!v) { throw new Error("[assertFalse] " + msg); }
   return true;
@@ -566,8 +568,7 @@ const strHTMLUnEscape = (s) => String(s)
 /* qsa(<selector: string>[,context: element object]): array */
 const qsa = (s, c = document) => Array.from(c.querySelectorAll(s));
 
-/* qs(<selector: string>[,context: element object]): element object */
-/* qs(<selector: string>[,context: element object]): null */
+/* qs(<selector: string>[,context: element object]): element object || null */
 const qs = (s, c = document) => c.querySelector(s);
 
 /* domReady(<callback: function>): undefined */
@@ -626,8 +627,7 @@ function domSetCSS (e, n, v) {
   }
 }
 
-/* domFadeIn(<element object>[,duration: integer[,display: string]]):
-  undefined */
+/* domFadeIn(<element obj.>[,duration: integer[,display: string]]): undefined */
 function domFadeIn (e, dur, d) {
   var s = e.style, step = 25/(dur || 500);
   s.opacity = (s.opacity || 0);
@@ -826,7 +826,7 @@ function createFile (fln, c, dt) {
   }
 }
 
-/* getFullscreen(): element object */
+/* getFullscreen(): element object OR undefined */
 function getFullscreen () {
   return (document.fullscreenElement
     || document.mozFullScreenElement
@@ -1328,7 +1328,7 @@ function unzip ([...a]) {
 }
 
 /* zipObj(<collection1>,<collection2>): object */
-const zipObj = ([...a1], [...a2]) => Object.fromEntries(celestra.zip(a1, a2));
+const zipObj = ([...a1], [...a2]) => Object.fromEntries( celestra.zip(a1, a2) );
 
 /* arrayUnique(<collection>[,callback: function]): array */
 const arrayUnique = (a) => [...new Set(a)];
@@ -1376,9 +1376,9 @@ function arrayMerge (flat, ...a) {
     flat = false;
   }
   if (flat) {
-    t.push(...[].concat(...a.flat(Infinity)));
+    t.push(... [].concat(... a.flat(Infinity) ) );
   } else {
-    t.push(...[].concat(...a));
+    t.push(... [].concat(...a) );
   }
   return t;
 }
@@ -1390,7 +1390,7 @@ function* iterRange (s = 0, st = 1, e = Infinity) {
 }
 
 /* iterCycle(<iter>[,n=Infinity]): iterator */
-function* iterCycle ([...a], n = Infinity){let i=0; while(i<n) {yield* a; i++;}}
+function* iterCycle ([...a], n=Infinity){ let i=0; while(i<n) {yield* a; i++;} }
 
 /* iterRepeat(<value: any>[,n=Infinity]): iterator */
 function* iterRepeat (v, n=Infinity) { let i=0; while (i<n) { yield v; i++; } }
@@ -1432,6 +1432,9 @@ function* drop (it, n = 1) {
 
 /* forEach(<collection>,<callback: function>): undefined */
 function forEach (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
+
+/* forEachRight(<collection>,<callback: function>): undefined */
+function forEachRight ([...a],fn){ let i=a.length; while (i--) { fn(a[i],i); } }
 
 /* map(<collection>,<callback: function>): iterator */
 function* map (it, fn) { let i=0; for (let item of it) { yield fn(item,i++); } }
@@ -1494,8 +1497,7 @@ const reverse = ([...a]) => a.reverse();
 
 /* sort(<collection>[,numbers=false]): array */
 const sort = ([...a], ns) => a.sort(ns
-  ? (a, b) => { if (a<b){return -1;} if (a>b){return 1;} return 0; } : undefined
-);
+  ? (a,b) => { if (a<b){return -1;} if(a>b){return 1;} return 0; } : undefined);
 
 /* includes(<collection>,<value: any>): boolean */
 const includes = ([...a], v) => (a.indexOf(v) > -1);
@@ -1576,7 +1578,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /** object header **/
 
-const VERSION = "Celestra v5.1.0 dev";
+const VERSION = "Celestra v5.2.0 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {
@@ -1756,6 +1758,7 @@ var celestra = {
   take: take,
   drop: drop,
   forEach: forEach,
+  forEachRight: forEachRight,
   map: map,
   filter: filter,
   reject: reject,
