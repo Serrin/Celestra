@@ -1,24 +1,11 @@
 /**
  * @name Celestra
- * @version 5.2.0 dev
+ * @version 5.2.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 (function(window, document){
 "use strict";
-
-/*-------------------+------+-----------------------------------------
-  Function           |   #  |  Internal calls
----------------------+------+-----------------------------------------
-  CTRL-F             |   N  |  getType();
-  domFadeToggle();   |   2  |  domFadeIn(); domFadeOut();
-  extend();          |   1  |  extend();
-  getJson();         |   1  |  ajax();
-  getText();         |   1  |  ajax();
-  clearCookies();    |   2  |  getCookie(); removeCookie();
-  isSameIterator();  |   1  |  isSameArray();
-  zipObj();          |   1  |  zip();
----------------------+------+----------------------------------------*/
 
 /** polyfills **/
 
@@ -101,7 +88,7 @@ if (!String.prototype.padStart) {
     } else {
       str = String(typeof str !== "undefined" ? str: " ");
       if (str.length === 0) { return String(this); }
-      var res = "", n = Math.floor( (len - this.length) / str.length)+1;
+      var res = "", n = Math.floor( (len - this.length) / str.length) + 1;
       for (var i = 0; i < n; i++) { res += str; }
       return res.slice(0, len - this.length) + String(this);
     }
@@ -219,9 +206,7 @@ if (!("findLast" in Array.prototype)) {
         throw new TypeError(String(fn) + " is not a function");
       }
       var i = this.length;
-      while (i--) {
-        if (fn(this[i],i,this)) { return this[i]; }
-      }
+      while (i--) { if (fn(this[i],i,this)) { return this[i]; } }
       return undefined;
     }
   });
@@ -236,9 +221,7 @@ if (!("findLastIndex" in Array.prototype)) {
         throw new TypeError(String(fn) + " is not a function");
       }
       var i = this.length;
-      while (i--) {
-        if (fn(this[i],i,this)) { return i; }
-      }
+      while (i--) { if (fn(this[i],i,this)) { return i; } }
       return -1;
     }
   });
@@ -253,9 +236,7 @@ if (!("findLast" in Uint8Array.prototype)) {
         throw new TypeError(String(fn) + " is not a function");
       }
       var i = this.length;
-      while (i--) {
-        if (fn(this[i],i,this)) { return this[i]; }
-      }
+      while (i--) { if (fn(this[i],i,this)) { return this[i]; } }
       return undefined;
     }
   });
@@ -270,9 +251,7 @@ if (!("findLastIndex" in Uint8Array.prototype)) {
         throw new TypeError(String(fn) + " is not a function");
       }
       var i = this.length;
-      while (i--) {
-        if (fn(this[i],i,this)) { return i; }
-      }
+      while (i--) { if (fn(this[i],i,this)) { return i; } }
       return -1;
     }
   });
@@ -321,15 +300,13 @@ const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
 /* delay(<ms: integer>).then(<callback: function>): promise */
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-/* randomInt([max: integer]): integer */
-/* randomInt(<min: integer>,<max: integer>): integer */
+/* randomInt([max: int] OR <min: int>,<max: int>): int */
 function randomInt (i = 100, a) {
   if (a === undefined) { a = i; i = 0; }
   return Math.floor(Math.random() * (a - i + 1)) + i;
 }
 
-/* randomFloat([max: float]): float */
-/* randomFloat(<min: float>,<max: float>): float */
+/* randomFloat([max: float] OR <min: float>,<max: float>): float */
 function randomFloat (i = 100, a) {
   if (a === undefined) { a = i; i = 0; }
   var r = (Math.random() * (a - i + 1)) + i;
@@ -352,15 +329,15 @@ function randomString (pl = 100, sc = false) {
 const inRange = (v, i, a) => (v >= i && v <= a);
 
 /* b64Encode(<string>): string */
-function b64Encode (str) {
-  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+function b64Encode (s) {
+  return btoa(encodeURIComponent(String(s)).replace(/%([0-9A-F]{2})/g,
     function toSolidBytes (match, p1) { return String.fromCharCode("0x" + p1); }
   ));
 }
 
 /* b64Decode(<string>): string */
-function b64Decode (str) {
-  return decodeURIComponent(atob(str).split("").map(function (c) {
+function b64Decode (s) {
+  return decodeURIComponent(atob(String(s)).split("").map(function (c) {
     return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(""));
 }
@@ -409,28 +386,31 @@ function getType (v, t, th = false) {
 }
 
 /* extend([deep: boolean,]<target: object>,<source1: object>[,sourceN]):object*/
-function extend () {
-  var so = {};
-  if (typeof arguments[0] === "boolean") {
-    var t = arguments[1], d = arguments[0], s = 2;
-  } else {
-    var t = arguments[0], d = false, s = 1;
-  }
-  for (var i = s, l = arguments.length; i < l; i++) {
-    so = arguments[i];
-    if (so !== null && so !== undefined) {
-      for (var a in so) {
-        if (Object.hasOwn(so, a)) {
-          if (typeof so[a] === "object" && d) {
-            t[a] = celestra.extend(true, {}, so[a]);
-          } else {
-            t[a] = so[a];
+function extend (...args) {
+  function innerExtend () {
+    var so = {};
+    if (typeof arguments[0] === "boolean") {
+      var t = arguments[1], d = arguments[0], s = 2;
+    } else {
+      var t = arguments[0], d = false, s = 1;
+    }
+    for (var i = s, l = arguments.length; i < l; i++) {
+      so = arguments[i];
+      if (so != null) {
+        for (var a in so) {
+          if (Object.hasOwn(so, a)) {
+            if (typeof so[a] === "object" && d) {
+              t[a] = innerExtend(true, {}, so[a]);
+            } else {
+              t[a] = so[a];
+            }
           }
         }
       }
     }
+    return t;
   }
-  return t;
+  return innerExtend(...args);
 }
 
 /* strPropercase(<string>): string */
@@ -514,14 +494,14 @@ const identity = (v) => v;
 /* noop(): undefined */
 const noop = () => {};
 
-/* T(): true (boolean) */
+/* T(): true */
 const T = () => true;
 
-/* F(): false (boolean) */
+/* F(): false */
 const F = () => false;
 
 /* assertEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
-  true (boolean) OR throw error */
+  true OR throw error */
 function assertEq (msg, v1, v2, strict = true) {
   if (strict ? v1 !== v2 : v1 != v2) {
     throw new Error("[assertEq] - " + msg + " - " +  v1 + " - " + v2);
@@ -530,7 +510,7 @@ function assertEq (msg, v1, v2, strict = true) {
 }
 
 /* assertNotEq(<message: string>,<value1: any>,<value2: any>[,strict=true]):
-  true (boolean) OR throw error */
+  true OR throw error */
 function assertNotEq (msg, v1, v2, strict = true) {
   if (strict ? v1 === v2 : v1 == v2) {
     throw new Error("[assertNotEq] - " + msg + " - " +  v1 + " - " + v2);
@@ -568,7 +548,7 @@ const strHTMLUnEscape = (s) => String(s)
 /* qsa(<selector: string>[,context: element object]): array */
 const qsa = (s, c = document) => Array.from(c.querySelectorAll(s));
 
-/* qs(<selector: string>[,context: element object]): element object || null */
+/* qs(<selector: string>[,context: element object]): element object OR null */
 const qs = (s, c = document) => c.querySelector(s);
 
 /* domReady(<callback: function>): undefined */
@@ -580,9 +560,8 @@ function domReady (fn) {
   }
 }
 
-/* domCreate(<type: string>[,properties: object[,innerHTML: string]]):
-  element object */
-/* domCreate(<element descriptive object>): element object */
+/* domCreate(<type: string>[,properties: object[,innerHTML: string]]): element*/
+/* domCreate(<element descriptive object>): element */
 function domCreate (t, ps, iH) {
   if (arguments.length === 1 && typeof t === "object") {
     var obj = t;
@@ -613,12 +592,12 @@ function domToElement (s) {
   return e.firstElementChild;
 }
 
-/* domGetCSS(<element object>[,property: string]): string */
+/* domGetCSS(<element>[,property: string]): string */
 const domGetCSS = (e, p) =>
   (p ? window.getComputedStyle(e, null)[p] : window.getComputedStyle(e, null));
 
-/* domSetCSS(<element object>,<property: string>,<value: string>): undefined */
-/* domSetCSS(<element object>,<properties: object>): undefined */
+/* domSetCSS(<element>,<property: string>,<value: string>): undefined */
+/* domSetCSS(<element>,<properties: object>): undefined */
 function domSetCSS (e, n, v) {
   if (typeof n === "string") {
     e.style[n] = v;
@@ -627,7 +606,7 @@ function domSetCSS (e, n, v) {
   }
 }
 
-/* domFadeIn(<element obj.>[,duration: integer[,display: string]]): undefined */
+/* domFadeIn(<element>[,duration = 500[,display = ""]]): undefined */
 function domFadeIn (e, dur, d) {
   var s = e.style, step = 25/(dur || 500);
   s.opacity = (s.opacity || 0);
@@ -637,7 +616,7 @@ function domFadeIn (e, dur, d) {
   })();
 }
 
-/* domFadeOut(<element object>[,duration: integer]): undefined */
+/* domFadeOut(<element>[,duration = 500]): undefined */
 function domFadeOut (e, dur) {
   var s = e.style, step = 25/(dur || 500);
   s.opacity = (s.opacity || 1);
@@ -646,23 +625,33 @@ function domFadeOut (e, dur) {
   })();
 }
 
-/* domFadeToggle(<element object>[,duration: integer[,display: string]]):
-  undefined */
+/* domFadeToggle(<element>[,duration = 500[,display = ""]]): undefined */
 function domFadeToggle (e, dur, d = "") {
   if (window.getComputedStyle(e, null).display === "none") {
-    celestra.domFadeIn(e, dur, d);
+    /* domFadeIn(); */
+    var s = e.style, step = 25/(dur || 500);
+    s.opacity = (s.opacity || 0);
+    s.display = (d || "");
+    (function fade () {
+      (s.opacity=parseFloat(s.opacity)+step)>1 ?s.opacity=1:setTimeout(fade,25);
+    })();
   } else {
-    celestra.domFadeOut(e, dur);
+    /* domFadeOut(); */
+    var s = e.style, step = 25/(dur || 500);
+    s.opacity = (s.opacity || 1);
+    (function fade () {
+      (s.opacity -= step) < 0 ? s.display = "none" : setTimeout(fade, 25);
+    })();
   }
 }
 
-/* domHide(<element object>): undefined */
+/* domHide(<element>): undefined */
 const domHide = (e) => e.style.display = "none";
 
-/* domShow(<element object>[,display: string]): undefined */
+/* domShow(<element>[,display = ""]): undefined */
 const domShow = (e, d = "") => e.style.display = d;
 
-/* domToggle(<element object>[,display: string]): undefined */
+/* domToggle(<element>[,display: string]): undefined */
 function domToggle (e, d = "") {
   if (window.getComputedStyle(e, null).display === "none") {
     e.style.display = d;
@@ -671,28 +660,28 @@ function domToggle (e, d = "") {
   }
 }
 
-/* domIsHidden(<element object>): boolean */
+/* domIsHidden(<element>): boolean */
 const domIsHidden = (e) => (window.getComputedStyle(e,null).display === "none");
 
-/* domSiblings(<element object>): array */
+/* domSiblings(<element>): array */
 const domSiblings = (el) =>
   Array.prototype.filter.call(el.parentNode.children, (e) => (e !== el));
 
-/* domSiblingsPrev(<element object>): array */
+/* domSiblingsPrev(<element>): array */
 const domSiblingsPrev = (el) => Array.prototype.slice.call(
   el.parentNode.children, 0,
   Array.prototype.indexOf.call(el.parentNode.children, el)
 );
-/* domSiblingsLeft(<element object>): array */
+/* domSiblingsLeft(<element>): array */
 const domSiblingsLeft = domSiblingsPrev;
 
-/* domSiblingsNext(<element object>): array */
+/* domSiblingsNext(<element>): array */
 const domSiblingsNext = (el) => Array.prototype.slice.call(
   el.parentNode.children,
   Array.prototype.indexOf.call(el.parentNode.children, el) + 1,
   el.parentNode.children.length
 );
-/* domSiblingsRight(<element object>): array */
+/* domSiblingsRight(<element>): array */
 const domSiblingsRight = domSiblingsNext;
 
 /* importScript(<script1: string>[,scriptN: string]): undefined */
@@ -726,7 +715,7 @@ function importStyle (...a) {
   }
 }
 
-/* form2array(<form object>): array */
+/* form2array(<form>): array */
 function form2array (f) {
   var fld, a = [];
   if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
@@ -759,7 +748,7 @@ function form2array (f) {
   return a;
 }
 
-/* form2string(<form object>): string */
+/* form2string(<form>): string */
 function form2string (f) {
   var fld, a = [];
   if (typeof f === "object" && f.nodeName.toLowerCase() === "form") {
@@ -836,7 +825,7 @@ function getFullscreen () {
   );
 }
 
-/* setFullscreenOn(<element object>): undefined */
+/* setFullscreenOn(<element>): undefined */
 /* setFullscreenOn(<selector string>): undefined */
 function setFullscreenOn (s) {
   if (typeof s === "string") { var e = document.querySelector(s); }
@@ -861,9 +850,10 @@ const domGetCSSVar = (n) => getComputedStyle(document.documentElement)
 
 /* domSetCSSVar(<name: string>,<value: string>): undefined */
 const domSetCSSVar = (n, v) =>
-  document.documentElement.style.setProperty((n[0] === "-" ? n : "--" + n), v);
+  document.documentElement.style.setProperty( (n[0] === "-" ? n : "--" + n), v);
 
 /** AJAX **/
+/* getJson(); and getText(); shorthands -> ajax(); */
 
 /* getText(<url: string>,<success: function>): undefined */
 function getText (u, s) { celestra.ajax({url: u, success: s}); }
@@ -961,24 +951,30 @@ function ajax (o) {
 /** type checking **/
 
 /* isPlainObject(<value: any>): boolean */
-const isPlainObject = (v) => (!!v && typeof v === "object" &&
+const isPlainObject = (v) => (v != null && typeof v === "object" &&
   (Object.getPrototypeOf(v) === Object.prototype
     || Object.getPrototypeOf(v) === null));
 
 /* isEmptyMap(<value: any>): boolean */
-const isEmptyMap = (v) => (celestra.getType(v, "map") && v.size === 0);
+const isEmptyMap = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "map"
+    && v.size === 0);
 
 /* isEmptySet(<value: any>): boolean */
-const isEmptySet = (v) => (celestra.getType(v, "set") && v.size === 0);
+const isEmptySet = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "set"
+    && v.size === 0);
 
 /* isEmptyIterator(<value: any>): boolean */
 function isEmptyIterator (it) {for(let item of it) {return false;} return true;}
 
 /* isDataView(<value: any>): boolean */
-const isDataView = (v) => celestra.getType(v, "dataview");
+const isDataView = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "dataview");
 
 /* isError(<value: any>): boolean */
-const isError = (v) => celestra.getType(v, "error");
+const isError = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "error");
 
 /* isPromise(<value: any>): boolean */
 const isPromise = (v) =>(typeof v === "object" && typeof v.then === "function");
@@ -1002,7 +998,8 @@ const isSameArray = (a, b) => ( Array.isArray(a) && Array.isArray(b)
 
 /* isSameMap(<map1>,<map2>): boolean */
 function isSameMap (m1, m2) {
-  if (celestra.getType(m1, "map") && celestra.getType(m2, "map")
+  if (Object.prototype.toString.call(m1).slice(8, -1).toLowerCase() === "map"
+    && Object.prototype.toString.call(m2).slice(8, -1).toLowerCase() === "map"
     && m1.size === m2.size) {
     for (const item of m1.keys()) {
       if (m1.get(item) !== m2.get(item)) { return false; }
@@ -1014,7 +1011,8 @@ function isSameMap (m1, m2) {
 
 /* isSameSet(<set1>,<set2>): boolean */
 function isSameSet (s1, s2) {
-  if (celestra.getType(s1, "set") && celestra.getType(s2, "set")
+  if (Object.prototype.toString.call(s1).slice(8, -1).toLowerCase() === "set"
+    && Object.prototype.toString.call(s2).slice(8, -1).toLowerCase() === "set"
     && s1.size === s2.size) {
     for (const item of s1) {
       if (!s2.has(item)) { return false; }
@@ -1026,7 +1024,7 @@ function isSameSet (s1, s2) {
 
 /* isSameIterator(<iterator1>,<iterator2>): boolean */
 const isSameIterator = ([...a1], [...a2]) =>
-  celestra.isSameArray(a1.sort(), a2.sort());
+  (a1.sort().length === a2.sort().length && a1.every((v,i) => v === a2[i]));
 
 /* isString(<value: any>): boolean */
 const isString = (v) => (typeof v === "string");
@@ -1062,8 +1060,8 @@ const isEmptyArray = (v) => (Array.isArray(v) && v.length === 0);
 
 /* isArraylike(<value: any>): boolean */
 const isArraylike = (v) =>
-  ((typeof v === "object" || typeof v === "string") && v !== null
-    && typeof v.length === "number" && v.length >= 0 && v.length % 1 === 0);
+  ((typeof v === "object" || typeof v === "string") && v != null
+   && typeof v.length === "number" && v.length >= 0 && v.length % 1 === 0);
 
 /* isNull(<value: any>): boolean */
 const isNull = (v) => (v === null);
@@ -1084,26 +1082,33 @@ const isPrimitive = (v) =>
 const isSymbol = (v) => (typeof v === "symbol");
 
 /* isMap(<value: any>): boolean */
-const isMap = (v) => celestra.getType(v, "map");
+const isMap = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "map");
 
 /* isSet(<value: any>): boolean */
-const isSet = (v) => celestra.getType(v, "set");
+const isSet = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "set");
 
 /* isWeakMap(<value: any>): boolean */
-const isWeakMap = (v) => celestra.getType(v, "weakmap");
+const isWeakMap = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "weakmap");
 
 /* isWeakSet(<value: any>): boolean */
-const isWeakSet = (v) => celestra.getType(v, "weakset");
+const isWeakSet = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "weakset");
 
 /* isIterator(<value: any>): boolean */
 const isIterator = (v) =>
-  (celestra.getType(v).includes("iterator") || (typeof v.next === "function"));
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase()
+    .includes("iterator") || typeof v.next === "function");
 
 /* isDate(<value: any>): boolean */
-const isDate = (v) => celestra.getType(v, "date");
+const isDate = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "date");
 
 /* isRegexp(<value: any>): boolean */
-const isRegexp = (v) => celestra.getType(v, "regexp");
+const isRegexp = (v) =>
+  (Object.prototype.toString.call(v).slice(8, -1).toLowerCase() === "regexp");
 
 /* isElement(<value: any>): boolean */
 const isElement = (v) => (typeof v === "object" && v.nodeType === 1);
@@ -1115,13 +1120,16 @@ const isIterable = (v) => (typeof v[Symbol.iterator] === "function");
 const isBigInt = (v) => (typeof v === "bigint");
 
 /* isArrayBuffer(<value: any>): boolean */
-const isArrayBuffer = (v) => celestra.getType(v, "arraybuffer");
+const isArrayBuffer = (v) =>
+  (Object.prototype.toString.call(v).slice(8,-1).toLowerCase()==="arraybuffer");
 
 /* isTypedArray(<value: any>): boolean */
 const isTypedArray = (v) =>
   ["int8array", "uint8array", "uint8clampedarray", "int16array", "uint16array",
    "int32array", "uint32array", "float32array", "float64array",
-   "bigint64array", "biguint64array"].includes(celestra.getType(v));
+   "bigint64array", "biguint64array"].includes(
+     Object.prototype.toString.call(v).slice(8, -1).toLowerCase()
+   );
 
 /* isGeneratorFn(<value: any>): boolean */
 const isGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
@@ -1206,9 +1214,9 @@ function removeCookie (name, path = "/", domain, secure,
   return r;
 }
 
-/* clearCookies(<Options object>): boolean */
+/* clearCookies(<Options object>): undefined */
 /* clearCookies(
-  [path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]): boolean */
+  [path="/"[,domain[,secure[,SameSite="Lax"[,HttpOnly]]]]]): undefined */
 function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
   if (typeof path === "object") {
     var settings = path;
@@ -1218,8 +1226,18 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
     SameSite = settings.SameSite || "Lax";
     HttpOnly = settings.HttpOnly;
   }
-  for (let item of Object.keys(celestra.getCookie())) {
-    celestra.removeCookie(item, path, domain, secure, SameSite, HttpOnly);
+  if (document.cookie.length !== 0) {
+    var a = document.cookie.split(";");
+    for(var i = 0, l = a.length; i < l; i++) {
+      document.cookie = encodeURIComponent(a[i].trim().split("=")[0])
+        + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
+        + "; path=" + path
+        + (domain ? "; domain=" + domain : "")
+        + (secure ? "; secure" : "")
+        + (typeof SameSite==="string"&&SameSite.length>0 ?"; SameSite="+SameSite:"")
+        + (HttpOnly ? "; HttpOnly" : "")
+        + ";";
+    }
   }
 }
 
@@ -1328,7 +1346,11 @@ function unzip ([...a]) {
 }
 
 /* zipObj(<collection1>,<collection2>): object */
-const zipObj = ([...a1], [...a2]) => Object.fromEntries( celestra.zip(a1, a2) );
+function zipObj ([...a1], [...a2]) {
+  var r = [], i, l = (a1.length < a2.length ? a1.length : a2.length);
+  for (i = 0; i < l; i++) { r.push([a1[i], a2[i]]); }
+  return Object.fromEntries(r);
+}
 
 /* arrayUnique(<collection>[,callback: function]): array */
 const arrayUnique = (a) => [...new Set(a)];
@@ -1547,8 +1569,7 @@ function* concat () { for (let item of arguments) { yield* item; } }
 
 /* reduce(<collection>,<callback: function>[,initialvalue: any]): any */
 function reduce (it, fn, iv) {
-  let acc = iv;
-  let i = 0;
+  let acc = iv, i = 0;
   for (let item of it) {
     if (i === 0 && acc === undefined) {
       acc = item;
@@ -1559,7 +1580,7 @@ function reduce (it, fn, iv) {
   return acc;
 }
 
-/* enumerate(<collection>): iterator */
+/* enumerate(<collection>[,offset=0]): iterator */
 function* enumerate (it, offset = 0) {
   let i = offset;
   for (let item of it) { yield [i++, item]; }
@@ -1578,7 +1599,7 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /** object header **/
 
-const VERSION = "Celestra v5.2.0 dev";
+const VERSION = "Celestra v5.2.1 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {

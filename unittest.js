@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.2.0 testcases */
+/* Celestra v5.2.1 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -1791,9 +1791,9 @@ CUT.isFalse("isDataView(); false", CEL.isDataView({}, "dataview"));
 
 var isErrorStr = ""
   + CEL.isError(new Error) + " " + CEL.isError(new RangeError)
-  + " " + CEL.isError(new SyntaxError) + " " + CEL.isError({})
-  + " " + CEL.isError([]);
-CUT.isEqual("isError();", isErrorStr, "true true true false false" );
+  + " " + CEL.isError(new SyntaxError) + " " + CEL.isError(new TypeError)
+  + " " + CEL.isError({}) + " " + CEL.isError([]);
+CUT.isEqual("isError();", isErrorStr, "true true true true false false" );
 
 CUT.isTrue("isGeneratorFn(); true",
   CEL.isGeneratorFn(function* fn42g () { yield 42; }));
@@ -2030,7 +2030,9 @@ CUT.isFalse("isSameMap(); false 3", CEL.isSameMap(
 
 CUT.isTrue("isSameIterator(); true",
   CEL.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2]));
-CUT.isFalse("isSameIterator(); false",
+CUT.isFalse("isSameIterator(); false 1",
+  CEL.isSameIterator([4,8,6,2,1], [4,8,6,2,5]));
+CUT.isFalse("isSameIterator(); false 2",
   CEL.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2,5]));
 
 /* AJAX, domReady(); and other callbacks */
