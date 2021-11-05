@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.2.1 dev
+ * @version 5.3.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -462,15 +462,6 @@ const sizeIn = (o) => Object.keys(o).length;
 
 /* forIn(<object>,<callback: function>): object */
 const forIn = (o,fn) => { Object.keys(o).forEach((v)=>fn(o[v],v,o)); return o; }
-
-/* getIn(<object>,<property: string>): any */
-const getIn = (o, p) => o[p];
-
-/* setIn(<object>,<property: string>,<value: any>): object */
-const setIn = (o, p, v) => { o[p] = v; return o; }
-
-/* hasIn(<object>,<property: string>): boolean */
-const hasIn = (o, p) => (p in o);
 
 /* filterIn(<object>,<callback: function>): object */
 const filterIn = (o, fn) => Object.keys(o)
@@ -1597,9 +1588,39 @@ const join = ([...a], s = ",") => a.join(s);
 /* withOut(<collection>,<filterCollection>): array */
 const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
+/** abstract **/
+
+/* getIn(<object>,<property: string>): any */
+const getIn = (o, p) => o[p];
+
+/* setIn(<object>,<property: string>,<value: any>): object */
+const setIn = (o, p, v) => { o[p] = v; return o; }
+
+/* hasIn(<object>,<property: string>): boolean */
+const hasIn = (o, p) => (p in o);
+
+/* isPropertyKey(<value: any>): boolean */
+const isPropertyKey = (v) => (typeof v === "string" || typeof v === "symbol");
+
+/* toPropertyKey(<value: any>): string OR symbol */
+const toPropertyKey = (v) => (typeof v === "symbol" ? v : String(v));
+
+/* toObject(<value: any>): object OR throw error */
+function toObject (v) { if (v==null) { throw TypeError(); } return Object(v); }
+
+/* isSameValueZero(<value1: any>,<value2: any>): boolean */
+const isSameValueZero = (v1, v2) => (v1 === v2 || (v1 !== v1 && v2 !== v2));
+
+/* createMethodProperty(<object>,<property>,<value: any>): object */
+const createMethodProperty = (o, p, v) => Object.defineProperty(o, p,
+  {value: v, writable: true, enumerable: false, configurable: true});
+
+/* type(<value>): string */
+const type = (v) => ((v === null) ? "null" : (typeof v));
+
 /** object header **/
 
-const VERSION = "Celestra v5.2.1 dev";
+const VERSION = "Celestra v5.3.0 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {
@@ -1639,9 +1660,6 @@ var celestra = {
   strAt: strAt,
   sizeIn: sizeIn,
   forIn: forIn,
-  getIn: getIn,
-  setIn: setIn,
-  hasIn: hasIn,
   filterIn: filterIn,
   popIn: popIn,
   toFunction: toFunction,
@@ -1810,7 +1828,17 @@ var celestra = {
   entries: entries,
   flat: flat,
   join: join,
-  withOut: withOut
+  withOut: withOut,
+  /** abstract **/
+  getIn: getIn,
+  setIn: setIn,
+  hasIn: hasIn,
+  isPropertyKey: isPropertyKey,
+  toPropertyKey: toPropertyKey,
+  toObject: toObject,
+  isSameValueZero: isSameValueZero,
+  createMethodProperty: createMethodProperty,
+  type: type
 };
 
 if (typeof window !== "undefined") {

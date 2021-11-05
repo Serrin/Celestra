@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.2.1</p>
-<p>Date: 2021-10-22T19:10:04.903Z</p>
+<p>Latest version: 5.3.0</p>
+<p>Date: 2021-11-04T19:46:03.158Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -89,17 +89,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>57959 byte</td>
+    </td><td>59020 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>36552 byte</td>
+    <td>37155 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>36403 byte</td>
+    <td>37006 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -190,6 +190,12 @@ window.CEL = defaultExport;
 
 <ul>
   <li>The underscore <code>_</code> short object name has been changed to <code>CEL</code> to avoid the compatibility issues.<br/>If need to use the old short name, then with this code will be available again: <code>window._ = window.celestra;</code>.</li>
+</ul>
+
+<h3>Celestra v5.3.0 (Voyager) changes</h3>
+
+<ul>
+  <li>Added a new code sections: <b>Abstract functions</b> and new functions.</li>
 </ul>
 
 
@@ -368,18 +374,6 @@ CEL.delay(5000)
     <tr>
       <td><code>forIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
       <td>The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.</td>
-    </tr>
-    <tr>
-      <td><code>getIn(&#60;object&#62;,&#60;property&#62;);</code></td>
-      <td>This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.</td>
-    </tr>
-    <tr>
-      <td><code>setIn(&#60;object&#62;,&#60;property&#62;,&#60;value&#62);</code></td>
-      <td>This function set the property value of the given object.The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type.</td>
-    </tr>
-    <tr>
-      <td><code>hasIn(&#60;object&#62;,&#60;property&#62;);</code></td>
-      <td>This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>filterIn(&#60;object&#62;,&#60;callback&#62;);</code></td>
@@ -1273,6 +1267,61 @@ console.log(o2);
     <tr>
       <td><code>dropRightWhile(&#60;collection&#62;,&#60;callback&#62;);</code></td>
       <td>Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
+    </tr>
+  </table>
+</div>
+
+
+<h3>Abstract functions</h3>
+
+<p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
+<br/>Example: <code>CEL.getIn();</code></p>
+
+<div>
+  <table class="table-responsive table-striped">
+    <tr>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>getIn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td>This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.</td>
+    </tr>
+    <tr>
+      <td><code>setIn(&#60;object&#62;,&#60;property&#62;,&#60;value&#62);</code></td>
+      <td>This function set the property value of the given object.The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type.</td>
+    </tr>
+    <tr>
+      <td><code>hasIn(&#60;object&#62;,&#60;property&#62;);</code></td>
+      <td>This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>isPropertyKey(&#60;value&#62;);</code></td>
+      <td>This function determines whether the provided value is a valid propertx key (string or symbol). The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>toPropertyKey(&#60;value&#62;);</code></td>
+      <td>This function convert the given value to a valid property key. If the value is not symbol, then will be converted to string, else the symbol will be returned.</td>
+    </tr>
+    <tr>
+      <td><code>toObject(&#60;value&#62;);</code></td>
+      <td>If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a <code>TypeError()</code> will be throwned.</td>
+    </tr>
+    <tr>
+      <td><code>isSameValueZero(&#60;value1&#62;,&#60;value2&#62;);</code></td>
+      <td>
+        <p>This function uses the SameValueZero algorithm and determines whether the provided values are the same values and <code>-0</code> and <code>+0</code> values will be equal. The return value is boolean.</p>
+        <p><span class="info">TIP: The <code>Object.is();</code> uses the SameValue algorithm.</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>createMethodProperty(&#60;object&#62;,&#60;property&#62;,&#60;value&#62;);</code></td>
+      <td>This function is useful for create a polyfill, because creates a writable, configurable, non-enumerable property with the given value in the object. The return value is the modified object.<br/>Example:<br/><pre>if (!("at" in Array.prototype)) { 
+  CEL.createMethodProperty(Array.prototype, "at ", function(...){...}); 
+}</pre></td>
+    <tr>
+      <td><code>type(&#60;value&#62;);</code></td>
+      <td>This function returns the typeof operator result of the given value, except the null object (<code>"null"</code> instead of <code>"object"</code>).</td>
     </tr>
   </table>
 </div>

@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.2.1 testcases */
+/* Celestra v5.3.0 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -233,7 +233,7 @@ CUT.isTrue("v3.8.1 aliases removed in v4.0.0",
 // randomID begin
 
 var rIDstr = CEL.randomID(false);
-CUT.isTrue("randomID(false); without date without date default", 
+CUT.isTrue("randomID(false); without date without date default",
   rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr)
 );
 CUT.log("<code>\"" + rIDstr + "\"</code>");
@@ -261,7 +261,7 @@ CUT.isTrue("randomID(true); with hyphens without date default",
 CUT.log("<code>\"" + rIDstr + "\"</code>");
 
 var rIDstr = CEL.randomID(false, true);
-CUT.isTrue("randomID(false); with date with date", 
+CUT.isTrue("randomID(false); with date with date",
   rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr)
 );
 CUT.log("<code>\"" + rIDstr + "\"</code>");
@@ -572,15 +572,6 @@ var forInStr = "";
 CEL.forIn(FPObject, (e) => forInStr += (e*2) );
 CUT.isEqual("forIn();", "468", forInStr);
 CUT.isEqual("forIn(); return value",FPObject,CEL.forIn(FPObject,function(){}));
-
-var getSetHasObj = {};
-CUT.isTrue("getIn(); + setIn(); + hasIn();",
-  !CEL.hasIn(getSetHasObj, "pr1")
-    && CEL.getIn(getSetHasObj, "pr1") === undefined
-    && CEL.setIn(getSetHasObj, "pr1", 42) === getSetHasObj
-    && CEL.hasIn(getSetHasObj, "pr1")
-    && CEL.getIn(getSetHasObj, "pr1") === 42 
-);
 
 CUT.isEqual("filterIn();",
   "{\"b\":2,\"c\":3}",
@@ -1835,7 +1826,8 @@ CUT.isFalse("isEmptyObject(); 2 false ", CEL.isEmptyObject({a:1}));
 CUT.isFalse("isEmptyObject(); 3 false number", CEL.isEmptyObject(98));
 CUT.isFalse("isEmptyObject(); 4 false null", CEL.isEmptyObject(null));
 CUT.isFalse("isEmptyObject(); 5 false undefined", CEL.isEmptyObject(undefined));
-CUT.isTrue("isFunction(); true", CEL.isFunction(CEL.noop));
+CUT.isTrue("isFunction(); true 1", CEL.isFunction(CEL.noop));
+CUT.isTrue("isFunction(); true 2", CEL.isFunction(new Function()));
 CUT.isFalse("isFunction(); false", CEL.isFunction(document.querySelector("p")));
 CUT.isTrue("isEmptyArray(); true", CEL.isEmptyArray([]));
 CUT.isFalse("isEmptyArray(); false 1", CEL.isEmptyArray([1,2,3]));
@@ -2034,6 +2026,75 @@ CUT.isFalse("isSameIterator(); false 1",
   CEL.isSameIterator([4,8,6,2,1], [4,8,6,2,5]));
 CUT.isFalse("isSameIterator(); false 2",
   CEL.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2,5]));
+
+
+/* AJAX, domReady(); and other callbacks */
+
+CUT.addElement("hr");
+CUT.addElement("h3", "Abstract functions");
+
+var getSetHasObj = {};
+CUT.isTrue("getIn(); + setIn(); + hasIn();",
+  !CEL.hasIn(getSetHasObj, "pr1")
+    && CEL.getIn(getSetHasObj, "pr1") === undefined
+    && CEL.setIn(getSetHasObj, "pr1", 42) === getSetHasObj
+    && CEL.hasIn(getSetHasObj, "pr1")
+    && CEL.getIn(getSetHasObj, "pr1") === 42
+);
+
+CUT.isTrue("isPropertyKey();",
+  CEL.isPropertyKey("str")
+  && CEL.isPropertyKey(Symbol("42"))
+  && !CEL.isPropertyKey(42)
+);
+
+CUT.isTrue("toPropertyKey();",
+  typeof CEL.toPropertyKey("str") === "string"
+  && typeof CEL.toPropertyKey(Symbol("42")) === "symbol"
+  && typeof CEL.toPropertyKey(42) === "string"
+);
+
+CUT.isTrue("toObject();", typeof CEL.toObject("str") === "object");
+
+var isSameValueZerofoo = { "a": 1 }, isSameValueZerobar = { "a": 1 };
+var isSameValueZeroStr = ""
+  + +CEL.isSameValueZero(25,25)
+  + +CEL.isSameValueZero("foo","foo")
+  + +CEL.isSameValueZero("foo","bar")
+  + +CEL.isSameValueZero(null,null)
+  + +CEL.isSameValueZero(undefined,undefined)
+  + +CEL.isSameValueZero(window,window)
+  + +CEL.isSameValueZero([],[])
+  + +CEL.isSameValueZero(isSameValueZerofoo,isSameValueZerofoo)
+  + +CEL.isSameValueZero(isSameValueZerofoo,isSameValueZerobar)
+  + +CEL.isSameValueZero(0,-0)
+  + +CEL.isSameValueZero(+0,-0)
+  + +CEL.isSameValueZero(-0,-0)
+  + +CEL.isSameValueZero(0n,-0n)
+  + +CEL.isSameValueZero(NaN,0/0)
+  + +CEL.isSameValueZero(NaN,Number.NaN);
+CUT.isEqual("isSameValueZero();", isSameValueZeroStr, "110111010111111");
+
+function createMethodPropertyFN () {};
+var createMethodPropertySTR = "" + ("getX" in createMethodPropertyFN.prototype);
+createMethodPropertySTR += CEL.createMethodProperty(
+  createMethodPropertyFN.prototype, "getX", function () { return this.x; }
+);
+createMethodPropertySTR += ("getX" in createMethodPropertyFN.prototype);
+CUT.isEqual("createMethodProperty();",
+  createMethodPropertySTR, "false[object Object]true"
+);
+
+CUT.isEqual("type();",
+ "nullundefinedobjectfunctionnumberstring",
+ CEL.type(null)
+   + CEL.type(undefined)
+   + CEL.type([])
+   + CEL.type(CEL.noop)
+   + CEL.type(42)
+   + CEL.type("42")
+);
+
 
 /* AJAX, domReady(); and other callbacks */
 

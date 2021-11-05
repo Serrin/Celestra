@@ -223,9 +223,6 @@ if (!Array.of) {
   Array.of = function () { return Array.prototype.slice.call(arguments); };
 }
 
-if(!Array.from){Array.from=function(o,fn){if(o==null){throw new TypeError("Array.from requires an array-like object - not null or undefined");}var a = Array.prototype.slice.call(o);if(fn){if(typeof fn!=="function"){throw new TypeError("Array.from: when provided, the second argument must be a function");}return a.map(fn);}return a;};}
-if(!Array.of){Array.of=function(){return Array.prototype.slice.call(arguments);};}
-
 if (!Array.prototype.find) {
   Array.prototype.find = function (fn) {
     for (var i = 0, l = this.length; i < l; i++) {
@@ -277,9 +274,7 @@ if (!Array.prototype.copyWithin) {
     var count = Math.min(final - fr, len - to);
     var direction = 1;
     if (fr < to && to < (fr + count)) {
-      direction = -1;
-      fr += count - 1;
-      to += count - 1;
+      direction = -1; fr += count - 1; to += count - 1;
     }
     while (count > 0) {
       if (fr in O) { O[to] = O[fr]; } else { delete O[to]; }
@@ -318,9 +313,7 @@ if (!Number.isInteger) {
 }
 
 if (!Number.isFinite) {
-  Number.isFinite = function (v) {
-    return typeof v === "number" && isFinite(v);
-  };
+  Number.isFinite = function (v) { return typeof v==="number" && isFinite(v); };
 }
 
 if (!Number.isSafeInteger) {
@@ -376,10 +369,7 @@ Math.hypot = Math.hypot || function (x, y) {
   var s = 0;
   for (var i = 0; i < arguments.length; i += 1) {
     var arg = Math.abs(Number(arguments[i]));
-    if (arg > max) {
-      s *= (max / arg) * (max / arg);
-      max = arg;
-    }
+    if (arg > max) { s *= (max / arg) * (max / arg); max = arg; }
     s += arg === 0 && max === 0 ? 0 : (arg / max) * (arg / max);
   }
   return max === 1 / 0 ? 1 / 0 : max * Math.sqrt(s);
@@ -397,14 +387,9 @@ Math.log10 = Math.log10 || function (x) { return Math.log(x) * Math.LOG10E; };
 
 Math.log2 = Math.log2 || function (x) { return Math.log(x) * Math.LOG2E; };
 
-if (!Math.sign) {
-  Math.sign = function (x) { return ((x > 0) - (x < 0)) || +x; };
-}
+if (!Math.sign) { Math.sign = function (x) { return ((x>0) - (x<0)) || +x; }; }
 
-Math.sinh = Math.sinh || function (x) {
-  var y = Math.exp(x);
-  return (y - 1 / y) / 2;
-}
+Math.sinh = Math.sinh || function (x) { var y = Math.exp(x); return (y-1/y)/2; }
 
 Math.tanh = Math.tanh || function (x) {
   var a = Math.exp(+x), b = Math.exp(-x);
@@ -427,15 +412,11 @@ if (Array.prototype.keys
 }
 
 if (!Array.prototype.includes) {
-  Array.prototype.includes = function (v, f) { 
-    return (this.indexOf(v, f) > -1);
-  };
+  Array.prototype.includes = function (v, f) { return (this.indexOf(v,f)>-1); };
 }
 
 if (!String.prototype.includes) {
-  String.prototype.includes = function (v, f) {
-    return (this.indexOf(v, f) > -1);
-  };
+  String.prototype.includes = function (v,f) { return (this.indexOf(v,f)>-1); };
 }
 
 if (!String.prototype.repeat) {

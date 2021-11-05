@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.2.1
+Latest version: 5.3.0
 
-Date: 2021-10-22T19:10:04.903Z
+Date: 2021-11-04T19:46:03.158Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.js__|57959 byte
-minified|__celestra.min.js__|36552 byte
-ES6 module|__celestra.esm.js__|36403 byte
+developer|__celestra.js__|59020 byte
+minified|__celestra.min.js__|37155 byte
+ES6 module|__celestra.esm.js__|37006 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 
 DEV and MIN editions: If the `CEL` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
@@ -108,6 +108,11 @@ window.CEL = defaultExport;
 - The underscore `_` short object name has been changed to `CEL` to avoid the compatibility issues.<br>If need to use the old short name, then with this code will be available again: `window._ = window.celestra;`.
 
 
+### Celestra v5.3.0 (Voyager) changes
+
+- Added a new code sections: __Abstract functions__ and new functions.
+
+
 -----
 
 ## Functions
@@ -151,9 +156,6 @@ Name | Description
 `strAt(<string>,<index>);` | Returns the unicode character, which has to be on the given index in the string. The index can be negative value (`-1 -> last`). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.
 `sizeIn(<object>);` | Returns the count of the owned properties of the given object. The object parameter is mandatory.
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
-`getIn(<object>,<property>);` | This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.
-`setIn(<object>,<property>,<value>);` | This function set the property value of the given object. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type.
-`hasIn(<object>,<property>);` | This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.
 `filterIn(<object>,<callback>);` | The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.<br>__Example:__<br>`var o1 = {"a": 1, "b": 2, "c": 3};`<br>`console.log(o1);`<br>`// Object { a: 1, b: 2, c: 3 }`<br>`var o2 = CEL.filterIn(o1, (v, p, o) => (v > 1));`<br>`console.log(o2);`<br>`// Object { b: 2, c: 3 }`
 `popIn(<object>,<property>);` | The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.
 `toFunction(<function>);` | Returns a "detach" function from an object method. The first parameter of the returned function will be the context object.
@@ -389,6 +391,25 @@ Name | Description
 `dropWhile(<collection>,<callback>);` | Drop the elements of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `dropRight(<collection>[,n=1]);` | Drop the last N elements of a collection and return the remained elements in an array. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1.
 `dropRightWhile(<collection>,<callback>);` | Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
+
+
+### Abstract functions
+
+These functions are available in the `celestra` and/or `CEL` objects.
+
+Example: `CEL.getIn();`
+
+Name | Description
+---- | -----------
+`getIn(<object>,<property>);` | This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.
+`setIn(<object>,<property>,<value>);` | This function set the property value of the given object. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type.
+`hasIn(<object>,<property>);` | This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.
+`isPropertyKey(<value>);`|This function determines whether the provided value is a valid propertx key (string or symbol). The return value is boolean.
+`toPropertyKey(<value>);`|This function convert the given value to a valid property key. If the value is not symbol, then will be converted to string, else the symbol will be returned.
+`toObject(<value>);`| If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a `TypeError()` will be throwned.
+`isSameValueZero(<value1>,<value2>);`|This function uses the SameValueZero algorithm and determines whether the provided values are the same values and `-0` and `+0` values will be equal. The return value is boolean.<br>__TIP: The `Object.is();` uses the SameValue algorithm.__
+`createMethodProperty(<object>,<property>,<value>);`|This function is useful for create a polyfill, because creates a writable, configurable, non-enumerable property with the given value in the object. The return value is the modified object.<br>__Example:__<br> `if (!("at" in Array.prototype)) { CEL.createMethodProperty(Array.prototype, "at ", function(...){...}); }`
+`type(<value>);`|This function returns the typeof operator result of the given value, except the null object (`"null"` instead of `"object"`).
 
 
 ### Polyfills

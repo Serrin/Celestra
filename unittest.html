@@ -112,8 +112,12 @@
 
 <table class="table-responsive">
   <tr>
-    <td><button onclick=" CEL.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console))	.finally(() => alert('done')); ">delay();</button></td>
+    <td><button onclick=" CEL.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console)) .finally(() => alert('done')); ">delay();</button></td>
     <td>2x alert (5s + finally)</td>
+  </tr>
+  <tr>
+    <td><button onclick=" try { CEL.toObject(null); } catch(e) { alert(e); } try { CEL.toObject(undefined); } catch(e) { alert(e); }">toObject(); null and undefined</button></td>
+    <td>2x alert "TypeError"</td>
   </tr>
   <tr>
     <td><button onclick=" try { CEL.getType(42,'string', true); } catch (e) { alert(e); } ">getType(); throw</button></td>
