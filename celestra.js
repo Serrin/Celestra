@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.3.0 dev
+ * @version 5.3.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -8,6 +8,14 @@
 "use strict";
 
 /** polyfills **/
+
+if (("crypto" in window) && !("randomUUID" in window.crypto)) {
+  window.crypto.randomUUID = function randomUUID () {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
+      (c)=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)
+    );
+  };
+}
 
 /* Array.prototype.at(); */
 if (!("at" in Array.prototype)) {
@@ -281,17 +289,21 @@ if (!!window.BigInt && !("toJSON" in BigInt.prototype)) {
 
 /* randomID([hyphens = true][,usedate = false]) : string */
 function randomID (hyphens = true, useDate = false) {
-  var r = useDate ? (new Date()).getTime().toString(16) : "";
-  for (var i=0; i<3; i++) { r += Math.random().toString(16).slice(2); }
-  r = [...r.slice(0, 32)];
-  r["12"] = "4";
-  r["16"] = (Math.random() * 16 | 0 & 0x3 | 0x8).toString(16);
-  r = r.join("");
-  return !hyphens ? r : r.slice(0, 8)
-    + "-" + r.slice(8, 12)
-    + "-" + r.slice(12, 16)
-    + "-" + r.slice(16, 20)
-    + "-" + r.slice(20);
+  let r = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
+    (c)=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)
+  );
+  if (!useDate) { return hyphens ? r : r.replaceAll("-", ""); }
+  if (useDate) {
+    let rA = [...r.replaceAll("-","")], d = (new Date()).getTime().toString(16);
+    for (let i = 0; i < d.length; i++) { rA[i] = d[i]; }
+    rA[12] = "4";
+    r = rA.join("");
+    return !hyphens ? r : r.slice(0, 8)
+      + "-" + r.slice(8, 12)
+      + "-" + r.slice(12, 16)
+      + "-" + r.slice(16, 20)
+      + "-" + r.slice(20);
+  }
 }
 
 /* signbit(<value: any>): boolean */
@@ -415,10 +427,10 @@ function extend (...args) {
 
 /* strPropercase(<string>): string */
 const strPropercase = (s) => String(s).split(" ").map(function (v) {
-    var a = Array.from(v).map( (c) => c.toLowerCase() );
-    if (a.length > 0) { a[0] = a[0].toUpperCase(); }
-    return a.join("");
-  }).join(" ");
+  var a = Array.from(v).map( (c) => c.toLowerCase() );
+  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
+  return a.join("");
+}).join(" ");
 
 /* strCapitalize(<string>): string */
 function strCapitalize (s) {
@@ -664,7 +676,10 @@ const domSiblingsPrev = (el) => Array.prototype.slice.call(
   Array.prototype.indexOf.call(el.parentNode.children, el)
 );
 /* domSiblingsLeft(<element>): array */
-const domSiblingsLeft = domSiblingsPrev;
+const domSiblingsLeft = (el) => Array.prototype.slice.call(
+  el.parentNode.children, 0,
+  Array.prototype.indexOf.call(el.parentNode.children, el)
+);
 
 /* domSiblingsNext(<element>): array */
 const domSiblingsNext = (el) => Array.prototype.slice.call(
@@ -673,7 +688,11 @@ const domSiblingsNext = (el) => Array.prototype.slice.call(
   el.parentNode.children.length
 );
 /* domSiblingsRight(<element>): array */
-const domSiblingsRight = domSiblingsNext;
+const domSiblingsRight = (el) => Array.prototype.slice.call(
+  el.parentNode.children,
+  Array.prototype.indexOf.call(el.parentNode.children, el) + 1,
+  el.parentNode.children.length
+);
 
 /* importScript(<script1: string>[,scriptN: string]): undefined */
 function importScript (...a) {
@@ -941,6 +960,10 @@ function ajax (o) {
 
 /** type checking **/
 
+/* isConstructorFn(<value: any>): boolean */
+const isConstructorFn = (v) =>
+  (typeof v === "function" && typeof v.prototype === "object");
+
 /* isPlainObject(<value: any>): boolean */
 const isPlainObject = (v) => (v != null && typeof v === "object" &&
   (Object.getPrototypeOf(v) === Object.prototype
@@ -1037,7 +1060,7 @@ const isNumeric = (v) => ( (typeof v === "number" && v === v)
 const isBoolean = (v) => (typeof v === "boolean");
 
 /* isObject(<value: any>): boolean */
-const isObject = (v) => (typeof v === "object" && v !== null);
+const isObject = (v) => (v != null && typeof v === "object");
 
 /* isEmptyObject(<value: any>): boolean */
 const isEmptyObject = (v) =>
@@ -1063,7 +1086,7 @@ const isUndefined = (v) => (v === undefined);
 /* isNullOrUndefined(<value: any>): boolean */
 const isNullOrUndefined = (v) => (v == null);
 /* isNil(<value: any>): boolean */
-const isNil = isNullOrUndefined;
+const isNil = (v) => (v == null);
 
 /* isPrimitive(<value: any>): boolean */
 const isPrimitive = (v) =>
@@ -1492,7 +1515,7 @@ function* tail (it) {
 /* item(<collection>,<index: integer>): any */
 function item (it,p) {let i=0; for(let item of it) {if(i++===p) {return item;}}}
 /* nth(<collection>,<index: integer>): any */
-const nth = item;
+function nth (it,p) {let i=0; for(let item of it) { if(i++===p) {return item;}}}
 
 /* size(<collection>): integer */
 function size (it) { let i = 0; for (let item of it) { i++; } return i; }
@@ -1500,7 +1523,7 @@ function size (it) { let i = 0; for (let item of it) { i++; } return i; }
 /* first(<collection>): any */
 function first (it) { for (let item of it) { return item; } }
 /* head(<collection>): any */
-const head = first;
+function head (it) { for (let item of it) { return item; } }
 
 /* last(<collection>): any */
 function last (it) { let item; for (item of it) { } return item; }
@@ -1515,7 +1538,7 @@ const sort = ([...a], ns) => a.sort(ns
 /* includes(<collection>,<value: any>): boolean */
 const includes = ([...a], v) => (a.indexOf(v) > -1);
 /* contains(<collection>,<value: any>): boolean */
-const contains = includes;
+const contains = ([...a], v) => (a.indexOf(v) > -1);
 
 /* find(<collection>,<callback: function>): any */
 const find = ([...a], fn) => a.find((v, i) => fn(v, i));
@@ -1577,7 +1600,10 @@ function* enumerate (it, offset = 0) {
   for (let item of it) { yield [i++, item]; }
 }
 /* entries(<collection>[,offset=0]): iterator */
-const entries = enumerate;
+function* entries (it, offset = 0) {
+  let i = offset;
+  for (let item of it) { yield [i++, item]; }
+}
 
 /* flat(<collection>): iterator */
 function* flat (it) { for (let item of it) { yield* item; } }
@@ -1618,9 +1644,19 @@ const createMethodProperty = (o, p, v) => Object.defineProperty(o, p,
 /* type(<value>): string */
 const type = (v) => ((v === null) ? "null" : (typeof v));
 
+/* isIndex(<value: any>): boolean */
+const isIndex = (v) => (Number.isSafeInteger(v) && v >= 0 && 1/v !== 1/-0);
+
+/* toIndex(<value: any>): unsigned integer */
+const toIndex = (v) => ((Number.isSafeInteger(v=+v) && v>=0) ? Math.abs(v) : 0);
+
+/* toInteger(<value: any>): integer */
+const toInteger = (v) =>
+  (Number.isInteger(v = Math.trunc(+v)) ? (1/v === 1/-0 ? 0 : v) : 0);
+
 /** object header **/
 
-const VERSION = "Celestra v5.3.0 dev";
+const VERSION = "Celestra v5.3.1 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {
@@ -1712,6 +1748,7 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /** type checking **/
+  isConstructorFn: isConstructorFn,
   isPlainObject: isPlainObject,
   isEmptyMap: isEmptyMap,
   isEmptySet: isEmptySet,
@@ -1838,7 +1875,10 @@ var celestra = {
   toObject: toObject,
   isSameValueZero: isSameValueZero,
   createMethodProperty: createMethodProperty,
-  type: type
+  type: type,
+  isIndex: isIndex,
+  toIndex: toIndex,
+  toInteger: toInteger
 };
 
 if (typeof window !== "undefined") {

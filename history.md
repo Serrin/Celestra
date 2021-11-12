@@ -1,5 +1,34 @@
 
 
+## Celestra v5.3.1
+
+1. Documentation and pdf fixes.
+
+2. Add a new file: __history.md__
+
+3. Add a new polyfill: `crypto.randomUUID();`
+
+4. Add these functions:
+- `isIndex(<value>);`
+- `toIndex(<value>);`
+- `toInteger(<value>);`
+- `isConstructorFn(<value>);`
+
+5. Function fixes
+
+Function|Fix
+-------|---
+`contains(<collection>,<value>);`|Replace the alias code with the original function.
+`domSiblingsLeft(<element>);`|Replace the alias code with the original function.
+`domSiblingsRight(<element>);`|Replace the alias code with the original function.
+`entries(<collection>[,offset=0]);`|Replace the alias code with the original function.
+`head(<collection>);`|Replace the alias code with the original function.
+`isNil(<value>);`|Replace the alias code with the original function.
+`isObject(<value>);`|Small fixes.
+`nth(<collection>,<index>);`|Replace the alias code with the original function.
+`randomID([hyphens=true][,usedate=false]);`|Use the `crypto.getRandomValues();`.
+
+
 ## Celestra v5.3.0 Voyager
 
 1. Documentation and pdf fixes.

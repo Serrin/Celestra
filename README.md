@@ -15,18 +15,19 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.3.0
+Latest version: 5.3.1
 
-Date: 2021-11-04T19:46:03.158Z
+Date: 2021-11-11T11:11:11.111Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.js__|59020 byte
-minified|__celestra.min.js__|37155 byte
-ES6 module|__celestra.esm.js__|37006 byte
+developer|__celestra.js__|60557 byte
+minified|__celestra.min.js__|38295 byte
+ES6 module|__celestra.esm.js__|38147 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
+Version history|__history.md__|
 
 DEV and MIN editions: If the `CEL` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
 
@@ -251,6 +252,7 @@ Example: `CEL.isString();`
 
 Name | Description
 ---- | -----------
+`isConstructorFn(<value>);` | This function determines whether the provided value is a constructable function. The return value is boolean.
 `isPlainObject(<value>);` | This function determines whether the provided value is an object, which own prototype is the Object.prototype or null. The return value is boolean.
 `isDataView(<value>);` | This function determines whether the provided value is an DataView object. The return value is boolean.
 `isError(<value>);` | This function determines whether the provided value is an error. The return value is boolean.
@@ -410,12 +412,16 @@ Name | Description
 `isSameValueZero(<value1>,<value2>);`|This function uses the SameValueZero algorithm and determines whether the provided values are the same values and `-0` and `+0` values will be equal. The return value is boolean.<br>__TIP: The `Object.is();` uses the SameValue algorithm.__
 `createMethodProperty(<object>,<property>,<value>);`|This function is useful for create a polyfill, because creates a writable, configurable, non-enumerable property with the given value in the object. The return value is the modified object.<br>__Example:__<br> `if (!("at" in Array.prototype)) { CEL.createMethodProperty(Array.prototype, "at ", function(...){...}); }`
 `type(<value>);`|This function returns the typeof operator result of the given value, except the null object (`"null"` instead of `"object"`).
+`isIndex(<value>);`|This function determines whether the provided value is a valid arraylike index number. The return value is boolean.
+`toIndex(<value>);`|This function converts the provided value to a valid arraylike index number. The return value is an unsigned integer (number).
+`toInteger(<value>);`|This function always converts the provided value to an integer. If the value cannot be converted to an integer, then the return value is 0.
 
 
 ### Polyfills
 
 Name | Description
 ---- | -----------
+`crypto.randomUUID();` | The randomUUID() method of the Crypto interface is used to generate a v4 UUID using a cryptographically secure random number generator. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID)!
 `Array.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
 `Array.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
 `TypedArray.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!

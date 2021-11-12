@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.3.0 testcases */
+/* Celestra v5.3.1 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -240,9 +240,11 @@ CUT.log("<code>\"" + rIDstr + "\"</code>");
 
 var rIDstr = CEL.randomID();
 CUT.isTrue("randomID(); with hyphens without date default",
-  rIDstr.length === 36 &&
-  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-    .test(rIDstr)
+  rIDstr.length === 36
+    && /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
+      .test(rIDstr)
+    && rIDstr[14] === "4"
+    && "89ab".includes(rIDstr[19])
 );
 CUT.log("<code>\"" + rIDstr + "\"</code>");
 
@@ -253,10 +255,12 @@ CUT.isTrue("randomID(); without hyphens with date",
 CUT.log("<code>\"" + rIDstr + "\"</code>");
 
 var rIDstr = CEL.randomID(true);
-CUT.isTrue("randomID(true); with hyphens without date default",
-  rIDstr.length === 36 &&
-  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-    .test(rIDstr)
+CUT.isTrue("randomID(true); with hyphens without date",
+  rIDstr.length === 36
+    && /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
+      .test(rIDstr)
+    && rIDstr[14] === "4"
+    && "89ab".includes(rIDstr[19])
 );
 CUT.log("<code>\"" + rIDstr + "\"</code>");
 
@@ -748,13 +752,21 @@ CUT.isTrue("domSiblingsPrev();", (
   Array.isArray(dsArray) && dsArray.length === 2
     && dsArray[0].innerHTML === "#dsDivP1" && dsArray[1].innerHTML==="#dsDivP2"
 ));
-CUT.isEqual("domSiblingsLeft();", CEL.domSiblingsLeft, CEL.domSiblingsPrev);
+var dsArray = CEL.domSiblingsLeft(CEL.qs("#dsDivP3"));
+CUT.isTrue("domSiblingsLeft();", (
+  Array.isArray(dsArray) && dsArray.length === 2
+    && dsArray[0].innerHTML === "#dsDivP1" && dsArray[1].innerHTML==="#dsDivP2"
+));
 var dsArray = CEL.domSiblingsNext(CEL.qs("#dsDivP3"));
 CUT.isTrue("domSiblingsNext();", (
   Array.isArray(dsArray) && dsArray.length === 2
     && dsArray[0].innerHTML === "#dsDivP4" && dsArray[1].innerHTML==="#dsDivP5"
 ));
-CUT.isEqual("domSiblingsRight();", CEL.domSiblingsRight, CEL.domSiblingsNext);
+var dsArray = CEL.domSiblingsRight(CEL.qs("#dsDivP3"));
+CUT.isTrue("domSiblingsRight();", (
+  Array.isArray(dsArray) && dsArray.length === 2
+    && dsArray[0].innerHTML === "#dsDivP4" && dsArray[1].innerHTML==="#dsDivP5"
+));
 CEL.qs("#dsDiv").remove();
 
 
@@ -952,7 +964,7 @@ CUT.isEqual("item(); string unicode",
     + CEL.item("foo \uD834\uDF06 bar", 12),
   "\uD834\uDF06" + "r" + "undefined"
 );
-let itemOfArray = [4,5,6,7,8];
+var itemOfArray = [4,5,6,7,8];
 CUT.isEqual("item(); array",
   "" + CEL.item(itemOfArray, 3) + CEL.item(itemOfArray, 12), "7" + "undefined"
 );
@@ -966,7 +978,11 @@ CUT.isEqual("item(); set",
   "" + JSON.stringify(CEL.item(itemOfSet, 3)) + CEL.item(itemOfSet, 12),
   "6" + "undefined"
 );
-CUT.isEqual("nth();", CEL.nth, CEL.item);
+
+var itemOfArray = [4,5,6,7,8];
+CUT.isEqual("nth();",
+  "" + CEL.nth(itemOfArray, 3) + CEL.nth(itemOfArray, 12), "7" + "undefined"
+);
 
 let sizeLastArray = [4,5,6,7,8,"last"];
 CUT.isEqual("size();", 6, CEL.size(sizeLastArray));
@@ -1510,6 +1526,16 @@ CUT.isEqual("clearCookies(); <i>(settings object)</i>", "truetruefalsefalse",
 CUT.addElement("hr");
 CUT.addElement("h3", "polyfills");
 
+var rIDstr = crypto.randomUUID();
+CUT.isTrue("crypto.randomUUID();",
+  rIDstr.length === 36
+    && /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
+      .test(rIDstr)
+    && rIDstr[14] === "4"
+    && "89ab".includes(rIDstr[19])
+);
+CUT.log("<code>\"" + rIDstr + "\"</code>");
+
 var arrFindLast = [1,2,5,6,3,4,7,8];
 CUT.isTrue("Array.prototype.findLast();",
   arrFindLast.findLast( (v) => (v < 5) ) === 4
@@ -1753,6 +1779,12 @@ CUT.isEqual("AsyncFunction();", "asyncfunction", CEL.getType(afunction));
 
 CUT.addElement("hr");
 CUT.addElement("h3", "type checking");
+
+CUT.isTrue("isConstructorFn();",
+  CEL.isConstructorFn(Array)
+    && !CEL.isConstructorFn(Array.from)
+    && !CEL.isConstructorFn(0)
+);
 
 CUT.isTrue("isPlainObject();",
   !CEL.isPlainObject(null)
@@ -2072,8 +2104,15 @@ var isSameValueZeroStr = ""
   + +CEL.isSameValueZero(-0,-0)
   + +CEL.isSameValueZero(0n,-0n)
   + +CEL.isSameValueZero(NaN,0/0)
-  + +CEL.isSameValueZero(NaN,Number.NaN);
-CUT.isEqual("isSameValueZero();", isSameValueZeroStr, "110111010111111");
+  + +CEL.isSameValueZero(NaN,Number.NaN)
+  + +CEL.isSameValueZero(+Infinity,Infinity)
+  + +CEL.isSameValueZero(Infinity,Infinity)
+  + +CEL.isSameValueZero(-Infinity,-Infinity)
+  + +CEL.isSameValueZero(+Infinity,-Infinity);
+CUT.isEqual("isSameValueZero(); "+"<code>"+isSameValueZeroStr+"</code>",
+  isSameValueZeroStr,
+  "1101110101111111110"
+);
 
 function createMethodPropertyFN () {};
 var createMethodPropertySTR = "" + ("getX" in createMethodPropertyFN.prototype);
@@ -2093,6 +2132,81 @@ CUT.isEqual("type();",
    + CEL.type(CEL.noop)
    + CEL.type(42)
    + CEL.type("42")
+);
+
+CUT.isEqual("isIndex();", "1100000000000000000000", ""
+  + +CEL.isIndex(3)
+  + +CEL.isIndex(0)
+  + +CEL.isIndex("3")
+  + +CEL.isIndex(true)
+  + +CEL.isIndex(-0)
+  + +CEL.isIndex(Infinity)
+  + +CEL.isIndex(-Infinity)
+  + +CEL.isIndex("Infinity")
+  + +CEL.isIndex("-Infinity")
+  + +CEL.isIndex(-3)
+  + +CEL.isIndex(3.14)
+  + +CEL.isIndex(-3.14)
+  + +CEL.isIndex("fasdas")
+  + +CEL.isIndex(false)
+  + +CEL.isIndex("-3")
+  + +CEL.isIndex("3.14")
+  + +CEL.isIndex("-3.14")
+  + +CEL.isIndex("adsasd")
+  + +CEL.isIndex({})
+  + +CEL.isIndex([])
+  + +CEL.isIndex(undefined)
+  + +CEL.isIndex(null)
+);
+
+CUT.isEqual("toIndex();", "3031000000000000000000", ""
+  +CEL.toIndex(3)
+  +CEL.toIndex(0)
+  +CEL.toIndex("3")
+  +CEL.toIndex(true)
+  +CEL.toIndex(-0)
+  +CEL.toIndex(Infinity)
+  +CEL.toIndex(-Infinity)
+  +CEL.toIndex("Infinity")
+  +CEL.toIndex("-Infinity")
+  +CEL.toIndex(-3)
+  +CEL.toIndex(3.14)
+  +CEL.toIndex(-3.14)
+  +CEL.toIndex("fasdas")
+  +CEL.toIndex(false)
+  +CEL.toIndex("-3")
+  +CEL.toIndex("3.14")
+  +CEL.toIndex("-3.14")
+  +CEL.toIndex("adsasd")
+  +CEL.toIndex({})
+  +CEL.toIndex([])
+  +CEL.toIndex(undefined)
+  +CEL.toIndex(null)
+);
+
+CUT.isEqual("toInteger();", "3333-3-3-3-310000000000000", ""
+  +CEL.toInteger(3)
+  +CEL.toInteger("3")
+  +CEL.toInteger(3.14)
+  +CEL.toInteger("3.14")
+  +CEL.toInteger(-3)
+  +CEL.toInteger(-3.14)
+  +CEL.toInteger("-3")
+  +CEL.toInteger("-3.14")
+  +CEL.toInteger(true)
+  +CEL.toInteger(0)
+  +CEL.toInteger(-0)
+  +CEL.toInteger(Infinity)
+  +CEL.toInteger(-Infinity)
+  +CEL.toInteger("Infinity")
+  +CEL.toInteger("-Infinity")
+  +CEL.toInteger("fasdas")
+  +CEL.toInteger(false)
+  +CEL.toInteger("adsasd")
+  +CEL.toInteger({})
+  +CEL.toInteger([])
+  +CEL.toIndex(undefined)
+  +CEL.toIndex(null)
 );
 
 

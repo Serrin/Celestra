@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.3.0</p>
-<p>Date: 2021-11-04T19:46:03.158Z</p>
+<p>Latest version: 5.3.1</p>
+<p>Date: 2021-11-11T11:11:11.111Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -89,21 +89,26 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>59020 byte</td>
+    </td><td>60557 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>37155 byte</td>
+    <td>38295 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>37006 byte</td>
+    <td>38147 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
     <td><a href="unittest.html" target="_blank">unittest.html</a></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td class="center">Version history</td>
+    <td><a href="history.md" target="_blank">history.md</a></td>
     <td></td>
   </tr>
 </table>
@@ -668,6 +673,10 @@ console.log(o2);
     <tr>
       <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>isConstructorFn(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is a constructable function. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isPlainObject(&#60;value&#62;);</td>
@@ -1323,6 +1332,18 @@ console.log(o2);
       <td><code>type(&#60;value&#62;);</code></td>
       <td>This function returns the typeof operator result of the given value, except the null object (<code>"null"</code> instead of <code>"object"</code>).</td>
     </tr>
+    <tr>
+      <td><code>isIndex(&#60;value&#62;);</code></td>
+      <td>This function determines whether the provided value is a valid arraylike index number. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>toIndex(&#60;value&#62;);</code></td>
+      <td>This function converts the provided value to a valid arraylike index number. The return value is an unsigned integer (number).</td>
+    </tr>
+    <tr>
+      <td><code>toInteger(&#60;value&#62;);</code></td>
+      <td>This function always converts the provided value to an integer. If the value cannot be converted to an integer, then the return value is 0.</td>
+    </tr>
   </table>
 </div>
 
@@ -1334,6 +1355,12 @@ console.log(o2);
     <tr>
       <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>crypto.randomUUID();</code></td>
+      <td>
+        The randomUUID() method of the Crypto interface is used to generate a v4 UUID using a cryptographically secure random number generator. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID" target="_blank">MDN Article</a>!
+      </td>
     </tr>
     <tr>
       <td><code>Array.prototype.findLast();</code></td>
