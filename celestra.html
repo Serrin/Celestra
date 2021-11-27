@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.3.1</p>
-<p>Date: 2021-11-11T11:11:11.111Z</p>
+<p>Latest version: 5.3.2</p>
+<p>Date: 2021-11-25T19:36:03.574Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -89,17 +89,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>60557 byte</td>
+    </td><td>61612 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>38295 byte</td>
+    <td>38907 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>38147 byte</td>
+    <td>38758 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -142,6 +142,7 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 <h3>Cheatsheets</h3>
 
 <p>Celestra cheatsheet: <a href="celestra-cheatsheet.pdf" target="_blank">celestra-cheatsheet.pdf</a></p>
+<p>Celestra Math plugin cheatsheet: <a href="celestra-math.pdf" target="_blank">celestra-math.pdf</a></p>
 <p>JavaScript cheatsheet: <a href="js-cheatsheet.pdf" target="_blank">js-cheatsheet.pdf</a></p>
 
 
@@ -150,7 +151,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 <p>BTC standalone app: <a href="btc.app.html" target="_blank">btc.app.html</a></p>
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
 <p>Math plugin documentation: <a href="celestra-math.html" target="_blank">celestra-math.html</a></p>
-<p>Math plugin source: <a href="celestra-math.js" target="_blank">celestra-math.js</a></p>
+<p>Math plugin developer source: <a href="celestra-math.js" target="_blank">celestra-math.js</a></p>
+<p>Math plugin minified source: <a href="celestra-math.min.js" target="_blank">celestra-math.min.js</a></p>
 
 
 <h3>How to import the ESM edition</h3>
@@ -675,6 +677,10 @@ console.log(o2);
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>isAsyncGeneratorFn(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is an async generator function. The return value is boolean.</td>
+    </tr>
+    <tr>
       <td><code>isConstructorFn(&#60;value&#62;);</td>
       <td>This function determines whether the provided value is a constructable function. The return value is boolean.</td>
     </tr>
@@ -748,7 +754,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isObject(&#60;value&#62;);</code></td>
-      <td>This function determines whether the provided value is an object. The return value is boolean.</td>
+      <td>This function determines whether the provided value is an object and not null. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isFunction(&#60;value&#62;);</code></td>
@@ -961,6 +967,14 @@ console.log(o2);
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>arrayDeepClone(&#60;array&#62;);</code></td>
+      <td>This function deeply (recursively) clones an array. The return value is the cloned array.</td>
+    </tr>
+    <tr>
+      <td><code>arrayCreate([length=0]);</code></td>
+      <td>This function returns an array with the given length and can handle the -0 as length. The length parameter will be converted to number and if the new value is not an integer number or out of the array size range, then a rangeerror will be thrown.</td>
+    </tr>
+    <tr>
       <td><code>initial(&#60;collection&#62;);</code></td>
       <td>
         <p>Returns an array with the values of the given collection, but without the last value.</p>
@@ -1073,9 +1087,9 @@ console.log(o2);
       <td>Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.</td>
     </tr>
     <tr>
-      <td><code>arrayRange([start=0[,end=100[,step=1]]]);</code></td>
+      <td><code>arrayRange([start=0[,end=99[,step=1]]]);</code></td>
       <td>
-        Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.
+        Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 99, step = 1.
         <br/><b>Example:</b><br/><code>CEL.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));</code><br/>-><br/><code>code>Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]</code>
       </td>
     </tr>
@@ -1113,7 +1127,10 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>arrayMerge([flat=false,]&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
-      <td>Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</td>
+      <td>
+        <p><span class="deprecated">The <code>[flat=false,]</code> parameter has been deprecated in v5.3.2.</span></p>
+        <p></p>Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</p>
+      </td>
     </tr>
     <tr>
       <td><code>iterRange([start=0[,step=1[,end=Infinity]]]);</code></td>
@@ -1317,16 +1334,28 @@ console.log(o2);
       <td>If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a <code>TypeError()</code> will be throwned.</td>
     </tr>
     <tr>
-      <td><code>isSameValueZero(&#60;value1&#62;,&#60;value2&#62;);</code></td>
+      <td><code>isSameValue(&#60;value1&#62;,&#60;value2&#62;);</code></td>
       <td>
-        <p>This function uses the SameValueZero algorithm and determines whether the provided values are the same values and <code>-0</code> and <code>+0</code> values will be equal. The return value is boolean.</p>
+        <p>This function uses the SameValue algorithm and determines whether the provided values are the same values and <code>-0</code> and <code>+0</code> values will be not equal. The <code>NaN</code> values will be equal. The return value is boolean.</p>
         <p><span class="info">TIP: The <code>Object.is();</code> uses the SameValue algorithm.</span></p>
       </td>
     </tr>
     <tr>
+      <td><code>isSameValueZero(&#60;value1&#62;,&#60;value2&#62;);</code></td>
+      <td>This function uses the SameValueZero algorithm and determines whether the provided values are the same values and <code>-0</code> and <code>+0</code> values will be equal. The <code>NaN</code> values will be equal. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>isSameValueNonNumber(&#60;value1&#62;,&#60;value2&#62;);</code></td>
+      <td>This function uses the SameValueNonNumber algorithm and determines whether the provided values are the same values and <code>-0</code> and <code>+0</code> values will be equal. The <code>NaN</code> values will be not equal. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>createDataProperty(&#60;object&#62;,&#60;property&#62;,&#60;value&#62;);</code></td>
+      <td>This function creates a writable, configurable and enumerable property with the given value in the object. The return value is the modified object.</td>
+    <tr>
+    <tr>
       <td><code>createMethodProperty(&#60;object&#62;,&#60;property&#62;,&#60;value&#62;);</code></td>
-      <td>This function is useful for create a polyfill, because creates a writable, configurable, non-enumerable property with the given value in the object. The return value is the modified object.<br/>Example:<br/><pre>if (!("at" in Array.prototype)) { 
-  CEL.createMethodProperty(Array.prototype, "at ", function(...){...}); 
+      <td>This function creates a writable, configurable and non-enumerable property with the given value in the object. The return value is the modified object.<br/><b>Example:</b><br/><pre>if (!("at" in Array.prototype)) {
+  CEL.createMethodProperty(Array.prototype, "at ", function(...){...});
 }</pre></td>
     <tr>
       <td><code>type(&#60;value&#62;);</code></td>
@@ -1385,7 +1414,7 @@ console.log(o2);
       <td>
         The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the <a href="https://github.com/tc39/proposal-array-find-from-last" target="_blank">proposal Article</a>!
       </td>
-    </tr>  
+    </tr>
     <tr>
       <td><code>Array.prototype.at();</code></td>
       <td>

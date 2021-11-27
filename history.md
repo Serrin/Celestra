@@ -1,4 +1,50 @@
 
+## Celestra v5.3.2
+
+1. Documentation and pdf fixes.
+
+2. Deprecate the `[flat=false,]` parameter in the `arrayMerge([flat=false,]<target>,<source1>[,sourceN]);`
+
+3. Add these files:
+- __celestra-math.min.js__
+- __celestra-math.odt__
+- __celestra-math.pdf__ 
+
+4. Add these functions: 
+- `arrayCreate([length=0]);`
+- `arrayDeepClone(<array>);`
+- `createDataProperty(<object>,<property>,<value>);`
+- `isAsyncGeneratorFn(<value>);`
+- `isSameValue(<value1>,<value2>);`
+- `isSameValueNonNumber(<value1>,<value2>);`
+
+5. Add autotests in the __celestra-math.html__
+
+6. Add these functions in the __Math plugin__:
+- `toInt8(<value>);` and `isInt8(<value>);`
+- `toUInt8(<value>);` and `isUInt8(<value>);`
+- `toInt16(<value>);` and `isInt16(<value>);`
+- `toUInt16(<value>);` and `isUInt16(<value>);`
+- `toInt32(<value>);` and `isInt32(<value>);`
+- `toUInt32(<value>);` and `isUInt32(<value>);`
+- `toBigInt64(<value>);` and `isBigInt64(<value>);`
+- `toBigUInt64(<value>);` and `isBigUInt64(<value>);`
+- `toFloat32(<value>);` _(There is the `isFloat(<value>);` in the main code.)_
+
+7. Function fixes
+
+Function|Fix
+-------|---
+`arrayMerge([flat=false,]<target>,<source1>[,sourceN]);`|Only optimizations.
+`arrayRange([start=0[,end=99[,step=1]]]);`|Change end default value to 99 instead of 100.
+`createMethodProperty(<obj>,<pr>,<v>);`|Only optimizations.
+`extend([deep,]<target>,<source1>[,sourceN]);`|Only optimizations.
+`getIn(<o>,<pr>);`|Only optimizations.
+`hasIn(<obj>,<prop>);`|Only optimizations.
+`setIn(<object>,<property>,<value>);`|Only optimizations.
+`toIndex(<value>);`|Fix the handle of `Infinity`
+`toInteger(<value>);`|Fix the handle of `Infinity` and `-Infinity`
+
 
 ## Celestra v5.3.1
 

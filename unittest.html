@@ -138,6 +138,38 @@ alert(alertStr);</pre>
     </td>
   </tr>
   <tr>
+    <td><button onclick="var arrayCreateErrorStr = ''; try { CEL.arrayCreate(4.5); } catch (e) { arrayCreateErrorStr += 'arrayCreate(); error 4.5 - ' + e + '\n'; } try { CEL.arrayCreate(-4.5); } catch (e) { arrayCreateErrorStr += 'arrayCreate(); error -4.5 - ' + e + '\n'; } try { CEL.arrayCreate('-5'); } catch (e) { arrayCreateErrorStr += 'arrayCreate(); error \'-5\' - ' + e + '\n'; } try { CEL.arrayCreate('4.5'); } catch (e) { arrayCreateErrorStr += 'arrayCreate(); error \'4.5\' - ' + e + '\n'; } try { CEL.arrayCreate('-4.5'); } catch (e) { arrayCreateErrorStr += 'arrayCreate(); error \'-4.5\' - ' + e + '\n'; } try { CEL.arrayCreate(Infinity); } catch (e) { arrayCreateErrorStr += 'arrayCreate(); error Infinity - ' + e + '\n'; } try { CEL.arrayCreate(-Infinity); } catch (e) { arrayCreateErrorStr += 'arrayCreate(); error -Infinity - ' + e + '\n'; } try { CEL.arrayCreate(4294967296); } catch (e) { arrayCreateErrorStr += 'arrayCreate(); error 4294967296 - ' + e + '\n'; } alert(arrayCreateErrorStr);">arrayCreate(); errors</button></td>
+    <td>
+      <p>1x alert, 8x cases</p>
+      <pre>var arrayCreateErrorStr = '';
+try {
+  CEL.arrayCreate(4.5);
+} catch (e) { arrayCreateErrorStr += 'arrayCreate(); error 4.5 - ' + e + '\n'; }
+try {
+  CEL.arrayCreate(-4.5);
+} catch (e) { arrayCreateErrorStr += 'arrayCreate(); error -4.5 - ' + e + '\n'; }
+try {
+  CEL.arrayCreate('-5');
+} catch (e) { arrayCreateErrorStr += 'arrayCreate(); error \'-5\' - ' + e + '\n'; }
+try {
+  CEL.arrayCreate('4.5');
+} catch (e) { arrayCreateErrorStr += 'arrayCreate(); error \'4.5\' - ' + e + '\n'; }
+try {
+  CEL.arrayCreate('-4.5');
+} catch (e) { arrayCreateErrorStr += 'arrayCreate(); error \'-4.5\' - ' + e + '\n'; }
+try {
+  CEL.arrayCreate(Infinity);
+} catch (e) { arrayCreateErrorStr += 'arrayCreate(); error Infinity - ' + e + '\n'; }
+try {
+  CEL.arrayCreate(-Infinity);
+} catch (e) { arrayCreateErrorStr += 'arrayCreate(); error -Infinity - ' + e + '\n'; }
+try {
+  CEL.arrayCreate(4294967296);
+} catch (e) { arrayCreateErrorStr += 'arrayCreate(); error 4294967296 - ' + e + '\n'; }
+alert(arrayCreateErrorStr);</pre>
+    </td>
+  </tr>
+  <tr>
     <td><button onclick=" CEL.importStyle('u87-dark.css','u87-light.css'); ">importStyle 1</button></td>
     <td>Have to be light ('u87-dark.css' then 'u87-light.css').</td>
   </tr>

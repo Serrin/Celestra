@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.3.1 dev
+ * @version 5.3.2 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -398,23 +398,22 @@ function getType (v, t, th = false) {
 }
 
 /* extend([deep: boolean,]<target: object>,<source1: object>[,sourceN]):object*/
-function extend (...args) {
-  function innerExtend () {
-    var so = {};
-    if (typeof arguments[0] === "boolean") {
-      var t = arguments[1], d = arguments[0], s = 2;
+function extend (...a) {
+  function EXT (...as) {
+    if (typeof as[0] === "boolean") {
+      var t = as[1], d = as[0], s = 2;
     } else {
-      var t = arguments[0], d = false, s = 1;
+      var t = as[0], d = false, s = 1;
     }
-    for (var i = s, l = arguments.length; i < l; i++) {
-      so = arguments[i];
+    for (var i = s, l = as.length, so; i < l; i++) {
+      so = as[i];
       if (so != null) {
-        for (var a in so) {
-          if (Object.hasOwn(so, a)) {
-            if (typeof so[a] === "object" && d) {
-              t[a] = innerExtend(true, {}, so[a]);
+        for (var p in so) {
+          if (Object.hasOwn(so, p)) {
+            if (typeof so[p] === "object" && d) {
+              t[p] = EXT(true, {}, so[p]);
             } else {
-              t[a] = so[a];
+              t[p] = so[p];
             }
           }
         }
@@ -422,7 +421,7 @@ function extend (...args) {
     }
     return t;
   }
-  return innerExtend(...args);
+  return EXT(...a);
 }
 
 /* strPropercase(<string>): string */
@@ -960,6 +959,10 @@ function ajax (o) {
 
 /** type checking **/
 
+/* isAsyncGeneratorFn(<value: any>): boolean */
+const isAsyncGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
+  Object.getPrototypeOf(async function*() {}).constructor);
+
 /* isConstructorFn(<value: any>): boolean */
 const isConstructorFn = (v) =>
   (typeof v === "function" && typeof v.prototype === "object");
@@ -1075,7 +1078,7 @@ const isEmptyArray = (v) => (Array.isArray(v) && v.length === 0);
 /* isArraylike(<value: any>): boolean */
 const isArraylike = (v) =>
   ((typeof v === "object" || typeof v === "string") && v != null
-   && typeof v.length === "number" && v.length >= 0 && v.length % 1 === 0);
+    && typeof v.length === "number" && v.length >= 0 && v.length % 1 === 0);
 
 /* isNull(<value: any>): boolean */
 const isNull = (v) => (v === null);
@@ -1090,7 +1093,7 @@ const isNil = (v) => (v == null);
 
 /* isPrimitive(<value: any>): boolean */
 const isPrimitive = (v) =>
-  (v === null || typeof v !== "object" && typeof v !== "function");
+  ((typeof v !== "object" && typeof v !== "function") || v === null);
 
 /* isSymbol(<value: any>): boolean */
 const isSymbol = (v) => (typeof v === "symbol");
@@ -1257,6 +1260,15 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
 
 /** collections **/
 
+/* arrayDeepClone(<array>): array */
+function arrayDeepClone ([...a]) {
+  const ADC = (v) => (Array.isArray(v) ? Array.from(v, ADC) : v);
+  return ADC(a);
+}
+
+/* arrayCreate(<length: any>): array OR throw error */
+const arrayCreate = (length = 0) => Array( (1/+length === 1/-0) ? 0 : +length );
+
 /* initial(<collection>): array */
 const initial = ([...a]) => a.slice(0, -1);
 
@@ -1315,7 +1327,7 @@ const setSymmetricDifference = (a, b) => new Set(
 );
 
 /* isSuperset(<superCollection>,<subCollection>): boolean */
-const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
+const isSuperset = ([...sup], [...sub]) => sub.every( (v) => sup.includes(v) );
 
 /* max(<value1: any>[,valueN]): any */
 const min = (...a) => a.reduce((acc, v) => (v < acc ? v : acc), a[0]);
@@ -1329,8 +1341,8 @@ const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 /* arrayCycle(<collection>[,n=100]): array */
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
-/* arrayRange([start=0[,end=100[,step=1]]]): array */
-const arrayRange = (s = 0, e = 100, st = 1) =>
+/* arrayRange([start=0[,end=99[,step=1]]]): array */
+const arrayRange = (s = 0, e = 99, st = 1) =>
   Array.from({length: (e - s) / st + 1}, (v, i) => s + (i * st));
 
 /* zip(<collection1>[,collectionN]): array */
@@ -1401,8 +1413,7 @@ function arrayRemoveBy (a, fn, all = false) {
   return found;
 }
 
-/* arrayMerge([flat=false,]<target: array>,<source1: any>[,sourceN: any]):
-  array */
+/*arrayMerge([flat=false,]<target: array>,<source1: any>[,sourceN: any]):array*/
 function arrayMerge (flat, ...a) {
   if (typeof flat === "boolean") {
     var t = a[0];
@@ -1411,11 +1422,7 @@ function arrayMerge (flat, ...a) {
     var t = flat;
     flat = false;
   }
-  if (flat) {
-    t.push(... [].concat(... a.flat(Infinity) ) );
-  } else {
-    t.push(... [].concat(...a) );
-  }
+  t.push(... [].concat(... (flat ? a.flat(Infinity) : a) ) );
   return t;
 }
 
@@ -1617,13 +1624,13 @@ const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 /** abstract **/
 
 /* getIn(<object>,<property: string>): any */
-const getIn = (o, p) => o[p];
+const getIn = (O, P) => O[P];
 
 /* setIn(<object>,<property: string>,<value: any>): object */
-const setIn = (o, p, v) => { o[p] = v; return o; }
+const setIn = (O, P, V) => { O[P] = V; return O; }
 
 /* hasIn(<object>,<property: string>): boolean */
-const hasIn = (o, p) => (p in o);
+const hasIn = (O, P) => (P in O);
 
 /* isPropertyKey(<value: any>): boolean */
 const isPropertyKey = (v) => (typeof v === "string" || typeof v === "symbol");
@@ -1634,12 +1641,19 @@ const toPropertyKey = (v) => (typeof v === "symbol" ? v : String(v));
 /* toObject(<value: any>): object OR throw error */
 function toObject (v) { if (v==null) { throw TypeError(); } return Object(v); }
 
+/* isSameValue(<value1: any>,<value2: any>): boolean */
+const isSameValue = (v1, v2) => Object.is(v1, v2);
+
 /* isSameValueZero(<value1: any>,<value2: any>): boolean */
 const isSameValueZero = (v1, v2) => (v1 === v2 || (v1 !== v1 && v2 !== v2));
 
+/* isSameValueNonNumber(<value1: any>,<value2: any>): boolean */
+const isSameValueNonNumber = (v1, v2) => (v1 === v2);
+
 /* createMethodProperty(<object>,<property>,<value: any>): object */
-const createMethodProperty = (o, p, v) => Object.defineProperty(o, p,
-  {value: v, writable: true, enumerable: false, configurable: true});
+const createMethodProperty = (O, P, V) => Object.defineProperty(
+  O, P, {value: V, writable: true, enumerable: false, configurable: true}
+);
 
 /* type(<value>): string */
 const type = (v) => ((v === null) ? "null" : (typeof v));
@@ -1648,15 +1662,21 @@ const type = (v) => ((v === null) ? "null" : (typeof v));
 const isIndex = (v) => (Number.isSafeInteger(v) && v >= 0 && 1/v !== 1/-0);
 
 /* toIndex(<value: any>): unsigned integer */
-const toIndex = (v) => ((Number.isSafeInteger(v=+v) && v>=0) ? Math.abs(v) : 0);
+const toIndex = (v) =>
+  ((v = Math.min(Math.max(0, Math.trunc(+v)), 2147483647)) === v) ? v : 0;
 
 /* toInteger(<value: any>): integer */
 const toInteger = (v) =>
-  (Number.isInteger(v = Math.trunc(+v)) ? (1/v === 1/-0 ? 0 : v) : 0);
+  ((v = Math.min(Math.max(-2147483648, Math.trunc(+v)), 2147483647)) === v)?v:0;
+
+/* createDataProperty(<object>,<property>,<value: any>): object */
+const createDataProperty = (O, P, V) => Object.defineProperty(
+  O, P, {value: V, writable: true, enumerable: true, configurable: true}
+);
 
 /** object header **/
 
-const VERSION = "Celestra v5.3.1 dev";
+const VERSION = "Celestra v5.3.2 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () {
@@ -1748,6 +1768,7 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /** type checking **/
+  isAsyncGeneratorFn: isAsyncGeneratorFn,
   isConstructorFn: isConstructorFn,
   isPlainObject: isPlainObject,
   isEmptyMap: isEmptyMap,
@@ -1799,6 +1820,8 @@ var celestra = {
   removeCookie: removeCookie,
   clearCookies: clearCookies,
   /** collections **/
+  arrayDeepClone: arrayDeepClone,
+  arrayCreate: arrayCreate,
   initial: initial,
   shuffle: shuffle,
   partition: partition,
@@ -1873,12 +1896,15 @@ var celestra = {
   isPropertyKey: isPropertyKey,
   toPropertyKey: toPropertyKey,
   toObject: toObject,
+  isSameValue: isSameValue,
   isSameValueZero: isSameValueZero,
+  isSameValueNonNumber: isSameValueNonNumber,
   createMethodProperty: createMethodProperty,
   type: type,
   isIndex: isIndex,
   toIndex: toIndex,
-  toInteger: toInteger
+  toInteger: toInteger,
+  createDataProperty:createDataProperty
 };
 
 if (typeof window !== "undefined") {

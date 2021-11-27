@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.3.1 testcases */
+/* Celestra v5.3.2 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -775,6 +775,56 @@ CEL.qs("#dsDiv").remove();
 CUT.addElement("hr");
 CUT.addElement("h3", "Collections");
 
+var arrayDeepCloneA1 = [[0, 1, [2]], [4, 5, [6]]];
+var arrayDeepCloneA2 = CEL.arrayDeepClone(arrayDeepCloneA1);
+CUT.isTrue("arrayDeepClone();",
+  JSON.stringify(arrayDeepCloneA1) === JSON.stringify(arrayDeepCloneA2)
+    && !(arrayDeepCloneA1          === arrayDeepCloneA2)
+    && !(arrayDeepCloneA1[0]       === arrayDeepCloneA2[0])
+    &&  (arrayDeepCloneA1[0][0]    === arrayDeepCloneA2[0][0])
+    &&  (arrayDeepCloneA1[0][1]    === arrayDeepCloneA2[0][1])
+    && !(arrayDeepCloneA1[0][2]    === arrayDeepCloneA2[0][2])
+    &&  (arrayDeepCloneA1[0][2][0] === arrayDeepCloneA2[0][2][0])
+    && !(arrayDeepCloneA1[1]       === arrayDeepCloneA2[1])
+    &&  (arrayDeepCloneA1[1][0]    === arrayDeepCloneA2[1][0])
+    &&  (arrayDeepCloneA1[1][1]    === arrayDeepCloneA2[1][1])
+    && !(arrayDeepCloneA1[1][2]    === arrayDeepCloneA2[1][2])
+    &&  (arrayDeepCloneA1[1][2][0] === arrayDeepCloneA2[1][2][0])
+);
+
+var arrayCreateArr = CEL.arrayCreate(4);
+CUT.isTrue("arrayCreate(); return array 4",
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 4
+);
+var arrayCreateArr = CEL.arrayCreate(0);
+CUT.isTrue("arrayCreate(); return array 0",
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0
+);
+var arrayCreateArr = CEL.arrayCreate(-0);
+CUT.isTrue("arrayCreate(); return array -0",
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0
+);
+var arrayCreateArr = CEL.arrayCreate("5");
+CUT.isTrue("arrayCreate(); return array \"5\"",
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 5
+);
+var arrayCreateArr = CEL.arrayCreate(true);
+CUT.isTrue("arrayCreate(); return array true",
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 1
+);
+var arrayCreateArr = CEL.arrayCreate(false);
+CUT.isTrue("arrayCreate(); return array false",
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0
+);
+var arrayCreateArr = CEL.arrayCreate(4294967295);
+CUT.isTrue("arrayCreate(); return array 4294967295 max size",
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 4294967295
+);
+var arrayCreateArr = CEL.arrayCreate();
+CUT.isTrue("arrayCreate(); return array without parameter",
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0
+);
+
 CUT.isEqual("withOut();",
   JSON.stringify(CEL.withOut(["a","b","c","d"], ["b","d"])), "[\"a\",\"c\"]"
 );
@@ -1187,11 +1237,11 @@ CUT.isEqual(
   JSON.stringify(CEL.arrayRange(1,17,3.2))
 );
 CUT.isEqual("arrayRange(); - 4 - without parameters",
-  "[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]",
+  "[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99]",
   JSON.stringify(CEL.arrayRange())
 );
 CUT.isEqual("arrayRange(); - 4 - with 1 parameter",
-  "[42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100]",
+  "[42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99]",
   JSON.stringify(CEL.arrayRange(42))
 );
 
@@ -1780,6 +1830,14 @@ CUT.isEqual("AsyncFunction();", "asyncfunction", CEL.getType(afunction));
 CUT.addElement("hr");
 CUT.addElement("h3", "type checking");
 
+CUT.isTrue("isAsyncGeneratorFn();",
+  CEL.isAsyncGeneratorFn(async function*(){})
+    && !CEL.isAsyncGeneratorFn(function*(){})
+    && !CEL.isAsyncGeneratorFn(Array)
+    && !CEL.isAsyncGeneratorFn(Array.from)
+    && !CEL.isAsyncGeneratorFn(0)
+);
+
 CUT.isTrue("isConstructorFn();",
   CEL.isConstructorFn(Array)
     && !CEL.isConstructorFn(Array.from)
@@ -2088,6 +2146,32 @@ CUT.isTrue("toPropertyKey();",
 
 CUT.isTrue("toObject();", typeof CEL.toObject("str") === "object");
 
+var isSameValuefoo = { "a": 1 }, isSameValuebar = { "a": 1 };
+var isSameValueStr = ""
+  + +CEL.isSameValue(25,25)
+  + +CEL.isSameValue("foo","foo")
+  + +CEL.isSameValue("foo","bar")
+  + +CEL.isSameValue(null,null)
+  + +CEL.isSameValue(undefined,undefined)
+  + +CEL.isSameValue(window,window)
+  + +CEL.isSameValue([],[])
+  + +CEL.isSameValue(isSameValuefoo,isSameValuefoo)
+  + +CEL.isSameValue(isSameValuefoo,isSameValuebar)
+  + +CEL.isSameValue(0,-0)
+  + +CEL.isSameValue(+0,-0)
+  + +CEL.isSameValue(-0,-0)
+  + +CEL.isSameValue(0n,-0n)
+  + +CEL.isSameValue(NaN,0/0)
+  + +CEL.isSameValue(NaN,Number.NaN)
+  + +CEL.isSameValue(+Infinity,Infinity)
+  + +CEL.isSameValue(Infinity,Infinity)
+  + +CEL.isSameValue(-Infinity,-Infinity)
+  + +CEL.isSameValue(+Infinity,-Infinity);
+CUT.isEqual("isSameValue(); "+"<code>"+isSameValueStr+"</code>",
+  isSameValueStr,
+  "1101110100011111110"
+);
+
 var isSameValueZerofoo = { "a": 1 }, isSameValueZerobar = { "a": 1 };
 var isSameValueZeroStr = ""
   + +CEL.isSameValueZero(25,25)
@@ -2112,6 +2196,32 @@ var isSameValueZeroStr = ""
 CUT.isEqual("isSameValueZero(); "+"<code>"+isSameValueZeroStr+"</code>",
   isSameValueZeroStr,
   "1101110101111111110"
+);
+
+var isSameValueNonNumberfoo = { "a": 1 }, isSameValueNonNumberbar = { "a": 1 };
+var isSameValueNonNumberStr = ""
+  + +CEL.isSameValueNonNumber(25,25)
+  + +CEL.isSameValueNonNumber("foo","foo")
+  + +CEL.isSameValueNonNumber("foo","bar")
+  + +CEL.isSameValueNonNumber(null,null)
+  + +CEL.isSameValueNonNumber(undefined,undefined)
+  + +CEL.isSameValueNonNumber(window,window)
+  + +CEL.isSameValueNonNumber([],[])
+  + +CEL.isSameValueNonNumber(isSameValueNonNumberfoo,isSameValueNonNumberfoo)
+  + +CEL.isSameValueNonNumber(isSameValueNonNumberfoo,isSameValueNonNumberbar)
+  + +CEL.isSameValueNonNumber(0,-0)
+  + +CEL.isSameValueNonNumber(+0,-0)
+  + +CEL.isSameValueNonNumber(-0,-0)
+  + +CEL.isSameValueNonNumber(0n,-0n)
+  + +CEL.isSameValueNonNumber(NaN,0/0)
+  + +CEL.isSameValueNonNumber(NaN,Number.NaN)
+  + +CEL.isSameValueNonNumber(+Infinity,Infinity)
+  + +CEL.isSameValueNonNumber(Infinity,Infinity)
+  + +CEL.isSameValueNonNumber(-Infinity,-Infinity)
+  + +CEL.isSameValueNonNumber(+Infinity,-Infinity);
+CUT.isEqual("isSameValueNonNumber(); "+"<code>"+isSameValueNonNumberStr+"</code>",
+  isSameValueNonNumberStr,
+  "1101110101111001110"
 );
 
 function createMethodPropertyFN () {};
@@ -2159,7 +2269,9 @@ CUT.isEqual("isIndex();", "1100000000000000000000", ""
   + +CEL.isIndex(null)
 );
 
-CUT.isEqual("toIndex();", "3031000000000000000000", ""
+CUT.isEqual("toIndex();",
+  "3031021474836470214748364700300003000000",
+  ""
   +CEL.toIndex(3)
   +CEL.toIndex(0)
   +CEL.toIndex("3")
@@ -2184,7 +2296,9 @@ CUT.isEqual("toIndex();", "3031000000000000000000", ""
   +CEL.toIndex(null)
 );
 
-CUT.isEqual("toInteger();", "3333-3-3-3-310000000000000", ""
+CUT.isEqual("toInteger();",
+  "3333-3-3-3-31002147483647-21474836482147483647-21474836480000000",
+  ""
   +CEL.toInteger(3)
   +CEL.toInteger("3")
   +CEL.toInteger(3.14)
@@ -2207,6 +2321,17 @@ CUT.isEqual("toInteger();", "3333-3-3-3-310000000000000", ""
   +CEL.toInteger([])
   +CEL.toIndex(undefined)
   +CEL.toIndex(null)
+);
+
+function createDataPropertyFN () {};
+var createDataPropertySTR = "" + Object.hasOwn(createDataPropertyFN.prototype, "x");
+createDataPropertySTR += CEL.createDataProperty(
+  createDataPropertyFN.prototype, "x", 42
+);
+var createDataPropertyFNObject = new createDataPropertyFN();
+createDataPropertySTR += createDataPropertyFNObject.x === 42;
+CUT.isEqual("createDataProperty();",
+  createDataPropertySTR, "false[object Object]true"
 );
 
 

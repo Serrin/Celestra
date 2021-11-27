@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.3.1
+Latest version: 5.3.2
 
-Date: 2021-11-11T11:11:11.111Z
+Date: 2021-11-25T19:36:03.574Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.js__|60557 byte
-minified|__celestra.min.js__|38295 byte
-ES6 module|__celestra.esm.js__|38147 byte
+developer|__celestra.js__|61612 byte
+minified|__celestra.min.js__|38907 byte
+ES6 module|__celestra.esm.js__|38758 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 Version history|__history.md__|
 
@@ -46,6 +46,8 @@ minified|__celestra-polyfills.min.js__|11516 byte
 
 Celestra cheatsheet: __celestra-cheatsheet.pdf__
 
+Celestra Math plugin cheatsheet: __celestra-math.pdf__
+
 JavaScript cheatsheet: __js-cheatsheet.pdf__
 
 
@@ -57,7 +59,9 @@ RPG dice roller: __testgame.html__
 
 Math plugin documentation: __celestra-math.html__
 
-Math plugin source: __celestra-math.js__
+Math plugin developer source: __celestra-math.js__
+
+Math plugin minified source: __celestra-math.min.js__
 
 
 ### How to import the ESM edition
@@ -252,6 +256,7 @@ Example: `CEL.isString();`
 
 Name | Description
 ---- | -----------
+`isAsyncGeneratorFn(<value>);` | This function determines whether the provided value is an async generator function. The return value is boolean.
 `isConstructorFn(<value>);` | This function determines whether the provided value is a constructable function. The return value is boolean.
 `isPlainObject(<value>);` | This function determines whether the provided value is an object, which own prototype is the Object.prototype or null. The return value is boolean.
 `isDataView(<value>);` | This function determines whether the provided value is an DataView object. The return value is boolean.
@@ -270,7 +275,7 @@ Name | Description
 `isFloat(<value>);` | This function determines whether the provided value is a float number. The return value is boolean.
 `isNumeric(<value>);` | This function determines whether the provided value is a number or can be converted to number. The return value is boolean.
 `isBoolean(<value>);` | This function determines whether the provided value is a boolean. The return value is boolean.
-`isObject(<value>);` | This function determines whether the provided value is an object. The return value is boolean.
+`isObject(<value>);` | This function determines whether the provided value is an object and not null. The return value is boolean.
 `isFunction(<value>);` | This function determines whether the provided value is a function. The return value is boolean.
 `isEmptyObject(<value>);` | This function determines whether the provided value is an empty object (without properties). The return value is boolean.
 `isEmptyArray(<value>);` | This function determines whether the provided value is an empty array (without values). The return value is boolean.
@@ -326,6 +331,8 @@ Example: `CEL.arrayUnion();`
 
 Name | Description
 ---- | -----------
+`arrayDeepClone(<array>);`|This function deeply (recursively) clones an array. The return value is the cloned array.
+`arrayCreate([length=0]);`|This function returns an array with the given length and can handle the -0 as length. The length parameter will be converted to number and if the new value is not an integer number or out of the array size range, then a rangeerror will be thrown.
 `initial(<collection>);` | Returns an array with the values of the given collection, but without the last value. <br>__Example:__<br>`CEL.initial([-5, 2, -9, 7, 34]);`<br>-><br>`[-5, 2, -9, 7]`
 `shuffle(<collection>);` | Returns an array with the values of the given collection, but in shuffled order. <br>__Example:__<br>`CEL.shuffle(["first",4,5,6,7,8,9,"last"]);`<br>-><br>`[4,8,5,6,"last",9,7,"first"]`
 `withOut(<collection>,<filterCollection>);` | Returns an array with the values of the first collection, but without the values of the filterCollection. All of the parameters are mandatory and can be any type of JavaScript collections.<br>__Example:__<br>`CEL.withOut(["a","b","c","d"], ["b","d"]);`<br>-><br>`["a","c"]`
@@ -344,7 +351,7 @@ Name | Description
 `max(<value1>[,valueN]);` | Returns the maximum value of the given values. The first value parameter is mandatory and can be any type. Works with any type of values, not only with numbers.
 `arrayCycle(<collection>[,n=100]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayRepeat(<value>[,n=100]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
-`arrayRange([start=0[,end=100[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 100, step = 1.<br>__Example:__<br>`CEL.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));`<br>-><br>`Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]`
+`arrayRange([start=0[,end=99[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 99, step = 1.<br>__Example:__<br>`CEL.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));`<br>-><br>`Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]`
 `zip(<collection1>[,collectionN]);` | Returns the array of paired values of the given collections. All of the parameters can be any type of JavaScript collections. In the modern browsers compatible with finite iterators. The return value is an Array.<br>__Example:__<br>`CEL.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);`<br>-><br>`Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]`
 `unzip(<collection>);` | Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators.<br>__Example:__<br>`CEL.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);`<br>-><br>`Array (2) [ ["a","b","c","d"], [3,4,5,6] ]`
 `zipObj(<collection1>,<collection2>);` | Returns an object, whose properties are from the first collection and its values are from the second collection. The two collections must be the same size. In the modern browsers compatible with finite iterators.<br>__Example:__<br>`zipObj(["a","b","c"],[1,2,3])`<br>-><br>`{"a":1,"b":2,"c":3}`
@@ -353,7 +360,7 @@ Name | Description
 `arrayRemoveBy(<array>,<callback>[,all=false]);` | Remove the first or all values from the array with which the given function returns true. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayUnique(<collection>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `arrayAdd(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
-`arrayMerge([flat=false,]<target>,<source1>[,sourceN]);` | Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
+`arrayMerge([flat=false,]<target>,<source1>[,sourceN]);` | __The `[flat=false,]` parameter has been deprecated in v5.3.2.__<br>Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
 `iterRange([start=0[,step=1[,end=Infinity]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
 `iterCycle(<iter>[,n=Infinity]);` | Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRepeat(<value>[,n=Infinity]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
@@ -409,7 +416,11 @@ Name | Description
 `isPropertyKey(<value>);`|This function determines whether the provided value is a valid propertx key (string or symbol). The return value is boolean.
 `toPropertyKey(<value>);`|This function convert the given value to a valid property key. If the value is not symbol, then will be converted to string, else the symbol will be returned.
 `toObject(<value>);`| If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a `TypeError()` will be throwned.
-`isSameValueZero(<value1>,<value2>);`|This function uses the SameValueZero algorithm and determines whether the provided values are the same values and `-0` and `+0` values will be equal. The return value is boolean.<br>__TIP: The `Object.is();` uses the SameValue algorithm.__
+`isSameValue(<value1>,<value2>);`|This function uses the SameValue algorithm and determines whether the provided values are the same values and `-0` and `+0` values will be not equal. The `NaN` values will be equal. The return value is boolean.<br>__TIP: The `Object.is();` uses the SameValue algorithm.__
+`isSameValueZero(<value1>,<value2>);`|This function uses the SameValueZero algorithm and determines whether the provided values are the same values and `-0` and `+0` values will be equal. The `NaN` values will be equal. The return value is boolean.
+`isSameValueNonNumber(<value1>,<value2>);`|This function uses the SameValueNonNumber algorithm and determines whether the provided values are the same values and `-0` and `+0` values will be equal. The `NaN` values will be not equal. The return value is boolean.
+`createDataProperty(<object>,<property>,<value>);`|This function creates a writable, configurable and enumerable property with the given value in the object. The return value is the modified object.
+`createMethodProperty(<object>,<property>,<value>);`|This function is useful for create a polyfill, because creates a writable, configurable and non-enumerable property with the given value in the object. The return value is the modified object.<br>__Example:__<br> `if (!("at" in Array.prototype)) { CEL.createMethodProperty(Array.prototype, "at ", function(...){...}); }`
 `createMethodProperty(<object>,<property>,<value>);`|This function is useful for create a polyfill, because creates a writable, configurable, non-enumerable property with the given value in the object. The return value is the modified object.<br>__Example:__<br> `if (!("at" in Array.prototype)) { CEL.createMethodProperty(Array.prototype, "at ", function(...){...}); }`
 `type(<value>);`|This function returns the typeof operator result of the given value, except the null object (`"null"` instead of `"object"`).
 `isIndex(<value>);`|This function determines whether the provided value is a valid arraylike index number. The return value is boolean.
