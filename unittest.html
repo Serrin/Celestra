@@ -67,8 +67,8 @@
 <table class="table-responsive noborder">
   <tr>
     <td class="noborder">
-      <p><button onclick=" _preCel.importScript('celestra.js'); preCelLog('<b>celestra.js</b> is loaded.'); ">
-        load celestra.js
+      <p><button onclick=" _preCel.importScript('celestra.dev.js'); preCelLog('<b>celestra.dev.js</b> is loaded.'); ">
+        load celestra.dev.js
       </button></p>
       <p><button onclick=" _preCel.importScript('celestra.min.js'); preCelLog('<b>celestra.min.js</b> is loaded.'); ">
         load celestra.min.js
@@ -120,8 +120,8 @@
     <td>2x alert "TypeError"</td>
   </tr>
   <tr>
-    <td><button onclick=" try { CEL.getType(42,'string', true); } catch (e) { alert(e); } ">getType(); throw</button></td>
-    <td><code>CEL.getType(42,'string', true);</code></td>
+    <td><button onclick=" try { CEL.classof(42,'string', true); } catch (e) { alert(e); } ">classof(); throw</button></td>
+    <td><code>CEL.classof(42,'string', true);</code></td>
   </tr>
   <tr>
     <td><button onclick="var alertStr = ''; try { CEL.assertTrue('assertTrue();', false); } catch(e) { alertStr += e + '\n'; } try { CEL.assertFalse('assertFalse();', true); } catch(e) { alertStr += e + '\n'; } try { CEL.assertEq('assertEq(); 1', true, 2); } catch(e) { alertStr += e + '\n'; } try { CEL.assertEq('assertEq(); 2', true, 2, false); } catch(e) { alertStr += e + '\n'; } try { CEL.assertNotEq('assertNotEq(); 1', 1, 1); } catch(e) { alertStr += e + '\n'; } try { CEL.assertNotEq('assertNotEq(); 2', true, 1, false); } catch(e) { alertStr += e; } alert(alertStr);">assert functions</button></td>
@@ -238,7 +238,7 @@ alert(arrayCreateErrorStr);</pre>
 <!--script src="unittest.js"></script-->
 
 
-<!--script src="celestra.js"></script-->
+<!--script src="celestra.dev.js"></script-->
 <!--script src="celestra.min.js"></script-->
 
 <!--
@@ -249,7 +249,7 @@ alert(arrayCreateErrorStr);</pre>
 // FF 67, Chrome 63, Safari 11.1, Opera 50, no old EDGE
 // Android Webvies 63, Android Chrome 63, Android FF 67, iOS Safari 11.1, no in Samsung browser
 
-import("./celestra.js")
+import("./celestra.dev.js")
   .then((module) => {
     window.celestra = module.celestra;
     window.CEL = module.celestra;
@@ -336,7 +336,7 @@ const _preCel = {
       // ok, dynamic imports - async loading too
       // FF 67, Chrome 63, Safari 11.1, Opera 50, no old EDGE
       // Android Webvies 63, Android Chrome 63, Android FF 67, iOS Safari 11.1, no in Samsung browser
-      import("./celestra.js")
+      import("./celestra.dev.js")
         .then((module) => {
           window.celestra = module.celestra;
           window.CEL = module.celestra;

@@ -11,10 +11,23 @@
 
 <style>
 
+html {
+  background-color: #333;
+}
+
 body {
   width: 100%;
-  max-width: 600px;
-  font-size: 18px;
+  max-width: 300px;
+  font-size: 17px;
+  background-color: #333;
+}
+
+article {
+  background-color: #fff;
+  display: block;
+  border: 1px solid #333;
+  padding: 5px;
+  border-radius: 8px;
 }
 
 table, tr, td { border: 0; }
@@ -33,22 +46,17 @@ button {
   min-width: 100px;
 }
 
-input,button {
+input, button {
   background-color: transparent;
   color: #333;
   border: 1px solid #333;
   font-size: 18px;
+  border-radius: 4px;
 }
 
-input:hover,input:focus,button:hover {
+input:hover, input:focus, button:hover {
   background-color: #333;
   color: white;
-}
-
-article {
-  display: block;
-  /*border: 1px solid #333;*/
-  padding: 5px;
 }
 
 </style>
@@ -56,11 +64,10 @@ article {
 </head>
 <body>
 
-<header class="center">
-  <h1>RPG dice roller</h1>
-</header>
-
 <article>
+
+  <h1 class="center">RPG dice roller</h1>
+
   <table>
     <tr>
       <td>Dice:</td>
@@ -73,18 +80,16 @@ article {
       <td><button id="getButton">Get rolls</button></td>
     </tr>
   </table>
-</article>
 
-<article>
-  <h2>Results:</h2>
+  <h2  class="center">Results</h2>
   <div id="results" class="padding"></div>
+
+  <footer id="footer" class="center"><small>
+    <p>Contact me on <a href="http://github.com/Serrin" target="_blank">Github</a></p>
+    <p>&copy; Copyright 2018 Ferenc Czigler</p>
+  </small></footer>
+
 </article>
-
-<footer id="footer" class="center"><small>
-  <p>Contact me on <a href="http://github.com/Serrin" target="_blank">Github</a></p>
-  <p>&copy; Copyright 2018 Ferenc Czigler</p>
-</small></footer>
-
 
 <script src="celestra.min.js"></script>
 <script>

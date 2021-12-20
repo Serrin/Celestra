@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.3.2</p>
-<p>Date: 2021-11-25T19:36:03.574Z</p>
+<p>Latest version: 5.4.0</p>
+<p>Date: 2021-12-20T19:02:12.613Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -88,18 +88,18 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   </tr>
   <tr>
     <td>developer</td>
-    <td><a href="celestra.js" target="_blank">celestra.js</a>
-    </td><td>61612 byte</td>
+    <td><a href="celestra.dev.js" target="_blank">celestra.dev.js</a>
+    </td><td>62184 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>38907 byte</td>
+    <td>39267 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>38758 byte</td>
+    <td>39123 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -128,7 +128,7 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   </tr>
   <tr>
     <td>developer</td>
-    <td><a href="celestra-polyfills.js" target="_blank">celestra-polyfills.js</a></td>
+    <td><a href="celestra-polyfills.dev.js" target="_blank">celestra-polyfills.dev.js</a></td>
     <td>18019 byte</td>
   </tr>
   <tr>
@@ -151,7 +151,7 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 <p>BTC standalone app: <a href="btc.app.html" target="_blank">btc.app.html</a></p>
 <p>RPG dice roller: <a href="testgame.html" target="_blank">testgame.html</a></p>
 <p>Math plugin documentation: <a href="celestra-math.html" target="_blank">celestra-math.html</a></p>
-<p>Math plugin developer source: <a href="celestra-math.js" target="_blank">celestra-math.js</a></p>
+<p>Math plugin developer source: <a href="celestra-math.dev.js" target="_blank">celestra-math.dev.js</a></p>
 <p>Math plugin minified source: <a href="celestra-math.min.js" target="_blank">celestra-math.min.js</a></p>
 
 
@@ -181,7 +181,7 @@ window.CEL = defaultExport;
 <ul>
   <li>Only modern browsers (ES6+) are supported. The Internet Explorer 11 and W10M Edge have been removed from the supported browsers.</li>
   <li>If you would like to use Celestra with older browsers, then you can download the latest v2.x version here: <a href="https://github.com/Serrin/Celestra/releases" target="_blank">https://github.com/Serrin/Celestra/releases</a></li>
-  <li>The library sources have been merged and all of the ES6E functions are available in the <b>celestra.js</b> and <b>celestra.min.js</b></li>
+  <li>The library sources have been merged and all of the ES6E functions are available in the <b>celestra.dev.js</b> and <b>celestra.min.js</b></li>
   <li>Many functions have been deprecated or removed.</li>
 </ul>
 
@@ -202,7 +202,7 @@ window.CEL = defaultExport;
 <h3>Celestra v5.3.0 (Voyager) changes</h3>
 
 <ul>
-  <li>Added a new code sections: <b>Abstract functions</b> and new functions.</li>
+  <li>Added a new code section: <b>Abstract functions</b> and new functions.</li>
 </ul>
 
 
@@ -331,8 +331,8 @@ CEL.delay(5000)
       <td>Convert object to a querystring. The return value is the string. The object parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>getType(&#60;variable&#62;[,type][,throw=false]);</code></td>
-      <td>Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a <code>TypeError();</code>, else the return value is true.</td>
+      <td><code>classof(&#60;variable&#62;[,type][,throw=false]);</code></td>
+      <td><span class="info">Old name before v5.4.0: <code>getType</code> and added an alias with the old name.</span><br/>Get the real type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a <code>TypeError();</code>, else the return value is true.</td>
     </tr>
     <tr>
       <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
@@ -341,6 +341,14 @@ CEL.delay(5000)
     <tr>
       <td><code>strPropercase(&#60;string&#62;);</code></td>
       <td>This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br/><b>Example:</b><br/><code>CEL.strPropercase("arthur conan doyle");</code><br/>-><br/><code>"Arthur Conan Doyle"</code></td>
+    </tr>
+    <tr>
+      <td><code>strPropercase(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br/><b>Example:</b><br/><code>CEL.strPropercase("arthur conan doyle");</code><br/>-><br/><code>"Arthur Conan Doyle"</code></td>
+    </tr>
+    <tr>
+      <td><code>strTitlecase(&#60;string&#62;);</code></td>
+      <td>Alias of the <code>strPropercase(&#60;string&#62;);</code>.</td>
     </tr>
     <tr>
       <td><code>strCapitalize(&#60;string&#62;);</code></td>
@@ -677,6 +685,14 @@ console.log(o2);
       <td><b>Description</b></td>
     </tr>
     <tr>
+      <td><code>isTruthy(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is truthy. The return value is boolean. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>isFalsy(&#60;value&#62;);</td>
+      <td>This function determines whether the provided value is falsy. The return value is boolean. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
       <td><code>isAsyncGeneratorFn(&#60;value&#62;);</td>
       <td>This function determines whether the provided value is an async generator function. The return value is boolean.</td>
     </tr>
@@ -759,6 +775,10 @@ console.log(o2);
     <tr>
       <td><code>isFunction(&#60;value&#62;);</code></td>
       <td>This function determines whether the provided value is a function. The return value is boolean.</td>
+    </tr>
+    <tr>
+      <td><code>isCallable(&#60;value&#62;);</code></td>
+      <td>Alias of the <code>isFunction(&#60;value&#62;);</code>.</td>
     </tr>
     <tr>
       <td><code>isEmptyObject(&#60;value&#62;);</code></td>
@@ -1126,11 +1146,8 @@ console.log(o2);
       <td>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.</td>
     </tr>
     <tr>
-      <td><code>arrayMerge([flat=false,]&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
-      <td>
-        <p><span class="deprecated">The <code>[flat=false,]</code> parameter has been deprecated in v5.3.2.</span></p>
-        <p></p>Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.</p>
-      </td>
+      <td><code>arrayMerge(&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
+      <td>Merge two or more arrays or push any values in the target array. The return value is the target array.</td>
     </tr>
     <tr>
       <td><code>iterRange([start=0[,step=1[,end=Infinity]]]);</code></td>
@@ -1308,6 +1325,10 @@ console.log(o2);
     <tr>
       <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>getInV(&#60;value&#62;,&#60;property&#62;);</code></td>
+      <td>TThis function return the property value of the given value and the given value will be converted to object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be any value. The property parameter is mandatory and has to be a property type.</td>
     </tr>
     <tr>
       <td><code>getIn(&#60;object&#62;,&#60;property&#62;);</code></td>
@@ -1559,7 +1580,7 @@ alert( CEL.VERSION );</pre></td>
     <tr>
       <td><b>celestra.noConflict();</b></td>
       <script> var _C = {}; </script>
-      <td><button onclick='_C = celestra.noConflict(); alert( _C.VERSION ); alert( _C.getType( document.querySelectorAll("div")) ); alert( CEL.VERSION );'>Try</button></td>
+      <td><button onclick='_C = celestra.noConflict(); alert( _C.VERSION ); alert( _C.classof( document.querySelectorAll("div")) ); alert( CEL.VERSION );'>Try</button></td>
       <td><pre>// in the HTML head before the loading of Celestra:
 var CEL = {};
 CEL.VERSION = "This is another sample library.";
@@ -1568,7 +1589,7 @@ CEL.VERSION = "This is another sample library.";
 var _C = {};
 _C = celestra.noConflict();
 alert( _C.VERSION );
-alert( _C.getType( document.querySelectorAll("div")) );
+alert( _C.classof( document.querySelectorAll("div")) );
 alert( CEL.VERSION );</pre></td>
     </tr>
   </table>

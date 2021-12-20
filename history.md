@@ -1,4 +1,56 @@
 
+## Celestra v5.4.0
+
+1. Documentation and pdf fixes.
+
+2. CSS changes in the __testgame.html__ and __btc.app.html__
+
+3. Add these buttons in the __celestra-math.html__:
+- __load celestra-math.js__
+- __load celestra-math.min.js__
+- __reset page__
+
+4. Add these topics in the __js-cheatsheet.odt__ and __js-cheatsheet.pdf__:
+- Nullish coalescing operator (??)
+- Logical nullish assignment (??=)
+- Logical AND assignment (&&=)
+- Logical OR assignment (||=)
+
+5. Rename these files:
+
+Old name|New name
+--------|--------
+__celestra.js__ |__celestra.dev.js__
+__celestra-math.js__|__celestra-math.dev.js__
+__celestra-polyfills.js__|__celestra-polyfills.dev.js__
+
+6. Add these aliases:
+
+Alias|Function
+-----|--------
+`isCallable(<value>);`|`isFunction(<value>);`
+`strTitlecase(<string>);`|`strPropercase(<string>);`
+
+7. Add these functions:
+- `isTruthy(<value>);`
+- `isFalsy(<value>);`
+- `getInV(<value>,<property>);`
+
+8. Function fixes:
+
+Function|Fix
+-------|---
+`arrayAdd(<array>,<value>);`|Small fixes.
+`arrayMerge(<target>,<source1>[,sourceN]);`|Remove the `[flat=false,]` parameter.
+`getType(<variable>[,type][,throw=false]);`|Rename to `classof(<variable>[,type][,throw=false]);` and add an alias with the old name.
+`isElement(<value>);`|Use `null/undefined` checking.
+`isIterable(<value>);`|Use `null/undefined` checking.
+`isIterator(<value>);`|Use `null/undefined` checking.
+`isPromise(<value>);`|Use `null/undefined` checking.
+`randomInt([max] or <min>,<max>);`|Small fixes.
+`randomFloat([max] or <min>,<max>);`|Use `null/undefined` checking.
+
+
 ## Celestra v5.3.2
 
 1. Documentation and pdf fixes.
@@ -8,9 +60,9 @@
 3. Add these files:
 - __celestra-math.min.js__
 - __celestra-math.odt__
-- __celestra-math.pdf__ 
+- __celestra-math.pdf__
 
-4. Add these functions: 
+4. Add these functions:
 - `arrayCreate([length=0]);`
 - `arrayDeepClone(<array>);`
 - `createDataProperty(<object>,<property>,<value>);`
@@ -103,7 +155,7 @@ Function|Fix
 
 1. Documentation and pdf fixes.
 
-2. Non breaking changes and fixes in these functions: 
+2. Non breaking changes and fixes in these functions:
 
 Function|Fix/Change
 -------|----------
@@ -197,7 +249,7 @@ Old function|New function
 - only fixes
 
 
-## Celestra v4.5.2 
+## Celestra v4.5.2
 
 1. Documentation and pdf fixes.
 
@@ -218,7 +270,7 @@ Function|Fix
 `strUpFirst(<string>);`|add length check
 `strDownFirst(<string>);`|add length check
 
-5. Add these functions in the __Demo Plugin__: 
+5. Add these functions in the __Demo Plugin__:
 - `product(<value1>[,valueN]);`
 - `clamp(<value>,<min>,<max>);`
 
@@ -233,7 +285,7 @@ Function|Fix
 
 1. Documentation and pdf fixes.
 
-2. Add these functions: 
+2. Add these functions:
 - `arrayRemoveBy(<array>,<callback>[,all=false]);`
 - `inRange(<value>,<min>,<max>);`
 - `zipObj(<collection1>,<collection2>);`
@@ -255,7 +307,7 @@ Function|Fix
 `String.prototype.at(<index>);`|only documentation
 `Object.hasOwn(<object>,<property>);`|only documentation
 
-4. Replace these functions with a smaller size version: 
+4. Replace these functions with a smaller size version:
 ````javascript
 isNumeric(<value>):
 forIn(<object>,<callback>);
@@ -298,7 +350,7 @@ Function|Fix
 
 4. Add a new function: `strPropercase(<string>);`
 
-5. Replace these functions: 
+5. Replace these functions:
 
 Old function|New function
 ------------|-------------
@@ -310,7 +362,7 @@ Old function|New function
 
 6. Remove these functions:
 - `importScripts(<scripts> or <script1>[,scN]);`
-- `importStyles(<styles> or <style1>[,styleN]);` 
+- `importStyles(<styles> or <style1>[,styleN]);`
 
 7. __CUT v0.8.20__
 - Add a "reset page" button in the __unittest.html__
@@ -325,7 +377,7 @@ Old function|New function
 
 3. Add an alias: `contains(<collection>,<value>);` -> `includes(<collection>,<value>);`
 
-4. Fix the description of these functions: 
+4. Fix the description of these functions:
 ````javascript
 arrayRemove(<array>,<value>[,all=false]);
 arrayCycle(<collection>[,n=100]);
@@ -459,7 +511,7 @@ window.screenTop;
 1. Documentation and pdf fixes.
 
 2. Replace the file __testcors.html__ with __btc.app.html__
- 
+
 3. Move the __Non-starndard polyfills__ into a new section in these files: __celestra.js__, __celestra.min.js__, __celestra.esm.js__
 
 4. Add this function: `reject(<collection>,<callback>);`
@@ -473,14 +525,14 @@ window.screenTop;
 6. __CUT v0.8.18__
 - Simplify the testcases of these polyfills: `Array.prototype.flat();`, `Array.prototype.flatMap();`
 - Move the __Non-starndard polyfills__ into a new section in the __unittest.js__
-- Remove unused and commented codes in the __unittest.js__ 
+- Remove unused and commented codes in the __unittest.js__
 - Rename these files:
 
 old name|new name
 --------|--------
-unittest-gs1.js|unittest-is1.js 
-unittest-gs2.js|unittest-is2.js 
-unittest-gsi.js|unittest-is3.js 
+unittest-gs1.js|unittest-is1.js
+unittest-gs2.js|unittest-is2.js
+unittest-gsi.js|unittest-is3.js
 
 - Remove these testcases (_removed polyfills_) in the __unittest.js__:
 ````javascript
@@ -556,7 +608,7 @@ window.screenTop;
 
 3. Rename the function `strRemoveTags(<string>);` to `strHTMLRemoveTags(<string>);`
 
-4. Add these functions: 
+4. Add these functions:
 - `signbit(<value>);`
 - `randomBoolean();`
 - `strHTMLEscape(<string>);`
@@ -577,7 +629,7 @@ window.screenTop;
 - `enumerate(<collection>[,offset=0]);`
 - `entries(<collection>[,offset=0]);`
 
-3. Add these functions: 
+3. Add these functions:
 - `domSiblingsPrev(<element>);` and an alias `domSiblingsLeft(<element>);`
 - `domSiblingsNext(<element>);` and an alias `domSiblingsRight(<element>);`
 
@@ -603,10 +655,10 @@ window.screenTop;
 4. __CUT v0.8.16:__
 - Add a new section: __Manual testcases__
 - Move the __delay (2x alert)__ button in the section __Manual testcases__
-- Add the __assert functions (1x alert, 6x cases)__ button in the section __Manual testcases__ 
-- Add the __importStyles__ button in the section __Manual testcases__  
-- Add the __importStyle__ button in the section __Manual testcases__  
-- Add the __noConflict (1x alert)__ button in the section __Manual testcases__  
+- Add the __assert functions (1x alert, 6x cases)__ button in the section __Manual testcases__
+- Add the __importStyles__ button in the section __Manual testcases__
+- Add the __importStyle__ button in the section __Manual testcases__
+- Add the __noConflict (1x alert)__ button in the section __Manual testcases__
 - Rename the __Save result in HTML__  button to __try createFile() - Save result in HTML__
 - The __v3.8.1 aliases removed in v4.0.0__ steps convert to one step and move it in the __core api and DOM__ section in the __unittest.js__
 - Replace the `assertSomething();` auto testcases in the __unittest.js__
@@ -674,7 +726,7 @@ window.screenTop;
 
 2. PDF design change: split in two columns the __Collection section__ in the __celestra-cheatsheet.odt__ and __celestra-cheatsheet.pdf__
 
-3. Add these functions: 
+3. Add these functions:
 - `isDataView(<value>);`
 - `withOut(<collection>,<filterCollection>);`
 - `shuffle(<collection>);`
@@ -851,7 +903,7 @@ dropOf(<collection>[,n]);
 
 5. Add these functions: `arrayPartition(<array>,<callback>);`, `arrayGroupBy(<array>,<callback>);`, `isPromise(<value>);`
 
-6. Add this polyfill: `Object.hasOwn();` 
+6. Add this polyfill: `Object.hasOwn();`
 
 7. Depracate this function:  `hasOwn(<object>,<property>);`
 
@@ -908,7 +960,7 @@ window.screenTop;
 6. Add a new function: `delay(<ms>).then(<callback>);`
 
 7. Modify the `domGetCSS(<element>,<property>);` to return the all css properties as an object (without property parameter) and remain the old method too.
- 
+
 8. Fix the `isObject(<value>);` and `isEmptyObject(<value>);` - The return value has to be `false` when the given object is `null`.
 
 9. Replace these functions with a smaller size function: `min(<collection>);`, `max(<collection>);`, `joinOf(<collection>[,separator=","]);`, `arrayRemove(<array>,<value>[,all]);`, `strFromCodePoints(<collection>);`, `getType(<variable>[,type]);`
@@ -1633,11 +1685,11 @@ to
 
 ## Celestra v2.0.5
 
-1. Add 3 polyfills:    
+1. Add 3 polyfills:
     String.prototype.padStart() - str.padStart(targetLength[,padString])
     String.prototype.padEnd()   - str.padEnd(targetLength[,padString])
     String.prototype.repeat()   - str.repeat(count);
-    
+
 
 2. Add 4 functions:
 
@@ -1651,8 +1703,8 @@ Name | Description
 3. Modify `function domCreate();`:
 
 - **use with a single object too**
- 
-````   
+
+````
     {
        elementType: "p",
        id: "p1",
@@ -1660,11 +1712,11 @@ Name | Description
        style: {"background-color": "red", "color": "white"},
        ...
     }
-```` 
-   
+````
+
 - **the style can be a string too**
 
-````    
+````
     {
        elementType: "p",
        id: "p1",
@@ -1672,7 +1724,7 @@ Name | Description
        style: "background-color: red; color: white;",
        ...
     }
-````   
+````
 
 4. CUT v0.8.4 changes:
 - Add `celTest.isTrue("step", expr, true|false );`
@@ -1690,7 +1742,7 @@ Name | Description
 
 1. Add 5 polyfills:
 - `Object.entries()`
-- `Object.values()` 
+- `Object.values()`
 - `Object.is()`
 - `Array.prototype.flat([depth])` - mark as proposal
 - `Array.prototype.flatMap(callback)` - mark as proposal
@@ -1750,7 +1802,7 @@ B. **Testcases**
 - Change the `domCreate() and qs (core api)` textcase to `domCreate()`
 - Change the `alert()` calls to `_cut.addTest() failed` in the AJAX testcases, test in Chrome
 - Add testcases for the new polyfills
-- Add testcases to test the object names. (`celestra`, `Celestra`, `_`) 
+- Add testcases to test the object names. (`celestra`, `Celestra`, `_`)
 
 
 ## Celestra v2.0.1
@@ -1761,7 +1813,7 @@ B. **Testcases**
 3. Add `removeTags(s)`
 4. Fix the text of the celestra-cheatsheet.pdf, remove the description of the variable `doc`
 5. Rename the _"Basic API"_ to _"Core API"_
-6. CUT v0.8.1 changes: 
+6. CUT v0.8.1 changes:
 - Developed in beta 3 (v0.8.0) and added in beta 4 (v0.8.1)
 - Celestra unit tester - Add new HTML and JS files
 
@@ -1789,7 +1841,7 @@ initArray();
 initObject();
 initString();
 initTrue();
-initFalse(); 
+initFalse();
 ```
 
 ## Celestra v1.21.1
@@ -1807,7 +1859,7 @@ initArray();
 initObject();
 initString();
 initTrue();
-initFalse(); 
+initFalse();
 ```
 
 ## Celestra v1.21.0
@@ -1871,7 +1923,7 @@ Path, httponly, etc. can cause the hidden cookie.
 
 1. Remove the Classic plugin removing information in the download section!
 
-2. Remove the v1.17.0 variants information in the download section! 
+2. Remove the v1.17.0 variants information in the download section!
 3. Update the u87.css and the testgame2 custom css!
 4. Add ASCII logo in the HTML files and in the README.md!
 5. Merge the main and the FP cheatsheets!
@@ -1982,6 +2034,6 @@ Fix the `function obj2string (o)`
 
 - Add identity function: `function identity (v) { return v; }`
 
-## Celestra v1.15.0 
+## Celestra v1.15.0
 
 - New project name: __Celestra__

@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.3.2
+Latest version: 5.4.0
 
-Date: 2021-11-25T19:36:03.574Z
+Date: 2021-12-20T19:02:12.613Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.js__|61612 byte
-minified|__celestra.min.js__|38907 byte
-ES6 module|__celestra.esm.js__|38758 byte
+developer|__celestra.dev.js__|62184 byte
+minified|__celestra.min.js__|39267 byte
+ES6 module|__celestra.esm.js__|39123 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 Version history|__history.md__|
 
@@ -38,7 +38,7 @@ Some polyfills have been removed in v3.1.0 and v3.8.0. With these files can be r
 
 edition|filename|size
 -------|--------|----
-developer|__celestra-polyfills.js__|18019 byte
+developer|__celestra-polyfills.dev.js__|18019 byte
 minified|__celestra-polyfills.min.js__|11516 byte
 
 
@@ -59,7 +59,7 @@ RPG dice roller: __testgame.html__
 
 Math plugin documentation: __celestra-math.html__
 
-Math plugin developer source: __celestra-math.js__
+Math plugin developer source: __celestra-math.dev.js__
 
 Math plugin minified source: __celestra-math.min.js__
 
@@ -94,7 +94,7 @@ window.CEL = defaultExport;
 
 - If you would like to use Celestra with older browsers, then you can download the latest v2.x version here: https://github.com/Serrin/Celestra/releases
 
-- The library sources have been merged and all of the ES6E functions are available in the __celestra.js__ and __celestra.min.js__.
+- The library sources have been merged and all of the ES6E functions are available in the __celestra.dev.js__ and __celestra.min.js__.
 
 - Many functions have been deprecated or removed.
 
@@ -115,7 +115,7 @@ window.CEL = defaultExport;
 
 ### Celestra v5.3.0 (Voyager) changes
 
-- Added a new code sections: __Abstract functions__ and new functions.
+- Added a new code section: __Abstract functions__ and new functions.
 
 
 -----
@@ -148,9 +148,9 @@ Name | Description
 `javaHash(<data>[,hexa=false]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `getUrlVars([str=location.search]);` | Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
-`getType(<variable>[,type][,throw=false]);` | Get the type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
+`classof(<variable>[,type][,throw=false]);` | __Old name before v5.4.0:__ `getType` __and added an alias with the old name.__<br>Get the real type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
 `extend([deep,]<target>,<source1>[,sourceN]);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
-`strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`CEL.strPropercase("arthur conan doyle");`<br>-><br>`"Arthur Conan Doyle"`
+`strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`strTitlecase(<string>);` | Alias of the `strPropercase(<string>);`.
 `strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
 `strUpFirst(<string>);` | This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.
 `strDownFirst(<string>);` | This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.
@@ -256,6 +256,8 @@ Example: `CEL.isString();`
 
 Name | Description
 ---- | -----------
+`isTruthy(<value>);` | This function determines whether the provided value is truthy. The return value is boolean. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Glossary/Truthy)!
+`isFalsy(<value>);` | This function determines whether the provided value is falsy. The return value is boolean. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)!
 `isAsyncGeneratorFn(<value>);` | This function determines whether the provided value is an async generator function. The return value is boolean.
 `isConstructorFn(<value>);` | This function determines whether the provided value is a constructable function. The return value is boolean.
 `isPlainObject(<value>);` | This function determines whether the provided value is an object, which own prototype is the Object.prototype or null. The return value is boolean.
@@ -277,6 +279,7 @@ Name | Description
 `isBoolean(<value>);` | This function determines whether the provided value is a boolean. The return value is boolean.
 `isObject(<value>);` | This function determines whether the provided value is an object and not null. The return value is boolean.
 `isFunction(<value>);` | This function determines whether the provided value is a function. The return value is boolean.
+`isCallable(<value>);` | Alias of the `isFunction(<value>);`.
 `isEmptyObject(<value>);` | This function determines whether the provided value is an empty object (without properties). The return value is boolean.
 `isEmptyArray(<value>);` | This function determines whether the provided value is an empty array (without values). The return value is boolean.
 `isEmptyMap(<value>);` | This function determines whether the provided value is an empty map (without properties). The return value is boolean.
@@ -360,7 +363,7 @@ Name | Description
 `arrayRemoveBy(<array>,<callback>[,all=false]);` | Remove the first or all values from the array with which the given function returns true. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayUnique(<collection>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `arrayAdd(<array>,<value>);` | Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
-`arrayMerge([flat=false,]<target>,<source1>[,sourceN]);` | __The `[flat=false,]` parameter has been deprecated in v5.3.2.__<br>Merge two or more arrays or push any values in the target array. The return value is the target array. The flat parameter (boolean) is optional and sets the deep merge (recursive) of the sources.
+`arrayMerge(<target>,<source1>[,sourceN]);` | Merge two or more arrays or push any values in the target array. The return value is the target array.
 `iterRange([start=0[,step=1[,end=Infinity]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
 `iterCycle(<iter>[,n=Infinity]);` | Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRepeat(<value>[,n=Infinity]);` | Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
@@ -410,6 +413,7 @@ Example: `CEL.getIn();`
 
 Name | Description
 ---- | -----------
+`getInV(<value>,<property>);` | This function return the property value of the given value and the given value will be converted to object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be any value. The property parameter is mandatory and has to be a property type.
 `getIn(<object>,<property>);` | This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.
 `setIn(<object>,<property>,<value>);` | This function set the property value of the given object. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type.
 `hasIn(<object>,<property>);` | This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.

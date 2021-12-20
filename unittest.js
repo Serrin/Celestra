@@ -77,7 +77,7 @@ CUT.clear = function clear () { CUT.__results__.innerHTML = ""; };
 //CUT.addElement("hr");
 
 CUT.addElement("table",
-    "<tr><td>CUT: </td><td><code>"+CUT.VERSION+"</code></td></tr>"
+  "<tr><td>CUT: </td><td><code>"+CUT.VERSION+"</code></td></tr>"
     + "<tr><td>Celestra: </td><td><code>"+celestra.VERSION+"</code></td></tr>"
     + "<tr><td>Date: </td><td><code>"+(new Date()).toISOString()+"</code></td></tr>"
     + "<tr><td>navigator.appName: </td><td><code>"+navigator.appName+"</code></td></tr>"
@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.3.2 testcases */
+/* Celestra v5.4.0 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -196,7 +196,7 @@ CUT.addElement("hr");
 CUT.addElement("h3", "Celestra object");
 
 CUT.isEqual("Object name: \"celestra\"", true, celestra.randomInt(100, 200)>99);
-CUT.isEqual("Object name: \"_\"", true, CEL.randomInt(100,200)>99);
+CUT.isEqual("Object name: \"CEL\"", true, CEL.randomInt(100,200)>99);
 
 
 /* core api and DOM */
@@ -208,26 +208,26 @@ CUT.isEqual("VERSION", true, CEL.VERSION.includes("Celestra v"));
 
 CUT.isTrue("v3.8.1 aliases removed in v4.0.0",
   CEL.isUndefined(CEL.someOf)
-  && CEL.isUndefined(CEL.everyOf)
-  && CEL.isUndefined(CEL.findOf)
-  && CEL.isUndefined(CEL.dropOf)
-  && CEL.isUndefined(CEL.takeOf)
-  && CEL.isUndefined(CEL.joinOf)
-  && CEL.isUndefined(CEL.enumerateOf)
-  && CEL.isUndefined(CEL.flatOf)
-  && CEL.isUndefined(CEL.concatOf)
-  && CEL.isUndefined(CEL.reduceOf)
-  && CEL.isUndefined(CEL.sortOf)
-  && CEL.isUndefined(CEL.reverseOf)
-  && CEL.isUndefined(CEL.sliceOf)
-  && CEL.isUndefined(CEL.lastOf)
-  && CEL.isUndefined(CEL.firstOf)
-  && CEL.isUndefined(CEL.noneOf)
-  && CEL.isUndefined(CEL.filterOf)
-  && CEL.isUndefined(CEL.sizeOf)
-  && CEL.isUndefined(CEL.hasOf)
-  && CEL.isUndefined(CEL.mapOf)
-  && CEL.isUndefined(CEL.forOf)
+    && CEL.isUndefined(CEL.everyOf)
+    && CEL.isUndefined(CEL.findOf)
+    && CEL.isUndefined(CEL.dropOf)
+    && CEL.isUndefined(CEL.takeOf)
+    && CEL.isUndefined(CEL.joinOf)
+    && CEL.isUndefined(CEL.enumerateOf)
+    && CEL.isUndefined(CEL.flatOf)
+    && CEL.isUndefined(CEL.concatOf)
+    && CEL.isUndefined(CEL.reduceOf)
+    && CEL.isUndefined(CEL.sortOf)
+    && CEL.isUndefined(CEL.reverseOf)
+    && CEL.isUndefined(CEL.sliceOf)
+    && CEL.isUndefined(CEL.lastOf)
+    && CEL.isUndefined(CEL.firstOf)
+    && CEL.isUndefined(CEL.noneOf)
+    && CEL.isUndefined(CEL.filterOf)
+    && CEL.isUndefined(CEL.sizeOf)
+    && CEL.isUndefined(CEL.hasOf)
+    && CEL.isUndefined(CEL.mapOf)
+    && CEL.isUndefined(CEL.forOf)
 );
 
 // randomID begin
@@ -266,8 +266,7 @@ CUT.log("<code>\"" + rIDstr + "\"</code>");
 
 var rIDstr = CEL.randomID(false, true);
 CUT.isTrue("randomID(false); with date with date",
-  rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr)
-);
+  rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr) );
 CUT.log("<code>\"" + rIDstr + "\"</code>");
 
 var rIDstr = CEL.randomID(true, true);
@@ -291,10 +290,11 @@ CUT.log("<code>\"" + rIDstr + "\"</code>");
 CUT.isTrue(
   "signbit();",
   !CEL.signbit("str") && !CEL.signbit("5") && CEL.signbit("-5")
-  && !CEL.signbit("4.2") && CEL.signbit("-4.2") && CEL.signbit(-3.14)
-  && !CEL.signbit(3.14) && CEL.signbit(-1) && !CEL.signbit(1)
-  && !CEL.signbit(0) && CEL.signbit(-0) && !CEL.signbit(+0)
-  && !CEL.signbit(Infinity) && CEL.signbit(-Infinity) && !CEL.signbit(+Infinity)
+    && !CEL.signbit("4.2") && CEL.signbit("-4.2") && CEL.signbit(-3.14)
+    && !CEL.signbit(3.14) && CEL.signbit(-1) && !CEL.signbit(1)
+    && !CEL.signbit(0) && CEL.signbit(-0) && !CEL.signbit(+0)
+    && !CEL.signbit(Infinity) && CEL.signbit(-Infinity)
+    && !CEL.signbit(+Infinity)
 );
 
 CUT.isTrue("assertTrue();",    CEL.assertTrue("lorem ipsum", true) );
@@ -350,58 +350,60 @@ CUT.isTrue("qsa(); forEach",
     testQsa3[1].innerHTML === "#qsaDivP2 test element each"
 );
 
+CUT.isEqual("getType();", CEL.classof, CEL.getType);
 
-CUT.isEqual("getType(); ES5 values",
+CUT.isEqual("classof(); ES5 values",
   "array  number  string  object  htmldocument  boolean  nodelist  htmlparagraphelement  null  undefined  function  date  regexp",
-  CEL.getType([1,2,3])+"  "+CEL.getType(1998)+"  "+CEL.getType("hello world")
-    +"  "+CEL.getType({a:1,b:2})+"  "+CEL.getType(document)
-    +"  "+CEL.getType(true)+"  "+CEL.getType(document.querySelectorAll("p"))
-    +"  "+CEL.getType(document.querySelector("p"))+"  "+CEL.getType(null)
-    +"  "+CEL.getType(undefined)+"  "+CEL.getType(function(){})
-    +"  "+CEL.getType(new Date())+"  "+CEL.getType(/^\[object (.+)\]$/g)
+  CEL.classof([1,2,3])+"  "+CEL.classof(1998)+"  "+CEL.classof("hello world")
+    + "  " +CEL.classof({a:1,b:2})+"  "+CEL.classof(document)
+    + "  " +CEL.classof(true)+"  "+CEL.classof(document.querySelectorAll("p"))
+    + "  " +CEL.classof(document.querySelector("p"))+"  "+CEL.classof(null)
+    + "  " +CEL.classof(undefined)+"  "+CEL.classof(function(){})
+    + "  " +CEL.classof(new Date())+"  "+CEL.classof(/^\[object (.+)\]$/g)
 );
-CUT.isEqual("getType(); ES5 all true",
+CUT.isEqual("classof(); ES5 all true",
   "true  true  true  true  true  true  true  true  true  true  true  true  true",
- CEL.getType([1,2,3], "array")+"  "+CEL.getType(1998, "number")
-    +"  "+CEL.getType("hello world", "string")+"  "+CEL.getType({a:1,b:2}, "object")
-    +"  "+CEL.getType(document, "htmldocument")+"  "+CEL.getType(true, "boolean")
-    +"  "+CEL.getType(document.querySelectorAll("p"), "nodelist")
-    +"  "+CEL.getType(document.querySelector("p"), "htmlparagraphelement")
-    +"  "+CEL.getType(null, "null")+"  "+CEL.getType(undefined, "undefined")
-    +"  "+CEL.getType(function(){}, "function")+"  "+CEL.getType(new Date(), "date")
-    +"  "+CEL.getType(/^\[object (.+)\]$/g, "regexp")
+ CEL.classof([1,2,3], "array")+"  "+CEL.classof(1998, "number")
+    +"  "+CEL.classof("hello world", "string")+"  "+CEL.classof({a:1,b:2}, "object")
+    +"  "+CEL.classof(document, "htmldocument")+"  "+CEL.classof(true, "boolean")
+    +"  "+CEL.classof(document.querySelectorAll("p"), "nodelist")
+    +"  "+CEL.classof(document.querySelector("p"), "htmlparagraphelement")
+    +"  "+CEL.classof(null, "null")+"  "+CEL.classof(undefined, "undefined")
+    +"  "+CEL.classof(function(){}, "function")+"  "+CEL.classof(new Date(), "date")
+    +"  "+CEL.classof(/^\[object (.+)\]$/g, "regexp")
 );
-CUT.isEqual("getType(); ES5 all false",
+CUT.isEqual("classof(); ES5 all false",
   "false  false  false  false  false  false  false  false  false  false  false  false  false",
-  CEL.getType([1,2,3], "number")+"  "+CEL.getType(1998, "array")
-    +"  "+CEL.getType("hello world", "object")+"  "+CEL.getType({a:1,b:2}, "string")
-    +"  "+CEL.getType(document, "boolean")+"  "+CEL.getType(true, "htmldocument")
-    +"  "+CEL.getType(document.querySelectorAll("p"), "htmlheadingelement")
-    +"  "+CEL.getType(document.querySelector("p"), "nodelist")
-    +"  "+CEL.getType(null, "undefined")+"  "+CEL.getType(undefined, "null")
-    +"  "+CEL.getType(function(){}, "object")+"  "+CEL.getType(new Date(), "array")
-    +"  "+CEL.getType(/^\[object (.+)\]$/g, "string")
+  CEL.classof([1,2,3], "number")+"  "+CEL.classof(1998, "array")
+    +"  "+CEL.classof("hello world", "object")+"  "+CEL.classof({a:1,b:2}, "string")
+    +"  "+CEL.classof(document, "boolean")+"  "+CEL.classof(true, "htmldocument")
+    +"  "+CEL.classof(document.querySelectorAll("p"), "htmlheadingelement")
+    +"  "+CEL.classof(document.querySelector("p"), "nodelist")
+    +"  "+CEL.classof(null, "undefined")+"  "+CEL.classof(undefined, "null")
+    +"  "+CEL.classof(function(){}, "object")+"  "+CEL.classof(new Date(), "array")
+    +"  "+CEL.classof(/^\[object (.+)\]$/g, "string")
 );
 
-CUT.isEqual("getType(); ES6 values", "map  set  weakmap  weakset",
-  CEL.getType(new Map()) +"  "+CEL.getType(new Set())
-    +"  "+CEL.getType(new WeakMap()) +"  "+CEL.getType(new WeakSet())
+CUT.isEqual("classof(); ES6 values", "map  set  weakmap  weakset",
+  CEL.classof(new Map()) +"  "+CEL.classof(new Set())
+    +"  "+CEL.classof(new WeakMap())
+    +"  "+CEL.classof(new WeakSet())
 );
-CUT.isEqual("getType(); ES6 all true", "true  true  true  true",
-  CEL.getType(new Map(), "map") +"  "+CEL.getType(new Set(), "set")
-    +"  "+CEL.getType(new WeakMap(), "weakmap")
-    +"  "+CEL.getType(new WeakSet(), "weakset")
+CUT.isEqual("classof(); ES6 all true", "true  true  true  true",
+  CEL.classof(new Map(), "map") +"  "+CEL.classof(new Set(), "set")
+    +"  "+CEL.classof(new WeakMap(), "weakmap")
+    +"  "+CEL.classof(new WeakSet(), "weakset")
 );
-CUT.isEqual("getType(); ES6 all false", "false  false  false  false",
-  CEL.getType(new Map(), "object") +"  "+CEL.getType(new Set(), "object")
-    +"  "+CEL.getType(new WeakMap(), "object")
-    +"  "+CEL.getType(new WeakSet(), "object")
+CUT.isEqual("classof(); ES6 all false", "false  false  false  false",
+  CEL.classof(new Map(), "object") +"  "+CEL.classof(new Set(), "object")
+    +"  "+CEL.classof(new WeakMap(), "object")
+    +"  "+CEL.classof(new WeakSet(), "object")
 );
 if (window.BigInt) {
-  CUT.isEqual("getType(); ES6 bigint", "bigint  true  false",
-  CEL.getType(BigInt(456))
-    +"  "+CEL.getType(BigInt(456), "bigint")
-    +"  "+CEL.getType(BigInt(456), "object")
+  CUT.isEqual("classof(); ES6 bigint", "bigint  true  false",
+  CEL.classof(BigInt(456))
+    +"  "+CEL.classof(BigInt(456), "bigint")
+    +"  "+CEL.classof(BigInt(456), "object")
   );
 }
 
@@ -453,9 +455,9 @@ var David = new Human("David",27);
 var Amy = new Worker ("Amy",25,"Engineer");
 
 CUT.isEqual("inherit();",
-  "David, 27" +"Amy, 25, Engineer" +"David instanceof Human: true"
-    +"David instanceof Worker: false" +"Amy instanceof Human: true"
-    +"Amy instanceof Worker: true",
+  "David, 27" +"Amy, 25, Engineer" + "David instanceof Human: true"
+    + "David instanceof Worker: false" + "Amy instanceof Human: true"
+    + "Amy instanceof Worker: true",
   David.getName()+", "+David.getAge()
     + Amy.getName()+", "+Amy.getAge()+", "+Amy.getJob()
     + "David instanceof Human: " + (David instanceof Human)
@@ -471,8 +473,7 @@ CUT.isEqual(
   "updated", CEL.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"],
 );
 CUT.isEqual("getUrlVars(); prop not found - undefined", undefined,
-  CEL.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"],
-);
+  CEL.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"] );
 CUT.isEqual("getUrlVars(); empty object","{}",JSON.stringify(CEL.getUrlVars("?")));
 
 CUT.addElement(CEL.domCreate("div", {"id": "testFormDiv"},
@@ -504,13 +505,11 @@ CUT.isTrue("randomFloat(min,max);", testRandom >= 51 && testRandom <= 55);
 
 var testRandom = CEL.randomBoolean();
 CUT.isTrue("randomBoolean(); - <code>" + testRandom + "</code>",
-  CEL.isBoolean(testRandom) && (testRandom === true || testRandom === false)
-);
+  CEL.isBoolean(testRandom) && (testRandom === true || testRandom === false) );
 
 var rndStr = CEL.randomString();
 CUT.isTrue("randomString(); default length 100, default false",
-  CEL.isString(rndStr) && rndStr.length === 100
-);
+  CEL.isString(rndStr) && rndStr.length === 100);
 CUT.log("<code>"+rndStr+"</code>");
 rndStr = CEL.randomString(10);
 CUT.isTrue("randomString(10) default false",
@@ -526,8 +525,7 @@ CUT.isTrue("randomString(20,false);",
 CUT.log("<code>"+rndStr+"</code>");
 rndStr = "1" + CEL.randomString(32,false);
 CUT.isEqual("randomString(); random \"btc\" address", true,
-  CEL.isString(rndStr) && rndStr.length === 33
-);
+  CEL.isString(rndStr) && rndStr.length === 33 );
 CUT.log("<code>"+rndStr+"</code>");
 
 CUT.isTrue("inRange();",
@@ -568,7 +566,7 @@ CUT.isEqual("javaHash();",
     + "str variable + b64Encode + b64Decode: " + CEL.b64Decode(CEL.b64Encode(CEL.javaHash(kayleeStr))) + " / " + CEL.b64Decode(CEL.b64Encode(CEL.javaHash(kayleeStr,true))) + " / " + CEL.b64Decode(CEL.b64Encode(CEL.javaHash(kayleeStr,false)))
 );
 
-var FPObject = {a:2, b:3, c:4};
+var FPObject = {a: 2, b: 3, c: 4};
 
 CUT.isEqual("sizeIn();", "" + CEL.sizeIn(FPObject) + CEL.sizeIn({}), "30");
 
@@ -577,23 +575,22 @@ CEL.forIn(FPObject, (e) => forInStr += (e*2) );
 CUT.isEqual("forIn();", "468", forInStr);
 CUT.isEqual("forIn(); return value",FPObject,CEL.forIn(FPObject,function(){}));
 
-CUT.isEqual("filterIn();",
-  "{\"b\":2,\"c\":3}",
-  JSON.stringify( CEL.filterIn({"a": 1, "b": 2, "c": 3}, (v, p, o) => (v > 1)) )
-);
+CUT.isEqual("filterIn();", "{\"b\":2,\"c\":3}",
+  JSON.stringify( CEL.filterIn({"a": 1, "b": 2, "c": 3},(v, p, o) => (v>1)) ) );
 
 CUT.isEqual("popIn();","1undefined",""+CEL.popIn({"a":1},"a")+CEL.popIn({},"a"));
 
 CUT.isEqual("getDoNotTrack();", true,
-  CEL.getDoNotTrack() === true || CEL.getDoNotTrack() === false
-);
+  CEL.getDoNotTrack() === true || CEL.getDoNotTrack() === false );
 
 CUT.isTrue("strPropercase();",
   CEL.strPropercase("arthur conan doyle") === "Arthur Conan Doyle" &&
-  CEL.strPropercase("arthur conan   doyle") === "Arthur Conan   Doyle"
-);
+  CEL.strPropercase("arthur conan   doyle") === "Arthur Conan   Doyle" );
+CUT.isTrue("strTitlecase();",
+  CEL.strTitlecase("arthur conan doyle") === "Arthur Conan Doyle" &&
+  CEL.strTitlecase("arthur conan   doyle") === "Arthur Conan   Doyle" );
 
-CUT.isEqual("strCapitalize();", CEL.strCapitalize("lorEm Ipsum"), "Lorem ipsum");
+CUT.isEqual("strCapitalize();", CEL.strCapitalize("lorEm Ipsum"),"Lorem ipsum");
 
 CUT.isEqual("strUpFirst();", CEL.strUpFirst("lorEm Ipsum"), "LorEm Ipsum");
 
@@ -617,26 +614,23 @@ CUT.isEqual("strReverse(); with unicode 1",
 const testUnicodeStr22222 = "foo \uD834\uDF06 bar \uD835\uDC01 baz";
 CUT.isEqual("strCodePoints();",
   "[102,111,111,32,119558,32,98,97,114,32,119809,32,98,97,122]",
-  JSON.stringify(CEL.strCodePoints(testUnicodeStr22222))
-);
+  JSON.stringify(CEL.strCodePoints(testUnicodeStr22222)) );
 CUT.isEqual("strFromCodePoints(); + strCodePoints();", testUnicodeStr22222,
-  CEL.strFromCodePoints(CEL.strCodePoints(testUnicodeStr22222))
-);
+  CEL.strFromCodePoints(CEL.strCodePoints(testUnicodeStr22222)) );
 
 CUT.isTrue("strAt();",
   CEL.strAt("\uD834\uDF06 ab cd",0) === "\uD834\uDF06"
-  && CEL.strAt("ab \uD834\uDF06 cd",3) === "\uD834\uDF06"
-  && CEL.strAt("ab cd \uD834\uDF06",-1) === "\uD834\uDF06"
-  && CEL.strAt("ab \uD834\uDF06 cd",0) === "a"
-  && CEL.strAt("ab \uD834\uDF06 cd",5) === "c"
-  && CEL.strAt("ab \uD834\uDF06 cd",-1) === "d"
-  && CEL.strAt("",0) === "" && CEL.strAt("",3) === "" && CEL.strAt("",-1) === ""
+    && CEL.strAt("ab \uD834\uDF06 cd",3) === "\uD834\uDF06"
+    && CEL.strAt("ab cd \uD834\uDF06",-1) === "\uD834\uDF06"
+    && CEL.strAt("ab \uD834\uDF06 cd",0) === "a"
+    && CEL.strAt("ab \uD834\uDF06 cd",5) === "c"
+    && CEL.strAt("ab \uD834\uDF06 cd",-1) === "d" && CEL.strAt("",0) === ""
+    && CEL.strAt("",3) === "" && CEL.strAt("",-1) === ""
 );
 
 var slice = CEL.toFunction([].slice);
 CUT.isEqual("toFunction();", true,
-  Array.isArray(slice(document.querySelectorAll("h3")))
-);
+  Array.isArray(slice(document.querySelectorAll("h3"))) );
 
 var FPArray = [1,2,3];
 
@@ -674,8 +668,7 @@ CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); with prefix 2",
   "value2", CEL.domGetCSSVar("--testVar2"));
 
 CUT.addElement( CEL.domCreate("p",
-  {"id": "domTestElement", style: {"width": "250px"} }, "DOM test element"
-));
+  {"id": "domTestElement", style: {"width": "250px"} }, "DOM test element"));
 var domTestElement = CEL.qs("#domTestElement");
 
 CUT.isTrue("domCreate(); with style object", CEL.isElement(domTestElement));
@@ -739,7 +732,7 @@ CUT.addElement(
     '<p id="dsDivP1">#dsDivP1</p>' +'<p id="dsDivP2">#dsDivP2</p>'
       +'<p id="dsDivP3">#dsDivP3</p>' +'<p id="dsDivP4">#dsDivP4</p>'
       +'<p id="dsDivP5">#dsDivP5</p>'
- )
+  )
 );
 var dsArray = CEL.domSiblings(CEL.qs("#dsDivP3"));
 CUT.isTrue("domSiblings();", (
@@ -794,40 +787,31 @@ CUT.isTrue("arrayDeepClone();",
 
 var arrayCreateArr = CEL.arrayCreate(4);
 CUT.isTrue("arrayCreate(); return array 4",
-  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 4
-);
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 4);
 var arrayCreateArr = CEL.arrayCreate(0);
 CUT.isTrue("arrayCreate(); return array 0",
-  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0
-);
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0);
 var arrayCreateArr = CEL.arrayCreate(-0);
 CUT.isTrue("arrayCreate(); return array -0",
-  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0
-);
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0);
 var arrayCreateArr = CEL.arrayCreate("5");
 CUT.isTrue("arrayCreate(); return array \"5\"",
-  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 5
-);
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 5);
 var arrayCreateArr = CEL.arrayCreate(true);
 CUT.isTrue("arrayCreate(); return array true",
-  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 1
-);
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 1);
 var arrayCreateArr = CEL.arrayCreate(false);
 CUT.isTrue("arrayCreate(); return array false",
-  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0
-);
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0);
 var arrayCreateArr = CEL.arrayCreate(4294967295);
 CUT.isTrue("arrayCreate(); return array 4294967295 max size",
-  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 4294967295
-);
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 4294967295);
 var arrayCreateArr = CEL.arrayCreate();
 CUT.isTrue("arrayCreate(); return array without parameter",
-  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0
-);
+  Array.isArray(arrayCreateArr) && arrayCreateArr.length === 0);
 
 CUT.isEqual("withOut();",
-  JSON.stringify(CEL.withOut(["a","b","c","d"], ["b","d"])), "[\"a\",\"c\"]"
-);
+  JSON.stringify(CEL.withOut(["a","b","c","d"], ["b","d"])), "[\"a\",\"c\"]");
 
 var arrPartition = [-5, 2, -9, 7, 34];
 CUT.isEqual("partition();",
@@ -841,8 +825,7 @@ CUT.isTrue("groupBy();", strGroupBy === "{\"odd\":[1,3,5],\"even\":[2,4]}"
   || strGroupBy === "{\"even\":[2,4],\"odd\":[1,3,5]}");
 
 CUT.isTrue("initial();",
-  CEL.isSameArray(CEL.initial(["a","b","c","d"]), ["a","b","c"])
-);
+  CEL.isSameArray(CEL.initial(["a","b","c","d"]), ["a","b","c"]) );
 
 var sum = "";
 for (let x of CEL.iterRange(10, 3, 20)) { sum += x; }
@@ -1016,23 +999,19 @@ CUT.isEqual("item(); string unicode",
 );
 var itemOfArray = [4,5,6,7,8];
 CUT.isEqual("item(); array",
-  "" + CEL.item(itemOfArray, 3) + CEL.item(itemOfArray, 12), "7" + "undefined"
-);
+  "" + CEL.item(itemOfArray, 3) + CEL.item(itemOfArray, 12), "7" + "undefined");
 let itemOfMap = new Map([ ["a",1], ["b",2], ["c",3] ]);
 CUT.isEqual("item(); map",
   JSON.stringify(CEL.item(itemOfMap, 1)) + CEL.item(itemOfMap, 12),
-  "[\"b\",2]" + "undefined"
-);
+  "[\"b\",2]" + "undefined");
 let itemOfSet = new Set([3,3,4,5,5,6,7,7,8]);
 CUT.isEqual("item(); set",
   "" + JSON.stringify(CEL.item(itemOfSet, 3)) + CEL.item(itemOfSet, 12),
-  "6" + "undefined"
-);
+  "6" + "undefined");
 
 var itemOfArray = [4,5,6,7,8];
 CUT.isEqual("nth();",
-  "" + CEL.nth(itemOfArray, 3) + CEL.nth(itemOfArray, 12), "7" + "undefined"
-);
+  "" + CEL.nth(itemOfArray, 3) + CEL.nth(itemOfArray, 12), "7" + "undefined");
 
 let sizeLastArray = [4,5,6,7,8,"last"];
 CUT.isEqual("size();", 6, CEL.size(sizeLastArray));
@@ -1043,26 +1022,20 @@ CUT.isEqual("last();", "last", CEL.last(sizeLastArray));
 let reverseSortArray = ["first",4,5,6,7,8,9,"last"];
 
 CUT.isEqual("reverse();", "[\"last\",9,8,7,6,5,4,\"first\"]",
-  JSON.stringify([...CEL.reverse(reverseSortArray)])
-);
+  JSON.stringify([...CEL.reverse(reverseSortArray)]) );
 
 CUT.isEqual("sort(); without numbers", "[4,5,6,7,8,9,\"first\",\"last\"]",
-  JSON.stringify([...CEL.sort(reverseSortArray)])
-);
+  JSON.stringify([...CEL.sort(reverseSortArray)]));
 CUT.isEqual("sort(); with numbers", "[\"first\",4,5,6,7,8,9,\"last\"]",
-  JSON.stringify([...CEL.sort(reverseSortArray, true)])
-);
+  JSON.stringify([...CEL.sort(reverseSortArray, true)]) );
 CUT.isEqual("sort(); numbers without numbers", "[1,10,7,9]",
-  JSON.stringify([...CEL.sort([7,1,10,9])])
-);
+  JSON.stringify([...CEL.sort([7,1,10,9])]) );
 CUT.isEqual("sort(); numbers with numbers", "[1,7,9,10]",
-  JSON.stringify([...CEL.sort([7,1,10,9], true)])
-);
+  JSON.stringify([...CEL.sort([7,1,10,9], true)]) );
 
 const shuffledReverseSortArray = CEL.shuffle(reverseSortArray);
 CUT.isFalse("shuffle();",
-  CEL.isSameArray(reverseSortArray, shuffledReverseSortArray)
-);
+  CEL.isSameArray(reverseSortArray, shuffledReverseSortArray) );
 
 CUT.isTrue("includes(); true", CEL.includes(reverseSortArray, "last"));
 CUT.isFalse("includes(); false", CEL.includes(reverseSortArray, "world"));
@@ -1072,8 +1045,7 @@ CUT.isFalse("contains(); false", CEL.contains(reverseSortArray, "world"));
 
 CUT.isEqual("find(); found", 6, CEL.find(reverseSortArray, (v) => (v > 5)));
 CUT.isEqual("find(); not found", undefined,
-  CEL.find(reverseSortArray, (v) => (v > 11))
-);
+  CEL.find(reverseSortArray, (v) => (v > 11)) );
 
 CUT.isTrue("findLast();", CEL.findLast( [4,1,7,2,9], (v) => v < 5 ) === 2
   && CEL.findLast( [4,1,7,2,9], (v) => v > 10 ) === undefined);
@@ -1153,64 +1125,52 @@ for (let item of CEL.dropRightWhile(whileArray, (e) => (e<0))) {whileSum+=item;}
 CUT.isEqual("dropRightWhile(); full list", whileSum, 72);
 
 
-CUT.isEqual("concat(); one", "[4,5,6]",
-  JSON.stringify([...CEL.concat([4,5,6])])
-);
+CUT.isEqual("concat(); one","[4,5,6]",JSON.stringify([...CEL.concat([4,5,6])]));
 CUT.isEqual("concat(); more", "[\"1\",\"2\",\"3\",4,5,6,7,8,9]",
   JSON.stringify([...CEL.concat("123", [4,5,6].values(), new Set([7,8,9]))])
 );
 
 let reduceArray = [4,5,6,7,8,9];
 CUT.isEqual("reduce(); with initialvalue", 39,
-  CEL.reduce(reduceArray.values(), (acc, v, i) => acc + v, 0)
-);
+  CEL.reduce(reduceArray.values(), (acc, v, i) => acc + v, 0) );
 CUT.isEqual("reduce(); without initialvalue", 39,
-  CEL.reduce(reduceArray.values(), (acc, v, i) => acc + v)
-);
+  CEL.reduce(reduceArray.values(), (acc, v, i) => acc + v) );
 
 CUT.isEqual("enumerate();",
   JSON.stringify([...CEL.enumerate(["Picard","Riker","Data"])]),
-  "[[0,\"Picard\"],[1,\"Riker\"],[2,\"Data\"]]"
-);
+  "[[0,\"Picard\"],[1,\"Riker\"],[2,\"Data\"]]" );
 CUT.isEqual("enumerate(); with offset",
   JSON.stringify([...CEL.enumerate(["Picard","Riker","Data"],2)]),
-  "[[2,\"Picard\"],[3,\"Riker\"],[4,\"Data\"]]"
-);
+  "[[2,\"Picard\"],[3,\"Riker\"],[4,\"Data\"]]" );
 CUT.isEqual("entries();",
   JSON.stringify([...CEL.entries(["Picard","Riker","Data"])]),
-  "[[0,\"Picard\"],[1,\"Riker\"],[2,\"Data\"]]"
-);
+  "[[0,\"Picard\"],[1,\"Riker\"],[2,\"Data\"]]" );
 CUT.isEqual("entries(); with offset",
   JSON.stringify([...CEL.entries(["Picard","Riker","Data"],2)]),
-  "[[2,\"Picard\"],[3,\"Riker\"],[4,\"Data\"]]"
-);
+  "[[2,\"Picard\"],[3,\"Riker\"],[4,\"Data\"]]" );
 
 CUT.isEqual("flat();", "[1,2,3,4,5,6,7,8,9]",
-  JSON.stringify([...CEL.flat([[1,2,3].values(),new Set([4,5,6,6,7,7,4]),[8,9]])])
-);
+  JSON.stringify([...CEL.flat([[1,2,3].values(),
+  new Set([4,5,6,6,7,7,4]),[8,9]])]) );
 
 let joinSet = new Set([2,4,6,4,8,2]);
 CUT.isEqual("join();",
   "2,4,6,8"+"2468"+"2;4;6;8"+"2abc4abc6abc8"+"2true4true6true8"+"2114116118",
   CEL.join(joinSet) + CEL.join(joinSet, "")
     + CEL.join(joinSet, ";") + CEL.join(joinSet, "abc")
-    + CEL.join(joinSet, true) + CEL.join(joinSet, 11)
-);
+    + CEL.join(joinSet, true) + CEL.join(joinSet, 11) );
 
 var FPArray = [1,2,3];
 
 CUT.isEqual("arrayCycle(); - ES5 1 - with 2 parameters",
   "[4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14,4,true,\"fgh\",3.14]",
-  JSON.stringify(CEL.arrayCycle([4,true,"fgh",3.14], 7))
-);
+  JSON.stringify(CEL.arrayCycle([4,true,"fgh",3.14], 7)) );
 CUT.isEqual("arrayCycle(); - ES5 2 - with default parameter (n = 100);",
   "[4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6,4,5,6]",
-  JSON.stringify(CEL.arrayCycle([4,5,6]))
-);
+  JSON.stringify(CEL.arrayCycle([4,5,6])) );
 CUT.isEqual("arrayCycle(); - ES6 1 - ES5 1 - with 2 parameters",
   "[2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4]",
-  JSON.stringify(CEL.arrayCycle(new Map([ [2,3],[3,4],[4,5] ]).keys(), 10))
-);
+  JSON.stringify(CEL.arrayCycle(new Map([ [2,3],[3,4],[4,5] ]).keys(), 10)) );
 CUT.isEqual("arrayCycle(); - ES6 2 - with default parameter (n = 100);",
   "[[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5],[2,3],[3,4],[4,5]]",
   JSON.stringify(CEL.arrayCycle(new Map([ [2,3],[3,4],[4,5] ]).entries()))
@@ -1226,11 +1186,9 @@ CUT.isEqual("arrayRepeat(); - 2 - with default parameter (n = 100);",
 );
 
 CUT.isEqual("arrayRange(); - 1 - step default 1",
-  "[5,6,7,8,9,10,11,12]", JSON.stringify(CEL.arrayRange(5,12))
-);
+  "[5,6,7,8,9,10,11,12]", JSON.stringify(CEL.arrayRange(5,12)) );
 CUT.isEqual("arrayRange(); - 2 - step 3",
-  "[1,4,7,10,13,16]", JSON.stringify(CEL.arrayRange(1,16,3))
-);
+  "[1,4,7,10,13,16]", JSON.stringify(CEL.arrayRange(1,16,3)) );
 CUT.isEqual(
   "arrayRange(); - 3 - step 3.2 <i>(can be failed - float storage)<i>",
   "[1,4.2,7.4,10.600000000000001,13.8,17]",
@@ -1290,8 +1248,7 @@ CUT.isEqual("unzip(); ES6",
 );
 
 CUT.isEqual("zipObj();",
-  '{"a":1,"b":2,"c":3}', JSON.stringify(CEL.zipObj(["a","b","c"],[1,2,3]))
-);
+  '{"a":1,"b":2,"c":3}', JSON.stringify(CEL.zipObj(["a","b","c"],[1,2,3])) );
 
 var a = [21,11,41,51,31];
 CUT.isEqual("min(); array", 11, CEL.min(...a));
@@ -1354,14 +1311,11 @@ CUT.isTrue("setUnion(); ES6",
   )
 );
 CUT.isTrue("setIntersection(); ES6",
-  __setEquals__(new Set([3,4]), CEL.setIntersection(sa,sb))
-);
+  __setEquals__(new Set([3,4]), CEL.setIntersection(sa,sb)) );
 CUT.isTrue("setDifference(); ES6",
-  __setEquals__(new Set([1,2]), CEL.setDifference(sa,sb))
-);
+  __setEquals__(new Set([1,2]), CEL.setDifference(sa,sb)) );
 CUT.isTrue("setSymmetricDifference(); ES6",
-  __setEquals__(new Set([1,2,5,6]), CEL.setSymmetricDifference(sa,sb))
-);
+  __setEquals__(new Set([1,2,5,6]), CEL.setSymmetricDifference(sa,sb)) );
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,7,8,9,0];
 var arrTestClearRemove2 = CEL.arrayClear(arrTestClearRemove1);
@@ -1393,7 +1347,7 @@ CUT.isTrue("arrayRemove(); - 3 found - not all - true",
 CUT.isTrue("arrayRemove(); - 3 found - not all - true",
   CEL.arrayRemove(arrTestClearRemove1, 5, false));
 CUT.isEqual("arrayRemove(); - 3 found - not all - value check",
-  "[1,2,3,4,6,7,8,5,9,0]", JSON.stringify(arrTestClearRemove1));
+  "[1,2,3,4,6,7,8,5,9,0]", JSON.stringify(arrTestClearRemove1) );
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
 CUT.isTrue("arrayRemove(); - 3 found - all - true",
@@ -1401,8 +1355,7 @@ CUT.isTrue("arrayRemove(); - 3 found - all - true",
 CUT.isFalse("arrayRemove(); - 3 found - all - false",
   CEL.arrayRemove(arrTestClearRemove1, 5, true));
 CUT.isEqual("arrayRemove(); - 3 found - all - value check",
-  "[1,2,3,4,6,7,8,9,0]", JSON.stringify(arrTestClearRemove1)
-);
+  "[1,2,3,4,6,7,8,9,0]", JSON.stringify(arrTestClearRemove1) );
 
 var arrTestClearRemove1 = [1,2,3,4,5,6,5,7,8,5,9,0];
 CUT.isFalse("arrayRemove(); - 0 found - not all - false",
@@ -1491,25 +1444,11 @@ arrMergeStr += JSON.stringify(arrMerge1);
 arrMerge1 = [1,2,3];
 arrMergeStr += JSON.stringify(CEL.arrayMerge(arrMerge1, arrMerge2, arrMerge3));
 arrMergeStr += JSON.stringify(arrMerge1);
-arrMerge1 = [1,2,3];
-arrMergeStr += JSON.stringify(
-  CEL.arrayMerge(false, arrMerge1, arrMerge2, arrMerge3));
-arrMergeStr += JSON.stringify(arrMerge1);
-arrMerge1 = [1,2,3];
-arrMergeStr += JSON.stringify(
-  CEL.arrayMerge(true, arrMerge1, arrMerge2, arrMerge3));
-arrMergeStr += JSON.stringify(arrMerge1);
-arrMerge1 = [1,2,3];
-arrMergeStr += JSON.stringify(
-  CEL.arrayMerge(true, [], arrMerge1, arrMerge3, 42, 3.14));
-CUT.isEqual("arrayMerge();", "[1,2,3,4,5,6]" + "[1,2,3,4,5,6]"
+CUT.isEqual("arrayMerge();",
+  "[1,2,3,4,5,6]"
+    + "[1,2,3,4,5,6]"
     + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]"
-    + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
-    + "[1,2,3,4,5,6,7,8,10,11,12,13,14,15,9]"
-    + "[1,2,3,7,8,10,11,12,13,14,15,9,42,3.14]",
+    + "[1,2,3,4,5,6,7,8,[10,11,12,[13,14,15]],9]",
   arrMergeStr
 );
 
@@ -1589,33 +1528,33 @@ CUT.log("<code>\"" + rIDstr + "\"</code>");
 var arrFindLast = [1,2,5,6,3,4,7,8];
 CUT.isTrue("Array.prototype.findLast();",
   arrFindLast.findLast( (v) => (v < 5) ) === 4
-  && arrFindLast.findLast( (v) => (v < 0) ) === undefined
-  && arrFindLast.findLast( (v) => (v < 2) ) === 1
-  && arrFindLast.findLast( (v) => (v > 1) ) === 8
-  && [].findLast( (v) => (v < 0) ) === undefined
+    && arrFindLast.findLast( (v) => (v < 0) ) === undefined
+    && arrFindLast.findLast( (v) => (v < 2) ) === 1
+    && arrFindLast.findLast( (v) => (v > 1) ) === 8
+    && [].findLast( (v) => (v < 0) ) === undefined
 );
 CUT.isTrue("Array.prototype.findLastIndex();",
   arrFindLast.findLastIndex( (v) => (v < 5) ) === 5
-  && arrFindLast.findLastIndex( (v) => (v < 0) ) === -1
-  && arrFindLast.findLastIndex( (v) => (v < 2) ) === 0
-  && arrFindLast.findLastIndex( (v) => (v > 1) ) === 7
-  && [].findLastIndex( (v) => (v < 0) ) === -1
+    && arrFindLast.findLastIndex( (v) => (v < 0) ) === -1
+    && arrFindLast.findLastIndex( (v) => (v < 2) ) === 0
+    && arrFindLast.findLastIndex( (v) => (v > 1) ) === 7
+    && [].findLastIndex( (v) => (v < 0) ) === -1
 );
 
 var arrFindLast = new Uint8Array([1,2,5,6,3,4,7,8]);
 CUT.isTrue("Uint8Array.prototype.findLast();",
   arrFindLast.findLast( (v) => (v < 5) ) === 4
-  && arrFindLast.findLast( (v) => (v < 0) ) === undefined
-  && arrFindLast.findLast( (v) => (v < 2) ) === 1
-  && arrFindLast.findLast( (v) => (v > 1) ) === 8
-  && [].findLast( (v) => (v < 0) ) === undefined
+    && arrFindLast.findLast( (v) => (v < 0) ) === undefined
+    && arrFindLast.findLast( (v) => (v < 2) ) === 1
+    && arrFindLast.findLast( (v) => (v > 1) ) === 8
+    && [].findLast( (v) => (v < 0) ) === undefined
 );
 CUT.isTrue("Uint8Array.prototype.findLastIndex();",
   arrFindLast.findLastIndex( (v) => (v < 5) ) === 5
-  && arrFindLast.findLastIndex( (v) => (v < 0) ) === -1
-  && arrFindLast.findLastIndex( (v) => (v < 2) ) === 0
-  && arrFindLast.findLastIndex( (v) => (v > 1) ) === 7
-  && [].findLastIndex( (v) => (v < 0) ) === -1
+    && arrFindLast.findLastIndex( (v) => (v < 0) ) === -1
+    && arrFindLast.findLastIndex( (v) => (v < 2) ) === 0
+    && arrFindLast.findLastIndex( (v) => (v > 1) ) === 7
+    && [].findLastIndex( (v) => (v < 0) ) === -1
 );
 
 var arrayAt = [4,5,6,7,8];
@@ -1652,8 +1591,7 @@ var stringAtStr = ""
   + stringAt.at(-2) + stringAt.at(-3) + stringAt.at(-4) + stringAt.at(-5)
   + stringAt.at(-6);
 CUT.isEqual("String.prototype.at();", stringAtStr,
-  "45678undefined487654undefined"
-);
+  "45678undefined487654undefined" );
 
 var typedarrayAt = new Uint8Array([4,5,6,7,8]);
 var typedarrayAtStr = ""
@@ -1663,13 +1601,12 @@ var typedarrayAtStr = ""
   + typedarrayAt.at(-3) + typedarrayAt.at(-4) + typedarrayAt.at(-5)
   + typedarrayAt.at(-6);
 CUT.isEqual("Uint8Array.prototype.at();",
-  typedarrayAtStr,
-  "45678undefined487654undefined"
-);
+  typedarrayAtStr, "45678undefined487654undefined" );
 
 var hasOwnObject = {"a": 1, "b": 2};
 var hasOwnArray = [4,5,6];
-CUT.isEqual("Object.hasOwn();", "true false false true false false", ""
+CUT.isEqual("Object.hasOwn();",
+  "true false false true false false", ""
     + Object.hasOwn(hasOwnObject, "a")
     + " " + Object.hasOwn(hasOwnObject, "hasOwnProperty")
     + " " + Object.hasOwn(hasOwnObject, "c")
@@ -1781,29 +1718,29 @@ var flatArr2 = [1,2,[3,4]];
 var flatArr3 = [1,2,[3,4,[5,6]]];
 CUT.isTrue("Array.prototype.flat();",
   "[1,2,3,4]" === JSON.stringify(flatArr1.flat())
-  && "[1,2,3,4]" === JSON.stringify(flatArr1.flat(1000))
-  && "[1,2,3,4]" === JSON.stringify(flatArr1.flat(Infinity))
-  && "[1,2,3,4]" === JSON.stringify(flatArr2.flat())
-  && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat())
-  && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat(1))
-  && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(2))
-  && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(1000))
-  && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(Infinity))
-  && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(0))
-  && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(-1))
-  && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat("a2"))
-  && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(false))
-  && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat(true))
+    && "[1,2,3,4]" === JSON.stringify(flatArr1.flat(1000))
+    && "[1,2,3,4]" === JSON.stringify(flatArr1.flat(Infinity))
+    && "[1,2,3,4]" === JSON.stringify(flatArr2.flat())
+    && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat())
+    && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat(1))
+    && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(2))
+    && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(1000))
+    && "[1,2,3,4,5,6]" === JSON.stringify(flatArr3.flat(Infinity))
+    && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(0))
+    && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(-1))
+    && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat("a2"))
+    && "[1,2,[3,4,[5,6]]]" === JSON.stringify(flatArr3.flat(false))
+    && "[1,2,3,4,[5,6]]" === JSON.stringify(flatArr3.flat(true))
 );
 
 var flatMapArr1 = [1,2,3,4];
 var flatMapArr2 = ["lorem ipsum dolor", "", "sit"];
 CUT.isTrue("Array.prototype.flatMap();",
   "[[2],[4],[6],[8]]"===JSON.stringify(flatMapArr1.map(function(x){return [x*2];}))
-  && "[2,4,6,8]"===JSON.stringify(flatMapArr1.flatMap(function(x){return [x*2];}))
-  && "[[2],[4],[6],[8]]"===JSON.stringify(flatMapArr1.flatMap(function(x){return [[x*2]];}))
-  && '[["lorem","ipsum","dolor"],[""],["sit"]]'===JSON.stringify(flatMapArr2.map(function(x){return x.split(" ");}))
-  && '["lorem","ipsum","dolor","","sit"]'===JSON.stringify(flatMapArr2.flatMap(function (x){return x.split(" ");}))
+    && "[2,4,6,8]"===JSON.stringify(flatMapArr1.flatMap(function(x){return [x*2];}))
+    && "[[2],[4],[6],[8]]"===JSON.stringify(flatMapArr1.flatMap(function(x){return [[x*2]];}))
+    && '[["lorem","ipsum","dolor"],[""],["sit"]]'===JSON.stringify(flatMapArr2.map(function(x){return x.split(" ");}))
+    && '["lorem","ipsum","dolor","","sit"]'===JSON.stringify(flatMapArr2.flatMap(function (x){return x.split(" ");}))
 );
 
 /* non-standard polyfills */
@@ -1822,13 +1759,45 @@ CUT.isEqual("GeneratorFunction();", "912", sum);
 
 let afunction = new AsyncFunction("a","b",
   "return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);");
-CUT.isEqual("AsyncFunction();", "asyncfunction", CEL.getType(afunction));
+CUT.isEqual("AsyncFunction();", "asyncfunction", CEL.classof(afunction));
 
 
 /* type checking */
 
 CUT.addElement("hr");
 CUT.addElement("h3", "type checking");
+
+CUT.isTrue("isTruthy();",
+  CEL.isTruthy(1)
+    && CEL.isTruthy(42)
+    && CEL.isTruthy(3.14)
+    && CEL.isTruthy([])
+    && CEL.isTruthy({})
+    && !CEL.isTruthy(false)
+    && !CEL.isTruthy(0)
+    && !CEL.isTruthy(-0)
+    && !CEL.isTruthy(0n)
+    && !CEL.isTruthy("")
+    && !CEL.isTruthy(null)
+    && !CEL.isTruthy(undefined)
+    && !CEL.isTruthy(NaN)
+);
+
+CUT.isTrue("isFalsy();",
+  !CEL.isFalsy(1)
+    && !CEL.isFalsy(42)
+    && !CEL.isFalsy(3.14)
+    && !CEL.isFalsy([])
+    && !CEL.isFalsy({})
+    && CEL.isFalsy(false)
+    && CEL.isFalsy(0)
+    && CEL.isFalsy(-0)
+    && CEL.isFalsy(0n)
+    && CEL.isFalsy("")
+    && CEL.isFalsy(null)
+    && CEL.isFalsy(undefined)
+    && CEL.isFalsy(NaN)
+);
 
 CUT.isTrue("isAsyncGeneratorFn();",
   CEL.isAsyncGeneratorFn(async function*(){})
@@ -1919,6 +1888,9 @@ CUT.isFalse("isEmptyObject(); 5 false undefined", CEL.isEmptyObject(undefined));
 CUT.isTrue("isFunction(); true 1", CEL.isFunction(CEL.noop));
 CUT.isTrue("isFunction(); true 2", CEL.isFunction(new Function()));
 CUT.isFalse("isFunction(); false", CEL.isFunction(document.querySelector("p")));
+CUT.isTrue("isCallable(); true 1", CEL.isCallable(CEL.noop));
+CUT.isTrue("isCallable(); true 2", CEL.isCallable(new Function()));
+CUT.isFalse("isCallable(); false", CEL.isCallable(document.querySelector("p")));
 CUT.isTrue("isEmptyArray(); true", CEL.isEmptyArray([]));
 CUT.isFalse("isEmptyArray(); false 1", CEL.isEmptyArray([1,2,3]));
 CUT.isFalse("isEmptyArray(); false 2",
@@ -1965,45 +1937,36 @@ CUT.isFalse("isElement(); false 2 ",
 CUT.isFalse("isElement(); false 3 ", CEL.isElement([]));
 
 CUT.isTrue("isNumeric(); true",
-  CEL.isNumeric(-42) && CEL.isNumeric(-1.42) && CEL.isNumeric(-0.42) &&
-  CEL.isNumeric(0) && CEL.isNumeric(0.42) && CEL.isNumeric(.42) &&
-  CEL.isNumeric(1.42) && CEL.isNumeric(42) && CEL.isNumeric(8e5) &&
-  CEL.isNumeric(-8e5) && CEL.isNumeric(0x89f) && CEL.isNumeric(-0x89f) &&
-  CEL.isNumeric("-42") && CEL.isNumeric("-1.42") && CEL.isNumeric("-0.42") &&
-  CEL.isNumeric("0") && CEL.isNumeric("0.42") && CEL.isNumeric(".42") &&
-  CEL.isNumeric("1.42") && CEL.isNumeric("42") && CEL.isNumeric("8e5") &&
-  CEL.isNumeric("-8e5") && CEL.isNumeric("0x89f")
+  CEL.isNumeric(-42) && CEL.isNumeric(-1.42) && CEL.isNumeric(-0.42)
+    && CEL.isNumeric(0) && CEL.isNumeric(0.42) && CEL.isNumeric(.42)
+    && CEL.isNumeric(1.42) && CEL.isNumeric(42) && CEL.isNumeric(8e5)
+    && CEL.isNumeric(-8e5) && CEL.isNumeric(0x89f) && CEL.isNumeric(-0x89f)
+    && CEL.isNumeric("-42") && CEL.isNumeric("-1.42") && CEL.isNumeric("-0.42")
+    && CEL.isNumeric("0") && CEL.isNumeric("0.42") && CEL.isNumeric(".42")
+    && CEL.isNumeric("1.42") && CEL.isNumeric("42") && CEL.isNumeric("8e5")
+    && CEL.isNumeric("-8e5") && CEL.isNumeric("0x89f")
 );
 CUT.isFalse("isNumeric(); false",
-  CEL.isNumeric(null) || CEL.isNumeric(undefined) || CEL.isNumeric(NaN) ||
-  CEL.isNumeric("NaN") || CEL.isNumeric("1,42") || CEL.isNumeric("#foo") ||
-  CEL.isNumeric("1.2.3") || CEL.isNumeric("") || CEL.isNumeric("bar") ||
-  CEL.isNumeric(" ") || CEL.isNumeric("\r\n") || CEL.isNumeric("true") ||
-  CEL.isNumeric("false") || CEL.isNumeric("1<10") || CEL.isNumeric([]) ||
-  CEL.isNumeric({}) || CEL.isNumeric("-0x89f")
+  CEL.isNumeric(null) || CEL.isNumeric(undefined) || CEL.isNumeric(NaN)
+    || CEL.isNumeric("NaN") || CEL.isNumeric("1,42") || CEL.isNumeric("#foo")
+    || CEL.isNumeric("1.2.3") || CEL.isNumeric("") || CEL.isNumeric("bar")
+    || CEL.isNumeric(" ") || CEL.isNumeric("\r\n") || CEL.isNumeric("true")
+    || CEL.isNumeric("false") || CEL.isNumeric("1<10") || CEL.isNumeric([])
+    || CEL.isNumeric({}) || CEL.isNumeric("-0x89f")
 );
 
 CUT.isTrue("isArrayBuffer(); true", CEL.isArrayBuffer(new ArrayBuffer(8)));
 CUT.isFalse("isArrayBuffer(); false 1", CEL.isArrayBuffer([4,5,6]));
 CUT.isFalse("isArrayBuffer(); false 2", CEL.isArrayBuffer(new Int8Array(5)));
-CUT.isTrue("isTypedArray - true 1 - Int8Array",
-  CEL.isTypedArray(new Int8Array(5)));
-CUT.isTrue("isTypedArray - true 2 - Uint8Array",
-  CEL.isTypedArray(new Uint8Array(5)));
-CUT.isTrue("isTypedArray - true 3 - Int16Array",
-  CEL.isTypedArray(new Int16Array(5)));
-CUT.isTrue("isTypedArray - true 4 - Uint16Array",
-  CEL.isTypedArray(new Uint16Array(5)));
-CUT.isTrue("isTypedArray - true 5 - Int32Array",
-  CEL.isTypedArray(new Int32Array(5)));
-CUT.isTrue("isTypedArray - true 6 - Uint32Array",
-  CEL.isTypedArray(new Uint32Array(5)));
-CUT.isTrue("isTypedArray - true 7 - Float32Array",
-  CEL.isTypedArray(new Float32Array(5)));
-CUT.isTrue("isTypedArray - true 8 - Float64Array",
-  CEL.isTypedArray(new Float64Array(5)));
-CUT.isTrue("isTypedArray - true 9 - Uint8ClampedArray",
-  CEL.isTypedArray(new Uint8ClampedArray(5)));
+CUT.isTrue("isTypedArray - true 1 - Int8Array", CEL.isTypedArray(new Int8Array(5)));
+CUT.isTrue("isTypedArray - true 2 - Uint8Array", CEL.isTypedArray(new Uint8Array(5)));
+CUT.isTrue("isTypedArray - true 3 - Int16Array", CEL.isTypedArray(new Int16Array(5)));
+CUT.isTrue("isTypedArray - true 4 - Uint16Array", CEL.isTypedArray(new Uint16Array(5)));
+CUT.isTrue("isTypedArray - true 5 - Int32Array", CEL.isTypedArray(new Int32Array(5)));
+CUT.isTrue("isTypedArray - true 6 - Uint32Array", CEL.isTypedArray(new Uint32Array(5)));
+CUT.isTrue("isTypedArray - true 7 - Float32Array", CEL.isTypedArray(new Float32Array(5)));
+CUT.isTrue("isTypedArray - true 8 - Float64Array", CEL.isTypedArray(new Float64Array(5)));
+CUT.isTrue("isTypedArray - true 9 - Uint8ClampedArray", CEL.isTypedArray(new Uint8ClampedArray(5)));
 if (window.BigInt64Array) {CUT.isTrue("isTypedArray - true 10 - BigInt64Array",
   CEL.isTypedArray(new BigInt64Array(5)));}
 if (window.BigUint64Array) {
@@ -2011,8 +1974,7 @@ if (window.BigUint64Array) {
     CEL.isTypedArray(new BigUint64Array(5)));
 }
 CUT.isFalse("isTypedArray - false 1 - Array", CEL.isTypedArray([4,5,6]));
-CUT.isFalse("isTypedArray - false 2 - ArrayBuffer",
-  CEL.isTypedArray(new ArrayBuffer(8)));
+CUT.isFalse("isTypedArray - false 2 - ArrayBuffer", CEL.isTypedArray(new ArrayBuffer(8)));
 CUT.isTrue("isPromise(); - true ", CEL.isPromise(CEL.delay(1000)));
 CUT.isFalse("isPromise(); - false ", CEL.isPromise({}));
 CUT.isTrue("isSymbol(); true", CEL.isSymbol(Symbol("str")));
@@ -2059,9 +2021,7 @@ CUT.isFalse("isSameArray(); step 4", CEL.isSameArray([5,4,6], [4,5,5]) );
 CUT.isFalse("isSameArray(); step 5", CEL.isSameArray([5,4,5], [4,4,5]) );
 CUT.isFalse("isSameArray(); step 6", CEL.isSameArray([5,5], [5,5,4]) );
 CUT.isFalse("isSameArray(); step 7", CEL.isSameArray([5,5,4], [5,5]) );
-CUT.isFalse("isSameArray(); step 8",
-  CEL.isSameArray([5,5], new Map([[5,5],[5,5]]))
-);
+CUT.isFalse("isSameArray(); step 8", CEL.isSameArray([5,5], new Map([[5,5],[5,5]])) );
 CUT.isFalse("isSameArray(); step 9", CEL.isSameArray([5,5], new Set([5,5])) );
 CUT.isFalse("isSameArray(); step 10", CEL.isSameArray([], {}) );
 CUT.isFalse("isSameArray(); step 11", CEL.isSameArray({}, {}) );
@@ -2124,24 +2084,26 @@ CUT.addElement("hr");
 CUT.addElement("h3", "Abstract functions");
 
 var getSetHasObj = {};
-CUT.isTrue("getIn(); + setIn(); + hasIn();",
+CUT.isTrue("getInV(); + getIn(); + setIn(); + hasIn();",
   !CEL.hasIn(getSetHasObj, "pr1")
     && CEL.getIn(getSetHasObj, "pr1") === undefined
+    && CEL.getInV(getSetHasObj, "pr1") === undefined
     && CEL.setIn(getSetHasObj, "pr1", 42) === getSetHasObj
     && CEL.hasIn(getSetHasObj, "pr1")
     && CEL.getIn(getSetHasObj, "pr1") === 42
+    && CEL.getInV(getSetHasObj, "pr1") === 42
 );
 
 CUT.isTrue("isPropertyKey();",
   CEL.isPropertyKey("str")
-  && CEL.isPropertyKey(Symbol("42"))
-  && !CEL.isPropertyKey(42)
+    && CEL.isPropertyKey(Symbol("42"))
+    && !CEL.isPropertyKey(42)
 );
 
 CUT.isTrue("toPropertyKey();",
   typeof CEL.toPropertyKey("str") === "string"
-  && typeof CEL.toPropertyKey(Symbol("42")) === "symbol"
-  && typeof CEL.toPropertyKey(42) === "string"
+    && typeof CEL.toPropertyKey(Symbol("42")) === "symbol"
+    && typeof CEL.toPropertyKey(42) === "string"
 );
 
 CUT.isTrue("toObject();", typeof CEL.toObject("str") === "object");
@@ -2269,9 +2231,7 @@ CUT.isEqual("isIndex();", "1100000000000000000000", ""
   + +CEL.isIndex(null)
 );
 
-CUT.isEqual("toIndex();",
-  "3031021474836470214748364700300003000000",
-  ""
+CUT.isEqual("toIndex();", "3031021474836470214748364700300003000000", ""
   +CEL.toIndex(3)
   +CEL.toIndex(0)
   +CEL.toIndex("3")
