@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.4.0
+Latest version: 5.4.1
 
-Date: 2021-12-20T19:02:12.613Z
+Date: 2022-02-02T19:02:12.613Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.dev.js__|62184 byte
-minified|__celestra.min.js__|39267 byte
-ES6 module|__celestra.esm.js__|39123 byte
+developer|__celestra.dev.js__|64395 byte
+minified|__celestra.min.js__|40750 byte
+ES6 module|__celestra.esm.js__|40606 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 Version history|__history.md__|
 
@@ -148,7 +148,7 @@ Name | Description
 `javaHash(<data>[,hexa=false]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `getUrlVars([str=location.search]);` | Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
-`classof(<variable>[,type][,throw=false]);` | __Old name before v5.4.0:__ `getType` __and added an alias with the old name.__<br>Get the real type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
+`classof(<variable>[,type[,throw=false]]);` | __Old name before v5.4.0:__ `getType` __and added an alias with the old name.__<br>Get the real type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
 `extend([deep,]<target>,<source1>[,sourceN]);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
 `strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`strTitlecase(<string>);` | Alias of the `strPropercase(<string>);`.
 `strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
@@ -163,7 +163,7 @@ Name | Description
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `filterIn(<object>,<callback>);` | The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.<br>__Example:__<br>`var o1 = {"a": 1, "b": 2, "c": 3};`<br>`console.log(o1);`<br>`// Object { a: 1, b: 2, c: 3 }`<br>`var o2 = CEL.filterIn(o1, (v, p, o) => (v > 1));`<br>`console.log(o2);`<br>`// Object { b: 2, c: 3 }`
 `popIn(<object>,<property>);` | The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.
-`toFunction(<function>);` | Returns a "detach" function from an object method. The first parameter of the returned function will be the context object.
+`unBind(<function>);` | __Old name before v5.4.1: `toFunction` and added an alias with the old name.__<br>Returns an unbinded function from an object method. The function parameter is mandatory.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
@@ -271,8 +271,8 @@ Name | Description
 `isSameIterator(<iter1>,<iter2>);` | This function checks the value equality of the given iterator. The return value is boolean and both of the parameters are mandatory and have to be a collection (iterator / iterable object).
 `isAsyncFn(<value>);` | This function determines whether the provided value is an async function. The return value is boolean.
 `isGeneratorFn(<value>);` | This function determines whether the provided value is a generator function. The return value is boolean.
-`isString(<value>);` | This function determines whether the provided value is a string. The return value is boolean.
-`isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. The return value is boolean.
+`isString(<value>);` | This function determines whether the provided value is a string. This function is unicode compatible. The return value is boolean.
+`isChar(<value>);` | This function determines whether the provided value is a string with length 1 character. This function is unicode compatible. The return value is boolean.
 `isNumber(<value>);` | This function determines whether the provided value is a number. The return value is boolean.
 `isFloat(<value>);` | This function determines whether the provided value is a float number. The return value is boolean.
 `isNumeric(<value>);` | This function determines whether the provided value is a number or can be converted to number. The return value is boolean.
@@ -289,7 +289,7 @@ Name | Description
 `isNull(<value>);` | This function determines whether the provided value is null. The return value is boolean.
 `isUndefined(<value>);` | This function determines whether the provided value is undefined. The return value is boolean.
 `isNullOrUndefined(<value>);` | This function determines whether the provided value is null or undefined. The return value is boolean.
-`isNil(<value>);` | Alias of the `isNullOrUndefined(<value>);`.
+`isNil(<value>);` | This function determines whether the provided value is null or undefined or NaN. The return value is boolean.
 `isPrimitive(<value>);` | This function determines whether the provided value is not null, not object and not function. The return value is boolean.
 `isSymbol(<value>);` | This function determines whether the provided value is a symbol. The return value is boolean.
 `isMap(<value>);` | This function determines whether the provided value is a map. The return value is boolean.
@@ -340,7 +340,7 @@ Name | Description
 `shuffle(<collection>);` | Returns an array with the values of the given collection, but in shuffled order. <br>__Example:__<br>`CEL.shuffle(["first",4,5,6,7,8,9,"last"]);`<br>-><br>`[4,8,5,6,"last",9,7,"first"]`
 `withOut(<collection>,<filterCollection>);` | Returns an array with the values of the first collection, but without the values of the filterCollection. All of the parameters are mandatory and can be any type of JavaScript collections.<br>__Example:__<br>`CEL.withOut(["a","b","c","d"], ["b","d"]);`<br>-><br>`["a","c"]`
 `partition(<collection>,<callback>);` | Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.<br>__Example:__<br>`CEL.partition([-5, 2, -9, 7, 34], (e) => (e > 0) );`<br>-><br>`[[2, 7, 34], [-5, -9]]]`
-`groupBy(<collection>,<callback>);` | Returns an object with array properties. The object keys are the returned values of the given function. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.<br>__Example:__<br>`CEL.groupBy([1,2,3,4,5], (i) => (i % 2 === 0 ? "even" : "odd");`<br>-><br>`{ "even": [ 2, 4 ], "odd": [ 1, 3, 5 ] }`
+`groupBy(<collection>,<callback>[,map=false]);` | Returns an Object or Map with array properties. The keys are the returned values of the given function. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The map parameter is optional and has to be a boolean and if it is true, then the return value is a Map instead of Object.<br>__Example:__<br>`CEL.groupBy([1,2,3,4,5], (i) => (i % 2 === 0 ? "even" : "odd");`<br>-><br>`{ "even": [ 2, 4 ], "odd": [ 1, 3, 5 ] }`
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
 `arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
 `arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
@@ -430,13 +430,19 @@ Name | Description
 `isIndex(<value>);`|This function determines whether the provided value is a valid arraylike index number. The return value is boolean.
 `toIndex(<value>);`|This function converts the provided value to a valid arraylike index number. The return value is an unsigned integer (number).
 `toInteger(<value>);`|This function always converts the provided value to an integer. If the value cannot be converted to an integer, then the return value is 0.
+`toArray(<value>);`|If the value is an array, then this function returns the value else converts the value to array or the return value is an empty array.
 
 
 ### Polyfills
 
 Name | Description
 ---- | -----------
+`Object.is()` | The Object.is() method determines whether two values are the same value. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)!
+`Number.MIN_SAFE_INTEGER;` | The Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(2^53 - 1), -9007199254740991). For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER)!
+`Number.MAX_SAFE_INTEGER;` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (2^53 - 1, 9007199254740991). For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)!
 `crypto.randomUUID();` | The randomUUID() method of the Crypto interface is used to generate a v4 UUID using a cryptographically secure random number generator. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID)!
+`Array.prototype.groupBy(<fn>[,thisArg]);` | The groupBy() method grouping of items in an array based on the return value (key) of the given function. The return value is a null-prototype object. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-grouping)!
+`Array.prototype.groupByToMap(<fn>[,thisArg]);` | The groupByToMap() method grouping of items in an array based on the return value (key) of the given function. The return value is a Map object. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-grouping)!
 `Array.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
 `Array.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
 `TypedArray.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
@@ -457,7 +463,7 @@ Name | Description
 `globalThis;` | The "global" property of the global object, a writable, configurable, non-enumerable alias of window/self. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)!
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll)!
 `String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll)!
-REMOVED polyfills in v3.1.0 | `Array.from();`<br>`Array.of();`<br>`Array.prototype.fill();`<br>`Array.prototype.find();`<br>`Array.prototype.findIndex();`<br>`Object.create();`<br>`String.prototype.startsWith();`<br>`String.prototype.endsWith();`<br>`Object.is();`<br>`Array.prototype.copyWithin();`<br>`String.fromCodePoint();`<br>`String.prototype.codePointAt();`<br>`Number.MIN_SAFE_INTEGER;`<br>`Number.MAX_SAFE_INTEGER;`<br>`Number.EPSILON;`<br>`Number.isNaN();`<br>`isNaN();`<br>`Number.isInteger();`<br>`Number.isFinite();`<br>`Number.isSafeInteger();`<br>`Number.parseInt();`<br>`Number.parseFloat();`<br>`Math.acosh();`<br>`Math.asinh();`<br>`Math.atanh();`<br>`Math.cbrt();`<br>`Math.clz32();`<br>`Math.cosh();`<br>`Math.expm1();`<br>`Math.fround();`<br>`Math.hypot();`<br>`Math.imul();`<br>`Math.log1p();`<br>`Math.log10();`<br>`Math.log2();`<br>`Math.sign();`<br>`Math.sinh();`<br>`Math.tanh();`<br>`Math.trunc();`
+REMOVED polyfills in v3.1.0 | `Array.from();`<br>`Array.of();`<br>`Array.prototype.fill();`<br>`Array.prototype.find();`<br>`Array.prototype.findIndex();`<br>`Object.create();`<br>`String.prototype.startsWith();`<br>`String.prototype.endsWith();`<br>`Array.prototype.copyWithin();`<br>`String.fromCodePoint();`<br>`String.prototype.codePointAt();`<br>`Number.EPSILON;`<br>`Number.isNaN();`<br>`isNaN();`<br>`Number.isInteger();`<br>`Number.isFinite();`<br>`Number.isSafeInteger();`<br>`Number.parseInt();`<br>`Number.parseFloat();`<br>`Math.acosh();`<br>`Math.asinh();`<br>`Math.atanh();`<br>`Math.cbrt();`<br>`Math.clz32();`<br>`Math.cosh();`<br>`Math.expm1();`<br>`Math.fround();`<br>`Math.hypot();`<br>`Math.imul();`<br>`Math.log1p();`<br>`Math.log10();`<br>`Math.log2();`<br>`Math.sign();`<br>`Math.sinh();`<br>`Math.tanh();`<br>`Math.trunc();`
 REMOVED polyfills in v3.8.0 | `Array.prototype.values();`<br>`Array.prototype.includes();`<br>`String.prototype.includes();`<br>`String.prototype.repeat();`<br>`String.prototype[Symbol.iterator]();`<br>`Object.assign();`<br>`Object.entries();`<br>`Object.values();`<br>`Object.getOwnPropertyDescriptors();`<br>`RegExp.prototype.flags;`<br>`NodeList.prototype.forEach();`<br>`ChildNode.after();`<br>`ChildNode.before();`<br>`ChildNode.remove();`<br>`ChildNode.replaceWith();`<br>`ParentNode.append();`<br>`ParentNode.prepend();`<br>`Element.prototype.matches();`<br>`Element.prototype.closest();`<br>`Element.prototype.toggleAttribute();`<br>`Element.prototype.getAttributeNames();`<br>`window.screenLeft;`<br>`window.screenTop;`
 
 

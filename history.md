@@ -1,4 +1,28 @@
 
+## Celestra v5.4.1
+
+1. Documentation and pdf fixes.
+
+2. Add these functions:
+- `toArray(<value>);` - in abstract
+
+3. Add these polyfills:
+- `Array.prototype.groupBy(<fn>[,thisArg]);`
+- `Array.prototype.groupByToMap(<fn>[,thisArg]);`
+- `Number.MIN_SAFE_INTEGER;`
+- `Number.MAX_SAFE_INTEGER;`
+- `Object.is();`
+
+4. Fix these functions:
+
+Function|Fix
+--------|---
+`groupBy(<collection>,<callback>);`|Add a parameter: `map=false`
+`isChar(<value>);`|Make this function unicode compatible
+`isNil(<value>);`|Add handle of value of `NaN`
+`toFunction(<function>);`|Rename to `unBind(<function>);` and add an alias with the old name
+
+
 ## Celestra v5.4.0
 
 1. Documentation and pdf fixes.

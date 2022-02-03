@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.4.0</p>
-<p>Date: 2021-12-20T19:02:12.613Z</p>
+<p>Latest version: 5.4.1</p>
+<p>Date: 2022-02-02T19:02:12.613Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -89,17 +89,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.dev.js" target="_blank">celestra.dev.js</a>
-    </td><td>62184 byte</td>
+    </td><td>64395 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>39267 byte</td>
+    <td>40750 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>39123 byte</td>
+    <td>40606 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -331,7 +331,7 @@ CEL.delay(5000)
       <td>Convert object to a querystring. The return value is the string. The object parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>classof(&#60;variable&#62;[,type][,throw=false]);</code></td>
+      <td><code>classof(&#60;variable&#62;[,type[,throw=false]]);</code></td>
       <td><span class="info">Old name before v5.4.0: <code>getType</code> and added an alias with the old name.</span><br/>Get the real type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a <code>TypeError();</code>, else the return value is true.</td>
     </tr>
     <tr>
@@ -407,8 +407,8 @@ console.log(o2);
       <td>The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>toFunction(&#60;function&#62;);</code></td>
-      <td>Returns a "detach" function from an object method. The first parameter of the returned function will be the context object.</td>
+      <td><code>unBind(&#60;function&#62;);</code></td>
+      <td><span class="info">Old name before v5.4.1: <code>toFunction</code> and added an alias with the old name.</span><br/>Returns an unbinded function from an object method. The function parameter is mandatory.</td>
     </tr>
     <tr>
       <td><code>bind(&#60;function&#62;,&#60;context&#62;);</code></td>
@@ -460,6 +460,7 @@ console.log(o2);
     </tr>
   </table>
 </div>
+
 
 <h3>DOM functions</h3>
 
@@ -746,11 +747,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isString(&#60;value&#62;);</code></td>
-      <td>This function determines whether the provided value is a string. The return value is boolean.</td>
+      <td>This function determines whether the provided value is a string. This function is unicode compatible. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isChar(&#60;value&#62;);</code></td>
-      <td>This function determines whether the provided value is a string with length 1 character. The return value is boolean.</td>
+      <td>This function determines whether the provided value is a string with length 1 character. This function is unicode compatible. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isNumber(&#60;value&#62;);</code></td>
@@ -818,7 +819,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isNil(&#60;value&#62;);</code></td>
-      <td>Alias of the <code>isNullOrUndefined(&#60;value&#62;);</code>.</td>
+      <td>This function determines whether the provided value is null or undefined or NaN. The return value is boolean.</code>.</td>
     </tr>
     <tr>
       <td><code>isPrimitive(&#60;value&#62;);</code></td>
@@ -1043,9 +1044,9 @@ console.log(o2);
       </td>
     </tr>
     <tr>
-      <td><code>groupBy(&#60;collection&#62;,&#60;callback&#62;);</code></td>
+      <td><code>groupBy(&#60;collection&#62;,&#60;callback&#62;[,map=false]);</code></td>
       <td>
-        <p>Returns an object with array properties. The object keys are the returned values of the given function. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</p>
+        <p>Returns an Object or Map with array properties. The keys are the returned values of the given function. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The map parameter is optional and has to be a boolean and if it is true, then the return value is a Map instead of Object.</p>
         <p>
          <b>Example:</b>
          <br/><code>CEL.groupBy([1,2,3,4,5], (i) => (i % 2 === 0 ? "even" : "odd");</code>
@@ -1394,6 +1395,10 @@ console.log(o2);
       <td><code>toInteger(&#60;value&#62;);</code></td>
       <td>This function always converts the provided value to an integer. If the value cannot be converted to an integer, then the return value is 0.</td>
     </tr>
+    <tr>
+      <td><code>toArray(&#60;value&#62;);</code></td>
+      <td>If the value is an array, then this function returns the value else converts the value to array or the return value is an empty array.</td>
+    </tr>
   </table>
 </div>
 
@@ -1403,14 +1408,34 @@ console.log(o2);
 <div>
   <table class="table-responsive table-striped">
     <tr>
+      <td><code>Object.is()</code></td>
+      <td>The Object.is() method determines whether two values are the same value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
       <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>Number.MIN_SAFE_INTEGER</code></td>
+      <td>he Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(2^53 - 1), -9007199254740991). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Number.MAX_SAFE_INTEGER</code></td>
+      <td>The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (2^53 - 1, 9007199254740991). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>crypto.randomUUID();</code></td>
       <td>
         The randomUUID() method of the Crypto interface is used to generate a v4 UUID using a cryptographically secure random number generator. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID" target="_blank">MDN Article</a>!
       </td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.groupBy(&#60;fn&#62;[,thisArg]);</code></td>
+      <td>The groupBy() method grouping of items in an array based on the return value (key) of the given function. The return value is a null-prototype object. For more information please read the <a href="https://github.com/tc39/proposal-array-grouping" target="_blank">proposal Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.groupByToMap(&#60;fn&#62;[,thisArg]);</code></td>
+      <td>The groupByToMap() method grouping of items in an array based on the return value (key) of the given function. The return value is a Map object. For more information please read the <a href="https://github.com/tc39/proposal-array-grouping" target="_blank">proposal Article</a>!</td>
     </tr>
     <tr>
       <td><code>Array.prototype.findLast();</code></td>
@@ -1512,7 +1537,7 @@ console.log(o2);
     </tr>
     <tr>
       <td>REMOVED polyfills in v3.1.0</td>
-      <td><code>Array.from();</code><br/><code>Array.of();</code><br/><code>Array.prototype.fill();</code><br/><code>Array.prototype.find();</code><br/><code>Array.prototype.findIndex();</code><br/><code>Object.create();</code><br/><code>String.prototype.startsWith();</code><br/><code>String.prototype.endsWith();</code><br/><code>Object.is();</code><br/><code>Array.prototype.copyWithin();</code><br/><code>String.fromCodePoint();</code><br/><code>String.prototype.codePointAt();</code><br/><code>Number.MIN_SAFE_INTEGER;</code><br/><code>Number.MAX_SAFE_INTEGER;</code><br/><code>Number.EPSILON;</code><br/><code>Number.isNaN();</code><br/><code>isNaN();</code><br/><code>Number.isInteger();</code><br/><code>Number.isFinite();</code><br/><code>Number.isSafeInteger();</code><br/><code>Number.parseInt();</code><br/><code>Number.parseFloat();</code><br/><code>Math.acosh();</code><br/><code>Math.asinh();</code><br/><code>Math.atanh();</code><br/><code>Math.cbrt();</code><br/><code>Math.clz32();</code><br/><code>Math.cosh();</code><br/><code>Math.expm1();</code><br/><code>Math.fround();</code><br/><code>Math.hypot();</code><br/><code>Math.imul();</code><br/><code>Math.log1p();</code><br/><code>Math.log10();</code><br/><code>Math.log2();</code><br/><code>Math.sign();</code><br/><code>Math.sinh();</code><br/><code>Math.tanh();</code><br/><code>Math.trunc();</code></td>
+      <td><code>Array.from();</code><br/><code>Array.of();</code><br/><code>Array.prototype.fill();</code><br/><code>Array.prototype.find();</code><br/><code>Array.prototype.findIndex();</code><br/><code>Object.create();</code><br/><code>String.prototype.startsWith();</code><br/><code>String.prototype.endsWith();</code><br/><code>Array.prototype.copyWithin();</code><br/><code>String.fromCodePoint();</code><br/><code>String.prototype.codePointAt();</code>7<br/><code>Number.EPSILON;</code><br/><code>Number.isNaN();</code><br/><code>isNaN();</code><br/><code>Number.isInteger();</code><br/><code>Number.isFinite();</code><br/><code>Number.isSafeInteger();</code><br/><code>Number.parseInt();</code><br/><code>Number.parseFloat();</code><br/><code>Math.acosh();</code><br/><code>Math.asinh();</code><br/><code>Math.atanh();</code><br/><code>Math.cbrt();</code><br/><code>Math.clz32();</code><br/><code>Math.cosh();</code><br/><code>Math.expm1();</code><br/><code>Math.fround();</code><br/><code>Math.hypot();</code><br/><code>Math.imul();</code><br/><code>Math.log1p();</code><br/><code>Math.log10();</code><br/><code>Math.log2();</code><br/><code>Math.sign();</code><br/><code>Math.sinh();</code><br/><code>Math.tanh();</code><br/><code>Math.trunc();</code></td>
     </tr>
     <tr>
       <td>REMOVED polyfills in v3.8.0</td>

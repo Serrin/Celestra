@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.4.0 testcases */
+/* Celestra v5.4.1 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -628,19 +628,20 @@ CUT.isTrue("strAt();",
     && CEL.strAt("",3) === "" && CEL.strAt("",-1) === ""
 );
 
-var slice = CEL.toFunction([].slice);
-CUT.isEqual("toFunction();", true,
-  Array.isArray(slice(document.querySelectorAll("h3"))) );
 
 var FPArray = [1,2,3];
 
-var dqsa = CEL.bind(document.querySelectorAll, document);
-CUT.isTrue("bind();", dqsa("h3").length > 0);
+CUT.isEqual("unBind();", true,
+  Array.isArray(CEL.unBind([].slice)(document.querySelectorAll("h3")))
+);
+CUT.isEqual("toFunction();", true,
+  Array.isArray(CEL.toFunction([].slice)(document.querySelectorAll("h3")))
+);
 
+CUT.isTrue("bind();",CEL.bind(document.querySelectorAll,document)("h3").length>0);
 CUT.isEqual("constant();", 3.14, CEL.constant(3.14)());
 CUT.isEqual("identity();", 100, CEL.identity(60) + CEL.identity(40));
 CUT.isEqual("noop();", undefined, CEL.noop());
-
 CUT.isTrue("T();", CEL.T());
 CUT.isFalse("F();", CEL.F());
 
@@ -661,11 +662,11 @@ CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); without prefix 1", "",
 CEL.domSetCSSVar("testVar1","value1");
 CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); without prefix 2", "value1",
   CEL.domGetCSSVar("testVar1"));
-CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); with prefix 1",
-  "", CEL.domGetCSSVar("--testVar2"));
+CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); with prefix 1", "",
+  CEL.domGetCSSVar("--testVar2"));
 CEL.domSetCSSVar("--testVar2","value2");
-CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); with prefix 2",
-  "value2", CEL.domGetCSSVar("--testVar2"));
+CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); with prefix 2", "value2",
+  CEL.domGetCSSVar("--testVar2"));
 
 CUT.addElement( CEL.domCreate("p",
   {"id": "domTestElement", style: {"width": "250px"} }, "DOM test element"));
@@ -819,10 +820,23 @@ CUT.isEqual("partition();",
   "[[2,7,34],[-5,-9]]"
 );
 
-let strGroupBy = JSON.stringify( CEL.groupBy([1,2,3,4,5],
+var strGroupBy = JSON.stringify( CEL.groupBy([1,2,3,4,5],
   (i) => (i % 2 === 0 ? "even" : "odd")));
-CUT.isTrue("groupBy();", strGroupBy === "{\"odd\":[1,3,5],\"even\":[2,4]}"
+CUT.isTrue("groupBy(); 1", strGroupBy === "{\"odd\":[1,3,5],\"even\":[2,4]}"
   || strGroupBy === "{\"even\":[2,4],\"odd\":[1,3,5]}");
+
+var RESGroupByToMap = CEL.groupBy([1,2,3,4,5],
+  (i) => (i % 2 === 0 ? "even" : "odd"), true
+);
+CUT.isTrue("groupBy(); 2 map",
+  Object.prototype.toString.call(RESGroupByToMap).slice(8, -1).toLowerCase()
+    === "map"
+    && RESGroupByToMap.size === 2
+    && RESGroupByToMap.has("even")
+    && RESGroupByToMap.has("odd")
+    && JSON.stringify(RESGroupByToMap.get("even")) === "[2,4]"
+    && JSON.stringify(RESGroupByToMap.get("odd")) === "[1,3,5]"
+);
 
 CUT.isTrue("initial();",
   CEL.isSameArray(CEL.initial(["a","b","c","d"]), ["a","b","c"]) );
@@ -1515,6 +1529,112 @@ CUT.isEqual("clearCookies(); <i>(settings object)</i>", "truetruefalsefalse",
 CUT.addElement("hr");
 CUT.addElement("h3", "polyfills");
 
+var objIsStr = "", isArr = [1,2], isTest = { x: 12 };
+objIsStr += Object.is("lorem", "lorem");
+objIsStr += Object.is(-0, -0);
+objIsStr += Object.is(0, 0);
+objIsStr += Object.is(NaN, 0/0);
+objIsStr += Object.is(NaN, NaN);
+objIsStr += Object.is(42, 42);
+objIsStr += Object.is(3.14, 3.14);
+objIsStr += Object.is(true, true);
+objIsStr += Object.is(false, false);
+objIsStr += Object.is(undefined, undefined);
+objIsStr += Object.is(null, null);
+objIsStr += Object.is(isArr, isArr);
+objIsStr += Object.is(isTest, isTest);
+objIsStr += Object.is(window, window);
+objIsStr += Object.is([], []);
+objIsStr += Object.is([1,2], [1,2]);
+objIsStr += Object.is(isArr, [1,2]);
+objIsStr += Object.is(isTest, { x: 12 });
+objIsStr += Object.is("lorem", "ipsum");
+objIsStr += Object.is("lorem", "Lorem");
+objIsStr += Object.is("lorem", "dolorem");
+objIsStr += Object.is(0, -0);
+CUT.isEqual("Object.is();",
+  "truetruetruetruetruetruetruetruetruetruetruetruetruetruefalsefalsefalsefalsefalsefalsefalsefalse",
+  objIsStr
+);
+
+CUT.isEqual("Number.MIN_SAFE_INTEGER;",
+  Number.MIN_SAFE_INTEGER, -9007199254740991
+);
+CUT.isEqual("Number.MAX_SAFE_INTEGER;",
+  Number.MAX_SAFE_INTEGER, 9007199254740991
+);
+
+var groupByArray = [1,2,3,4,5];
+var groupByArrayObj = {"length": 5, 0: 1, 1: 2, 2: 3, 3: 4, 4: 5};
+var groupByArrayRES = groupByArray.groupBy(i => (i % 2 === 0 ? "even": "odd"));
+CUT.isTrue("Array.prototype.groupBy(&#60;fn&#62;[,thisArg]); 1",
+  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+    === "object"
+    && Object.keys(groupByArrayRES).length === 2
+    && Object.hasOwn(groupByArrayRES, "even")
+    && Object.hasOwn(groupByArrayRES, "odd")
+    && JSON.stringify(groupByArrayRES["even"]) === "[2,4]"
+    && JSON.stringify(groupByArrayRES["odd"]) === "[1,3,5]"
+);
+var groupByArrayRES = Array.prototype.groupBy.call(
+  groupByArray, i => (i % 2 === 0 ? "even": "odd")
+);
+CUT.isTrue("Array.prototype.groupBy(&#60;fn&#62;[,thisArg]); 2",
+  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+    === "object"
+    && Object.keys(groupByArrayRES).length === 2
+    && Object.hasOwn(groupByArrayRES, "even")
+    && Object.hasOwn(groupByArrayRES, "odd")
+    && JSON.stringify(groupByArrayRES["even"]) === "[2,4]"
+    && JSON.stringify(groupByArrayRES["odd"]) === "[1,3,5]"
+);
+var groupByArrayRES = Array.prototype.groupBy.call(
+  groupByArrayObj, i => (i % 2 === 0 ? "even": "odd")
+);
+CUT.isTrue("Array.prototype.groupBy(&#60;fn&#62;[,thisArg]); 3",
+  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+    === "object"
+    && Object.keys(groupByArrayRES).length === 2
+    && Object.hasOwn(groupByArrayRES, "even")
+    && Object.hasOwn(groupByArrayRES, "odd")
+    && JSON.stringify(groupByArrayRES["even"]) === "[2,4]"
+    && JSON.stringify(groupByArrayRES["odd"]) === "[1,3,5]"
+);
+var groupByArrayRES = groupByArray.groupByToMap(i => (i % 2 === 0 ? "even": "odd"));
+CUT.isTrue("Array.prototype.groupByToMap(&#60;fn&#62;[,thisArg]); 1",
+  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+    === "map"
+    && groupByArrayRES.size === 2
+    && groupByArrayRES.has("even")
+    && groupByArrayRES.has("odd")
+    && JSON.stringify(groupByArrayRES.get("even")) === "[2,4]"
+    && JSON.stringify(groupByArrayRES.get("odd")) === "[1,3,5]"
+);
+var groupByArrayRES = Array.prototype.groupByToMap.call(
+  groupByArray, i => (i % 2 === 0 ? "even": "odd")
+);
+CUT.isTrue("Array.prototype.groupByToMap(&#60;fn&#62;[,thisArg]); 2",
+  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+    === "map"
+    && groupByArrayRES.size === 2
+    && groupByArrayRES.has("even")
+    && groupByArrayRES.has("odd")
+    && JSON.stringify(groupByArrayRES.get("even")) === "[2,4]"
+    && JSON.stringify(groupByArrayRES.get("odd")) === "[1,3,5]"
+);
+var groupByArrayRES = Array.prototype.groupByToMap.call(
+  groupByArrayObj, i => (i % 2 === 0 ? "even": "odd")
+);
+CUT.isTrue("Array.prototype.groupByToMap(&#60;fn&#62;[,thisArg]); 3",
+  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+    === "map"
+    && groupByArrayRES.size === 2
+    && groupByArrayRES.has("even")
+    && groupByArrayRES.has("odd")
+    && JSON.stringify(groupByArrayRES.get("even")) === "[2,4]"
+    && JSON.stringify(groupByArrayRES.get("odd")) === "[1,3,5]"
+);
+
 var rIDstr = crypto.randomUUID();
 CUT.isTrue("crypto.randomUUID();",
   rIDstr.length === 36
@@ -1865,9 +1985,11 @@ CUT.isFalse("isAsyncFn(); false 3 number", CEL.isAsyncFn(42));
 
 CUT.isTrue("isString(); true", CEL.isString("str"));
 CUT.isFalse("isString(); false", CEL.isString(533));
-CUT.isTrue("isChar(); true", CEL.isChar("s"));
+CUT.isTrue("isChar(); true 1", CEL.isChar("s"));
+CUT.isTrue("isChar(); true 2 unicode", CEL.isChar("\uD834\uDF06"));
 CUT.isFalse("isChar(); false 1", CEL.isChar("str"));
 CUT.isFalse("isChar(); false 2", CEL.isChar(533));
+CUT.isFalse("isChar(); false 3 unicode", CEL.isChar("s \uD834\uDF06 tr"));
 CUT.isTrue("isNumber(); true 1", CEL.isNumber(98));
 CUT.isTrue("isNumber(); true 2", CEL.isNumber(3.14));
 CUT.isFalse("isNumber(); false", CEL.isNumber("str"));
@@ -1918,6 +2040,7 @@ CUT.isFalse("isNullOrUndefined(); false",
   CEL.isNullOrUndefined(document.querySelectorAll("p")));
 CUT.isTrue("isNil(); true 1", CEL.isNil(undefined));
 CUT.isTrue("isNil(); true 2", CEL.isNil(null));
+CUT.isTrue("isNil(); true 3", CEL.isNil(+"asd"));
 CUT.isFalse("isNil(); false", CEL.isNil(document.querySelectorAll("p")));
 CUT.isTrue("isPrimitive(); true 1", CEL.isPrimitive(98));
 CUT.isTrue("isPrimitive(); true 2", CEL.isPrimitive("str"));
@@ -2078,7 +2201,7 @@ CUT.isFalse("isSameIterator(); false 2",
   CEL.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2,5]));
 
 
-/* AJAX, domReady(); and other callbacks */
+/* Abstract functions */
 
 CUT.addElement("hr");
 CUT.addElement("h3", "Abstract functions");
@@ -2292,6 +2415,12 @@ var createDataPropertyFNObject = new createDataPropertyFN();
 createDataPropertySTR += createDataPropertyFNObject.x === 42;
 CUT.isEqual("createDataProperty();",
   createDataPropertySTR, "false[object Object]true"
+);
+
+var toArrayA1 = [4,5,6];
+CUT.isTrue("toArray();",
+  toArrayA1 === CEL.toArray(toArrayA1)
+  && JSON.stringify(CEL.toArray({"length":3, 0:7, 1:8, 2:9})) === "[7,8,9]"
 );
 
 

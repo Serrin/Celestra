@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.4.0 dev
+ * @version 5.4.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -9,12 +9,66 @@
 
 /** polyfills **/
 
+/* Object.is(); */
+if (!Object.is) {
+  Object.is = function (x, y) {
+    if (x===y) { return x!==0 || 1/x === 1/y; } else { return x!==x && y!==y; }
+  };
+}
+
+/* Number.MIN_SAFE_INTEGER; */
+if(!("MIN_SAFE_INTEGER" in Number)){Number.MIN_SAFE_INTEGER=-9007199254740991;}
+
+/* Number.MAX_SAFE_INTEGER; */
+if(!("MAX_SAFE_INTEGER" in Number)){Number.MAX_SAFE_INTEGER=9007199254740991;}
+
+/* crypto.randomUUID(); */
 if (("crypto" in window) && !("randomUUID" in window.crypto)) {
   window.crypto.randomUUID = function randomUUID () {
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
       (c)=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)
     );
   };
+}
+
+/* Array.prototype.groupBy(<fn>[,thisArg]); */
+if (!("groupBy" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "groupBy", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function (fn, thisArg) {
+      "use strict";
+      function toArray (O) { return (Array.isArray(O) ? O : Array.from(O)); }
+      if (!(typeof fn === "function")) { throw new TypeError(); }
+      var a = toArray(this);
+      var key, r = Object.create(null), l = a.length;
+      for (var i = 0; i < l; i++) {
+        key = fn.call(thisArg, a[i], i, a);
+        if (!(Object.prototype.hasOwnProperty.call(r, key))) { r[key] = []; }
+        r[key].push(a[i]);
+      }
+      return r;
+    }
+  });
+}
+
+/* Array.prototype.groupByToMap(<fn>[,thisArg]); */
+if (!("groupByToMap" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "groupByToMap", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function (fn, thisArg) {
+      "use strict";
+      function toArray (O) { return (Array.isArray(O) ? O : Array.from(O)); }
+      if (!(typeof fn === "function")) { throw new TypeError(); }
+      var a = toArray(this);
+      var key, r = new Map(), l = a.length;
+      for (var i = 0; i < l; i++) {
+        key = fn.call(thisArg, a[i], i, a);
+        if (!(r.has(key))) { r.set(key, []); }
+        r.get(key).push(a[i]);
+      }
+      return r;
+    }
+  });
 }
 
 /* Array.prototype.at(); */
@@ -387,7 +441,7 @@ const obj2string = (o) => Object.keys(o).reduce(
   .slice(0, -1);
 
 /* classof(<variable: any>): string */
-/* classof(<variable: any>[,type: string][,throw=false]): boolean or throw */
+/* classof(<variable: any>[,type: string[,throw=false]]): boolean or throw */
 function classof (v, t, th = false) {
   var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
   if (arguments.length < 2) { return ot; }
@@ -431,7 +485,7 @@ const strPropercase = (s) => String(s).split(" ").map(function (v) {
   if (a.length > 0) { a[0] = a[0].toUpperCase(); }
   return a.join("");
 }).join(" ");
-/* strPropercase(<string>): string */
+/* strTitlecase(<string>): string */
 const strTitlecase = (s) => String(s).split(" ").map(function (v) {
   var a = Array.from(v).map( (c) => c.toLowerCase() );
   if (a.length > 0) { a[0] = a[0].toUpperCase(); }
@@ -488,8 +542,8 @@ const filterIn = (o, fn) => Object.keys(o)
 /* popIn(<object>,<property: string>): any OR undefined*/
 function popIn (o,p){if(Object.hasOwn(o,p)){var v=o[p]; delete o[p]; return v;}}
 
-/* toFunction(<function>): function */
-const toFunction = (fn) => Function.prototype.call.bind(fn);
+/* unBind(<function>): function */
+const unBind = (fn) => Function.prototype.call.bind(fn);
 
 /* bind(<function>,<context: any>): function */
 const bind = Function.prototype.call.bind(Function.prototype.bind);
@@ -792,8 +846,17 @@ function form2string (f) {
 }
 
 /* getDoNotTrack(): boolean */
-const getDoNotTrack = () =>
-  (!!window.doNotTrack || !!navigator.doNotTrack || !!navigator.msDoNotTrack);
+const getDoNotTrack = () => (
+  navigator.doNotTrack === true
+    || navigator.doNotTrack === 1
+    || navigator.doNotTrack === "1"
+    || window.doNotTrack === true
+    || window.doNotTrack === 1
+    || window.doNotTrack === "1"
+    || navigator.msDoNotTrack === true
+    || navigator.msDoNotTrack === 1
+    || navigator.msDoNotTrack === "1"
+);
 
 /* getLocation(<success: function>[,error: function]): undefined */
 function getLocation (s, e) {
@@ -1058,7 +1121,8 @@ const isSameIterator = ([...a1], [...a2]) =>
 const isString = (v) => (typeof v === "string");
 
 /* isChar(<value: any>): boolean */
-const isChar = (v) => (typeof v === "string" && v.length === 1);
+const isChar = (v) =>
+  (typeof v === "string" && (v.length === 1 || Array.from(v).length === 1));
 
 /* isNumber(<value: any>): boolean */
 const isNumber = (v) => (typeof v === "number");
@@ -1101,8 +1165,9 @@ const isUndefined = (v) => (v === undefined);
 
 /* isNullOrUndefined(<value: any>): boolean */
 const isNullOrUndefined = (v) => (v == null);
+
 /* isNil(<value: any>): boolean */
-const isNil = (v) => (v == null);
+const isNil = (v) => (v == null || v !== v);
 
 /* isPrimitive(<value: any>): boolean */
 const isPrimitive = (v) =>
@@ -1294,16 +1359,8 @@ function shuffle([...a]) {
 /* partition(<collection>,<callback: function>): array */
 const partition = ([...a],fn) => [a.filter(fn),a.filter((e,i,a)=>!(fn(e,i,a)))];
 
-/* groupBy(<collection>,<callback: function>): object */
-function groupBy (it, fn) {
-  let r = {}, i = 0;
-  for (let item of it) {
-    let key = fn(item, i++);
-    if (!(Object.hasOwn(r, key))) { r[key] = []; }
-    r[key].push(item);
-  }
-  return r;
-}
+/* groupBy(<collection>,<callback: function>[,map=false]): object */
+const groupBy =([...a], fn, map=false) => a[(map?"groupByToMap":"groupBy")](fn);
 
 /* arrayUnion(<collection1>[,collectionN]): array */
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
@@ -1522,7 +1579,7 @@ function* tail (it) {
 /* item(<collection>,<index: integer>): any */
 function item (it,p) {let i=0; for(let item of it) {if(i++===p) {return item;}}}
 /* nth(<collection>,<index: integer>): any */
-function nth (it,p) {let i=0; for(let item of it) { if(i++===p) {return item;}}}
+function nth (it,p) { let i=0; for(let item of it) {if(i++===p) {return item;}}}
 
 /* size(<collection>): integer */
 function size (it) { let i = 0; for (let item of it) { i++; } return i; }
@@ -1677,15 +1734,15 @@ const createDataProperty = (O, P, V) => Object.defineProperty(
   O, P, {value: V, writable: true, enumerable: true, configurable: true}
 );
 
+/* toArray(<value: array OR iterable OR arraylike>): array */
+function toArray (O) { return (Array.isArray(O) ? O : Array.from(O)); }
+
 /** object header **/
 
-const VERSION = "Celestra v5.4.0 dev";
+const VERSION = "Celestra v5.4.1 dev";
 
 /* celestra.noConflict(): celestra object */
-function noConflict () {
-  window.CEL = celestra.__prevCEL__;
-  return celestra;
-}
+function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
 
 var celestra = {
   /** object header **/
@@ -1723,7 +1780,8 @@ var celestra = {
   forIn: forIn,
   filterIn: filterIn,
   popIn: popIn,
-  toFunction: toFunction,
+  unBind: unBind,
+  toFunction: unBind,
   bind: bind,
   constant: constant,
   identity: identity,
@@ -1913,7 +1971,8 @@ var celestra = {
   isIndex: isIndex,
   toIndex: toIndex,
   toInteger: toInteger,
-  createDataProperty:createDataProperty
+  createDataProperty:createDataProperty,
+  toArray: toArray
 };
 
 if (typeof window !== "undefined") {

@@ -12,7 +12,6 @@ Removed in v3.1.0
 Object.create();
 String.prototype.startsWith();
 String.prototype.endsWith();
-Object.is();
 String.fromCodePoint();
 String.prototype.codePointAt();
 Array.from();
@@ -21,8 +20,6 @@ Array.prototype.fill();
 Array.prototype.find();
 Array.prototype.findIndex();
 Array.prototype.copyWithin();
-Number.MIN_SAFE_INTEGER;
-Number.MAX_SAFE_INTEGER;
 Number.EPSILON;
 Number.isNaN();
 isNaN();
@@ -105,16 +102,6 @@ if (!String.prototype.endsWith) {
     var subs = this.substring(0, length);
 		return subs.indexOf(searchString) === (subs.length - searchString.length);
 	};
-}
-
-if (!Object.is) {
-  Object.is = function(x, y) {
-    if (x === y) {
-      return x !== 0 || 1 / x === 1 / y;
-    } else {
-      return x !== x && y !== y;
-    }
-  };
 }
 
 /*! https://mths.be/fromcodepoint v0.2.1 by @mathias */
@@ -284,14 +271,6 @@ if (!Array.prototype.copyWithin) {
     }
     return O;
   };
-}
-
-if (Number.MIN_SAFE_INTEGER === undefined) {
-  Number.MIN_SAFE_INTEGER = -9007199254740991;
-}
-
-if (Number.MAX_SAFE_INTEGER === undefined) {
-  Number.MAX_SAFE_INTEGER = 9007199254740991;
 }
 
 if (Number.EPSILON === undefined) { Number.EPSILON = Math.pow(2, -52); }
