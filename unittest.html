@@ -11,12 +11,18 @@
 <link rel="stylesheet" href="u87-blue.css" type="text/css"/>
 <script> var CEL = { VERSION: "This is another sample library." }; </script>
 <style>
-.passed, .failed { display: inline-block; padding: 5px; border-radius: 3px; }
+html, body { font-family: consolas, monospace !important; }
+.passed, .failed {
+  display: inline-block;
+  padding: 4px !important;
+  border-radius: 4px !important;
+}
 .passed { background-color: #3d9970 !important; color: white !important; }
 .failed { background-color: #ff4136 !important; color: white !important; }
-#results { /* almost the same as the pre in u87.css v0.9.5 */
-  padding: 3px 5px 3px 5px;
-  font-size: 0.9rem !important;
+#results, #resultsFailed
+ { /* almost the same as the pre in u87.css v0.9.5 */
+  padding: 4px 5px 4px 5px;
+  /*font-size: 0.9rem;*/
   font-family: consolas, monospace;
   -ms-word-break: break-all;
   word-break: break-all;
@@ -24,6 +30,10 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+}
+#manual {
+  /*font-size: 0.9rem !important;*/
+  font-family: consolas, monospace;
 }
 @media (max-width: 575.98px) { td { display: block; width: 100% !important; } }
 #toplink, #bottomlink {
@@ -37,7 +47,12 @@
   color: black;
 }
 #toplink { right: 20px; top: 20px; }
-#bottomlink { right: 20px; bottom: 20px;}
+#bottomlink { right: 20px; bottom: 20px; }
+button {
+  /*font-size: 0.9rem;*/
+  font-family: consolas, monospace;
+}
+
 </style>
 </head>
 <body class="container">
@@ -67,18 +82,18 @@
 <table class="table-responsive noborder">
   <tr>
     <td class="noborder">
-      <p><button onclick=" _preCel.importScript('celestra.dev.js'); preCelLog('<b>celestra.dev.js</b> is loaded.'); ">
+      <p><button onclick=" _preCel.importScript('celestra.dev.js'); preCelLog('load <b>celestra.dev.js</b>'); ">
         load celestra.dev.js
       </button></p>
-      <p><button onclick=" _preCel.importScript('celestra.min.js'); preCelLog('<b>celestra.min.js</b> is loaded.'); ">
+      <p><button onclick=" _preCel.importScript('celestra.min.js'); preCelLog('load <b>celestra.min.js</b>'); ">
         load celestra.min.js
       </button></p>
-      <p><button onclick=" _preCel.importESM(); preCelLog('<b>celestra.esm.js</b> is loaded.'); ">
+      <p><button onclick=" _preCel.importESM(); preCelLog('load <b>celestra.esm.js</b>'); ">
         load celestra.esm.js
       </button></p>
     </td>
     <td class="noborder">
-      <p><button onclick=" CEL.importScript('unittest.js'); preCelLog('<b>unittest.js</b> is loaded.');">load unittest.js</button></p>
+      <p><button onclick=" CEL.importScript('unittest.js'); preCelLog('load <b>unittest.js</b>'); ">load unittest.js</button></p>
       <p><button onclick=" window.location.reload(true); ">reset page</button></p>
       <p><button onclick=" saveResults(); ">Save result in HTML</button></p>
     </td>
@@ -91,13 +106,13 @@
 <hr/>
 <div>
   <h2>Debug Console</h2>
-  <p><textarea id="consolejs" class="padding bg-black font-monospace border" style="max-width: 750px; width: 100%; height:100px;"></textarea></p>
+  <p><textarea id="consolejs" class="padding bg-black font-monospace border" style="max-width: 650px; width: 100%; height:100px;" placeholder="type here your code"></textarea></p>
   <p>
     <button onclick=" runConsoleJS(); ">run</button>
     &nbsp;
     <button onclick=" consoleJSElement.value = ''; ">clear</button>
     &nbsp;
-    <button onclick=" saveConsoleJS(); ">save</button>
+    <button onclick=" saveConsoleJS(); ">save code</button>
   </p>
 </div>
 
@@ -108,6 +123,7 @@
 </div>
 
 <hr/>
+<div id="manual">
 <h2>Manual testcases</h2>
 
 <table class="table-responsive">
@@ -116,8 +132,8 @@
     <td>2x alert (5s + finally)</td>
   </tr>
   <tr>
-    <td><button onclick=" try { CEL.toObject(null); } catch(e) { alert(e); } try { CEL.toObject(undefined); } catch(e) { alert(e); }">toObject(); null and undefined</button></td>
-    <td>2x alert "TypeError"</td>
+    <td><button onclick=" try { CEL.toObject(null); } catch(e) { alert(e); } try { CEL.toObject(undefined); } catch(e) { alert(e); }">toObject(); throw</button></td>
+    <td>2x alert "TypeError" - null and undefined</td>
   </tr>
   <tr>
     <td><button onclick=" try { CEL.classof(42,'string', true); } catch (e) { alert(e); } ">classof(); throw</button></td>
@@ -182,6 +198,7 @@ alert(arrayCreateErrorStr);</pre>
     <td>1x alert</td>
   </tr>
 </table>
+</div>
 
 <hr/>
 <h2>Results</h2>
@@ -389,6 +406,12 @@ function saveConsoleJS () {
   );
 }
 
+</script>
+
+<script>
+if (navigator.userAgent.toLowerCase().includes("chrome")) {
+  document.body.style["zoom"] = "90%";
+}
 </script>
 
 </body>

@@ -6,7 +6,7 @@ try {
 
 var CUT = {};
 
-CUT.VERSION = "Celestra Unit Tester (CUT) v0.8.23";
+CUT.VERSION = "Celestra Unit Tester (CUT) v0.8.24";
 
 CUT.__results__ = document.querySelector("#results");
 CUT.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -172,7 +172,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.4.1 testcases */
+/* Celestra v5.4.2 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -309,7 +309,7 @@ CUT.addElement(
     "#qsaDiv test element"
       + "<p id='qsaDivP1'>#qsaDivP1 test element</p>"
       + "<p id='qsaDivP2'>#qsaDivP2 test element</p>"
- )
+  )
 );
 
 CUT.isEqual("qs(); selector",
@@ -318,7 +318,7 @@ CUT.isEqual("qs(); selector",
 
 CUT.isEqual("qs(); selector + element 1",
   document.querySelector("#qsaDivP1"),
-    CEL.qs("#qsaDivP1", CEL.qs("#qsaDivTestElement"))
+  CEL.qs("#qsaDivP1", CEL.qs("#qsaDivTestElement"))
 );
 
 CUT.isEqual("qs(); selector + element 2",
@@ -399,7 +399,7 @@ CUT.isEqual("classof(); ES6 all false", "false  false  false  false",
     +"  "+CEL.classof(new WeakMap(), "object")
     +"  "+CEL.classof(new WeakSet(), "object")
 );
-if (window.BigInt) {
+if (!!window.BigInt) {
   CUT.isEqual("classof(); ES6 bigint", "bigint  true  false",
   CEL.classof(BigInt(456))
     +"  "+CEL.classof(BigInt(456), "bigint")
@@ -516,12 +516,10 @@ CUT.isTrue("randomString(10) default false",
   CEL.isString(rndStr) && rndStr.length === 10);
 CUT.log("<code>"+rndStr+"</code>");
 rndStr = CEL.randomString(15,true);
-CUT.isTrue("randomString(15,true);",
-  CEL.isString(rndStr) && rndStr.length === 15);
+CUT.isTrue("randomString(15,true);", CEL.isString(rndStr) &&rndStr.length===15);
 CUT.log("<code>"+rndStr+"</code>");
 rndStr = CEL.randomString(20,false);
-CUT.isTrue("randomString(20,false);",
-  CEL.isString(rndStr) && rndStr.length === 20);
+CUT.isTrue("randomString(20,false);", CEL.isString(rndStr)&&rndStr.length===20);
 CUT.log("<code>"+rndStr+"</code>");
 rndStr = "1" + CEL.randomString(32,false);
 CUT.isEqual("randomString(); random \"btc\" address", true,
@@ -624,8 +622,10 @@ CUT.isTrue("strAt();",
     && CEL.strAt("ab cd \uD834\uDF06",-1) === "\uD834\uDF06"
     && CEL.strAt("ab \uD834\uDF06 cd",0) === "a"
     && CEL.strAt("ab \uD834\uDF06 cd",5) === "c"
-    && CEL.strAt("ab \uD834\uDF06 cd",-1) === "d" && CEL.strAt("",0) === ""
-    && CEL.strAt("",3) === "" && CEL.strAt("",-1) === ""
+    && CEL.strAt("ab \uD834\uDF06 cd",-1) === "d"
+    && CEL.strAt("",0) === ""
+    && CEL.strAt("",3) === ""
+    && CEL.strAt("",-1) === ""
 );
 
 
@@ -816,8 +816,7 @@ CUT.isEqual("withOut();",
 
 var arrPartition = [-5, 2, -9, 7, 34];
 CUT.isEqual("partition();",
-  JSON.stringify(CEL.partition(arrPartition, (e) => (e > 0) )),
-  "[[2,7,34],[-5,-9]]"
+  JSON.stringify(CEL.partition(arrPartition, (e)=> (e>0) )),"[[2,7,34],[-5,-9]]"
 );
 
 var strGroupBy = JSON.stringify( CEL.groupBy([1,2,3,4,5],
@@ -825,9 +824,7 @@ var strGroupBy = JSON.stringify( CEL.groupBy([1,2,3,4,5],
 CUT.isTrue("groupBy(); 1", strGroupBy === "{\"odd\":[1,3,5],\"even\":[2,4]}"
   || strGroupBy === "{\"even\":[2,4],\"odd\":[1,3,5]}");
 
-var RESGroupByToMap = CEL.groupBy([1,2,3,4,5],
-  (i) => (i % 2 === 0 ? "even" : "odd"), true
-);
+var RESGroupByToMap=CEL.groupBy([1,2,3,4,5], (i)=>(i%2===0?"even":"odd"), true);
 CUT.isTrue("groupBy(); 2 map",
   Object.prototype.toString.call(RESGroupByToMap).slice(8, -1).toLowerCase()
     === "map"
@@ -855,7 +852,7 @@ sum = "";
 for (let x of CEL.iterCycle(CEL.iterRange(10, 3, 20), 3)) { sum += x; }
 CUT.isEqual("iterCycle(); + iterRange();", "101316191013161910131619", sum);
 sum = "";
-let itrr1 = CEL.iterCycle(['A', 'B'].values());
+var itrr1 = CEL.iterCycle(['A', 'B'].values());
 for (let i = 0; i < 7; i++) { sum += itrr1.next().value; }
 CUT.isEqual("iterCycle(); infinity", "ABABABA", sum);
 
@@ -863,7 +860,7 @@ sum = "";
 for (let x of CEL.iterRepeat("HW", 5)) { sum += x; }
 CUT.isEqual("iterRepeat();", "HWHWHWHWHW", sum);
 sum = "";
-let itrr2 = CEL.iterRepeat('HW2');
+var itrr2 = CEL.iterRepeat('HW2');
 for (let i = 0; i < 3; i++) { sum += itrr2.next().value; }
 CUT.isEqual("iterRepeat(); infinity", "HW2HW2HW2", sum);
 
@@ -983,7 +980,7 @@ var iterStr = "";
 for (let item of CEL.tail(FPArray3)) { iterStr += item; }
 CUT.isEqual("tail();", "2345678910", iterStr);
 
-let whileArray = [0,2,4,6,8,10,12,14,16];
+var whileArray = [0,2,4,6,8,10,12,14,16];
 
 var whileSum = 0;
 for (let item of CEL.takeWhile(whileArray, (e) => (e<10))) { whileSum += item; }
@@ -1014,26 +1011,25 @@ CUT.isEqual("item(); string unicode",
 var itemOfArray = [4,5,6,7,8];
 CUT.isEqual("item(); array",
   "" + CEL.item(itemOfArray, 3) + CEL.item(itemOfArray, 12), "7" + "undefined");
-let itemOfMap = new Map([ ["a",1], ["b",2], ["c",3] ]);
+var itemOfMap = new Map([ ["a",1], ["b",2], ["c",3] ]);
 CUT.isEqual("item(); map",
   JSON.stringify(CEL.item(itemOfMap, 1)) + CEL.item(itemOfMap, 12),
-  "[\"b\",2]" + "undefined");
-let itemOfSet = new Set([3,3,4,5,5,6,7,7,8]);
+  "[\"b\",2]undefined");
+var itemOfSet = new Set([3,3,4,5,5,6,7,7,8]);
 CUT.isEqual("item(); set",
-  "" + JSON.stringify(CEL.item(itemOfSet, 3)) + CEL.item(itemOfSet, 12),
-  "6" + "undefined");
+  ""+JSON.stringify(CEL.item(itemOfSet,3))+CEL.item(itemOfSet,12),"6undefined");
 
 var itemOfArray = [4,5,6,7,8];
-CUT.isEqual("nth();",
-  "" + CEL.nth(itemOfArray, 3) + CEL.nth(itemOfArray, 12), "7" + "undefined");
+CUT.isEqual("nth();", "" + CEL.nth(itemOfArray, 3) + CEL.nth(itemOfArray, 12),
+  "7undefined");
 
-let sizeLastArray = [4,5,6,7,8,"last"];
+var sizeLastArray = [4,5,6,7,8,"last"];
 CUT.isEqual("size();", 6, CEL.size(sizeLastArray));
 CUT.isEqual("first();", 4, CEL.first(sizeLastArray));
 CUT.isEqual("head();", 4, CEL.head(sizeLastArray));
 CUT.isEqual("last();", "last", CEL.last(sizeLastArray));
 
-let reverseSortArray = ["first",4,5,6,7,8,9,"last"];
+var reverseSortArray = ["first",4,5,6,7,8,9,"last"];
 
 CUT.isEqual("reverse();", "[\"last\",9,8,7,6,5,4,\"first\"]",
   JSON.stringify([...CEL.reverse(reverseSortArray)]) );
@@ -1067,20 +1063,16 @@ CUT.isTrue("findLast();", CEL.findLast( [4,1,7,2,9], (v) => v < 5 ) === 2
 var everySomeNoneArray = [2,9,3,5,8];
 var everySomeNoneEmptyArray = [];
 CUT.isTrue("every(); true", CEL.every(everySomeNoneArray, (v) => v > 1));
-CUT.isFalse("every(); false 1 - some",
-  CEL.every(everySomeNoneArray, (v) => v > 3));
-CUT.isFalse("every(); false 1 - none",
-  CEL.every(everySomeNoneArray, (v) => v < 0));
+CUT.isFalse("every(); false 1 - some", CEL.every(everySomeNoneArray, (v)=>v>3));
+CUT.isFalse("every(); false 1 - none", CEL.every(everySomeNoneArray, (v)=>v<0));
 CUT.isFalse("every(); false 3 - empty",
   CEL.every(everySomeNoneEmptyArray, (v) => v > 3));
 CUT.isTrue("some(); true", CEL.some(everySomeNoneArray, (v) => v > 3));
-CUT.isFalse("some(); false 1 - none",
-  CEL.some(everySomeNoneArray, (v) => v < 0));
+CUT.isFalse("some(); false 1 - none", CEL.some(everySomeNoneArray, (v) => v<0));
 CUT.isFalse("some(); false 2 - empty",
   CEL.some(everySomeNoneEmptyArray, (v) => v < 0));
 CUT.isTrue("none(); true", CEL.none(everySomeNoneArray, (v) => v < 0));
-CUT.isFalse("none(); false 1 - every",
-  CEL.none(everySomeNoneArray, (v) => v > 1));
+CUT.isFalse("none(); false 1 - every",CEL.none(everySomeNoneArray, (v) => v>1));
 CUT.isFalse("none(); false 2 - some",
   CEL.none(everySomeNoneArray, (v) => v > 3));
 CUT.isFalse("none(); false 3 - empty",
@@ -1144,7 +1136,7 @@ CUT.isEqual("concat(); more", "[\"1\",\"2\",\"3\",4,5,6,7,8,9]",
   JSON.stringify([...CEL.concat("123", [4,5,6].values(), new Set([7,8,9]))])
 );
 
-let reduceArray = [4,5,6,7,8,9];
+var reduceArray = [4,5,6,7,8,9];
 CUT.isEqual("reduce(); with initialvalue", 39,
   CEL.reduce(reduceArray.values(), (acc, v, i) => acc + v, 0) );
 CUT.isEqual("reduce(); without initialvalue", 39,
@@ -1167,7 +1159,7 @@ CUT.isEqual("flat();", "[1,2,3,4,5,6,7,8,9]",
   JSON.stringify([...CEL.flat([[1,2,3].values(),
   new Set([4,5,6,6,7,7,4]),[8,9]])]) );
 
-let joinSet = new Set([2,4,6,4,8,2]);
+var joinSet = new Set([2,4,6,4,8,2]);
 CUT.isEqual("join();",
   "2,4,6,8"+"2468"+"2;4;6;8"+"2abc4abc6abc8"+"2true4true6true8"+"2114116118",
   CEL.join(joinSet) + CEL.join(joinSet, "")
@@ -1239,8 +1231,7 @@ CUT.isEqual("zip(); ES6 1", "[[\"a\",3],[\"b\",4],[\"c\",5],[\"d\",6]]",
 CUT.isEqual("zip(); ES6 2",
   "[[\"a\",3,\"c1\"],[\"b\",4,\"c2\"],[\"c\",5,\"c3\"],[\"d\",6,\"c4\"]]",
   JSON.stringify(CEL.zip(new Set(zipF),
-    new Map([ [2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9] ]).values(),
-    zipC.values()
+    new Map([[2,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9]]).values(), zipC.values()
   ))
 );
 
@@ -1474,7 +1465,8 @@ CUT.addElement("h3", "cookie");
 
 CEL.setCookie("ctest3", "cookieUnitTestStr");
 CUT.isTrue("setcookie(); + hasCookie(); true", CEL.hasCookie("ctest3"));
-CUT.isEqual("getCookie(name) value","cookieUnitTestStr",CEL.getCookie("ctest3"));
+CUT.isEqual("getCookie(name) value", "cookieUnitTestStr",
+  CEL.getCookie("ctest3"));
 CUT.isEqual("getCookie();", "cookieUnitTestStr", CEL.getCookie()["ctest3"]);
 CUT.isTrue("removeCookie(); true", CEL.removeCookie("ctest3"));
 CUT.isFalse("removeCookie(); false", CEL.removeCookie("ctest3"));
@@ -1557,12 +1549,8 @@ CUT.isEqual("Object.is();",
   objIsStr
 );
 
-CUT.isEqual("Number.MIN_SAFE_INTEGER;",
-  Number.MIN_SAFE_INTEGER, -9007199254740991
-);
-CUT.isEqual("Number.MAX_SAFE_INTEGER;",
-  Number.MAX_SAFE_INTEGER, 9007199254740991
-);
+CUT.isEqual("Number.MIN_SAFE_INTEGER;",Number.MIN_SAFE_INTEGER,-9007199254740991);
+CUT.isEqual("Number.MAX_SAFE_INTEGER;",Number.MAX_SAFE_INTEGER,9007199254740991);
 
 var groupByArray = [1,2,3,4,5];
 var groupByArrayObj = {"length": 5, 0: 1, 1: 2, 2: 3, 3: 4, 4: 5};
@@ -1736,17 +1724,16 @@ CUT.isEqual("Object.hasOwn();",
 );
 
 CUT.isEqual("String.prototype.replaceAll();",
-  "aabbcc".replaceAll("b", ".") + "aabbcc".replaceAll(/b/g, '.'),
-  "aa..cc" + "aa..cc"
+  "aabbcc".replaceAll("b", ".")+"aabbcc".replaceAll(/b/g, '.'),"aa..cc"+"aa..cc"
 );
 
 const regexp = RegExp('foo*','g');
 const str = 'table football, foosball';
-let matches1 = str.matchAll(regexp);
-let resMatchAll1 = "";
+var matches1 = str.matchAll(regexp);
+var resMatchAll1 = "";
 for (const item of matches1) { resMatchAll1 += item; }
-let matches2 = str.matchAll(regexp);
-let resMatchAll2 = JSON.stringify(Array.from(matches2, m => m[0]));
+var matches2 = str.matchAll(regexp);
+var resMatchAll2 = JSON.stringify(Array.from(matches2, m => m[0]));
 CUT.isTrue("String.prototype.matchAll();",
   (resMatchAll1 === "foofoo" && resMatchAll2 === "[\"foo\",\"foo\"]"));
 
@@ -1868,7 +1855,7 @@ CUT.isTrue("Array.prototype.flatMap();",
 CUT.addElement("hr");
 CUT.addElement("h3", "non-standard polyfills");
 
-if (window.BigInt) {
+if (!!window.BigInt) {
   CUT.isEqual("BigInt.prototype.toJSON();", '"42"', JSON.stringify(BigInt(42)));
 }
 
@@ -1877,7 +1864,7 @@ var sum = "";
 for (let x of testGenFn(3)) { sum += x; }
 CUT.isEqual("GeneratorFunction();", "912", sum);
 
-let afunction = new AsyncFunction("a","b",
+var afunction = new AsyncFunction("a","b",
   "return await resolveAfter2Seconds(a) + await resolveAfter2Seconds(b);");
 CUT.isEqual("AsyncFunction();", "asyncfunction", CEL.classof(afunction));
 
@@ -1896,7 +1883,7 @@ CUT.isTrue("isTruthy();",
     && !CEL.isTruthy(false)
     && !CEL.isTruthy(0)
     && !CEL.isTruthy(-0)
-    && !CEL.isTruthy(0n)
+    && (!!window.BigInt ? !CEL.isTruthy(BigInt(0)) : true)
     && !CEL.isTruthy("")
     && !CEL.isTruthy(null)
     && !CEL.isTruthy(undefined)
@@ -1912,7 +1899,7 @@ CUT.isTrue("isFalsy();",
     && CEL.isFalsy(false)
     && CEL.isFalsy(0)
     && CEL.isFalsy(-0)
-    && CEL.isFalsy(0n)
+    && (!!window.BigInt ? CEL.isFalsy(BigInt(0)) : true)
     && CEL.isFalsy("")
     && CEL.isFalsy(null)
     && CEL.isFalsy(undefined)
@@ -2081,23 +2068,33 @@ CUT.isFalse("isNumeric(); false",
 CUT.isTrue("isArrayBuffer(); true", CEL.isArrayBuffer(new ArrayBuffer(8)));
 CUT.isFalse("isArrayBuffer(); false 1", CEL.isArrayBuffer([4,5,6]));
 CUT.isFalse("isArrayBuffer(); false 2", CEL.isArrayBuffer(new Int8Array(5)));
-CUT.isTrue("isTypedArray - true 1 - Int8Array", CEL.isTypedArray(new Int8Array(5)));
-CUT.isTrue("isTypedArray - true 2 - Uint8Array", CEL.isTypedArray(new Uint8Array(5)));
-CUT.isTrue("isTypedArray - true 3 - Int16Array", CEL.isTypedArray(new Int16Array(5)));
-CUT.isTrue("isTypedArray - true 4 - Uint16Array", CEL.isTypedArray(new Uint16Array(5)));
-CUT.isTrue("isTypedArray - true 5 - Int32Array", CEL.isTypedArray(new Int32Array(5)));
-CUT.isTrue("isTypedArray - true 6 - Uint32Array", CEL.isTypedArray(new Uint32Array(5)));
-CUT.isTrue("isTypedArray - true 7 - Float32Array", CEL.isTypedArray(new Float32Array(5)));
-CUT.isTrue("isTypedArray - true 8 - Float64Array", CEL.isTypedArray(new Float64Array(5)));
-CUT.isTrue("isTypedArray - true 9 - Uint8ClampedArray", CEL.isTypedArray(new Uint8ClampedArray(5)));
-if (window.BigInt64Array) {CUT.isTrue("isTypedArray - true 10 - BigInt64Array",
+CUT.isTrue("isTypedArray - true 1 - Int8Array",
+  CEL.isTypedArray(new Int8Array(5)));
+CUT.isTrue("isTypedArray - true 2 - Uint8Array",
+  CEL.isTypedArray(new Uint8Array(5)));
+CUT.isTrue("isTypedArray - true 3 - Int16Array",
+  CEL.isTypedArray(new Int16Array(5)));
+CUT.isTrue("isTypedArray - true 4 - Uint16Array",
+  CEL.isTypedArray(new Uint16Array(5)));
+CUT.isTrue("isTypedArray - true 5 - Int32Array",
+  CEL.isTypedArray(new Int32Array(5)));
+CUT.isTrue("isTypedArray - true 6 - Uint32Array",
+  CEL.isTypedArray(new Uint32Array(5)));
+CUT.isTrue("isTypedArray - true 7 - Float32Array",
+  CEL.isTypedArray(new Float32Array(5)));
+CUT.isTrue("isTypedArray - true 8 - Float64Array",
+  CEL.isTypedArray(new Float64Array(5)));
+CUT.isTrue("isTypedArray - true 9 - Uint8ClampedArray",
+  CEL.isTypedArray(new Uint8ClampedArray(5)));
+if (!!window.BigInt64Array){CUT.isTrue("isTypedArray - true 10 - BigInt64Array",
   CEL.isTypedArray(new BigInt64Array(5)));}
 if (window.BigUint64Array) {
   CUT.isTrue("isTypedArray - true 11 - BigUint64Array",
     CEL.isTypedArray(new BigUint64Array(5)));
 }
 CUT.isFalse("isTypedArray - false 1 - Array", CEL.isTypedArray([4,5,6]));
-CUT.isFalse("isTypedArray - false 2 - ArrayBuffer", CEL.isTypedArray(new ArrayBuffer(8)));
+CUT.isFalse("isTypedArray - false 2 - ArrayBuffer",
+  CEL.isTypedArray(new ArrayBuffer(8)));
 CUT.isTrue("isPromise(); - true ", CEL.isPromise(CEL.delay(1000)));
 CUT.isFalse("isPromise(); - false ", CEL.isPromise({}));
 CUT.isTrue("isSymbol(); true", CEL.isSymbol(Symbol("str")));
@@ -2126,7 +2123,7 @@ CUT.isTrue("isIterable(); true", CEL.isIterable([]) && CEL.isIterable("")
 CUT.isFalse("isIterable(); false", CEL.isIterable(42) || CEL.isIterable(3.14)
   || CEL.isIterable({a:1,b:2}) || CEL.isIterable(true) ||CEL.isIterable(false));
 
-if (window.BigInt) {
+if (!!window.BigInt) {
   CUT.isTrue("isBigInt(); true",CEL.isBigInt(BigInt(9007199254740991)+BigInt(5)));
   CUT.isFalse("isBigInt(); false 1", CEL.isBigInt(9007199254740990));
   CUT.isFalse("isBigInt(); false 2", CEL.isBigInt(3.14));
@@ -2189,8 +2186,7 @@ CUT.isFalse("isSameMap(); false 2", CEL.isSameMap(
   new Map([["str", 1], [17, "x"], [false, 42], [true, 42]])
 ));
 CUT.isFalse("isSameMap(); false 3", CEL.isSameMap(
-  new Map([["str", 1], [17, "x"], [true, 42]]),
-  [["str", 1], [17, "x"], [true, 42]]
+  new Map([["str", 1], [17, "x"], [true, 42]]), [["str",1], [17,"x"], [true,42]]
 ));
 
 CUT.isTrue("isSameIterator(); true",
@@ -2245,7 +2241,7 @@ var isSameValueStr = ""
   + +CEL.isSameValue(0,-0)
   + +CEL.isSameValue(+0,-0)
   + +CEL.isSameValue(-0,-0)
-  + +CEL.isSameValue(0n,-0n)
+  + (!!window.BigInt ? +CEL.isSameValue(BigInt(0),BigInt(-0)) : 1)
   + +CEL.isSameValue(NaN,0/0)
   + +CEL.isSameValue(NaN,Number.NaN)
   + +CEL.isSameValue(+Infinity,Infinity)
@@ -2253,8 +2249,7 @@ var isSameValueStr = ""
   + +CEL.isSameValue(-Infinity,-Infinity)
   + +CEL.isSameValue(+Infinity,-Infinity);
 CUT.isEqual("isSameValue(); "+"<code>"+isSameValueStr+"</code>",
-  isSameValueStr,
-  "1101110100011111110"
+  isSameValueStr, "1101110100011111110"
 );
 
 var isSameValueZerofoo = { "a": 1 }, isSameValueZerobar = { "a": 1 };
@@ -2271,7 +2266,7 @@ var isSameValueZeroStr = ""
   + +CEL.isSameValueZero(0,-0)
   + +CEL.isSameValueZero(+0,-0)
   + +CEL.isSameValueZero(-0,-0)
-  + +CEL.isSameValueZero(0n,-0n)
+  + (!!window.BigInt ? +CEL.isSameValueZero(BigInt(0),BigInt(-0)) : 1)
   + +CEL.isSameValueZero(NaN,0/0)
   + +CEL.isSameValueZero(NaN,Number.NaN)
   + +CEL.isSameValueZero(+Infinity,Infinity)
@@ -2279,8 +2274,7 @@ var isSameValueZeroStr = ""
   + +CEL.isSameValueZero(-Infinity,-Infinity)
   + +CEL.isSameValueZero(+Infinity,-Infinity);
 CUT.isEqual("isSameValueZero(); "+"<code>"+isSameValueZeroStr+"</code>",
-  isSameValueZeroStr,
-  "1101110101111111110"
+  isSameValueZeroStr, "1101110101111111110"
 );
 
 var isSameValueNonNumberfoo = { "a": 1 }, isSameValueNonNumberbar = { "a": 1 };
@@ -2297,7 +2291,7 @@ var isSameValueNonNumberStr = ""
   + +CEL.isSameValueNonNumber(0,-0)
   + +CEL.isSameValueNonNumber(+0,-0)
   + +CEL.isSameValueNonNumber(-0,-0)
-  + +CEL.isSameValueNonNumber(0n,-0n)
+  + (!!window.BigInt ? +CEL.isSameValueNonNumber(BigInt(0),BigInt(-0)) : 1)
   + +CEL.isSameValueNonNumber(NaN,0/0)
   + +CEL.isSameValueNonNumber(NaN,Number.NaN)
   + +CEL.isSameValueNonNumber(+Infinity,Infinity)
@@ -2305,8 +2299,7 @@ var isSameValueNonNumberStr = ""
   + +CEL.isSameValueNonNumber(-Infinity,-Infinity)
   + +CEL.isSameValueNonNumber(+Infinity,-Infinity);
 CUT.isEqual("isSameValueNonNumber(); "+"<code>"+isSameValueNonNumberStr+"</code>",
-  isSameValueNonNumberStr,
-  "1101110101111001110"
+  isSameValueNonNumberStr, "1101110101111001110"
 );
 
 function createMethodPropertyFN () {};
@@ -2315,18 +2308,14 @@ createMethodPropertySTR += CEL.createMethodProperty(
   createMethodPropertyFN.prototype, "getX", function () { return this.x; }
 );
 createMethodPropertySTR += ("getX" in createMethodPropertyFN.prototype);
-CUT.isEqual("createMethodProperty();",
-  createMethodPropertySTR, "false[object Object]true"
+CUT.isEqual("createMethodProperty();", createMethodPropertySTR,
+  "false[object Object]true"
 );
 
 CUT.isEqual("type();",
  "nullundefinedobjectfunctionnumberstring",
- CEL.type(null)
-   + CEL.type(undefined)
-   + CEL.type([])
-   + CEL.type(CEL.noop)
-   + CEL.type(42)
-   + CEL.type("42")
+ CEL.type(null) + CEL.type(undefined)
+  + CEL.type([]) + CEL.type(CEL.noop) + CEL.type(42) + CEL.type("42")
 );
 
 CUT.isEqual("isIndex();", "1100000000000000000000", ""
@@ -2407,7 +2396,7 @@ CUT.isEqual("toInteger();",
 );
 
 function createDataPropertyFN () {};
-var createDataPropertySTR = "" + Object.hasOwn(createDataPropertyFN.prototype, "x");
+var createDataPropertySTR= ""+Object.hasOwn(createDataPropertyFN.prototype,"x");
 createDataPropertySTR += CEL.createDataProperty(
   createDataPropertyFN.prototype, "x", 42
 );
@@ -2418,8 +2407,7 @@ CUT.isEqual("createDataProperty();",
 );
 
 var toArrayA1 = [4,5,6];
-CUT.isTrue("toArray();",
-  toArrayA1 === CEL.toArray(toArrayA1)
+CUT.isTrue("toArray();", toArrayA1 === CEL.toArray(toArrayA1)
   && JSON.stringify(CEL.toArray({"length":3, 0:7, 1:8, 2:9})) === "[7,8,9]"
 );
 
@@ -2434,11 +2422,11 @@ CEL.domReady(function () { CUT.isTrue("domReady(); is working", true); });
 /* importScript(); and importScripts(); */
 CUT.addElement("p", "Here have to be these results:");
 CUT.addElement("ul", "<li>1x domReady(); (core api) is working</li>"
-  +"<li>2x importScript(); (core api) - first script loaded</li>"
-  +"<li>2x importScript(); (core api) - second script loaded</li>"
-  +"<li>1x importScript(); (core api) - with more scripts"
-  +"<li>1x importScript(); (core api) with error</li>"
-  +"<li>1x getJson()</li>"+"<li>1x getText()</li>"+"<li>12x ajax()</li>"
+  + "<li>2x importScript(); (core api) - first script loaded</li>"
+  + "<li>2x importScript(); (core api) - second script loaded</li>"
+  + "<li>1x importScript(); (core api) - with more scripts"
+  + "<li>1x importScript(); (core api) with error</li>"
+  + "<li>1x getJson()</li>" + "<li>1x getText()</li>" + "<li>12x ajax()</li>"
 );
 
 CEL.importScript("unittest-is1.js");
@@ -2457,20 +2445,14 @@ CEL.getText("testdata.txt",function(r){CUT.isEqual("getText();",resAjaxText,r);}
 CEL.getJson("testdata.json",function(r){CUT.isEqual("getJson();",resAjaxJson,r[0].image);});
 
 CEL.ajax({
-  queryType: "ajax",
-  type: "get",
-  url: "testdata.txt",
-  format: "text",
+  queryType: "ajax", type: "get", url: "testdata.txt", format: "text",
   success: function(r){ CUT.isEqual("ajax(); ajax get text", resAjaxText, r); },
   error: function (e) {
     CUT.isEqual("ajax(); ajax get text: "+JSON.stringify(e), true, false);
   }
 });
 CEL.ajax({
-  queryType: "ajax",
-  type: "get",
-  url: "testdata.json",
-  format: "json",
+  queryType: "ajax", type: "get", url: "testdata.json", format: "json",
   success: function (r) {
     CUT.isEqual("ajax(); ajax get json", resAjaxJson, r[0].image);
   },
@@ -2479,10 +2461,7 @@ CEL.ajax({
   }
 });
 CEL.ajax({
-  queryType: "ajax",
-  type: "get",
-  url: "testdata.xml",
-  format: "xml",
+  queryType: "ajax", type: "get", url: "testdata.xml", format: "xml",
   success: function (r) {
     var xa = r.getElementsByTagName("picture");
     var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
@@ -2494,10 +2473,7 @@ CEL.ajax({
 });
 
 CEL.ajax({
-  queryType: "ajax",
-  type: "post",
-  url: "testdata.txt",
-  format: "text",
+  queryType: "ajax", type: "post", url: "testdata.txt", format: "text",
   data: "a=foo&b=bar baz",
   success: function (r) { CUT.isEqual("ajax(); ajax post text",resAjaxText,r);},
   error: function (e) {
@@ -2505,10 +2481,7 @@ CEL.ajax({
   }
 });
 CEL.ajax({
-  queryType: "ajax",
-  type: "post",
-  url: "testdata.json",
-  format: "json",
+  queryType: "ajax", type: "post", url: "testdata.json", format: "json",
   data: "a=foo&b=bar baz",
   success: function (r) {
     CUT.isEqual("ajax(); ajax post json", resAjaxJson, r[0].image);
@@ -2518,10 +2491,7 @@ CEL.ajax({
   }
 });
 CEL.ajax({
-  queryType: "ajax",
-  type: "post",
-  url: "testdata.xml",
-  format: "xml",
+  queryType: "ajax", type: "post", url: "testdata.xml", format: "xml",
   data: "a=foo&b=bar baz",
   success: function (r) {
     var xa = r.getElementsByTagName("picture");
@@ -2534,20 +2504,14 @@ CEL.ajax({
 });
 
 CEL.ajax({
-  queryType: "cors",
-  type: "get",
-  url: "testdata.txt",
-  format: "text",
+  queryType: "cors", type: "get", url: "testdata.txt", format: "text",
   success: function (r) { CUT.isEqual("ajax(); cors get text",resAjaxText,r);},
   error: function (e) {
     CUT.isEqual("ajax(); cors get text: "+JSON.stringify(e), true, false);
   }
 });
 CEL.ajax({
-  queryType: "cors",
-  type: "get",
-  url: "testdata.json",
-  format: "json",
+  queryType: "cors", type: "get", url: "testdata.json", format: "json",
   success: function (r) {
     CUT.isEqual("ajax(); cors get json", resAjaxJson, r[0].image);
   },
@@ -2556,10 +2520,7 @@ CEL.ajax({
   }
 });
 CEL.ajax({
-  queryType: "cors",
-  type: "get",
-  url: "testdata.xml",
-  format: "xml",
+  queryType: "cors", type: "get", url: "testdata.xml", format: "xml",
   success: function (r) {
     var xa = r.getElementsByTagName("picture");
     var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
@@ -2571,10 +2532,7 @@ CEL.ajax({
 });
 
 CEL.ajax({
-  queryType: "cors",
-  type: "post",
-  url: "testdata.txt",
-  format: "text",
+  queryType: "cors", type: "post", url: "testdata.txt", format: "text",
   data: "a=foo&b=bar baz",
   success: function (r) {
     CUT.isEqual("ajax(); cors post text", resAjaxText, r);
@@ -2584,10 +2542,7 @@ CEL.ajax({
   }
 });
 CEL.ajax({
-  queryType: "cors",
-  type: "post",
-  url: "testdata.json",
-  format: "json",
+  queryType: "cors", type: "post", url: "testdata.json", format: "json",
   data: "a=foo&b=bar baz",
   success: function (r) {
     CUT.isEqual("ajax(); cors post json", resAjaxJson, r[0].image);
@@ -2597,10 +2552,7 @@ CEL.ajax({
   }
 });
 CEL.ajax({
-  queryType: "cors",
-  type: "post",
-  url: "testdata.xml",
-  format: "xml",
+  queryType: "cors", type: "post", url: "testdata.xml", format: "xml",
   data: "a=foo&b=bar baz",
   success: function (r) {
     var xa = r.getElementsByTagName("picture");

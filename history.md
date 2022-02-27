@@ -1,4 +1,21 @@
 
+## Celestra v5.4.2
+
+1. Documentation and pdf fixes.
+
+2. Add a third page in the __celestra-cheatsheet.odt__ and __celestra-cheatsheet.pdf__
+
+3. Delete these files and move the content in the __celestra-cheatsheet.odt__ and __celestra-cheatsheet.pdf__:
+- __celestra-math.odt__
+- __celestra-math.pdf__
+
+4. Replace the `BigInt` `Xn` literals to `BigInt(X)` in the __unittest.js__
+
+5. Fix the function `isSameValue(<value1>,<value2>);`: This is a standalone function instead of an alias of the `Object.is();`.
+
+6. __Celestra Unit Tester (CUT) v0.8.24:__ CSS and text changes
+
+
 ## Celestra v5.4.1
 
 1. Documentation and pdf fixes.

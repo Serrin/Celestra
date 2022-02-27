@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.4.1 dev
+ * @version 5.4.2 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -353,10 +353,7 @@ function randomID (hyphens = true, useDate = false) {
     rA[12] = "4";
     r = rA.join("");
     return !hyphens ? r : r.slice(0, 8)
-      + "-" + r.slice(8, 12)
-      + "-" + r.slice(12, 16)
-      + "-" + r.slice(16, 20)
-      + "-" + r.slice(20);
+      +"-"+r.slice(8,12)+"-"+r.slice(12,16) +"-"+r.slice(16,20)+"-"+r.slice(20);
   }
 }
 
@@ -1559,11 +1556,7 @@ function* reject (it, fn) {
 function* slice (it, begin = 0, end = Infinity) {
   let i = 0;
   for (let item of it) {
-    if (i >= begin && i <= end) {
-      yield item;
-    } else if (i > end) {
-      return;
-    }
+    if (i >= begin && i <= end) { yield item; } else if (i > end) { return; }
     i++;
   }
 }
@@ -1702,7 +1695,8 @@ const toPropertyKey = (v) => (typeof v === "symbol" ? v : String(v));
 function toObject (v) { if (v==null) { throw TypeError(); } return Object(v); }
 
 /* isSameValue(<value1: any>,<value2: any>): boolean */
-const isSameValue = (v1, v2) => Object.is(v1, v2);
+const isSameValue = (v1, v2) =>
+  ((v1 === v2) ? (v1 !== 0 || 1/v1 === 1/v2) : (v1 !== v1 && v2 !== v2));
 
 /* isSameValueZero(<value1: any>,<value2: any>): boolean */
 const isSameValueZero = (v1, v2) => (v1 === v2 || (v1 !== v1 && v2 !== v2));
@@ -1739,7 +1733,7 @@ function toArray (O) { return (Array.isArray(O) ? O : Array.from(O)); }
 
 /** object header **/
 
-const VERSION = "Celestra v5.4.1 dev";
+const VERSION = "Celestra v5.4.2 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
