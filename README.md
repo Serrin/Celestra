@@ -46,8 +46,6 @@ minified|__celestra-polyfills.min.js__|11516 byte
 
 Celestra cheatsheet: __celestra-cheatsheet.pdf__
 
-Celestra Math plugin cheatsheet: __celestra-math.pdf__
-
 JavaScript cheatsheet: __js-cheatsheet.pdf__
 
 
