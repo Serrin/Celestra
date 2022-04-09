@@ -1,9 +1,9 @@
 /**
  * @name Celestra Math plugin
- * @version 5.4.2 dev
+ * @version 5.4.3 dev
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Required Celestra version: 5.4.2
+ * Required Celestra version: 5.4.3
  */
 
 (function(celestra){

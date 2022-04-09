@@ -128,7 +128,11 @@ button {
 
 <table class="table-responsive">
   <tr>
-    <td><button onclick=" CEL.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console)) .finally(() => alert('done')); ">delay();</button></td>
+    <td><button onclick=" CEL.delay(5000).then(() => alert('5 seconds')).catch(console.log.bind(console)) .finally(() => alert('finally')); ">delay();</button></td>
+    <td>2x alert (5s + finally)</td>
+  </tr>
+  <tr>
+    <td><button onclick=" CEL.sleep(5000).then(() => alert('5 seconds')).catch(console.log.bind(console)) .finally(() => alert('finally')); ">sleep();</button></td>
     <td>2x alert (5s + finally)</td>
   </tr>
   <tr>

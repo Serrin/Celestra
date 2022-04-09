@@ -84,12 +84,19 @@ CUT.addElement("table",
     + "<tr><td>navigator.appCodeName: </td><td><code>"+navigator.appCodeName+"</code></td></tr>"
     + "<tr><td>navigator.product: </td><td><code>"+navigator.product+"</code></td></tr>"
     + "<tr><td>navigator.appVersion: </td><td><code>"+navigator.appVersion+"</code></td></tr>"
+    + "<tr><td>navigator.buildID: </td><td><code>"+navigator.buildID+"</code></td></tr>"
+    + "<tr><td>navigator.product: </td><td><code>"+navigator.product+"</code></td></tr>"
+    + "<tr><td>navigator.productSub: </td><td><code>"+navigator.productSub+"</code></td></tr>"
     + "<tr><td>navigator.userAgent: </td><td><code>"+navigator.userAgent+"</code></td></tr>"
     + "<tr><td>navigator.userAgentData: </td><td><code>"+JSON.stringify(navigator.userAgentData)+"</code></td></tr>"
+    + "<tr><td>navigator.doNotTrack: </td><td><code>"+navigator.doNotTrack+"</code></td></tr>"
+    + "<tr><td>navigator.vendor: </td><td><code>"+navigator.vendor+"</code></td></tr>"
     + "<tr><td>navigator.platform: </td><td><code>"+navigator.platform+"</code></td></tr>"
     + "<tr><td>navigator.language: </td><td><code>"+navigator.language+"</code></td></tr>"
+    + "<tr><td>navigator.oscpu: </td><td><code>"+navigator.oscpu+"</code></td></tr>"
     + "<tr><td>navigator.cookieEnabled: </td><td><code>"+navigator.cookieEnabled+"</code></td></tr>"
     + "<tr><td>navigator.javaEnabled(): </td><td><code>"+navigator.javaEnabled()+"</code></td></tr>"
+    + "<tr><td>navigator.pdfViewerEnabled: </td><td><code>"+navigator.pdfViewerEnabled+"</code></td></tr>"
     + "<tr><td>window.innerWidth: </td><td><code>"+window.innerWidth+"</code></td></tr>"
     + "<tr><td>window.innerHeight: </td><td><code>"+window.innerHeight+"</code></td></tr>"
     + "<tr><td>screen.width: </td><td><code>"+screen.width+"</code></td></tr>"
@@ -172,7 +179,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.4.2 testcases */
+/* Celestra v5.4.3 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -1057,8 +1064,10 @@ CUT.isEqual("find(); found", 6, CEL.find(reverseSortArray, (v) => (v > 5)));
 CUT.isEqual("find(); not found", undefined,
   CEL.find(reverseSortArray, (v) => (v > 11)) );
 
-CUT.isTrue("findLast();", CEL.findLast( [4,1,7,2,9], (v) => v < 5 ) === 2
-  && CEL.findLast( [4,1,7,2,9], (v) => v > 10 ) === undefined);
+CUT.isTrue("findLast();",
+  CEL.findLast( [4,1,7,2,9], (v) => v < 5 ) === 2
+    && CEL.findLast( [4,1,7,2,9], (v) => v > 10 ) === undefined
+);
 
 var everySomeNoneArray = [2,9,3,5,8];
 var everySomeNoneEmptyArray = [];
@@ -1165,6 +1174,7 @@ CUT.isEqual("join();",
   CEL.join(joinSet) + CEL.join(joinSet, "")
     + CEL.join(joinSet, ";") + CEL.join(joinSet, "abc")
     + CEL.join(joinSet, true) + CEL.join(joinSet, 11) );
+CUT.isEqual("join(); - empty", "", CEL.join([]))
 
 var FPArray = [1,2,3];
 
@@ -1727,8 +1737,8 @@ CUT.isEqual("String.prototype.replaceAll();",
   "aabbcc".replaceAll("b", ".")+"aabbcc".replaceAll(/b/g, '.'),"aa..cc"+"aa..cc"
 );
 
-const regexp = RegExp('foo*','g');
-const str = 'table football, foosball';
+const regexp = RegExp("foo*","g");
+const str = "table football, foosball";
 var matches1 = str.matchAll(regexp);
 var resMatchAll1 = "";
 for (const item of matches1) { resMatchAll1 += item; }

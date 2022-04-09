@@ -1,4 +1,50 @@
 
+## Celestra v5.4.3
+
+1. Documentation and pdf fixes.
+
+2. Remove this line in the __README.md__: 
+````
+Celestra Math plugin cheatsheet: __celestra-math.pdf__
+````
+
+3. Add the `Reflect object` in the __js-cheatsheet.odt__ and __js-cheatsheet.pdf__
+
+4. Fix these MDN links at the polyfills in the __celestra.html__ and __README.md__:
+
+Polyfill|Link
+--------|----
+`Array.prototype.groupBy();`|https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/groupBy
+`Array.prototype.groupByToMap();`|https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/groupByToMap
+
+5. Add an alias: `sleep(<ms>).then(<callback>);` -> `delay(<ms>).then(<callback>);`
+
+6. Revert these functions to old versions -> use the `for of` instead of the array conversion:
+````
+includes(<collection>,<value>);
+contains(<collection>,<value>);
+find(<collection>,<callback>);
+findLast(<collection>,<callback>);
+every(<collection>,<callback>);
+some(<collection>,<callback>);
+none(<collection>,<callback>);
+join(<collection>[,separator=","]);
+````
+
+7. Fix these polyfills to use the `Object.defineProperty();`:
+````
+Array.prototype.flat();
+Array.prototype.flatMap();
+String.prototype.matchAll();
+String.prototype.trimStart();
+String.prototype.trimLeft();
+String.prototype.trimEnd();
+String.prototype.trimRight();
+String.prototype.padStart();
+String.prototype.padEnd();
+````
+
+
 ## Celestra v5.4.2
 
 1. Documentation and pdf fixes.

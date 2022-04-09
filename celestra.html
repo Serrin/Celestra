@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.4.2</p>
-<p>Date: 2022-02-27T19:04:26.207Z</p>
+<p>Latest version: 5.4.3</p>
+<p>Date: 2022-04-08T19:59:12.162Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -89,17 +89,17 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <tr>
     <td>developer</td>
     <td><a href="celestra.dev.js" target="_blank">celestra.dev.js</a>
-    </td><td>64389 byte</td>
+    </td><td>66333 byte</td>
   </tr>
   <tr>
     <td>minified</td>
     <td><a href="celestra.min.js" target="_blank">celestra.min.js</a></td>
-    <td>40786 byte</td>
+    <td>42057 byte</td>
   </tr>
   <tr>
     <td>ES6 module</td>
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
-    <td>40642 byte</td>
+    <td>41919 byte</td>
   </tr>
   <tr>
     <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
@@ -275,6 +275,10 @@ CEL.delay(5000)
   .catch(console.log.bind(console))
   .finally(() => alert("done"));</pre>
 	    </td>
+    </tr>
+    <tr>
+      <td><code>sleep(&#60;ms&#62;).then(&#60;callback&#62;);</code></td>
+      <td>This is an alias of the <code>delay(&#60;ms&#62;).then(&#60;callback&#62;);</code>.</td>
     </tr>
     <tr>
       <td><code>inherit(&#60;subclass&#62;,&#60;superclass&#62;);</code></td>
@@ -1430,11 +1434,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>Array.prototype.groupBy(&#60;fn&#62;[,thisArg]);</code></td>
-      <td>The groupBy() method grouping of items in an array based on the return value (key) of the given function. The return value is a null-prototype object. For more information please read the <a href="https://github.com/tc39/proposal-array-grouping" target="_blank">proposal Article</a>!</td>
+      <td>The groupBy() method grouping of items in an array based on the return value (key) of the given function. The return value is a null-prototype object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/groupBy" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>Array.prototype.groupByToMap(&#60;fn&#62;[,thisArg]);</code></td>
-      <td>The groupByToMap() method grouping of items in an array based on the return value (key) of the given function. The return value is a Map object. For more information please read the <a href="https://github.com/tc39/proposal-array-grouping" target="_blank">proposal Article</a>!</td>
+      <td>The groupByToMap() method grouping of items in an array based on the return value (key) of the given function. The return value is a Map object. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/groupByToMap" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>Array.prototype.findLast();</code></td>

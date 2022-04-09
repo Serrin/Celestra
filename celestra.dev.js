@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.4.2 dev
+ * @version 5.4.3 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -124,53 +124,73 @@ if (!Object.hasOwn) {
 }
 
 /* String.prototype.trimStart(); */
-if (!String.prototype.trimStart) {
-  String.prototype.trimStart = function () { return this.replace(/^\s+/, ""); };
+if (!("trimStart" in String.prototype)) {
+  Object.defineProperty(String.prototype, "trimStart", {
+    writable: true, enumerable: false, configurable: true,
+    value: function () { return String(this).replace(/^\s+/, ""); }
+  });
 }
+
 /* String.prototype.trimLeft(); */
-if (!String.prototype.trimLeft) {
-  String.prototype.trimLeft = function () { return this.replace(/^\s+/, ""); };
+if (!("trimLeft" in String.prototype)) {
+  Object.defineProperty(String.prototype, "trimLeft", {
+    writable: true, enumerable: false, configurable: true,
+    value: function () { return String(this).replace(/^\s+/, ""); }
+  });
 }
 
 /* String.prototype.trimEnd(); */
-if (!String.prototype.trimEnd) {
-  String.prototype.trimEnd = function () { return this.replace(/\s+$/, ""); };
+if (!("trimEnd" in String.prototype)) {
+  Object.defineProperty(String.prototype, "trimEnd", {
+    writable: true, enumerable: false, configurable: true,
+    value: function () { return String(this).replace(/\s+$/, ""); }
+  });
 }
+
 /* String.prototype.trimRight(); */
-if (!String.prototype.trimRight) {
-  String.prototype.trimRight = function () { return this.replace(/\s+$/, ""); };
+if (!("trimRight" in String.prototype)) {
+  Object.defineProperty(String.prototype, "trimRight", {
+    writable: true, enumerable: false, configurable: true,
+    value: function () { return String(this).replace(/\s+$/, ""); }
+  });
 }
 
 /* String.prototype.padStart(); */
-if (!String.prototype.padStart) {
-  String.prototype.padStart = function (len, str) {
-    len = Math.floor(Number(len));
-    if (len <= this.length || len === NaN ) {
-      return String(this);
-    } else {
-      str = String(typeof str !== "undefined" ? str: " ");
-      if (str.length === 0) { return String(this); }
-      var res = "", n = Math.floor( (len - this.length) / str.length) + 1;
-      for (var i = 0; i < n; i++) { res += str; }
-      return res.slice(0, len - this.length) + String(this);
+if (!("padStart" in String.prototype)) {
+  Object.defineProperty(String.prototype, "padStart", {
+    writable: true, enumerable: false, configurable: true,
+      value: function (len, str) {
+      len = Math.floor(Number(len));
+      if (len <= this.length || len === NaN ) {
+        return String(this);
+      } else {
+        str = String(typeof str !== "undefined" ? str: " ");
+        if (str.length === 0) { return String(this); }
+        var res = "", n = Math.floor( (len - this.length) / str.length) + 1;
+        for (var i = 0; i < n; i++) { res += str; }
+        return res.slice(0, len - this.length) + String(this);
+      }
     }
-  };
+  });
 }
 
 /* String.prototype.padEnd(); */
-if (!String.prototype.padEnd) {
-  String.prototype.padEnd = function (len, str) {
-    len = Math.floor(Number(len));
-    if (len <= this.length || len === NaN ) {
-      return String(this);
-    } else {
-      str = String(typeof str !== "undefined" ? str: " ");
-      if (str.length === 0) { return String(this); }
-      var res = "", n = Math.floor( (len - this.length) / str.length)+1;
-      for (var i = 0; i < n; i++) { res += str; }
-      return String(this) + res.slice(0, len - this.length);
+if (!("padEnd" in String.prototype)) {
+  Object.defineProperty(String.prototype, "padEnd", {
+    writable: true, enumerable: false, configurable: true,
+      value:  function (len, str) {
+      len = Math.floor(Number(len));
+      if (len <= this.length || len === NaN ) {
+        return String(this);
+      } else {
+        str = String(typeof str !== "undefined" ? str: " ");
+        if (str.length === 0) { return String(this); }
+        var res = "", n = Math.floor( (len - this.length) / str.length) + 1;
+        for (var i = 0; i < n; i++) { res += str; }
+        return String(this) + res.slice(0, len - this.length);
+      }
     }
-  };
+  });
 }
 
 /* String.prototype.replaceAll(); */
@@ -195,38 +215,44 @@ if (!("replaceAll" in String.prototype)) {
 }
 
 /* Array.prototype.flat(); */
-if (!Array.prototype.flat) {
-  Array.prototype.flat = function (depth) {
-    if (depth === undefined) {
-      depth = 1;
-    } else {
-      depth = Math.floor(Number(depth));
-      if (isNaN(depth) || depth < 1) { return this; }
+if (!("flat" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "flat", {
+    writable: true, enumerable: false, configurable: true,
+      value: function (depth) {
+      if (depth === undefined) {
+        depth = 1;
+      } else {
+        depth = Math.floor(Number(depth));
+        if (isNaN(depth) || depth < 1) { return this; }
+      }
+      function deepFlat (a, cd) {
+        a.forEach(function (e) {
+          if (Array.isArray(e)) {
+            if (cd < depth) { deepFlat(e, cd+1); } else { res.push(e); }
+          } else {
+            res.push(e);
+          }
+        });
+      }
+      var res = [];
+      deepFlat(this, 0);
+      return res;
     }
-    function deepFlat (a, cd) {
-      a.forEach(function(e) {
-        if (Array.isArray(e)) {
-          if (cd < depth) { deepFlat(e, cd+1); } else { res.push(e); }
-        } else {
-          res.push(e);
-        }
-      });
-    }
-    var res = [];
-    deepFlat(this, 0);
-    return res;
-  };
+  });
 }
 
 /* Array.prototype.flatMap(); */
-if (!Array.prototype.flatMap) {
-  Array.prototype.flatMap = function (fn) {
-    var res = [];
-    this.map(fn).forEach(function (e) {
-      if (Array.isArray(e)) { res = res.concat(e); } else { res.push(e); }
-    });
-    return res;
-  };
+if (!("flatMap" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "flatMap", {
+    writable: true, enumerable: false, configurable: true,
+    value: function (fn) {
+      var res = [];
+      this.map(fn).forEach(function (e) {
+        if (Array.isArray(e)) { res = res.concat(e); } else { res.push(e); }
+      });
+      return res;
+    }
+  });
 }
 
 /* Object.fromEntries(); */
@@ -250,13 +276,16 @@ if (!Object.fromEntries) {
 })(typeof this === "object" ? this : Function("return this")());
 
 /* String.prototype.matchAll(); */
-if (!String.prototype.matchAll) {
-  String.prototype.matchAll = function* (regex) {
-    function ef (fls, fl) { return (fls.includes(fl) ? fls : fls + fl); }
-    const lc = new RegExp(regex, ef(regex.flags, "g"));
-    let match;
-    while (match = lc.exec(this)) { yield match; }
-  };
+if (!("matchAll" in String.prototype)) {
+  Object.defineProperty(String.prototype, "matchAll", {
+    writable: true, enumerable: false, configurable: true,
+      value: function* (regex) {
+      function ef (fls, fl) { return (fls.includes(fl) ? fls : fls + fl); }
+      const lc = new RegExp(regex, ef(regex.flags, "g"));
+      let match;
+      while (match = lc.exec(this)) { yield match; }
+    }
+  });
 }
 
 /* Array.prototype.findLast(); */
@@ -362,6 +391,8 @@ const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
 
 /* delay(<ms: integer>).then(<callback: function>): promise */
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+/* sleep(<ms: integer>).then(<callback: function>): promise */
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /* randomInt([max: int] OR <min: int>,<max: int>): int */
 function randomInt (i = 100, a) {
@@ -1217,10 +1248,10 @@ const isArrayBuffer = (v) =>
 /* isTypedArray(<value: any>): boolean */
 const isTypedArray = (v) =>
   ["int8array", "uint8array", "uint8clampedarray", "int16array", "uint16array",
-   "int32array", "uint32array", "float32array", "float64array",
-   "bigint64array", "biguint64array"].includes(
-     Object.prototype.toString.call(v).slice(8, -1).toLowerCase()
-   );
+    "int32array", "uint32array", "float32array", "float64array",
+    "bigint64array", "biguint64array"].includes(
+      Object.prototype.toString.call(v).slice(8, -1).toLowerCase()
+    );
 
 /* isGeneratorFn(<value: any>): boolean */
 const isGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
@@ -1593,24 +1624,66 @@ const sort = ([...a], ns) => a.sort(ns
   ? (a,b) => { if (a<b){return -1;} if(a>b){return 1;} return 0; } : undefined);
 
 /* includes(<collection>,<value: any>): boolean */
-const includes = ([...a], v) => (a.indexOf(v) > -1);
+function includes (it, v) {
+  for (let item of it) {
+    if (item === v) { return true; }
+  }
+  return false;
+}
 /* contains(<collection>,<value: any>): boolean */
-const contains = ([...a], v) => (a.indexOf(v) > -1);
+function contains (it, v) {
+  for (let item of it) {
+    if (item === v) { return true; }
+  }
+  return false;
+}
 
 /* find(<collection>,<callback: function>): any */
-const find = ([...a], fn) => a.find((v, i) => fn(v, i));
+//const find = ([...a], fn) => a.find((v, i) => fn(v, i));
+function find (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return item; }
+  }
+}
 
 /* findLast(<collection>,<callback: function>): any */
-const findLast = ([...a], fn) => a.findLast((v, i) => fn(v, i));
+function findLast (it, fn) {
+  let i = 0, r;
+  for (let item of it) {
+    if (fn(item, i++)) { r = item; }
+  }
+  return r;
+}
 
 /* every(<collection>,<callback: function>): boolean */
-const every = ([...a], fn) => a.length > 0 ? a.every((v, i) => fn(v, i)): false;
+function every (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (!fn(item, i++)) { return false; }
+  }
+  if (i === 0) { return false; }
+  return true;
+}
 
 /* some(<collection>,<callback: function>): boolean */
-const some = ([...a], fn) => a.length > 0 ? a.some((v, i) => fn(v, i)): false;
+function some (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return true; }
+  }
+  return false;
+}
 
 /* none(<collection>,<callback: function>): boolean */
-const none = ([...a], fn) => a.length > 0 ? a.every((v,i) => !(fn(v,i))): false;
+function none (it, fn) {
+  let i = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { return false; }
+  }
+  if (i === 0) { return false; }
+  return true;
+}
 
 /* takeRight(<collection>[,n=1]): array */
 const takeRight = ([...a], n = 1) => a.reverse().slice(0, n);
@@ -1666,7 +1739,12 @@ function* entries (it, offset = 0) {
 function* flat (it) { for (let item of it) { yield* item; } }
 
 /* join(<collection>[,separator=","]): string */
-const join = ([...a], s = ",") => a.join(s);
+function join (it, sep = ",") {
+  sep = String(sep);
+  let r = "";
+  for (let item of it) { r += sep + item; }
+  return r.slice(sep.length);
+}
 
 /* withOut(<collection>,<filterCollection>): array */
 const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
@@ -1733,7 +1811,7 @@ function toArray (O) { return (Array.isArray(O) ? O : Array.from(O)); }
 
 /** object header **/
 
-const VERSION = "Celestra v5.4.2 dev";
+const VERSION = "Celestra v5.4.3 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
@@ -1746,6 +1824,7 @@ var celestra = {
   randomID: randomID,
   signbit: signbit,
   delay: delay,
+  sleep: sleep,
   randomInt: randomInt,
   randomFloat: randomFloat,
   randomBoolean: randomBoolean,

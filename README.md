@@ -15,17 +15,17 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.4.2
+Latest version: 5.4.3
 
-Date: 2022-02-27T19:04:26.207Z
+Date: 2022-04-08T19:59:12.162Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
 edition|filename|size
 -------|--------|----
-developer|__celestra.dev.js__|64389 byte
-minified|__celestra.min.js__|40786 byte
-ES6 module|__celestra.esm.js__|40642 byte
+developer|__celestra.dev.js__|66333 byte
+minified|__celestra.min.js__|42057 byte
+ES6 module|__celestra.esm.js__|41919 byte
 CUT testpage<br>Celestra Unit Tester|__unittest.html__|
 Version history|__history.md__|
 
@@ -133,6 +133,7 @@ Name | Description
 `randomID([hyphens=true][,usedate=false]);` | Generate a GUID/UUID v4 random ID. The hyphens and useDate parameters are optional and can be a boolean. The return value is a string.<br><b>Example:</b><br>`randomID(false);`<br>-><br>`"0e0f739a306b4faad62e3e8080826c9c"`<br>`randomID(true, true);`<br>-><br>`"17c3d79b-d413-4443-b4cd-5426c7299726"`<br>`randomID();`<br>-><br>`"bc897cdf-da26-42de-83e2-d1fd458e079f"`
 `signbit(<value>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
 `delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer.<br>__Sample:__<br>`CEL.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
+`sleep(<ms>).then(<callback>);` | This is an alias of the `delay(<ms>).then(<callback>);`.
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
 `randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
 `randomInt(<min>,<max>);` | Get a random integer number value within min and max value.
@@ -439,8 +440,8 @@ Name | Description
 `Number.MIN_SAFE_INTEGER;` | The Number.MIN_SAFE_INTEGER constant represents the minimum safe integer in JavaScript (-(2^53 - 1), -9007199254740991). For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MIN_SAFE_INTEGER)!
 `Number.MAX_SAFE_INTEGER;` | The Number.MAX_SAFE_INTEGER constant represents the maximum safe integer in JavaScript (2^53 - 1, 9007199254740991). For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER)!
 `crypto.randomUUID();` | The randomUUID() method of the Crypto interface is used to generate a v4 UUID using a cryptographically secure random number generator. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID)!
-`Array.prototype.groupBy(<fn>[,thisArg]);` | The groupBy() method grouping of items in an array based on the return value (key) of the given function. The return value is a null-prototype object. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-grouping)!
-`Array.prototype.groupByToMap(<fn>[,thisArg]);` | The groupByToMap() method grouping of items in an array based on the return value (key) of the given function. The return value is a Map object. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-grouping)!
+`Array.prototype.groupBy(<fn>[,thisArg]);` | The groupBy() method grouping of items in an array based on the return value (key) of the given function. The return value is a null-prototype object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/groupBy)!
+`Array.prototype.groupByToMap(<fn>[,thisArg]);` | The groupByToMap() method grouping of items in an array based on the return value (key) of the given function. The return value is a Map object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/groupByToMap)!
 `Array.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
 `Array.prototype.findLastIndex();` | The findLastIndex() method returns the index of the last element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
 `TypedArray.prototype.findLast();` | The findLast() method returns the value of the last element in the provided array that satisfies the provided testing function. If no values satisfy the testing function, undefined is returned. For more information please read the [proposal Article](https://github.com/tc39/proposal-array-find-from-last)!
