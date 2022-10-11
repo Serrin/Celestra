@@ -1,4 +1,25 @@
 
+## Celestra v5.4.4
+
+1. Documentation and pdf fixes.
+
+2. Fix the description of these polyfills with MDN links:
+````javascript
+Array.prototype.findLast();
+Array.prototype.findLastIndex();
+TypedArray.prototype.findLast();
+TypedArray.prototype.findLastIndex();
+````
+
+3. Rename these prototypes:
+````javascript
+Array.prototype.groupBy(); -> Array.prototype.group();
+Array.prototype.groupByToMap(); -> Array.prototype.groupToMap();
+````
+
+4. Rename the function `groupBy(<collection>,<callback>[,map=false]);` to `group(<collection>,<callback>[,map=false]);` and add an alias with the old name.
+
+
 ## Celestra v5.4.3
 
 1. Documentation and pdf fixes.

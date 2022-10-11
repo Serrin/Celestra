@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.4.3 dev
+ * @version 5.4.4 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -31,9 +31,9 @@ if (("crypto" in window) && !("randomUUID" in window.crypto)) {
   };
 }
 
-/* Array.prototype.groupBy(<fn>[,thisArg]); */
-if (!("groupBy" in Array.prototype)) {
-  Object.defineProperty(Array.prototype, "groupBy", {
+/* Array.prototype.group(<fn>[,thisArg]); */
+if (!("group" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "group", {
     "configurable": true, "writable": true, "enumerable": false,
     "value": function (fn, thisArg) {
       "use strict";
@@ -51,9 +51,9 @@ if (!("groupBy" in Array.prototype)) {
   });
 }
 
-/* Array.prototype.groupByToMap(<fn>[,thisArg]); */
-if (!("groupByToMap" in Array.prototype)) {
-  Object.defineProperty(Array.prototype, "groupByToMap", {
+/* Array.prototype.groupToMap(<fn>[,thisArg]); */
+if (!("groupToMap" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "groupToMap", {
     "configurable": true, "writable": true, "enumerable": false,
     "value": function (fn, thisArg) {
       "use strict";
@@ -1387,8 +1387,8 @@ function shuffle([...a]) {
 /* partition(<collection>,<callback: function>): array */
 const partition = ([...a],fn) => [a.filter(fn),a.filter((e,i,a)=>!(fn(e,i,a)))];
 
-/* groupBy(<collection>,<callback: function>[,map=false]): object */
-const groupBy =([...a], fn, map=false) => a[(map?"groupByToMap":"groupBy")](fn);
+/* group(<collection>,<callback: function>[,map=false]): object */
+const group =([...a], fn, map=false) => a[(map?"groupToMap":"group")](fn);
 
 /* arrayUnion(<collection1>[,collectionN]): array */
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
@@ -1424,7 +1424,7 @@ const setSymmetricDifference = (a, b) => new Set(
 /* isSuperset(<superCollection>,<subCollection>): boolean */
 const isSuperset = ([...sup], [...sub]) => sub.every( (v) => sup.includes(v) );
 
-/* max(<value1: any>[,valueN]): any */
+/* min(<value1: any>[,valueN]): any */
 const min = (...a) => a.reduce((acc, v) => (v < acc ? v : acc), a[0]);
 
 /* max(<value1: any>[,valueN]): any */
@@ -1811,7 +1811,7 @@ function toArray (O) { return (Array.isArray(O) ? O : Array.from(O)); }
 
 /** object header **/
 
-const VERSION = "Celestra v5.4.3 dev";
+const VERSION = "Celestra v5.4.4 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
@@ -1964,7 +1964,8 @@ var celestra = {
   initial: initial,
   shuffle: shuffle,
   partition: partition,
-  groupBy: groupBy,
+  group: group,
+  groupBy: group,
   arrayUnion: arrayUnion,
   arrayIntersection: arrayIntersection,
   arrayDifference: arrayDifference,

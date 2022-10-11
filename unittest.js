@@ -179,7 +179,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.4.3 testcases */
+/* Celestra v5.4.4 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -824,6 +824,22 @@ CUT.isEqual("withOut();",
 var arrPartition = [-5, 2, -9, 7, 34];
 CUT.isEqual("partition();",
   JSON.stringify(CEL.partition(arrPartition, (e)=> (e>0) )),"[[2,7,34],[-5,-9]]"
+);
+
+var strGroup = JSON.stringify( CEL.group([1,2,3,4,5],
+  (i) => (i % 2 === 0 ? "even" : "odd")));
+CUT.isTrue("group(); 1", strGroup === "{\"odd\":[1,3,5],\"even\":[2,4]}"
+  || strGroup === "{\"even\":[2,4],\"odd\":[1,3,5]}");
+
+var RESGroupToMap=CEL.group([1,2,3,4,5], (i)=>(i%2===0?"even":"odd"), true);
+CUT.isTrue("group(); 2 map",
+  Object.prototype.toString.call(RESGroupToMap).slice(8, -1).toLowerCase()
+    === "map"
+    && RESGroupToMap.size === 2
+    && RESGroupToMap.has("even")
+    && RESGroupToMap.has("odd")
+    && JSON.stringify(RESGroupToMap.get("even")) === "[2,4]"
+    && JSON.stringify(RESGroupToMap.get("odd")) === "[1,3,5]"
 );
 
 var strGroupBy = JSON.stringify( CEL.groupBy([1,2,3,4,5],
@@ -1562,75 +1578,75 @@ CUT.isEqual("Object.is();",
 CUT.isEqual("Number.MIN_SAFE_INTEGER;",Number.MIN_SAFE_INTEGER,-9007199254740991);
 CUT.isEqual("Number.MAX_SAFE_INTEGER;",Number.MAX_SAFE_INTEGER,9007199254740991);
 
-var groupByArray = [1,2,3,4,5];
-var groupByArrayObj = {"length": 5, 0: 1, 1: 2, 2: 3, 3: 4, 4: 5};
-var groupByArrayRES = groupByArray.groupBy(i => (i % 2 === 0 ? "even": "odd"));
-CUT.isTrue("Array.prototype.groupBy(&#60;fn&#62;[,thisArg]); 1",
-  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+var groupArray = [1,2,3,4,5];
+var groupArrayObj = {"length": 5, 0: 1, 1: 2, 2: 3, 3: 4, 4: 5};
+var groupArrayRES = groupArray.group(i => (i % 2 === 0 ? "even": "odd"));
+CUT.isTrue("Array.prototype.group(&#60;fn&#62;[,thisArg]); 1",
+  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
     === "object"
-    && Object.keys(groupByArrayRES).length === 2
-    && Object.hasOwn(groupByArrayRES, "even")
-    && Object.hasOwn(groupByArrayRES, "odd")
-    && JSON.stringify(groupByArrayRES["even"]) === "[2,4]"
-    && JSON.stringify(groupByArrayRES["odd"]) === "[1,3,5]"
+    && Object.keys(groupArrayRES).length === 2
+    && Object.hasOwn(groupArrayRES, "even")
+    && Object.hasOwn(groupArrayRES, "odd")
+    && JSON.stringify(groupArrayRES["even"]) === "[2,4]"
+    && JSON.stringify(groupArrayRES["odd"]) === "[1,3,5]"
 );
-var groupByArrayRES = Array.prototype.groupBy.call(
-  groupByArray, i => (i % 2 === 0 ? "even": "odd")
+var groupArrayRES = Array.prototype.group.call(
+  groupArray, i => (i % 2 === 0 ? "even": "odd")
 );
-CUT.isTrue("Array.prototype.groupBy(&#60;fn&#62;[,thisArg]); 2",
-  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+CUT.isTrue("Array.prototype.group(&#60;fn&#62;[,thisArg]); 2",
+  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
     === "object"
-    && Object.keys(groupByArrayRES).length === 2
-    && Object.hasOwn(groupByArrayRES, "even")
-    && Object.hasOwn(groupByArrayRES, "odd")
-    && JSON.stringify(groupByArrayRES["even"]) === "[2,4]"
-    && JSON.stringify(groupByArrayRES["odd"]) === "[1,3,5]"
+    && Object.keys(groupArrayRES).length === 2
+    && Object.hasOwn(groupArrayRES, "even")
+    && Object.hasOwn(groupArrayRES, "odd")
+    && JSON.stringify(groupArrayRES["even"]) === "[2,4]"
+    && JSON.stringify(groupArrayRES["odd"]) === "[1,3,5]"
 );
-var groupByArrayRES = Array.prototype.groupBy.call(
-  groupByArrayObj, i => (i % 2 === 0 ? "even": "odd")
+var groupArrayRES = Array.prototype.group.call(
+  groupArrayObj, i => (i % 2 === 0 ? "even": "odd")
 );
-CUT.isTrue("Array.prototype.groupBy(&#60;fn&#62;[,thisArg]); 3",
-  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+CUT.isTrue("Array.prototype.group(&#60;fn&#62;[,thisArg]); 3",
+  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
     === "object"
-    && Object.keys(groupByArrayRES).length === 2
-    && Object.hasOwn(groupByArrayRES, "even")
-    && Object.hasOwn(groupByArrayRES, "odd")
-    && JSON.stringify(groupByArrayRES["even"]) === "[2,4]"
-    && JSON.stringify(groupByArrayRES["odd"]) === "[1,3,5]"
+    && Object.keys(groupArrayRES).length === 2
+    && Object.hasOwn(groupArrayRES, "even")
+    && Object.hasOwn(groupArrayRES, "odd")
+    && JSON.stringify(groupArrayRES["even"]) === "[2,4]"
+    && JSON.stringify(groupArrayRES["odd"]) === "[1,3,5]"
 );
-var groupByArrayRES = groupByArray.groupByToMap(i => (i % 2 === 0 ? "even": "odd"));
-CUT.isTrue("Array.prototype.groupByToMap(&#60;fn&#62;[,thisArg]); 1",
-  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+var groupArrayRES = groupArray.groupToMap(i => (i % 2 === 0 ? "even": "odd"));
+CUT.isTrue("Array.prototype.groupToMap(&#60;fn&#62;[,thisArg]); 1",
+  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
     === "map"
-    && groupByArrayRES.size === 2
-    && groupByArrayRES.has("even")
-    && groupByArrayRES.has("odd")
-    && JSON.stringify(groupByArrayRES.get("even")) === "[2,4]"
-    && JSON.stringify(groupByArrayRES.get("odd")) === "[1,3,5]"
+    && groupArrayRES.size === 2
+    && groupArrayRES.has("even")
+    && groupArrayRES.has("odd")
+    && JSON.stringify(groupArrayRES.get("even")) === "[2,4]"
+    && JSON.stringify(groupArrayRES.get("odd")) === "[1,3,5]"
 );
-var groupByArrayRES = Array.prototype.groupByToMap.call(
-  groupByArray, i => (i % 2 === 0 ? "even": "odd")
+var groupArrayRES = Array.prototype.groupToMap.call(
+  groupArray, i => (i % 2 === 0 ? "even": "odd")
 );
-CUT.isTrue("Array.prototype.groupByToMap(&#60;fn&#62;[,thisArg]); 2",
-  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+CUT.isTrue("Array.prototype.groupToMap(&#60;fn&#62;[,thisArg]); 2",
+  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
     === "map"
-    && groupByArrayRES.size === 2
-    && groupByArrayRES.has("even")
-    && groupByArrayRES.has("odd")
-    && JSON.stringify(groupByArrayRES.get("even")) === "[2,4]"
-    && JSON.stringify(groupByArrayRES.get("odd")) === "[1,3,5]"
+    && groupArrayRES.size === 2
+    && groupArrayRES.has("even")
+    && groupArrayRES.has("odd")
+    && JSON.stringify(groupArrayRES.get("even")) === "[2,4]"
+    && JSON.stringify(groupArrayRES.get("odd")) === "[1,3,5]"
 );
-var groupByArrayRES = Array.prototype.groupByToMap.call(
-  groupByArrayObj, i => (i % 2 === 0 ? "even": "odd")
+var groupArrayRES = Array.prototype.groupToMap.call(
+  groupArrayObj, i => (i % 2 === 0 ? "even": "odd")
 );
-CUT.isTrue("Array.prototype.groupByToMap(&#60;fn&#62;[,thisArg]); 3",
-  Object.prototype.toString.call(groupByArrayRES).slice(8, -1).toLowerCase()
+CUT.isTrue("Array.prototype.groupToMap(&#60;fn&#62;[,thisArg]); 3",
+  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
     === "map"
-    && groupByArrayRES.size === 2
-    && groupByArrayRES.has("even")
-    && groupByArrayRES.has("odd")
-    && JSON.stringify(groupByArrayRES.get("even")) === "[2,4]"
-    && JSON.stringify(groupByArrayRES.get("odd")) === "[1,3,5]"
+    && groupArrayRES.size === 2
+    && groupArrayRES.has("even")
+    && groupArrayRES.has("odd")
+    && JSON.stringify(groupArrayRES.get("even")) === "[2,4]"
+    && JSON.stringify(groupArrayRES.get("odd")) === "[1,3,5]"
 );
 
 var rIDstr = crypto.randomUUID();
