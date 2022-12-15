@@ -15,9 +15,9 @@ __A helper JavaScript library with useful functions and polyfills.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.4.4
+Latest version: 5.5.0
 
-Date: 2022-10-10T19:45:23.041Z
+Date: 2022-12-15T18:46:13.356Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
@@ -55,11 +55,11 @@ BTC standalone app: __btc.app.html__
 
 RPG dice roller: __testgame.html__
 
-Math plugin documentation: __celestra-math.html__
+Demo plugin documentation: __celestra-demoPlugin.html__
 
-Math plugin developer source: __celestra-math.dev.js__
+Demo plugin developer source: __celestra-demoPlugin.dev.js__
 
-Math plugin minified source: __celestra-math.min.js__
+Demo plugin minified source: __celestra-demoPlugin.min.js__
 
 
 ### How to import the ESM edition
@@ -116,6 +116,10 @@ window.CEL = defaultExport;
 - Added a new code section: __Abstract functions__ and new functions.
 
 
+### Celestra v5.5.0 changes
+
+- The Math functions are available in the main code files (dev, min, esm) instead of the Math plugins.
+
 -----
 
 ## Functions
@@ -147,7 +151,7 @@ Name | Description
 `javaHash(<data>[,hexa=false]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `getUrlVars([str=location.search]);` | Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
-`classof(<variable>[,type[,throw=false]]);` | __Old name before v5.4.0:__ `getType` __and added an alias with the old name.__<br>Get the real type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
+`classof(<variable>[,type[,throw=false]]);` | __Old name before v5.4.0:__ `getType`.<br>Get the real type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
 `extend([deep,]<target>,<source1>[,sourceN]);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
 `strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`strTitlecase(<string>);` | Alias of the `strPropercase(<string>);`.
 `strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
@@ -162,7 +166,7 @@ Name | Description
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `filterIn(<object>,<callback>);` | The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.<br>__Example:__<br>`var o1 = {"a": 1, "b": 2, "c": 3};`<br>`console.log(o1);`<br>`// Object { a: 1, b: 2, c: 3 }`<br>`var o2 = CEL.filterIn(o1, (v, p, o) => (v > 1));`<br>`console.log(o2);`<br>`// Object { b: 2, c: 3 }`
 `popIn(<object>,<property>);` | The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.
-`unBind(<function>);` | __Old name before v5.4.1: `toFunction` and added an alias with the old name.__<br>Returns an unbinded function from an object method. The function parameter is mandatory.
+`unBind(<function>);` | __Old name before v5.4.1:__ `toFunction`.<br>Returns an unbinded function from an object method. The function parameter is mandatory.
 `bind(<function>,<context>);` | Returns a function that is bound to a context. Both of the parameters are mandatory.
 `constant(<value>);` | A one time assignment function to create a constant value in ES5. This returns a function, which returns the given value. (In math: `f(x)=x`)
 `identity(<value>);` | Return the given value. (In math: `f(x)=x`)
@@ -339,7 +343,7 @@ Name | Description
 `shuffle(<collection>);` | Returns an array with the values of the given collection, but in shuffled order. <br>__Example:__<br>`CEL.shuffle(["first",4,5,6,7,8,9,"last"]);`<br>-><br>`[4,8,5,6,"last",9,7,"first"]`
 `withOut(<collection>,<filterCollection>);` | Returns an array with the values of the first collection, but without the values of the filterCollection. All of the parameters are mandatory and can be any type of JavaScript collections.<br>__Example:__<br>`CEL.withOut(["a","b","c","d"], ["b","d"]);`<br>-><br>`["a","c"]`
 `partition(<collection>,<callback>);` | Returns an array, with filtered and negative filtered groups of the elements of the original collection. All of the parameters are mandatory.<br>__Example:__<br>`CEL.partition([-5, 2, -9, 7, 34], (e) => (e > 0) );`<br>-><br>`[[2, 7, 34], [-5, -9]]]`
-`group(<collection>,<callback>[,map=false]);` | __Old name before v5.4.4:__ `groupBy` __and added an alias with the old name.__<br>Returns an Object or Map with array properties. The keys are the returned values of the given function. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The map parameter is optional and has to be a boolean and if it is true, then the return value is a Map instead of Object.<br>__Example:__<br>`CEL.group([1,2,3,4,5], (i) => (i % 2 === 0 ? "even" : "odd");`<br>-><br>`{ "even": [ 2, 4 ], "odd": [ 1, 3, 5 ] }`
+`group(<collection>,<callback>[,map=false]);` | __Old name before v5.4.4:__ `groupBy`.<br>Returns an Object or Map with array properties. The keys are the returned values of the given function. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The map parameter is optional and has to be a boolean and if it is true, then the return value is a Map instead of Object.<br>__Example:__<br>`CEL.group([1,2,3,4,5], (i) => (i % 2 === 0 ? "even" : "odd");`<br>-><br>`{ "even": [ 2, 4 ], "odd": [ 1, 3, 5 ] }`
 `arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
 `arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
 `arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
@@ -432,6 +436,39 @@ Name | Description
 `toArray(<value>);`|If the value is an array, then this function returns the value else converts the value to array or the return value is an empty array.
 
 
+### Math functions
+
+These functions are available in the `celestra` and/or `CEL` objects.
+
+Example: `CEL.sum();`
+
+Name | Description
+---- | -----------
+`sum(value1>[,valueN]);` | This function returns the sum value from the parameter values.
+`avg(<value1>[,valueN]);` | This function returns the average value from the parameter values.
+`product(<value1>[,valueN]);` | This function returns the product value from the parameter values.
+`clamp(<value>,<min>,<max>);` | If the given value is between the min and max values, then this function returns the value. If smaller then the min value, then the return value is the min. If greater then the max value, then the return value is the max.
+`isEven(<value>);` | This function determines whether the provided value is an even number. The return value is boolean.
+`isOdd(<value>);` | This function determines whether the provided value is an odd number. The return value is boolean.
+`toInt8(<value>);` | This function clamps ("minmax") the given value to integer 8 value (-127 to 128).
+`toUInt8(<value>);` | This function clamps ("minmax") the given value to unsigned integer 8 value (0 to 255).
+`toInt16(<value>);` | This function clamps ("minmax") the given value to integer 16 value (-32768 to 32767).
+`toUInt16(<value>);` | This function clamps ("minmax") the given value to unsigned integer 16 value (0 to 65535).
+`toInt32(<value>);` | This function clamps ("minmax") the given value to integer 32 value (-2147483648 to 2147483647).
+`toUInt32(<value>);` | This function clamps ("minmax") the given value to unsigned integer 32 value (0 to 4294967295).
+`toBigInt64(<value>);` | This function clamps ("minmax") the given value to BigInt (Int64) value (-2^63 to 2^63 - 1).
+`toBigUInt64(<value>);` | This function clamps ("minmax") the given value to unsigned BigInt (Int64) value (0 to 2^64 - 1).
+`toFloat32(<value>);` | This function clamps ("minmax") the given value to float 32 value (-3.4e38 to 3.4e38).
+`isInt8(<value>);` | This function determines whether the provided value is an integer between -128 and 127. The return value is boolean.
+`isUInt8(<value>);` | This function determines whether the provided value is an integer between 0 and 255. The return value is boolean.
+`isInt16(<value>);` | This function determines whether the provided value is an integer between -32768 and 32767. The return value is boolean.
+`isUInt16(<value>);` | This function determines whether the provided value is an integer between 0 and 65535. The return value is boolean.
+`isInt32(<value>);` | This function determines whether the provided value is an integer between -2147483648 and 2147483647. The return value is boolean.
+`isUInt32(<value>);` | This function determines whether the provided value is an integer between 0 and 4294967295. The return value is boolean.
+`isBigInt64(<value>);` | This function determines whether the provided value is a BigInt (Int64) value between -2^63 and 2^63 - 1. The return value is boolean.
+`isBigUInt64(<value>);` | This function determines whether the provided value is a BigInt (Int64) value between 0 and 2^64 - 1. The return value is boolean.
+
+
 ### Polyfills
 
 Name | Description
@@ -459,7 +496,7 @@ Name | Description
 `Object.fromEntries();` | The Object.fromEntries() method transforms a list of key-value pairs into an object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/fromEntries)!
 `Array.prototype.flat();` | The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)!
 `Array.prototype.flatMap();` | A new array with each element being the result of the callback function and flattened to a depth of 1. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap)!
-`globalThis;` | The "global" property of the global object, a writable, configurable, non-enumerable alias of window/self. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)!
+`globalThis;` | The "global" property of the global object, a writable, configurable, non-enumerable alias of `window`/`self`. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)!
 `String.prototype.matchAll();` | The matchAll() method returns an iterator of all results matching a string against a regular expression, including capturing groups. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/matchAll)!
 `String.prototype.replaceAll();` | The replaceAll() method returns a new string with all matches of a pattern replaced by a replacement. The pattern can be a string or a RegExp. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll)!
 REMOVED polyfills in v3.1.0 | `Array.from();`<br>`Array.of();`<br>`Array.prototype.fill();`<br>`Array.prototype.find();`<br>`Array.prototype.findIndex();`<br>`Object.create();`<br>`String.prototype.startsWith();`<br>`String.prototype.endsWith();`<br>`Array.prototype.copyWithin();`<br>`String.fromCodePoint();`<br>`String.prototype.codePointAt();`<br>`Number.EPSILON;`<br>`Number.isNaN();`<br>`isNaN();`<br>`Number.isInteger();`<br>`Number.isFinite();`<br>`Number.isSafeInteger();`<br>`Number.parseInt();`<br>`Number.parseFloat();`<br>`Math.acosh();`<br>`Math.asinh();`<br>`Math.atanh();`<br>`Math.cbrt();`<br>`Math.clz32();`<br>`Math.cosh();`<br>`Math.expm1();`<br>`Math.fround();`<br>`Math.hypot();`<br>`Math.imul();`<br>`Math.log1p();`<br>`Math.log10();`<br>`Math.log2();`<br>`Math.sign();`<br>`Math.sinh();`<br>`Math.tanh();`<br>`Math.trunc();`
