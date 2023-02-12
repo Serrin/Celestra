@@ -76,10 +76,14 @@ CUT.clear = function clear () { CUT.__results__.innerHTML = ""; };
 
 //CUT.addElement("hr");
 
+const today = new Date();
+
 CUT.addElement("table",
   "<tr><td>CUT: </td><td><code>"+CUT.VERSION+"</code></td></tr>"
     + "<tr><td>Celestra: </td><td><code>"+celestra.VERSION+"</code></td></tr>"
-    + "<tr><td>Date: </td><td><code>"+(new Date()).toISOString()+"</code></td></tr>"
+    + "<tr><td>UTC date: </td><td><code>"+today.toISOString()+"</code></td></tr>"
+    + "<tr><td>Local date: </td><td><code>"+today.toString()+"</code></td></tr>"
+    + "<tr><td>EPOCH time: </td><td><code>"+(+today) + " (10) / " + ((+today).toString(16)) + " (16) / " + ((+today).toString(36)) + " (36)" +"</code></td></tr>"
     + "<tr><td>navigator.appName: </td><td><code>"+navigator.appName+"</code></td></tr>"
     + "<tr><td>navigator.appCodeName: </td><td><code>"+navigator.appCodeName+"</code></td></tr>"
     + "<tr><td>navigator.product: </td><td><code>"+navigator.product+"</code></td></tr>"
@@ -179,7 +183,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.5.1 testcases */
+/* Celestra v5.5.2 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -310,6 +314,26 @@ CUT.isTrue("assertEq(); 1",    CEL.assertEq("lorem ipsum", 1, 1) );
 CUT.isTrue("assertEq(); 2",    CEL.assertEq("lorem ipsum", 1, true, false) );
 CUT.isTrue("assertNotEq(); 1", CEL.assertNotEq("lorem ipsum", 1, 2) );
 CUT.isTrue("assertNotEq(); 2", CEL.assertNotEq("lorem ipsum", 1, 2, false) );
+
+var nanoidStr = CEL.nanoid();
+CUT.isTrue("nanoid 1 - default size 21",
+  CEL.isString(nanoidStr) && nanoidStr.length === 21
+);
+CUT.log("<code>\""+nanoidStr+"\"</code>");
+var nanoidStr = CEL.nanoid(15);
+CUT.isTrue("nanoid 2 - size 15",
+  CEL.isString(nanoidStr) && nanoidStr.length === 15
+);
+CUT.log("<code>\""+nanoidStr+"\"</code>");
+var nanoidStr = CEL.nanoid(36);
+CUT.isTrue("nanoid 3 - size 36",
+  CEL.isString(nanoidStr) && nanoidStr.length === 36);
+CUT.log("<code>\""+nanoidStr+"\"</code>");
+var nanoidStr = CEL.nanoid(5, "abcdeFGHIJK42");
+CUT.isTrue("nanoid 4 - size 5 & \"abcdeFGHIJK42\"",
+  CEL.isString(nanoidStr) && nanoidStr.length === 5
+);
+CUT.log("<code>\""+nanoidStr+"\"</code>");
 
 CUT.addElement(
   CEL.domCreate("div", {"id": "qsaDivTestElement"},

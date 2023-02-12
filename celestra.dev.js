@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.5.1 dev
+ * @version 5.5.2 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -633,6 +633,16 @@ const strHTMLUnEscape = (s) => String(s)
   .replace(/&gt;/g, ">").replace(/&#62;/g, ">")
   .replace(/&quot;/g, '"').replace(/&#34;/g, '"')
   .replace(/&apos;/g, "'").replace(/&#39;/g, "'");
+
+/* nanoid([size=21[,alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"]]): string */
+function nanoid (size = 21, alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") {
+  var r = "", dl = alphabet.length, pos, i = size;
+  while (i--) {
+    do { pos = crypto.getRandomValues(new Uint8Array(1))[0]; } while (pos>=dl);
+    r += alphabet[pos];
+  }
+  return r;
+}
 
 /** DOM **/
 
@@ -1905,7 +1915,7 @@ const isBigUInt64 = (v) =>
 
 /** object header **/
 
-const VERSION = "Celestra v5.5.1 dev";
+const VERSION = "Celestra v5.5.2 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
@@ -1959,6 +1969,7 @@ var celestra = {
   assertFalse: assertFalse,
   strHTMLEscape: strHTMLEscape,
   strHTMLUnEscape: strHTMLUnEscape,
+  nanoid: nanoid,
   /** DOM **/
   qsa: qsa,
   qs: qs,
