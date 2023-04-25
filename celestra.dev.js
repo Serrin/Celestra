@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.5.2 dev
+ * @version 5.5.3 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -344,6 +344,68 @@ if (!("findLastIndex" in Uint8Array.prototype)) {
       var i = this.length;
       while (i--) { if (fn(this[i],i,this)) { return i; } }
       return -1;
+    }
+  });
+}
+
+/* Array.prototype.toReversed(); */
+if (!("toReversed" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "toReversed", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function () { "use strict"; return this.slice().reverse(); }
+  });
+}
+
+/* Array.prototype.toSorted(); */
+if (!("toSorted" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "toSorted", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function (cFn) { "use strict"; return this.slice().sort(cFn); }
+  });
+}
+
+/* Array.prototype.toSpliced(); */
+if (!("toSpliced" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "toSpliced", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function (start, deleteCount, ...items) {
+      var r = this.slice(); r.splice(start, deleteCount, ...items); return r;
+    }
+  });
+}
+
+/* Array.prototype.with(); */
+if (!("with" in Array.prototype)) {
+  Object.defineProperty(Array.prototype, "with", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function (i, v) {
+      "use strict"; var r = this.slice(); r[i] = v; return r;
+    }
+  });
+}
+
+/* TypedArray.prototype.toReversed(); */
+if (!("toReversed" in Uint8Array.prototype)) {
+  Object.defineProperty(Uint8Array.prototype, "toReversed", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function () { "use strict"; return this.slice().reverse(); }
+  });
+}
+
+/* TypedArray.prototype.toSorted(); */
+if (!("toSorted" in Uint8Array.prototype)) {
+  Object.defineProperty(Uint8Array.prototype, "toSorted", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function (cFn) { "use strict"; return this.slice().sort(cFn); }
+  });
+}
+
+/* TypedArray.prototype.with(); */
+if (!("with" in Uint8Array.prototype)) {
+  Object.defineProperty(Uint8Array.prototype, "with", {
+    "configurable": true, "writable": true, "enumerable": false,
+    "value": function (i, v) {
+      "use strict"; var r = this.slice(); r[i] = v; return r;
     }
   });
 }
@@ -965,6 +1027,12 @@ const domGetCSSVar = (n) => getComputedStyle(document.documentElement)
 /* domSetCSSVar(<name: string>,<value: string>): undefined */
 const domSetCSSVar = (n, v) =>
   document.documentElement.style.setProperty( (n[0] === "-" ? n : "--" + n), v);
+
+/* domToTop(): undefined */
+const domToTop = () => window.scrollTo(0,0);
+
+/* domToBottom(): undefined */
+const domToBottom = () => window.scrollTo(0, document.body.scrollHeight);
 
 /** AJAX **/
 /* getJson(); and getText(); shorthands -> ajax(); */
@@ -1915,7 +1983,7 @@ const isBigUInt64 = (v) =>
 
 /** object header **/
 
-const VERSION = "Celestra v5.5.2 dev";
+const VERSION = "Celestra v5.5.3 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
@@ -2002,6 +2070,8 @@ var celestra = {
   setFullscreenOff: setFullscreenOff,
   domGetCSSVar: domGetCSSVar,
   domSetCSSVar: domSetCSSVar,
+  domToTop: domToTop,
+  domToBottom: domToBottom,
   /** AJAX **/
   getText: getText,
   getJson: getJson,

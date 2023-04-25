@@ -75,8 +75,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.5.2</p>
-<p>Date: 2023-02-10T19:42:08.109Z</p>
+<p>Latest version: 5.5.3</p>
+<p>Date: 2023-03-31T19:55:13.050Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -630,6 +630,14 @@ console.log(o2);
     <tr>
       <td><code>domSetCSSVar(&#60;name&#62;,&#60;value&#62;);</code></td>
       <td>This function set a value of a CSS variable. Both of the parameters are mandatory and have to be a string. If the "--" characters are missing at the begin of the variable name, then the function will add these.</td>
+    </tr>
+    <tr>
+      <td><code>domToTop();</code></td>
+      <td>This function is scrolling to the top of the page.</td>
+    </tr>
+    <tr>
+      <td><code>domToBottom();</code></td>
+      <td>This function is scrolling to the bottom of the page.</td>
     </tr>
   </table>
 </div>
@@ -1519,12 +1527,40 @@ console.log(o2);
 <div>
   <table class="table-responsive table-striped">
     <tr>
-      <td><code>Object.is()</code></td>
-      <td>The Object.is() method determines whether two values are the same value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank">MDN Article</a>!</td>
-    </tr>
-    <tr>
       <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.toReversed();</code></td>
+      <td>The toReversed() method of an Array instance is the copying counterpart of the reverse() method. It returns a new array with the elements in reversed order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toReversed" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.toSorted();</code></td>
+      <td>The toSorted() method of an Array instance is the copying version of the sort() method. It returns a new array with the elements sorted in ascending order. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>Array.prototype.toSpliced();</code></td>
+      <td>The toSpliced() method of an Array instance is the copying version of the splice() method. It returns a new array with some elements removed and/or replaced at a given index. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSpliced" target="_blank">MDN Article</a>!</td>
+    </tr>   
+    <tr>
+      <td><code>Array.prototype.with();</code></td>
+      <td>The with() method of an Array instance is the copying version of using the bracket notation to change the value of a given index. It returns a new array with the element at the given index replaced with the given value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/with" target="_blank">MDN Article</a>!</td>
+    </tr>    
+    <tr>
+      <td><code>TypedArray.prototype.toReversed();</code></td>
+      <td>The toReversed() method is the copying counterpart of the reverse() method. It returns a new array with the elements in reversed order. This method has the same algorithm as Array.prototype.reverse(). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/toReversed" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>TypedArray.prototype.toSorted();</code></td>
+      <td>The toSorted() method is the copying version of the sort() method. It returns a new array with the elements sorted in ascending order. This method has the same algorithm as Array.prototype.toSorted(), except that it sorts the values numerically instead of as strings by default. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/toSorted" target="_blank">MDN Article</a>!</td>
+    </tr>
+    <tr>
+      <td><code>TypedArray.prototype.with();</code></td>
+      <td>The with() method is the copying version of using the bracket notation to change the value of a given index. It returns a new array with the element at the given index replaced with the given value. This method has the same algorithm as Array.prototype.with(). For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/with" target="_blank">MDN Article</a>!</td>
+    </tr>  
+    <tr>
+      <td><code>Object.is();</code></td>
+      <td>The Object.is() method determines whether two values are the same value. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>Number.MIN_SAFE_INTEGER</code></td>
