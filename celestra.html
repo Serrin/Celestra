@@ -71,12 +71,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <h2 id="download">Download</h2>
 
-<p><strong>A helper JavaScript library with useful functions and polyfills.</strong></p>
+<p><strong>A helper JavaScript library with useful functions and polyfills and zero dependencies.</strong></p>
 
 <p>Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.</p>
 
 <p>Latest version: 5.5.3</p>
-<p>Date: 2023-03-31T19:55:13.050Z</p>
+<p>Date: 2023-06-21T19:55:13.050Z</p>
 
 <p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
 
@@ -210,17 +210,13 @@ window.CEL = defaultExport;
 <h3>Core API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
-<br/>Example: <code>CEL.randomInt();</code></p>
+<br/>Example: <code>CEL.sleep();</code></p>
 
 <div>
   <table class="table-responsive table-striped">
     <tr>
       <td style="width: auto; min-width: 33%;"><b>Name</b></td>
       <td><b>Description</b></td>
-    </tr>
-    <tr>
-      <td><code>celestra.VERSION;</code></td>
-      <td>The library version.</td>
     </tr>
     <tr>
       <td><code>celestra.noConflict();</code></td>
@@ -231,9 +227,35 @@ window.CEL = defaultExport;
       </td>
     </tr>
     <tr>
+      <td><code>BASE16;</code></td>
+      <td><code>"0123456789ABCDEF"</code><br/>Can be used with the ID generator functions.</td>
+    </tr>
+    <tr>
+      <td><code>BASE32;</code></td>
+      <td><code>"234567ABCDEFGHIJKLMNOPQRSTUVWXYZ"</code><br/>Can be used with the ID generator functions.</td>
+    </tr>
+    <tr>
+      <td><code>BASE36;</code></td>
+      <td><code>"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"</code><br/>Can be used with the ID generator functions.</td>
+    </tr>
+    <tr>
+      <td><code>BASE58;</code></td>
+      <td><code>"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"</code><br/>Can be used with the ID generator functions.</td>
+    </tr>
+    <tr>
+      <td><code>BASE62;</code></td>
+      <td><code>"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"</code><br/>Can be used with the ID generator functions.</td>
+    </tr>
+    <tr>
+      <td><code>WORDSAFEALPHABET;</code></td>
+      <td><code>"23456789CFGHJMPQRVWXcfghjmpqvwx"</code><br/>Can be used with the ID generator functions.</td>
+    </tr>
+    <tr>
       <td><code>randomID([hyphens=true][,usedate=false]);</code></td>
       <td>
-        Generate a GUID/UUID v4 random ID. The hyphens and useDate parameters are optional and can be a boolean. The return value is a string.
+        <span class="deprecated">DEPRECATED in v5.5.4</span>
+        <br/><span class="info">Can be replaced with the <code>crypto.randomUUID();</code>, which is polyfilled in this library.</span>
+        <br/>Generate a GUID/UUID v4 random ID. The hyphens and useDate parameters are optional and can be a boolean. The return value is a string.
         <br/><b>Example:</b>
         <br/><code>randomID(false);</code>
         <br/>->
@@ -244,20 +266,6 @@ window.CEL = defaultExport;
         <br/><code>randomID();</code>
         <br/>->
         <br/><code>"bc897cdf-da26-42de-83e2-d1fd458e079f"</code>
-      </td>
-    </tr>
-    <tr>
-      <td><code>signbit(&#60;value&#62;);</code></td>
-      <td>
-        <p>This function is based on this proposal:
-          <br/><a href="https://github.com/tc39/proposal-Math.signbit" target="_blank">https://github.com/tc39/proposal-Math.signbit</a>
-        </p>
-        <pre>Returns whether the sign bit of x is set.
-If n is NaN, the result is false.
-If n is -0, the result is true.
-If n is negative, the result is true.
-Otherwise, the result is false.</pre>
-        <p>The value parameter is mandatory.</p>
       </td>
     </tr>
     <tr>
@@ -282,32 +290,15 @@ CEL.delay(5000)
       <td>Prototype inheritance.</td>
     </tr>
     <tr>
-      <td><code>randomInt([max]);</code></td>
-      <td>Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.</td>
-    </tr>
-    <tr>
-      <td><code>randomInt(&#60;min&#62;,&#60;max&#62;);</code></td>
-      <td>Get a random integer number value within min and max value.</td>
-    </tr>
-    <tr>
-      <td><code>randomFloat([max]);</code></td>
-      <td>Get a random float number value within 0 and max value. Without parameter the maximum value is 100.</td>
-    </tr>
-    <tr>
-      <td><code>randomFloat(&#60;min&#62;,&#60;max&#62;);</code></td>
-      <td>Get a random float number value within min and max value.</td>
-    </tr>
-    <tr>
       <td><code>randomBoolean();</code></td>
       <td>Get a random boolean value. The return value is <code>true</code> or <code>false</code>.</td>
     </tr>
     <tr>
       <td><code>randomString([length[,specialCharactersEnabled=false]]);</code></td>
-      <td><span class="deprecated">DEPRECATED in v5.5.2</span><br/><span class="info">You can replace this function with the <code>CEL.nanoid();</code>.</span><br/>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.</td>
-    </tr>
-    <tr>
-      <td><code>inRange(&#60;value&#62;,&#60;min&#62;,&#60;max&#62;);</code></td>
-      <td>This function determines whether the provided value is between the min and max values. All of the parameters are mandatory and have to be number. The return value is boolean.</td>
+      <td>
+        <span class="deprecated">DEPRECATED in v5.5.2</span>
+        <br/><span class="info">Can be replaced with with the <code>CEL.nanoid();</code>.</span>
+        <br/>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.</td>
     </tr>
     <tr>
       <td><code>b64Encode(&#60;string&#62;);</code></td>
@@ -337,50 +328,6 @@ CEL.delay(5000)
     <tr>
       <td><code>extend([deep,]&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
       <td>This is an enhanced version of the <code>Object.assign</code> method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.</td>
-    </tr>
-    <tr>
-      <td><code>strPropercase(&#60;string&#62;);</code></td>
-      <td>This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br/><b>Example:</b><br/><code>CEL.strPropercase("arthur conan doyle");</code><br/>-><br/><code>"Arthur Conan Doyle"</code></td>
-    </tr>
-    <tr>
-      <td><code>strPropercase(&#60;string&#62;);</code></td>
-      <td>This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br/><b>Example:</b><br/><code>CEL.strPropercase("arthur conan doyle");</code><br/>-><br/><code>"Arthur Conan Doyle"</code></td>
-    </tr>
-    <tr>
-      <td><code>strTitlecase(&#60;string&#62;);</code></td>
-      <td>Alias of the <code>strPropercase(&#60;string&#62;);</code>.</td>
-    </tr>
-    <tr>
-      <td><code>strCapitalize(&#60;string&#62;);</code></td>
-      <td>This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.</td>
-    </tr>
-    <tr>
-      <td><code>strUpFirst(&#60;string&#62;);</code></td>
-      <td>This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.</td>
-    </tr>
-    <tr>
-      <td><code>strDownFirst(&#60;string&#62;);</code></td>
-      <td>This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.</td>
-    </tr>
-    <tr>
-      <td><code>strHTMLRemoveTags(&#60;string&#62;);</code></td>
-      <td>Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.</td>
-    </tr>
-    <tr>
-      <td><code>strReverse(&#60;string&#62;);</code></td>
-      <td>Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>strCodePoints(&#60;string&#62;);</code></td>
-      <td>Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>strFromCodePoints(&#60;collection&#62;);</code></td>
-      <td>Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>strAt(&#60;string&#62;,&#60;index&#62;);</code></td>
-      <td>Returns the unicode character, which has to be on the given index in the string. The index can be negative value (<code>-1 -> last</code>). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.</td>
     </tr>
     <tr>
       <td><code>sizeIn(&#60;object&#62;);</code></td>
@@ -435,16 +382,12 @@ console.log(o2);
       <td>This function returns false.</td>
     </tr>
     <tr>
-      <td><code>strHTMLEscape(&#60;string&#62;);</code></td>
-      <td>This function escapes these characters: <code>&#60;</code>, <code>&#62;</code>, <code>&amp;</code>, <code>"</code>, <code>'</code>. The String parameter is mandatory. The return value is the escaped string.</td>
-    </tr>
-    <tr>
-      <td><code>strUnHTMLEscape(&#60;string&#62;);</code></td>
-      <td>This function unescapes these characters: <code>&#60;</code>, <code>&#62;</code>, <code>&amp;</code>, <code>"</code>, <code>'</code>. The String parameter is mandatory. The return value is the unescaped string.</td>
-    </tr>
-    <tr>
       <td><code>nanoid([size=21[,alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"]]);</code></td>
-      <td>Generate a nanoid. The size parameter is optional and the default value is 21. The alphabet parameter is optional and the default value is "A-Za-z0-9_-". The return value is the generated nanoid (string).</td>
+      <td>Generate a nanoid. The size parameter is optional and the default value is 21. The alphabet parameter is optional and the default value is "A-Za-z0-9_-". The return value is the generated nanoid (string).<br>Example ID: <code>"QsZA2VVTgFIF3D-qFk5oc"</code></td>
+    </tr>
+    <tr>
+      <td><code>timestampID([size=21[,alphabet="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"]]);</code></td>
+      <td>Generate a timestamp based sortable ID. The size parameter is optional and the default value is 21, but if the given value smaller than 12, then the value will be 12. The alphabet parameter is optional and the default value is <code>"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"</code>, same as BASE58. The return value is the generated id (string).<br/>Example ID: <code>"00lirtqi4e-wgGn8vGPyY"</code></td>
     </tr>
     <tr>
       <td><code>assertEq(&#60;msg&#62;,&#60;value1&#62;,&#60;value2&#62;[,strict=true]);</code></td>
@@ -466,7 +409,77 @@ console.log(o2);
 </div>
 
 
-<h3>DOM functions</h3>
+<h3>String API</h3>
+
+<p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
+<br/>Example: <code>CEL.strPropercase();</code></p>
+
+<div>
+  <table class="table-responsive table-striped">
+    <tr>
+      <td style="width: auto; min-width: 33%;"><b>Name</b></td>
+      <td><b>Description</b></td>
+    </tr>
+    <tr>
+      <td><code>strPropercase(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br/><b>Example:</b><br/><code>CEL.strPropercase("arthur conan doyle");</code><br/>-><br/><code>"Arthur Conan Doyle"</code></td>
+    </tr>
+    <tr>
+      <td><code>strTitlecase(&#60;string&#62;);</code></td>
+      <td>Alias of the <code>strPropercase(&#60;string&#62;);</code>.</td>
+    </tr>
+    <tr>
+      <td><code>strCapitalize(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.</td>
+    </tr>
+    <tr>
+      <td><code>strUpFirst(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.</td>
+    </tr>
+    <tr>
+      <td><code>strDownFirst(&#60;string&#62;);</code></td>
+      <td>This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.</td>
+    </tr>
+    <tr>
+      <td><code>strReverse(&#60;string&#62;);</code></td>
+      <td>Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>strCodePoints(&#60;string&#62;);</code></td>
+      <td>Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>strFromCodePoints(&#60;collection&#62;);</code></td>
+      <td>Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.</td>
+    </tr>
+    <tr>
+      <td><code>strAt(&#60;string&#62;,&#60;index&#62;[,newChar]);</code></td>
+      <td>
+        <p>If the newchar is undefined, then returns the unicode character, which has to be on the given index in the string. The index can be negative value (<code>-1 -> last</code>). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.</p>
+        <p>If the newChar is not undefined, then the indexed character will be replaced with the newChar and returns the modified string.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>strSplice(&#60;str&#62;,&#60;index&#62;,&#60;count&#62;[,add]);</code></td>
+      <td>This function works like the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice" target="_blank">Array.prototype.splice();</a> and can remove characters on the index or replace with other string. The return value is the modified string.</td>
+    </tr>
+    <tr>
+      <td><code>strHTMLRemoveTags(&#60;string&#62;);</code></td>
+      <td>Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.</td>
+    </tr>
+    <tr>
+      <td><code>strHTMLEscape(&#60;string&#62;);</code></td>
+      <td>This function escapes these characters: <code>&#60;</code>, <code>&#62;</code>, <code>&amp;</code>, <code>"</code>, <code>'</code>. The String parameter is mandatory. The return value is the escaped string.</td>
+    </tr>
+    <tr>
+      <td><code>strUnHTMLEscape(&#60;string&#62;);</code></td>
+      <td>This function unescapes these characters: <code>&#60;</code>, <code>&#62;</code>, <code>&amp;</code>, <code>"</code>, <code>'</code>. The String parameter is mandatory. The return value is the unescaped string.</td>
+    </tr>
+  </table>
+</div>
+
+
+<h3>DOM API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.domCreate();</code></p>
@@ -632,17 +645,21 @@ console.log(o2);
       <td>This function set a value of a CSS variable. Both of the parameters are mandatory and have to be a string. If the "--" characters are missing at the begin of the variable name, then the function will add these.</td>
     </tr>
     <tr>
-      <td><code>domToTop();</code></td>
-      <td>This function is scrolling to the top of the page.</td>
+      <td><code>domScrollToTop();</code></td>
+      <td><span class="info">Old name before v5.4.4: <code>domToTop</code>.</span><br/>This function is scrolling to the top of the page.</td>
     </tr>
     <tr>
-      <td><code>domToBottom();</code></td>
-      <td>This function is scrolling to the bottom of the page.</td>
+      <td><code>domScrollToTop();</code></td>
+      <td><span class="info">Old name before v5.4.4: <code>domToBottom</code>.</span><br/>This function is scrolling to the bottom of the page.</td>
+    </tr>
+    <tr>
+      <td><code>domScrollToElement(&#60;element&#62;[,top=true]);</code></td>
+      <td>This function is scrolling to top or the bottom of element. The element parameter is mandatory and the top parameter is optional and can be boolean.</td>
     </tr>
   </table>
 </div>
 
-<h3>AJAX and CORS</h3>
+<h3>AJAX and CORS API</h3>
 
 <p class="info">
   These functions aren't deprecated, but it's recommend to use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">Fetch API</a>, because it's <a href="https://caniuse.com/?search=fetch" target="_blank">supported</a> in every modern browsers.
@@ -686,7 +703,7 @@ console.log(o2);
 </ul>
 
 
-<h3 id="typechecking">Type checking functions</h3>
+<h3 id="typechecking">Type checking API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.isString();</code></p>
@@ -898,7 +915,7 @@ console.log(o2);
   </table>
 </div>
 
-<h3 id="cookie">Cookie functions</h3>
+<h3 id="cookie">Cookie API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.setCookie();</code></p>
@@ -988,7 +1005,7 @@ console.log(o2);
   </table>
 </div>
 
-<h3 id="cookie">Collections</h3>
+<h3 id="cookie">Collections API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.arrayUnion();</code></p>
@@ -1328,7 +1345,7 @@ console.log(o2);
 </div>
 
 
-<h3>Abstract functions</h3>
+<h3>Abstract API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.getIn();</code></p>
@@ -1415,7 +1432,7 @@ console.log(o2);
 </div>
 
 
-<h3>Math functions</h3>
+<h3>Math API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.sum();</code></p>
@@ -1518,6 +1535,40 @@ console.log(o2);
       <td><code>isBigUInt64(&#60;value&#62;);</code></td>
       <td>This function determines whether the provided value is a BigInt (Int64) value between 0 and 2^64 - 1. The return value is boolean.</td>
     </tr>
+    <tr>
+      <td><code>randomInt([max]);</code></td>
+      <td>Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.</td>
+    </tr>
+    <tr>
+      <td><code>randomInt(&#60;min&#62;,&#60;max&#62;);</code></td>
+      <td>Get a random integer number value within min and max value.</td>
+    </tr>
+    <tr>
+      <td><code>randomFloat([max]);</code></td>
+      <td>Get a random float number value within 0 and max value. Without parameter the maximum value is 100.</td>
+    </tr>
+    <tr>
+      <td><code>randomFloat(&#60;min&#62;,&#60;max&#62;);</code></td>
+      <td>Get a random float number value within min and max value.</td>
+    </tr>
+    <tr>
+      <td><code>signbit(&#60;value&#62;);</code></td>
+      <td>
+        <p>This function is based on this proposal:
+          <br/><a href="https://github.com/tc39/proposal-Math.signbit" target="_blank">https://github.com/tc39/proposal-Math.signbit</a>
+        </p>
+        <pre>Returns whether the sign bit of x is set.
+If n is NaN, the result is false.
+If n is -0, the result is true.
+If n is negative, the result is true.
+Otherwise, the result is false.</pre>
+        <p>The value parameter is mandatory.</p>
+      </td>
+    </tr>
+    <tr>
+      <td><code>inRange(&#60;value&#62;,&#60;min&#62;,&#60;max&#62;);</code></td>
+      <td>This function determines whether the provided value is between the min and max values. All of the parameters are mandatory and have to be number. The return value is boolean.</td>
+    </tr>    
   </table>
 </div>
 

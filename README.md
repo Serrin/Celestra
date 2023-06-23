@@ -11,13 +11,13 @@
 
 ## Download
 
-__A helper JavaScript library with useful functions and polyfills.__
+__A helper JavaScript library with useful functions and polyfills and zero dependencies.__
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.5.3
+Latest version: 5.5.4
 
-Date: 2023-03-31T19:55:13.050Z
+Date: 2023-06-21T19:55:13.050Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
@@ -124,28 +124,29 @@ window.CEL = defaultExport;
 
 ## Functions
 
+
 ### Core API
 
 These functions are available in the `celestra` and/or `CEL` objects.
 
-Example: `CEL.randomInt();`
+Example: `CEL.sleep();`
 
 Name | Description
 ---- | -----------
 `celestra.VERSION;` | The library version.
 `celestra.noConflict();` | Restore the previous `CEL` object value and return the `celestra` object to create a new alias.<br>__Tip: You can make a new alias without this function too. Example: `window._cel = window.celestra;`__<br>__In the ESM edition only returns the celestra object.__
-`randomID([hyphens=true][,usedate=false]);` | Generate a GUID/UUID v4 random ID. The hyphens and useDate parameters are optional and can be a boolean. The return value is a string.<br><b>Example:</b><br>`randomID(false);`<br>-><br>`"0e0f739a306b4faad62e3e8080826c9c"`<br>`randomID(true, true);`<br>-><br>`"17c3d79b-d413-4443-b4cd-5426c7299726"`<br>`randomID();`<br>-><br>`"bc897cdf-da26-42de-83e2-d1fd458e079f"`
-`signbit(<value>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
+`BASE16;`|`"0123456789ABCDEF"`<BR>Can be used with the ID generator functions.
+`BASE32;`|`"234567ABCDEFGHIJKLMNOPQRSTUVWXYZ"`<BR>Can be used with the ID generator functions.
+`BASE36;`|`"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"`<BR>Can be used with the ID generator functions.
+`BASE58;`|`"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"`<BR>Can be used with the ID generator functions.|
+`BASE62;`|`"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"`<BR>Can be used with the ID generator functions.
+`WORDSAFEALPHABET;`|`"23456789CFGHJMPQRVWXcfghjmpqvwx"`<BR>Can be used with the ID generator functions.
+`randomID([hyphens=true][,usedate=false]);` | __DEPRECATED in v5.5.4__ <br>__Can be replaced with the __`crypto.randomUUID();`,__ which is polyfilled in this library.__<br>Generate a GUID/UUID v4 random ID. The hyphens and useDate parameters are optional and can be a boolean. The return value is a string.<br><b>Example:</b><br>`randomID(false);`<br>-><br>`"0e0f739a306b4faad62e3e8080826c9c"`<br>`randomID(true, true);`<br>-><br>`"17c3d79b-d413-4443-b4cd-5426c7299726"`<br>`randomID();`<br>-><br>`"bc897cdf-da26-42de-83e2-d1fd458e079f"`
 `delay(<ms>).then(<callback>);` | A promise based delay function. The ms (milliseconds) parameter is mandatory and have to be an integer.<br>__Sample:__<br>`CEL.sleep(5000).then(() => alert("5 seconds")).catch(console.log.bind(console)).finally(() => alert("done"));`
 `sleep(<ms>).then(<callback>);` | This is an alias of the `delay(<ms>).then(<callback>);`.
 `inherit(<subclass>,<superclass>);` | Prototype inheritance.
-`randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
-`randomInt(<min>,<max>);` | Get a random integer number value within min and max value.
-`randomFloat([max]);` | Get a random float number value within 0 and max value. Without parameter the maximum value is 100.
-`randomFloat(<min>,<max>);` | Get a random float number value within min and max value.
 `randomBoolean();` | Get a random boolean value. The return value is `true` or `false`.
-`randomString([length[,specialCharactersEnabled=false]]);` | __DEPRECATED in v5.5.2__ <br>__You can replace this function with the__ `CEL.nanoid();`__.__<br>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.
-`inRange(<value>,<min>,<max>);`| This function determines whether the provided value is between the min and max values. All of the parameters are mandatory and have to be number. The return value is boolean.
+`randomString([length[,specialCharactersEnabled=false]]);` | __DEPRECATED in v5.5.2__ <br>__Can be replaced with the __`CEL.nanoid();`__.__<br>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.<br>Example ID: `"QsZA2VVTgFIF3D-qFk5oc"`
 `b64Encode(<string>);` | Unicode compatible string to base64 converter. Return the encoded string.
 `b64Decode(<string>);` | Unicode compatible base64 to string converter. Return the original string.
 `javaHash(<data>[,hexa=false]);` | Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
@@ -153,15 +154,6 @@ Name | Description
 `obj2string(<object>);` | Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `classof(<variable>[,type[,throw=false]]);` | __Old name before v5.4.0:__ `getType`.<br>Get the real type of a variable. If this is an object, then the return value is the detailed object type (e.g.: array). If the type (string) parameter is given, then the return value (boolean) is the equality of the type of the variable and the second parameter. If the third parameter (boolean) is true and the type of the variable and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
 `extend([deep,]<target>,<source1>[,sourceN]);` | This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
-`strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>`strTitlecase(<string>);` | Alias of the `strPropercase(<string>);`.
-`strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
-`strUpFirst(<string>);` | This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.
-`strDownFirst(<string>);` | This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.
-`strHTMLRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
-`strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
-`strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
-`strFromCodePoints(<collection>);` | Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.
-`strAt(<string>,<index>);` | Returns the unicode character, which has to be on the given index in the string. The index can be negative value (`-1 -> last`). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.
 `sizeIn(<object>);` | Returns the count of the owned properties of the given object. The object parameter is mandatory.
 `forIn(<object>,<callback>);` | The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `filterIn(<object>,<callback>);` | The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.<br>__Example:__<br>`var o1 = {"a": 1, "b": 2, "c": 3};`<br>`console.log(o1);`<br>`// Object { a: 1, b: 2, c: 3 }`<br>`var o2 = CEL.filterIn(o1, (v, p, o) => (v > 1));`<br>`console.log(o2);`<br>`// Object { b: 2, c: 3 }`
@@ -173,16 +165,38 @@ Name | Description
 `noop();` | It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `T();` | This function returns true.
 `F();` | This function returns false.
-`strHTMLEscape(<string>);` | This function escapes these characters: `<`, `>`, `&`, `"`, `'`. The String parameter is mandatory. The return value is the escaped string.
-`strHTMLUnEscape(<string>);` | This function unescapes these characters: `<`, `>`, `&`, `"`, `'`. The String parameter is mandatory. The return value is the unescaped string.
 `nanoid([size=21[,alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"]]);` | Generate a nanoid. The size parameter is optional and the default value is 21. The alphabet parameter is optional and the default value is "A-Za-z0-9_-". The return value is the generated nanoid (string).
+`timestampID([size=21[,alphabet="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"]]);` | Generate a timestamp based sortable ID. The size parameter is optional and the default value is 21, but if the given value smaller than 12, then the value will be 12. The alphabet parameter is optional and the default value is `"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"`, same as BASE58. The return value is the generated id (string).<br/>Example ID:`"00lirtqi4e-wgGn8vGPyY"`
 `assertEq(<msg>,<value1>,<value2>[,strict=true]);` | This function throws an error with the message if the value1 and value2 aren't equals. The message parameter is mandatory and has to be a string. The strict parameter is optional and can be a booelan. The return value is `true`, when the test was success.
 `assertNotEq(<msg>,<value1>,<value2>[,strict=true]);` | This function throws an error with the message if the value1 and value2 are equals. The message parameter is mandatory and has to be a string. The strict parameter is optional and can be a booelan. The return value is `true`, when the test was success.
 `assertTrue(<msg>,<value>);` | This function throws an error with the message if the value is false. The message parameter is mandatory and has to be a string. The return value is `true`, when the test was success.
 `assertFalse(<msg>,<value>);` | This function throws an error with the message if the value is true. The message parameter is mandatory and has to be a string. The return value is `true`, when the test was success.
 
 
-### DOM functions
+### String API
+
+These functions are available in the `celestra` and/or `CEL` objects.
+
+Example: `CEL.strPropercase();`
+
+Name | Description
+---- | -----------
+`strPropercase(<string>);` | This function is unicode compatible and capitalizes every word of the given string. The string parameter is mandatory. The return value is a string.<br>__Example:__<br>
+`strTitlecase(<string>);` | Alias of the `strPropercase(<string>);`.
+`strCapitalize(<string>);` | This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
+`strUpFirst(<string>);` | This function is unicode compatible and converts the first character to uppercase. The string parameter is mandatory. The return value is a string.
+`strDownFirst(<string>);` | This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.
+`strReverse(<string>);` | Returns the reversed variant of the given string. In the ES6 compatible browsers the result will be unicode compatible. The string parameter is mandatory.
+`strCodePoints(<string>);` | Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
+`strFromCodePoints(<collection>);` | Returns the joined string of the given unicode codepoints. The collection parameter is mandatory.
+`strAt(<string>,<index>[,newChar]);` | If the newchar is undefined, then returns the unicode character, which has to be on the given index in the string. The index can be negative value (`-1 -> last`). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.<br>If the newChar is not undefined, then the indexed character will be replaced with the newChar and returns the modified string.
+`strSplice(<str>,<index>,<count>[,add]);`|This function works like the [Array.prototype.splice();](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice), but with strings and can remove characters on the index or replace with other string. The return value is the modified string.
+`strHTMLRemoveTags(<string>);` | Remove HTML tags from the given string. The string parameter is mandatory. The return value is the new string.
+`strHTMLEscape(<string>);` | This function escapes these characters: `<`, `>`, `&`, `"`, `'`. The String parameter is mandatory. The return value is the escaped string.
+`strHTMLUnEscape(<string>);` | This function unescapes these characters: `<`, `>`, `&`, `"`, `'`. The String parameter is mandatory. The return value is the unescaped string.
+
+
+### DOM API
 
 These functions are available in the `celestra` and/or `CEL` objects.
 
@@ -223,11 +237,12 @@ Name | Description
 `setFullscreenOff();` | Set off the fullscreen.
 `domGetCSSVar(<name>);` | This function returns a value of a CSS variable or an empty string, if the variable is unset. The name parameter is mandatory and has to be a string. If the "--" characters are missing at the begin of the variable name, then the function will add these.
 `domSetCSSVar(<name>,<value>);` | This function set a value of a CSS variable. Both of the parameters are mandatory and have to be a string. If the "--" characters are missing at the begin of the variable name, then the function will add these.
-`domToTop();` | This function is scrolling to the top of the page.
-`domToBottom();` | This function is scrolling to the bottom of the page.
+`domScrollToTop();` |  __Old name before v5.4.0:__ `domToTop`.<br>This function is scrolling to the top of the page.
+`domScrollToBottom();` |  __Old name before v5.4.0:__ `domToBottom`.<br>This function is scrolling to the bottom of the page.
+`domScrollToElement(<element>[,top=true]);` | This function is scrolling to top or the bottom of element. The element parameter is mandatory and the top parameter is optional and can be boolean.
 
 
-### AJAX and CORS
+### AJAX and CORS API
 
 __These functions aren't deprecated, but it's recommend to use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), because it's [supported](https://caniuse.com/?search=fetch) in every modern browsers.__
 
@@ -254,7 +269,7 @@ __Options object properties:__
  - The __password__ is optional, but mandatory if the user is set. This parameter can be a __string__.
 
 
-### Type checking functions
+### Type checking API
 
 These functions are available in the `celestra` and/or `CEL` objects.
 
@@ -312,7 +327,7 @@ Name | Description
 `isTypedArray(<value>);` | This function determines whether the provided value is an typedarray. The return value is boolean.
 
 
-### Cookie functions
+### Cookie API
 
 These functions are available in the `celestra` and/or `CEL` objects.
 
@@ -332,7 +347,7 @@ Name | Description
 `clearCookies(<Options object>);` | In this case the names of object properties are the same as the function arguments and the default values are the same too.
 
 
-### Collections
+### Collections API
 
 These functions are available in the `celestra` and/or `CEL` objects.
 
@@ -411,7 +426,7 @@ Name | Description
 `dropRightWhile(<collection>,<callback>);` | Drop the elements from the end of a collection while the callback (filter) function returns true and yield the remained elements. The original collection will be not changed. The callback function will be called with the actual element of the collection. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 
 
-### Abstract functions
+### Abstract API
 
 These functions are available in the `celestra` and/or `CEL` objects.
 
@@ -439,7 +454,7 @@ Name | Description
 `toArray(<value>);`|If the value is an array, then this function returns the value else converts the value to array or the return value is an empty array.
 
 
-### Math functions
+### Math API
 
 These functions are available in the `celestra` and/or `CEL` objects.
 
@@ -470,6 +485,12 @@ Name | Description
 `isUInt32(<value>);` | This function determines whether the provided value is an integer between 0 and 4294967295. The return value is boolean.
 `isBigInt64(<value>);` | This function determines whether the provided value is a BigInt (Int64) value between -2^63 and 2^63 - 1. The return value is boolean.
 `isBigUInt64(<value>);` | This function determines whether the provided value is a BigInt (Int64) value between 0 and 2^64 - 1. The return value is boolean.
+`randomInt([max]);` | Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
+`randomInt(<min>,<max>);` | Get a random integer number value within min and max value.
+`randomFloat([max]);` | Get a random float number value within 0 and max value. Without parameter the maximum value is 100.
+`randomFloat(<min>,<max>);` | Get a random float number value within min and max value.
+`signbit(<value>);` | This function is based on this proposal:<br>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<br>`Returns whether the sign bit of x is set.`<br>`If n is NaN, the result is false.`<br>`If n is -0, the result is true.`<br>`If n is negative, the result is true.`<br>`Otherwise, the result is false.`<br>The value parameter is mandatory.
+`inRange(<value>,<min>,<max>);`| This function determines whether the provided value is between the min and max values. All of the parameters are mandatory and have to be number. The return value is boolean.
 
 
 ### Polyfills

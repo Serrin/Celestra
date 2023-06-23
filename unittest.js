@@ -183,7 +183,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.5.3 testcases */
+/* Celestra v5.5.4 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -210,12 +210,19 @@ CUT.isEqual("Object name: \"celestra\"", true, celestra.randomInt(100, 200)>99);
 CUT.isEqual("Object name: \"CEL\"", true, CEL.randomInt(100,200)>99);
 
 
-/* core api and DOM */
+/* Core API and String API and DOM API */
 
 CUT.addElement("hr");
-CUT.addElement("h3", "core api and DOM");
+CUT.addElement("h3", "Core API and String API and DOM API");
 
 CUT.isEqual("VERSION", true, CEL.VERSION.includes("Celestra v"));
+
+CUT.isEqual("BASE16", CEL.BASE16, "0123456789ABCDEF");
+CUT.isEqual("BASE32", CEL.BASE32, "234567ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+CUT.isEqual("BASE36", CEL.BASE36, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+CUT.isEqual("BASE58", CEL.BASE58, "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz");
+CUT.isEqual("BASE62", CEL.BASE62, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+CUT.isEqual("WORDSAFEALPHABET", CEL.WORDSAFEALPHABET, "23456789CFGHJMPQRVWXcfghjmpqvwx");
 
 CUT.isTrue("v3.8.1 aliases removed in v4.0.0",
   CEL.isUndefined(CEL.someOf)
@@ -298,16 +305,6 @@ CUT.log("<code>\"" + rIDstr + "\"</code>");
 
 // randomID end
 
-CUT.isTrue(
-  "signbit();",
-  !CEL.signbit("str") && !CEL.signbit("5") && CEL.signbit("-5")
-    && !CEL.signbit("4.2") && CEL.signbit("-4.2") && CEL.signbit(-3.14)
-    && !CEL.signbit(3.14) && CEL.signbit(-1) && !CEL.signbit(1)
-    && !CEL.signbit(0) && CEL.signbit(-0) && !CEL.signbit(+0)
-    && !CEL.signbit(Infinity) && CEL.signbit(-Infinity)
-    && !CEL.signbit(+Infinity)
-);
-
 CUT.isTrue("assertTrue();",    CEL.assertTrue("lorem ipsum", true) );
 CUT.isTrue("assertFalse();",   CEL.assertFalse("lorem ipsum", false) );
 CUT.isTrue("assertEq(); 1",    CEL.assertEq("lorem ipsum", 1, 1) );
@@ -334,6 +331,26 @@ CUT.isTrue("nanoid 4 - size 5 & \"abcdeFGHIJK42\"",
   CEL.isString(nanoidStr) && nanoidStr.length === 5
 );
 CUT.log("<code>\""+nanoidStr+"\"</code>");
+
+var timestampIDStr = CEL.timestampID();
+CUT.isTrue("timestampID 1 - default size 21",
+  CEL.isString(timestampIDStr) && timestampIDStr.length === 21
+);
+CUT.log("<code>\""+timestampIDStr+"\"</code>");
+var timestampIDStr = CEL.timestampID(15);
+CUT.isTrue("timestampID 2 - size 15",
+  CEL.isString(timestampIDStr) && timestampIDStr.length === 15
+);
+CUT.log("<code>\""+timestampIDStr+"\"</code>");
+var timestampIDStr = CEL.timestampID(36);
+CUT.isTrue("timestampID 3 - size 36",
+  CEL.isString(timestampIDStr) && timestampIDStr.length === 36);
+CUT.log("<code>\""+timestampIDStr+"\"</code>");
+var timestampIDStr = CEL.timestampID(5, "abcdeFGHIJK42");
+CUT.isTrue("timestampID 4 - size 5 -> 12 & \"abcdeFGHIJK42\"",
+  CEL.isString(timestampIDStr) && timestampIDStr.length === 12
+);
+CUT.log("<code>\""+timestampIDStr+"\"</code>");
 
 CUT.addElement(
   CEL.domCreate("div", {"id": "qsaDivTestElement"},
@@ -521,17 +538,6 @@ CUT.isEqual("form2string();",
 
 CEL.qs("#testFormDiv").remove();
 
-
-CUT.isTrue("randomInt();", CEL.randomInt() <= 101);
-CUT.isTrue("randomInt(max);", CEL.randomInt(30) <= 30);
-var testRandom = CEL.randomInt(51,55);
-CUT.isTrue("randomInt(min,max);", testRandom >= 51 && testRandom <= 55);
-
-CUT.isTrue("randomFloat();", CEL.randomFloat() <= 101);
-CUT.isTrue("randomFloat(max);", CEL.randomFloat(30) <= 30);
-var testRandom = CEL.randomFloat(51,55);
-CUT.isTrue("randomFloat(min,max);", testRandom >= 51 && testRandom <= 55);
-
 var testRandom = CEL.randomBoolean();
 CUT.isTrue("randomBoolean(); - <code>" + testRandom + "</code>",
   CEL.isBoolean(testRandom) && (testRandom === true || testRandom === false) );
@@ -554,12 +560,6 @@ rndStr = "1" + CEL.randomString(32,false);
 CUT.isEqual("randomString(); random \"btc\" address", true,
   CEL.isString(rndStr) && rndStr.length === 33 );
 CUT.log("<code>"+rndStr+"</code>");
-
-CUT.isTrue("inRange();",
-  CEL.inRange(4,3,6) && CEL.inRange(-3.14, -4.5, 9.21)
-    && !CEL.inRange(2,3,6) && !CEL.inRange(7,3,6)
-    && !CEL.inRange(-5.14, -4.5, 9.21) && !CEL.inRange(-9.24, -4.5, 9.21)
-);
 
 var kayleeStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
 CUT.isEqual("b64Encode();",
@@ -647,16 +647,36 @@ CUT.isEqual("strFromCodePoints(); + strCodePoints();", testUnicodeStr22222,
 
 CUT.isTrue("strAt();",
   CEL.strAt("\uD834\uDF06 ab cd",0) === "\uD834\uDF06"
-    && CEL.strAt("ab \uD834\uDF06 cd",3) === "\uD834\uDF06"
-    && CEL.strAt("ab cd \uD834\uDF06",-1) === "\uD834\uDF06"
-    && CEL.strAt("ab \uD834\uDF06 cd",0) === "a"
-    && CEL.strAt("ab \uD834\uDF06 cd",5) === "c"
-    && CEL.strAt("ab \uD834\uDF06 cd",-1) === "d"
-    && CEL.strAt("",0) === ""
-    && CEL.strAt("",3) === ""
-    && CEL.strAt("",-1) === ""
+    // get
+    && CEL.strAt("ab \uD834\uDF06 cd", 3) === "\uD834\uDF06"
+    && CEL.strAt("ab cd \uD834\uDF06", -1) === "\uD834\uDF06"
+    && CEL.strAt("ab \uD834\uDF06 cd", 0) === "a"
+    && CEL.strAt("ab \uD834\uDF06 cd", 5) === "c"
+    && CEL.strAt("ab \uD834\uDF06 cd", -1) === "d"
+    && CEL.strAt("", 0) === ""
+    && CEL.strAt("", 3) === ""
+    && CEL.strAt("", -1) === ""
+    // set
+    && CEL.strAt("ab \uD834\uDF06 cde", 3, "X") === "ab X cde"
+    && CEL.strAt("ab \uD834\uDF06 cde", -5, "X") === "ab X cde"
+    && CEL.strAt("ab \uD834\uDF06 cde", -2, "X") === "ab \uD834\uDF06 cXe"
+    && CEL.strAt("ab \uD834\uDF06 cde", 13, "X") === "ab \uD834\uDF06 cde"
+    && CEL.strAt("ab \uD834\uDF06 cde", -13, "X") === "ab \uD834\uDF06 cde"
+    && CEL.strAt("ab \uD834\uDF06 cde", 3, "") === "ab  cde"
+    && CEL.strAt("ab \uD834\uDF06 cde", -2, "") === "ab \uD834\uDF06 ce"
+    && CEL.strAt("ab \uD834\uDF06 cde", 12, "") === "ab \uD834\uDF06 cde"
+    && CEL.strAt("ab \uD834\uDF06 cde", -12, "") === "ab \uD834\uDF06 cde"
 );
 
+
+CUT.isTrue("strSplice();",
+  CEL.strSplice("\uD834\uDF06 ab cde",0, 10) === ""
+    && CEL.strSplice("ab \uD834\uDF06 cde", 4, 1) === "ab \uD834\uDF06cde"
+    && CEL.strSplice("ab \uD834\uDF06 cde", 4, 1, "X") === "ab \uD834\uDF06Xcde"
+    && CEL.strSplice("ab \uD834\uDF06 cde", 4, 1, "X", "Y") === "ab \uD834\uDF06XYcde"
+    && CEL.strSplice("ab \uD834\uDF06 cde", 4, 2, "X", "Y") === "ab \uD834\uDF06XYde"
+    && CEL.strSplice("ab \uD834\uDF06 cde", 5, 2, "") === "ab \uD834\uDF06 e"
+);
 
 var FPArray = [1,2,3];
 
@@ -680,8 +700,6 @@ CUT.isEqual("strHTMLUnEscape();",
   '<a href="#" target="_blank">&#64;echo&#65;</a>\'str2\'',
   CEL.strHTMLUnEscape("&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;&amp;#64;echo&amp;#65;&lt;/a&gt;&apos;str2&#39;")
 );
-
-/* DOM */
 
 CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); without prefix 1", "",
   CEL.domGetCSSVar("testVar1"));
@@ -790,7 +808,7 @@ CUT.isTrue("domSiblingsRight();", (
 CEL.qs("#dsDiv").remove();
 
 
-/* Collections */
+/* Collections API */
 
 CUT.addElement("hr");
 CUT.addElement("h3", "Collections");
@@ -1487,10 +1505,10 @@ CUT.isEqual("arrayMerge();",
 );
 
 
-/* cookie */
+/* Cookie API */
 
 CUT.addElement("hr");
-CUT.addElement("h3", "cookie");
+CUT.addElement("h3", "Cookie API");
 
 CEL.setCookie("ctest3", "cookieUnitTestStr");
 CUT.isTrue("setcookie(); + hasCookie(); true", CEL.hasCookie("ctest3"));
@@ -1545,7 +1563,7 @@ CUT.isEqual("clearCookies(); <i>(settings object)</i>", "truetruefalsefalse",
   cookieClearStr);
 
 
-/* polyfills */
+/* Polyfills */
 
 CUT.addElement("hr");
 CUT.addElement("h3", "polyfills");
@@ -2263,10 +2281,10 @@ CUT.isFalse("isSameIterator(); false 2",
   CEL.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2,5]));
 
 
-/* Abstract functions */
+/* Abstract API */
 
 CUT.addElement("hr");
-CUT.addElement("h3", "Abstract functions");
+CUT.addElement("h3", "Abstract API");
 
 var getSetHasObj = {};
 CUT.isTrue("getInV(); + getIn(); + setIn(); + hasIn();",
@@ -2477,11 +2495,36 @@ CUT.isTrue("toArray();", toArrayA1 === CEL.toArray(toArrayA1)
   && JSON.stringify(CEL.toArray({"length":3, 0:7, 1:8, 2:9})) === "[7,8,9]"
 );
 
-
-/* math */
+/* Math API */
 
 CUT.addElement("hr");
-CUT.addElement("h3", "Math functions");
+CUT.addElement("h3", "Math API");
+
+CUT.isTrue("inRange();",
+  CEL.inRange(4,3,6) && CEL.inRange(-3.14, -4.5, 9.21)
+    && !CEL.inRange(2,3,6) && !CEL.inRange(7,3,6)
+    && !CEL.inRange(-5.14, -4.5, 9.21) && !CEL.inRange(-9.24, -4.5, 9.21)
+);
+
+CUT.isTrue("randomInt();", CEL.randomInt() <= 101);
+CUT.isTrue("randomInt(max);", CEL.randomInt(30) <= 30);
+var testRandom = CEL.randomInt(51,55);
+CUT.isTrue("randomInt(min,max);", testRandom >= 51 && testRandom <= 55);
+
+CUT.isTrue("randomFloat();", CEL.randomFloat() <= 101);
+CUT.isTrue("randomFloat(max);", CEL.randomFloat(30) <= 30);
+var testRandom = CEL.randomFloat(51,55);
+CUT.isTrue("randomFloat(min,max);", testRandom >= 51 && testRandom <= 55);
+
+CUT.isTrue(
+  "signbit();",
+  !CEL.signbit("str") && !CEL.signbit("5") && CEL.signbit("-5")
+    && !CEL.signbit("4.2") && CEL.signbit("-4.2") && CEL.signbit(-3.14)
+    && !CEL.signbit(3.14) && CEL.signbit(-1) && !CEL.signbit(1)
+    && !CEL.signbit(0) && CEL.signbit(-0) && !CEL.signbit(+0)
+    && !CEL.signbit(Infinity) && CEL.signbit(-Infinity)
+    && !CEL.signbit(+Infinity)
+);
 
 // clamp();
 CUT.isEqual("clamp - try 1", CEL.clamp(3,2,5), 3);
@@ -2751,7 +2794,7 @@ CEL.importScript("unittest-is2.js");
 CEL.importScript("unittest-is1.js", "unittest-is2.js", "unittest-is3.js");
 CEL.importScript("unittest-notExist.js");
 
-/* AJAX functions */
+/* AJAX API */
 
 var
   resAjaxJson = "img/app-app-catalog/app-bricks.png",

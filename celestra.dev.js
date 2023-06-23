@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.5.3 dev
+ * @version 5.5.4 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -430,7 +430,14 @@ if (!!window.BigInt && !("toJSON" in BigInt.prototype)) {
   });
 }
 
-/** core api **/
+/** Core API **/
+
+const BASE16 = "0123456789ABCDEF";
+const BASE32 = "234567ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const WORDSAFEALPHABET= "23456789CFGHJMPQRVWXcfghjmpqvwx";
 
 /* randomID([hyphens = true][,usedate = false]) : string */
 function randomID (hyphens = true, useDate = false) {
@@ -448,27 +455,10 @@ function randomID (hyphens = true, useDate = false) {
   }
 }
 
-/* signbit(<value: any>): boolean */
-const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
-
 /* delay(<ms: integer>).then(<callback: function>): promise */
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 /* sleep(<ms: integer>).then(<callback: function>): promise */
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-/* randomInt([max: int] OR <min: int>,<max: int>): int */
-function randomInt (i = 100, a) {
-  if (a == null) { a = i; i = 0; }
-  i = Math.ceil(+i);
-  return Math.floor(Math.random() * (Math.floor(+a) - i + 1) + i);
-}
-
-/* randomFloat([max: float] OR <min: float>,<max: float>): float */
-function randomFloat (i = 100, a) {
-  if (a == null) { a = i; i = 0; }
-  var r = (Math.random() * (a - i + 1)) + i;
-  return r > a ? a : r;
-}
 
 /* randomBoolean(): boolean */
 const randomBoolean = () => (Math.random() >= 0.5);
@@ -481,9 +471,6 @@ function randomString (pl = 100, sc = false) {
   for (var i = 0; i < pl; i++) { s += chars[Math.floor(Math.random()*l)]; }
   return s;
 }
-
-/* inRange(<value: number>,<min: number>,<max: number>): boolean */
-const inRange = (v, i, a) => (v >= i && v <= a);
 
 /* b64Encode(<string>): string */
 function b64Encode (s) {
@@ -569,56 +556,6 @@ function extend (...a) {
   return EXT(...a);
 }
 
-/* strPropercase(<string>): string */
-const strPropercase = (s) => String(s).split(" ").map(function (v) {
-  var a = Array.from(v).map( (c) => c.toLowerCase() );
-  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
-  return a.join("");
-}).join(" ");
-/* strTitlecase(<string>): string */
-const strTitlecase = (s) => String(s).split(" ").map(function (v) {
-  var a = Array.from(v).map( (c) => c.toLowerCase() );
-  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
-  return a.join("");
-}).join(" ");
-
-/* strCapitalize(<string>): string */
-function strCapitalize (s) {
-  var a = [...String(s).toLowerCase()];
-  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
-  return a.join("");
-}
-
-/* strUpFirst(<string>): string */
-function strUpFirst (s) {
-  var a = [...String(s)];
-  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
-  return a.join("");
-}
-
-/* strDownFirst(<string>): string */
-function strDownFirst (s) {
-  var a = [...String(s)];
-  if (a.length > 0) { a[0] = a[0].toLowerCase(); }
-  return a.join("");
-}
-
-/* strHTMLRemoveTags(<string>): string */
-const strHTMLRemoveTags = (s) =>
-  String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
-
-/* strReverse(<string>): string */
-const strReverse = (s) => Array.from(String(s)).reverse().join("");
-
-/* strCodePoints(<string>): array of strings */
-const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
-
-/* strFromCodePoints(<collection>): string */
-const strFromCodePoints = ([...a]) => String.fromCodePoint.apply(null, a);
-
-/* strAt(<string>,<index: integer>): string */
-const strAt = (s, i) => (Array.from(String(s)).at(i) || "");
-
 /* sizeIn(<object>): integer */
 const sizeIn = (o) => Object.keys(o).length;
 
@@ -683,6 +620,89 @@ function assertFalse (msg, v) {
   return true;
 }
 
+/* nanoid([size=21[,alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"]]): string */
+function nanoid (size = 21, alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") {
+  var r = "", dl = alphabet.length, pos, i = size;
+  while (i--) {
+    do { pos = crypto.getRandomValues(new Uint8Array(1))[0]; } while (pos>=dl);
+    r += alphabet[pos];
+  }
+  return r;
+}
+
+/* timestampID([size=21[,alphabet="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"]]): string */
+function timestampID (size = 21, alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz") {
+  var r = Date.now().toString(36).padStart(10, "0") + "-";
+  var dl = alphabet.length, pos, i = ((size > 11) ? size : 12) - 11;
+  while (i--) {
+    do { pos = crypto.getRandomValues(new Uint8Array(1))[0]; } while (pos>=dl);
+    r += alphabet[pos];
+  }
+  return r;
+}
+
+/** String API **/
+
+/* strPropercase(<string>): string */
+const strPropercase = (s) => String(s).split(" ").map(function (v) {
+  var a = Array.from(v).map( (c) => c.toLowerCase() );
+  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
+  return a.join("");
+}).join(" ");
+/* strTitlecase(<string>): string */
+const strTitlecase = (s) => String(s).split(" ").map(function (v) {
+  var a = Array.from(v).map( (c) => c.toLowerCase() );
+  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
+  return a.join("");
+}).join(" ");
+
+/* strCapitalize(<string>): string */
+function strCapitalize (s) {
+  var a = [...String(s).toLowerCase()];
+  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
+  return a.join("");
+}
+
+/* strUpFirst(<string>): string */
+function strUpFirst (s) {
+  var a = [...String(s)];
+  if (a.length > 0) { a[0] = a[0].toUpperCase(); }
+  return a.join("");
+}
+
+/* strDownFirst(<string>): string */
+function strDownFirst (s) {
+  var a = [...String(s)];
+  if (a.length > 0) { a[0] = a[0].toLowerCase(); }
+  return a.join("");
+}
+
+/* strReverse(<string>): string */
+const strReverse = (s) => Array.from(String(s)).reverse().join("");
+
+/* strCodePoints(<string>): array of strings */
+const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
+
+/* strFromCodePoints(<collection>): string */
+const strFromCodePoints = ([...a]) => String.fromCodePoint.apply(null, a);
+
+/* strAt(<string>,<index: integer>[,newChar: string]): string */
+function strAt (s, i, nC) {
+  var a = Array.from(String(s));
+  if (nC == null) { return a.at(i) || ""; }
+  i = i < 0 ? a.length + i : i;
+  if (i > a.length) { return a.join(""); }
+  a[i] = nC;
+  return a.join("");
+}
+
+/* strSplice(<string>,<index: integer>,<count: integer>[,add: string]): string */
+const strSplice = (s, i, c, ...add) => Array.from(s).toSpliced(i, c, add.join("")).join("");
+
+/* strHTMLRemoveTags(<string>): string */
+const strHTMLRemoveTags = (s) =>
+  String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
+
 /* strHTMLEscape(<string>): string */
 const strHTMLEscape = (s) => String(s).replace(/&/g, "&amp;")
   .replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -696,17 +716,7 @@ const strHTMLUnEscape = (s) => String(s)
   .replace(/&quot;/g, '"').replace(/&#34;/g, '"')
   .replace(/&apos;/g, "'").replace(/&#39;/g, "'");
 
-/* nanoid([size=21[,alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"]]): string */
-function nanoid (size = 21, alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") {
-  var r = "", dl = alphabet.length, pos, i = size;
-  while (i--) {
-    do { pos = crypto.getRandomValues(new Uint8Array(1))[0]; } while (pos>=dl);
-    r += alphabet[pos];
-  }
-  return r;
-}
-
-/** DOM **/
+/** DOM API **/
 
 /* qsa(<selector: string>[,context: element object]): array */
 const qsa = (s, c = document) => Array.from(c.querySelectorAll(s));
@@ -1028,13 +1038,18 @@ const domGetCSSVar = (n) => getComputedStyle(document.documentElement)
 const domSetCSSVar = (n, v) =>
   document.documentElement.style.setProperty( (n[0] === "-" ? n : "--" + n), v);
 
-/* domToTop(): undefined */
+/* domScrollToTop(): undefined */
+const domScrollToTop = () => window.scrollTo(0,0);
 const domToTop = () => window.scrollTo(0,0);
 
-/* domToBottom(): undefined */
+/* domScrollToBottom(): undefined */
+const domScrollToBottom = () => window.scrollTo(0, document.body.scrollHeight);
 const domToBottom = () => window.scrollTo(0, document.body.scrollHeight);
 
-/** AJAX **/
+/* domScrollToElement(<element>[,top=true]): undefined */
+const domScrollToElement = (e, top = true) => e.scrollIntoView(top);
+
+/** AJAX API **/
 /* getJson(); and getText(); shorthands -> ajax(); */
 
 /* getText(<url: string>,<success: function>): undefined */
@@ -1130,7 +1145,7 @@ function ajax (o) {
   }
 }
 
-/** type checking **/
+/** Type checking API **/
 
 /* isTruthy(<value: any>): boolean */
 const isTruthy = (v) => !!v;
@@ -1339,7 +1354,7 @@ const isGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
 const isAsyncFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(async function(){}).constructor);
 
-/** cookie **/
+/** Cookie API **/
 
 /* setCookie(<Options object>): undefined */
 /* setCookie(<name: string>,<value: string> [,hours=8760[,path="/"[,domain
@@ -1439,7 +1454,7 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
   }
 }
 
-/** collections **/
+/** Collections API **/
 
 /* arrayDeepClone(<array>): array */
 function arrayDeepClone ([...a]) {
@@ -1826,7 +1841,7 @@ function join (it, sep = ",") {
 /* withOut(<collection>,<filterCollection>): array */
 const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
-/** abstract **/
+/** Abstract API **/
 
 /* getInV(<value: any>,<property: string>): any OR throw error */
 function getInV (V,P) { if(V==null){ throw TypeError(); } return Object(V)[P]; }
@@ -1886,7 +1901,7 @@ const createDataProperty = (O, P, V) => Object.defineProperty(
 /* toArray(<value: array OR iterable OR arraylike>): array */
 function toArray (O) { return (Array.isArray(O) ? O : Array.from(O)); }
 
-/** math **/
+/** Math API **/
 
 /* sum(<value1>[,valueN]): number */
 const sum = (f, ...a) => a.reduce((acc, v) => acc + v, f);
@@ -1981,9 +1996,29 @@ const isBigInt64 = (v) => (typeof v === "bigint"
 const isBigUInt64 = (v) =>
   (typeof v === "bigint" ? (v >= 0 && v <= Math.pow(2,64)-1) : false);
 
+/* signbit(<value: any>): boolean */
+const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
+
+/* randomInt([max: int] OR <min: int>,<max: int>): int */
+function randomInt (i = 100, a) {
+  if (a == null) { a = i; i = 0; }
+  i = Math.ceil(+i);
+  return Math.floor(Math.random() * (Math.floor(+a) - i + 1) + i);
+}
+
+/* randomFloat([max: float] OR <min: float>,<max: float>): float */
+function randomFloat (i = 100, a) {
+  if (a == null) { a = i; i = 0; }
+  var r = (Math.random() * (a - i + 1)) + i;
+  return r > a ? a : r;
+}
+
+/* inRange(<value: number>,<min: number>,<max: number>): boolean */
+const inRange = (v, i, a) => (v >= i && v <= a);
+
 /** object header **/
 
-const VERSION = "Celestra v5.5.3 dev";
+const VERSION = "Celestra v5.5.4 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
@@ -1992,16 +2027,18 @@ var celestra = {
   /** object header **/
   VERSION: VERSION,
   noConflict: noConflict,
-  /** core api **/
+  /** Core API **/
+  BASE16: BASE16,
+  BASE32: BASE32,
+  BASE36: BASE36,
+  BASE58: BASE58,
+  BASE62: BASE62,
+  WORDSAFEALPHABET: WORDSAFEALPHABET,
   randomID: randomID,
-  signbit: signbit,
   delay: delay,
   sleep: sleep,
-  randomInt: randomInt,
-  randomFloat: randomFloat,
   randomBoolean: randomBoolean,
   randomString: randomString,
-  inRange: inRange,
   b64Encode: b64Encode,
   b64Decode: b64Decode,
   javaHash: javaHash,
@@ -2010,16 +2047,6 @@ var celestra = {
   obj2string: obj2string,
   classof: classof,
   extend: extend,
-  strPropercase: strPropercase,
-  strTitlecase: strTitlecase,
-  strCapitalize: strCapitalize,
-  strUpFirst: strUpFirst,
-  strDownFirst: strDownFirst,
-  strHTMLRemoveTags: strHTMLRemoveTags,
-  strReverse: strReverse,
-  strCodePoints: strCodePoints,
-  strFromCodePoints: strFromCodePoints,
-  strAt: strAt,
   sizeIn: sizeIn,
   forIn: forIn,
   filterIn: filterIn,
@@ -2035,10 +2062,23 @@ var celestra = {
   assertNotEq: assertNotEq,
   assertTrue: assertTrue,
   assertFalse: assertFalse,
+  nanoid: nanoid,
+  timestampID: timestampID,
+  /** String API **/
+  strPropercase: strPropercase,
+  strTitlecase: strTitlecase,
+  strCapitalize: strCapitalize,
+  strUpFirst: strUpFirst,
+  strDownFirst: strDownFirst,
+  strReverse: strReverse,
+  strCodePoints: strCodePoints,
+  strFromCodePoints: strFromCodePoints,
+  strAt: strAt,
+  strSplice: strSplice,
+  strHTMLRemoveTags: strHTMLRemoveTags,
   strHTMLEscape: strHTMLEscape,
   strHTMLUnEscape: strHTMLUnEscape,
-  nanoid: nanoid,
-  /** DOM **/
+  /** DOM API **/
   qsa: qsa,
   qs: qs,
   domReady: domReady,
@@ -2070,13 +2110,16 @@ var celestra = {
   setFullscreenOff: setFullscreenOff,
   domGetCSSVar: domGetCSSVar,
   domSetCSSVar: domSetCSSVar,
+  domScrollToTop: domScrollToTop,
   domToTop: domToTop,
+  domScrollToBottom: domScrollToBottom,
   domToBottom: domToBottom,
-  /** AJAX **/
+  domScrollToElement: domScrollToElement,
+  /** AJAX API **/
   getText: getText,
   getJson: getJson,
   ajax: ajax,
-  /** type checking **/
+  /** Type checking API **/
   isTruthy: isTruthy,
   isFalsy: isFalsy,
   isAsyncGeneratorFn: isAsyncGeneratorFn,
@@ -2125,13 +2168,13 @@ var celestra = {
   isTypedArray: isTypedArray,
   isGeneratorFn: isGeneratorFn,
   isAsyncFn: isAsyncFn,
-  /** cookie **/
+  /** Cookie API **/
   setCookie: setCookie,
   getCookie: getCookie,
   hasCookie: hasCookie,
   removeCookie: removeCookie,
   clearCookies: clearCookies,
-  /** collections **/
+  /** Collections API **/
   arrayDeepClone: arrayDeepClone,
   arrayCreate: arrayCreate,
   initial: initial,
@@ -2201,7 +2244,7 @@ var celestra = {
   flat: flat,
   join: join,
   withOut: withOut,
-  /** abstract **/
+  /** Abstract API **/
   getInV: getInV,
   getIn: getIn,
   setIn: setIn,
@@ -2219,7 +2262,7 @@ var celestra = {
   toInteger: toInteger,
   createDataProperty:createDataProperty,
   toArray: toArray,
-  /** math **/
+  /** Math API **/
   sum: sum,
   avg: avg,
   product: product,
@@ -2242,7 +2285,11 @@ var celestra = {
   isInt32: isInt32,
   isUInt32: isUInt32,
   isBigInt64: isBigInt64,
-  isBigUInt64: isBigUInt64
+  isBigUInt64: isBigUInt64,
+  signbit: signbit,
+  randomInt: randomInt,
+  randomFloat: randomFloat,
+  inRange: inRange
 };
 
 if (typeof window !== "undefined") {
