@@ -183,7 +183,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.5.4 testcases */
+/* Celestra v5.5.5 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -2274,7 +2274,7 @@ CUT.isFalse("isSameMap(); false 3", CEL.isSameMap(
 ));
 
 CUT.isTrue("isSameIterator(); true",
-  CEL.isSameIterator(new Set([4,6,8,2,6,4]), [4,8,6,2]));
+  CEL.isSameIterator([4,8,6,2], [4,8,6,2]));
 CUT.isFalse("isSameIterator(); false 1",
   CEL.isSameIterator([4,8,6,2,1], [4,8,6,2,5]));
 CUT.isFalse("isSameIterator(); false 2",
@@ -2531,6 +2531,11 @@ CUT.isEqual("clamp - try 1", CEL.clamp(3,2,5), 3);
 CUT.isEqual("clamp - try 2", CEL.clamp(-2.5,3.1,5), 3.1);
 CUT.isEqual("clamp - try 3", CEL.clamp(8,3,5), 5);
 CUT.isEqual("clamp - try without parameter", CEL.clamp(), undefined);
+// minmax();
+CUT.isEqual("minmax - try 1", CEL.minmax(3,2,5), 3);
+CUT.isEqual("minmax - try 2", CEL.minmax(-2.5,3.1,5), 3.1);
+CUT.isEqual("minmax - try 3", CEL.minmax(8,3,5), 5);
+CUT.isEqual("minmax - try without parameter", CEL.minmax(), undefined);
 // product();
 CUT.isEqual("product - try 1", CEL.product(3), 3);
 CUT.isEqual("product - try 2", CEL.product(3, 5), 15);
@@ -2772,7 +2777,7 @@ CUT.isEqual("isBigUInt64 12", CEL.isBigUInt64([]), false);
 CUT.isEqual("isBigUInt64 13", CEL.isBigUInt64({}), false);
 
 
-/* AJAX, domReady(); and other callbacks */
+/* Async */
 
 CUT.addElement("hr");
 CUT.addElement("h3", "AJAX, domReady(); and other callbacks");
@@ -2786,7 +2791,10 @@ CUT.addElement("ul", "<li>1x domReady(); (core api) is working</li>"
   + "<li>2x importScript(); (core api) - second script loaded</li>"
   + "<li>1x importScript(); (core api) - with more scripts"
   + "<li>1x importScript(); (core api) with error</li>"
-  + "<li>1x getJson()</li>" + "<li>1x getText()</li>" + "<li>12x ajax()</li>"
+  + "<li>1x getJson()</li>"
+  + "<li>1x getText()</li>"
+  + "<li>12x ajax()</li>"
+  + "<li>8x Array.fromAsync()</li>"
 );
 
 CEL.importScript("unittest-is1.js");
@@ -2924,6 +2932,37 @@ CEL.ajax({
   }
 });
 
+/* Array.fromAsync(); */
+async function* asyncIterable () {
+  for (let i = 0; i < 5; i++) {
+    await new Promise((resolve)=> setTimeout(resolve,100*i));
+    yield i;
+  }
+}
+Array.fromAsync(asyncIterable()).then((res) =>
+    CUT.isEqual("Array.fromAsync(); - asyncIterable: [0,1,2,3,4]",JSON.stringify(res),"[0,1,2,3,4]")
+  );
+Array.fromAsync(asyncIterable(), (x) => x*2).then((res) =>
+  CUT.isEqual("Array.fromAsync(); - asyncIterable + fn: [0,2,4,6,8]",JSON.stringify(res),"[0,2,4,6,8]")
+);
+Array.fromAsync([4,5,6,7,8]).then((res) =>
+  CUT.isEqual("Array.fromAsync(); - [4,5,6,7,8]: [4,5,6,7,8]",JSON.stringify(res),"[4,5,6,7,8]")
+);
+Array.fromAsync([4,5,6,7,8], (x) => x*2).then((res) =>
+  CUT.isEqual("Array.fromAsync(); - [4,5,6,7,8] + fn: [8,10,12,14,16]",JSON.stringify(res),"[8,10,12,14,16]")
+);
+Array.fromAsync(new Set([4,5,6,6,10])).then((res) =>
+  CUT.isEqual("Array.fromAsync(); - Set: [4,5,6,10]",JSON.stringify(res),"[4,5,6,10]")
+);
+Array.fromAsync(new Set([4,5,6,6,10]), (x) => x*2).then((res) =>
+  CUT.isEqual("Array.fromAsync(); - Set + fn: [8,10,12,20]",JSON.stringify(res),"[8,10,12,20]")
+);
+Array.fromAsync({"0": 3, "1": 4, "2": 5, length: 3}).then((res) =>
+  CUT.isEqual("Array.fromAsync(); - arraylike: [3,4,5]",JSON.stringify(res),"[3,4,5]")
+);
+Array.fromAsync({"0": 3, "1": 4, "2": 5, length: 3}, (x) => x*2).then((res) =>
+  CUT.isEqual("Array.fromAsync(); - arraylike + fn: [6,8,10]",JSON.stringify(res),"[6,8,10]")
+);
 
 }());
 

@@ -15,13 +15,13 @@ __A helper JavaScript library with useful functions and polyfills and zero depen
 
 Tested on desktop browsers (latest Firefox, latest Chrome, latest stable Chromium based Edge) and mobile devices (iOS Safari, Chrome, Firefox and Android Chrome, Samsung Internet, Firefox, Edge). This library isn't compatible with the Node.js.
 
-Latest version: 5.5.4
+Latest version: 5.5.5
 
-Date: 2023-06-21T19:55:13.050Z
+Date: 2023-07-20T19:38:41.746Z
 
 The functions are available in the `celestra` and/or `CEL` object.
 
-edition|filename
+Edition|Filename
 -------|--------
 developer|__celestra.dev.js__
 minified|__celestra.min.js__
@@ -466,6 +466,7 @@ Name | Description
 `avg(<value1>[,valueN]);` | This function returns the average value from the parameter values.
 `product(<value1>[,valueN]);` | This function returns the product value from the parameter values.
 `clamp(<value>,<min>,<max>);` | If the given value is between the min and max values, then this function returns the value. If smaller then the min value, then the return value is the min. If greater then the max value, then the return value is the max.
+`minmax(<value>,<min>,<max>);` | This is an alias of the `clamp(<value>,<min>,<max>);`.
 `isEven(<value>);` | This function determines whether the provided value is an even number. The return value is boolean.
 `isOdd(<value>);` | This function determines whether the provided value is an odd number. The return value is boolean.
 `toInt8(<value>);` | This function clamps ("minmax") the given value to integer 8 value (-127 to 128).
@@ -497,6 +498,7 @@ Name | Description
 
 Name | Description
 ---- | -----------
+`Array.fromAsync();` | The Array.fromAsync() static method creates a new, shallow-copied Array instance from an async iterable, iterable, or array-like object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fromAsync)!
 `Array.prototype.toReversed();` | The toReversed() method of an Array instance is the copying counterpart of the reverse() method. It returns a new array with the elements in reversed order. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toReversed)!
 `Array.prototype.toSorted();` | The toSorted() method of an Array instance is the copying version of the sort() method. It returns a new array with the elements sorted in ascending order. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted)!
 `Array.prototype.toSpliced();` | The toSpliced() method of an Array instance is the copying version of the splice() method. It returns a new array with some elements removed and/or replaced at a given index. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSpliced)!
