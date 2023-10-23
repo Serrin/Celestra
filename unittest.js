@@ -183,7 +183,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.5.5 testcases */
+/* Celestra v5.6.0 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -247,63 +247,6 @@ CUT.isTrue("v3.8.1 aliases removed in v4.0.0",
     && CEL.isUndefined(CEL.mapOf)
     && CEL.isUndefined(CEL.forOf)
 );
-
-// randomID begin
-
-var rIDstr = CEL.randomID(false);
-CUT.isTrue("randomID(false); without date without date default",
-  rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr)
-);
-CUT.log("<code>\"" + rIDstr + "\"</code>");
-
-var rIDstr = CEL.randomID();
-CUT.isTrue("randomID(); with hyphens without date default",
-  rIDstr.length === 36
-    && /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-      .test(rIDstr)
-    && rIDstr[14] === "4"
-    && "89ab".includes(rIDstr[19])
-);
-CUT.log("<code>\"" + rIDstr + "\"</code>");
-
-var rIDstr = CEL.randomID(false, true);
-CUT.isTrue("randomID(); without hyphens with date",
-  rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr)
-);
-CUT.log("<code>\"" + rIDstr + "\"</code>");
-
-var rIDstr = CEL.randomID(true);
-CUT.isTrue("randomID(true); with hyphens without date",
-  rIDstr.length === 36
-    && /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-      .test(rIDstr)
-    && rIDstr[14] === "4"
-    && "89ab".includes(rIDstr[19])
-);
-CUT.log("<code>\"" + rIDstr + "\"</code>");
-
-var rIDstr = CEL.randomID(false, true);
-CUT.isTrue("randomID(false); with date with date",
-  rIDstr.length === 32 && /[0-9a-fA-F]/.test(rIDstr) );
-CUT.log("<code>\"" + rIDstr + "\"</code>");
-
-var rIDstr = CEL.randomID(true, true);
-CUT.isTrue("randomID(); with hyphens with date",
-  rIDstr.length === 36 &&
-  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-    .test(rIDstr)
-);
-CUT.log("<code>\"" + rIDstr + "\"</code>");
-
-var rIDstr = CEL.randomID(true, false);
-CUT.isTrue("randomID(true); with hyphens without date",
-  rIDstr.length === 36 &&
-  /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
-    .test(rIDstr)
-);
-CUT.log("<code>\"" + rIDstr + "\"</code>");
-
-// randomID end
 
 CUT.isTrue("assertTrue();",    CEL.assertTrue("lorem ipsum", true) );
 CUT.isTrue("assertFalse();",   CEL.assertFalse("lorem ipsum", false) );
@@ -541,25 +484,6 @@ CEL.qs("#testFormDiv").remove();
 var testRandom = CEL.randomBoolean();
 CUT.isTrue("randomBoolean(); - <code>" + testRandom + "</code>",
   CEL.isBoolean(testRandom) && (testRandom === true || testRandom === false) );
-
-var rndStr = CEL.randomString();
-CUT.isTrue("randomString(); default length 100, default false",
-  CEL.isString(rndStr) && rndStr.length === 100);
-CUT.log("<code>"+rndStr+"</code>");
-rndStr = CEL.randomString(10);
-CUT.isTrue("randomString(10) default false",
-  CEL.isString(rndStr) && rndStr.length === 10);
-CUT.log("<code>"+rndStr+"</code>");
-rndStr = CEL.randomString(15,true);
-CUT.isTrue("randomString(15,true);", CEL.isString(rndStr) &&rndStr.length===15);
-CUT.log("<code>"+rndStr+"</code>");
-rndStr = CEL.randomString(20,false);
-CUT.isTrue("randomString(20,false);", CEL.isString(rndStr)&&rndStr.length===20);
-CUT.log("<code>"+rndStr+"</code>");
-rndStr = "1" + CEL.randomString(32,false);
-CUT.isEqual("randomString(); random \"btc\" address", true,
-  CEL.isString(rndStr) && rndStr.length === 33 );
-CUT.log("<code>"+rndStr+"</code>");
 
 var kayleeStr = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP ,?;.:-_* ¤÷×¨¸´˙`˛°˘^ˇ~'+!%/=()|\\<> \" \/ #&@{}[]€ ÍÄíŁß 0123456789 asdfghjklqwertzuiopyxcvbnm ASDFGHJKLQWERTZUIOPYXCVBNM";
 CUT.isEqual("b64Encode();",
@@ -1636,75 +1560,23 @@ CUT.isEqual("Object.is();",
 CUT.isEqual("Number.MIN_SAFE_INTEGER;",Number.MIN_SAFE_INTEGER,-9007199254740991);
 CUT.isEqual("Number.MAX_SAFE_INTEGER;",Number.MAX_SAFE_INTEGER,9007199254740991);
 
-var groupArray = [1,2,3,4,5];
-var groupArrayObj = {"length": 5, 0: 1, 1: 2, 2: 3, 3: 4, 4: 5};
-var groupArrayRES = groupArray.group(i => (i % 2 === 0 ? "even": "odd"));
-CUT.isTrue("Array.prototype.group(&#60;fn&#62;[,thisArg]); 1",
-  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
-    === "object"
-    && Object.keys(groupArrayRES).length === 2
-    && Object.hasOwn(groupArrayRES, "even")
-    && Object.hasOwn(groupArrayRES, "odd")
-    && JSON.stringify(groupArrayRES["even"]) === "[2,4]"
-    && JSON.stringify(groupArrayRES["odd"]) === "[1,3,5]"
+const groupByInventory = [
+  { name: 'asparagus', type: 'vegetables', quantity: 9 },
+  { name: 'bananas', type: 'fruit', quantity: 5 },
+  { name: 'goat', type: 'meat', quantity: 23 },
+  { name: 'cherries', type: 'fruit', quantity: 12 },
+  { name: 'fish', type: 'meat', quantity: 3 },
+];
+
+
+CUT.isEqual("Object.groupBy();",
+  JSON.stringify(Object.groupBy(groupByInventory, ({ quantity }) => (quantity < 6 ? "restock" : "sufficient"))),
+  '{"sufficient":[{"name":"asparagus","type":"vegetables","quantity":9},{"name":"goat","type":"meat","quantity":23},{"name":"cherries","type":"fruit","quantity":12}],"restock":[{"name":"bananas","type":"fruit","quantity":5},{"name":"fish","type":"meat","quantity":3}]}'
 );
-var groupArrayRES = Array.prototype.group.call(
-  groupArray, i => (i % 2 === 0 ? "even": "odd")
-);
-CUT.isTrue("Array.prototype.group(&#60;fn&#62;[,thisArg]); 2",
-  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
-    === "object"
-    && Object.keys(groupArrayRES).length === 2
-    && Object.hasOwn(groupArrayRES, "even")
-    && Object.hasOwn(groupArrayRES, "odd")
-    && JSON.stringify(groupArrayRES["even"]) === "[2,4]"
-    && JSON.stringify(groupArrayRES["odd"]) === "[1,3,5]"
-);
-var groupArrayRES = Array.prototype.group.call(
-  groupArrayObj, i => (i % 2 === 0 ? "even": "odd")
-);
-CUT.isTrue("Array.prototype.group(&#60;fn&#62;[,thisArg]); 3",
-  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
-    === "object"
-    && Object.keys(groupArrayRES).length === 2
-    && Object.hasOwn(groupArrayRES, "even")
-    && Object.hasOwn(groupArrayRES, "odd")
-    && JSON.stringify(groupArrayRES["even"]) === "[2,4]"
-    && JSON.stringify(groupArrayRES["odd"]) === "[1,3,5]"
-);
-var groupArrayRES = groupArray.groupToMap(i => (i % 2 === 0 ? "even": "odd"));
-CUT.isTrue("Array.prototype.groupToMap(&#60;fn&#62;[,thisArg]); 1",
-  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
-    === "map"
-    && groupArrayRES.size === 2
-    && groupArrayRES.has("even")
-    && groupArrayRES.has("odd")
-    && JSON.stringify(groupArrayRES.get("even")) === "[2,4]"
-    && JSON.stringify(groupArrayRES.get("odd")) === "[1,3,5]"
-);
-var groupArrayRES = Array.prototype.groupToMap.call(
-  groupArray, i => (i % 2 === 0 ? "even": "odd")
-);
-CUT.isTrue("Array.prototype.groupToMap(&#60;fn&#62;[,thisArg]); 2",
-  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
-    === "map"
-    && groupArrayRES.size === 2
-    && groupArrayRES.has("even")
-    && groupArrayRES.has("odd")
-    && JSON.stringify(groupArrayRES.get("even")) === "[2,4]"
-    && JSON.stringify(groupArrayRES.get("odd")) === "[1,3,5]"
-);
-var groupArrayRES = Array.prototype.groupToMap.call(
-  groupArrayObj, i => (i % 2 === 0 ? "even": "odd")
-);
-CUT.isTrue("Array.prototype.groupToMap(&#60;fn&#62;[,thisArg]); 3",
-  Object.prototype.toString.call(groupArrayRES).slice(8, -1).toLowerCase()
-    === "map"
-    && groupArrayRES.size === 2
-    && groupArrayRES.has("even")
-    && groupArrayRES.has("odd")
-    && JSON.stringify(groupArrayRES.get("even")) === "[2,4]"
-    && JSON.stringify(groupArrayRES.get("odd")) === "[1,3,5]"
+
+CUT.isEqual("Map.groupBy();",
+  JSON.stringify(Array.from(Map.groupBy(groupByInventory, ({ quantity }) => (quantity < 6 ? "restock" : "sufficient")))),
+  '[["sufficient",[{"name":"asparagus","type":"vegetables","quantity":9},{"name":"goat","type":"meat","quantity":23},{"name":"cherries","type":"fruit","quantity":12}]],["restock",[{"name":"bananas","type":"fruit","quantity":5},{"name":"fish","type":"meat","quantity":3}]]]'
 );
 
 var rIDstr = crypto.randomUUID();
