@@ -15,9 +15,9 @@ __A helper JavaScript library with useful functions and polyfills and zero depen
 
 This library isn't compatible with the Node.js.
 
-Latest version: 5.6.1
+Latest version: 5.6.2
 
-Date: 2024-06-06T19:12:17.009Z
+Date: 2024-04-01T19:36:08.402Z
 
 __Tested on these browsers:__
 
@@ -44,6 +44,14 @@ CUT testpage<br>Celestra Unit Tester|__unittest.html__
 Version history|__CHANGELOG.md__
 
 DEV and MIN editions: If the `CEL` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
+
+
+### Github pages
+
+version|page link
+-------|--------
+Stable|__https://github.com/Serrin/Celestra__
+Beta|__https://github.com/Serrin/Celestra-beta__
 
 
 ### Removed polyfills
@@ -180,6 +188,7 @@ Name | Description
 `randomBoolean();` | Get a random boolean value. The return value is `true` or `false`.
 `randomID([hyphens=true][,usedate=false]);` | __DEPRECATED in v5.5.4__ <br>__REMOVED in v5.6.0__ <br> __Can be replaced with the __`crypto.randomUUID();`,__ which is polyfilled in this library.__<br>Generate a GUID/UUID v4 random ID. The hyphens and useDate parameters are optional and can be a boolean. The return value is a string.
 `randomString([length[,specialCharactersEnabled=false]]);` | __DEPRECATED in v5.5.2__ <br>__REMOVED in v5.6.0__ <br>__Can be replaced with the __`CEL.nanoid();`__.__<br>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.<br>Example ID: `"QsZA2VVTgFIF3D-qFk5oc"`
+`randomUUIDv7();` | This function returns a UUID v7, which cointains a timestamp too. For more information please read the [this page](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7)!<br>Example result: `"0195d74b-b8c8-7302-a7d3-919df45087f3"`
 `sizeIn(<object>);` | Returns the count of the owned properties of the given object. The object parameter is mandatory.
 `popIn(<object>,<property>);` | The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.
 `sleep(<ms>).then(<callback>);` | This is an alias of the `delay(<ms>).then(<callback>);`.
@@ -366,7 +375,7 @@ Name | Description
 
 These functions are available in the `celestra` and/or `CEL` objects.
 
-Example: `CEL.arrayUnion();`
+Example: `CEL.arrayAdd();`
 
 Name | Description
 ---- | -----------
@@ -375,17 +384,18 @@ Name | Description
 `arrayCreate([length=0]);`|This function returns an array with the given length and can handle the -0 as length. The length parameter will be converted to number and if the new value is not an integer number or out of the array size range, then a rangeerror will be thrown.
 `arrayCycle(<collection>[,n=100]);` | Cycle the given collection and returns an array with these elements. The collection parameter is mandatory and can be any type of JavaScript collections. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayDeepClone(<array>);`|This function deeply (recursively) clones an array. The return value is the cloned array.
-`arrayDifference(<collection1>,<collection2>);` | Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
-`arrayIntersection(<collection1>,<collection2>);` | Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
+`arrayDifference(<collection1>,<collection2>);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
+`arrayIntersection(<collection1>,<collection2>);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
 `arrayMerge(<target>,<source1>[,sourceN]);` | Merge two or more arrays or push any values in the target array. The return value is the target array.
 `arrayRange([start=0[,end=99[,step=1]]]);` | Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 99, step = 1.<br>__Example:__<br>`CEL.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));`<br>-><br>`Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]`
 `arrayRemove(<array>,<value>[,all=false]);` | Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayRemoveBy(<array>,<callback>[,all=false]);` | Remove the first or all values from the array with which the given function returns true. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayRepeat(<value>[,n=100]);` | Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
-`arraySymmetricDifference(<collection1>,<collection2>);` | Returns the array of unique values that are only in one of given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
-`arrayUnion(<collection1>[,collectionN]);` | Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
+`arraySymmetricDifference(<collection1>,<collection2>);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> Returns the array of unique values that are only in one of given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.
+`arrayUnion(<collection1>[,collectionN]);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.
 `arrayUnique(<collection>);` | This function returns a new array with unique values. The value parameter is mandatory and can be any type, that can be converted to array. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `concat(<collection1>[,collectionN]);` | This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.
+`count(<collection>,<callback>);` | This function executes a counter function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `contains(<collection>,<value>);` | This is an alias of the `includes(<collection>,<value>);`.
 `drop(<collection>[,n=1]);` | Drop the first N elements of a collection and yield the remained elements. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
 `dropRight(<collection>[,n=1]);` | Drop the last N elements of a collection and return the remained elements in an array. The original collection will be not changed. The collection parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1.
@@ -404,7 +414,7 @@ Name | Description
 `head(<collection>);` | This is an alias of the `first(<collection>);`.
 `includes(<collection>,<value>);` | This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. All of the parameters are mandatory.
 `initial(<collection>);` | Returns an array with the values of the given collection, but without the last value. <br>__Example:__<br>`CEL.initial([-5, 2, -9, 7, 34]);`<br>-><br>`[-5, 2, -9, 7]`
-`isSuperset(<superCollection>,<subCollection>);` | This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
+`isSuperset(<superCollection>,<subCollection>);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.
 `item(<collection>,<index>);` | This function returns the item from the given collection on the given index. The collection parameter is mandatory and has to be any type of JavaScript collections. The index is mandatory and can be positive number (examples: 0 = the first item, 1 = the second item, 2 = the third item, etc.) Compatible with the Unicode strings.
 `iterCycle(<iter>[,n=Infinity]);` | Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRange([start=0[,step=1[,end=Infinity]]]);` | Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
@@ -421,10 +431,10 @@ Name | Description
 `reduce(<collection>,<callback>[,initialvalue]);` | This function executes a reducer function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function. The initialvalue parameter is optional and can be any variable type of the Javascript.
 `reject(<collection>,<callback>);` | This is the opposite of the function `filter(<collection>,<callback>);`. The elements to which the given callback gives a false will be yield. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
 `reverse(<collection>);` | This function returns an array with values of the given collection in reverse order. The collection parameter is mandatory.
-`setDifference(<set1>,<set2>);` | Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.
-`setIntersection(<set1>,<set2>);` | Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
-`setSymmetricDifference(<set1>,<set2>);` | Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
-`setUnion(<collection1>[,collectionN]);` | Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.
+`setDifference(<set1>,<set2>);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.
+`setIntersection(<set1>,<set2>);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
+`setSymmetricDifference(<set1>,<set2>);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.
+`setUnion(<collection1>[,collectionN]);` | __Deprecated in v5.6.2. Will be removed in 5.7.0.__ <br> Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.
 `size(<collection>);` | This function returns the count of the elements in the given collection. The collection parameter is mandatory. The return value is an integer.
 `shuffle(<collection>);` | Returns an array with the values of the given collection, but in shuffled order. <br>__Example:__<br>`CEL.shuffle(["first",4,5,6,7,8,9,"last"]);`<br>-><br>`[4,8,5,6,"last",9,7,"first"]`
 `slice(<collection>[,begin=0[,end=Infinity]]);` | Take a slice of a collection and yield the elements. The collection parameter is mandatory. The begin parameter is optional and can be a number and the default value is 0. The end parameter is optional and can be a number and the default value is Infinity.
@@ -489,6 +499,7 @@ Name | Description
 `isUInt8(<value>);` | This function determines whether the provided value is an integer between 0 and 255. The return value is boolean.
 `isUInt16(<value>);` | This function determines whether the provided value is an integer between 0 and 65535. The return value is boolean.
 `isUInt32(<value>);` | This function determines whether the provided value is an integer between 0 and 4294967295. The return value is boolean.
+`isFloat16(<value>);` | This function determines whether the provided value is a number between -65504 and 65504. The return value is boolean.
 `minmax(<value>,<min>,<max>);` | This is an alias of the `clamp(<value>,<min>,<max>);`.
 `product(<value1>[,valueN]);` | This function returns the product value from the parameter values.
 `randomFloat([max]);` | Get a random float number value within 0 and max value. Without parameter the maximum value is 100.
@@ -499,6 +510,7 @@ Name | Description
 `sum(value1>[,valueN]);` | This function returns the sum value from the parameter values.
 `toBigInt64(<value>);` | This function clamps ("minmax") the given value to BigInt (Int64) value (-2^63 to 2^63 - 1).
 `toBigUInt64(<value>);` | This function clamps ("minmax") the given value to unsigned BigInt (Int64) value (0 to 2^64 - 1).
+`toFloat16(<value>);` | This function clamps ("minmax") the given value to float 16 value (-65504 to 65504).
 `toFloat32(<value>);` | This function clamps ("minmax") the given value to float 32 value (-3.4e38 to 3.4e38).
 `toInt8(<value>);` | This function clamps ("minmax") the given value to integer 8 value (-127 to 128).
 `toInt16(<value>);` | This function clamps ("minmax") the given value to integer 16 value (-32768 to 32767).

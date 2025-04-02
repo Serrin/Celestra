@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.6.1 dev
+ * @version 5.6.2 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -208,6 +208,20 @@ const BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const WORDSAFEALPHABET= "23456789CFGHJMPQRVWXcfghjmpqvwx";
+
+/* randomUUIDv7(): string */
+function randomUUIDv7 () {
+  let ts = Date.now().toString(16).padStart(12,"0")+"7";
+  let uuid = Array.from(([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,(c)=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)));
+  let i = 0, p = 0;
+  while (i<13) {
+    if (p === 8 || p === 13) { p++; }
+    uuid[p] = ts[i];
+    p++;
+    i++;
+  }
+  return uuid.join("");
+}
 
 /* delay(<ms: integer>).then(<callback: function>): promise */
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -1199,6 +1213,15 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
 
 /** Collections API **/
 
+/* count(<collection>,<callback: function>): integer */
+function count (it, fn) {
+  let i = 0, r = 0;
+  for (let item of it) {
+    if (fn(item, i++)) { r++; }
+  }
+  return r;
+}
+
 /* arrayDeepClone(<array>): array */
 function arrayDeepClone ([...a]) {
   const ADC = (v) => (Array.isArray(v) ? Array.from(v, ADC) : v);
@@ -1741,6 +1764,12 @@ const isBigInt64 = (v) => (typeof v === "bigint"
 const isBigUInt64 = (v) =>
   (typeof v === "bigint" ? (v >= 0 && v <= Math.pow(2,64)-1) : false);
 
+/* toFloat16(<value>): float16 */
+const toFloat16 = (v) => ((v = Math.min(Math.max(-65504, +v),65504))===v)?v:0;
+
+/* isFloat16(<value>): boolean */
+const isFloat16 = (v) => ((typeof v === "number" && v === v) ?(v>=-65504 && v<=65504) : false);
+
 /* signbit(<value: any>): boolean */
 const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
 
@@ -1763,7 +1792,7 @@ const inRange = (v, i, a) => (v >= i && v <= a);
 
 /** object header **/
 
-const VERSION = "Celestra v5.6.1 dev";
+const VERSION = "Celestra v5.6.2 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
@@ -1779,6 +1808,7 @@ var celestra = {
   BASE58: BASE58,
   BASE62: BASE62,
   WORDSAFEALPHABET: WORDSAFEALPHABET,
+  randomUUIDv7: randomUUIDv7,
   delay: delay,
   sleep: sleep,
   randomBoolean: randomBoolean,
@@ -1916,6 +1946,7 @@ var celestra = {
   removeCookie: removeCookie,
   clearCookies: clearCookies,
   /** Collections API **/
+  count: count,
   arrayDeepClone: arrayDeepClone,
   arrayCreate: arrayCreate,
   initial: initial,
@@ -2028,6 +2059,8 @@ var celestra = {
   isUInt32: isUInt32,
   isBigInt64: isBigInt64,
   isBigUInt64: isBigUInt64,
+  toFloat16: toFloat16,
+  isFloat16: isFloat16,
   signbit: signbit,
   randomInt: randomInt,
   randomFloat: randomFloat,

@@ -183,7 +183,7 @@ CUT.isNotEqual(
 (function(){
 "use strict";
 
-/* Celestra v5.6.1 testcases */
+/* Celestra v5.6.2 testcases */
 
 /* Not auto tested functions */
 CUT.addElement("hr");
@@ -254,6 +254,12 @@ CUT.isTrue("assertEq(); 1",    CEL.assertEq("lorem ipsum", 1, 1) );
 CUT.isTrue("assertEq(); 2",    CEL.assertEq("lorem ipsum", 1, true, false) );
 CUT.isTrue("assertNotEq(); 1", CEL.assertNotEq("lorem ipsum", 1, 2) );
 CUT.isTrue("assertNotEq(); 2", CEL.assertNotEq("lorem ipsum", 1, 2, false) );
+
+var randomUUIDv7Result = CEL.randomUUIDv7();
+CUT.isTrue("randomUUIDv7();",
+  CEL.isString(randomUUIDv7Result) && randomUUIDv7Result.length === 36
+);
+CUT.log("<code>\""+randomUUIDv7Result+"\"<code>");
 
 var nanoidStr = CEL.nanoid();
 CUT.isTrue("nanoid 1 - default size 21",
@@ -736,6 +742,12 @@ CEL.qs("#dsDiv").remove();
 
 CUT.addElement("hr");
 CUT.addElement("h3", "Collections");
+
+CUT.isTrue("count();",
+  CEL.count([1,2,3,4,5,6,7], (x) => x > 3) === 4
+    && CEL.count([1,2,3], (x) => x > 3) === 0
+    && CEL.count([4,5,6], (x) => x > 3) === 3
+);
 
 var arrayDeepCloneA1 = [[0, 1, [2]], [4, 5, [6]]];
 var arrayDeepCloneA2 = CEL.arrayDeepClone(arrayDeepCloneA1);
@@ -2387,6 +2399,45 @@ CUT.isTrue("randomFloat();", CEL.randomFloat() <= 101);
 CUT.isTrue("randomFloat(max);", CEL.randomFloat(30) <= 30);
 var testRandom = CEL.randomFloat(51,55);
 CUT.isTrue("randomFloat(min,max);", testRandom >= 51 && testRandom <= 55);
+
+var float16str = "#" + CEL.toFloat16(0)
+  + "#" + CEL.toFloat16(+0)
+  + "#" + CEL.toFloat16(-0)
+  + "#" + CEL.toFloat16(Number.POSITIVE_INFINITY)
+  + "#" + CEL.toFloat16(Number.NEGATIVE_INFINITY)
+  + "#" + CEL.toFloat16(3.14)
+  + "#" + CEL.toFloat16(-3.14)
+  + "#" + CEL.toFloat16(65504)
+  + "#" + CEL.toFloat16(-65504)
+  + "#" + CEL.toFloat16(65504.0)
+  + "#" + CEL.toFloat16(-65504.0)
+  + "#" + CEL.toFloat16(65504.1)
+  + "#" + CEL.toFloat16(-65504.1)
+  + "#" + CEL.toFloat16(65505)
+  + "#" + CEL.toFloat16(-65505)
+  + "#" + CEL.toFloat16("lorem");
+CUT.isEqual("toFloat16();", float16str,
+  "#0#0#0#65504#-65504#3.14#-3.14#65504#-65504#65504#-65504#65504#-65504#65504#-65504#0"
+);
+CUT.log("<code>\""+float16str+"\"</code>");
+
+var float16str = ""
+  + +CEL.isFloat16(0)
+  + +CEL.isFloat16(+0)
+  + +CEL.isFloat16(-0)
+  + +CEL.isFloat16(65504)
+  + +CEL.isFloat16(-65504)
+  + +CEL.isFloat16(3.14)
+  + +CEL.isFloat16(-3.14)
+  + +CEL.isFloat16(65504.1)
+  + +CEL.isFloat16(-65504.1)
+  + +CEL.isFloat16(65505)
+  + +CEL.isFloat16(-65505)
+  + +CEL.isFloat16("lorem")
+  + +CEL.isFloat16(true)
+  + +CEL.isFloat16([]);
+CUT.isEqual("isFloat16();", float16str, "11111110000000");
+CUT.log("<code>\""+float16str+"\"</code>");
 
 CUT.isTrue(
   "signbit();",

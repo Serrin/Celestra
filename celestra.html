@@ -65,6 +65,30 @@ nav a, nav a:visited, nav a:active, nav a:hover {
     &nbsp;/&nbsp;
     <a href="#" onclick=" CEL.importStyle('u87-light.css'); " class="nobr"><i>Light</i></a>
   </b></nav>
+  <div class="center">
+    <br/>
+    <a href="#FNcoreAPI" style="color: white !important">Core API</a>
+    &nbsp;//&nbsp;
+    <a href="#FNdomAPI" style="color: white !important">DOM API</a>
+    &nbsp;//&nbsp;
+    <a href="#FNstringAPI" style="color: white !important">String API</a>
+    &nbsp;//&nbsp;
+    <a href="#FNajaxAPI" style="color: white !important">AJAX and CORS API</a>
+    &nbsp;//&nbsp;
+    <a href="#FNcookieAPI" style="color: white !important">Cookie API</a>
+    &nbsp;//&nbsp;
+    <a href="#FNcollectionsAPI" style="color: white !important">Collections API</a>
+    <br/>
+    <a href="#FNtypecheckingAPI" style="color: white !important">Type checking API</a>
+    &nbsp;//&nbsp;
+    <a href="#FNabstractAPI" style="color: white !important">Abstract API</a>
+    &nbsp;//&nbsp;
+    <a href="#FNmathAPI" style="color: white !important">Math API</a>
+    &nbsp;//&nbsp;
+    <a href="#FNpolyfillsAPI" style="color: white !important">Polyfills</a>
+    &nbsp;//&nbsp;
+    <a href="#FNnonstandardpolyfillsAPI" style="color: white !important">Non-standard polyfills</a>
+  </div>
 </header>
 <main class="container">
 
@@ -75,8 +99,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.6.1</p>
-<p>Date: 2024-06-06T19:12:17.009Z</p>
+<p>Latest version: 5.6.2</p>
+<p>Date: 2024-04-01T19:36:08.402Z</p>
 
 <p><b>Tested on these browsers:</b></p>
 
@@ -124,6 +148,24 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 </table>
 
 <p>DEV and MIN editions: If the <code>CEL</code> global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the <code>noConflict();</code> function.</p>
+
+
+<h3>Github pages</h3>
+
+<table class="table-responsive-sm table-striped">
+  <tr>
+    <td class="center"><b>version</b></td>
+    <td class="center"><b>page link</b></td>
+  </tr>
+  <tr>
+    <td>Stable</td>
+    <td><a href="https://github.com/Serrin/Celestra" target="_blank">https://github.com/Serrin/Celestra</a></td>
+  </tr>
+  <tr>
+    <td>Beta</td>
+    <td><a href="https://github.com/Serrin/Celestra-beta" target="_blank">https://github.com/Serrin/Celestra-beta</a></td>
+  </tr>
+</table>
 
 
 <h3>Removed polyfills</h3>
@@ -223,7 +265,7 @@ window.CEL = defaultExport;
 
 <p><span class="removed">Removed</span> and <span class="deprecated">Deprecated</span> labels: Don't use these in production.</p>
 
-<h3>Core API</h3>
+<h3 id="FNcoreAPI">Core API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.sleep();</code></p>
@@ -394,6 +436,10 @@ console.log(o2);
         <br/>Generate a random string. The length parameter is optional and can be a number and the default value is 100. The specialCharactersEnabled parameter is optional and can be a boolean and the default value is false. Return the generated string.</td>
     </tr>
     <tr>
+      <td><code>randomUUIDv7();</td>
+      <td>This function returns a UUID v7, which cointains a timestamp too. For more information please read the <a href="https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7" target="_blank">this page</a>!<br/>Example result: <code>"0195d74b-b8c8-7302-a7d3-919df45087f3"</code></td>
+    </tr>    
+    <tr>
       <td><code>sizeIn(&#60;object&#62;);</code></td>
       <td>Returns the count of the owned properties of the given object. The object parameter is mandatory.</td>
     </tr>
@@ -421,7 +467,7 @@ console.log(o2);
 </div>
 
 
-<h3>String API</h3>
+<h3 id="FNstringAPI">String API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.strPropercase();</code></p>
@@ -491,7 +537,7 @@ console.log(o2);
 </div>
 
 
-<h3>DOM API</h3>
+<h3 id="FNdomAPI">DOM API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.domCreate();</code></p>
@@ -671,7 +717,7 @@ console.log(o2);
   </table>
 </div>
 
-<h3>AJAX and CORS API</h3>
+<h3 id="FNajaxAPI">AJAX and CORS API</h3>
 
 <p class="info">
   These functions aren't deprecated, but it's recommend to use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">Fetch API</a>, because it's <a href="https://caniuse.com/?search=fetch" target="_blank">supported</a> in every modern browsers.
@@ -715,7 +761,7 @@ console.log(o2);
 </ul>
 
 
-<h3 id="typechecking">Type checking API</h3>
+<h3 id="FNtypecheckingAPI">Type checking API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.isString();</code></p>
@@ -927,7 +973,7 @@ console.log(o2);
   </table>
 </div>
 
-<h3 id="cookie">Cookie API</h3>
+<h3 id="FNcookieAPI">Cookie API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.setCookie();</code></p>
@@ -1017,10 +1063,10 @@ console.log(o2);
   </table>
 </div>
 
-<h3 id="cookie">Collections API</h3>
+<h3 id="FNcollectionsAPI">Collections API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
-<br/>Example: <code>CEL.arrayUnion();</code></p>
+<br/>Example: <code>CEL.arrayAdd();</code></p>
 
 <div>
   <table class="table-responsive table-striped">
@@ -1050,11 +1096,17 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>arrayDifference(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
-      <td>Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>Returns the array of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</p>
+      </td>
     </tr>
     <tr>
       <td><code>arrayIntersection(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
-      <td>Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>Returns the array of unique values that are in both of the given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</p>
+      </td>
     </tr>
     <tr>
       <td><code>arrayMerge(&#60;target&#62;,&#60;source1&#62;[,sourceN]);</code></td>
@@ -1081,11 +1133,17 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>arraySymmetricDifference(&#60;collection1&#62;,&#60;collection2&#62;);</code></td>
-      <td>Returns the array of unique values that are only in one of given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>Returns the array of unique values that are only in one of given collections. All of the parameters are mandatory and can be any type of JavaScript collections. The return value is an Array.</p>
+      </td>
     </tr>
     <tr>
       <td><code>arrayUnion(&#60;collection1&#62;[,collectionN]);</code></td>
-      <td>Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>Returns the array of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is an Array.</p>
+      </td>
     </tr>
     <tr>
       <td><code>arrayUnique(&#60;collection&#62;);</code></td>
@@ -1094,6 +1152,10 @@ console.log(o2);
     <tr>
       <td><code>concat(&#60;collection1&#62;[,collectionN]);</code></td>
       <td>This function merges the collections and yields the elements of the merged collection. The given collections will be not changed. At least one collection has to been given.</td>
+    </tr>
+    <tr>
+      <td><code>count((&#60;collection&#62;,&#60;callback&#62;););</code></td>
+      <td>This function executes a counter function (that you provide) on each element of the collection, returning in a single output value. The collection parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
     </tr>
     <tr>
       <td><code>contains(&#60;collection&#62;,&#60;value&#62;);</code></td>
@@ -1190,7 +1252,10 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isSuperset(&#60;superCollection&#62;,&#60;subCollection&#62;);</code></td>
-      <td>This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>This function determines whether the first provided collection is superset of the second collection. The parameters are mandatory and all parameters can be any type of JavaScript collections. The return value is a boolean.</p>
+      </td>
     </tr>
     <tr>
       <td><code>item(&#60;collection&#62;,&#60;index&#62;);</code></td>
@@ -1269,19 +1334,31 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>setDifference(&#60;set1&#62;,&#60;set2&#62;);</code></td>
-      <td>Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>Returns the set of unique values that are in the collection1, excluding the values that are also in the collection2. All of the parameters are mandatory and have to be a Set. The return value is a Set.</p>
+      </td>
     </tr>
     <tr>
       <td><code>setIntersection(&#60;set1&#62;,&#60;set2&#62;);</code></td>
-      <td>Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>Returns the set of unique values that are in both of the given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</p>
+      </td>
     </tr>
     <tr>
       <td><code>setSymmetricDifference(&#60;set1&#62;,&#60;set2&#62;);</code></td>
-      <td>Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>Returns the set of unique values that are only in one of given collections. All of the parameters are mandatory and have to be a Set. The return value is a Set.</p>
+      </td>
     </tr>
     <tr>
       <td><code>setUnion(&#60;collection1&#62;[,collectionN]);</code></td>
-      <td>Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.</td>
+      <td>
+        <p><span class="deprecated">Deprecated in v5.6.2. Will be removed in 5.7.0.<span></span></p>
+        <p>Returns the set of unique values including all values from the given collections. The first parameter is mandatory and all parameters can be any type of JavaScript collections. The return value is a Set.</p>
+      </td>
     </tr>
     <tr>
       <td><code>size(&#60;collection&#62;);</code></td>
@@ -1359,7 +1436,7 @@ console.log(o2);
 </div>
 
 
-<h3>Abstract API</h3>
+<h3 id="FNabstractAPI">Abstract API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.getIn();</code></p>
@@ -1447,7 +1524,7 @@ console.log(o2);
 </div>
 
 
-<h3>Math API</h3>
+<h3 id="FNmathAPI">Math API</h3>
 
 <p>These functions are available in the <code>celestra</code> and/or <code>CEL</code> objects.
 <br/>Example: <code>CEL.sum();</code></p>
@@ -1511,6 +1588,10 @@ console.log(o2);
       <td>This function determines whether the provided value is an integer between 0 and 4294967295. The return value is boolean.</td>
     </tr>
     <tr>
+      <td><code>isFloat16(&#60;value&#62;);</code></td>
+      <td>This function determines whether the provided value is a number between -65504 and 65504. The return value is boolean.</td>
+    </tr>
+    <tr>
       <td><code>minmax(&#60;value&#62;,&#60;min&#62;,&#60;max&#62;);</code></td>
       <td>This is an alias of the <code>clamp(&#60;value&#62;,&#60;min&#62;,&#60;max&#62;);</code>.</td>
     </tr>
@@ -1561,6 +1642,10 @@ Otherwise, the result is false.</pre>
       <td>This function clamps ("minmax") the given value to unsigned BigInt (Int64) value (0 to 2^64 - 1).</td>
     </tr>
     <tr>
+      <td><code>toFloat16(&#60;value&#62;);</code></td>
+      <td>This function clamps ("minmax") the given value to float 16 value (-65504 to 65504).</td>
+    </tr>
+    <tr>
       <td><code>toFloat32(&#60;value&#62;);</code></td>
       <td>This function clamps ("minmax") the given value to float 32 value (-3.4e38 to 3.4e38).</td>
     </tr>
@@ -1588,7 +1673,7 @@ Otherwise, the result is false.</pre>
 </div>
 
 
-<h3 id="polyfills">Polyfills</h3>
+<h3 id="FNpolyfillsAPI">Polyfills</h3>
 
 <div>
   <table class="table-responsive table-striped">
@@ -1668,7 +1753,7 @@ Otherwise, the result is false.</pre>
 </div>
 
 
-<h3 id="non-standard-polyfills">Non-standard polyfills</h3>
+<h3 id="FNnonstandardpolyfillsAPI">Non-standard polyfills</h3>
 
 <div>
   <table class="table-responsive table-striped">
@@ -2198,6 +2283,9 @@ var str = "✓ à \r\n\t árvíztűrő tükörfúrógép ÁRVÍZTŰRŐ TÜKÖRF�
       <div class="flex-w-33">
         <p><b>Celestra Unit Tester</b></p>
         <p><a href="unittest.html" target="_blank">CUT</a></p>
+        <p><b>Github pages</b></p>
+        <p><a href="https://github.com/Serrin/Celestra" target="_blank">Stable</a></p>
+        <p><a href="https://github.com/Serrin/Celestra-beta" target="_blank">Beta</a></p>
       </div>
       <div class="flex-w-33">
         <p><b>Themes</b></p>
