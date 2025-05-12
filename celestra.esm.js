@@ -1,5 +1,6 @@
 "use strict";
-/** Celestra * @version 5.6.4 esm * @see https://github.com/Serrin/Celestra/ * @license MIT */
+/** Celestra * @version 5.6.5 esm * @see https://github.com/Serrin/Celestra/ * @license MIT */
+if(!("sumPrecise" in Math)){Math.sumPrecise=function sumPrecise([...a]){if(a.length===0){return-0;}if(a.every((v)=>typeof v==="number")){let inf=a.indexOf(Infinity)>-1,negInf=a.indexOf(-Infinity)>-1;if(a.some((v)=>v!==v)||(inf&&negInf)){return NaN;}if(inf){return Infinity;}if(negInf){return -Infinity;}let hi=a.filter((v)=>(v===1e20||v===-1e20)).reduce((acc,v)=>acc+v,0);let lo=0.0,c=0.0;for(let item of a.filter((v)=>(v!==1e20&&v!==-1e20))){let y=item-c;let t=lo+y;c=(t-lo)-y;lo=t;}if((lo===0&&hi!==0)||(lo>0&&hi>0)||(lo<0&&hi<0)){return hi;}if((lo>0&&hi<0)||(lo<0&&hi>0)){return lo+hi;}return lo;}throw new TypeError("values passed to Math.sumPrecise must be numbers");};}
 if(!("isError" in Error)){Error.isError=function isError(v){let s=Object.prototype.toString.call(v).slice(8,-1).toLowerCase();return(s==="error"||s==="domexception");};}
 if(!("groupBy" in Object)){Object.defineProperty(Object,"groupBy",{"configurable":true,"writable":true,"enumerable":true,"value":function(items,callbackFn){"use strict";if(!(typeof callbackFn==="function")){throw new TypeError();}let r=Object.create(null),i=0;for(let item of items){let key=callbackFn(item,i++);if(!(Object.prototype.hasOwnProperty.call(r,key))){r[key]=[];}r[key].push(item);}return r;}});}
 if(!("groupBy" in Map)){Object.defineProperty(Map,"groupBy",{"configurable":true,"writable":true,"enumerable":true,"value":function(items,callbackFn){"use strict";if(!(typeof callbackFn==="function")){throw new TypeError();}let r=new Map(),i=0;for(let item of items){let key=callbackFn(item,i++);if(!(r.has(key))){r.set(key,[]);}r.get(key).push(item);}return r;}});}
@@ -34,6 +35,7 @@ function inherit(c,p){c.prototype=Object.create(p.prototype);c.prototype.constru
 const getUrlVars=(str=location.search)=>[...new URLSearchParams(str).entries()].reduce(function(o,item){o[item[0]]=item[1];return o;},{});
 const obj2string=(o)=>Object.keys(o).reduce((s,p)=>s+=encodeURIComponent(p)+"="+encodeURIComponent(o[p])+"&","").slice(0,-1);
 function classof(v,t,th=false){var ot=Object.prototype.toString.call(v).slice(8,-1).toLowerCase();if(arguments.length<2){return ot;}if(!th){return ot===t.toLowerCase();}if(ot!==t.toLowerCase()){throw TypeError("Celestra classof(); type error: "+ot+" - "+t);}return true;}
+function getType(v,t,th=false){var ot=Object.prototype.toString.call(v).slice(8,-1).toLowerCase();if(arguments.length<2){return ot;}if(!th){return ot===t.toLowerCase();}if(ot!==t.toLowerCase()){throw TypeError("Celestra getType(); type error: "+ot+" - "+t);}return true;}
 function extend(...a){function EXT(...as){if(typeof as[0]==="boolean"){var t=as[1],d=as[0],s=2;}else{var t=as[0],d=false,s=1;}for(var i=s,l=as.length,so;i<l;i++){so=as[i];if(so!=null){for(var p in so){if(Object.hasOwn(so,p)){if(typeof so[p]==="object"&&d){t[p]=EXT(true,{},so[p]);}else{t[p]=so[p];}}}}}return t;}return EXT(...a);}
 const sizeIn=(o)=>Object.keys(o).length;
 function forIn(o,fn){Object.keys(o).forEach((v)=>fn(o[v],v,o));return o;}
@@ -106,6 +108,7 @@ const isTruthy=(v)=>!!v;
 const isFalsy=(v)=>!v;
 const isAsyncGeneratorFn=(v)=>(Object.getPrototypeOf(v).constructor===Object.getPrototypeOf(async function*(){}).constructor);
 const isConstructorFn=(v)=>(typeof v==="function"&&typeof v.prototype==="object");
+const isClass=(v)=>(typeof v==="function"&&typeof v.prototype==="object");
 const isPlainObject=(v)=>(v!=null&&typeof v==="object"&&(Object.getPrototypeOf(v)===Object.prototype||Object.getPrototypeOf(v)===null));
 const isEmptyMap=(v)=>(v instanceof Map&&v.size===0);
 const isEmptySet=(v)=>(v instanceof Set&&v.size===0);
@@ -218,11 +221,13 @@ const takeRight=([...a],n=1)=>a.reverse().slice(0,n);
 function*takeRightWhile([...a],fn){let i=0;for(let item of a.reverse()){if(fn(item,i++)){yield item;}else{break;}}}
 const dropRight=([...a],n=1)=>a.reverse().slice(n);
 function* dropRightWhile([...a],fn){let d=true,i=0;for(let item of a.reverse()){if(d&&!fn(item,i++)){d=false;}if(!d){yield item;}}}
-function*concat(){for(let item of arguments){yield* item;}}
+function*concat(){for(let item of arguments){if(typeof item[Symbol.iterator]==="function"||("Iterator" in window?(item instanceof Iterator):(typeof item==="object"&&typeof item.next==="function"))){yield* item;}else{yield item;}}}
 function reduce(it,fn,iv){let acc=iv,i=0;for(let item of it){if(i===0&&acc===undefined){acc=item;}else{acc=fn(acc,item,i++);}}return acc;}
 function*enumerate(it,offset=0){let i=offset;for(let item of it){yield [i++,item];}}
 function*entries(it,offset=0){let i=offset;for(let item of it){yield [i++,item];}}
-function*flat(it){for(let item of it){yield* item;}}
+
+function*flat(it){for(let item of it){if(typeof item[Symbol.iterator]==="function"||("Iterator" in window ? (item instanceof Iterator):(typeof item==="object"&&typeof item.next==="function"))){yield* item;}else{yield item;}}}
+
 function join(it,sep=","){sep=String(sep);let r="";for(let item of it){r+=sep+item;}return r.slice(sep.length);}
 const withOut=([...a],[...fl])=>a.filter((e)=>fl.indexOf(e)===-1);
 function getInV(V,P){if(V==null){throw TypeError();}return Object(V)[P];}
@@ -231,33 +236,43 @@ const setIn=(O,P,V)=>{O[P]=V;return O;}
 const hasIn=(O,P)=>(P in O);
 const isPropertyKey=(v)=>(typeof v==="string"||typeof v==="symbol");
 const toPropertyKey=(v)=>(typeof v==="symbol"?v:String(v));
-function toObject(v){if(v==null){throw TypeError();}return Object(v);}
+function toObject(O){if(O==null){throw new TypeError();}if(["symbol","object","function"].includes(typeof O)){return O;}return Object(O);}
+function toPrimitiveValue(O){if(O==null||typeof O!=="object"){ return O;}var ot=Object.prototype.toString.call(O).slice(8,-1);if(["Boolean","BigInt","Number","String"].includes(ot)){return window[ot](O);}return O;}
+function toPrimitive(O,hint="default"){const _apply=Function.prototype.call.bind(Function.prototype.apply);const _isPrimitive=(v)=>((typeof v!=="object"&&typeof v!=="function")||v===null);if(_isPrimitive(O)){return O;}let method=O[Symbol.toPrimitive];if(method!=null){let r=_apply(method,O,[]);if(_isPrimitive(r)){return r;}}else{for(let item of(hint==="string"?["toString","valueOf"]:["valueOf","toString"])){method=O[item];if(typeof method==="function"){let r=_apply(method,O,[]);if(_isPrimitive(r)){return r;}}}}throw new TypeError("celestra.toPrimitive(): Cannot convert object to primitive value");}
 const isSameValue=(v1,v2)=>((v1===v2)?(v1!==0||1/v1===1/v2):(v1!==v1&&v2!==v2));
 const isSameValueZero=(v1,v2)=>(v1===v2||(v1!==v1&&v2!==v2));
 const isSameValueNonNumber=(v1,v2)=>(v1===v2);
 const createMethodProperty=(O,P,V)=>Object.defineProperty(O,P,{value:V,writable:true,enumerable:false,configurable:true});
+function createMethodPropertyOrThrow(O,P,V){Object.defineProperty(O,P,{writable:true,enumerable:false,configurable:true,value:V});if(!(Object.hasOwn(O,P))){throw new Error();}return O;}
+function createPolyfillMethod(O,P,V){if(!(Object.hasOwn(O,P))){Object.defineProperty(O,P,{writable:true,enumerable:false,configurable:true,value:V});}return Object.hasOwn(O,P);}
+function createPolyfillProperty(O,P,V){if(!(Object.hasOwn(O,P))){Object.defineProperty(O,P,{writable:true,enumerable:true,configurable:true,value:V});}return Object.hasOwn(O,P);}
+function deleteOwnProperty(O,P,Throw=false){if(Object.hasOwn(O,P)){delete O[P];var r=Object.hasOwn(O,P);if(r&&Throw){throw new Error("Celestra.deleteOwnProperty(); error");}return +!r;}return -1;}
 const type=(v)=>((v===null)?"null":(typeof v));
 const isIndex=(v)=>(Number.isSafeInteger(v)&&v>=0&&1/v!==1/-0);
-const toIndex=(v)=>((v=Math.min(Math.max(0,Math.trunc(+v)),2147483647))===v)?v:0;
-const toInteger=(v)=>((v=Math.min(Math.max(-2147483648,Math.trunc(+v)),2147483647))===v)?v:0;
+const isLength=(v)=>(Number.isSafeInteger(v)&&v>=0&&1/v!==1/-0);
+const toIndex=(v)=>((v=Math.min(Math.max(0,Math.trunc(Number(v))),2147483647))===v)?v:0;
+const toLength=(v)=>((v=Math.min(Math.max(0,Math.trunc(Number(v))),2147483647))===v)?v:0;
+const toInteger=(v)=>((v=Math.min(Math.max(-2147483648, Math.trunc(Number(v))),2147483647))===v)?v:0;
+function toIntegerOrInfinity(v){v=Number(v);if(1/v===Infinity||1/v===-Infinity||v!==v){return 0;}if(v===Infinity||v===-Infinity){return v;}return Math.trunc(v);}
 const createDataProperty=(O,P,V)=>Object.defineProperty(O,P,{value:V,writable:true,enumerable:true,configurable:true});
-function toArray(O){return(Array.isArray(O)?O:Array.from(O));}
+function createDataPropertyOrThrow(O,P,V){Object.defineProperty(O,P,{writable:true,enumerable:true,configurable:true,value:V});if(!(Object.hasOwn(O,P))){throw new Error();}return O;}
+const toArray=(O)=>(Array.isArray(O)?O:Array.from(O));
 const sum=(f,...a)=>a.reduce((acc,v)=>acc+v,f);
 const avg=(f,...a)=>a.reduce((acc,v)=>acc+v,f)/(a.length+1);
 const product=(f,...a)=>a.reduce((acc,v)=>acc*v,f);
-const clamp=(v,i,a)=>(v>a?a:v<i?i:v);
-const minmax=(v,i,a)=>(v>a?a:v<i?i:v);
+const clamp=(v,min,max)=>(v>max?max:v<min?min:v);
+const minmax=(v,min,max)=>(v>max?max:v<min?min:v);
 function isEven(v){var r=v%2;if(!Number.isNaN(r)){return r===0;}return false;}
 function isOdd(v){var r=v%2;if(!Number.isNaN(r)){return r!==0;}return false;}
-const toInt8=(v)=>((v=Math.min(Math.max(-128,Math.trunc(+v)),127))===v)?v:0;
-const toUInt8=(v)=>((v=Math.min(Math.max(0,Math.trunc(+v)),255))===v)?v:0;
-const toInt16=(v)=>((v=Math.min(Math.max(-32768,Math.trunc(+v)),32767))===v)?v:0;
-const toUInt16=(v)=>((v=Math.min(Math.max(0,Math.trunc(+v)),65535))===v)?v:0;
-const toInt32=(v)=>((v=Math.min(Math.max(-2147483648,Math.trunc(+v)),2147483647))===v)?v:0;
-const toUInt32=(v)=>((v=Math.min(Math.max(0,Math.trunc(+v)),4294967295))===v)?v:0;
-const toBigInt64=(v)=>BigInt(typeof v==="bigint"?(v>Math.pow(2,63)-1?Math.pow(2,63)-1:v<Math.pow(-2,63)?Math.pow(-2,63):v):((v=Math.min(Math.max(Math.pow(-2,63),Math.trunc(+v)),Math.pow(2,63)-1))===v)?v:0);
-const toBigUInt64=(v)=>BigInt(typeof v==="bigint"?(v>Math.pow(2,64)-1?Math.pow(2,64)-1:v<0?0:v):((v=Math.min(Math.max(0,Math.trunc(+v)),Math.pow(2,64)-1))===v)?v:0);
-const toFloat32=(v)=>((v=Math.min(Math.max(-3.4e38,+v),3.4e38))===v)?v:0;
+const toInt8=(v)=>((v=Math.min(Math.max(-128,Math.trunc(Number(v))),127))===v)?v:0;
+const toUInt8=(v)=>((v=Math.min(Math.max(0,Math.trunc(Number(v))),255))===v)?v:0;
+const toInt16=(v)=>((v=Math.min(Math.max(-32768,Math.trunc(Number(v))),32767))===v)?v:0;
+const toUInt16=(v)=>((v=Math.min(Math.max(0,Math.trunc(Number(v))),65535))===v)?v:0;
+const toInt32=(v)=>((v=Math.min(Math.max(-2147483648,Math.trunc(Number(v))),2147483647))===v)?v:0;
+const toUInt32=(v)=>((v=Math.min(Math.max(0,Math.trunc(Number(v))),4294967295))===v)?v:0;
+const toBigInt64=(v)=>BigInt(typeof v==="bigint"?(v>Math.pow(2,63)-1?Math.pow(2,63)-1:v<Math.pow(-2,63)?Math.pow(-2,63):v):((v=Math.min(Math.max(Math.pow(-2,63),Math.trunc(Number(v))),Math.pow(2,63)-1))===v)?v:0);
+const toBigUInt64=(v)=>BigInt(typeof v==="bigint"?(v>Math.pow(2,64)-1?Math.pow(2,64)-1:v<0?0:v):((v=Math.min(Math.max(0,Math.trunc(Number(v))),Math.pow(2,64)-1))===v)?v:0);
+const toFloat32=(v)=>((v=Math.min(Math.max(-3.4e38,Number(v)),3.4e38))===v)?v:0;
 const isInt8=(v)=>(Number.isInteger(v)?(v>=-128&&v<=127):false);
 const isUInt8=(v)=>(Number.isInteger(v)?(v>=0&&v<=255):false);
 const isInt16=(v)=>(Number.isInteger(v)?(v>=-32768&&v<=32767):false);
@@ -266,15 +281,19 @@ const isInt32=(v)=>(Number.isInteger(v)?(v>=-2147483648&&v<=2147483647):false);
 const isUInt32=(v)=>(Number.isInteger(v)?(v>=0&&v<=4294967295):false);
 const isBigInt64=(v)=>(typeof v==="bigint"?(v>=Math.pow(-2,63)&&v<=Math.pow(2,63)-1):false);
 const isBigUInt64=(v)=>(typeof v==="bigint"?(v>=0&&v<=Math.pow(2,64)-1):false);
-const toFloat16=(v)=>((v=Math.min(Math.max(-65504,+v),65504))===v)?v:0;
+const toFloat16=(v)=>((v=Math.min(Math.max(-65504,Number(v)),65504))===v)?v:0;
 const isFloat16=(v)=>((typeof v==="number"&&v===v)?(v>=-65504&&v<=65504):false);
-const signbit=(v)=>(((v=+v)!==v)?!1:((v<0)||Object.is(v,-0)));
-function randomInt(i=100,a){if(a==null){a=i;i=0;}i=Math.ceil(+i);return Math.floor(Math.random()*(Math.floor(+a)-i+1)+i);}
+const signbit=(v)=>(((v=Number(v))!==v)?!1:((v<0)||Object.is(v,-0)));
+function randomInt(i=100,a){if(a==null){a=i;i=0;}i=Math.ceil(Number(i));return Math.floor(Math.random()*(Math.floor(Number(a))-i+1)+i);}
 function randomFloat(i=100,a){if(a==null){a=i;i=0;}var r=(Math.random()*(a-i+1))+i;return r>a?a:r;}
-const inRange=(v,i,a)=>(v>=i&&v<=a);
-const VERSION="Celestra v5.6.4 esm";
+const inRange=(v,min,max)=>(v>=min&&v<=max);
+const VERSION="Celestra v5.6.5 esm";
 function noConflict(){return celestra;}
-var celestra = {VERSION:VERSION, noConflict:noConflict, BASE16:BASE16, BASE32:BASE32, BASE36:BASE36, BASE58:BASE58, BASE62:BASE62, WORDSAFEALPHABET:WORDSAFEALPHABET, randomUUIDv7:randomUUIDv7, delay:delay, sleep:sleep, randomBoolean:randomBoolean, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVars:getUrlVars, obj2string:obj2string, classof:classof, extend:extend, sizeIn:sizeIn, forIn:forIn, filterIn:filterIn, popIn:popIn, unBind:unBind, bind:bind, constant:constant, identity:identity, noop:noop, T:T, F:F, assertEq:assertEq, assertNotEq:assertNotEq, assertTrue:assertTrue, assertFalse:assertFalse, nanoid:nanoid, timestampID:timestampID, strPropercase:strPropercase, strTitlecase:strTitlecase, strCapitalize:strCapitalize, strUpFirst:strUpFirst, strDownFirst:strDownFirst, strReverse:strReverse, strCodePoints:strCodePoints, strFromCodePoints:strFromCodePoints, strAt:strAt, strSplice:strSplice, strHTMLRemoveTags:strHTMLRemoveTags, strHTMLEscape:strHTMLEscape, strHTMLUnEscape:strHTMLUnEscape, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, domSiblingsPrev:domSiblingsPrev, domSiblingsLeft:domSiblingsLeft, domSiblingsNext:domSiblingsNext, domSiblingsRight:domSiblingsRight, importScript:importScript, importStyle:importStyle, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff, domGetCSSVar:domGetCSSVar, domSetCSSVar:domSetCSSVar, domScrollToTop:domScrollToTop, domScrollToBottom:domScrollToBottom, domScrollToElement:domScrollToElement, getText:getText, getJson:getJson, ajax:ajax, isTruthy:isTruthy, isFalsy:isFalsy, isAsyncGeneratorFn:isAsyncGeneratorFn, isConstructorFn:isConstructorFn, isPlainObject:isPlainObject, isEmptyMap:isEmptyMap, isEmptySet:isEmptySet, isEmptyIterator:isEmptyIterator, isDataView:isDataView, isError:isError, isPromise:isPromise, isSameObject:isSameObject, isSameArray:isSameArray, isSameMap:isSameMap, isSameSet:isSameSet, isSameIterator:isSameIterator, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isCallable:isCallable, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGeneratorFn:isGeneratorFn, isAsyncFn:isAsyncFn, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, count:count, arrayDeepClone:arrayDeepClone, arrayCreate:arrayCreate, initial:initial, shuffle:shuffle, partition:partition, group:group, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, max:max, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, zipObj:zipObj, arrayUnique:arrayUnique, arrayAdd:arrayAdd, arrayClear:arrayClear, arrayRemove:arrayRemove, arrayRemoveBy:arrayRemoveBy, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, take:take, drop:drop, forEach:forEach, forEachRight:forEachRight, map:map, filter:filter, reject:reject, slice:slice, tail:tail, item:item, nth:nth, size:size, first:first, head:head, last:last, reverse:reverse, sort:sort, includes:includes, contains:contains, find:find, findLast:findLast, every:every, some:some, none:none, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concat:concat, reduce:reduce, enumerate:enumerate, entries:entries, flat:flat, join:join, withOut:withOut, getInV:getInV, getIn:getIn, setIn:setIn, hasIn:hasIn, isPropertyKey:isPropertyKey, toPropertyKey:toPropertyKey, toObject:toObject, isSameValue:isSameValue, isSameValueZero:isSameValueZero, isSameValueNonNumber:isSameValueNonNumber, createMethodProperty:createMethodProperty, type:type, isIndex:isIndex, toIndex:toIndex, toInteger:toInteger, createDataProperty:createDataProperty, toArray:toArray, sum:sum, avg:avg, product:product, clamp:clamp, minmax:minmax, isEven:isEven, isOdd:isOdd, toInt8:toInt8, toUInt8:toUInt8, toInt16:toInt16, toUInt16:toUInt16, toInt32:toInt32, toUInt32:toUInt32, toBigInt64:toBigInt64, toBigUInt64:toBigUInt64, toFloat32:toFloat32, isInt8:isInt8, isUInt8:isUInt8, isInt16:isInt16, isUInt16:isUInt16, isInt32:isInt32, isUInt32:isUInt32, isBigInt64:isBigInt64, isBigUInt64:isBigUInt64, toFloat16:toFloat16, isFloat16:isFloat16, toFloat16:toFloat16, isFloat16:isFloat16, signbit:signbit, randomInt:randomInt, randomFloat:randomFloat, inRange:inRange};
+const _apply=Function.prototype.call.bind(Function.prototype.apply);
+const _call=Function.prototype.call.bind(Function.prototype.call);
+const _forEach=Function.prototype.call.bind(Array.prototype.forEach);
+const _slice=Function.prototype.call.bind(Array.prototype.slice);
+var celestra={VERSION:VERSION, noConflict:noConflict, _apply:_apply, _call:_call, _forEach:_forEach, _slice:_slice, BASE16:BASE16, BASE32:BASE32, BASE36:BASE36, BASE58:BASE58, BASE62:BASE62, WORDSAFEALPHABET:WORDSAFEALPHABET, randomUUIDv7:randomUUIDv7, delay:delay, sleep:sleep, randomBoolean:randomBoolean, b64Encode:b64Encode, b64Decode:b64Decode, javaHash:javaHash, inherit:inherit, getUrlVars:getUrlVars, obj2string:obj2string, classof:classof, getType:getType, extend:extend, sizeIn:sizeIn, forIn:forIn, filterIn:filterIn, popIn:popIn, unBind:unBind, bind:bind, constant:constant, identity:identity, noop:noop, T:T, F:F, assertEq:assertEq, assertNotEq:assertNotEq, assertTrue:assertTrue, assertFalse:assertFalse, nanoid:nanoid, timestampID:timestampID, strPropercase:strPropercase, strTitlecase:strTitlecase, strCapitalize:strCapitalize, strUpFirst:strUpFirst, strDownFirst:strDownFirst, strReverse:strReverse, strCodePoints:strCodePoints, strFromCodePoints:strFromCodePoints, strAt:strAt, strSplice:strSplice, strHTMLRemoveTags:strHTMLRemoveTags, strHTMLEscape:strHTMLEscape, strHTMLUnEscape:strHTMLUnEscape, qsa:qsa, qs:qs, domReady:domReady, domCreate:domCreate, domToElement:domToElement, domGetCSS:domGetCSS, domSetCSS:domSetCSS, domFadeIn:domFadeIn, domFadeOut:domFadeOut, domFadeToggle:domFadeToggle, domHide:domHide, domShow:domShow, domToggle:domToggle, domIsHidden:domIsHidden, domSiblings:domSiblings, domSiblingsPrev:domSiblingsPrev, domSiblingsLeft:domSiblingsLeft, domSiblingsNext:domSiblingsNext, domSiblingsRight:domSiblingsRight, importScript:importScript, importStyle:importStyle, form2array:form2array, form2string:form2string, getDoNotTrack:getDoNotTrack, getLocation:getLocation, createFile:createFile, getFullscreen:getFullscreen, setFullscreenOn:setFullscreenOn, setFullscreenOff:setFullscreenOff, domGetCSSVar:domGetCSSVar, domSetCSSVar:domSetCSSVar, domScrollToTop:domScrollToTop, domScrollToBottom:domScrollToBottom, domScrollToElement:domScrollToElement, getText:getText, getJson:getJson, ajax:ajax, isTruthy:isTruthy, isFalsy:isFalsy, isAsyncGeneratorFn:isAsyncGeneratorFn, isConstructorFn:isConstructorFn, isClass:isClass, isPlainObject:isPlainObject, isEmptyMap:isEmptyMap, isEmptySet:isEmptySet, isEmptyIterator:isEmptyIterator, isDataView:isDataView, isError:isError, isPromise:isPromise, isSameObject:isSameObject, isSameArray:isSameArray, isSameMap:isSameMap, isSameSet:isSameSet, isSameIterator:isSameIterator, isString:isString, isChar:isChar, isNumber:isNumber, isFloat:isFloat, isNumeric:isNumeric, isBoolean:isBoolean, isObject:isObject, isEmptyObject:isEmptyObject, isFunction:isFunction, isCallable:isCallable, isEmptyArray:isEmptyArray, isArraylike:isArraylike, isNull:isNull, isUndefined:isUndefined, isNullOrUndefined:isNullOrUndefined, isNil:isNil, isPrimitive:isPrimitive, isSymbol:isSymbol, isMap:isMap, isSet:isSet, isWeakMap:isWeakMap, isWeakSet:isWeakSet, isIterator:isIterator, isDate:isDate, isRegexp:isRegexp, isElement:isElement, isIterable:isIterable, isBigInt:isBigInt, isArrayBuffer:isArrayBuffer, isTypedArray:isTypedArray, isGeneratorFn:isGeneratorFn, isAsyncFn:isAsyncFn, setCookie:setCookie, getCookie:getCookie, hasCookie:hasCookie, removeCookie:removeCookie, clearCookies:clearCookies, count:count, arrayDeepClone:arrayDeepClone, arrayCreate:arrayCreate, initial:initial, shuffle:shuffle, partition:partition, group:group, arrayUnion:arrayUnion, arrayIntersection:arrayIntersection, arrayDifference:arrayDifference, arraySymmetricDifference:arraySymmetricDifference, setUnion:setUnion, setIntersection:setIntersection, setDifference:setDifference, setSymmetricDifference:setSymmetricDifference, isSuperset:isSuperset, min:min, max:max, arrayRepeat:arrayRepeat, arrayCycle:arrayCycle, arrayRange:arrayRange, zip:zip, unzip:unzip, zipObj:zipObj, arrayUnique:arrayUnique, arrayAdd:arrayAdd, arrayClear:arrayClear, arrayRemove:arrayRemove, arrayRemoveBy:arrayRemoveBy, arrayMerge:arrayMerge, iterRange:iterRange, iterCycle:iterCycle, iterRepeat:iterRepeat, takeWhile:takeWhile, dropWhile:dropWhile, take:take, drop:drop, forEach:forEach, forEachRight:forEachRight, map:map, filter:filter, reject:reject, slice:slice, tail:tail, item:item, nth:nth, size:size, first:first, head:head, last:last, reverse:reverse, sort:sort, includes:includes, contains:contains, find:find, findLast:findLast, every:every, some:some, none:none, takeRight:takeRight, takeRightWhile:takeRightWhile, dropRight:dropRight, dropRightWhile:dropRightWhile, concat:concat, reduce:reduce, enumerate:enumerate, entries:entries, flat:flat, join:join, withOut:withOut, getInV:getInV, getIn:getIn, setIn:setIn, hasIn:hasIn, isPropertyKey:isPropertyKey, toPropertyKey:toPropertyKey, toObject:toObject, toPrimitiveValue:toPrimitiveValue, toPrimitive:toPrimitive, isSameValue:isSameValue, isSameValueZero:isSameValueZero, isSameValueNonNumber:isSameValueNonNumber, createMethodProperty:createMethodProperty, createMethodPropertyOrThrow:createMethodPropertyOrThrow, createPolyfillMethod:createPolyfillMethod, createPolyfillProperty:createPolyfillProperty, deleteOwnProperty:deleteOwnProperty, type:type, isIndex:isIndex, isLength:isLength, toIndex:toIndex, toLength:toLength, toInteger:toInteger, toIntegerOrInfinity:toIntegerOrInfinity, createDataProperty:createDataProperty, createDataPropertyOrThrow:createDataPropertyOrThrow, toArray:toArray, sum:sum, avg:avg, product:product, clamp:clamp, minmax:minmax, isEven:isEven, isOdd:isOdd, toInt8:toInt8, toUInt8:toUInt8, toInt16:toInt16, toUInt16:toUInt16, toInt32:toInt32, toUInt32:toUInt32, toBigInt64:toBigInt64, toBigUInt64:toBigUInt64, toFloat32:toFloat32, isInt8:isInt8, isUInt8:isUInt8, isInt16:isInt16, isUInt16:isUInt16, isInt32:isInt32, isUInt32:isUInt32, isBigInt64:isBigInt64, isBigUInt64:isBigUInt64, toFloat16:toFloat16, isFloat16:isFloat16, signbit:signbit, randomInt:randomInt, randomFloat:randomFloat, inRange:inRange};
 /* ESM */
 export default celestra;
 export {celestra};

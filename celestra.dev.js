@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.6.4 dev
+ * @version 5.6.5 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -8,6 +8,47 @@
 "use strict";
 
 /** polyfills **/
+
+/* Math.sumPrecise(); */
+if (!("sumPrecise" in Math)) {
+  Math.sumPrecise = function sumPrecise ([...a]) {
+    /* empty iterator */
+    if (a.length === 0) { return -0; }
+    /* iterator with items */
+    if (a.every((v) => typeof v === "number")) {
+      /* return NaN + Infinity + -Infinity */
+      let inf = a.indexOf(Infinity) >- 1, negInf = a.indexOf(-Infinity) >- 1;
+      if (a.some((v) => v !== v) || (inf && negInf)) { return NaN; }
+      if (inf) { return Infinity; }
+      if (negInf) { return -Infinity; }
+      /* sum hi */
+      let hi = a.filter((v) => (v === 1e20 || v === -1e20))
+        .reduce((acc, v) => acc + v, 0);
+      /* sum lo - Kahan sum */
+      let lo = 0.0, c = 0.0;
+      for (let item of a.filter((v) => (v !== 1e20 && v !== -1e20))) {
+        let y = item - c; let t = lo + y; c = (t - lo) - y; lo = t;
+      }
+      /* return sum values */
+      /*
+      if (lo === 0 && hi === 0) { return lo; }
+      if (lo === 0 && hi !== 0) { return hi; }
+      if (lo !== 0 && hi === 0) { return lo; }
+      if (lo > 0 && hi > 0) { return hi; }
+      if (lo > 0 && hi < 0) { return lo + hi; }
+      if (lo < 0 && hi < 0) { return hi; }
+      if (lo < 0 && hi > 0) { return lo + hi; }
+      */
+      if ((lo === 0 && hi !== 0) || (lo > 0 && hi > 0) || (lo < 0 && hi < 0)) {
+        return hi;
+      }
+      if ((lo > 0 && hi < 0) || (lo < 0 && hi > 0)) { return lo + hi; }
+      return lo;
+    }
+    /* not number items -> TypeError */
+    throw new TypeError("values passed to Math.sumPrecise must be numbers");
+  };
+}
 
 /* Error.isError(); */
 if (!("isError" in Error)) {
@@ -298,6 +339,18 @@ function classof (v, t, th = false) {
   return true;
 }
 
+/* getType(<variable: any>): string */
+/* getType(<variable: any>[,type: string[,throw=false]]): boolean or throw */
+function getType (v, t, th = false) {
+  var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
+  if (arguments.length < 2) { return ot; }
+  if (!th) { return ot === t.toLowerCase(); }
+  if (ot !== t.toLowerCase()) {
+    throw TypeError("Celestra getType(); type error: " + ot + " - "  + t);
+  }
+  return true;
+}
+
 /* extend([deep: boolean,]<target: object>,<source1: object>[,sourceN]):object*/
 function extend (...a) {
   function EXT (...as) {
@@ -336,7 +389,9 @@ const filterIn = (o, fn) => Object.keys(o)
   .reduce( (r, p) => { if (fn(o[p], p, o)) { r[p] = o[p]; } return r; }, {} );
 
 /* popIn(<object>,<property: string>): any OR undefined*/
-function popIn (o,p){if(Object.hasOwn(o,p)){var v=o[p]; delete o[p]; return v;}}
+function popIn (o,p) {
+  if (Object.hasOwn(o, p)) { var v = o[p]; delete o[p]; return v; }
+}
 
 /* unBind(<function>): function */
 const unBind = (fn) => Function.prototype.call.bind(fn);
@@ -452,7 +507,7 @@ const strReverse = (s) => Array.from(String(s)).reverse().join("");
 /* strCodePoints(<string>): array of strings */
 const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
 
-/* strFromCodePoints(<collection>): string */
+/* strFromCodePoints(<iterator>): string */
 const strFromCodePoints = ([...a]) => String.fromCodePoint(...a);
 
 /* strAt(<string>,<index: integer>[,newChar: string]): string */
@@ -749,7 +804,7 @@ function getLocation (s, e) {
   }
 }
 
-/* createFile(<filename:string>,<content:string>[,dataType:string]):undefined */
+/* createFile(<filename:string>,<content:string>[,dataType:string]): undefined*/
 function createFile (fln, c, dt) {
   var l = arguments.length;
   if (l > 1) {
@@ -925,6 +980,9 @@ const isAsyncGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
 
 /* isConstructorFn(<value: any>): boolean */
 const isConstructorFn = (v) =>
+  (typeof v === "function" && typeof v.prototype === "object");
+/* isClass(<value: any>): boolean */
+const isClass = (v) =>
   (typeof v === "function" && typeof v.prototype === "object");
 
 /* isPlainObject(<value: any>): boolean */
@@ -1213,7 +1271,7 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
 
 /** Collections API **/
 
-/* count(<collection>,<callback: function>): integer */
+/* count(<iterator>,<callback: function>): integer */
 function count (it, fn) {
   let i = 0, r = 0;
   for (let item of it) {
@@ -1231,10 +1289,10 @@ function arrayDeepClone ([...a]) {
 /* arrayCreate(<length: any>): array OR throw error */
 const arrayCreate = (length = 0) => Array( (1/+length === 1/-0) ? 0 : +length );
 
-/* initial(<collection>): array */
+/* initial(<iterator>): array */
 const initial = ([...a]) => a.slice(0, -1);
 
-/* shuffle(<collection>): array */
+/* shuffle(<iterator>): array */
 function shuffle([...a]) {
   for (let i = a.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -1243,30 +1301,30 @@ function shuffle([...a]) {
   return a;
 }
 
-/* partition(<collection>,<callback: function>): array */
+/* partition(<iterator>,<callback: function>): array */
 const partition = ([...a],fn) => [a.filter(fn),a.filter((e,i,a)=>!(fn(e,i,a)))];
 
-/* group(<collection>,<callback: function>[,map=false]): object */
+/* group(<iterator>,<callback: function>[,map=false]): object */
 const group =(items, fn, map=false)=> (map ? Map : Object)["groupBy"](items,fn);
 
-/* arrayUnion(<collection1>[,collectionN]): array */
+/* arrayUnion(<iterator1>[,iteratorN]): array */
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
 
-/* arrayIntersection(<collection1>,<collection2>): array */
+/* arrayIntersection(<iterator1>,<iterator2>): array */
 const arrayIntersection = ([...a], [...b]) =>
-  a.filter((v) => b.indexOf(v) > -1).filter((e,i,arr) => arr.indexOf(e) === i);
+  a.filter((v) => b.indexOf(v) > -1).filter((e,i, arr) => arr.indexOf(e) === i);
 
-/* arrayDifference(<collection1>,<collection2>): array */
+/* arrayDifference(<iterator1>,<iterator2>): array */
 const arrayDifference = ([...a], [...b]) =>
-  a.filter((v) => b.indexOf(v) === -1).filter((e,i,arr) => arr.indexOf(e)===i);
+  a.filter((v) => b.indexOf(v) === -1).filter((e,i,arr) => arr.indexOf(e)=== i);
 
-/* arraySymmetricDifference(<collection1>,<collection2>): array */
+/* arraySymmetricDifference(<iterator1>,<iterator2>): array */
 const arraySymmetricDifference = ([...a], [...b]) =>
   a.filter((v) => b.indexOf(v) === -1)
     .concat(b.filter((v) => a.indexOf(v) === -1))
     .filter((e, i, arr) => arr.indexOf(e) === i);
 
-/* setUnion(<collection1>[,collectionN]): set */
+/* setUnion(<iterator1>[,iteratorN]): set */
 const setUnion = (...a) => new Set(a.map(([...e]) => e).flat());
 
 /* setIntersection(<set1>,<set2>): set */
@@ -1281,7 +1339,7 @@ const setSymmetricDifference = (a, b) => new Set(
 );
 
 /* isSuperset(<superCollection>,<subCollection>): boolean */
-const isSuperset = ([...sup], [...sub]) => sub.every( (v)=>sup.indexOf(v)>-1 );
+const isSuperset = ([...sup], [...sub]) => sub.every( (v) => sup.indexOf(v)>-1);
 
 /* min(<value1: any>[,valueN]): any */
 const min = (...a) => a.reduce((acc, v) => (v < acc ? v : acc), a[0]);
@@ -1292,14 +1350,14 @@ const max = (...a) => a.reduce((acc, v) => (v > acc ? v : acc), a[0]);
 /* arrayRepeat(<value: any>[,n=100]): array */
 const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
-/* arrayCycle(<collection>[,n=100]): array */
+/* arrayCycle(<iterator>[,n=100]): array */
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
 /* arrayRange([start=0[,end=99[,step=1]]]): array */
 const arrayRange = (s = 0, e = 99, st = 1) =>
   Array.from({length: (e - s) / st + 1}, (v, i) => s + (i * st));
 
-/* zip(<collection1>[,collectionN]): array */
+/* zip(<iterator1>[,iteratorN]): array */
 function zip (...a) {
   a = a.map((v) => Array.from(v));
   let r = [], i, j, l = a.length, min = a[0].length, item;
@@ -1314,7 +1372,7 @@ function zip (...a) {
   return r;
 }
 
-/* unzip(<collection>): array */
+/* unzip(<iterator>): array */
 function unzip ([...a]) {
   a = a.map(([...v]) => v);
   let r = [], i, j, l1 = a[0].length, l2 = a.length;
@@ -1325,14 +1383,14 @@ function unzip ([...a]) {
   return r;
 }
 
-/* zipObj(<collection1>,<collection2>): object */
+/* zipObj(<iterator1>,<iterator2>): object */
 function zipObj ([...a1], [...a2]) {
   var r = [], i, l = (a1.length < a2.length ? a1.length : a2.length);
   for (i = 0; i < l; i++) { r.push([a1[i], a2[i]]); }
   return Object.fromEntries(r);
 }
 
-/* arrayUnique(<collection>[,callback: function]): array */
+/* arrayUnique(<iterator>[,callback: function]): array */
 const arrayUnique = (a) => [...new Set(a)];
 
 /* arrayAdd(<array>,<value: any>): boolean */
@@ -1380,9 +1438,9 @@ function* iterRange (s = 0, st = 1, e = Infinity) {
 function* iterCycle ([...a], n=Infinity){ let i=0; while(i<n) {yield* a; i++;} }
 
 /* iterRepeat(<value: any>[,n=Infinity]): iterator */
-function* iterRepeat (v, n=Infinity) { let i=0; while (i<n) { yield v; i++; } }
+function* iterRepeat (v, n=Infinity) { let i= 0; while (i<n) { yield v; i++; } }
 
-/* takeWhile(<collection>,<callback: function>): iterator */
+/* takeWhile(<iterator>,<callback: function>): iterator */
 function* takeWhile (it, fn) {
   for (let item of it) {
     if (!fn(item)) { break; }
@@ -1390,7 +1448,7 @@ function* takeWhile (it, fn) {
   }
 }
 
-/* dropWhile(<collection>,<callback: function>): iterator */
+/* dropWhile(<iterator>,<callback: function>): iterator */
 function* dropWhile (it, fn) {
   let d = true;
   for (let item of it) {
@@ -1399,7 +1457,7 @@ function* dropWhile (it, fn) {
   }
 }
 
-/* take(<collection>[,n=1]): iterator */
+/* take(<iterator>[,n=1]): iterator */
 function* take (it, n = 1) {
   let i = n;
   for (let item of it) {
@@ -1409,7 +1467,7 @@ function* take (it, n = 1) {
   }
 }
 
-/* drop(<collection>[,n=1]): iterator */
+/* drop(<iterator>[,n=1]): iterator */
 function* drop (it, n = 1) {
   let i = n;
   for (let item of it) {
@@ -1417,16 +1475,16 @@ function* drop (it, n = 1) {
   }
 }
 
-/* forEach(<collection>,<callback: function>): undefined */
+/* forEach(<iterator>,<callback: function>): undefined */
 function forEach (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
 
-/* forEachRight(<collection>,<callback: function>): undefined */
+/* forEachRight(<iterator>,<callback: function>): undefined */
 function forEachRight ([...a],fn){ let i=a.length; while (i--) { fn(a[i],i); } }
 
-/* map(<collection>,<callback: function>): iterator */
+/* map(<iterator>,<callback: function>): iterator */
 function* map (it, fn) { let i=0; for (let item of it) { yield fn(item,i++); } }
 
-/* filter(<collection>,<callback: function>): iterator */
+/* filter(<iterator>,<callback: function>): iterator */
 function* filter (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1434,7 +1492,7 @@ function* filter (it, fn) {
   }
 }
 
-/* reject(<collection>,<callback: function>): iterator */
+/* reject(<iterator>,<callback: function>): iterator */
 function* reject (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1442,7 +1500,7 @@ function* reject (it, fn) {
   }
 }
 
-/* slice(<collection>[,begin=0[,end=Infinity]]): iterator */
+/* slice(<iterator>[,begin=0[,end=Infinity]]): iterator */
 function* slice (it, begin = 0, end = Infinity) {
   let i = 0;
   for (let item of it) {
@@ -1451,7 +1509,7 @@ function* slice (it, begin = 0, end = Infinity) {
   }
 }
 
-/* tail(<collection>): iterator */
+/* tail(<iterator>): iterator */
 function* tail (it) {
   let first = true;
   for (let item of it) {
@@ -1459,37 +1517,37 @@ function* tail (it) {
   }
 }
 
-/* item(<collection>,<index: integer>): any */
+/* item(<iterator>,<index: integer>): any */
 function item (it,p) {let i=0; for(let item of it) {if(i++===p) {return item;}}}
-/* nth(<collection>,<index: integer>): any */
+/* nth(<iterator>,<index: integer>): any */
 function nth (it,p) { let i=0; for(let item of it) {if(i++===p) {return item;}}}
 
-/* size(<collection>): integer */
+/* size(<iterator>): integer */
 function size (it) { let i = 0; for (let item of it) { i++; } return i; }
 
-/* first(<collection>): any */
+/* first(<iterator>): any */
 function first (it) { for (let item of it) { return item; } }
-/* head(<collection>): any */
+/* head(<iterator>): any */
 function head (it) { for (let item of it) { return item; } }
 
-/* last(<collection>): any */
+/* last(<iterator>): any */
 function last (it) { let item; for (item of it) { } return item; }
 
-/* reverse(<collection>): array */
+/* reverse(<iterator>): array */
 const reverse = ([...a]) => a.reverse();
 
-/* sort(<collection>[,numbers=false]): array */
+/* sort(<iterator>[,numbers=false]): array */
 const sort = ([...a], ns) => a.sort(ns
   ? (a,b) => { if (a<b){return -1;} if(a>b){return 1;} return 0; } : undefined);
 
-/* includes(<collection>,<value: any>): boolean */
+/* includes(<iterator>,<value: any>): boolean */
 function includes (it, v) {
   for (let item of it) {
     if (item === v) { return true; }
   }
   return false;
 }
-/* contains(<collection>,<value: any>): boolean */
+/* contains(<iterator>,<value: any>): boolean */
 function contains (it, v) {
   for (let item of it) {
     if (item === v) { return true; }
@@ -1497,7 +1555,7 @@ function contains (it, v) {
   return false;
 }
 
-/* find(<collection>,<callback: function>): any */
+/* find(<iterator>,<callback: function>): any */
 function find (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1505,7 +1563,7 @@ function find (it, fn) {
   }
 }
 
-/* findLast(<collection>,<callback: function>): any */
+/* findLast(<iterator>,<callback: function>): any */
 function findLast (it, fn) {
   let i = 0, r;
   for (let item of it) {
@@ -1514,7 +1572,7 @@ function findLast (it, fn) {
   return r;
 }
 
-/* every(<collection>,<callback: function>): boolean */
+/* every(<iterator>,<callback: function>): boolean */
 function every (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1524,7 +1582,7 @@ function every (it, fn) {
   return true;
 }
 
-/* some(<collection>,<callback: function>): boolean */
+/* some(<iterator>,<callback: function>): boolean */
 function some (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1533,7 +1591,7 @@ function some (it, fn) {
   return false;
 }
 
-/* none(<collection>,<callback: function>): boolean */
+/* none(<iterator>,<callback: function>): boolean */
 function none (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -1543,10 +1601,10 @@ function none (it, fn) {
   return true;
 }
 
-/* takeRight(<collection>[,n=1]): array */
+/* takeRight(<iterator>[,n=1]): array */
 const takeRight = ([...a], n = 1) => a.reverse().slice(0, n);
 
-/* takeRightWhile(<collection>,<callback: function>): iterator */
+/* takeRightWhile(<iterator>,<callback: function>): iterator */
 function* takeRightWhile ([...a], fn) {
   let i = 0;
   for (let item of a.reverse()) {
@@ -1554,10 +1612,10 @@ function* takeRightWhile ([...a], fn) {
   }
 }
 
-/* dropRight(<collection>[,n=1]): array */
+/* dropRight(<iterator>[,n=1]): array */
 const dropRight = ([...a], n = 1) => a.reverse().slice(n);
 
-/* dropRightWhile(<collection>,<callback: function>): iterator */
+/* dropRightWhile(<iterator>,<callback: function>): iterator */
 function* dropRightWhile ([...a], fn) {
   let d = true, i = 0;
   for (let item of a.reverse()) {
@@ -1566,10 +1624,22 @@ function* dropRightWhile ([...a], fn) {
   }
 }
 
-/* concat(<collection1>[,collectionN]): iterator */
-function* concat () { for (let item of arguments) { yield* item; } }
+/* concat(<iterator1>[,iteratorN]): iterator */
+function* concat () {
+  for (let item of arguments) {
+    if (typeof item[Symbol.iterator] === "function" ||
+      ("Iterator" in window ? (item instanceof Iterator)
+        : (typeof item === "object" && typeof item.next === "function")
+      )
+    ) {
+      yield* item;
+    } else {
+      yield item;
+    }
+  }
+}
 
-/* reduce(<collection>,<callback: function>[,initialvalue: any]): any */
+/* reduce(<iterator>,<callback: function>[,initialvalue: any]): any */
 function reduce (it, fn, iv) {
   let acc = iv, i = 0;
   for (let item of it) {
@@ -1582,21 +1652,33 @@ function reduce (it, fn, iv) {
   return acc;
 }
 
-/* enumerate(<collection>[,offset=0]): iterator */
+/* enumerate(<iterator>[,offset=0]): iterator */
 function* enumerate (it, offset = 0) {
   let i = offset;
   for (let item of it) { yield [i++, item]; }
 }
-/* entries(<collection>[,offset=0]): iterator */
+/* entries(<iterator>[,offset=0]): iterator */
 function* entries (it, offset = 0) {
   let i = offset;
   for (let item of it) { yield [i++, item]; }
 }
 
-/* flat(<collection>): iterator */
-function* flat (it) { for (let item of it) { yield* item; } }
+/* flat(<iterator>): iterator */
+function* flat (it) {
+  for (let item of it) {
+    if (typeof item[Symbol.iterator] === "function" ||
+      ("Iterator" in window ? (item instanceof Iterator)
+        : (typeof item === "object" && typeof item.next === "function")
+      )
+    ) {
+      yield* item;
+    } else {
+      yield item;
+    }
+  }
+}
 
-/* join(<collection>[,separator=","]): string */
+/* join(<iterator>[,separator=","]): string */
 function join (it, sep = ",") {
   sep = String(sep);
   let r = "";
@@ -1604,7 +1686,7 @@ function join (it, sep = ",") {
   return r.slice(sep.length);
 }
 
-/* withOut(<collection>,<filterCollection>): array */
+/* withOut(<iterator>,<filterIterator>): array */
 const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
 /** Abstract API **/
@@ -1627,8 +1709,52 @@ const isPropertyKey = (v) => (typeof v === "string" || typeof v === "symbol");
 /* toPropertyKey(<value: any>): string OR symbol */
 const toPropertyKey = (v) => (typeof v === "symbol" ? v : String(v));
 
-/* toObject(<value: any>): object OR throw error */
-function toObject (v) { if (v==null) { throw TypeError(); } return Object(v); }
+/* toObject(<value: any>): object OR symbol OR function OR throw error */
+function toObject (O) {
+  if (O == null) { throw new TypeError(); }
+  if (["symbol", "object", "function"].includes(typeof O)) { return O; }
+  return Object(O);
+}
+
+/* toPrimitiveValue(<value: any>):
+  primitive OR object OR symbol OR function OR throw error */
+function toPrimitiveValue (O) {
+  // null, undefined, Function Boolean, BigInt, Number, String, Symbol
+  if (O == null || typeof O !== "object") { return O; }
+  // object
+  var ot = Object.prototype.toString.call(O).slice(8, -1);
+  if (["Boolean", "BigInt", "Number", "String"].includes(ot)) {
+    return window[ot](O);
+  }
+  return O;
+}
+
+/* toPrimitive(<value: any>): primitive OR throw error */
+function toPrimitive (O, hint = "default") {
+  const _apply = Function.prototype.call.bind(Function.prototype.apply);
+  const _isPrimitive = (v) =>
+    ((typeof v !== "object" && typeof v !== "function") || v === null);
+  if (_isPrimitive(O)) { return O; }
+  /* try Call obj[Symbol.toPrimitive](hint) */
+  let method = O[Symbol.toPrimitive];
+  if (method != null) {
+    let r = _apply(method, O, []);
+    if (_isPrimitive(r)) { return r; }
+  } else {
+    /* "string"              -> ["toString", "valueOf"] */
+    /* "number" or "default" -> ["valueOf", "toString"] */
+    for (let item of
+      (hint === "string" ? ["toString", "valueOf"] : ["valueOf", "toString"])
+    ) {
+      method = O[item];
+      if (typeof method === "function") {
+        let r = _apply(method, O, []);
+        if (_isPrimitive(r)) { return r; }
+      }
+    }
+  }
+  throw new TypeError("celestra.toPrimitive(): Cannot convert object to primitive value");
+}
 
 /* isSameValue(<value1: any>,<value2: any>): boolean */
 const isSameValue = (v1, v2) =>
@@ -1645,27 +1771,91 @@ const createMethodProperty = (O, P, V) => Object.defineProperty(
   O, P, {value: V, writable: true, enumerable: false, configurable: true}
 );
 
+/*createMethodPropertyOrThrow(<object>,<property>,<value:any>):object or throw*/
+function createMethodPropertyOrThrow (O, P, V) {
+  Object.defineProperty(O, P, {
+    writable: true, enumerable: false, configurable: true, value: V
+  });
+  if (!(Object.hasOwn(O, P))) { throw new Error(); }
+  return O;
+}
+
+/* createPolyfillMethod(<object>,<property>,<value: any>): boolean */
+function createPolyfillMethod (O, P, V) {
+  if (!(Object.hasOwn(O, P))) {
+    Object.defineProperty(O, P, {
+      writable: true, enumerable: false, configurable: true, value: V
+    });
+  }
+  return Object.hasOwn(O, P);
+}
+
+/* createPolyfillProperty(<object>,<property>,<value: any>): boolean */
+function createPolyfillProperty (O, P, V) {
+  if (!(Object.hasOwn(O, P))) {
+    Object.defineProperty(O, P, {
+      writable: true, enumerable: true, configurable: true, value: V
+    });
+  }
+  return Object.hasOwn(O, P);
+}
+
+/* deleteOwnProperty(<object>,<property>[,Throw=false]): number or throw error*/
+function deleteOwnProperty (O, P, Throw = false) {
+  if (Object.hasOwn(O, P)) {
+    delete O[P];
+    var r = Object.hasOwn(O, P);
+    if (r && Throw) { throw new Error("Celestra.deleteOwnProperty(); error"); }
+    return +!r;
+  }
+  return -1;
+}
+
 /* type(<value>): string */
 const type = (v) => ((v === null) ? "null" : (typeof v));
 
 /* isIndex(<value: any>): boolean */
 const isIndex = (v) => (Number.isSafeInteger(v) && v >= 0 && 1/v !== 1/-0);
+/* isLength(<value: any>): boolean */
+const isLength = (v) => (Number.isSafeInteger(v) && v >= 0 && 1/v !== 1/-0);
 
 /* toIndex(<value: any>): unsigned integer */
 const toIndex = (v) =>
-  ((v = Math.min(Math.max(0, Math.trunc(+v)), 2147483647)) === v) ? v : 0;
+  ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 2147483647)) === v) ? v :0;
+
+/* toLength(<value: any>): unsigned integer */
+const toLength = (v) =>
+  ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 2147483647)) === v) ? v :0;
 
 /* toInteger(<value: any>): integer */
 const toInteger = (v) =>
-  ((v = Math.min(Math.max(-2147483648, Math.trunc(+v)), 2147483647)) === v)?v:0;
+  ((v = Math.min(Math.max(-2147483648, Math.trunc(Number(v))), 2147483647))
+    === v) ? v : 0;
+
+/* ToIntegerOrInfinity(<value: any>): integer OR Infinity OR -Infinity */
+function toIntegerOrInfinity (v) {
+  v = Number(v);
+  if (1/v === Infinity || 1/v === -Infinity || v !== v) { return 0; }
+  if (v === Infinity || v === -Infinity) { return v; }
+  return Math.trunc(v);
+}
 
 /* createDataProperty(<object>,<property>,<value: any>): object */
 const createDataProperty = (O, P, V) => Object.defineProperty(
   O, P, {value: V, writable: true, enumerable: true, configurable: true}
 );
 
+/* createDataPropertyOrThrow(<object>,<property>,<value:any>): object or throw*/
+function createDataPropertyOrThrow (O, P, V) {
+  Object.defineProperty(O, P, {
+    writable: true, enumerable: true, configurable: true, value: V
+  });
+  if (!(Object.hasOwn(O, P))) { throw new Error(); }
+  return O;
+}
+
 /* toArray(<value: array OR iterable OR arraylike>): array */
-function toArray (O) { return (Array.isArray(O) ? O : Array.from(O)); }
+const toArray = (O) => (Array.isArray(O) ? O : Array.from(O));
 
 /** Math API **/
 
@@ -1679,9 +1869,9 @@ const avg = (f, ...a) => a.reduce((acc, v) => acc + v, f) / (a.length + 1);
 const product = (f, ...a) => a.reduce((acc, v) => acc * v, f);
 
 /* clamp(<value>,<min>,<max>): number */
-const clamp = (v, i, a) => (v > a ? a : v < i ? i : v);
+const clamp = (v, min, max) => (v > max ? max : v < min ? min : v);
 /* minmax(<value>,<min>,<max>): number */
-const minmax = (v, i, a) => (v > a ? a : v < i ? i : v);
+const minmax = (v, min, max) => (v > max ? max : v < min ? min : v);
 
 /* isEven(<value>): boolan */
 function isEven (v) {
@@ -1699,43 +1889,44 @@ function isOdd (v) {
 
 /* toInt8(<value>): int -127..128 */
 const toInt8 = (v) =>
-  ((v = Math.min(Math.max(-128, Math.trunc(+v)), 127)) === v) ? v : 0;
+  ((v = Math.min(Math.max(-128, Math.trunc(Number(v))), 127)) === v) ? v : 0;
 
 /* toUInt8(<value>): int 0..255  */
 const toUInt8 = (v) =>
-  ((v = Math.min(Math.max(0, Math.trunc(+v)), 255)) === v) ? v : 0;
+  ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 255)) === v) ? v : 0;
 
 /* toInt16(<value>): int -32768..32767 */
 const toInt16 = (v) =>
-  ((v = Math.min(Math.max(-32768, Math.trunc(+v)), 32767)) === v) ? v : 0;
+  ((v = Math.min(Math.max(-32768, Math.trunc(Number(v))), 32767)) === v) ? v :0;
 
 /* toUInt16(<value>) int 0..65535 */
 const toUInt16 = (v) =>
-  ((v = Math.min(Math.max(0, Math.trunc(+v)), 65535)) === v) ? v : 0;
+  ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 65535)) === v) ? v : 0;
 
 /* toInt32(<value>): int -2147483648..2147483647 */
 const toInt32 = (v) =>
-  ((v = Math.min(Math.max(-2147483648, Math.trunc(+v)), 2147483647)) === v)?v:0;
+  ((v = Math.min(Math.max(-2147483648, Math.trunc(Number(v))), 2147483647))
+    === v) ? v : 0;
 
 /* toUInt32(<value>: int 0..4294967295 */
 const toUInt32 = (v) =>
-  ((v = Math.min(Math.max(0, Math.trunc(+v)), 4294967295)) === v) ? v : 0;
+  ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 4294967295)) === v) ? v :0;
 
 /* toBigInt64(<value>): bigint */
 const toBigInt64 = (v) => BigInt(typeof v === "bigint"
   ? (v > Math.pow(2,63)-1 ?Math.pow(2,63)-1:v<Math.pow(-2,63)?Math.pow(-2,63):v)
-  : ((v=Math.min(Math.max(Math.pow(-2,63),Math.trunc(+v)),Math.pow(2,63)-1))===v
-    ) ? v : 0
+  : ((v=Math.min(Math.max(Math.pow(-2,63),Math.trunc(Number(v))),Math.pow(2,63)-1))
+    === v ) ? v : 0
 );
 
 /* toBigUInt64(<value>): unsigned bigint */
 const toBigUInt64 = (v) => BigInt(typeof v === "bigint"
   ? (v > Math.pow(2, 64) - 1 ? Math.pow(2, 64) - 1 : v < 0 ? 0 : v)
-  : ((v=Math.min(Math.max(0, Math.trunc(+v)), Math.pow(2,64) -1)) === v) ? v : 0
+  : ((v=Math.min(Math.max(0, Math.trunc(Number(v))), Math.pow(2,64) -1)) === v) ? v : 0
 );
 
 /* toFloat32(<value>): float */
-const toFloat32 = (v) => ((v = Math.min(Math.max(-3.4e38, +v),3.4e38))===v)?v:0;
+const toFloat32 = (v) => ((v = Math.min(Math.max(-3.4e38, Number(v)),3.4e38))===v)?v:0;
 
 /* isInt8(<value>): boolean */
 const isInt8 = (v) => (Number.isInteger(v) ? (v >= -128 && v <= 127) : false);
@@ -1765,20 +1956,21 @@ const isBigUInt64 = (v) =>
   (typeof v === "bigint" ? (v >= 0 && v <= Math.pow(2,64)-1) : false);
 
 /* toFloat16(<value>): float16 */
-const toFloat16 = (v) => ((v = Math.min(Math.max(-65504, +v),65504))===v)?v:0;
+const toFloat16 = (v) => ((v = Math.min(Math.max(-65504, Number(v)),65504))
+  === v ) ? v : 0;
 
 /* isFloat16(<value>): boolean */
 const isFloat16 = (v) =>
   ((typeof v === "number" && v === v) ?(v>=-65504 && v<=65504) : false);
 
 /* signbit(<value: any>): boolean */
-const signbit = (v) => (((v = +v) !== v) ? !1 : ((v < 0) || Object.is(v, -0)));
+const signbit = (v) => (((v = Number(v))!==v) ? !1 :((v<0) || Object.is(v,-0)));
 
 /* randomInt([max: int] OR <min: int>,<max: int>): int */
 function randomInt (i = 100, a) {
   if (a == null) { a = i; i = 0; }
-  i = Math.ceil(+i);
-  return Math.floor(Math.random() * (Math.floor(+a) - i + 1) + i);
+  i = Math.ceil(Number(i));
+  return Math.floor(Math.random() * (Math.floor(Number(a)) - i + 1) + i);
 }
 
 /* randomFloat([max: float] OR <min: float>,<max: float>): float */
@@ -1789,19 +1981,35 @@ function randomFloat (i = 100, a) {
 }
 
 /* inRange(<value: number>,<min: number>,<max: number>): boolean */
-const inRange = (v, i, a) => (v >= i && v <= a);
+const inRange = (v, min, max) => (v >= min && v <= max);
 
 /** object header **/
 
-const VERSION = "Celestra v5.6.4 dev";
+const VERSION = "Celestra v5.6.5 dev";
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
+
+/** undocumented functions **/
+/* Please don't use these in production! */
+
+const _apply = Function.prototype.call.bind(Function.prototype.apply);
+
+const _call = Function.prototype.call.bind(Function.prototype.call);
+
+const _forEach = Function.prototype.call.bind(Array.prototype.forEach);
+
+const _slice = Function.prototype.call.bind(Array.prototype.slice);
 
 var celestra = {
   /** object header **/
   VERSION: VERSION,
   noConflict: noConflict,
+  /** undocumented functions **/
+  _apply: _apply,
+  _call: _call,
+  _forEach: _forEach,
+  _slice: _slice,
   /** Core API **/
   BASE16: BASE16,
   BASE32: BASE32,
@@ -1820,6 +2028,7 @@ var celestra = {
   getUrlVars: getUrlVars,
   obj2string: obj2string,
   classof: classof,
+  getType: getType,
   extend: extend,
   sizeIn: sizeIn,
   forIn: forIn,
@@ -1896,6 +2105,7 @@ var celestra = {
   isFalsy: isFalsy,
   isAsyncGeneratorFn: isAsyncGeneratorFn,
   isConstructorFn: isConstructorFn,
+  isClass: isClass,
   isPlainObject: isPlainObject,
   isEmptyMap: isEmptyMap,
   isEmptySet: isEmptySet,
@@ -2025,15 +2235,25 @@ var celestra = {
   isPropertyKey: isPropertyKey,
   toPropertyKey: toPropertyKey,
   toObject: toObject,
+  toPrimitiveValue: toPrimitiveValue,
+  toPrimitive: toPrimitive,
   isSameValue: isSameValue,
   isSameValueZero: isSameValueZero,
   isSameValueNonNumber: isSameValueNonNumber,
   createMethodProperty: createMethodProperty,
+  createMethodPropertyOrThrow: createMethodPropertyOrThrow,
+  createPolyfillMethod: createPolyfillMethod,
+  createPolyfillProperty: createPolyfillProperty,
+  deleteOwnProperty: deleteOwnProperty,
   type: type,
   isIndex: isIndex,
+  isLength: isLength,
   toIndex: toIndex,
+  toLength: toLength,
   toInteger: toInteger,
-  createDataProperty:createDataProperty,
+  toIntegerOrInfinity:toIntegerOrInfinity,
+  createDataProperty: createDataProperty,
+  createDataPropertyOrThrow: createDataPropertyOrThrow,
   toArray: toArray,
   /** Math API **/
   sum: sum,
