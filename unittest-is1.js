@@ -1,1 +1,1 @@
-CUT.isEqual("importScript() (core api) - first script loaded", true, true );
+CUT.isTrue("importScript() (core api) - first script loaded", true);
