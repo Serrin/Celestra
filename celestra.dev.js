@@ -1,13 +1,15 @@
 /**
  * @name Celestra
- * @version 5.7.0 dev
+ * @version 5.7.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 (function(window, document){
 "use strict";
 
+
 /** polyfills **/
+
 
 /* Math.sumPrecise(); */
 if (!("sumPrecise" in Math)) {
@@ -50,6 +52,7 @@ if (!("sumPrecise" in Math)) {
   };
 }
 
+
 /* Error.isError(); */
 if (!("isError" in Error)) {
   Error.isError = function isError (v) {
@@ -57,6 +60,7 @@ if (!("isError" in Error)) {
     return (s === "error" || s === "domexception");
   };
 }
+
 
 /* Object.groupBy(); */
 if (!("groupBy" in Object)) {
@@ -76,6 +80,7 @@ if (!("groupBy" in Object)) {
   });
 }
 
+
 /* Map.groupBy(); */
 if (!("groupBy" in Map)) {
   Object.defineProperty(Map, "groupBy", {
@@ -93,6 +98,7 @@ if (!("groupBy" in Map)) {
     }
   });
 }
+
 
 /* Array.fromAsync(); */
 if (!Array.fromAsync) {
@@ -134,6 +140,7 @@ if (!Array.fromAsync) {
   };
 }
 
+
 /* crypto.randomUUID(); */
 if (("crypto" in window) && !("randomUUID" in window.crypto)) {
   window.crypto.randomUUID = function randomUUID () {
@@ -142,6 +149,7 @@ if (("crypto" in window) && !("randomUUID" in window.crypto)) {
     );
   };
 }
+
 
 /* Object.hasOwn(); */
 if (!Object.hasOwn) {
@@ -156,6 +164,7 @@ if (!Object.hasOwn) {
   });
 }
 
+
 /* globalThis; */
 (function (global) {
   if (!global.globalThis) {
@@ -167,6 +176,7 @@ if (!Object.hasOwn) {
   }
 })(typeof this === "object" ? this : Function("return this")());
 
+
 /* Array.prototype.toReversed(); */
 if (!("toReversed" in Array.prototype)) {
   Object.defineProperty(Array.prototype, "toReversed", {
@@ -175,6 +185,7 @@ if (!("toReversed" in Array.prototype)) {
   });
 }
 
+
 /* Array.prototype.toSorted(); */
 if (!("toSorted" in Array.prototype)) {
   Object.defineProperty(Array.prototype, "toSorted", {
@@ -182,6 +193,7 @@ if (!("toSorted" in Array.prototype)) {
     "value": function (cFn) { "use strict"; return this.slice().sort(cFn); }
   });
 }
+
 
 /* Array.prototype.toSpliced(); */
 if (!("toSpliced" in Array.prototype)) {
@@ -193,6 +205,7 @@ if (!("toSpliced" in Array.prototype)) {
   });
 }
 
+
 /* Array.prototype.with(); */
 if (!("with" in Array.prototype)) {
   Object.defineProperty(Array.prototype, "with", {
@@ -203,6 +216,7 @@ if (!("with" in Array.prototype)) {
   });
 }
 
+
 /* TypedArray.prototype.toReversed(); */
 if (!("toReversed" in Uint8Array.prototype)) {
   Object.defineProperty(Uint8Array.prototype, "toReversed", {
@@ -211,6 +225,7 @@ if (!("toReversed" in Uint8Array.prototype)) {
   });
 }
 
+
 /* TypedArray.prototype.toSorted(); */
 if (!("toSorted" in Uint8Array.prototype)) {
   Object.defineProperty(Uint8Array.prototype, "toSorted", {
@@ -218,6 +233,7 @@ if (!("toSorted" in Uint8Array.prototype)) {
     "value": function (cFn) { "use strict"; return this.slice().sort(cFn); }
   });
 }
+
 
 /* TypedArray.prototype.with(); */
 if (!("with" in Uint8Array.prototype)) {
@@ -229,17 +245,21 @@ if (!("with" in Uint8Array.prototype)) {
   });
 }
 
+
 /** non-standard polyfills **/
+
 
 /* window.GeneratorFunction; */
 if (!window.GeneratorFunction) {
   window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
 }
 
+
 /* window.AsyncFunction; */
 if (!window.AsyncFunction) {
   window.AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 }
+
 
 /* BigInt.prototype.toJSON(); */
 if (!!window.BigInt && !("toJSON" in BigInt.prototype)) {
@@ -249,7 +269,9 @@ if (!!window.BigInt && !("toJSON" in BigInt.prototype)) {
   });
 }
 
+
 /** Core API **/
+
 
 const BASE16 = "0123456789ABCDEF";
 const BASE32 = "234567ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -257,6 +279,7 @@ const BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const WORDSAFEALPHABET= "23456789CFGHJMPQRVWXcfghjmpqvwx";
+
 
 /* randomUUIDv7(): string */
 function randomUUIDv7 () {
@@ -274,13 +297,16 @@ function randomUUIDv7 () {
   return uuid.join("");
 }
 
+
 /* delay(<ms: integer>).then(<callback: function>): promise */
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 /* sleep(<ms: integer>).then(<callback: function>): promise */
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+
 /* randomBoolean(): boolean */
 const randomBoolean = () => (Math.random() >= 0.5);
+
 
 /* b64Encode(<string>): string */
 function b64Encode (s) {
@@ -289,12 +315,14 @@ function b64Encode (s) {
   ));
 }
 
+
 /* b64Decode(<string>): string */
 function b64Decode (s) {
   return decodeURIComponent(atob(String(s)).split("").map(function (c) {
     return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(""));
 }
+
 
 /* javaHash(<data: any>[,hexa=false]): integer */
 function javaHash (s, hx = false) {
@@ -310,15 +338,18 @@ function javaHash (s, hx = false) {
   return h;
 }
 
+
 /* getUrlVars([str=location.search]): string */
 const getUrlVars = (str = location.search) =>
   [...new URLSearchParams(str).entries()]
     .reduce(function (o, item) { o[item[0]] = item[1]; return o; }, {});
 
+
 /* obj2string(<object>): string */
 const obj2string = (o) => Object.keys(o).reduce(
   (s,p) => s += encodeURIComponent(p) + "=" + encodeURIComponent(o[p]) + "&","")
   .slice(0, -1);
+
 
 /* classof(<variable: any>): string */
 /* classof(<variable: any>[,type: string[,throw=false]]): boolean or throw */
@@ -332,6 +363,7 @@ function classof (v, type, Throw = false) {
   return true;
 }
 
+
 /* getType(<variable: any>): string */
 /* getType(<variable: any>[,type: string[,throw=false]]): boolean or throw */
 function getType (v, type, Throw = false) {
@@ -344,9 +376,10 @@ function getType (v, type, Throw = false) {
   return true;
 }
 
+
 /* extend([deep: boolean,]<target: object>,<source1: object>[,sourceN]):object*/
 function extend (...a) {
-  function EXT (...as) {
+  function _EXT (...as) {
     if (typeof as[0] === "boolean") {
       var t = as[1], d = as[0], s = 2;
     } else {
@@ -358,7 +391,7 @@ function extend (...a) {
         for (var p in so) {
           if (Object.hasOwn(so, p)) {
             if (typeof so[p] === "object" && d) {
-              t[p] = EXT(true, {}, so[p]);
+              t[p] = _EXT(true, {}, so[p]);
             } else {
               t[p] = so[p];
             }
@@ -368,45 +401,57 @@ function extend (...a) {
     }
     return t;
   }
-  return EXT(...a);
+  return _EXT(...a);
 }
+
 
 /* sizeIn(<object>): integer */
 const sizeIn = (O) => Object.getOwnPropertyNames(O).length
   + Object.getOwnPropertySymbols(O).length;
 
+
 /* forIn(<object>,<callback: function>): object */
 function forIn (o,fn) { Object.keys(o).forEach((v)=>fn(o[v],v,o)); return o; }
+
 
 /* filterIn(<object>,<callback: function>): object */
 const filterIn = (o, fn) => Object.keys(o)
   .reduce( (r, p) => { if (fn(o[p], p, o)) { r[p] = o[p]; } return r; }, {} );
+
 
 /* popIn(<object>,<property: string>): any OR undefined*/
 function popIn (o,p) {
   if (Object.hasOwn(o, p)) { var v = o[p]; delete o[p]; return v; }
 }
 
+
 /* unBind(<function>): function */
 const unBind = (fn) => Function.prototype.call.bind(fn);
+
 
 /* bind(<function>,<context: any>): function */
 const bind = Function.prototype.call.bind(Function.prototype.bind);
 
+
 /* constant(<value: any>): any */
 const constant = (v) => () => v;
+
 
 /* identity(<value: any>): any */
 const identity = (v) => v;
 
+
 /* noop(): undefined */
 function noop () {}
+
 
 /* T(): true */
 const T = () => true;
 
+
 /* F(): false */
 const F = () => false;
+
 
 /* nanoid([size=21[,alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"]]): string */
 function nanoid (size = 21, alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-") {
@@ -417,6 +462,7 @@ function nanoid (size = 21, alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmn
   }
   return r;
 }
+
 
 /* timestampID([size=21[,alphabet="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"]]): string */
 function timestampID (size = 21, alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz") {
@@ -429,67 +475,88 @@ function timestampID (size = 21, alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZab
   return r;
 }
 
+
 /** Assertion API **/
 
-/* assert(<value: boolean>[, message = "value"]): true OR throw error */
-function assert (v, message = "value") {
-  if (!v) { throw new Error("[assert] " + message + " - " + v); }
+
+/* assert(<value: boolean>[, message]): true OR throw error */
+function assert (v, message) {
+  if (!v) {
+    throw new Error("[assert] Assertion failed"
+      + (message ? ": " + message : ""));
+  }
   return true;
 }
 
-/* assertTrue(<value: boolean>[, message = "value"]): true OR throw error */
-function assertTrue (v, message = "value") {
-  if (!v) { throw new Error("[assertTrue] " + message + " - " + v); }
+
+/* assertTrue(<value: boolean>[, message]): true OR throw error */
+function assertTrue (v, message) {
+  if (!v) {
+    throw new Error("[assertTrue] Assertion failed"
+      + (message ? ": " + message : ""));
+  }
   return true;
 }
 
-/* assertFalse(<value: boolean>[, message = "value"]): true OR throw error */
-function assertFalse (v, message = "value") {
-  if (v) { throw new Error("[assertFalse] " + message + " - " + v); }
+
+/* assertFalse(<value: boolean>[, message]): true OR throw error */
+function assertFalse (v, message) {
+  if (v) {
+    throw new Error("[assertFalse] Assertion failed"
+      + (message ? ": " + message : ""));
+  }
   return true;
 }
 
-/* assertEqual(<value1: any>,<value2: any>[, message = "values"]):
-  true OR throw error */
+
+/* assertEqual(<x: any>,<y: any>[, message]): true OR throw error */
 /* loose equality + NaN equality */
-function assertEqual (v1, v2, message = "values") {
-  if (!(v1 == v2 || (v1 !== v1 && v2 !== v2))) {
-    throw new Error("[assertEqual] - " + message + " - " +  v1 + " - " + v2);
+function assertEqual (x, y, message) {
+  if (!(x == y || (x !== x && y !== y))) {
+    throw new Error("[assertEqual] Assertion failed"
+      + (message ? ": " + message : ""));
   }
   return true;
 }
 
-/* assertStrictEqual(<value1: any>,<value2: any>[, message = "values"]):
-  true OR throw error */
+
+/* assertStrictEqual(<x: any>,<y: any>[, message]): true OR throw error */
 /* SameValue equality */
-function assertStrictEqual (v1, v2, message = "values") {
-  if (!((v1 === v2) ? (v1 !== 0 || 1/v1 === 1/v2) : (v1 !== v1 && v2 !== v2))) {
-    throw new Error("[assertStrictEqual] " + message + " - " + v1 + " - " + v2);
+function assertStrictEqual (x, y, message) {
+  if (!((x === y) ? (x !== 0 || 1/x === 1/y) : (x !== x && y !== y))) {
+    throw new Error("[assertStrictEqual] Assertion failed"
+      + (message ? ": " + message : "")
+    );
   }
   return true;
 }
 
-/* assertNotEqual(<value1: any>,<value2: any>[, message = "values"]):
-  true OR throw error */
+
+/* assertNotEqual(<x: any>,<y: any>[, message]): true OR throw error */
 /* loose equality + NaN equality */
-function assertNotEqual (v1, v2, message = "values") {
-  if (v1 == v2 || (v1 !== v1 && v2 !== v2)) {
-    throw new Error("[assertNotEqual] " + message + " - " +  v1 + " - " + v2);
+function assertNotEqual (x, y, message) {
+  if (x == y || (x !== x && y !== y)) {
+    throw new Error("[assertNotEqual] Assertion failed"
+      + (message ? ": " + message : ""));
   }
   return true;
 }
 
-/* assertNotStrictEqual(<value1: any>,<value2: any>[, message = "values"]):
-  true OR throw error */
+
+/* assertNotStrictEqual(<x: any>,<y: any>[, message]): true OR throw error */
 /* SameValue equality */
-function assertNotStrictEqual (v1, v2, message = "values") {
-  if ((v1 === v2) ? (v1 !== 0 || 1/v1 === 1/v2) : (v1 !== v1 && v2 !== v2)) {
-    throw new Error("[assertNotStrictEqual] " + message + " - " +v1 +" - " +v2);
+function assertNotStrictEqual (x, y, message) {
+  if ((x === y) ? (x !== 0 || 1/x === 1/y) : (x !== x && y !== y)) {
+    throw new Error("[assertNotStrictEqual] Assertion failed"
+      + (message ? ": " + message : "")
+    );
   }
   return true;
 }
+
 
 /** String API **/
+
 
 /* strTruncate(<string>,<newLength>[,omission = ""]): string */
 function strTruncate (str, newLen, omission = "") {
@@ -499,6 +566,7 @@ function strTruncate (str, newLen, omission = "") {
   if (newLen >= strUC.length) { return str; }
   return strUC.slice(0, newLen-Array.from(omission).length).join("") + omission;
 }
+
 
 /* strPropercase(<string>): string */
 const strPropercase = (s) => String(s).split(" ").map(function (v) {
@@ -513,12 +581,14 @@ const strTitlecase = (s) => String(s).split(" ").map(function (v) {
   return a.join("");
 }).join(" ");
 
+
 /* strCapitalize(<string>): string */
 function strCapitalize (s) {
   var a = [...String(s).toLowerCase()];
   if (a.length > 0) { a[0] = a[0].toUpperCase(); }
   return a.join("");
 }
+
 
 /* strUpFirst(<string>): string */
 function strUpFirst (s) {
@@ -527,6 +597,7 @@ function strUpFirst (s) {
   return a.join("");
 }
 
+
 /* strDownFirst(<string>): string */
 function strDownFirst (s) {
   var a = [...String(s)];
@@ -534,14 +605,18 @@ function strDownFirst (s) {
   return a.join("");
 }
 
+
 /* strReverse(<string>): string */
 const strReverse = (s) => Array.from(String(s)).reverse().join("");
+
 
 /* strCodePoints(<string>): array of strings */
 const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
 
+
 /* strFromCodePoints(<iterator>): string */
 const strFromCodePoints = ([...a]) => String.fromCodePoint(...a);
+
 
 /* strAt(<string>,<index: integer>[,newChar: string]): string */
 function strAt (s, i, nC) {
@@ -553,18 +628,22 @@ function strAt (s, i, nC) {
   return a.join("");
 }
 
+
 /* strSplice(<string>,<index: integer>,<count: integer>[,add: string]):string */
 const strSplice = (s, i, c, ...add) =>
   Array.from(s).toSpliced(i, c, add.join("")).join("");
+
 
 /* strHTMLRemoveTags(<string>): string */
 const strHTMLRemoveTags = (s) =>
   String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 
+
 /* strHTMLEscape(<string>): string */
 const strHTMLEscape = (s) => String(s).replace(/&/g, "&amp;")
   .replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+
 
 /* strHTMLUnEscape(<string>): string */
 const strHTMLUnEscape = (s) => String(s)
@@ -574,13 +653,17 @@ const strHTMLUnEscape = (s) => String(s)
   .replace(/&quot;/g, '"').replace(/&#34;/g, '"')
   .replace(/&apos;/g, "'").replace(/&#39;/g, "'");
 
+
 /** DOM API **/
+
 
 /* qsa(<selector: string>[,context: element object]): array */
 const qsa = (s, c = document) => Array.from(c.querySelectorAll(s));
 
+
 /* qs(<selector: string>[,context: element object]): element object OR null */
 const qs = (s, c = document) => c.querySelector(s);
+
 
 /* domReady(<callback: function>): undefined */
 function domReady (fn) {
@@ -590,6 +673,7 @@ function domReady (fn) {
     document.addEventListener("DOMContentLoaded", function (_event) { fn(); });
   }
 }
+
 
 /* domCreate(<type: string>[,properties: object[,innerHTML: string]]): element*/
 /* domCreate(<element descriptive object>): element */
@@ -616,6 +700,7 @@ function domCreate (t, ps, iH) {
   return el;
 }
 
+
 /* domToElement(<htmlString>): element object */
 function domToElement (s) {
   var e = document.createElement("div");
@@ -623,9 +708,11 @@ function domToElement (s) {
   return e.firstElementChild;
 }
 
+
 /* domGetCSS(<element>[,property: string]): string */
 const domGetCSS = (e, p) =>
   (p ? window.getComputedStyle(e, null)[p] : window.getComputedStyle(e, null));
+
 
 /* domSetCSS(<element>,<property: string>,<value: string>): undefined */
 /* domSetCSS(<element>,<properties: object>): undefined */
@@ -637,6 +724,7 @@ function domSetCSS (e, n, v) {
   }
 }
 
+
 /* domFadeIn(<element>[,duration = 500[,display = ""]]): undefined */
 function domFadeIn (e, dur, d) {
   var s = e.style, step = 25/(dur || 500);
@@ -647,6 +735,7 @@ function domFadeIn (e, dur, d) {
   })();
 }
 
+
 /* domFadeOut(<element>[,duration = 500]): undefined */
 function domFadeOut (e, dur) {
   var s = e.style, step = 25/(dur || 500);
@@ -655,6 +744,7 @@ function domFadeOut (e, dur) {
     (s.opacity -= step) < 0 ? s.display = "none" : setTimeout(fade, 25);
   })();
 }
+
 
 /* domFadeToggle(<element>[,duration = 500[,display = ""]]): undefined */
 function domFadeToggle (e, dur, d = "") {
@@ -676,11 +766,14 @@ function domFadeToggle (e, dur, d = "") {
   }
 }
 
+
 /* domHide(<element>): undefined */
 const domHide = (e) => e.style.display = "none";
 
+
 /* domShow(<element>[,display = ""]): undefined */
 const domShow = (e, d = "") => e.style.display = d;
+
 
 /* domToggle(<element>[,display: string]): undefined */
 function domToggle (e, d = "") {
@@ -691,12 +784,15 @@ function domToggle (e, d = "") {
   }
 }
 
+
 /* domIsHidden(<element>): boolean */
 const domIsHidden = (e) => (window.getComputedStyle(e,null).display === "none");
+
 
 /* domSiblings(<element>): array */
 const domSiblings = (el) =>
   Array.prototype.filter.call(el.parentNode.children, (e) => (e !== el));
+
 
 /* domSiblingsPrev(<element>): array */
 const domSiblingsPrev = (el) => Array.prototype.slice.call(
@@ -708,6 +804,7 @@ const domSiblingsLeft = (el) => Array.prototype.slice.call(
   el.parentNode.children, 0,
   Array.prototype.indexOf.call(el.parentNode.children, el)
 );
+
 
 /* domSiblingsNext(<element>): array */
 const domSiblingsNext = (el) => Array.prototype.slice.call(
@@ -721,6 +818,7 @@ const domSiblingsRight = (el) => Array.prototype.slice.call(
   Array.prototype.indexOf.call(el.parentNode.children, el) + 1,
   el.parentNode.children.length
 );
+
 
 /* importScript(<script1: string>[,scriptN: string]): undefined */
 function importScript (...a) {
@@ -737,6 +835,7 @@ function importScript (...a) {
   }
 }
 
+
 /* importStyle(<style1: string>[,styleN: string]): undefined */
 function importStyle (...a) {
   for (let item of a) {
@@ -752,6 +851,7 @@ function importStyle (...a) {
     (document.head||document.getElementsByTagName("head")[0]).appendChild(stl);
   }
 }
+
 
 /* form2array(<form>): array */
 function form2array (f) {
@@ -785,6 +885,7 @@ function form2array (f) {
   return a;
 }
 
+
 /* form2string(<form>): string */
 function form2string (f) {
   var fld, a = [];
@@ -813,10 +914,12 @@ function form2string (f) {
   return a.join("&").replace(/%20/g, "+");
 }
 
+
 /* getDoNotTrack(): boolean */
 const getDoNotTrack = () =>
   [navigator.doNotTrack, window.doNotTrack, navigator.msDoNotTrack]
     .some((e) => (e === true || e === 1 || e === "1"));
+
 
 /* getLocation(<success: function>[,error: function]): undefined */
 function getLocation (s, e) {
@@ -828,6 +931,7 @@ function getLocation (s, e) {
     getE("Geolocation is not supported in this browser.");
   }
 }
+
 
 /* createFile(<filename:string>,<content:string>[,dataType:string]): undefined*/
 function createFile (fln, c, dt) {
@@ -851,6 +955,7 @@ function createFile (fln, c, dt) {
   }
 }
 
+
 /* getFullscreen(): element object OR undefined */
 const getFullscreen = () => ( document.fullscreenElement
   || document.mozFullScreenElement
@@ -858,6 +963,7 @@ const getFullscreen = () => ( document.fullscreenElement
   || document.msFullscreenElement
   || undefined
 );
+
 
 /* setFullscreenOn(<element>): undefined */
 /* setFullscreenOn(<selector string>): undefined */
@@ -870,6 +976,7 @@ function setFullscreenOn (s) {
   else if (e.msRequestFullscreen) { e.msRequestFullscreen(); }
 }
 
+
 /* setFullscreenOff(): undefined */
 function setFullscreenOff () {
   if (document.exitFullscreen) { document.exitFullscreen(); }
@@ -878,27 +985,35 @@ function setFullscreenOff () {
   else if (document.msExitFullscreen) { document.msExitFullscreen(); }
 }
 
+
 /*  domGetCSSVar(<name: string>): string */
 const domGetCSSVar = (n) => getComputedStyle(document.documentElement)
   .getPropertyValue( n[0] === "-" ? n : "--" + n );
+
 
 /* domSetCSSVar(<name: string>,<value: string>): undefined */
 const domSetCSSVar = (n, v) =>
   document.documentElement.style.setProperty( (n[0] === "-" ? n : "--" + n), v);
 
+
 /* domScrollToTop(): undefined */
 const domScrollToTop = () => window.scrollTo(0,0);
+
 
 /* domScrollToBottom(): undefined */
 const domScrollToBottom = () => window.scrollTo(0, document.body.scrollHeight);
 
+
 /* domScrollToElement(<element>[,top=true]): undefined */
 const domScrollToElement = (e, top = true) => e.scrollIntoView(top);
+
 
 /* domClear(<element>): undefined */
 const domClear = (el) => Array.from(el.children).forEach((item)=>item.remove());
 
+
 /** AJAX API **/
+
 
 /* getText(<url: string>,<success: function>): undefined */
 function getText (url, success) {
@@ -920,6 +1035,7 @@ function getText (url, success) {
   xhr.send();
 }
 
+
 /* getJson(<url: string>,<success: function>): undefined */
 function getJson (url, success) {
   if (typeof url !== "string") {
@@ -939,6 +1055,7 @@ function getJson (url, success) {
   xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
   xhr.send();
 }
+
 
 /* ajax(<Options object>): undefined */
 function ajax (o) {
@@ -1030,17 +1147,26 @@ function ajax (o) {
   }
 }
 
+
 /** Type checking API **/
 
+
+/* isProxy(<value: any>): boolean */
+const isProxy = (O) => Boolean(O.__isProxy);
+
+
 /* isTruthy(<value: any>): boolean */
-const isTruthy = (v) => !!v;
+const isTruthy = (v) => Boolean(v);
+
 
 /* isFalsy(<value: any>): boolean */
 const isFalsy = (v) => !v;
 
+
 /* isAsyncGeneratorFn(<value: any>): boolean */
 const isAsyncGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(async function*() {}).constructor);
+
 
 /* isConstructorFn(<value: any>): boolean */
 const isConstructorFn = (v) =>
@@ -1049,28 +1175,35 @@ const isConstructorFn = (v) =>
 const isClass = (v) =>
   (typeof v === "function" && typeof v.prototype === "object");
 
+
 /* isPlainObject(<value: any>): boolean */
 const isPlainObject = (v) => (v != null && typeof v === "object" &&
   (Object.getPrototypeOf(v) === Object.prototype
     || Object.getPrototypeOf(v) === null));
 
+
 /* isEmptyMap(<value: any>): boolean */
 const isEmptyMap = (v) => (v instanceof Map && v.size === 0);
+
 
 /* isEmptySet(<value: any>): boolean */
 const isEmptySet = (v) => (v instanceof Set && v.size === 0);
 
+
 /* isEmptyIterator(<value: any>): boolean */
 function isEmptyIterator (it) {for (let _item of it){return false;}return true;}
 
+
 /* isDataView(<value: any>): boolean */
 const isDataView = (v) => (v instanceof DataView);
+
 
 /* isPromise(<value: any>): boolean */
 const isPromise = (v) => (v instanceof Promise ||
   (v != null && typeof v === "object"
     && typeof v.then === "function" && typeof v.catch  === "function")
 );
+
 
 /* isSameObject(<object1>,<object2>): boolean */
 function isSameObject (o1, o2) {
@@ -1085,9 +1218,11 @@ function isSameObject (o1, o2) {
   return false;
 }
 
+
 /* isSameArray(<array1>,<array2>): boolean */
 const isSameArray = (a, b) => (Array.isArray(a) && Array.isArray(b)
   && (a.length === b.length) && a.every((v,i) => v === b[i]));
+
 
 /* isSameMap(<map1>,<map2>): boolean */
 function isSameMap (m1, m2) {
@@ -1100,6 +1235,7 @@ function isSameMap (m1, m2) {
   return false;
 }
 
+
 /* isSameSet(<set1>,<set2>): boolean */
 function isSameSet (s1, s2) {
   if (s1 instanceof Set && s2 instanceof Set && s1.size === s2.size) {
@@ -1111,109 +1247,140 @@ function isSameSet (s1, s2) {
   return false;
 }
 
+
 /* isSameIterator(<iterator1>,<iterator2>): boolean */
 const isSameIterator = ([...a1], [...a2]) =>
   (a1.length === a2.length && a1.every((v,i) => v === a2[i]));
 
+
 /* isString(<value: any>): boolean */
 const isString = (v) => (typeof v === "string");
+
 
 /* isChar(<value: any>): boolean */
 const isChar = (v) =>
   (typeof v === "string" && (v.length === 1 || Array.from(v).length === 1));
 
+
 /* isNumber(<value: any>): boolean */
 const isNumber = (v) => (typeof v === "number");
 
+
 /* isFloat(<value: any>): boolean */
-const isFloat = (v) => (typeof v === "number" && !!(v % 1));
+const isFloat = (v) => (typeof v === "number" && v === v && !!(v % 1));
+
 
 /* isNumeric(<value: any>): boolean */
 const isNumeric = (v) => ( (typeof v === "number" && v === v)
   ? true : (!isNaN(parseFloat(v)) && isFinite(v)) );
 
+
 /* isBoolean(<value: any>): boolean */
 const isBoolean = (v) => (typeof v === "boolean");
 
+
 /* isObject(<value: any>): boolean */
-const isObject = (v) => (
-  v != null && (typeof v === "object" || typeof v === "function")
-);
+const isObject = (v) =>
+  (v != null && (typeof v === "object" || typeof v === "function"));
+
 
 /* isEmptyObject(<value: any>): boolean */
-const isEmptyObject = (O) => (O != null && typeof O === "object" 
+const isEmptyObject = (O) => (O != null && typeof O === "object"
   && Object.getOwnPropertyNames(O).length === 0
   && Object.getOwnPropertySymbols(O).length === 0
 );
 
+
 /* isFunction(<value: any>): boolean */
 const isFunction = (O) => (typeof v === "function" ||
   Object.prototype.toString.call(O) === "[object Function]");
+
+
 /* isCallable(<value: any>): boolean */
-const isCallable = (O) => (typeof v === "function" ||
-  Object.prototype.toString.call(O) === "[object Function]");
+const isCallable = (O) =>
+  ((O != null && ["object", "function"].includes(typeof O))
+    ? (typeof O.call === "function") : false);
+
 
 /* isEmptyArray(<value: any>): boolean */
 const isEmptyArray = (v) => (Array.isArray(v) && v.length === 0);
+
 
 /* isArraylike(<value: any>): boolean */
 const isArraylike = (v) =>
   ((typeof v === "object" || typeof v === "string") && v != null
     && typeof v.length === "number" && v.length >= 0 && v.length % 1 === 0);
 
+
 /* isNull(<value: any>): boolean */
 const isNull = (v) => (v === null);
+
 
 /* isUndefined(<value: any>): boolean */
 const isUndefined = (v) => (v === undefined);
 
+
 /* isNullOrUndefined(<value: any>): boolean */
 const isNullOrUndefined = (v) => (v == null);
+
 
 /* isNil(<value: any>): boolean */
 const isNil = (v) => (v == null || v !== v);
 
+
 /* isPrimitive(<value: any>): boolean */
 const isPrimitive = (v) =>
-  ((typeof v !== "object" && typeof v !== "function") || v === null);
+  (v == null || (typeof v !== "object" && typeof v !== "function"));
+
 
 /* isSymbol(<value: any>): boolean */
 const isSymbol = (v) => (typeof v === "symbol");
 
+
 /* isMap(<value: any>): boolean */
 const isMap = (v) => (v instanceof Map);
+
 
 /* isSet(<value: any>): boolean */
 const isSet = (v) => (v instanceof Set);
 
+
 /* isWeakMap(<value: any>): boolean */
 const isWeakMap = (v) => (v instanceof WeakMap);
+
 
 /* isWeakSet(<value: any>): boolean */
 const isWeakSet = (v) => (v instanceof WeakSet);
 
+
 /* isIterator(<value: any>): boolean */
 const isIterator = (v) => ("Iterator" in window ? (v instanceof Iterator)
-  : (v != null && typeof v === "object" && typeof v.next === "function")
-);
+  : (v != null && typeof v === "object" && typeof v.next === "function"));
+
 
 /* isDate(<value: any>): boolean */
 const isDate = (v) => (v instanceof Date);
 
+
 /* isRegexp(<value: any>): boolean */
 const isRegexp = (v) => (v instanceof RegExp);
+
 
 /* isElement(<value: any>): boolean */
 const isElement = (v) => (v!=null && typeof v === "object" && v.nodeType === 1);
 
+
 /* isIterable(<value: any>): boolean */
 const isIterable = (v) => (v!=null && typeof v[Symbol.iterator] === "function");
+
 
 /* isBigInt(<value: any>): boolean */
 const isBigInt = (v) => (typeof v === "bigint");
 
+
 /* isArrayBuffer(<value: any>): boolean */
 const isArrayBuffer = (v) => (v instanceof ArrayBuffer);
+
 
 /* isTypedArray(<value: any>): boolean */
 const isTypedArray = (v) => (
@@ -1226,15 +1393,19 @@ const isTypedArray = (v) => (
   || v instanceof BigInt64Array || v instanceof BigUint64Array
 );
 
+
 /* isGeneratorFn(<value: any>): boolean */
 const isGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(function*(){}).constructor);
+
 
 /* isAsyncFn(<value: any>): boolean */
 const isAsyncFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(async function(){}).constructor);
 
+
 /** Cookie API **/
+
 
 /* setCookie(<Options object>): undefined */
 /* setCookie(<name: string>,<value: string> [,hours=8760[,path="/"[,domain
@@ -1265,6 +1436,7 @@ function setCookie (name, value, hours = 8760, path = "/", domain, secure,
     + ";";
 }
 
+
 /* getCookie(): object */
 /* getCookie([name: string]): string */
 function getCookie (name) {
@@ -1279,8 +1451,10 @@ function getCookie (name) {
   return (name ? null : {});
 }
 
+
 /* hasCookie(<name: string>): boolean */
 const hasCookie = (n) => (document.cookie.includes(encodeURIComponent(n)+"="));
+
 
 /* removeCookie(<Options object>);: boolean */
 /* removeCookie(<name: string>
@@ -1306,6 +1480,7 @@ function removeCookie (name, path="/", domain, secure, SameSite="Lax",HttpOnly){
     + ";";
   return r;
 }
+
 
 /* clearCookies(<Options object>): undefined */
 /* clearCookies(
@@ -1334,7 +1509,9 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
   }
 }
 
+
 /** Collections API **/
+
 
 /* unique(<iterator>[,resolver]): array */
 function unique (it, resolver) {
@@ -1355,6 +1532,7 @@ function unique (it, resolver) {
   }
 }
 
+
 /* count(<iterator>,<callback: function>): integer */
 function count (it, fn) {
   let i = 0, r = 0;
@@ -1364,11 +1542,13 @@ function count (it, fn) {
   return r;
 }
 
+
 /* arrayDeepClone(<array>): array */
 function arrayDeepClone ([...a]) {
-  const ADC = (v) => (Array.isArray(v) ? Array.from(v, ADC) : v);
-  return ADC(a);
+  const _ADC = (v) => (Array.isArray(v) ? Array.from(v, _ADC) : v);
+  return _ADC(a);
 }
+
 
 /* arrayCreate(<length: any>): array OR throw error */
 function arrayCreate (l = 0) {
@@ -1382,8 +1562,10 @@ function arrayCreate (l = 0) {
 	return Array(l);
 }
 
+
 /* initial(<iterator>): array */
 const initial = ([...a]) => a.slice(0, -1);
+
 
 /* shuffle(<iterator>): array */
 function shuffle([...a]) {
@@ -1394,19 +1576,24 @@ function shuffle([...a]) {
   return a;
 }
 
+
 /* partition(<iterator>,<callback: function>): array */
 const partition = ([...a],fn) => [a.filter(fn),a.filter((e,i,a)=>!(fn(e,i,a)))];
 
+
 /* arrayUnion(<iterator1>[,iteratorN]): array */
 const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
+
 
 /* arrayIntersection(<iterator1>,<iterator2>): array */
 const arrayIntersection = ([...a], [...b]) =>
   a.filter((v) => b.indexOf(v) > -1).filter((e,i, arr) => arr.indexOf(e) === i);
 
+
 /* arrayDifference(<iterator1>,<iterator2>): array */
 const arrayDifference = ([...a], [...b]) =>
   a.filter((v) => b.indexOf(v) === -1).filter((e,i,arr) => arr.indexOf(e)=== i);
+
 
 /* arraySymmetricDifference(<iterator1>,<iterator2>): array */
 const arraySymmetricDifference = ([...a], [...b]) =>
@@ -1414,38 +1601,49 @@ const arraySymmetricDifference = ([...a], [...b]) =>
     .concat(b.filter((v) => a.indexOf(v) === -1))
     .filter((e, i, arr) => arr.indexOf(e) === i);
 
+
 /* setUnion(<iterator1>[,iteratorN]): set */
 const setUnion = (...a) => new Set(a.map(([...e]) => e).flat());
+
 
 /* setIntersection(<set1>,<set2>): set */
 const setIntersection = ([...a], b) => new Set(a.filter((v) => b.has(v)));
 
+
 /* setDifference(<set1>,<set2>): set */
 const setDifference = ([...a], b) => new Set(a.filter((v) => !(b.has(v))));
+
 
 /* setSymmetricDifference(<set1>,<set2>): set */
 const setSymmetricDifference = (a, b) => new Set(
   [...a].filter((v) => !(b.has(v))).concat([...b].filter((v) => !(a.has(v))))
 );
 
+
 /* isSuperset(<superCollection>,<subCollection>): boolean */
 const isSuperset = ([...sup], [...sub]) => sub.every( (v) => sup.indexOf(v)>-1);
+
 
 /* min(<value1: any>[,valueN]): any */
 const min = (...a) => a.reduce((acc, v) => (v < acc ? v : acc), a[0]);
 
+
 /* max(<value1: any>[,valueN]): any */
 const max = (...a) => a.reduce((acc, v) => (v > acc ? v : acc), a[0]);
+
 
 /* arrayRepeat(<value: any>[,n=100]): array */
 const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
+
 /* arrayCycle(<iterator>[,n=100]): array */
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
+
 
 /* arrayRange([start=0[,end=99[,step=1]]]): array */
 const arrayRange = (s = 0, e = 99, st = 1) =>
   Array.from({length: (e - s) / st + 1}, (_v, i) => s + (i * st));
+
 
 /* zip(<iterator1>[,iteratorN]): array */
 function zip (...a) {
@@ -1462,6 +1660,7 @@ function zip (...a) {
   return r;
 }
 
+
 /* unzip(<iterator>): array */
 function unzip ([...a]) {
   a = a.map(([...v]) => v);
@@ -1473,6 +1672,7 @@ function unzip ([...a]) {
   return r;
 }
 
+
 /* zipObj(<iterator1>,<iterator2>): object */
 function zipObj ([...a1], [...a2]) {
   var r = [], i, l = (a1.length < a2.length ? a1.length : a2.length);
@@ -1480,14 +1680,18 @@ function zipObj ([...a1], [...a2]) {
   return Object.fromEntries(r);
 }
 
+
 /* arrayUnique(<iterator>[,callback: function]): array */
 const arrayUnique = (a) => [...new Set(a)];
+
 
 /* arrayAdd(<array>,<value: any>): boolean */
 const arrayAdd = (a, v) => (a.indexOf(v) === -1) ? !!a.push(v) : false;
 
+
 /* arrayClear(<array>): array */
 function arrayClear (a) { a.length = 0; return a; }
+
 
 /* arrayRemove(<array>,<value: any>[,all=false]): boolean */
 function arrayRemove (a, v, all = false) {
@@ -1502,6 +1706,7 @@ function arrayRemove (a, v, all = false) {
   return found;
 }
 
+
 /* arrayRemoveBy(<array>,<callback: function>[,all=false]): boolean */
 function arrayRemoveBy (a, fn, all = false) {
   var found = a.findIndex(fn) > -1;
@@ -1515,8 +1720,10 @@ function arrayRemoveBy (a, fn, all = false) {
   return found;
 }
 
+
 /* arrayMerge(<target: array>,<source1: any>[,sourceN: any]): array */
 function arrayMerge (t, ...a) { t.push(... [].concat(...a) ); return t; }
+
 
 /* iterRange([start=0[,step=1[,end=Infinity]]]): iterator */
 function* iterRange (s = 0, st = 1, e = Infinity) {
@@ -1524,11 +1731,14 @@ function* iterRange (s = 0, st = 1, e = Infinity) {
   while (i <= e) { yield i; i += st; }
 }
 
+
 /* iterCycle(<iter>[,n=Infinity]): iterator */
 function* iterCycle ([...a], n=Infinity){ let i=0; while(i<n) {yield* a; i++;} }
 
+
 /* iterRepeat(<value: any>[,n=Infinity]): iterator */
 function* iterRepeat (v, n=Infinity) { let i= 0; while (i<n) { yield v; i++; } }
+
 
 /* takeWhile(<iterator>,<callback: function>): iterator */
 function* takeWhile (it, fn) {
@@ -1538,6 +1748,7 @@ function* takeWhile (it, fn) {
   }
 }
 
+
 /* dropWhile(<iterator>,<callback: function>): iterator */
 function* dropWhile (it, fn) {
   let d = true;
@@ -1546,6 +1757,7 @@ function* dropWhile (it, fn) {
     if (!d) { yield item; }
   }
 }
+
 
 /* take(<iterator>[,n=1]): iterator */
 function* take (it, n = 1) {
@@ -1557,6 +1769,7 @@ function* take (it, n = 1) {
   }
 }
 
+
 /* drop(<iterator>[,n=1]): iterator */
 function* drop (it, n = 1) {
   let i = n;
@@ -1565,14 +1778,18 @@ function* drop (it, n = 1) {
   }
 }
 
+
 /* forEach(<iterator>,<callback: function>): undefined */
 function forEach (it, fn) { let i = 0; for (let item of it) { fn(item, i++); } }
+
 
 /* forEachRight(<iterator>,<callback: function>): undefined */
 function forEachRight ([...a],fn){ let i=a.length; while (i--) { fn(a[i],i); } }
 
+
 /* map(<iterator>,<callback: function>): iterator */
 function* map (it, fn) { let i=0; for (let item of it) { yield fn(item,i++); } }
+
 
 /* filter(<iterator>,<callback: function>): iterator */
 function* filter (it, fn) {
@@ -1582,6 +1799,7 @@ function* filter (it, fn) {
   }
 }
 
+
 /* reject(<iterator>,<callback: function>): iterator */
 function* reject (it, fn) {
   let i = 0;
@@ -1589,6 +1807,7 @@ function* reject (it, fn) {
     if (!fn(item, i++)) { yield item; }
   }
 }
+
 
 /* slice(<iterator>[,begin=0[,end=Infinity]]): iterator */
 function* slice (it, begin = 0, end = Infinity) {
@@ -1599,6 +1818,7 @@ function* slice (it, begin = 0, end = Infinity) {
   }
 }
 
+
 /* tail(<iterator>): iterator */
 function* tail (it) {
   let first = true;
@@ -1607,28 +1827,35 @@ function* tail (it) {
   }
 }
 
+
 /* item(<iterator>,<index: integer>): any */
 function item (it,p) {let i=0; for(let item of it) {if(i++===p) {return item;}}}
 /* nth(<iterator>,<index: integer>): any */
 function nth (it,p) { let i=0; for(let item of it) {if(i++===p) {return item;}}}
 
+
 /* size(<iterator>): integer */
 function size (it) { let i = 0; for (let _item of it) { i++; } return i; }
+
 
 /* first(<iterator>): any */
 function first (it) { for (let item of it) { return item; } }
 /* head(<iterator>): any */
 function head (it) { for (let item of it) { return item; } }
 
+
 /* last(<iterator>): any */
 function last (it) { let item; for (item of it) { } return item; }
+
 
 /* reverse(<iterator>): iterator */
 function* reverse ([...a]) { var i = a.length; while (i--) { yield a[i]; } }
 
+
 /* sort(<iterator>[,numbers=false]): array */
 const sort = ([...a], ns) => a.sort(ns
   ? (a,b) => { if (a<b){return -1;} if(a>b){return 1;} return 0; } : undefined);
+
 
 /* includes(<iterator>,<value: any>): boolean */
 function includes (it, v) {
@@ -1645,6 +1872,7 @@ function contains (it, v) {
   return false;
 }
 
+
 /* find(<iterator>,<callback: function>): any */
 function find (it, fn) {
   let i = 0;
@@ -1652,6 +1880,7 @@ function find (it, fn) {
     if (fn(item, i++)) { return item; }
   }
 }
+
 
 /* findLast(<iterator>,<callback: function>): any */
 function findLast (it, fn) {
@@ -1661,6 +1890,7 @@ function findLast (it, fn) {
   }
   return r;
 }
+
 
 /* every(<iterator>,<callback: function>): boolean */
 function every (it, fn) {
@@ -1672,6 +1902,7 @@ function every (it, fn) {
   return true;
 }
 
+
 /* some(<iterator>,<callback: function>): boolean */
 function some (it, fn) {
   let i = 0;
@@ -1680,6 +1911,7 @@ function some (it, fn) {
   }
   return false;
 }
+
 
 /* none(<iterator>,<callback: function>): boolean */
 function none (it, fn) {
@@ -1691,8 +1923,10 @@ function none (it, fn) {
   return true;
 }
 
+
 /* takeRight(<iterator>[,n=1]): array */
 const takeRight = ([...a], n = 1) => a.reverse().slice(0, n);
+
 
 /* takeRightWhile(<iterator>,<callback: function>): iterator */
 function* takeRightWhile ([...a], fn) {
@@ -1702,8 +1936,10 @@ function* takeRightWhile ([...a], fn) {
   }
 }
 
+
 /* dropRight(<iterator>[,n=1]): array */
 const dropRight = ([...a], n = 1) => a.reverse().slice(n);
+
 
 /* dropRightWhile(<iterator>,<callback: function>): iterator */
 function* dropRightWhile ([...a], fn) {
@@ -1713,6 +1949,7 @@ function* dropRightWhile ([...a], fn) {
     if (!d) { yield item; }
   }
 }
+
 
 /* concat(<iterator1>[,iteratorN]): iterator */
 function* concat () {
@@ -1729,6 +1966,7 @@ function* concat () {
   }
 }
 
+
 /* reduce(<iterator>,<callback: function>[,initialvalue: any]): any */
 function reduce (it, fn, iv) {
   let acc = iv, i = 0;
@@ -1742,6 +1980,7 @@ function reduce (it, fn, iv) {
   return acc;
 }
 
+
 /* enumerate(<iterator>[,offset=0]): iterator */
 function* enumerate (it, offset = 0) {
   let i = offset;
@@ -1752,6 +1991,7 @@ function* entries (it, offset = 0) {
   let i = offset;
   for (let item of it) { yield [i++, item]; }
 }
+
 
 /* flat(<iterator>): iterator */
 function* flat (it) {
@@ -1768,6 +2008,7 @@ function* flat (it) {
   }
 }
 
+
 /* join(<iterator>[,separator=","]): string */
 function join (it, sep = ",") {
   sep = String(sep);
@@ -1776,10 +2017,13 @@ function join (it, sep = ",") {
   return r.slice(sep.length);
 }
 
+
 /* withOut(<iterator>,<filterIterator>): array */
 const withOut = ([...a], [...fl]) => a.filter( (e) => fl.indexOf(e) === -1 );
 
+
 /** Abstract API **/
+
 
 /* deletePropertyOrThrow(<object>,<property>): undefined */
 function deletePropertyOrThrow (O, P) {
@@ -1787,12 +2031,28 @@ function deletePropertyOrThrow (O, P) {
   if (P in O) { throw new Error("Object Property delete error: "+O+"["+P+"]"); }
 }
 
+
+/* isSameClass(<value1>,<value2>): boolean */
+function isSameClass (x, y) {
+  const toStr = Object.prototype.toString;
+  if (toStr.call(x) !== toStr.call(y)){
+    throw new TypeError("isSameClass(); error: " + x + " - " + y);
+  }
+  return true;
+}
+
+
+
+
+
 /* isSameType(<value1>,<value2>): boolean */
-const isSameType = (v1, v2) =>
-  (v1 == null && v1 === v2) ? true : (typeof v1 === typeof v2);
+const isSameType = (x, y) =>
+  ((x == null || y == null) ? (x === y) : (typeof x === typeof y));
+
 
 /* isLessThan(<v1: any>,<v2: any>[,leftFirst = true]): boolean */
 const isLessThan = (v1, v2, leftFirst = true) => (leftFirst ? (v1<v2) :(v1>v2));
+
 
 /* requireObjectCoercible(<value: any>): value or throw error */
 function requireObjectCoercible (O) {
@@ -1802,6 +2062,7 @@ function requireObjectCoercible (O) {
   return O;
 }
 
+
 /* getInV(<value: any>,<property: string>): any OR throw error */
 function getInV (O, P) {
   if (O == null ) {
@@ -1810,8 +2071,10 @@ function getInV (O, P) {
   return Object(O)[P];
 }
 
+
 /* getIn(<object>,<property: string>): any */
 const getIn = (O, P) => O[P];
+
 
 /* setIn(<object>,<property: string>,<value: any>[,Throw=false]): object */
 function setIn (O, P, V, Throw = false) {
@@ -1822,14 +2085,18 @@ function setIn (O, P, V, Throw = false) {
   return (O[P] === V);
 }
 
+
 /* hasIn(<object>,<property: string>): boolean */
 const hasIn = (O, P) => (P in O);
+
 
 /* isPropertyKey(<value: any>): boolean */
 const isPropertyKey = (v) => (typeof v === "string" || typeof v === "symbol");
 
+
 /* toPropertyKey(<value: any>): string OR symbol */
 const toPropertyKey = (v) => (typeof v === "symbol" ? v : String(v));
+
 
 /* toObject(<value: any>): object OR symbol OR function OR throw error */
 function toObject (O) {
@@ -1838,18 +2105,20 @@ function toObject (O) {
   return Object(O);
 }
 
+
 /* toPrimitiveValue(<value: any>):
   primitive OR object OR symbol OR function OR throw error */
 function toPrimitiveValue (O) {
-  // null, undefined, Function Boolean, BigInt, Number, String, Symbol
+  /* null, undefined, Function, Boolean, BigInt, Number, String, Symbol */
   if (O == null || typeof O !== "object") { return O; }
-  // object
+  /* object */
   var ot = Object.prototype.toString.call(O).slice(8, -1);
   if (["Boolean", "BigInt", "Number", "String"].includes(ot)) {
     return window[ot](O);
   }
   return O;
 }
+
 
 /* toPrimitive(<value: any>): primitive OR throw error */
 function toPrimitive (O, hint = "default") {
@@ -1878,21 +2147,25 @@ function toPrimitive (O, hint = "default") {
   throw new TypeError("celestra.toPrimitive(): Cannot convert object to primitive value");
 }
 
+
 /* isSameValue(<value1: any>,<value2: any>): boolean */
 const isSameValue = (v1, v2) =>
   ((v1 === v2) ? (v1 !== 0 || 1/v1 === 1/v2) : (v1 !== v1 && v2 !== v2));
 
+
 /* isSameValueZero(<value1: any>,<value2: any>): boolean */
-// const isSameValueZero = (v1, v2) => (v1 === v2 || (v1 !== v1 && v2 !== v2));
 const isSameValueZero = (v1, v2) => (v1 === v2 || (v1 !== v1 && v2 !== v2));
+
 
 /* isSameValueNonNumber(<value1: any>,<value2: any>): boolean */
 const isSameValueNonNumber = (v1, v2) => (v1 === v2);
+
 
 /* createMethodProperty(<object>,<property>,<value: any>): object */
 const createMethodProperty = (O, P, V) => Object.defineProperty(
   O, P, {value: V, writable: true, enumerable: false, configurable: true}
 );
+
 
 /*createMethodPropertyOrThrow(<object>,<property>,<value:any>):object or throw*/
 function createMethodPropertyOrThrow (O, P, V) {
@@ -1905,6 +2178,7 @@ function createMethodPropertyOrThrow (O, P, V) {
   return O;
 }
 
+
 /* createPolyfillMethod(<object>,<property>,<value: any>): boolean */
 function createPolyfillMethod (O, P, V) {
   if (!(Object.hasOwn(O, P))) {
@@ -1915,6 +2189,7 @@ function createPolyfillMethod (O, P, V) {
   return (O[P] === V);
 }
 
+
 /* createPolyfillProperty(<object>,<property>,<value: any>): boolean */
 function createPolyfillProperty (O, P, V) {
   if (!(Object.hasOwn(O, P))) {
@@ -1924,6 +2199,7 @@ function createPolyfillProperty (O, P, V) {
   }
   return (O[P] === V);
 }
+
 
 /* deleteOwnProperty(<object>,<property>[,Throw=false]): number or throw error*/
 function deleteOwnProperty (O, P, Throw = false) {
@@ -1936,39 +2212,67 @@ function deleteOwnProperty (O, P, Throw = false) {
   return -1;
 }
 
+
 /* type(<value>): string */
 const type = (v) => ((v === null) ? "null" : (typeof v));
+
 
 /* isIndex(<value: any>): boolean */
 const isIndex = (v) => (Number.isSafeInteger(v) && v >= 0 && 1/v !== 1/-0);
 /* isLength(<value: any>): boolean */
 const isLength = (v) => (Number.isSafeInteger(v) && v >= 0 && 1/v !== 1/-0);
 
+
 /* toIndex(<value: any>): unsigned integer */
-const toIndex = (v) =>
-  ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 2147483647)) === v) ? v :0;
+function toIndex (argument) {
+  /* ToIntegerOrInfinity begin */
+  let v = +argument;
+  if (v !== v || 1/v === Infinity || 1/v === -Infinity) { v = 0; }
+  let integer = ((v === Infinity || v === -Infinity) ? v : Math.trunc(v));
+  /* ToIntegerOrInfinity end */
+  if (integer < 0 || integer > (Math.pow(2, 53) - 1)) {
+    throw new RangeError("celestra.toIndex(); RangeError: " + integer);
+  }
+  return integer;
+}
+
 
 /* toLength(<value: any>): unsigned integer */
-const toLength = (v) =>
-  ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 2147483647)) === v) ? v :0;
+function toLength (argument) {
+  /* ToIntegerOrInfinity begin */
+  let v = +argument;
+  if (v !== v || 1/v === Infinity || 1/v === -Infinity) { v = 0; }
+  let len = ((v === Infinity || v === -Infinity) ? v : Math.trunc(v));
+  /* ToIntegerOrInfinity end */
+  if (len < 0) { return 0; }
+  return Math.min(len, Math.pow(2, 53) - 1);
+}
+
 
 /* toInteger(<value: any>): integer */
-const toInteger = (v) =>
-  ((v = Math.min(Math.max(-2147483648, Math.trunc(Number(v))), 2147483647))
-    === v) ? v : 0;
-
-/* ToIntegerOrInfinity(<value: any>): integer OR Infinity OR -Infinity */
-function toIntegerOrInfinity (v) {
+function toInteger (v) {
   v = Number(v);
-  if (1/v === Infinity || 1/v === -Infinity || v !== v) { return 0; }
+  if (v !== v || 1/v === Infinity || 1/v === -Infinity) { return 0; }
+  if (v === Infinity) { return Math.pow(2, 53) - 1; }
+  if (v === -Infinity) { return -(Math.pow(2, 53) - 1); }
+  return Math.trunc(v);
+}
+
+
+/* toIntegerOrInfinity(<value: any>): integer OR Infinity OR -Infinity */
+function toIntegerOrInfinity (v) {
+  v = +v;
+  if (v !== v || 1/v === Infinity || 1/v === -Infinity) { return 0; }
   if (v === Infinity || v === -Infinity) { return v; }
   return Math.trunc(v);
 }
+
 
 /* createDataProperty(<object>,<property>,<value: any>): object */
 const createDataProperty = (O, P, V) => Object.defineProperty(
   O, P, {value: V, writable: true, enumerable: true, configurable: true}
 );
+
 
 /* createDataPropertyOrThrow(<object>,<property>,<value:any>): object or throw*/
 function createDataPropertyOrThrow (O, P, V) {
@@ -1981,22 +2285,26 @@ function createDataPropertyOrThrow (O, P, V) {
   return O;
 }
 
+
 /* toArray(<value: array OR iterable OR arraylike>): array */
 const toArray = (O) => (Array.isArray(O) ? O : Array.from(O));
 
+
 /** Math API **/
 
+
 /* sum(<value1>[,valueN]): number */
-//const sum = (f, ...a) => a.reduce((acc, v) => acc + v, f);
 const sum = (...a) => (a.every((v) => typeof v === "number") ?
-  Math.sumPrecise(a) : a.slice(1).reduce((acc, v) => acc + v, a[0])
-);
+  Math.sumPrecise(a) : a.slice(1).reduce((acc, v) => acc + v, a[0]));
+
 
 /* avg(<value1>[,valueN]): number */
-const avg = (f, ...a) => a.reduce((acc, v) => acc + v, f) / (a.length + 1);
+const avg = (...a) => Math.sumPrecise(a) / a.length;
+
 
 /* product(<value1>[,valueN]): number */
 const product = (f, ...a) => a.reduce((acc, v) => acc * v, f);
+
 
 /* clamp(<value>,<min>,<max>): number */
 function clamp (v, min, max) {
@@ -2041,98 +2349,113 @@ function minmax (v, min, max) {
   return v;
 }
 
+
 /* isEven(<value>): boolan */
-function isEven (v) {
-  var r = v % 2;
-  if (!Number.isNaN(r)) { return r === 0; }
-  return false;
-}
+function isEven (v) { var r = v % 2; if (r===r) { return r===0; } return false;}
+
+
 
 /* isOdd(<value>): boolean */
-function isOdd (v) {
-  var r = v % 2;
-  if (!Number.isNaN(r)) { return r !== 0; }
-  return false;
-}
+function isOdd (v) { var r = v % 2; if (r===r) { return r!==0; } return false; }
+
 
 /* toInt8(<value>): int -127..128 */
 const toInt8 = (v) =>
   ((v = Math.min(Math.max(-128, Math.trunc(Number(v))), 127)) === v) ? v : 0;
 
+
 /* toUInt8(<value>): int 0..255  */
 const toUInt8 = (v) =>
   ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 255)) === v) ? v : 0;
+
 
 /* toInt16(<value>): int -32768..32767 */
 const toInt16 = (v) =>
   ((v = Math.min(Math.max(-32768, Math.trunc(Number(v))), 32767)) === v) ? v :0;
 
+
 /* toUInt16(<value>) int 0..65535 */
 const toUInt16 = (v) =>
   ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 65535)) === v) ? v : 0;
+
 
 /* toInt32(<value>): int -2147483648..2147483647 */
 const toInt32 = (v) =>
   ((v = Math.min(Math.max(-2147483648, Math.trunc(Number(v))), 2147483647))
     === v) ? v : 0;
 
+
 /* toUInt32(<value>: int 0..4294967295 */
 const toUInt32 = (v) =>
   ((v = Math.min(Math.max(0, Math.trunc(Number(v))), 4294967295)) === v) ? v :0;
 
+
 /* toBigInt64(<value>): bigint */
 const toBigInt64 = (v) => BigInt(typeof v === "bigint"
   ? (v > Math.pow(2,63)-1 ?Math.pow(2,63)-1:v<Math.pow(-2,63)?Math.pow(-2,63):v)
-  : ((v=Math.min(Math.max(Math.pow(-2,63),Math.trunc(Number(v))),Math.pow(2,63)-1))
-    === v ) ? v : 0
-);
+  : ((v = Math.min(Math.max(Math.pow(-2, 63), Math.trunc(Number(v))),
+  Math.pow(2, 63) - 1)) === v ) ? v : 0);
+
 
 /* toBigUInt64(<value>): unsigned bigint */
 const toBigUInt64 = (v) => BigInt(typeof v === "bigint"
   ? (v > Math.pow(2, 64) - 1 ? Math.pow(2, 64) - 1 : v < 0 ? 0 : v)
-  : ((v=Math.min(Math.max(0, Math.trunc(Number(v))), Math.pow(2,64) -1)) === v) ? v : 0
-);
+  : ((v=Math.min(Math.max(0,Math.trunc(Number(v))),Math.pow(2,64)-1))===v)?v:0);
+
 
 /* toFloat32(<value>): float */
-const toFloat32 = (v) => ((v = Math.min(Math.max(-3.4e38, Number(v)),3.4e38))===v)?v:0;
+const toFloat32 = (v) =>
+  ((v = Math.min(Math.max(-3.4e38, Number(v)), 3.4e38)) === v) ? v : 0;
+
 
 /* isInt8(<value>): boolean */
 const isInt8 = (v) => (Number.isInteger(v) ? (v >= -128 && v <= 127) : false);
 
+
 /* isUInt8(<value>): boolean */
 const isUInt8 = (v) => (Number.isInteger(v) ? (v >= 0 && v <= 255) : false);
+
 
 /* isInt16(<value>): boolean */
 const isInt16 = (v) => (Number.isInteger(v) ?(v>=-32768 && v <= 32767) : false);
 
+
 /* isUInt16(<value>): boolean */
 const isUInt16 = (v) => (Number.isInteger(v) ? (v >= 0 && v <= 65535) : false);
+
 
 /* isInt32(<value>): boolean */
 const isInt32 = (v) =>
   (Number.isInteger(v) ? (v >= -2147483648 && v <= 2147483647) : false);
 
+
 /* isUInt32(<value>): boolean */
 const isUInt32 = (v) => (Number.isInteger(v) ? (v>=0 && v<=4294967295) : false);
+
 
 /* isBigInt64(<value>): boolean */
 const isBigInt64 = (v) => (typeof v === "bigint"
   ? (v >= Math.pow(-2, 63) && v <= Math.pow(2, 63)-1) : false);
 
+
 /* isBigUInt64(<value>): boolean */
 const isBigUInt64 = (v) =>
   (typeof v === "bigint" ? (v >= 0 && v <= Math.pow(2,64)-1) : false);
+
 
 /* toFloat16(<value>): float16 */
 const toFloat16 = (v) => ((v = Math.min(Math.max(-65504, Number(v)),65504))
   === v ) ? v : 0;
 
+
 /* isFloat16(<value>): boolean */
 const isFloat16 = (v) =>
   ((typeof v === "number" && v === v) ?(v>=-65504 && v<=65504) : false);
 
+
 /* signbit(<value: any>): boolean */
 const signbit = (v) => (((v = Number(v))!==v) ? !1 :((v<0) || Object.is(v,-0)));
+
 
 /* randomInt([max: int] OR <min: int>,<max: int>): int */
 function randomInt (i = 100, a) {
@@ -2141,6 +2464,7 @@ function randomInt (i = 100, a) {
   return Math.floor(Math.random() * (Math.floor(Number(a)) - i + 1) + i);
 }
 
+
 /* randomFloat([max: float] OR <min: float>,<max: float>): float */
 function randomFloat (i = 100, a) {
   if (a == null) { a = i; i = 0; }
@@ -2148,28 +2472,39 @@ function randomFloat (i = 100, a) {
   return r > a ? a : r;
 }
 
+
 /* inRange(<value: number>,<min: number>,<max: number>): boolean */
 const inRange = (v, min, max) => (v >= min && v <= max);
+
 
 /** undocumented functions **/
 /* Please don't use these in production! */
 
+
 const _apply = Function.prototype.call.bind(Function.prototype.apply);
+
 
 const _call = Function.prototype.call.bind(Function.prototype.call);
 
+
 const _forEach = Function.prototype.call.bind(Array.prototype.forEach);
+
 
 const _map = Function.prototype.call.bind(Array.prototype.map);
 
+
 const _slice = Function.prototype.call.bind(Array.prototype.slice);
+
 
 /** object header **/
 
-const VERSION = "Celestra v5.7.0 dev";
+
+const VERSION = "Celestra v5.7.1 dev";
+
 
 /* celestra.noConflict(): celestra object */
 function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
+
 
 var celestra = {
   /** object header **/
@@ -2271,6 +2606,7 @@ var celestra = {
   getJson: getJson,
   ajax: ajax,
   /** Type checking API **/
+  isProxy: isProxy,
   isTruthy: isTruthy,
   isFalsy: isFalsy,
   isAsyncGeneratorFn: isAsyncGeneratorFn,
@@ -2398,6 +2734,7 @@ var celestra = {
   withOut: withOut,
   /** Abstract API **/
   deletePropertyOrThrow: deletePropertyOrThrow,
+  isSameClass: isSameClass,
   isSameType: isSameType,
   isLessThan: isLessThan,
   requireObjectCoercible: requireObjectCoercible,
@@ -2467,10 +2804,12 @@ var celestra = {
   _slice: _slice
 };
 
+
 if (typeof window !== "undefined") {
   window.celestra = celestra;
   celestra.__prevCEL__ = window.CEL;
   window.CEL = celestra;
 }
+
 
 }(window, document));
