@@ -1,7 +1,7 @@
 
 /**
  * @name Celestra Removed Polyfills
- * @version 5.7.2 dev
+ * @version 5.7.3 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -725,7 +725,7 @@ if (!Object.fromEntries) {
 /* Object.is(); SameValue */
 if (!Object.is) {
   Object.is = function (x, y) {
-    if (x===y) { return x!==0 || 1/x === 1/y; } else { return x!==x && y!==y; }
+    if (x===y) { return x !==0 || 1/x === 1/y; } else { return x!==x && y!==y; }
   };
 }
 
