@@ -103,8 +103,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.7.3</p>
-<p>Date: 2025-07-07T19:41:55.394Z</p>
+<p>Latest version: 5.7.4</p>
+<p>Date: 2025-07-14T19:25:25.904Z</p>
 
 <p><b>Tested on these browsers:</b></p>
 
@@ -222,16 +222,16 @@ nav a, nav a:visited, nav a:active, nav a:hover {
     <td><a href="testgame.html" target="_blank">testgame.html</a></td>
   </tr>
   <tr>
-    <td>Demo plugin documentation</td>
-    <td><a href="celestra-demo-plugin.html" target="_blank">celestra-demo-plugin.html</a></td>
+    <td>Assert plugin documentation</td>
+    <td><a href="celestra-assert-plugin.html" target="_blank">celestra-assert-plugin.html</a></td>
   </tr>
   <tr>
-    <td>Demo plugin developer source</td>
-    <td><a href="celestra-demo-plugin.dev.js" target="_blank">celestra-demo-plugin.dev.js</a></td>
+    <td>Assert plugin developer source</td>
+    <td><a href="celestra-assert-plugin.dev.js" target="_blank">celestra-assert-plugin.dev.js</a></td>
   </tr>
   <tr>
-    <td>Demo plugin minified source</td>
-    <td><a href="celestra-demo-plugin.min.js" target="_blank">celestra-demo-plugin.min.js</a></td>
+    <td>Assert plugin minified source</td>
+    <td><a href="celestra-assert-plugin.min.js" target="_blank">celestra-assert-plugin.min.js</a></td>
   </tr>
 </table>
 
@@ -630,11 +630,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>assertDeepEqual(value1, value2 [,message]);</code></td>
-      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 aren't deep equals. (<i>Deep loose equality + NaN equality: primitives (loose equality + NaN equality), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.<br/><span class="info">This function may give unexpected results. It is safer to use the <code>assertDeepStrictEqual();</code> function.</span></td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 aren't deep equals. (<i>Deep loose equality + NaN equality: primitives (loose equality + NaN equality), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.<br/><span class="info">This function may give unexpected results. It is safer to use the <code>assertDeepStrictEqual();</code> function.</span></td>
     </tr>
     <tr>
       <td><code>assertDeepStrictEqual(value1, value2 [,message]);</code></td>
-      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 aren't deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.</td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 aren't deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.</td>
     </tr>
     <tr>
       <td><code>assertEqual(value1, value2 [,message]);</code></td>
@@ -649,11 +649,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>assertNotDeepEqual(value1, value2, [,message]);</code></td>
-      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 are deep equals. (<i>Deep loose equality + NaN equality: primitives (loose equality + NaN equality), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.<br/><span class="info">This function may give unexpected results. It is safer to use the <code>assertNotDeepStrictEqual();</code> function.</span></td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 are deep equals. (<i>Deep loose equality + NaN equality: primitives (loose equality + NaN equality), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.<br/><span class="info">This function may give unexpected results. It is safer to use the <code>assertNotDeepStrictEqual();</code> function.</span></td>
     </tr>
     <tr>
       <td><code>assertNotDeepStrictEqual(value1, value2, [,message]);</code></td>
-      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 are deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.</td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 are deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.</td>
     </tr>
     <tr>
       <td><code>assertNotEqual(value1, value2 [,message]);</code></td>
@@ -993,7 +993,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isDeepStrictEqual(value1, value2);</code></td>
-      <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided values are deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date</i>) The return value is boolean.</td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided values are deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isElement(value);</code></td>
