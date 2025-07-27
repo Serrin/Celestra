@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.7.4 dev
+ * @version 5.8.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -300,7 +300,7 @@ const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const WORDSAFEALPHABET= "23456789CFGHJMPQRVWXcfghjmpqvwx";
 
 
-/* deleteOwnProperty(object, property [,Throw = false]): number OR thrown error*/
+/* deleteOwnProperty(object, property [,Throw = false]): number | thrown error*/
 function deleteOwnProperty (O, P, Throw = false) {
   if (Object.hasOwn(O, P)) {
     delete O[P];
@@ -312,7 +312,7 @@ function deleteOwnProperty (O, P, Throw = false) {
 }
 
 
-/* toObject(value: any): object OR symbol OR function OR thrown error */
+/* toObject(value: any): object | symbol | function | thrown error */
 function toObject (O) {
   if (O == null) { throw new TypeError("celestra.toObject(); error: " + O); }
   return (["object", "function"].includes(typeof O)) ? O : Object(O);
@@ -416,7 +416,7 @@ const obj2string = (o) => Object.keys(o).reduce(
 
 
 /* classof(variable: any): string */
-/* classof(variable: any [, type: string [, throw =false]]): boolean OR throw */
+/* classof(variable: any [, type: string [, throw =false]]): boolean | throw */
 function classof (v, type, Throw = false) {
   var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
   if (arguments.length < 2) { return ot; }
@@ -429,7 +429,7 @@ function classof (v, type, Throw = false) {
 
 
 /* getType(variable: any): string */
-/* getType(variable: any [, type: string [, throw =false]]): boolean OR throw */
+/* getType(variable: any [, type: string [, throw =false]]): boolean | throw */
 function getType (v, type, Throw = false) {
   var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
   if (arguments.length < 2) { return ot; }
@@ -485,7 +485,7 @@ const filterIn = (o, fn) => Object.keys(o)
   .reduce((r, p) => { if (fn(o[p], p, o)) { r[p] = o[p]; } return r; }, {});
 
 
-/* popIn(object, property: string): any OR undefined*/
+/* popIn(object, property: string): any | undefined*/
 function popIn (o,p) {
   if (Object.hasOwn(o, p)) {
     var v = o[p];
@@ -557,149 +557,253 @@ function timestampID (size = 21,
 /** Assertion API **/
 
 
-/* assertType(value: any, type: string): value or thrown error */
-/* assertType(value: any, constructor: function): value or thrown error */
-function assertType (v, rType, message) {
-  if (typeof rType !== "string" && typeof rType !== "function") {
-    throw new TypeError(
-      "[assertType] TypeError: " + rType + " is not a string of function"
-    );
+/* assertFail(message | error): thrown error */
+function assertFail(msg) {
+  if (Error.isError(msg)) {
+    throw msg;
+  } else {
+    throw new Error("[assertFail] Assertion failed" + (msg ? ": " + msg : ""));
   }
-  if (typeof rType === "string") {
-    if (rType === "object" ? (v !== null && typeof v !== "object")
-        : typeof v !== rType) {
-      throw new TypeError(
-        "[assertType] Assertion failed: " + v + " is not a " + rType
-          + (message ? " - " + message : "")
-      );
-    }
-  }
-  if (typeof rType === "function") {
-    if (!(v instanceof rType)) {
-      throw new TypeError(
-        "[assertType] Assertion failed: " + v + " is not a "
-          + ((rType.name !== "") ? rType.name : rType)
-          + (message ? " - " + message : "")
-      );
-    }
-  }
-  return v;
 }
 
 
-/* assertNotType(value: any, type: string): value or thrown error */
-/* assertNotType(value: any, constructor: function): value or thrown error */
-function assertNotType (v, rType, message) {
-  if (typeof rType !== "string" && typeof rType !== "function") {
+/* assertMatch(string, regexp [, message]): true | thrown error */
+function assertMatch(string, regexp, msg) {
+  if (typeof string !== "string") {
     throw new TypeError(
-      "[assertNotType] TypeError: " + rType + " is not a string of function"
+      "[assertMatch] TypeError: " + string + " is not a string"
+        + (msg ? " - " + msg : "")
     );
   }
-  if (typeof rType === "string") {
-    if (rType === "object" ? (v !== null && typeof v === "object")
-        : typeof v === rType) {
-      throw new TypeError(
-        "[assertNotType] Assertion failed: " + v + " is a " + rType
-          + (message ? " - " + message : "")
-      );
-    }
+  if (!(regexp instanceof RegExp)) {
+    throw new TypeError(
+      "[assertMatch] TypeError: " + regexp + " is not a RegExp"
+        + (msg ? " - " + msg : "")
+    );
   }
-  if (typeof rType === "function") {
-    if (v instanceof rType) {
-      throw new TypeError(
-        "[assertNotType] Assertion failed: " + v + " is a "
-          + ((rType.name !== "") ? rType.name : rType)
-          + (message ? " - " + message : "")
-      );
-    }
-  }
-  return v;
-}
-
-
-/* assert(value: any [, message]): true OR thrown error */
-function assert (c, message) {
-  if (!c) {
-    throw new Error("[assert] Assertion failed"
-      + (message ? ": " + message : "")
+  if (!(regexp.test(string))) {
+    throw new Error(
+      "[assertMatch] Assertion failed" + (msg ? ": " + msg : "")
     );
   }
   return true;
 }
 
 
-/* assertTrue(value: any [, message]): true OR thrown error */
-function assertTrue (c, message) {
-  if (!c) {
-    throw new Error("[assertTrue] Assertion failed"
-      + (message ? ": " + message : "")
+/* assertDoesNotMatch(string, regexp [, message]): true | thrown error */
+function assertDoesNotMatch(string, regexp, msg) {
+  if (typeof string !== "string") {
+    throw new TypeError(
+      "[assertDoesNotMatch] TypeError: " + string + " is not a string"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  if (!(regexp instanceof RegExp)) {
+    throw new TypeError(
+      "[assertDoesNotMatch] TypeError: " + regexp + " is not a RegExp"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  if (regexp.test(string)) {
+    throw new Error(
+      "[assertDoesNotMatch] Assertion failed" + (msg ? ": " + msg : "")
     );
   }
   return true;
 }
 
 
-/* assertFalse(value: any [, message]): true OR thrown error */
-function assertFalse (c, message) {
+/* assertThrows(callback: function [, message]): error | thrown error */
+function assertThrows (callback, msg) {
+  if (typeof callback !== "function") {
+    throw new TypeError(
+      "[assertThrows] TypeError: " + callback + " is not a function"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  try { callback(); } catch (e) { return e; }
+  throw new Error("[assertThrow] Assertion failed" + (msg ? ": " + msg : ""));
+}
+
+
+/* assertIsNotNil(value: any [, message]): value | thrown error */
+function assertIsNotNil (v, msg) {
+  if (v == null) {
+    throw new TypeError(
+      "[assertIsNotNil] Assertion failed: " + v + " is null or undefined"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  return v;
+}
+
+
+/* assertIsNil(value: any [, message]): value | thrown error */
+function assertIsNil (v, msg) {
+  if (v != null) {
+    throw new TypeError(
+      "[assertIsNil] Assertion failed: " + v + " is not null or undefined"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  return v;
+}
+
+
+/* assertTypeOf(value: any, type: string [, message]): value | thrown error */
+function assertTypeOf (v, type, msg) {
+  const _type = (v) => ((v === null) ? "null" : (typeof v));
+  if (typeof type !== "string") {
+    throw new TypeError(
+      "[assertTypeOf] TypeError: " + type + " is not a string"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  if (_type(v) !== type) {
+    throw new TypeError(
+      "[assertTypeOf] Assertion failed: " + v + " is not a " + type
+        + (msg ? " - " + msg : "")
+    );
+  }
+  return v;
+}
+
+
+/* assertNotTypeOf(value: any, type: string [, message]):
+  value | thrown error */
+function assertNotTypeOf (v, type, msg) {
+  const _type = (v) => ((v === null) ? "null" : (typeof v));
+  if (typeof type !== "string") {
+    throw new TypeError(
+      "[assertNotTypeOf] TypeError: " + type + " is not a string"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  if (_type(v) === type) {
+    throw new TypeError(
+      "[assertNotTypeOf] Assertion failed: " + v + " is not a " + type
+        + (msg ? " - " + msg : "")
+    );
+  }
+  return v;
+}
+
+
+/* assertInstanceOf(value: any, Class: constructor [, message]):
+  value | thrown error */
+function assertInstanceOf (v, Class, msg) {
+  if (typeof Class !== "function") {
+    throw new TypeError(
+      "[assertInstanceOf] TypeError: " + Class + " is not a function"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  if (!(v instanceof Class)) {
+    throw new TypeError(
+      "[assertInstanceOf] Assertion failed: " + v + " is not a "
+        + ((Class.name !== "") ? Class.name : Class)
+        + (msg ? " - " + msg : "")
+    );
+  }
+  return v;
+}
+
+
+/* assertNotInstanceOf(value: any, Class: constructor [, message]):
+  value | thrown error */
+function assertNotInstanceOf (v, Class, msg) {
+  if (typeof Class !== "function") {
+    throw new TypeError(
+      "[assertNotInstanceOf] TypeError: " + Class + " is not a function"
+        + (msg ? " - " + msg : "")
+    );
+  }
+  if (v instanceof Class) {
+    throw new TypeError(
+      "[assertNotInstanceOf] Assertion failed: " + v + " is not a "
+        + ((Class.name !== "") ? Class.name : Class)
+        + (msg ? " - " + msg : "")
+    );
+  }
+  return v;
+}
+
+
+/* assert(value: any [, message]): true | thrown error */
+function assert (c, msg) {
+  if (!c) {
+    throw new Error("[assert] Assertion failed" + (msg ? ": " + msg : ""));
+  }
+  return true;
+}
+
+
+/* assertTrue(value: any [, message]): true | thrown error */
+function assertTrue (c, msg) {
+  if (!c) {
+    throw new Error("[assertTrue] Assertion failed" + (msg ? ": " + msg : ""));
+  }
+  return true;
+}
+
+
+/* assertFalse(value: any [, message]): true | thrown error */
+function assertFalse (c, msg) {
   if (c) {
-    throw new Error("[assertFalse] Assertion failed"
-      + (message ? ": " + message : "")
-    );
+    throw new Error("[assertFalse] Assertion failed" + (msg ? ": " + msg : ""));
   }
   return true;
 }
 
 
-/* assertEqual(x: any, y: any [, message]): true OR thrown error */
+/* assertEqual(x: any, y: any [, message]): true | thrown error */
 /* loose equality + NaN equality */
-function assertEqual (x, y, message) {
+function assertEqual (x, y, msg) {
   if (!(x == y || (x !== x && y !== y))) {
-    throw new Error("[assertEqual] Assertion failed"
-      + (message ? ": " + message : "")
-    );
+    throw new Error("[assertEqual] Assertion failed" + (msg ? ": " + msg : ""));
   }
   return true;
 }
 
 
-/* assertStrictEqual(x: any, y: any [, message]): true OR thrown error */
+/* assertStrictEqual(x: any, y: any [, message]): true | thrown error */
 /* SameValue equality */
-function assertStrictEqual (x, y, message) {
+function assertStrictEqual (x, y, msg) {
   if (!((x === y) ? (x !== 0 || 1/x === 1/y) : (x !== x && y !== y))) {
     throw new Error("[assertStrictEqual] Assertion failed"
-      + (message ? ": " + message : "")
+      + (msg ? ": " + msg : "")
     );
   }
   return true;
 }
 
 
-/* assertNotEqual(x: any, y: any [, message]): true OR thrown error */
+/* assertNotEqual(x: any, y: any [, message]): true | thrown error */
 /* loose equality + NaN equality */
-function assertNotEqual (x, y, message) {
+function assertNotEqual (x, y, msg) {
   if (x == y || (x !== x && y !== y)) {
     throw new Error("[assertNotEqual] Assertion failed"
-      + (message ? ": " + message : "")
+      + (msg ? ": " + msg : "")
     );
   }
   return true;
 }
 
 
-/* assertNotStrictEqual(x: any, y: any [, message]): true OR thrown error */
+/* assertNotStrictEqual(x: any, y: any [, message]): true | thrown error */
 /* SameValue equality */
-function assertNotStrictEqual (x, y, message) {
+function assertNotStrictEqual (x, y, msg) {
   if ((x === y) ? (x !== 0 || 1/x === 1/y) : (x !== x && y !== y)) {
     throw new Error("[assertNotStrictEqual] Assertion failed"
-      + (message ? ": " + message : "")
+      + (msg ? ": " + msg : "")
     );
   }
   return true;
 }
 
 
-/* assertDeepEqual(x: any, y: any [, message]): true OR thrown error */
-function assertDeepEqual (x, y, message) {
+/* assertDeepEqual(x: any, y: any [, message]): true | thrown error */
+function assertDeepEqual (x, y, msg) {
   function _isDeepEqual (x, y) {
     /* helper functions */
     const _deepType = (x) =>
@@ -825,10 +929,10 @@ function assertDeepEqual (x, y, message) {
     /* default return false */
     return false;
   }
-  /* throw error OR return true */
+  /* throw error | return true */
   if (!_isDeepEqual(x, y)) {
     throw new Error("[assertDeepEqual] Assertion failed"
-      + (message ? ": " + message : "")
+      + (msg ? ": " + msg : "")
     );
   }
   return true;
@@ -836,7 +940,7 @@ function assertDeepEqual (x, y, message) {
 
 
 /* assertNotDeepStrictEqual(x: any, y: any [, message]): boolean */
-function assertNotDeepStrictEqual (x, y, message) {
+function assertNotDeepStrictEqual (x, y, msg) {
   function _isDeepStrictEqual (x, y) {
     /* helper functions */
     const _deepType = (x) =>
@@ -977,18 +1081,18 @@ function assertNotDeepStrictEqual (x, y, message) {
     /* default return false */
     return false;
   }
-  /* throw error OR return true */
+  /* throw error | return true */
   if (_isDeepStrictEqual(x, y)) {
     throw new Error("[assertNotDeepStrictEqual] Assertion failed"
-      + (message ? ": " + message : "")
+      + (msg ? ": " + msg : "")
     );
   }
   return true;
 }
 
 
-/* assertNotDeepEqual(x: any, y: any [, message]): true OR thrown error */
-function assertNotDeepEqual (x, y, message) {
+/* assertNotDeepEqual(x: any, y: any [, message]): true | thrown error */
+function assertNotDeepEqual (x, y, msg) {
   function _isDeepEqual (x, y) {
     /* helper functions */
     const _deepType = (x) =>
@@ -1114,18 +1218,18 @@ function assertNotDeepEqual (x, y, message) {
     /* default return false */
     return false;
   }
-  /* throw error OR return true */
+  /* throw error | return true */
   if (_isDeepEqual(x, y)) {
     throw new Error("[assertNotDeepEqual] Assertion failed"
-      + (message ? ": " + message : "")
+      + (msg ? ": " + msg : "")
     );
   }
   return true;
 }
 
 
-/* assertDeepStrictEqual(x: any, y: any [, message]): true OR thrown error */
-function assertDeepStrictEqual (x, y, message) {
+/* assertDeepStrictEqual(x: any, y: any [, message]): true | thrown error */
+function assertDeepStrictEqual (x, y, msg) {
   function _isDeepStrictEqual (x, y) {
     /* helper functions */
     const _deepType = (x) =>
@@ -1266,10 +1370,10 @@ function assertDeepStrictEqual (x, y, message) {
     /* default return false */
     return false;
   }
-  /* throw error OR return true */
+  /* throw error | return true */
   if (!_isDeepStrictEqual(x, y)) {
     throw new Error("[assertDeepStrictEqual] Assertion failed"
-      + (message ? ": " + message : "")
+      + (msg ? ": " + msg : "")
     );
   }
   return true;
@@ -1384,7 +1488,7 @@ const strHTMLUnEscape = (s) => String(s)
 const qsa = (s, c = document) => Array.from(c.querySelectorAll(s));
 
 
-/* qs(selector: string [, context: element object]): element object OR null */
+/* qs(selector: string [, context: element object]): element object | null */
 const qs = (s, c = document) => c.querySelector(s);
 
 
@@ -1684,7 +1788,7 @@ function createFile (fln, c, dt) {
 }
 
 
-/* getFullscreen(): element object OR undefined */
+/* getFullscreen(): element object | undefined */
 const getFullscreen = () => ( document.fullscreenElement
   || document.mozFullScreenElement
   || document.webkitFullscreenElement
@@ -1900,7 +2004,7 @@ function ajax (o) {
 
 
 /* toPrimitiveValue(value: any):
-  primitive OR object OR symbol OR function OR thrown error */
+  primitive | object | symbol | function | thrown error */
 function toPrimitiveValue (O) {
   /* null, undefined, Function, Boolean, BigInt, Number, String, Symbol */
   if (O == null || typeof O !== "object") { return O; }
@@ -1917,7 +2021,7 @@ function toPrimitiveValue (O) {
 const isPropertyKey = (v) => (typeof v === "string" || typeof v === "symbol");
 
 
-/* toPropertyKey(value: any): string OR symbol */
+/* toPropertyKey(value: any): string | symbol */
 const toPropertyKey = (v) => (typeof v === "symbol" ? v : String(v));
 
 
@@ -1965,7 +2069,7 @@ const isSameInstance = (x, y, Contructor) =>
   (x instanceof Contructor && y instanceof Contructor);
 
 
-/* isCoercedObject(object: any): constructor function OR false */
+/* isCoercedObject(object: any): constructor function | false */
 function isCoercedObject (O) {
   if (O != null && typeof O === "object") {
     if (O instanceof Number) { return Number; }
@@ -2163,14 +2267,6 @@ function isEmptyValue (v) {
 const isProxy = (O) => Boolean(O.__isProxy);
 
 
-/* isTruthy(value: any): boolean */
-const isTruthy = (v) => Boolean(v);
-
-
-/* isFalsy(value: any): boolean */
-const isFalsy = (v) => !v;
-
-
 /* isAsyncGeneratorFn(value: any): boolean */
 const isAsyncGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(async function*() {}).constructor);
@@ -2192,14 +2288,6 @@ const isPlainObject = (v) => (v != null && typeof v === "object" &&
     || Object.getPrototypeOf(v) === null));
 
 
-/* isEmptyMap(value: any): boolean */
-const isEmptyMap = (v) => (v instanceof Map && v.size === 0);
-
-
-/* isEmptySet(value: any): boolean */
-const isEmptySet = (v) => (v instanceof Set && v.size === 0);
-
-
 /* isEmptyIterator(value: any): boolean */
 function isEmptyIterator (it) {
   for (let _item of it) { return false; }
@@ -2207,76 +2295,9 @@ function isEmptyIterator (it) {
 }
 
 
-/* isDataView(value: any): boolean */
-const isDataView = (v) => (v instanceof DataView);
-
-
-/* isPromise(value: any): boolean */
-const isPromise = (v) => (v instanceof Promise ||
-  (v != null && typeof v === "object"
-    && typeof v.then === "function" && typeof v.catch  === "function")
-);
-
-
-/* isSameObject(object1, object2): boolean */
-function isSameObject (o1, o2) {
-  if (o1.constructor !== o2.constructor) { return false; }
-  var a1 = Object.keys(o1).sort(), a2 = Object.keys(o2).sort();
-  if (a1.length === a2.length) {
-    for (var i = 0, l = a1.length; i < l; i++) {
-      if (a1[i] !== a2[i] || o1[a1[i]] !== o2[a1[i]]) { return false; }
-    }
-    return true;
-  }
-  return false;
-}
-
-
-/* isSameArray(array1, array2): boolean */
-const isSameArray = (a, b) => (Array.isArray(a) && Array.isArray(b)
-  && (a.length === b.length) && a.every((v,i) => v === b[i]));
-
-
-/* isSameMap(map1, map2): boolean */
-function isSameMap (m1, m2) {
-  if (m1 instanceof Map && m2 instanceof Map && m1.size === m2.size) {
-    for (const item of m1.keys()) {
-      if (m1.get(item) !== m2.get(item)) { return false; }
-    }
-    return true;
-  }
-  return false;
-}
-
-
-/* isSameSet(set1, set2): boolean */
-function isSameSet (s1, s2) {
-  if (s1 instanceof Set && s2 instanceof Set && s1.size === s2.size) {
-    for (const item of s1) {
-      if (!s2.has(item)) { return false; }
-    }
-    return true;
-  }
-  return false;
-}
-
-
-/* isSameIterator(iterator1, iterator2): boolean */
-const isSameIterator = ([...a1], [...a2]) =>
-  (a1.length === a2.length && a1.every((v,i) => v === a2[i]));
-
-
-/* isString(value: any): boolean */
-const isString = (v) => (typeof v === "string");
-
-
 /* isChar(value: any): boolean */
 const isChar = (v) =>
   (typeof v === "string" && (v.length === 1 || Array.from(v).length === 1));
-
-
-/* isNumber(value: any): boolean */
-const isNumber = (v) => (typeof v === "number");
 
 
 /* isNumeric(value: any): boolean */
@@ -2286,20 +2307,9 @@ const isNumeric = (v) => (
 );
 
 
-/* isBoolean(value: any): boolean */
-const isBoolean = (v) => (typeof v === "boolean");
-
-
 /* isObject(value: any): boolean */
 const isObject = (v) =>
   (v != null && (typeof v === "object" || typeof v === "function"));
-
-
-/* isEmptyObject(value: any): boolean */
-const isEmptyObject = (O) => (O != null && typeof O === "object"
-  && Object.getOwnPropertyNames(O).length === 0
-  && Object.getOwnPropertySymbols(O).length === 0
-);
 
 
 /* isFunction(value: any): boolean */
@@ -2311,10 +2321,6 @@ const isFunction = (O) => (typeof v === "function" ||
 const isCallable = (O) =>
   ((O != null && ["object", "function"].includes(typeof O))
     ? (typeof O.call === "function") : false);
-
-
-/* isEmptyArray(value: any): boolean */
-const isEmptyArray = (v) => (Array.isArray(v) && v.length === 0);
 
 
 /* isArraylike(value: any): boolean */
@@ -2331,12 +2337,8 @@ const isNull = (v) => (v === null);
 const isUndefined = (v) => (v === undefined);
 
 
-/* isNullOrUndefined(value: any): boolean */
-const isNullOrUndefined = (v) => (v == null);
-
-
 /* isNil(value: any): boolean */
-const isNil = (v) => (v == null || v !== v);
+const isNil = (v) => (v == null);
 
 
 /* isPrimitive(value: any): boolean */
@@ -2344,33 +2346,9 @@ const isPrimitive = (v) =>
   (v == null || (typeof v !== "object" && typeof v !== "function"));
 
 
-/* isSymbol(value: any): boolean */
-const isSymbol = (v) => (typeof v === "symbol");
-
-
-/* isMap(value: any): boolean */
-const isMap = (v) => (v instanceof Map);
-
-
-/* isSet(value: any): boolean */
-const isSet = (v) => (v instanceof Set);
-
-
-/* isWeakMap(value: any): boolean */
-const isWeakMap = (v) => (v instanceof WeakMap);
-
-
-/* isWeakSet(value: any): boolean */
-const isWeakSet = (v) => (v instanceof WeakSet);
-
-
 /* isIterator(value: any): boolean */
 const isIterator = (v) => ("Iterator" in window ? (v instanceof Iterator)
   : (v != null && typeof v === "object" && typeof v.next === "function"));
-
-
-/* isDate(value: any): boolean */
-const isDate = (v) => (v instanceof Date);
 
 
 /* isRegexp(value: any): boolean */
@@ -2387,14 +2365,6 @@ const isElement = (v) => (
 const isIterable = (v) => (
   v != null && typeof v[Symbol.iterator] === "function"
 );
-
-
-/* isBigInt(value: any): boolean */
-const isBigInt = (v) => (typeof v === "bigint");
-
-
-/* isArrayBuffer(value: any): boolean */
-const isArrayBuffer = (v) => (v instanceof ArrayBuffer);
 
 
 /* isTypedArray(value: any): boolean */
@@ -2531,7 +2501,7 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
 /** Collections API **/
 
 
-/* unique(iterator [, resolver: string OR function]): array */
+/* unique(iterator [, resolver: string | function]): array */
 function unique (it, resolver) {
   if (resolver == null) { return [...new Set(it)]; }
   if (typeof resolver === "string") {
@@ -2568,7 +2538,7 @@ function arrayDeepClone ([...a]) {
 }
 
 
-/* arrayCreate(length: any): array OR thrown error */
+/* arrayCreate(length: any): array | thrown error */
 function arrayCreate (l = 0) {
   l = Number(l);
 	if (1 / l === -Infinity) { l = 0; }
@@ -2701,10 +2671,6 @@ function zipObj ([...a1], [...a2]) {
   for (i = 0; i < l; i++) { r.push([a1[i], a2[i]]); }
   return Object.fromEntries(r);
 }
-
-
-/* arrayUnique(iterator [, callback: function]): array */
-const arrayUnique = (a) => [...new Set(a)];
 
 
 /* arrayAdd(array, value: any): boolean */
@@ -3115,57 +3081,7 @@ const withOut = ([...a], [...fl]) => a.filter((e) => fl.indexOf(e) === -1);
 /** Abstract API **/
 
 
-/* deletePropertyOrThrow(object, property): undefined */
-function deletePropertyOrThrow (O, P) {
-  delete O[P];
-  if (P in O) {
-    throw new Error("Object Property delete error: " + O + "[" + P + "]");
-  }
-}
-
-
-/* isLessThan(value1: any, value2: any [, leftFirst = true]): boolean */
-const isLessThan =
-  (v1, v2, leftFirst = true) => (leftFirst ? (v1 < v2) : (v1 > v2));
-
-
-/* requireObjectCoercible(value: any): value OR thrown error */
-function requireObjectCoercible (O) {
-  if (O == null) { throw new TypeError(
-    Object.prototype.toString.call(O) + " is not coercible to Object.");
-  }
-  return O;
-}
-
-
-/* getInV(value: any, property: string): any OR thrown error */
-function getInV (O, P) {
-  if (O == null ) {
-    throw TypeError("celestra.getInV(); error: " + O +"[" + P + "]");
-  }
-  return Object(O)[P];
-}
-
-
-/* getIn(object, property: string): any */
-const getIn = (O, P) => O[P];
-
-
-/* setIn(object, property: string, value: any [, Throw = false]): object */
-function setIn (O, P, V, Throw = false) {
-  O[P] = V;
-  if (O[P] !== V && Throw) {
-    throw new TypeError("celestra.setIn(); error: " + O + "[" + P + "]");
-  }
-  return (O[P] === V);
-}
-
-
-/* hasIn(object, property: string): boolean */
-const hasIn = (O, P) => (P in O);
-
-
-/* toPrimitive(value: any): primitive OR thrown error */
+/* toPrimitive(value: any): primitive | thrown error */
 function toPrimitive (O, hint = "default") {
   const _apply = Function.prototype.call.bind(Function.prototype.apply);
   const _isPrimitive = (v) =>
@@ -3195,70 +3111,6 @@ function toPrimitive (O, hint = "default") {
 }
 
 
-/* isSameValue(value1: any, value2: any): boolean */
-const isSameValue = (v1, v2) =>
-  ((v1 === v2) ? (v1 !== 0 || 1/v1 === 1/v2) : (v1 !== v1 && v2 !== v2));
-
-
-/* isSameValueZero(value1: any,value2: any): boolean */
-const isSameValueZero = (v1, v2) => (v1 === v2 || (v1 !== v1 && v2 !== v2));
-
-
-/* isSameValueNonNumber(value1: any, value2: any): boolean OR thrown error */
-function isSameValueNonNumber (x, y) {
-  if (typeof x === "number" || typeof y === "number") {
-    throw new TypeError(
-      "isSameValueNonNumber(); TypeError: x and y both have to be non number"
-    );
-  }
-  return (x === y);
-}
-
-
-/* createMethodProperty(object, property, value: any): object */
-const createMethodProperty = (O, P, V) => Object.defineProperty(
-  O, P, {value: V, writable: true, enumerable: false, configurable: true}
-);
-
-
-/*createMethodPropertyOrThrow(object, property, value :any): object OR throw*/
-function createMethodPropertyOrThrow (O, P, V) {
-  Object.defineProperty(O, P, {
-    writable: true, enumerable: false, configurable: true, value: V
-  });
-  if (O[P] !== V) {
-    throw new Error(
-      "celestra.createMethodPropertyOrThrow(); error: " + O +"[" + P + "]"
-    );
-  }
-  return O;
-}
-
-
-/* createDataProperty(object, property, value: any): object */
-const createDataProperty = (O, P, V) => Object.defineProperty(
-  O, P, {value: V, writable: true, enumerable: true, configurable: true}
-);
-
-
-/* createDataPropertyOrThrow(object, property, value: any): object OR throw */
-function createDataPropertyOrThrow (O, P, V) {
-  Object.defineProperty(O, P, {
-    writable: true, enumerable: true, configurable: true, value: V
-  });
-  if (O[P] !== V) {
-    throw new Error(
-      "celestra.createDataPropertyOrThrow(); error: " + O + "[" + P + "]"
-    );
-  }
-  return O;
-}
-
-
-/* toArray(value: array OR iterable OR arraylike): array */
-const toArray = (O) => (Array.isArray(O) ? O : Array.from(O));
-
-
 /** Math API **/
 
 
@@ -3273,7 +3125,7 @@ function toInteger (v) {
 }
 
 
-/* toIntegerOrInfinity(value: any): integer OR Infinity OR -Infinity */
+/* toIntegerOrInfinity(value: any): integer | Infinity | -Infinity */
 const toIntegerOrInfinity = (v) =>
   ((v = Math.trunc(+v)) !== v || v === 0) ? 0 : v;
 
@@ -3497,29 +3349,10 @@ function randomFloat (i = 100, a) {
 const inRange = (v, min, max) => (v >= min && v <= max);
 
 
-/** undocumented functions **/
-/* Please don't use these in production! */
-
-
-const _apply = Function.prototype.call.bind(Function.prototype.apply);
-
-
-const _call = Function.prototype.call.bind(Function.prototype.call);
-
-
-const _forEach = Function.prototype.call.bind(Array.prototype.forEach);
-
-
-const _map = Function.prototype.call.bind(Array.prototype.map);
-
-
-const _slice = Function.prototype.call.bind(Array.prototype.slice);
-
-
 /** object header **/
 
 
-const VERSION = "Celestra v5.7.4 dev";
+const VERSION = "Celestra v5.8.0 dev";
 
 
 /* celestra.noConflict(): celestra object */
@@ -3567,8 +3400,16 @@ const celestra = {
   nanoid,
   timestampID,
   /** Assertion API **/
-  assertType,
-  assertNotType,
+  assertFail,
+  assertMatch,
+  assertDoesNotMatch,
+  assertThrows,
+  assertIsNotNil,
+  assertIsNil,
+  assertTypeOf,
+  assertNotTypeOf,
+  assertInstanceOf,
+  assertNotInstanceOf,
   assert,
   assertTrue,
   assertFalse,
@@ -3651,50 +3492,24 @@ const celestra = {
   isDeepStrictEqual,
   isEmptyValue,
   isProxy,
-  isTruthy,
-  isFalsy,
   isAsyncGeneratorFn,
   isConstructorFn,
   isClass,
   isPlainObject,
-  isEmptyMap,
-  isEmptySet,
-  isEmptyIterator,
-  isDataView,
-  isPromise,
-  isSameObject,
-  isSameArray,
-  isSameMap,
-  isSameSet,
-  isSameIterator,
-  isString,
   isChar,
-  isNumber,
   isNumeric,
-  isBoolean,
   isObject,
-  isEmptyObject,
   isFunction,
   isCallable,
-  isEmptyArray,
   isArraylike,
   isNull,
   isUndefined,
-  isNullOrUndefined,
   isNil,
   isPrimitive,
-  isSymbol,
-  isMap,
-  isSet,
-  isWeakMap,
-  isWeakSet,
   isIterator,
-  isDate,
   isRegexp,
   isElement,
   isIterable,
-  isBigInt,
-  isArrayBuffer,
   isTypedArray,
   isGeneratorFn,
   isAsyncFn,
@@ -3729,7 +3544,6 @@ const celestra = {
   zip,
   unzip,
   zipObj,
-  arrayUnique,
   arrayAdd,
   arrayClear,
   arrayRemove,
@@ -3775,23 +3589,6 @@ const celestra = {
   flat,
   join,
   withOut,
-  /** Abstract API **/
-  deletePropertyOrThrow,
-  isLessThan,
-  requireObjectCoercible,
-  getInV,
-  getIn,
-  setIn,
-  hasIn,
-  toPrimitive,
-  isSameValue,
-  isSameValueZero,
-  isSameValueNonNumber,
-  createMethodProperty,
-  createMethodPropertyOrThrow,
-  createDataProperty,
-  createDataPropertyOrThrow,
-  toArray,
   /** Math API **/
   isFloat,
   toInteger,
@@ -3825,13 +3622,7 @@ const celestra = {
   signbit,
   randomInt,
   randomFloat,
-  inRange,
-  /** undocumented functions **/
-  _apply,
-  _call,
-  _forEach,
-  _map,
-  _slice
+  inRange
 };
 
 

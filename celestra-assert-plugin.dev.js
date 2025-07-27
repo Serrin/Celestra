@@ -1,9 +1,9 @@
 /**
  * @name Celestra Assert plugin
- * @version 5.7.4 dev
+ * @version 5.8.0 dev
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Required Celestra version: 5.7.4
+ * Required Celestra version: 5.8.0
  */
 
 (function(window, celestra){
@@ -48,9 +48,25 @@ assert.deepStrictEqual = (x, y, m) => celestra.assertDeepStrictEqual(x, y, m);
 assert.notDeepStrictEqual = (x, y, m) =>
   celestra.assertNotDeepStrictEqual(x, y, m);
 
-assert.type = (v, t, m) => celestra.assertType(v, t, m);
+assert.typeOf = (v, t, m) => celestra.assertTypeOf(v, t, m);
 
-assert.notType = (v, t, m) => celestra.assertNotType(v, t, m);
+assert.notTypeOf = (v, t, m) => celestra.assertNotTypeOf(v, t, m);
+
+assert.instanceOf = (v, t, m) => celestra.assertInstanceOf(v, t, m);
+
+assert.notInstanceOf = (v, t, m) => celestra.assertNotInstanceOf(v, t, m);
+
+assert.isNil = (v, m) => celestra.assertIsNil(v, m);
+
+assert.isNotNil = (v, m) => celestra.assertIsNotNil(v, m);
+
+assert.Throws = (cb, m) => celestra.assertThrows(cb, m);
+
+assert.fail = (m) => celestra.assertFail(m);
+
+assert.match = (s, r, m) => celestra.assertMatch(s, r, m);
+
+assert.doesNotMatch = (s, r, m) => celestra.assertDoesNotMatch(s, r, m);
 
 window.assert = assert;
 

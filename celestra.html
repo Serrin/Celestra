@@ -103,8 +103,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p>This library isn't compatible with the Node.js.</p>
 
-<p>Latest version: 5.7.4</p>
-<p>Date: 2025-07-14T19:25:25.904Z</p>
+<p>Latest version: 5.8.0</p>
+<p>Date: 2025-07-27T13:42:19.142Z</p>
 
 <p><b>Tested on these browsers:</b></p>
 
@@ -233,6 +233,14 @@ nav a, nav a:visited, nav a:active, nav a:hover {
     <td>Assert plugin minified source</td>
     <td><a href="celestra-assert-plugin.min.js" target="_blank">celestra-assert-plugin.min.js</a></td>
   </tr>
+  <tr>
+    <td>Assert plugin cheatsheet</td>
+    <td>
+      <a href="celestra-assert-plugin.odt" target="_blank">celestra-assert-plugin.odt</a>
+      <br/>
+      <a href="celestra-assert-plugin.pdf" target="_blank">celestra-assert-plugin.pdf</a>
+    </td>
+  </tr>
 </table>
 
 
@@ -291,12 +299,6 @@ window.classof = classof;
   <li>The underscore <code>_</code> short object name has been changed to <code>CEL</code> to avoid the compatibility issues.<br/>If need to use the old short name, then with this code will be available again: <code>window._ = window.celestra;</code>.</li>
 </ul>
 
-<h3>Celestra v5.3.0 (Voyager) changes</h3>
-
-<ul>
-  <li>Added a new code section: <b>Abstract functions</b> and new functions.</li>
-</ul>
-
 <h3>Celestra v5.5.0 changes</h3>
 
 <ul>
@@ -314,7 +316,13 @@ window.classof = classof;
 <ul>
   <li>The module edition (<b>celestra.esm.js</b>) import has been changed.</li>
   <li>Added <b>Assert API v3</b> and the old assert functions have been removed.</li>
-  <li>The <code>getText();</code> and <code>getJson();</code> function has been modified to standalone function.</li>
+  <li>The <code>getText();</code> and <code>getJson();</code> functions have been modified to standalone function.</li>
+</ul>
+
+<h3>Celestra v5.8.0 (Uhura) changes</h3>
+
+<ul>
+  <li>50 functions have been removed.</li>
 </ul>
 
 
@@ -407,7 +415,7 @@ window.classof = classof;
     <tr>
       <td><code>createPolyfillProperty(object, property,value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function creates a writable, configurable and enumerable property with the given value in the object if the property doesn't exist in the object. The return value boolean and checks that the creating of the property was successful.</td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>delay(ms).then(callback);</code></td>
       <td>
@@ -424,7 +432,7 @@ CEL.delay(5000)
     <tr>
       <td><code>deleteOwnProperty(object, property[,Throw = false]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function deletes an own property in the given object. If Throw is true and the deleting was unsuccessful, then an error will be thrown.<br/><b>Return values:</b><br/>1 - The property was own and the delete was successful.<BR>0 - The property is own and the delete was unsuccessful.<br/>-1 - The property is not own or not exists.</td>
-    </tr>      
+    </tr>
     </tr>
     <tr>
       <td><code>extend([deep,]target,source1[,sourceN]);</code></td>
@@ -517,7 +525,7 @@ console.log(o2);
     <tr>
       <td><code>toObject(value);</code></td>
       <td>If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a <code>TypeError()</code> will be throwned.<br/>If the given value is an object, function or symbol, then the original value will return.</td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>unBind(function);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/><span class="info">Old name before v5.4.1: <code>toFunction</code>.</span><br/>Returns an unbinded function from an object method. The function parameter is mandatory.</td>
@@ -623,72 +631,111 @@ console.log(o2);
       <td><b>Description</b></td>
     </tr>
     <tr>
-      <td><code>assert(condition [,message]);</code></td>
+      <td><code>assert(condition [, message]);</code></td>
       <td>
         <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the condition is falsy. The message parameter is optional. The return value is <code>true</code>, when the test was success.
       </td>
     </tr>
     <tr>
-      <td><code>assertDeepEqual(value1, value2 [,message]);</code></td>
+      <td><code>assertDeepEqual(value1, value2 [, message]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 aren't deep equals. (<i>Deep loose equality + NaN equality: primitives (loose equality + NaN equality), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.<br/><span class="info">This function may give unexpected results. It is safer to use the <code>assertDeepStrictEqual();</code> function.</span></td>
     </tr>
     <tr>
-      <td><code>assertDeepStrictEqual(value1, value2 [,message]);</code></td>
+      <td><code>assertDeepStrictEqual(value1, value2 [, message]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 aren't deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.</td>
     </tr>
     <tr>
-      <td><code>assertEqual(value1, value2 [,message]);</code></td>
+      <td><code>assertDoesNotMatch(string, regexp, message);</code></td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the string matches with the regexp. The message parameter is optional. The return value is <code>true</code>, when the test was success.</td>
+    </tr>
+    <tr>
+      <td><code>assertEqual(value1, value2 [, message]);</code></td>
       <td>
         <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 aren't equals. (<i>Loose equality + NaN equality</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.
       </td>
+    </tr>
     <tr>
-      <td><code>assertFalse(condition [,message]);</code></td>
+      <td><code>assertFail(message OR error);</code></td>
+      <td>
+        <span class="info">Stability: 4 - Stable.</span><br/>This function always throws an error. If the argument is an error, then this error will be thrown, else a new error with the message.
+      </td>
+    </tr>
+    <tr>
+      <td><code>assertFalse(condition [, message]);</code></td>
       <td>
         <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the condition is truthy. The message parameter is optional. The return value is <code>true</code>, when the test was success.
       </td>
     </tr>
     <tr>
-      <td><code>assertNotDeepEqual(value1, value2, [,message]);</code></td>
+      <td><code>assertInstanceOf(value,constructor[, message]);</code></td>
+      <td>
+        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error if the constructor of the value in not the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
+      </td>
+    </tr>
+    <tr>
+      <td><code>assertIsNil(value [, message]);</code></td>
+      <td>
+        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value is not null or undefined, else the given value is the return value. The message parameter is optional.
+      </td>
+    </tr>
+    <tr>
+      <td><code>assertIsNotNil(value [, message]);</code></td>
+      <td>
+        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value is null or undefined, else the given value is the return value. The message parameter is optional.
+      </td>
+    </tr>
+    <tr>
+      <td><code>assertMatch(string, regexp, message);</code></td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the string doesn't match with the regexp. The message parameter is optional. The return value is <code>true</code>, when the test was success.</td>
+    </tr>
+    <tr>
+      <td><code>assertNotDeepEqual(value1, value2, [, message]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 are deep equals. (<i>Deep loose equality + NaN equality: primitives (loose equality + NaN equality), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.<br/><span class="info">This function may give unexpected results. It is safer to use the <code>assertNotDeepStrictEqual();</code> function.</span></td>
     </tr>
     <tr>
-      <td><code>assertNotDeepStrictEqual(value1, value2, [,message]);</code></td>
+      <td><code>assertNotDeepStrictEqual(value1, value2, [, message]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 are deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.</td>
     </tr>
     <tr>
-      <td><code>assertNotEqual(value1, value2 [,message]);</code></td>
+      <td><code>assertNotInstanceOf(value,constructor[, message]);</code></td>
       <td>
-        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 are equals. (<i>Loose equality + NaN equality</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.
+        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error if the constructor of the value is the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
       </td>
+    </tr>
     <tr>
-    <tr>
-      <td><code>assertNotStrictEqual(value1, value2 [,message]);</code></td>
+      <td><code>assertNotStrictEqual(value1, value2 [, message]);</code></td>
       <td>
         <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 are equals. (<i>SameValue equality</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.
       </td>
     </tr>
     <tr>
-      <td><code>assertNotType(value,typeString OR constructor [,message]);</code></td>
+      <td><code>assertNotTypeOf(value,typeString[, message]);</code></td>
       <td>
-        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error if the type/constructor of the value in the same as the second parameter. If the second parameter is not a string or function, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
+        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error if the type of the value is the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
       </td>
     </tr>
     <tr>
-      <td><code>assertStrictEqual(value1, value2 [,message]);</code></td>
+      <td><code>assertStrictEqual(value1, value2 [, message]);</code></td>
       <td>
         <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error with the message if the value1 and value2 aren't equals. (<i>SameValue equality</i>) The message parameter is optional. The return value is <code>true</code>, when the test was success.
       </td>
     <tr>
     <tr>
-      <td><code>assertTrue(condition [,message]);</code></td>
+      <td><code>assertTrue(condition [, message]);</code></td>
       <td>
-        <span class="info">Stability: 4 - Stable.</span><br/>This is an alias of the <code>assert(condition [,message]);</code>.
+        <span class="info">Stability: 4 - Stable.</span><br/>This is an alias of the <code>assert(condition [, message]);</code>.
       </td>
     </tr>
     <tr>
-      <td><code>assertType(value,typeString OR constructor [,message]);</code></td>
+      <td><code>assertThrows(callback: any [, message]);</code></td>
       <td>
-        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error if the type/constructor of the value in not the same as the second parameter. If the second parameter is not a string or function, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
+        <span class="info">Stability: 4 - Stable.</span><br/>This function catches and returns the error, if the callback throws an error. In other cases throws an error with the message. The message parameter is optional.
+      </td>
+    </tr>
+    <tr>
+      <td><code>assertTypeOf(value,type[, message]);</code></td>
+      <td>
+        <span class="info">Stability: 4 - Stable.</span><br/>This function throws an error if the type of the value in not the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
       </td>
     </tr>
   </table>
@@ -941,7 +988,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isArrayBuffer(value);</td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is an arraybuffer. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an arraybuffer. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isArraylike(value);</code></td>
@@ -957,11 +1004,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isBigInt(value);</td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a BigInt. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a BigInt. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isBoolean(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a boolean. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a boolean. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isCallable(value);</code></td>
@@ -985,11 +1032,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isDataView(value);</td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is an DataView object. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an DataView object. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isDate(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a date. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a date. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isDeepStrictEqual(value1, value2);</code></td>
@@ -1008,23 +1055,23 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isEmptyArray(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is an empty array (without values). The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty array (without values). The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isEmptyIterator(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is an empty iterator (without values). The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty iterator (without values). The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isEmptyMap(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is an empty map (without properties). The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty map (without properties). The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isEmptyObject(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is an empty object (without properties). The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty object (without properties). The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isEmptySet(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is an empty set (without values). The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty set (without values). The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isEmptyValue(value);</code></td>
@@ -1036,7 +1083,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isFalsy(value);</td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is falsy. The return value is boolean. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy" target="_blank">MDN Article</a>!</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is falsy. The return value is boolean. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>isFunction(value);</code></td>
@@ -1064,11 +1111,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isMap(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a map. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a map. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isNil(value);</code></td>
-      <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is null or undefined or NaN. The return value is boolean.</code>.</td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is null or undefined. The return value is boolean.</code>.</td>
     </tr>
     <tr>
       <td><code>isNull(value);</code></td>
@@ -1076,11 +1123,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isNullOrUndefined(value);</code></td>
-      <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is null or undefined. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is null or undefined. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isNumber(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a number. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a number. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isNumeric(value);</code></td>
@@ -1100,7 +1147,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isPromise(value);</td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a promise object. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a promise object. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isPropertyKey(value);</code></td>
@@ -1116,7 +1163,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isSameArray(array1,array2);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.</td>
     </tr>
     <tr>
       <td><code>isSameClass(value1, value2);</code></td>
@@ -1128,19 +1175,19 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isSameIterator(iter1,iter2);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function checks the value equality of the given iterator. The return value is boolean and both of the parameters are mandatory and have to be an iterator or iterable object.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the value equality of the given iterator. The return value is boolean and both of the parameters are mandatory and have to be an iterator or iterable object.</td>
     </tr>
     <tr>
       <td><code>isSameMap(map1,map2);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function checks the property and value equality of the given maps. The return value is boolean and both of the parameters are mandatory and have to be a map.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the property and value equality of the given maps. The return value is boolean and both of the parameters are mandatory and have to be a map.</td>
     </tr>
     <tr>
       <td><code>isSameObject(object1,object2);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function checks the property and value equality of the given objects. The return value is boolean and both of the parameters are mandatory and have to be an object.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the property and value equality of the given objects. The return value is boolean and both of the parameters are mandatory and have to be an object.</td>
     </tr>
     <tr>
       <td><code>isSameSet(set1,set2);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function checks the value equality of the given sets. The return value is boolean and both of the parameters are mandatory and have to be a set.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the value equality of the given sets. The return value is boolean and both of the parameters are mandatory and have to be a set.</td>
     </tr>
     <tr>
       <td><code>isSameType(value1, value2);</code></td>
@@ -1148,19 +1195,19 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isSet(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a set. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a set. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isString(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a string. This function is unicode compatible. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a string. This function is unicode compatible. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isSymbol(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a symbol. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a symbol. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isTruthy(value);</td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is truthy. The return value is boolean. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy" target="_blank">MDN Article</a>!</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is truthy. The return value is boolean. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>isTypedArray(value);</td>
@@ -1172,11 +1219,11 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>isWeakMap(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a weakmap. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a weakmap. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isWeakSet(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>This function determines whether the provided value is a weakset. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a weakset. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>toIndex(value);</code></td>
@@ -1193,7 +1240,7 @@ console.log(o2);
         If the given value is an object, which can be converted to a primitive variable, then the return value is a primitive variable.<br/>
         If the given value is a not convertable object (array, map, set, etc.), function or symbol, then the original value will return.
       </td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>toPropertyKey(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function convert the given value to a valid property key. If the value is not symbol, then will be converted to string, else the symbol will be returned.</td>
@@ -1371,7 +1418,7 @@ console.log(o2);
     </tr>
     <tr>
       <td><code>arrayUnique(iterator);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Can be replaced with <code>unique(iterator[, resolver]);</code>.</span><br/>This function returns a new array with unique values. The value parameter is mandatory and can be an iterator. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">Can be replaced with <code>unique(iterator[, resolver]);</code>.</span><br/>This function returns a new array with unique values. The value parameter is mandatory and can be an iterator. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
     </tr>
     <tr>
       <td><code>concat(iterator1[,iteratorN]);</code></td>
@@ -1688,75 +1735,75 @@ JSON.stringify( CEL.unique(array, (v) => v.rank) );
     </tr>
     <tr>
       <td><code>createDataProperty(object, property, value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function creates a writable, configurable and enumerable property with the given value in the object. The return value is the modified object.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function creates a writable, configurable and enumerable property with the given value in the object. The return value is the modified object.</td>
     </tr>
     <tr>
       <td><code>createDataPropertyOrThrow(object, property, value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function creates a writable, configurable and enumerable property with the given value in the object. The return value is the modified object or throw an error, if this was unsuccessful.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function creates a writable, configurable and enumerable property with the given value in the object. The return value is the modified object or throw an error, if this was unsuccessful.</td>
     </tr>
     <tr>
       <td><code>createMethodProperty(object, property, value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function creates a writable, configurable and non-enumerable property with the given value in the object. The return value is the modified object.<br/><b>Example:</b><br/><pre>if (!("at" in Array.prototype)) {
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function creates a writable, configurable and non-enumerable property with the given value in the object. The return value is the modified object.<br/><b>Example:</b><br/><pre>if (!("at" in Array.prototype)) {
   CEL.createMethodProperty(Array.prototype, "at", function(...){...});
 }</pre></td>
     </tr>
     <tr>
       <td><code>createMethodPropertyOrThrow(object, property, value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function creates a writable, configurable and non-enumerable property with the given value in the object. The return value is the modified object or throw an error, if this was unsuccessful.<br/><b>Example:</b><br/><pre>if (!("at" in Array.prototype)) {
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function creates a writable, configurable and non-enumerable property with the given value in the object. The return value is the modified object or throw an error, if this was unsuccessful.<br/><b>Example:</b><br/><pre>if (!("at" in Array.prototype)) {
   CEL.createMethodPropertyOrThrow(Array.prototype, "at", function(...){...});
 }</pre></td>
     </tr>
     <tr>
       <td><code>deletePropertyOrThrow(object, property[,Throw = false]);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function deletes a property in the given object. If the deleting was unsuccessful, then an error will be thrown.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function deletes a property in the given object. If the deleting was unsuccessful, then an error will be thrown.</td>
     </tr>
     <tr>
       <td><code>getIn(object, property);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function return the property value of the given object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type.</td>
     </tr>
     <tr>
       <td><code>getInV(value,property);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function return the property value of the given value and the given value will be converted to object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be any value. The property parameter is mandatory and has to be a property type.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function return the property value of the given value and the given value will be converted to object. If the property doesn't exist, then the return value is undefined. The object parameter is mandatory and has to be any value. The property parameter is mandatory and has to be a property type.</td>
     </tr>
     <tr>
       <td><code>hasIn(object, property);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function determines whether the property is in the given object, but this can be inherited property too, not only the owned. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isLessThan(value1, value2[,leftFirst = true]);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function checks whether the first value is less then the second value. The v1 and v2 parameters are mandatory. If leftFirst is false, then the direction of the check is reversed.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function checks whether the first value is less then the second value. The v1 and v2 parameters are mandatory. If leftFirst is false, then the direction of the check is reversed.</td>
     </tr>
     <tr>
       <td><code>isSameValue(value1, value2);</code></td>
       <td>
-        <span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>
+        <span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>
         <p>This function uses the SameValue algorithm and determines whether the provided values are the same values and <code>-0</code> and <code>+0</code> values will be not equal. The <code>NaN</code> values will be equal. The return value is boolean.</p>
         <p><span class="info">TIP: The <code>Object.is();</code> uses the SameValue algorithm.</span></p>
       </td>
     </tr>
     <tr>
       <td><code>isSameValueNonNumber(value1, value2);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>TThis function uses the SameValueNonNumber algorithm and determines whether the provided values are the same values. The return value is boolean or throws an error if the values or one of the values are an error.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>TThis function uses the SameValueNonNumber algorithm and determines whether the provided values are the same values. The return value is boolean or throws an error if the values or one of the values are an error.</td>
     </tr>
     <tr>
       <td><code>isSameValueZero(value1, value2);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function uses the SameValueZero algorithm and determines whether the provided values are the same values and <code>-0</code> and <code>+0</code> values will be equal. The <code>NaN</code> values will be equal. The return value is boolean.<br/><span class="info">TIP: Can be replaced with <code>[x].includes(y)</code>.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function uses the SameValueZero algorithm and determines whether the provided values are the same values and <code>-0</code> and <code>+0</code> values will be equal. The <code>NaN</code> values will be equal. The return value is boolean.<br/><span class="info">TIP: Can be replaced with <code>[x].includes(y)</code>.</td>
     </tr>
     <tr>
       <td><code>requireObjectCoercible(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function throws an error if the given value is a value that cannot be converted to an object (null or undefined), else the return value is given value. The parameter is mandatory.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function throws an error if the given value is a value that cannot be converted to an object (null or undefined), else the return value is given value. The parameter is mandatory.</td>
     </tr>
     <tr>
       <td><code>setIn(object, property,value[,Throw=false]);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function set the property value of the given object. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type. The return value is the successfully or throws an error, if this was unsuccessful and the Throw is true.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>This function set the property value of the given object. The object parameter is mandatory and has to be an object. The property parameter is mandatory and has to be a property type. The value is mandatory and can be any type. The return value is the successfully or throws an error, if this was unsuccessful and the Throw is true.</td>
     </tr>
     <tr>
       <td><code>toArray(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/>If the value is an array, then this function returns the value else converts the value to array or the return value is an empty array.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>If the value is an array, then this function returns the value else converts the value to array or the return value is an empty array.</td>
     </tr>
     <tr>
       <td><code>toPrimitive(value);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>ECMAScript "ToPrimitive" algorithm.</td>
+      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">This function is available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</span><br/>ECMAScript "ToPrimitive" algorithm.</td>
     </tr>
   </table>
 </div>
@@ -1800,7 +1847,7 @@ JSON.stringify( CEL.unique(array, (v) => v.rank) );
     <tr>
       <td><code>isFloat(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is a float number. The return value is boolean.</td>
-    </tr>    
+    </tr>
     <tr>
       <td><code>isInt8(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is an integer between -128 and 127. The return value is boolean.</td>
