@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.8.0 dev
+ * @version 5.8.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -300,6 +300,26 @@ const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const WORDSAFEALPHABET= "23456789CFGHJMPQRVWXcfghjmpqvwx";
 
 
+/* asyncNoop (): Promise - do nothing */
+function asyncNoop () { return new Promise(function (resolve) { resolve(); }); }
+
+
+/* asyncT (): Promise - return true */
+async function asyncT () { return true; }
+
+
+/* asyncF (): Promise - return false */
+async function asyncF () { return false; }
+
+
+/* asyncConstant (value): async function */
+function asyncConstant (v) { return async function() { return v; }; }
+
+
+/* asyncIdentity (value): Promise - return value */
+async function asyncIdentity (v) { return v; }
+
+
 /* deleteOwnProperty(object, property [,Throw = false]): number | thrown error*/
 function deleteOwnProperty (O, P, Throw = false) {
   if (Object.hasOwn(O, P)) {
@@ -370,24 +390,6 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const randomBoolean = () => (Math.random() >= 0.5);
 
 
-/* b64Encode(string): string */
-function b64Encode (s) {
-  return btoa(encodeURIComponent(String(s)).replace(/%([0-9A-F]{2})/g,
-    function toSolidBytes (_match, p1) {
-      return String.fromCharCode("0x" + p1);
-    }
-  ));
-}
-
-
-/* b64Decode(string): string */
-function b64Decode (s) {
-  return decodeURIComponent(atob(String(s)).split("").map(function (c) {
-    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(""));
-}
-
-
 /* javaHash(data: any [, hexa = false]): integer */
 function javaHash (s, hx = false) {
   if (s !== undefined) { s = "" + s; } else { return 0; }
@@ -413,32 +415,6 @@ const getUrlVars = (str = location.search) =>
 const obj2string = (o) => Object.keys(o).reduce(
   (s,p) => s += encodeURIComponent(p) + "=" + encodeURIComponent(o[p]) + "&",
   "").slice(0, -1);
-
-
-/* classof(variable: any): string */
-/* classof(variable: any [, type: string [, throw =false]]): boolean | throw */
-function classof (v, type, Throw = false) {
-  var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
-  if (arguments.length < 2) { return ot; }
-  if (!Throw) { return ot === type.toLowerCase(); }
-  if (ot !== type.toLowerCase()) {
-    throw TypeError("Celestra classof(); type error: " + ot + " - "  + type);
-  }
-  return true;
-}
-
-
-/* getType(variable: any): string */
-/* getType(variable: any [, type: string [, throw =false]]): boolean | throw */
-function getType (v, type, Throw = false) {
-  var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
-  if (arguments.length < 2) { return ot; }
-  if (!Throw) { return ot === type.toLowerCase(); }
-  if (ot !== type.toLowerCase()) {
-    throw TypeError("Celestra getType(); type error: " + ot + " - "  + type);
-  }
-  return true;
-}
 
 
 /* extend([deep: boolean,] target: object, source1: object[, sourceN]): object*/
@@ -567,21 +543,24 @@ function assertFail(msg) {
 }
 
 
-/* assertMatch(string, regexp [, message]): true | thrown error */
+/* assertMatch(string, regexp [, message | error]): true | thrown error */
 function assertMatch(string, regexp, msg) {
   if (typeof string !== "string") {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertMatch] TypeError: " + string + " is not a string"
         + (msg ? " - " + msg : "")
     );
   }
   if (!(regexp instanceof RegExp)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertMatch] TypeError: " + regexp + " is not a RegExp"
         + (msg ? " - " + msg : "")
     );
   }
   if (!(regexp.test(string))) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error(
       "[assertMatch] Assertion failed" + (msg ? ": " + msg : "")
     );
@@ -590,21 +569,24 @@ function assertMatch(string, regexp, msg) {
 }
 
 
-/* assertDoesNotMatch(string, regexp [, message]): true | thrown error */
+/* assertDoesNotMatch(string, regexp [, message | error]): true | thrown error */
 function assertDoesNotMatch(string, regexp, msg) {
   if (typeof string !== "string") {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertDoesNotMatch] TypeError: " + string + " is not a string"
         + (msg ? " - " + msg : "")
     );
   }
   if (!(regexp instanceof RegExp)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertDoesNotMatch] TypeError: " + regexp + " is not a RegExp"
         + (msg ? " - " + msg : "")
     );
   }
   if (regexp.test(string)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error(
       "[assertDoesNotMatch] Assertion failed" + (msg ? ": " + msg : "")
     );
@@ -613,7 +595,7 @@ function assertDoesNotMatch(string, regexp, msg) {
 }
 
 
-/* assertThrows(callback: function [, message]): error | thrown error */
+/* assertThrows(callback: function [, message | error]): error | thrown error */
 function assertThrows (callback, msg) {
   if (typeof callback !== "function") {
     throw new TypeError(
@@ -622,13 +604,15 @@ function assertThrows (callback, msg) {
     );
   }
   try { callback(); } catch (e) { return e; }
+  if (Error.isError(msg)) { throw msg; }
   throw new Error("[assertThrow] Assertion failed" + (msg ? ": " + msg : ""));
 }
 
 
-/* assertIsNotNil(value: any [, message]): value | thrown error */
+/* assertIsNotNil(value: any [, message | error]): value | thrown error */
 function assertIsNotNil (v, msg) {
   if (v == null) {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertIsNotNil] Assertion failed: " + v + " is null or undefined"
         + (msg ? " - " + msg : "")
@@ -638,9 +622,10 @@ function assertIsNotNil (v, msg) {
 }
 
 
-/* assertIsNil(value: any [, message]): value | thrown error */
+/* assertIsNil(value: any [, message | error]): value | thrown error */
 function assertIsNil (v, msg) {
   if (v != null) {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertIsNil] Assertion failed: " + v + " is not null or undefined"
         + (msg ? " - " + msg : "")
@@ -650,16 +635,19 @@ function assertIsNil (v, msg) {
 }
 
 
-/* assertTypeOf(value: any, type: string [, message]): value | thrown error */
+/* assertTypeOf(value: any, type: string [, message | error]):
+  value | thrown error */
 function assertTypeOf (v, type, msg) {
   const _type = (v) => ((v === null) ? "null" : (typeof v));
   if (typeof type !== "string") {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertTypeOf] TypeError: " + type + " is not a string"
         + (msg ? " - " + msg : "")
     );
   }
   if (_type(v) !== type) {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertTypeOf] Assertion failed: " + v + " is not a " + type
         + (msg ? " - " + msg : "")
@@ -669,17 +657,19 @@ function assertTypeOf (v, type, msg) {
 }
 
 
-/* assertNotTypeOf(value: any, type: string [, message]):
+/* assertNotTypeOf(value: any, type: string [, message | error]):
   value | thrown error */
 function assertNotTypeOf (v, type, msg) {
   const _type = (v) => ((v === null) ? "null" : (typeof v));
   if (typeof type !== "string") {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertNotTypeOf] TypeError: " + type + " is not a string"
         + (msg ? " - " + msg : "")
     );
   }
   if (_type(v) === type) {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertNotTypeOf] Assertion failed: " + v + " is not a " + type
         + (msg ? " - " + msg : "")
@@ -689,16 +679,18 @@ function assertNotTypeOf (v, type, msg) {
 }
 
 
-/* assertInstanceOf(value: any, Class: constructor [, message]):
+/* assertInstanceOf(value: any, Class: constructor [, message | error]):
   value | thrown error */
 function assertInstanceOf (v, Class, msg) {
   if (typeof Class !== "function") {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertInstanceOf] TypeError: " + Class + " is not a function"
         + (msg ? " - " + msg : "")
     );
   }
   if (!(v instanceof Class)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertInstanceOf] Assertion failed: " + v + " is not a "
         + ((Class.name !== "") ? Class.name : Class)
@@ -709,16 +701,18 @@ function assertInstanceOf (v, Class, msg) {
 }
 
 
-/* assertNotInstanceOf(value: any, Class: constructor [, message]):
+/* assertNotInstanceOf(value: any, Class: constructor [, message | error]):
   value | thrown error */
 function assertNotInstanceOf (v, Class, msg) {
   if (typeof Class !== "function") {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertNotInstanceOf] TypeError: " + Class + " is not a function"
         + (msg ? " - " + msg : "")
     );
   }
   if (v instanceof Class) {
+    if (Error.isError(msg)) { throw msg; }
     throw new TypeError(
       "[assertNotInstanceOf] Assertion failed: " + v + " is not a "
         + ((Class.name !== "") ? Class.name : Class)
@@ -729,9 +723,10 @@ function assertNotInstanceOf (v, Class, msg) {
 }
 
 
-/* assert(value: any [, message]): true | thrown error */
+/* assert(value: any [, message | error]): true | thrown error */
 function assert (c, msg) {
   if (!c) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assert] Assertion failed" + (msg ? ": " + msg : ""));
   }
   return true;
@@ -741,35 +736,39 @@ function assert (c, msg) {
 /* assertTrue(value: any [, message]): true | thrown error */
 function assertTrue (c, msg) {
   if (!c) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertTrue] Assertion failed" + (msg ? ": " + msg : ""));
   }
   return true;
 }
 
 
-/* assertFalse(value: any [, message]): true | thrown error */
+/* assertFalse(value: any [, message] | error): true | thrown error */
 function assertFalse (c, msg) {
   if (c) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertFalse] Assertion failed" + (msg ? ": " + msg : ""));
   }
   return true;
 }
 
 
-/* assertEqual(x: any, y: any [, message]): true | thrown error */
+/* assertEqual(x: any, y: any [, message | error]): true | thrown error */
 /* loose equality + NaN equality */
 function assertEqual (x, y, msg) {
   if (!(x == y || (x !== x && y !== y))) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertEqual] Assertion failed" + (msg ? ": " + msg : ""));
   }
   return true;
 }
 
 
-/* assertStrictEqual(x: any, y: any [, message]): true | thrown error */
+/* assertStrictEqual(x: any, y: any [, message | error]): true | thrown error */
 /* SameValue equality */
 function assertStrictEqual (x, y, msg) {
   if (!((x === y) ? (x !== 0 || 1/x === 1/y) : (x !== x && y !== y))) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertStrictEqual] Assertion failed"
       + (msg ? ": " + msg : "")
     );
@@ -778,10 +777,11 @@ function assertStrictEqual (x, y, msg) {
 }
 
 
-/* assertNotEqual(x: any, y: any [, message]): true | thrown error */
+/* assertNotEqual(x: any, y: any [, message | error]): true | thrown error */
 /* loose equality + NaN equality */
 function assertNotEqual (x, y, msg) {
   if (x == y || (x !== x && y !== y)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertNotEqual] Assertion failed"
       + (msg ? ": " + msg : "")
     );
@@ -790,10 +790,12 @@ function assertNotEqual (x, y, msg) {
 }
 
 
-/* assertNotStrictEqual(x: any, y: any [, message]): true | thrown error */
+/* assertNotStrictEqual(x: any, y: any [, message | error]):
+  true | thrown error */
 /* SameValue equality */
 function assertNotStrictEqual (x, y, msg) {
   if ((x === y) ? (x !== 0 || 1/x === 1/y) : (x !== x && y !== y)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertNotStrictEqual] Assertion failed"
       + (msg ? ": " + msg : "")
     );
@@ -802,7 +804,7 @@ function assertNotStrictEqual (x, y, msg) {
 }
 
 
-/* assertDeepEqual(x: any, y: any [, message]): true | thrown error */
+/* assertDeepEqual(x: any, y: any [, message | error]): true | thrown error */
 function assertDeepEqual (x, y, msg) {
   function _isDeepEqual (x, y) {
     /* helper functions */
@@ -931,6 +933,7 @@ function assertDeepEqual (x, y, msg) {
   }
   /* throw error | return true */
   if (!_isDeepEqual(x, y)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertDeepEqual] Assertion failed"
       + (msg ? ": " + msg : "")
     );
@@ -939,7 +942,7 @@ function assertDeepEqual (x, y, msg) {
 }
 
 
-/* assertNotDeepStrictEqual(x: any, y: any [, message]): boolean */
+/* assertNotDeepStrictEqual(x: any, y: any [, message | error]): boolean */
 function assertNotDeepStrictEqual (x, y, msg) {
   function _isDeepStrictEqual (x, y) {
     /* helper functions */
@@ -1083,6 +1086,7 @@ function assertNotDeepStrictEqual (x, y, msg) {
   }
   /* throw error | return true */
   if (_isDeepStrictEqual(x, y)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertNotDeepStrictEqual] Assertion failed"
       + (msg ? ": " + msg : "")
     );
@@ -1091,7 +1095,8 @@ function assertNotDeepStrictEqual (x, y, msg) {
 }
 
 
-/* assertNotDeepEqual(x: any, y: any [, message]): true | thrown error */
+/* assertNotDeepEqual(x: any, y: any [, message | error]):
+  true | thrown error */
 function assertNotDeepEqual (x, y, msg) {
   function _isDeepEqual (x, y) {
     /* helper functions */
@@ -1220,6 +1225,7 @@ function assertNotDeepEqual (x, y, msg) {
   }
   /* throw error | return true */
   if (_isDeepEqual(x, y)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertNotDeepEqual] Assertion failed"
       + (msg ? ": " + msg : "")
     );
@@ -1228,7 +1234,8 @@ function assertNotDeepEqual (x, y, msg) {
 }
 
 
-/* assertDeepStrictEqual(x: any, y: any [, message]): true | thrown error */
+/* assertDeepStrictEqual(x: any, y: any [, message | error]):
+  true | thrown error */
 function assertDeepStrictEqual (x, y, msg) {
   function _isDeepStrictEqual (x, y) {
     /* helper functions */
@@ -1372,6 +1379,7 @@ function assertDeepStrictEqual (x, y, msg) {
   }
   /* throw error | return true */
   if (!_isDeepStrictEqual(x, y)) {
+    if (Error.isError(msg)) { throw msg; }
     throw new Error("[assertDeepStrictEqual] Assertion failed"
       + (msg ? ": " + msg : "")
     );
@@ -1381,6 +1389,24 @@ function assertDeepStrictEqual (x, y, msg) {
 
 
 /** String API **/
+
+
+/* b64Encode(string): string */
+function b64Encode (s) {
+  return btoa(encodeURIComponent(String(s)).replace(/%([0-9A-F]{2})/g,
+    function toSolidBytes (_match, p1) {
+      return String.fromCharCode("0x" + p1);
+    }
+  ));
+}
+
+
+/* b64Decode(string): string */
+function b64Decode (s) {
+  return decodeURIComponent(atob(String(s)).split("").map(function (c) {
+    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(""));
+}
 
 
 /* strTruncate(string, newLength [, omission = ""]): string */
@@ -1801,20 +1827,20 @@ const getFullscreen = () => ( document.fullscreenElement
 /* setFullscreenOn(selector string): undefined */
 function setFullscreenOn (s) {
   if (typeof s === "string") { var e = document.querySelector(s); }
-  else if (typeof s === "object") { var e = s; }
+    else if (typeof s === "object") { var e = s; }
   if (e.requestFullscreen) { e.requestFullscreen(); }
-  else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
-  else if (e.webkitRequestFullscreen) { e.webkitRequestFullscreen(); }
-  else if (e.msRequestFullscreen) { e.msRequestFullscreen(); }
+    else if (e.mozRequestFullScreen) { e.mozRequestFullScreen(); }
+    else if (e.webkitRequestFullscreen) { e.webkitRequestFullscreen(); }
+    else if (e.msRequestFullscreen) { e.msRequestFullscreen(); }
 }
 
 
 /* setFullscreenOff(): undefined */
 function setFullscreenOff () {
   if (document.exitFullscreen) { document.exitFullscreen(); }
-  else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); }
-  else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-  else if (document.msExitFullscreen) { document.msExitFullscreen(); }
+    else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); }
+    else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+    else if (document.msExitFullscreen) { document.msExitFullscreen(); }
 }
 
 
@@ -2001,6 +2027,32 @@ function ajax (o) {
 
 
 /** Type API **/
+
+
+/* classof(variable: any): string */
+/* classof(variable: any [, type: string [, throw =false]]): boolean | throw */
+function classof (v, type, Throw = false) {
+  var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
+  if (arguments.length < 2) { return ot; }
+  if (!Throw) { return ot === type.toLowerCase(); }
+  if (ot !== type.toLowerCase()) {
+    throw TypeError("Celestra classof(); type error: " + ot + " - "  + type);
+  }
+  return true;
+}
+
+
+/* getType(variable: any): string */
+/* getType(variable: any [, type: string [, throw =false]]): boolean | throw */
+function getType (v, type, Throw = false) {
+  var ot = Object.prototype.toString.call(v).slice(8, -1).toLowerCase();
+  if (arguments.length < 2) { return ot; }
+  if (!Throw) { return ot === type.toLowerCase(); }
+  if (ot !== type.toLowerCase()) {
+    throw TypeError("Celestra getType(); type error: " + ot + " - "  + type);
+  }
+  return true;
+}
 
 
 /* toPrimitiveValue(value: any):
@@ -2288,13 +2340,6 @@ const isPlainObject = (v) => (v != null && typeof v === "object" &&
     || Object.getPrototypeOf(v) === null));
 
 
-/* isEmptyIterator(value: any): boolean */
-function isEmptyIterator (it) {
-  for (let _item of it) { return false; }
-  return true;
-}
-
-
 /* isChar(value: any): boolean */
 const isChar = (v) =>
   (typeof v === "string" && (v.length === 1 || Array.from(v).length === 1));
@@ -2369,13 +2414,18 @@ const isIterable = (v) => (
 
 /* isTypedArray(value: any): boolean */
 const isTypedArray = (v) => (
-  v instanceof Int8Array || v instanceof Uint8Array
+  v instanceof Int8Array
+  || v instanceof Uint8Array
   || v instanceof Uint8ClampedArray
-  || v instanceof Int16Array || v instanceof Uint16Array
-  || v instanceof Int32Array || v instanceof Uint32Array
+  || v instanceof Int16Array
+  || v instanceof Uint16Array
+  || v instanceof Int32Array
+  || v instanceof Uint32Array
   || ("Float16Array" in window ? v instanceof Float16Array : false)
-  || v instanceof Float32Array || v instanceof Float64Array
-  || v instanceof BigInt64Array || v instanceof BigUint64Array
+  || v instanceof Float32Array
+  || v instanceof Float64Array
+  || v instanceof BigInt64Array
+  || v instanceof BigUint64Array
 );
 
 
@@ -2612,8 +2662,7 @@ const setSymmetricDifference = (a, b) => new Set(
 
 
 /* isSuperset(superCollection, subCollection): boolean */
-const isSuperset = ([...sup], [...sub]) =>
-  sub.every((v) => sup.indexOf(v) > -1);
+const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
 
 
 /* min(value1: any [, valueN]): any */
@@ -2640,41 +2689,31 @@ const arrayRange = (s = 0, e = 99, st = 1) =>
 /* zip(iterator1 [, iteratorN]): array */
 function zip (...a) {
   a = a.map((v) => Array.from(v));
-  let r = [], i, j, l = a.length, min = a[0].length, item;
-  for (item of a) {
-    if (item.length < min) { min = item.length; }
-  }
-  for (i = 0; i < min; i++) {
-    item = [];
-    for (j = 0; j < l; j++) { item.push(a[j][i]); }
-    r.push(item);
-  }
-  return r;
+  return Array.from({length: Math.min(...a.map(v => v.length))})
+    .map((_, i) => a.map(v => v[i]));
 }
 
 
 /* unzip(iterator): array */
-function unzip ([...a]) {
-  a = a.map(([...v]) => v);
-  let r = [], i, j, l1 = a[0].length, l2 = a.length;
-  for (i = 0; i < l1; i++) { r.push([]); }
-  for (i = 0; i < l1; i++) {
-    for (j = 0; j < l2; j++) { r[i].push(a[j][i]); }
-  }
-  return r;
-}
+const unzip = ([...a]) =>
+  a.map((v) => Array.from(v)).reduce((acc, v) => {
+    v.forEach((item, i) => {
+      if (!Array.isArray(acc[i])) { acc[i] = []; }
+      acc[i].push(item);
+    });
+    return acc;
+  }, []);
 
 
 /* zipObj(iterator1, iterator2): object */
 function zipObj ([...a1], [...a2]) {
-  var r = [], i, l = (a1.length < a2.length ? a1.length : a2.length);
-  for (i = 0; i < l; i++) { r.push([a1[i], a2[i]]); }
-  return Object.fromEntries(r);
+  let r = {}, l = Math.min(a1.length, a2.length);
+  for (let i = 0; i < l; i++) { r[a1[i]] = a2[i]; }
+  return r;
 }
 
-
 /* arrayAdd(array, value: any): boolean */
-const arrayAdd = (a, v) => (a.indexOf(v) === -1) ? !!a.push(v) : false;
+const arrayAdd = (a, v) => (!a.includes(v)) ? !!a.push(v) : false;
 
 
 /* arrayClear(array): array */
@@ -2887,11 +2926,7 @@ function head (it) { for (let item of it) { return item; } }
 
 
 /* last(iterator): any */
-function last (it) {
-  let item;
-  for (item of it) { }
-  return item;
-}
+const last = ([...a]) => a[a.length - 1];
 
 
 /* reverse(iterator): iterator */
@@ -2908,7 +2943,7 @@ const sort = ([...a], ns) => a.sort(ns ? (x, y) => x - y : undefined);
 /* includes(iterator, value: any): boolean */
 function includes (it, v) {
   for (let item of it) {
-    if (item === v) { return true; }
+    if (item === v || (item !== item && v !== v)) { return true; }
   }
   return false;
 }
@@ -3076,39 +3111,6 @@ function join (it, sep = ",") {
 
 /* withOut(iterator, filterIterator): array */
 const withOut = ([...a], [...fl]) => a.filter((e) => fl.indexOf(e) === -1);
-
-
-/** Abstract API **/
-
-
-/* toPrimitive(value: any): primitive | thrown error */
-function toPrimitive (O, hint = "default") {
-  const _apply = Function.prototype.call.bind(Function.prototype.apply);
-  const _isPrimitive = (v) =>
-    ((typeof v !== "object" && typeof v !== "function") || v === null);
-  if (_isPrimitive(O)) { return O; }
-  /* try Call obj[Symbol.toPrimitive](hint) */
-  let method = O[Symbol.toPrimitive];
-  if (method != null) {
-    let r = _apply(method, O, []);
-    if (_isPrimitive(r)) { return r; }
-  } else {
-    /* "string"              -> ["toString", "valueOf"] */
-    /* "number" OR "default" -> ["valueOf", "toString"] */
-    for (let item of
-      (hint === "string" ? ["toString", "valueOf"] : ["valueOf", "toString"])
-    ) {
-      method = O[item];
-      if (typeof method === "function") {
-        let r = _apply(method, O, []);
-        if (_isPrimitive(r)) { return r; }
-      }
-    }
-  }
-  throw new TypeError(
-    "celestra.toPrimitive(): Cannot convert object to primitive value"
-  );
-}
 
 
 /** Math API **/
@@ -3352,7 +3354,7 @@ const inRange = (v, min, max) => (v >= min && v <= max);
 /** object header **/
 
 
-const VERSION = "Celestra v5.8.0 dev";
+const VERSION = "Celestra v5.8.1 dev";
 
 
 /* celestra.noConflict(): celestra object */
@@ -3370,6 +3372,11 @@ const celestra = {
   BASE58,
   BASE62,
   WORDSAFEALPHABET,
+  asyncNoop,
+  asyncT,
+  asyncF,
+  asyncConstant,
+  asyncIdentity,
   deleteOwnProperty,
   toObject,
   createPolyfillMethod,
@@ -3378,13 +3385,9 @@ const celestra = {
   delay,
   sleep,
   randomBoolean,
-  b64Encode,
-  b64Decode,
   javaHash,
   getUrlVars,
   obj2string,
-  classof,
-  getType,
   extend,
   sizeIn,
   forIn,
@@ -3422,6 +3425,8 @@ const celestra = {
   assertNotDeepEqual,
   assertDeepStrictEqual,
   /** String API **/
+  b64Encode,
+  b64Decode,
   strTruncate,
   strPropercase,
   strTitlecase,
@@ -3477,6 +3482,8 @@ const celestra = {
   getJson,
   ajax,
   /** Type API **/
+  classof,
+  getType,
   toPrimitiveValue,
   isPropertyKey,
   toPropertyKey,
