@@ -1,10 +1,26 @@
 /**
  * @name Celestra
- * @version 5.8.1 dev
+ * @version 5.9.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
-(function(window, document){
+
+
+ /* globalThis; */
+(function (global) {
+  if (!global.globalThis) {
+    if (Object.defineProperty) {
+      Object.defineProperty(global, "globalThis", {
+        configurable: true, enumerable: false, value: global, writable: true
+      });
+    } else {
+      global.globalThis = global;
+    }
+  }
+})(typeof this === "object" ? this : Function("return this")());
+
+
+(function(globalThis){
 "use strict";
 
 
@@ -142,8 +158,8 @@ if (!Array.fromAsync) {
 
 
 /* crypto.randomUUID(); */
-if (("crypto" in window) && !("randomUUID" in window.crypto)) {
-  window.crypto.randomUUID = function randomUUID () {
+if (("crypto" in globalThis) && !("randomUUID" in globalThis.crypto)) {
+  globalThis.crypto.randomUUID = function randomUUID () {
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
       (c)=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)
     );
@@ -163,20 +179,6 @@ if (!Object.hasOwn) {
     configurable: true, enumerable: false, writable: true
   });
 }
-
-
-/* globalThis; */
-(function (global) {
-  if (!global.globalThis) {
-    if (Object.defineProperty) {
-      Object.defineProperty(global, "globalThis", {
-        configurable: true, enumerable: false, value: global, writable: true
-      });
-    } else {
-      global.globalThis = global;
-    }
-  }
-})(typeof this === "object" ? this : Function("return this")());
 
 
 /* Array.prototype.toReversed(); */
@@ -265,27 +267,24 @@ if (!("with" in Uint8Array.prototype)) {
 }
 
 
-/** non-standard polyfills **/
-
-
-/* window.GeneratorFunction; */
-if (!window.GeneratorFunction) {
-  window.GeneratorFunction = Object.getPrototypeOf(function*(){}).constructor;
+/* globalThis.GeneratorFunction; */
+if (!globalThis.GeneratorFunction) {
+  globalThis.GeneratorFunction =
+    Object.getPrototypeOf(function*(){}).constructor;
 }
 
 
-/* window.AsyncFunction; */
-if (!window.AsyncFunction) {
-  window.AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+/* globalThis.AsyncFunction; */
+if (!globalThis.AsyncFunction) {
+  globalThis.AsyncFunction =
+    Object.getPrototypeOf(async function(){}).constructor;
 }
 
 
-/* BigInt.prototype.toJSON(); */
-if (!!window.BigInt && !("toJSON" in BigInt.prototype)) {
-  Object.defineProperty(BigInt.prototype, "toJSON", {
-    writable: true, enumerable: false, configurable: true,
-    value: function toJSON () { return this.toString(); }
-  });
+/* globalThis.AsyncGeneratorFunction; */
+if (!globalThis.AsyncGeneratorFunction) {
+  globalThis.AsyncGeneratorFunction =
+    Object.getPrototypeOf(async function* () {}).constructor;
 }
 
 
@@ -382,27 +381,8 @@ function randomUUIDv7 () {
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 
-/* sleep(ms: integer).then(callback: function): promise */
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-
 /* randomBoolean(): boolean */
 const randomBoolean = () => (Math.random() >= 0.5);
-
-
-/* javaHash(data: any [, hexa = false]): integer */
-function javaHash (s, hx = false) {
-  if (s !== undefined) { s = "" + s; } else { return 0; }
-  var h = 0, l = s.length, c = "";
-  if (l == 0) { return h; }
-  for (var i = 0; i < l; i++) {
-    c = s.charCodeAt(i);
-    h = ((h << 5) - h) + c;
-    h = h & h;
-  }
-  if (hx) { return h.toString(16); }
-  return h;
-}
 
 
 /* getUrlVars([str = location.search]): string */
@@ -448,27 +428,6 @@ function extend (...a) {
 /* sizeIn(object): integer */
 const sizeIn = (O) => Object.getOwnPropertyNames(O).length
   + Object.getOwnPropertySymbols(O).length;
-
-
-/* forIn(object, callback: function): object */
-function forIn (o,fn) {
-  Object.keys(o).forEach((v) => fn(o[v], v, o)); return o;
-}
-
-
-/* filterIn(object, callback: function): object */
-const filterIn = (o, fn) => Object.keys(o)
-  .reduce((r, p) => { if (fn(o[p], p, o)) { r[p] = o[p]; } return r; }, {});
-
-
-/* popIn(object, property: string): any | undefined*/
-function popIn (o,p) {
-  if (Object.hasOwn(o, p)) {
-    var v = o[p];
-    delete o[p];
-    return v;
-  }
-}
 
 
 /* unBind(function): function */
@@ -569,7 +528,8 @@ function assertMatch(string, regexp, msg) {
 }
 
 
-/* assertDoesNotMatch(string, regexp [, message | error]): true | thrown error */
+/* assertDoesNotMatch(string, regexp [, message | error]):
+  true | thrown error */
 function assertDoesNotMatch(string, regexp, msg) {
   if (typeof string !== "string") {
     if (Error.isError(msg)) { throw msg; }
@@ -855,7 +815,7 @@ function assertDeepEqual (x, y, msg) {
         || _isSameInstance(x, y, Uint16Array)
         || _isSameInstance(x, y, Int32Array)
         || _isSameInstance(x, y, Uint32Array)
-        || ("Float16Array" in window ?
+        || ("Float16Array" in globalThis ?
             _isSameInstance(x, y, Float16Array) : false
            )
         || _isSameInstance(x, y, Float32Array)
@@ -871,8 +831,7 @@ function assertDeepEqual (x, y, msg) {
       if (_isSameInstance(x, y, ArrayBuffer)) {
         if (x.byteLength !== y.byteLength) { return false; }
         if (x.byteLength === 0) { return true; }
-        let xTA = new Int8Array(x);
-        let yTA = new Int8Array(y);
+        let xTA = new Int8Array(x), yTA = new Int8Array(y);
         return xTA.every((v, i) => _isEqual(v, yTA[i]));
       }
       /* objects / DataView */
@@ -888,20 +847,13 @@ function assertDeepEqual (x, y, msg) {
       if (_isSameInstance(x, y, Map)) {
         if (x.size !== y.size) { return false; }
         if (x.size === 0) { return true; }
-        for (let key of x.keys()) {
-          if (!y.has(key)) { return false; }
-          if (!_isDeepEqual(x.get(key), y.get(key))) { return false; }
-        }
-        return true;
+        return [...x.keys()].every((v) => _isDeepEqual(x.get(v), y.get(v)));
       }
       /* objects / Set */
       if (_isSameInstance(x, y, Set)) {
         if (x.size !== y.size) { return false; }
         if (x.size === 0) { return true; }
-        for (let item of x) {
-          if (!y.has(item)) { return false; }
-        }
-        return true;
+        return [...x.keys()].every((v) => y.has(v));
       }
       /* objects / RegExp */
       if (_isSameInstance(x, y, RegExp)) {
@@ -913,17 +865,16 @@ function assertDeepEqual (x, y, msg) {
       if (_isSameInstance(x, y, Error)) {
         return _isDeepEqual(
           Object.getOwnPropertyNames(x)
-            .reduce((acc, prop) => { acc[prop] = x[prop]; return acc; }, {}),
+            .reduce((acc, k) => { acc[k] = x[k]; return acc; }, {}),
           Object.getOwnPropertyNames(y)
-            .reduce((acc, prop) => { acc[prop] = y[prop]; return acc; }, {}),
+            .reduce((acc, k) => { acc[k] = y[k]; return acc; }, {}),
         );
       }
       /* objects / Date */
       if (_isSameInstance(x, y, Date)) { return _isEqual(+x, +y); }
       /* objects / Proxy -> not detectable */
-      /* objects / other objects */
-      let xKeys = _ownKeys(x);
-      let yKeys = _ownKeys(y);
+      /* objects / Objects */
+      let xKeys = _ownKeys(x), yKeys = _ownKeys(y);
       if (xKeys.length !== yKeys.length) { return false; }
       if (xKeys.length === 0) { return true; }
       return xKeys.every((key) => _isDeepEqual(x[key], y[key]));
@@ -1008,7 +959,7 @@ function assertNotDeepStrictEqual (x, y, msg) {
         || _isSameInstance(x, y, Uint16Array)
         || _isSameInstance(x, y, Int32Array)
         || _isSameInstance(x, y, Uint32Array)
-        || ("Float16Array" in window ?
+        || ("Float16Array" in globalThis ?
             _isSameInstance(x, y, Float16Array) : false
            )
         || _isSameInstance(x, y, Float32Array)
@@ -1024,8 +975,7 @@ function assertNotDeepStrictEqual (x, y, msg) {
       if (_isSameInstance(x, y, ArrayBuffer)) {
         if (x.byteLength !== y.byteLength) { return false; }
         if (x.byteLength === 0) { return true; }
-        let xTA = new Int8Array(x);
-        let yTA = new Int8Array(y);
+        let xTA = new Int8Array(x), yTA = new Int8Array(y);
         return xTA.every((v, i) => _isEqual(v, yTA[i]));
       }
       /* objects / DataView */
@@ -1041,20 +991,14 @@ function assertNotDeepStrictEqual (x, y, msg) {
       if (_isSameInstance(x, y, Map)) {
         if (x.size !== y.size) { return false; }
         if (x.size === 0) { return true; }
-        for (let key of x.keys()) {
-          if (!y.has(key)) { return false; }
-          if (!_isDeepStrictEqual(x.get(key), y.get(key))) { return false; }
-        }
-        return true;
+        return [...x.keys()].every((v) =>
+          _isDeepStrictEqual(x.get(v), y.get(v)));
       }
       /* objects / Set */
       if (_isSameInstance(x, y, Set)) {
         if (x.size !== y.size) { return false; }
         if (x.size === 0) { return true; }
-        for (let item of x) {
-          if (!y.has(item)) { return false; }
-        }
-        return true;
+        return [...x.keys()].every((v) => y.has(v));
       }
       /* objects / RegExp */
       if (_isSameInstance(x, y, RegExp)) {
@@ -1066,17 +1010,16 @@ function assertNotDeepStrictEqual (x, y, msg) {
       if (_isSameInstance(x, y, Error)) {
         return _isDeepStrictEqual(
           Object.getOwnPropertyNames(x)
-            .reduce((acc, prop) => { acc[prop] = x[prop]; return acc; }, {}),
+            .reduce((acc, k) => { acc[k] = x[k]; return acc; }, {}),
           Object.getOwnPropertyNames(y)
-            .reduce((acc, prop) => { acc[prop] = y[prop]; return acc; }, {}),
+            .reduce((acc, k) => { acc[k] = y[k]; return acc; }, {}),
         );
       }
       /* objects / Date */
       if (_isSameInstance(x, y, Date)) { return _isEqual(+x, +y); }
       /* objects / Proxy -> not detectable */
-      /* objects / other objects */
-      let xKeys = _ownKeys(x);
-      let yKeys = _ownKeys(y);
+      /* objects / Objects */
+      let xKeys = _ownKeys(x), yKeys = _ownKeys(y);
       if (xKeys.length !== yKeys.length) { return false; }
       if (xKeys.length === 0) { return true; }
       return xKeys.every((key) => _isDeepStrictEqual(x[key], y[key]));
@@ -1147,7 +1090,7 @@ function assertNotDeepEqual (x, y, msg) {
         || _isSameInstance(x, y, Uint16Array)
         || _isSameInstance(x, y, Int32Array)
         || _isSameInstance(x, y, Uint32Array)
-        || ("Float16Array" in window ?
+        || ("Float16Array" in globalThis ?
             _isSameInstance(x, y, Float16Array) : false
            )
         || _isSameInstance(x, y, Float32Array)
@@ -1163,8 +1106,7 @@ function assertNotDeepEqual (x, y, msg) {
       if (_isSameInstance(x, y, ArrayBuffer)) {
         if (x.byteLength !== y.byteLength) { return false; }
         if (x.byteLength === 0) { return true; }
-        let xTA = new Int8Array(x);
-        let yTA = new Int8Array(y);
+        let xTA = new Int8Array(x), yTA = new Int8Array(y);
         return xTA.every((v, i) => _isEqual(v, yTA[i]));
       }
       /* objects / DataView */
@@ -1180,20 +1122,13 @@ function assertNotDeepEqual (x, y, msg) {
       if (_isSameInstance(x, y, Map)) {
         if (x.size !== y.size) { return false; }
         if (x.size === 0) { return true; }
-        for (let key of x.keys()) {
-          if (!y.has(key)) { return false; }
-          if (!_isDeepEqual(x.get(key), y.get(key))) { return false; }
-        }
-        return true;
+        return [...x.keys()].every((v) => _isDeepEqual(x.get(v), y.get(v)));
       }
       /* objects / Set */
       if (_isSameInstance(x, y, Set)) {
         if (x.size !== y.size) { return false; }
         if (x.size === 0) { return true; }
-        for (let item of x) {
-          if (!y.has(item)) { return false; }
-        }
-        return true;
+        return [...x.keys()].every((v) => y.has(v));
       }
       /* objects / RegExp */
       if (_isSameInstance(x, y, RegExp)) {
@@ -1205,17 +1140,16 @@ function assertNotDeepEqual (x, y, msg) {
       if (_isSameInstance(x, y, Error)) {
         return _isDeepEqual(
           Object.getOwnPropertyNames(x)
-            .reduce((acc, prop) => { acc[prop] = x[prop]; return acc; }, {}),
+            .reduce((acc, k) => { acc[k] = x[k]; return acc; }, {}),
           Object.getOwnPropertyNames(y)
-            .reduce((acc, prop) => { acc[prop] = y[prop]; return acc; }, {}),
+            .reduce((acc, k) => { acc[k] = y[k]; return acc; }, {}),
         );
       }
       /* objects / Date */
       if (_isSameInstance(x, y, Date)) { return _isEqual(+x, +y); }
       /* objects / Proxy -> not detectable */
-      /* objects / other objects */
-      let xKeys = _ownKeys(x);
-      let yKeys = _ownKeys(y);
+      /* objects / Objects */
+      let xKeys = _ownKeys(x), yKeys = _ownKeys(y);
       if (xKeys.length !== yKeys.length) { return false; }
       if (xKeys.length === 0) { return true; }
       return xKeys.every((key) => _isDeepEqual(x[key], y[key]));
@@ -1301,7 +1235,7 @@ function assertDeepStrictEqual (x, y, msg) {
         || _isSameInstance(x, y, Uint16Array)
         || _isSameInstance(x, y, Int32Array)
         || _isSameInstance(x, y, Uint32Array)
-        || ("Float16Array" in window ?
+        || ("Float16Array" in globalThis ?
             _isSameInstance(x, y, Float16Array) : false
            )
         || _isSameInstance(x, y, Float32Array)
@@ -1317,8 +1251,7 @@ function assertDeepStrictEqual (x, y, msg) {
       if (_isSameInstance(x, y, ArrayBuffer)) {
         if (x.byteLength !== y.byteLength) { return false; }
         if (x.byteLength === 0) { return true; }
-        let xTA = new Int8Array(x);
-        let yTA = new Int8Array(y);
+        let xTA = new Int8Array(x), yTA = new Int8Array(y);
         return xTA.every((v, i) => _isEqual(v, yTA[i]));
       }
       /* objects / DataView */
@@ -1334,20 +1267,15 @@ function assertDeepStrictEqual (x, y, msg) {
       if (_isSameInstance(x, y, Map)) {
         if (x.size !== y.size) { return false; }
         if (x.size === 0) { return true; }
-        for (let key of x.keys()) {
-          if (!y.has(key)) { return false; }
-          if (!_isDeepStrictEqual(x.get(key), y.get(key))) { return false; }
-        }
-        return true;
+        return [...x.keys()].every(
+          (v) => _isDeepStrictEqual(x.get(v), y.get(v))
+        );
       }
       /* objects / Set */
       if (_isSameInstance(x, y, Set)) {
         if (x.size !== y.size) { return false; }
         if (x.size === 0) { return true; }
-        for (let item of x) {
-          if (!y.has(item)) { return false; }
-        }
-        return true;
+        return [...x.keys()].every((v) => y.has(v));
       }
       /* objects / RegExp */
       if (_isSameInstance(x, y, RegExp)) {
@@ -1359,17 +1287,16 @@ function assertDeepStrictEqual (x, y, msg) {
       if (_isSameInstance(x, y, Error)) {
         return _isDeepStrictEqual(
           Object.getOwnPropertyNames(x)
-            .reduce((acc, prop) => { acc[prop] = x[prop]; return acc; }, {}),
+            .reduce((acc, k) => { acc[k] = x[k]; return acc; }, {}),
           Object.getOwnPropertyNames(y)
-            .reduce((acc, prop) => { acc[prop] = y[prop]; return acc; }, {}),
+            .reduce((acc, k) => { acc[k] = y[k]; return acc; }, {}),
         );
       }
       /* objects / Date */
       if (_isSameInstance(x, y, Date)) { return _isEqual(+x, +y); }
       /* objects / Proxy -> not detectable */
-      /* objects / other objects */
-      let xKeys = _ownKeys(x);
-      let yKeys = _ownKeys(y);
+      /* objects / Objects */
+      let xKeys = _ownKeys(x), yKeys = _ownKeys(y);
       if (xKeys.length !== yKeys.length) { return false; }
       if (xKeys.length === 0) { return true; }
       return xKeys.every((key) => _isDeepStrictEqual(x[key], y[key]));
@@ -1391,7 +1318,7 @@ function assertDeepStrictEqual (x, y, msg) {
 /** String API **/
 
 
-/* b64Encode(string): string */
+/* b64Encode(string: string): string */
 function b64Encode (s) {
   return btoa(encodeURIComponent(String(s)).replace(/%([0-9A-F]{2})/g,
     function toSolidBytes (_match, p1) {
@@ -1401,7 +1328,7 @@ function b64Encode (s) {
 }
 
 
-/* b64Decode(string): string */
+/* b64Decode(string: string): string */
 function b64Decode (s) {
   return decodeURIComponent(atob(String(s)).split("").map(function (c) {
     return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
@@ -1409,7 +1336,8 @@ function b64Decode (s) {
 }
 
 
-/* strTruncate(string, newLength [, omission = ""]): string */
+/* strTruncate(string: string, newLength: integer [, omission: string = ""]):
+  string */
 function strTruncate (str, newLen, omission = "") {
   str = String(str);
   omission = String(omission);
@@ -1419,7 +1347,7 @@ function strTruncate (str, newLen, omission = "") {
 }
 
 
-/* strPropercase(string): string */
+/* strPropercase(string: string): string */
 const strPropercase = (s) => String(s).split(" ").map(function (v) {
   var a = Array.from(v).map( (c) => c.toLowerCase() );
   if (a.length) { a[0] = a[0].toUpperCase(); }
@@ -1427,7 +1355,7 @@ const strPropercase = (s) => String(s).split(" ").map(function (v) {
 }).join(" ");
 
 
-/* strTitlecase(string): string */
+/* strTitlecase(string: string): string */
 const strTitlecase = (s) => String(s).split(" ").map(function (v) {
   var a = Array.from(v).map( (c) => c.toLowerCase() );
   if (a.length) { a[0] = a[0].toUpperCase(); }
@@ -1435,7 +1363,7 @@ const strTitlecase = (s) => String(s).split(" ").map(function (v) {
 }).join(" ");
 
 
-/* strCapitalize(string): string */
+/* strCapitalize(string: string): string */
 function strCapitalize (s) {
   var a = [...String(s).toLowerCase()];
   if (a.length) { a[0] = a[0].toUpperCase(); }
@@ -1443,7 +1371,7 @@ function strCapitalize (s) {
 }
 
 
-/* strUpFirst(string): string */
+/* strUpFirst(string: string): string */
 function strUpFirst (s) {
   var a = [...String(s)];
   if (a.length) { a[0] = a[0].toUpperCase(); }
@@ -1451,7 +1379,7 @@ function strUpFirst (s) {
 }
 
 
-/* strDownFirst(string): string */
+/* strDownFirst(string: string): string */
 function strDownFirst (s) {
   var a = [...String(s)];
   if (a.length) { a[0] = a[0].toLowerCase(); }
@@ -1459,15 +1387,15 @@ function strDownFirst (s) {
 }
 
 
-/* strReverse(string): string */
+/* strReverse(string: string): string */
 const strReverse = (s) => Array.from(String(s)).reverse().join("");
 
 
-/* strCodePoints(string): array of strings */
+/* strCodePoints(string: string): array of strings */
 const strCodePoints = (s) => Array.from(String(s), (v) => v.codePointAt(0) );
 
 
-/* strFromCodePoints(iterator): string */
+/* strFromCodePoints(iterator: iterator): string */
 const strFromCodePoints = ([...a]) => String.fromCodePoint(...a);
 
 
@@ -1482,7 +1410,8 @@ function strAt (s, i, nC) {
 }
 
 
-/* strSplice(string, index: integer, count: integer [, add: string]): string */
+/* strSplice(string: string, index: integer, count: integer [, add: string]):
+  string */
 const strSplice = (s, i, c, ...add) =>
   Array.from(s).toSpliced(i, c, add.join("")).join("");
 
@@ -1492,13 +1421,13 @@ const strHTMLRemoveTags = (s) =>
   String(s).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 
 
-/* strHTMLEscape(string): string */
+/* strHTMLEscape(string: string): string */
 const strHTMLEscape = (s) => String(s).replace(/&/g, "&amp;")
   .replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 
 
-/* strHTMLUnEscape(string): string */
+/* strHTMLUnEscape(string: string): string */
 const strHTMLUnEscape = (s) => String(s)
   .replace(/&amp;/g, "&").replace(/&#38;/g, "&")
   .replace(/&lt;/g, "<").replace(/&#60;/g, "<")
@@ -1528,7 +1457,8 @@ function domReady (fn) {
 }
 
 
-/* domCreate(type: string[, properties: object[, innerHTML: string]]): element*/
+/* domCreate(type: string[, properties: object[, innerHTML: string]]):
+  element */
 /* domCreate(element descriptive object): element */
 function domCreate (t, ps, iH) {
   if (arguments.length === 1 && typeof t === "object") {
@@ -1563,8 +1493,8 @@ function domToElement (s) {
 
 
 /* domGetCSS(element [, property: string]): string */
-const domGetCSS = (e, p) =>
-  (p ? window.getComputedStyle(e, null)[p] : window.getComputedStyle(e, null));
+const domGetCSS = (e, p) => (p ? globalThis.getComputedStyle(e, null)[p] :
+  globalThis.getComputedStyle(e, null));
 
 
 /* domSetCSS(element, property: string, value: string): undefined */
@@ -1601,13 +1531,14 @@ function domFadeOut (e, dur) {
 
 /* domFadeToggle(element [, duration = 500 [, display = ""]]): undefined */
 function domFadeToggle (e, dur, d = "") {
-  if (window.getComputedStyle(e, null).display === "none") {
+  if (globalThis.getComputedStyle(e, null).display === "none") {
     /* same as domFadeIn(); */
     var s = e.style, step = 25/(dur || 500);
     s.opacity = (s.opacity || 0);
     s.display = (d || "");
     (function fade () {
-      (s.opacity=parseFloat(s.opacity)+step)>1 ?s.opacity=1:setTimeout(fade,25);
+      (s.opacity = parseFloat(s.opacity) + step) > 1 ? s.opacity = 1 :
+        setTimeout(fade, 25);
     })();
   } else {
     /* same as domFadeOut(); */
@@ -1630,7 +1561,7 @@ const domShow = (e, d = "") => e.style.display = d;
 
 /* domToggle(element [, display: string]): undefined */
 function domToggle (e, d = "") {
-  if (window.getComputedStyle(e, null).display === "none") {
+  if (globalThis.getComputedStyle(e, null).display === "none") {
     e.style.display = d;
   } else {
     e.style.display = "none";
@@ -1639,7 +1570,8 @@ function domToggle (e, d = "") {
 
 
 /* domIsHidden(element): boolean */
-const domIsHidden = (e) => (window.getComputedStyle(e,null).display === "none");
+const domIsHidden = (e) =>
+  (globalThis.getComputedStyle(e,null).display === "none");
 
 
 /* domSiblings(element): array */
@@ -1775,7 +1707,7 @@ function form2string (f) {
 
 /* getDoNotTrack(): boolean */
 const getDoNotTrack = () =>
-  [navigator.doNotTrack, window.doNotTrack, navigator.msDoNotTrack]
+  [navigator.doNotTrack, globalThis.doNotTrack, navigator.msDoNotTrack]
     .some((e) => (e === true || e === 1 || e === "1"));
 
 
@@ -1791,22 +1723,23 @@ function getLocation (s, e) {
 }
 
 
-/* createFile(filename: string, content: string [,dataType:string]): undefined*/
+/* createFile(filename: string, content: string [,dataType:string]):
+  undefined */
 function createFile (fln, c, dt) {
   var l = arguments.length;
   if (l > 1) {
     if (l === 2) { dt = "text/plain"; }
     var b = new Blob([c], {type: dt});
-    if (window.navigator.msSaveOrOpenBlob) {
-      window.navigator.msSaveBlob(b, fln);
+    if (globalThis.navigator.msSaveOrOpenBlob) {
+      globalThis.navigator.msSaveBlob(b, fln);
     } else {
-      var e = window.document.createElement("a");
-      e.href = window.URL.createObjectURL(b);
+      var e = globalThis.document.createElement("a");
+      e.href = globalThis.URL.createObjectURL(b);
       e.download = fln;
       document.body.appendChild(e);
       e.click();
       document.body.removeChild(e);
-      window.URL.revokeObjectURL(e.href);
+      globalThis.URL.revokeObjectURL(e.href);
     }
   } else {
     throw "Celestra createFile error: too few parameters.";
@@ -1855,11 +1788,12 @@ const domSetCSSVar = (n, v) =>
 
 
 /* domScrollToTop(): undefined */
-const domScrollToTop = () => window.scrollTo(0,0);
+const domScrollToTop = () => globalThis.scrollTo(0,0);
 
 
 /* domScrollToBottom(): undefined */
-const domScrollToBottom = () => window.scrollTo(0, document.body.scrollHeight);
+const domScrollToBottom = () =>
+  globalThis.scrollTo(0, document.body.scrollHeight);
 
 
 /* domScrollToElement(element [, top=true]): undefined */
@@ -1867,7 +1801,8 @@ const domScrollToElement = (e, top = true) => e.scrollIntoView(top);
 
 
 /* domClear(element): undefined */
-const domClear = (el) => Array.from(el.children).forEach((item)=>item.remove());
+const domClear = (el) =>
+  Array.from(el.children).forEach((item) => item.remove());
 
 
 /** AJAX API **/
@@ -1931,12 +1866,12 @@ function getJson (url, success) {
 function ajax (o) {
   if (typeof o.url !== "string") {
     throw new TypeError(
-      "Celestra ajax error: The url property have to be a string."
+      "Celestra ajax error: The url property has to be a string."
     );
   }
   if (typeof o.success !== "function") {
     throw new TypeError(
-      "Celestra ajax error: The success property have to be a function."
+      "Celestra ajax error: The success property has to be a function."
     );
   }
   if (o.error === undefined) {
@@ -1946,7 +1881,7 @@ function ajax (o) {
   }
   if (typeof o.error !== "function") {
     throw new TypeError(
-      "Celestra ajax error: The error property have to be a function or undefined."
+      "Celestra ajax error: The error property has to be a function or undefined."
     );
   }
   if (!o.queryType) {
@@ -1964,14 +1899,14 @@ function ajax (o) {
   } else if (o.type === "post") {
     var typeStr = "POST";
   } else {
-    throw "Celestra ajax error: The type property have to be \"get\" or \"post\".";
+    throw "Celestra ajax error: The type property has to be \"get\" or \"post\".";
   }
   if (!o.format) {
     o.format = "text";
   } else {
     o.format = o.format.toLowerCase();
     if (!(["text", "json", "xml"].includes(o.format))) {
-      throw "Celestra ajax error: The format property have to be \"text\" or \"json\" or \"xml\".";
+      throw "Celestra ajax error: The format property has to be \"text\" or \"json\" or \"xml\".";
     }
   }
   var xhr;
@@ -1981,7 +1916,7 @@ function ajax (o) {
     xhr = new XMLHttpRequest();
     if (!("withCredentials" in xhr)) { xhr = new XDomainRequest(); }
   } else {
-    throw "Celestra ajax error: The querytype property have to be \"ajax\" or \"cors\".";
+    throw "Celestra ajax error: The querytype property has to be \"ajax\" or \"cors\".";
   }
   if (typeof o.user === "string" && typeof o.password === "string") {
     xhr.open(typeStr, o.url, true, o.user, o.password);
@@ -2063,7 +1998,7 @@ function toPrimitiveValue (O) {
   /* object */
   var ot = Object.prototype.toString.call(O).slice(8, -1);
   if (["Boolean", "BigInt", "Number", "String"].includes(ot)) {
-    return window[ot](O);
+    return globalThis[ot](O);
   }
   return O;
 }
@@ -2197,7 +2132,7 @@ function isDeepStrictEqual (x, y) {
       || _isSameInstance(x, y, Uint16Array)
       || _isSameInstance(x, y, Int32Array)
       || _isSameInstance(x, y, Uint32Array)
-      || ("Float16Array" in window ?
+      || ("Float16Array" in globalThis ?
           _isSameInstance(x, y, Float16Array) : false
          )
       || _isSameInstance(x, y, Float32Array)
@@ -2213,8 +2148,7 @@ function isDeepStrictEqual (x, y) {
     if (_isSameInstance(x, y, ArrayBuffer)) {
       if (x.byteLength !== y.byteLength) { return false; }
       if (x.byteLength === 0) { return true; }
-      let xTA = new Int8Array(x);
-      let yTA = new Int8Array(y);
+      let xTA = new Int8Array(x), yTA = new Int8Array(y);
       return xTA.every((v, i) => _isEqual(v, yTA[i]));
     }
     /* objects / DataView */
@@ -2230,20 +2164,13 @@ function isDeepStrictEqual (x, y) {
     if (_isSameInstance(x, y, Map)) {
       if (x.size !== y.size) { return false; }
       if (x.size === 0) { return true; }
-      for (let key of x.keys()) {
-        if (!y.has(key)) { return false; }
-        if (!isDeepStrictEqual(x.get(key), y.get(key))) { return false; }
-      }
-      return true;
+      return [...x.keys()].every((v) => isDeepStrictEqual(x.get(v), y.get(v)));
     }
     /* objects / Set */
     if (_isSameInstance(x, y, Set)) {
       if (x.size !== y.size) { return false; }
       if (x.size === 0) { return true; }
-      for (let item of x) {
-        if (!y.has(item)) { return false; }
-      }
-      return true;
+      return [...x.keys()].every((v) => y.has(v));
     }
     /* objects / RegExp */
     if (_isSameInstance(x, y, RegExp)) {
@@ -2255,17 +2182,16 @@ function isDeepStrictEqual (x, y) {
     if (_isSameInstance(x, y, Error)) {
       return isDeepStrictEqual(
         Object.getOwnPropertyNames(x)
-          .reduce((acc, prop) => { acc[prop] = x[prop]; return acc; }, {}),
+          .reduce((acc, k) => { acc[k] = x[k]; return acc; }, {}),
         Object.getOwnPropertyNames(y)
-          .reduce((acc, prop) => { acc[prop] = y[prop]; return acc; }, {}),
+          .reduce((acc, k) => { acc[k] = y[k]; return acc; }, {}),
       );
     }
     /* objects / Date */
     if (_isSameInstance(x, y, Date)) { return _isEqual(+x, +y); }
     /* objects / Proxy -> not detectable */
-    /* objects / other objects */
-    let xKeys = _ownKeys(x);
-    let yKeys = _ownKeys(y);
+    /* objects / Objects */
+    let xKeys = _ownKeys(x), yKeys = _ownKeys(y);
     if (xKeys.length !== yKeys.length) { return false; }
     if (xKeys.length === 0) { return true; }
     return xKeys.every((key) => isDeepStrictEqual(x[key], y[key]));
@@ -2286,7 +2212,7 @@ function isEmptyValue (v) {
     || v instanceof Uint16Array
     || v instanceof Int32Array
     || v instanceof Uint32Array
-    || ("Float16Array" in window ? v instanceof Float16Array : false)
+    || ("Float16Array" in globalThis ? v instanceof Float16Array : false)
     || v instanceof Float32Array
     || v instanceof Float64Array
     || v instanceof BigInt64Array
@@ -2322,11 +2248,6 @@ const isProxy = (O) => Boolean(O.__isProxy);
 /* isAsyncGeneratorFn(value: any): boolean */
 const isAsyncGeneratorFn = (v) => (Object.getPrototypeOf(v).constructor ===
   Object.getPrototypeOf(async function*() {}).constructor);
-
-
-/* isConstructorFn(value: any): boolean */
-const isConstructorFn = (v) =>
-  (typeof v === "function" && typeof v.prototype === "object");
 
 
 /* isClass(value: any): boolean */
@@ -2392,7 +2313,7 @@ const isPrimitive = (v) =>
 
 
 /* isIterator(value: any): boolean */
-const isIterator = (v) => ("Iterator" in window ? (v instanceof Iterator)
+const isIterator = (v) => ("Iterator" in globalThis ? (v instanceof Iterator)
   : (v != null && typeof v === "object" && typeof v.next === "function"));
 
 
@@ -2421,7 +2342,7 @@ const isTypedArray = (v) => (
   || v instanceof Uint16Array
   || v instanceof Int32Array
   || v instanceof Uint32Array
-  || ("Float16Array" in window ? v instanceof Float16Array : false)
+  || ("Float16Array" in globalThis ? v instanceof Float16Array : false)
   || v instanceof Float32Array
   || v instanceof Float64Array
   || v instanceof BigInt64Array
@@ -2443,7 +2364,7 @@ const isAsyncFn = (v) => (Object.getPrototypeOf(v).constructor ===
 
 
 /* setCookie(Options object): undefined */
-/* setCookie(name: string, value: string [, hours = 8760 [, path = "/"[,domain
+/* setCookie(name: string, value: string [, hours = 8760 [, path = "/" [, domain
   [, secure [, SameSite = "Lax" [, HttpOnly]]]]]]): undefined */
 function setCookie (name, value, hours = 8760, path = "/", domain, secure,
   SameSite = "Lax", HttpOnly) {
@@ -2495,8 +2416,9 @@ const hasCookie = (n) => (
 
 /* removeCookie(Options object);: boolean */
 /* removeCookie(name: string [, path = "/"
-  [, domain [, secure [, SameSite = "Lax" [, HttpOnly]]]]]): boolean */
-function removeCookie (name, path="/", domain, secure, SameSite="Lax",HttpOnly){
+  [, domain [, secure [, SameSite = "Lax" [, HttpOnly ]]]]]): boolean */
+function removeCookie (name, path="/", domain, secure, SameSite="Lax",
+  HttpOnly){
   if (typeof name === "object") {
     var settings = name;
     name = settings.name;
@@ -2512,7 +2434,8 @@ function removeCookie (name, path="/", domain, secure, SameSite="Lax",HttpOnly){
     + "; path=" + path
     + (domain ? "; domain=" + domain : "")
     + (secure ? "; secure" : "")
-    + (typeof SameSite==="string" && SameSite.length ?"; SameSite="+SameSite:"")
+    + (typeof SameSite === "string" && SameSite.length ? "; SameSite="
+      + SameSite : "")
     + (HttpOnly ? "; HttpOnly" : "")
     + ";";
   return r;
@@ -2521,7 +2444,7 @@ function removeCookie (name, path="/", domain, secure, SameSite="Lax",HttpOnly){
 
 /* clearCookies(Options object): undefined */
 /* clearCookies([path = "/"
-  [, domain [, secure [, SameSite = "Lax" [, HttpOnly]]]]]): undefined */
+  [, domain [, secure [, SameSite = "Lax" [, HttpOnly ]]]]]): undefined */
 function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
   if (typeof path === "object") {
     var settings = path;
@@ -2539,8 +2462,8 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
         + "; path=" + path
         + (domain ? "; domain=" + domain : "")
         + (secure ? "; secure" : "")
-        + (typeof SameSite === "string"
-          && SameSite.length ? "; SameSite=" + SameSite : "")
+        + (typeof SameSite === "string" && SameSite.length ?
+          "; SameSite=" + SameSite : "")
         + (HttpOnly ? "; HttpOnly" : "")
         + ";";
     }
@@ -2551,7 +2474,7 @@ function clearCookies (path = "/", domain, secure, SameSite = "Lax", HttpOnly) {
 /** Collections API **/
 
 
-/* unique(iterator [, resolver: string | function]): array */
+/* unique(iterator: iterator [, resolver: string | function]): array */
 function unique (it, resolver) {
   if (resolver == null) { return [...new Set(it)]; }
   if (typeof resolver === "string") {
@@ -2581,31 +2504,18 @@ function count (it, fn) {
 }
 
 
-/* arrayDeepClone(array): array */
+/* arrayDeepClone(array: array): array */
 function arrayDeepClone ([...a]) {
   const _ADC = (v) => (Array.isArray(v) ? Array.from(v, _ADC) : v);
   return _ADC(a);
 }
 
 
-/* arrayCreate(length: any): array | thrown error */
-function arrayCreate (l = 0) {
-  l = Number(l);
-	if (1 / l === -Infinity) { l = 0; }
-	if (l > (Math.pow(2, 32) - 1)) {
-    throw new RangeError(
-      "celestra.arrayCreate(); error: Invalid array length " + l
-    );
-	}
-	return Array(l);
-}
-
-
-/* initial(iterator): array */
+/* initial(iterator: iterator): array */
 const initial = ([...a]) => a.slice(0, -1);
 
 
-/* shuffle(iterator): array */
+/* shuffle(iterator: iterator): array */
 function shuffle([...a]) {
   for (let i = a.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
@@ -2615,53 +2525,30 @@ function shuffle([...a]) {
 }
 
 
-/* partition(iterator, callback: function): array */
+/* partition(iterator: iterator, callback: function): array */
 const partition = ([...a],fn) =>
   [a.filter(fn), a.filter((e, i, a) => !(fn(e, i, a)))];
 
 
-/* arrayUnion(iterator1 [, iteratorN]): array */
-const arrayUnion = (...a) => [...new Set(a.map(([...e]) => e).flat())];
-
-
-/* arrayIntersection(iterator1, iterator2): array */
-const arrayIntersection = ([...a], [...b]) => a.filter(
-  (v) => b.indexOf(v) > -1).filter((e, i, arr) => arr.indexOf(e) === i
-);
-
-
-/* arrayDifference(iterator1, iterator2): array */
-const arrayDifference = ([...a], [...b]) => a.filter(
-  (v) => b.indexOf(v) === -1).filter((e, i, arr) => arr.indexOf(e) === i
-);
-
-
-/* arraySymmetricDifference(iterator1, iterator2): array */
-const arraySymmetricDifference = ([...a], [...b]) =>
-  a.filter((v) => b.indexOf(v) === -1)
-    .concat(b.filter((v) => a.indexOf(v) === -1))
-    .filter((e, i, arr) => arr.indexOf(e) === i);
-
-
-/* setUnion(iterator1 [, iteratorN]): set */
+/* setUnion(iterator1: iterator [, iteratorN: iterator]): set */
 const setUnion = (...a) => new Set(a.map(([...e]) => e).flat());
 
 
-/* setIntersection(set1, set2): set */
+/* setIntersection(set1: set, set2: set): set */
 const setIntersection = ([...a], b) => new Set(a.filter((v) => b.has(v)));
 
 
-/* setDifference(set1, set2): set */
+/* setDifference(set1: set, set2: set): set */
 const setDifference = ([...a], b) => new Set(a.filter((v) => !(b.has(v))));
 
 
-/* setSymmetricDifference(set1, set2): set */
+/* setSymmetricDifference(set1: set, set2: set): set */
 const setSymmetricDifference = (a, b) => new Set(
   [...a].filter((v) => !(b.has(v))).concat([...b].filter((v) => !(a.has(v))))
 );
 
 
-/* isSuperset(superCollection, subCollection): boolean */
+/* isSuperset(superCollection: iterator, subCollection: iterator): boolean */
 const isSuperset = ([...sup], [...sub]) => sub.every((v) => sup.includes(v));
 
 
@@ -2677,7 +2564,7 @@ const max = (...a) => a.reduce((acc, v) => (v > acc ? v : acc), a[0]);
 const arrayRepeat = (v, n = 100) => Array(n).fill(v);
 
 
-/* arrayCycle(iterator [, n = 100]): array */
+/* arrayCycle(iterator: iterator [, n: integer = 100]): array */
 const arrayCycle = ([...a], n = 100) => Array(n).fill(a).flat();
 
 
@@ -2686,7 +2573,7 @@ const arrayRange = (s = 0, e = 99, st = 1) =>
   Array.from({length: (e - s) / st + 1}, (_v, i) => s + (i * st));
 
 
-/* zip(iterator1 [, iteratorN]): array */
+/* zip(iterator1: iterator [, iteratorN: iterator]): array */
 function zip (...a) {
   a = a.map((v) => Array.from(v));
   return Array.from({length: Math.min(...a.map(v => v.length))})
@@ -2694,7 +2581,7 @@ function zip (...a) {
 }
 
 
-/* unzip(iterator): array */
+/* unzip(iterator: iterator): array */
 const unzip = ([...a]) =>
   a.map((v) => Array.from(v)).reduce((acc, v) => {
     v.forEach((item, i) => {
@@ -2705,22 +2592,22 @@ const unzip = ([...a]) =>
   }, []);
 
 
-/* zipObj(iterator1, iterator2): object */
+/* zipObj(iterator1: iterator, iterator2: iterator): object */
 function zipObj ([...a1], [...a2]) {
   let r = {}, l = Math.min(a1.length, a2.length);
   for (let i = 0; i < l; i++) { r[a1[i]] = a2[i]; }
   return r;
 }
 
-/* arrayAdd(array, value: any): boolean */
+/* arrayAdd(array: array, value: any): boolean */
 const arrayAdd = (a, v) => (!a.includes(v)) ? !!a.push(v) : false;
 
 
-/* arrayClear(array): array */
+/* arrayClear(array: array): array */
 function arrayClear (a) { a.length = 0; return a; }
 
 
-/* arrayRemove(array, value: any [, all = false]): boolean */
+/* arrayRemove(array: array, value: any [, all: boolean = false]): boolean */
 function arrayRemove (a, v, all = false) {
   var found = a.indexOf(v) > -1;
   if (!all) {
@@ -2734,7 +2621,8 @@ function arrayRemove (a, v, all = false) {
 }
 
 
-/* arrayRemoveBy(array, callback: function [, all = false]): boolean */
+/* arrayRemoveBy(array: array, callback: function [, all: boolean = false]):
+  boolean */
 function arrayRemoveBy (a, fn, all = false) {
   var found = a.findIndex(fn) > -1;
   if (!all) {
@@ -2752,7 +2640,8 @@ function arrayRemoveBy (a, fn, all = false) {
 function arrayMerge (t, ...a) { t.push(... [].concat(...a) ); return t; }
 
 
-/* iterRange([start = 0 [,step = 1 [, end = Infinity]]]): iterator */
+/* iterRange([start: number = 0 [,step: number = 1
+  [, end: number = Infinity]]]): iterator */
 function* iterRange (s = 0, st = 1, e = Infinity) {
   let i = s;
   while (i <= e) {
@@ -2762,7 +2651,7 @@ function* iterRange (s = 0, st = 1, e = Infinity) {
 }
 
 
-/* iterCycle(iterator [, n = Infinity]): iterator */
+/* iterCycle(iterator: iterator [, n = Infinity]): iterator */
 function* iterCycle ([...a], n = Infinity) {
   let i = 0;
   while (i < n) {
@@ -2772,7 +2661,7 @@ function* iterCycle ([...a], n = Infinity) {
 }
 
 
-/* iterRepeat(value: any [, n = Infinity]): iterator */
+/* iterRepeat(value: any [, n: number = Infinity]): iterator */
 function* iterRepeat (v, n = Infinity) {
   let i = 0;
   while (i<n) {
@@ -2782,7 +2671,7 @@ function* iterRepeat (v, n = Infinity) {
 }
 
 
-/* takeWhile(iterator, callback: function): iterator */
+/* takeWhile(iterator: iterator, callback: function): iterator */
 function* takeWhile (it, fn) {
   for (let item of it) {
     if (!fn(item)) { break; }
@@ -2791,7 +2680,7 @@ function* takeWhile (it, fn) {
 }
 
 
-/* dropWhile(iterator, callback: function): iterator */
+/* dropWhile(iterator: iterator, callback: function): iterator */
 function* dropWhile (it, fn) {
   let d = true;
   for (let item of it) {
@@ -2801,7 +2690,7 @@ function* dropWhile (it, fn) {
 }
 
 
-/* take(iterator [, n = 1]): iterator */
+/* take(iterator: iterator [, n: number = 1]): iterator */
 function* take (it, n = 1) {
   let i = n;
   for (let item of it) {
@@ -2812,7 +2701,7 @@ function* take (it, n = 1) {
 }
 
 
-/* drop(iterator [, n =1 ]): iterator */
+/* drop(iterator: iterator [, n: number =1 ]): iterator */
 function* drop (it, n = 1) {
   let i = n;
   for (let item of it) {
@@ -2825,28 +2714,28 @@ function* drop (it, n = 1) {
 }
 
 
-/* forEach(iterator, callback: function): undefined */
+/* forEach(iterator: iterator, callback: function): undefined */
 function forEach (it, fn) {
   let i = 0;
   for (let item of it) { fn(item, i++); }
 }
 
 
-/* forEachRight(iterator, callback: function): undefined */
+/* forEachRight(iterator: iterator, callback: function): undefined */
 function forEachRight ([...a], fn) {
   let i = a.length;
   while (i--) { fn(a[i] ,i); }
 }
 
 
-/* map(iterator, callback: function): iterator */
+/* map(iterator: iterator, callback: function): iterator */
 function* map (it, fn) {
   let i = 0;
   for (let item of it) { yield fn(item, i++); }
 }
 
 
-/* filter(iterator, callback: function): iterator */
+/* filter(iterator: iterator, callback: function): iterator */
 function* filter (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -2855,7 +2744,7 @@ function* filter (it, fn) {
 }
 
 
-/* reject(iterator, callback: function): iterator */
+/* reject(iterator: iterator, callback: function): iterator */
 function* reject (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -2864,7 +2753,8 @@ function* reject (it, fn) {
 }
 
 
-/* slice(iterator [, begin = 0 [, end = Infinity]]): iterator */
+/* slice(iterator: iterator [, begin: number = 0 [, end: number = Infinity]]):
+  iterator */
 function* slice (it, begin = 0, end = Infinity) {
   let i = 0;
   for (let item of it) {
@@ -2878,7 +2768,7 @@ function* slice (it, begin = 0, end = Infinity) {
 }
 
 
-/* tail(iterator): iterator */
+/* tail(iterator: iterator): iterator */
 function* tail (it) {
   let first = true;
   for (let item of it) {
@@ -2891,7 +2781,7 @@ function* tail (it) {
 }
 
 
-/* item(iterator, index: integer): any */
+/* item(iterator: iterator, index: integer): any */
 function item (it, p) {
   let i=0;
   for (let item of it) {
@@ -2900,7 +2790,7 @@ function item (it, p) {
 }
 
 
-/* nth(iterator, index: integer): any */
+/* nth(iterator: iterator, index: integer): any */
 function nth (it, p) {
   let i=0;
   for (let item of it) {
@@ -2909,7 +2799,7 @@ function nth (it, p) {
 }
 
 
-/* size(iterator): integer */
+/* size(iterator: iterator): integer */
 function size (it) {
   let i = 0;
   for (let _item of it) { i++; }
@@ -2917,30 +2807,30 @@ function size (it) {
 }
 
 
-/* first(iterator): any */
+/* first(iterator: iterator): any */
 function first (it) { for (let item of it) { return item; } }
 
 
-/* head(iterator): any */
+/* head(iterator: iterator): any */
 function head (it) { for (let item of it) { return item; } }
 
 
-/* last(iterator): any */
+/* last(iterator: iterator): any */
 const last = ([...a]) => a[a.length - 1];
 
 
-/* reverse(iterator): iterator */
+/* reverse(iterator: iterator): iterator */
 function* reverse ([...a]) {
   var i = a.length;
   while (i--) { yield a[i]; }
 }
 
 
-/* sort(iterator [, numbers = false]): array */
+/* sort(iterator: iterator [, numbers = false]): array */
 const sort = ([...a], ns) => a.sort(ns ? (x, y) => x - y : undefined);
 
 
-/* includes(iterator, value: any): boolean */
+/* includes(iterator: iterator, value: any): boolean */
 function includes (it, v) {
   for (let item of it) {
     if (item === v || (item !== item && v !== v)) { return true; }
@@ -2949,7 +2839,7 @@ function includes (it, v) {
 }
 
 
-/* contains(iterator, value: any): boolean */
+/* contains(iterator: iterator, value: any): boolean */
 function contains (it, v) {
   for (let item of it) {
     if (item === v) { return true; }
@@ -2958,7 +2848,7 @@ function contains (it, v) {
 }
 
 
-/* find(iterator, callback: function): any */
+/* find(iterator: iterator, callback: function): any */
 function find (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -2967,7 +2857,7 @@ function find (it, fn) {
 }
 
 
-/* findLast(iterator, callback: function): any */
+/* findLast(iterator: iterator, callback: function): any */
 function findLast (it, fn) {
   let i = 0, r;
   for (let item of it) {
@@ -2977,7 +2867,7 @@ function findLast (it, fn) {
 }
 
 
-/* every(iterator, callback: function): boolean */
+/* every(iterator: iterator, callback: function): boolean */
 function every (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -2988,7 +2878,7 @@ function every (it, fn) {
 }
 
 
-/* some(iterator, callback: function): boolean */
+/* some(iterator: iterator, callback: function): boolean */
 function some (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -2998,7 +2888,7 @@ function some (it, fn) {
 }
 
 
-/* none(iterator, callback: function): boolean */
+/* none(iterator: iterator, callback: function): boolean */
 function none (it, fn) {
   let i = 0;
   for (let item of it) {
@@ -3009,11 +2899,11 @@ function none (it, fn) {
 }
 
 
-/* takeRight(iterator [, n = 1]): array */
+/* takeRight(iterator: iterator [, n: number = 1]): array */
 const takeRight = ([...a], n = 1) => a.reverse().slice(0, n);
 
 
-/* takeRightWhile(iterator, callback: function): iterator */
+/* takeRightWhile(iterator: iterator, callback: function): iterator */
 function* takeRightWhile ([...a], fn) {
   let i = 0;
   for (let item of a.reverse()) {
@@ -3026,11 +2916,11 @@ function* takeRightWhile ([...a], fn) {
 }
 
 
-/* dropRight(iterator [,n = 1]): array */
+/* dropRight(iterator: iterator [, n: number = 1]): array */
 const dropRight = ([...a], n = 1) => a.reverse().slice(n);
 
 
-/* dropRightWhile(iterator, callback: function): iterator */
+/* dropRightWhile(iterator: iterator, callback: function): iterator */
 function* dropRightWhile ([...a], fn) {
   let d = true, i = 0;
   for (let item of a.reverse()) {
@@ -3040,11 +2930,11 @@ function* dropRightWhile ([...a], fn) {
 }
 
 
-/* concat(iterator1 [, iteratorN]): iterator */
+/* concat(iterator1: iterator [, iteratorN]: iterator): iterator */
 function* concat () {
   for (let item of arguments) {
     if (typeof item[Symbol.iterator] === "function" ||
-      ("Iterator" in window ? (item instanceof Iterator)
+      ("Iterator" in globalThis ? (item instanceof Iterator)
         : (typeof item === "object" && typeof item.next === "function")
       )
     ) {
@@ -3056,7 +2946,7 @@ function* concat () {
 }
 
 
-/* reduce(iterator, callback: function [, initialvalue: any]): any */
+/* reduce(iterator: iterator, callback: function [, initialvalue: any]): any */
 function reduce (it, fn, iv) {
   let acc = iv, i = 0;
   for (let item of it) {
@@ -3070,25 +2960,18 @@ function reduce (it, fn, iv) {
 }
 
 
-/* enumerate(iterator [, offset = 0]): iterator */
+/* enumerate(iterator: iterator [, offset = 0]): iterator */
 function* enumerate (it, offset = 0) {
   let i = offset;
   for (let item of it) { yield [i++, item]; }
 }
 
 
-/* entries(iterator [, offset = 0]): iterator */
-function* entries (it, offset = 0) {
-  let i = offset;
-  for (let item of it) { yield [i++, item]; }
-}
-
-
-/* flat(iterator): iterator */
+/* flat(iterator: iterator): iterator */
 function* flat (it) {
   for (let item of it) {
     if (typeof item[Symbol.iterator] === "function" ||
-      ("Iterator" in window ? (item instanceof Iterator)
+      ("Iterator" in globalThis ? (item instanceof Iterator)
         : (typeof item === "object" && typeof item.next === "function")
       )
     ) {
@@ -3100,7 +2983,7 @@ function* flat (it) {
 }
 
 
-/* join(iterator [, separator = ","]): string */
+/* join(iterator: iterator [, separator = ","]): string */
 function join (it, sep = ",") {
   sep = String(sep);
   let r = "";
@@ -3109,7 +2992,7 @@ function join (it, sep = ",") {
 }
 
 
-/* withOut(iterator, filterIterator): array */
+/* withOut(iterator: iterator, filterIterator: iterator): array */
 const withOut = ([...a], [...fl]) => a.filter((e) => fl.indexOf(e) === -1);
 
 
@@ -3132,16 +3015,16 @@ const toIntegerOrInfinity = (v) =>
   ((v = Math.trunc(+v)) !== v || v === 0) ? 0 : v;
 
 
-/* sum(value1 [, valueN]): number */
+/* sum(value1: any [, valueN]: any): any */
 const sum = (...a) => (a.every((v) => typeof v === "number") ?
   Math.sumPrecise(a) : a.slice(1).reduce((acc, v) => acc + v, a[0]));
 
 
-/* avg(value1 [, valueN]): number */
+/* avg(value1: number [, valueN: number]): number */
 const avg = (...a) => Math.sumPrecise(a) / a.length;
 
 
-/* product(value1 [, valueN]): number */
+/* product(value1: number [, valueN]: number): number */
 const product = (f, ...a) => a.reduce((acc, v) => acc * v, f);
 
 
@@ -3323,8 +3206,8 @@ const signbit = (v) =>
   (((v = Number(v)) !== v) ? false : ((v < 0) || Object.is(v, -0)));
 
 
-/* randomInt([max: int]): int */
-/* randomInt(min: int, max: int): int */
+/* randomInt([max: integer]): integer */
+/* randomInt(min: integer, max: integer): integer */
 function randomInt (i = 100, a) {
   if (a == null) {
     a = i;
@@ -3354,11 +3237,11 @@ const inRange = (v, min, max) => (v >= min && v <= max);
 /** object header **/
 
 
-const VERSION = "Celestra v5.8.1 dev";
+const VERSION = "Celestra v5.9.0 dev";
 
 
 /* celestra.noConflict(): celestra object */
-function noConflict () { window.CEL = celestra.__prevCEL__; return celestra; }
+function noConflict () { globalThis.CEL = celestra.__prevCEL__; return celestra; }
 
 
 const celestra = {
@@ -3383,16 +3266,11 @@ const celestra = {
   createPolyfillProperty,
   randomUUIDv7,
   delay,
-  sleep,
   randomBoolean,
-  javaHash,
   getUrlVars,
   obj2string,
   extend,
   sizeIn,
-  forIn,
-  filterIn,
-  popIn,
   unBind,
   bind,
   constant,
@@ -3500,7 +3378,6 @@ const celestra = {
   isEmptyValue,
   isProxy,
   isAsyncGeneratorFn,
-  isConstructorFn,
   isClass,
   isPlainObject,
   isChar,
@@ -3530,14 +3407,9 @@ const celestra = {
   unique,
   count,
   arrayDeepClone,
-  arrayCreate,
   initial,
   shuffle,
   partition,
-  arrayUnion,
-  arrayIntersection,
-  arrayDifference,
-  arraySymmetricDifference,
   setUnion,
   setIntersection,
   setDifference,
@@ -3592,7 +3464,6 @@ const celestra = {
   concat,
   reduce,
   enumerate,
-  entries,
   flat,
   join,
   withOut,
@@ -3633,11 +3504,11 @@ const celestra = {
 };
 
 
-if (typeof window !== "undefined") {
-  window.celestra = celestra;
-  celestra.__prevCEL__ = window.CEL;
-  window.CEL = celestra;
+if (typeof globalThis !== "undefined") {
+  globalThis.celestra = celestra;
+  celestra.__prevCEL__ = globalThis.CEL;
+  globalThis.CEL = celestra;
 }
 
 
-}(window, document));
+}(globalThis));

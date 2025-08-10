@@ -9,6 +9,35 @@
 # Celestra version history
 
 
+## Celestra v5.9.0
+
+1. Documentation and pdf fixes.
+
+2. Add [StructuredClone();](https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone) in the __celestra-cheatsheet.odt__ and __celestra-cheatsheet.pdf__.
+
+3. Replace the use of `window` with `globalThis`.
+
+4. Add this polyfill: `globalThis.AsyncGeneratorFunction();`
+
+5. Move the polyfill `BigInt.prototype.toJSON();` to __celestra-polyfills.dev.js__ and __celestra-polyfills.min.js__.
+
+6. Remove these functions:
+````javascript
+arrayCreate();
+arrayDifference();
+arrayIntersection();
+arraySymmetricDifference();
+arrayUnion();
+entries(iterator); // only an alias
+filterIn();
+forIn();
+isConstructorFN(); // only an alias
+javaHash();
+popIn();
+sleep(); // only an alias
+````
+
+
 ## Celestra v5.8.1
 
 1. Documentation and pdf fixes.
