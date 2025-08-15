@@ -1,144 +1,204 @@
 "use strict";
 
-try {
+// import method 1 - defaultExport
+/*
+console.log("import method 1 - defaultExport");
+import defaultExport from "./celestra.node.mjs";
+globalThis.celestra = defaultExport;
+globalThis.CEL = defaultExport;
+*/
+
+// import method 2 -  default as celestra
+/*
+console.log("import method 2 - default as celestra");
+import { default as celestra } from "./celestra.node.mjs";
+globalThis.celestra = celestra;
+globalThis.CEL = celestra;
+*/
+
+// import method 3 - import *  as celestra
+
+console.log("import method 3 - import * as celestra");
+import * as celestra from "./celestra.node.mjs";
+globalThis.celestra = celestra;
+globalThis.CEL = celestra;
+
+
+
+const CUT = {};
+
+CUT.VERSION = "Celestra Unit Tester (CUT) v1.30.0 for Node.js";
+
+/* __addTest__(<step: string>, <expected>, <expression>); */
+/* __addTest__(<step: string>, <expected>, <expression>[, strict: boolean]); */
+/* only for inner calls and selftest */
+CUT.__addTest__ = function __addTest__ (step,expected,expression, strict=true) {
+  step = String(step);
+  if (strict === undefined) { strict = true; }
+  if (strict ? expected === expression : expected == expression) {
+    /*
+    let resultStr = "[" + Date.now().toString(36) + "] [passed] " + step;
+    console.log(resultStr);
+    */
+  } else {
+    let resultStr = "[" + Date.now().toString(36) + "] [failed] " + step;
+    console.error(resultStr);
+  }
+};
+
+/* isTrue(<step: string>, <expression>[, strict: boolean]); */
+CUT.isTrue = function isTrue (step, expression, strict = true) {
+  CUT.__addTest__(step, true, expression, strict);
+};
+
+/* isFalse(<step: string>, <expression>[, strict: boolean]); */
+CUT.isFalse = function isFalse (step, expression, strict = true) {
+  CUT.__addTest__(step, false, expression, strict);
+};
+
+/* isEqual(<step: string>, <expected>, <expression>); */
+/* isEqual(<step: string>, <expected>, <expression>[, strict: boolean]); */
+CUT.isEqual = function isEqual (step, expected, expression, strict = true) {
+  CUT.__addTest__(step, expected, expression, strict);
+};
+
+/* isNotEqual(<step: string>, <notExpected>, <expression>); */
+/* isNotEqual(<step: string>, <notExpected>, <expression>[, strict: boolean]);*/
+CUT.isNotEqual = function (step, notExpected, expression, strict = true) {
+  CUT.__addTest__(step, true,
+    (strict ? notExpected !== expression : notExpected != expression), true
+  );
+};
+
+/* isError((<step: string>, <callback: function>); */
+CUT.isError = function (step, callback) {
+  try {
+    callback();
+    CUT.isTrue(step, false);
+  } catch (e) {
+    CUT.isTrue(step + " - \n\`\"" + e + "\"\`", true);
+  }
+};
+
+/* log(<innerHTML>); */
+CUT.log = function log (str) {
+  console.log("[" + Date.now().toString(36) + "] [info] " + str);
+};
+
+/* logCode(<innerHTML>); */
+CUT.logCode = function log (str) {
+  console.log(
+    "[" + Date.now().toString(36) + "] [code] " + "`" + str + "`"
+  );
+};
+
+/* clear(); */
+CUT.clear = function clear () { console.clear(); };
+
+/* concat(<item1, item2, ...itemN>): string */
+CUT.concat = function concat (...args) {
+  let r = "";
+  for (let item of args) { r += item; }
+  return r;
+};
+
+/* join(<iterator>[, separator = " "]): string */
+CUT.join = function join (it, separator = " ") {
+  separator = String(separator);
+  let r = "";
+  for (let item of it) { r += separator + item; }
+  return r.slice(separator.length);
+}
+
+/* take(<iterator>[,n=1]): iterator); */
+CUT.take = function* take (it, n = 1) {
+  let i = n;
+  for (let item of it) {
+    if (i <= 0) { break; }
+    yield item;
+    i--;
+  }
+}
+
+/* getHumanReadableJSON(<value>[, space]): string */
+CUT.getHumanReadableJSON = function getReadableJSON (value, space) {
+  function _JSONreplacer(_key, value) {
+    if (value == null) { return String(value); }
+    if (value !== value) { return String(value); }
+    if (typeof value === "bigint") { return value.toString()+"n"; }
+    if (typeof value === "function") { return String(value); }
+    if (typeof value === "symbol") { return String(value); }
+    if (value instanceof Set) { return "new Set("+[...value].toString()+");"; }
+    if (value instanceof Map) { return "new Map("+[...value].toString()+");"; }
+    if (Error.isError(value)) {
+      return Object.getOwnPropertyNames(value)
+        .reduce((acc, prop) => { acc[prop] = value[prop]; return acc; }, {});
+    }
+    return value;
+  }
+  return JSON.stringify(value, _JSONreplacer, space);
+}
+
 
 const now = new Date();
-
-CUT.addElement("table",
-  "<tr><td>CUT.VERSION</td><td><code>" + CUT.VERSION + "</code></td></tr>"
-    + "<tr><td>celestra.VERSION</td><td><code>" + celestra.VERSION
-     + "</code></td></tr>"
-    + "<tr><td>UTC date</td><td><code>" + now.toISOString()
-     + "</code></td></tr>"
-    + "<tr><td>Local date</td><td><code>" + now.toString()
-      + "</code></td></tr>"
-    + "<tr><td>EPOCH time</td><td><code>" + Number(now) + " (10) / "
-      + Number(now).toString(16)
-      + " (16) / "
-      + Number(now).toString(36)
-      + " (36)</code></td></tr>"
-    + "<tr><td>navigator.appName</td><td><code>" + navigator.appName
-      + "</code></td></tr>"
-    + "<tr><td>navigator.appCodeName</td><td><code>" + navigator.appCodeName
-      + "</code></td></tr>"
-    + "<tr><td>navigator.product</td><td><code>" + navigator.product
-      + "</code></td></tr>"
-    + "<tr><td>navigator.appVersion</td><td><code>" + navigator.appVersion
-      + "</code></td></tr>"
-    + "<tr><td>navigator.buildID</td><td><code>" + navigator.buildID
-      + "</code></td></tr>"
-    + "<tr><td>navigator.product</td><td><code>" + navigator.product
-      + "</code></td></tr>"
-    + "<tr><td>navigator.productSub</td><td><code>" + navigator.productSub
-      + "</code></td></tr>"
-    + "<tr><td>navigator.userAgent</td><td><code>" + navigator.userAgent
-      + "</code></td></tr>"
-    + "<tr><td>navigator.userAgentData</td><td><code>"
-      + JSON.stringify(navigator.userAgentData)
-      + "</code></td></tr>"
-    + "<tr><td>navigator.doNotTrack</td><td><code>" + navigator.doNotTrack
-      + "</code></td></tr>"
-    + "<tr><td>navigator.vendor</td><td><code>" + navigator.vendor
-      + "</code></td></tr>"
-    + "<tr><td>navigator.platform</td><td><code>" + navigator.platform
-      + "</code></td></tr>"
-    + "<tr><td>navigator.language</td><td><code>" + navigator.language
-      + "</code></td></tr>"
-    + "<tr><td>navigator.oscpu</td><td><code>" + navigator.oscpu
-      + "</code></td></tr>"
-    + "<tr><td>navigator.cookieEnabled</td><td><code>"
-      + navigator.cookieEnabled
-      + "</code></td></tr>"
-    + "<tr><td>navigator.javaEnabled()</td><td><code>"
-      + navigator.javaEnabled()
-      + "</code></td></tr>"
-    + "<tr><td>navigator.pdfViewerEnabled</td><td><code>"
-      + navigator.pdfViewerEnabled
-      + "</code></td></tr>"
-    + "<tr><td>globalThis.innerWidth</td><td><code>" + globalThis.innerWidth
-      + "</code></td></tr>"
-    + "<tr><td>globalThis.innerHeight</td><td><code>" + globalThis.innerHeight
-      + "</code></td></tr>"
-    + "<tr><td>screen.width</td><td><code>" + screen.width + "</code></td></tr>"
-    + "<tr><td>screen.height: </td><td><code>" + screen.height
-      + "</code></td></tr>"
-    + "<tr><td>screen.availWidth</td><td><code>" + screen.availWidth
-      + "</code></td></tr>"
-    + "<tr><td>screen.availHeight</td><td><code>" + screen.availHeight
-      + "</code></td></tr>"
-    + "<tr><td>screen.colorDepth</td><td><code>" + screen.colorDepth
-      + "</code></td></tr>"
-    + "<tr><td>screen.pixelDepth</td><td><code>" + screen.pixelDepth
-      + "</code></td></tr>"
-);
-
-globalThis.saveResults = function saveResults () {
-  var dn = Date.now().toString(36);
-  CEL.createFile("results-" + dn + ".html",
-    "<!DOCTYPE html><meta charset=\"utf-8\"><title>Results " + dn + "</title>"
-      + "<style>html { -ms-word-break: break-all; word-break: break-all; word-break: break-word; word-wrap: break-word; overflow-wrap: break-word; } body { margin: 0 auto; max-width: 1200px; font-family: Helvetica, Arial, sans-serif; } h1 { text-align : center; } .passed, .failed { display: inline-block; padding: 3px; }.passed { background-color: #3d9970 !important; color: white !important; }.failed { background-color: #ff4136 !important; color: white !important; } #results { padding: 3px 5px 3px 5px; font-size: 14.5px !important; font-family: consolas, monospace; } code { background-color: slategrey; color: white; padding: 3px 5px 3px 5px; display: inline-block; margin-top: 2px; } </style>"
-      + "<h1>Results " + dn + "</h1>"
-      + "<div id='results'>" + CUT.__results__.innerHTML + "</div>",
-    "text/html"
- );
+const nowISOString = now.toISOString().slice(0, 19) + "\n"
+  +now.toISOString().slice(20);
+console.log("\nCelestra versions");
+const versionTable = {
+  "CUT.VERSION     ": CUT.VERSION,
+  "celestra.VERSION": celestra.VERSION,
+  "UTC date        ": now.toISOString(),
+  "Local date      ": now.toString(),
+  "EPOCH time (10) ": Number(now),
+  "EPOCH time (16) ": Number(now).toString(16),
+  "EPOCH time (36) ": Number(now).toString(36)
 };
+console.table(versionTable);
+console.log("\nJS versions");
+console.table(process.versions);
+console.log("");
 
 
 /* ======================================================================== */
 
 
+try {
+
 /** Selftest **/
-CUT.addElement("hr");
-CUT.addElement("h3", "CUT Selftest");
+CUT.log("CUT Selftest");
 
-CUT.__addTest__(
-  "<span class=\"info\">Selftest</span> - __addTest__(); success", 1, 1
-);
-CUT.__addTest__(
-  "<span class=\"info\">Selftest</span> - __addTest__(); failed", 1, 2
-);
-CUT.__addTest__(
-  "<span class=\"info\">Selftest</span> - __addTest__(); success non-strict",
+CUT.__addTest__("[Selftest] - __addTest__(); success", 1, 1);
+CUT.__addTest__("[Selftest] - __addTest__(); failed", 1, 2);
+CUT.__addTest__("[Selftest] - __addTest__(); success non-strict",
   0, false, false
 );
-CUT.__addTest__(
-  "<span class=\"info\">Selftest</span> - __addTest__(); failed strict",
-  0, false, true
-);
+CUT.__addTest__("[Selftest] - __addTest__(); failed strict", 0, false, true);
 
-CUT.isTrue("<span class=\"info\">Selftest</span> - isTrue(); success", true);
-CUT.isTrue("<span class=\"info\">Selftest</span> - isTrue(); failed", false);
+CUT.isTrue("[Selftest] - isTrue(); success", true);
+CUT.isTrue("[Selftest] - isTrue(); failed", false);
 
-CUT.isFalse("<span class=\"info\">Selftest</span> - isFalse(); success", false);
-CUT.isFalse("<span class=\"info\">Selftest</span> - isFalse(); failed", true);
+CUT.isFalse("[Selftest] - isFalse(); success", false);
+CUT.isFalse("[Selftest] - isFalse(); failed", true);
 
-CUT.isEqual("<span class=\"info\">Selftest</span> - isEqual(); success", 1, 1);
-CUT.isEqual("<span class=\"info\">Selftest</span> - isEqual(); failed", 1, 2);
+CUT.isEqual("[Selftest] - isEqual(); success", 1, 1);
+CUT.isEqual("[Selftest] - isEqual(); failed", 1, 2);
 CUT.isEqual(
-  "<span class=\"info\">Selftest</span> - isEqual(); success non-strict",
+  "[Selftest] - isEqual(); success non-strict",
   0, false, false
 );
-CUT.isEqual(
-  "<span class=\"info\">Selftest</span> - isEqual(); failed strict",0,false,true
-);
+CUT.isEqual("[Selftest] - isEqual(); failed strict", 0, false, true);
 
+CUT.isNotEqual("[Selftest] - isNotEqual(); success", 1, 2);
+CUT.isNotEqual("[Selftest] - isNotEqual(); failed", 1, 1);
 CUT.isNotEqual(
-  "<span class=\"info\">Selftest</span> - isNotEqual(); success", 1, 2
+  "[Selftest] - isNotEqual(); success strict", 0, false, true
 );
 CUT.isNotEqual(
-  "<span class=\"info\">Selftest</span> - isNotEqual(); failed", 1, 1
-);
-CUT.isNotEqual(
-  "<span class=\"info\">Selftest</span> - isNotEqual(); success strict",
-  0, false, true
-);
-CUT.isNotEqual(
-  "<span class=\"info\">Selftest</span> - isNotEqual(); failed non-strict",
-  0, false, false
+  "[Selftest] - isNotEqual(); failed non-strict", 0, false, false
 );
 
 } catch (e) {
-  alert("CUT initialisation error: " + CUT.getHumanReadableJSON(e));
+  console.error("CUT initialisation error: " + CUT.getHumanReadableJSON(e));
 }
 
 
@@ -161,25 +221,10 @@ var token11 = 0, token12 = 0, token13 = 0, token14 = 0, token15 = 0;
 
 
 /** Not auto tested functions **/
-CUT.addElement("hr");
-CUT.addElement("h3", "Not auto tested functions");
-CUT.addElement("ul",
-  "<li>getUrlVars(); no str parameter</li>"
-    +"<li>getLocation(&#60;success&#62;[,error]);</li>"
-    +"<li>getFullscreen();</li>"
-    +"<li>setFullscreenOn(&#60;selector&#62; or &#60;element&#62;);</li>"
-    +"<li>setFullscreenOff();</li>"
-    +"<li>createFile(&#60;filename&#62;,&#60;content&#62;[,dType]);</li>"
-    +"<li>domFadeIn(&#60;element&#62;[,duration[,display]]);</li>"
-    +"<li>domFadeOut(&#60;element&#62;[,duration]);</li>"
-    +"<li>domFadeToggle(&#60;element&#62;[,duration[,display]]);</li>"
-    +"<li>noConflict();</li>"
-);
 
 
 /** Celestra object **/
-CUT.addElement("hr");
-CUT.addElement("h3", "Sync testcases");
+CUT.log("Sync testcases");
 
 
 /* Celestra object */
@@ -268,71 +313,16 @@ CUT.isTrue(
 );
 
 
-/* add html test element */
-CUT.addElement(
-  CEL.domCreate("div", {"id": "qsaDivTestElement"},
-    "#qsaDiv test element"
-      + "<p id='qsaDivP1'>#qsaDivP1 test element</p>"
-      + "<p id='qsaDivP2'>#qsaDivP2 test element</p>"
-  )
-);
-
-
-/* qs(); */
-CUT.isEqual("qs(); 1",
-  document.querySelector("#qsaDivTestElement"), CEL.qs("#qsaDivTestElement")
-);
-CUT.isEqual("qs(); 02",
-  document.querySelector("#qsaDivP1"),
-  CEL.qs("#qsaDivP1", CEL.qs("#qsaDivTestElement"))
-);
-CUT.isEqual("qs(); 03",
-  document.querySelector("#qsaDivP1"),
-  CEL.qs("#qsaDivP1", document.querySelector("#qsaDivTestElement"))
-);
-
-
-/* qsa(); */
-token1 = CEL.qsa("#qsaDivTestElement > p")
-CUT.isTrue("qsa(); 01",
-  Array.isArray(token1)
-    && token1.length === 2
-    && token1[0] === CEL.qs("#qsaDivP1")
-    && token1[1] === CEL.qs("#qsaDivP2")
-);
-token1 = CEL.qsa("p", CEL.qs("#qsaDivTestElement"))
-CUT.isTrue("qsa(); 02",
-  Array.isArray(token1)
-    && token1.length === 2
-    && token1[0] === CEL.qs("#qsaDivP1")
-    && token1[1] === CEL.qs("#qsaDivP2")
-);
-token1 = CEL.qsa("p", CEL.qs("#qsaDivTestElement"))
-CUT.isTrue("qsa(); 03",
-  Array.isArray(token1)
-    && token1.length === 2
-    && token1[0] === CEL.qs("#qsaDivP1")
-    && token1[1] === CEL.qs("#qsaDivP2")
-);
-token1.forEach(function (e) { e.innerHTML += " each"; });
-CUT.isTrue("qsa(); 04",
-  token1[0].innerHTML === "#qsaDivP1 test element each"
-    && token1[1].innerHTML === "#qsaDivP2 test element each"
-);
-
 
 /* classof(); begin */
 CUT.isEqual("classof(); ES5 values",
-  "array number string object htmldocument boolean nodelist htmlparagraphelement null undefined function date regexp",
+  "array number string object boolean null undefined function date regexp",
   CUT.join([
     CEL.classof([1, 2, 3]),
     CEL.classof(1998),
     CEL.classof("hello world"),
     CEL.classof({a: 1, b: 2}),
-    CEL.classof(document),
     CEL.classof(true),
-    CEL.classof(document.querySelectorAll("p")),
-    CEL.classof(CEL.qs("p")),
     CEL.classof(null),
     CEL.classof(undefined),
     CEL.classof(function () {}),
@@ -345,10 +335,7 @@ CUT.isTrue("classof(); ES5 true",
     && CEL.classof(1998, "number")
     && CEL.classof("hello world", "string")
     && CEL.classof({a : 1, b: 2}, "object")
-    && CEL.classof(document, "htmldocument")
     && CEL.classof(true, "boolean")
-    && CEL.classof(document.querySelectorAll("p"), "nodelist")
-    && CEL.classof(CEL.qs("p"), "htmlparagraphelement")
     && CEL.classof(null, "null")
     && CEL.classof(undefined, "undefined")
     && CEL.classof(function(){},"function")
@@ -360,10 +347,6 @@ CUT.isFalse("classof(); ES5 false",
     || CEL.classof(1998, "array")
     || CEL.classof("hello world","object")
     || CEL.classof({a:1,b:2},"string")
-    || CEL.classof(document, "boolean")
-    || CEL.classof(true, "htmldocument")
-    || CEL.classof(document.querySelectorAll("p"), "htmlheadingelement")
-    || CEL.classof(CEL.qs("p"), "nodelist")
     || CEL.classof(null, "undefined")
     || CEL.classof(undefined, "null")
     || CEL.classof(function(){}, "object")
@@ -404,16 +387,13 @@ if (!!globalThis.BigInt) {
 
 /* getType(); begin */
 CUT.isEqual("getType(); ES5 values",
-  "array number string object htmldocument boolean nodelist htmlparagraphelement null undefined function date regexp",
+  "array number string object boolean null undefined function date regexp",
   CUT.join([
     CEL.getType([1, 2, 3]),
     CEL.getType(1998),
     CEL.getType("hello world"),
     CEL.getType({a:1,b:2}),
-    CEL.getType(document),
     CEL.getType(true),
-    CEL.getType(document.querySelectorAll("p")),
-    CEL.getType(CEL.qs("p")),
     CEL.getType(null),
     CEL.getType(undefined),
     CEL.getType(function () {}),
@@ -426,10 +406,7 @@ CUT.isTrue("getType(); ES5 true",
     || CEL.getType(1998, "number")
     || CEL.getType("hello world", "string")
     || CEL.getType({ a: 1, b: 2}, "object")
-    || CEL.getType(document, "htmldocument")
     || CEL.getType(true, "boolean")
-    || CEL.getType(document.querySelectorAll("p"), "nodelist")
-    || CEL.getType(CEL.qs("p"), "htmlparagraphelement")
     || CEL.getType(null, "null")
     || CEL.getType(undefined, "undefined")
     || CEL.getType(function () {}, "function")
@@ -441,10 +418,6 @@ CUT.isFalse("getType(); ES5 false",
     || CEL.getType(1998, "array")
     || CEL.getType("hello world", "object")
     || CEL.getType({ a: 1 , b: 2}, "string")
-    || CEL.getType(document, "boolean")
-    || CEL.getType(true, "htmldocument")
-    || CEL.getType(document.querySelectorAll("p"), "htmlheadingelement")
-    || CEL.getType(CEL.qs("p"), "nodelist")
     || CEL.getType(null, "undefined")
     || CEL.getType(undefined, "null")
     || CEL.getType(function(){}, "object")
@@ -521,22 +494,6 @@ CUT.isEqual("getUrlVars(); empty object", "{}",
 );
 
 
-CUT.addElement(CEL.domCreate("div", {"id": "testFormDiv"},
-  " <form id='form1'><br/>Text: <input type='text' name='name' value='foo éáűőúöüóíéáűőúöüóí'><br/>Password: <input type='password' name='password' value='bar'><br/>Number: <input type='number' name='number' value='97'><br/> Radio: <input type='radio' name='radio' value='male' checked='checked'>Male <input type='radio' name='radio' value='female'>Female<br/> <select name='animals'> <option value='dog'>dog</option> <option value='cat'>cat</option> <option value='cow'>cow</option> <option value='hippos'>hippos</option> </select><br/> <select name='animals-multiple' multiple='multiple'> <option value='dog' selected='selected'>dog</option> <option value='cat'>cat</option> <option value='cow'>cow</option> <option value='hippos' selected='selected'>hippos</option> </select><br/>Checkbox1: <input type='checkbox' name='checkbox1' value='true' checked='checked'>true<br/>Checkbox2: <input type='checkbox' name='checkbox2' value='false'>false<br/>Textarea1: <textarea name='textarea1'>textarea1</textarea><br/><input type='submit' value='Submit'><br/><input type='reset' value='Reset'><br/><input type='button' value='Button1'><br/><button>Button2</button> </form> "
-));
-/* form2array(); */
-CUT.isEqual("form2array();",
-  '[{"name":"name","value":"foo%20%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD"},{"name":"password","value":"bar"},{"name":"number","value":"97"},{"name":"radio","value":"male"},{"name":"animals","value":"dog"},{"name":"animals-multiple","value":"dog"},{"name":"animals-multiple","value":"hippos"},{"name":"checkbox1","value":"true"},{"name":"textarea1","value":"textarea1"}]',
-  JSON.stringify(CEL.form2array(CEL.qs("#form1")))
-);
-/* form2string(); */
-CUT.isEqual("form2string();",
-  "name=foo+%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD&password=bar&number=97&radio=male&animals=dog&animals-multiple=dog&animals-multiple=hippos&checkbox1=true&textarea1=textarea1",
-  CEL.form2string(CEL.qs("#form1"))
-);
-CEL.qs("#testFormDiv").remove();
-
-
 /* randomBoolean(); */
 CUT.isEqual("randomBoolean();", typeof CEL.randomBoolean(), "boolean");
 
@@ -557,10 +514,6 @@ CUT.isEqual("b64Decode(); + b64Encode();",
 CUT.isEqual("sizeIn();", 5, CEL.sizeIn({"a": 1, "b": 2, "c": 3,
   [Symbol.iterator]: function () {}, [Symbol.toPrimitive]: function () {}
 }));
-
-
-/* getDoNotTrack(); */
-CUT.isEqual("getDoNotTrack();", typeof CEL.getDoNotTrack(), "boolean");
 
 
 /* strTruncate(); */
@@ -672,15 +625,14 @@ CUT.isTrue("strSplice();",
 
 
 /* "unBind(); */
-CUT.isEqual("unBind();", true,
-  Array.isArray(CEL.unBind([].slice)(document.querySelectorAll("h3")))
+CUT.isTrue("unBind();",
+  Array.isArray(CEL.unBind([].slice)({length: 3, 0: 4, 1: 5, 2: 6}))
 );
 
 
 /* bind(); */
-CUT.isTrue("bind();",
-  CEL.bind(document.querySelectorAll,document)("h3").length > 0
-);
+token1 = [4, 5, 6];
+CUT.isTrue("bind();", CEL.bind(token1.slice, token1)().length > 0);
 
 
 /* constant(); */
@@ -717,191 +669,6 @@ CUT.isEqual("strHTMLUnEscape();",
     "&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;&amp;#64;echo&amp;#65;&lt;/a&gt;&apos;str2&#39;"
   )
 );
-
-
-/* domGetCSSVar(); */
-/* domSetCSSVar(); */
-CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); without prefix 1", "",
-  CEL.domGetCSSVar("testVar1"));
-CEL.domSetCSSVar("testVar1", "value1");
-CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); without prefix 2 - "
-  + CEL.domGetCSSVar("testVar1"), "value1",
-  CEL.domGetCSSVar("testVar1")
-);
-CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); with prefix 1 - "
-  + CEL.domGetCSSVar("--testVar2"), "",
-  CEL.domGetCSSVar("--testVar2")
-);
-CEL.domSetCSSVar("--testVar2", "value2");
-CUT.isEqual("domGetCSSVar(); and domSetCSSVar(); with prefix 2 - "
-  + CEL.domGetCSSVar("--testVar2"), "value2",
-  CEL.domGetCSSVar("--testVar2")
-);
-
-
-/* domTestElement variable */
-CUT.addElement( CEL.domCreate("p",
-  {"id": "domTestElement", style: {"width": "250px"}}, "DOM test element"));
-var domTestElement = CEL.qs("#domTestElement");
-
-
-/* domCreate(); */
-CUT.isTrue("domCreate(); with style object", CEL.isElement(domTestElement));
-CUT.isTrue("domCreate(); with style string",
-  CEL.isElement(CEL.domCreate("p",
-    {"id": "domTestElement", style: "width: 250px; color: blue;" },
-    "DOM test element"
-  ))
-);
-CUT.isTrue("domCreate(object); with style object",
-  CEL.isElement(CEL.domCreate({
-    elementType: "p",
-    "id": "domTestElementObject",
-    style: {"width": "250px"},
-    innerHTML: "DOM test element"
-  }))
-);
-CUT.isTrue("domCreate(object); with style string",
-  CEL.isElement(CEL.domCreate({
-    elementType: "p",
-    "id": "domTestElementObject",
-    style: "width: 250px; color: blue;",
-    innerHTML: "DOM test element"
-  }))
-);
-
-
-/* domToElement(); */
-CUT.isTrue("domToElement(); simple element",
-  CEL.isElement(CEL.domToElement("<div>Hello world!</div>"))
-);
-CUT.isTrue("domToElement(); complex element",
-  CEL.isElement(
-    CEL.domToElement(
-      "<p><span style=\"background-color: yellow; color: blue;\">Hello</span> <span style=\"background-color: blue; color: yellow;\">world</span>!</p>"
-    ).firstElementChild
-  )
-);
-
-
-/* domSetCSS(); */
-/* domgetCSS(); */
-CEL.domSetCSS(domTestElement, "width", "300px");
-CUT.isEqual("domSetCSS(); property and domGetCSS(); - (300px) - "
-  + CEL.domGetCSS(domTestElement, "width"), "300px",
-  CEL.domGetCSS(domTestElement, "width")
-);
-CEL.domSetCSS(domTestElement, {"width": "350px", "font-weight": "bold"});
-CUT.isEqual("domSetCSS(); properties object and domGetCSS(); - (350px) - "
-  + CEL.domGetCSS(domTestElement, "width"),
-  "350px", CEL.domGetCSS(domTestElement, "width")
-);
-CUT.isEqual("domSetCSS(); properties object and domGetCSS() object; (350px)- "
-  + CEL.domGetCSS(domTestElement)["width"],
-  "350px", CEL.domGetCSS(domTestElement)["width"]
-);
-
-
-/* domHide(); */
-CEL.domHide(domTestElement);
-CUT.isEqual("domHide();", "none", CEL.domGetCSS(domTestElement, "display"));
-
-
-/* domShow(); */
-CEL.domShow(domTestElement);
-CUT.isEqual("domShow();", "block", CEL.domGetCSS(domTestElement, "display"));
-CEL.domHide(domTestElement);
-CEL.domShow(domTestElement, "inline-block");
-CUT.isEqual("domShow(); inline-block", "inline-block",
-  CEL.domGetCSS(domTestElement, "display")
-);
-
-
-/* domToggle(); */
-CEL.domToggle(domTestElement);
-CUT.isEqual("domToggle(); hide","none",CEL.domGetCSS(domTestElement,"display"));
-CEL.domToggle(domTestElement);
-CUT.isEqual("domToggle(); show", "block",
-  CEL.domGetCSS(domTestElement, "display")
-);
-CEL.domToggle(domTestElement, "inline-block");
-CUT.isEqual("domToggle(); hide inline-block", "none",
-  CEL.domGetCSS(domTestElement, "display")
-);
-
-
-/* domHide(); */
-CEL.domToggle(domTestElement, "inline-block");
-CUT.isEqual("domHide(); show inline-block", "inline-block",
-  CEL.domGetCSS(domTestElement, "display")
-);
-
-
-/* domIsHidden(); */
-CEL.domShow(domTestElement);
-CUT.isFalse("domIsHidden(); 01", CEL.domIsHidden(domTestElement));
-CEL.domHide(domTestElement);
-CUT.isTrue("domIsHidden(); 02", CEL.domIsHidden(domTestElement));
-
-
-CUT.addElement(
-  CEL.domCreate("div", {"id": "dsDiv"},
-    "<p id=\"dsDivP1\">#dsDivP1</p>"
-      + "<p id=\"dsDivP2\">#dsDivP2</p>"
-      + "<p id=\"dsDivP3\">#dsDivP3</p>"
-      + "<p id=\"dsDivP4\">#dsDivP4</p>"
-      + "<p id=\"dsDivP5\">#dsDivP5</p>"
-  )
-);
-/* domSiblings(); */
-token1 = CEL.domSiblings(CEL.qs("#dsDivP3"));
-CUT.isTrue("domSiblings();", (
-  Array.isArray(token1)
-    && token1.length === 4
-    && token1[0].innerHTML === "#dsDivP1"
-    && token1[1].innerHTML === "#dsDivP2"
-    && token1[2].innerHTML === "#dsDivP4"
-    && token1[3].innerHTML === "#dsDivP5"
-  )
-);
-/* domSiblingsPrev(); */
-token1 = CEL.domSiblingsPrev(CEL.qs("#dsDivP3"));
-CUT.isTrue("domSiblingsPrev();", (
-    Array.isArray(token1)
-      && token1.length === 2
-      && token1[0].innerHTML ==="#dsDivP1"
-      && token1[1].innerHTML ==="#dsDivP2"
-  )
-);
-/* domSiblingsLeft(); */
-token1 = CEL.domSiblingsLeft(CEL.qs("#dsDivP3"));
-CUT.isTrue("domSiblingsLeft();", (
-  Array.isArray(token1) && token1.length === 2
-    && token1[0].innerHTML === "#dsDivP1"
-    && token1[1].innerHTML === "#dsDivP2"
-));
-/* domSiblingsNext(); */
-token1 = CEL.domSiblingsNext(CEL.qs("#dsDivP3"));
-CUT.isTrue("domSiblingsNext();", (
-  Array.isArray(token1) && token1.length === 2
-    && token1[0].innerHTML === "#dsDivP4"
-    && token1[1].innerHTML === "#dsDivP5"
-));
-/* domSiblingsRight(); */
-token1 = CEL.domSiblingsRight(CEL.qs("#dsDivP3"));
-CUT.isTrue("domSiblingsRight();", (
-  Array.isArray(token1)
-    && token1.length === 2
-    && token1[0].innerHTML === "#dsDivP4"
-    && token1[1].innerHTML === "#dsDivP5"
-));
-CEL.qs("#dsDiv").remove();
-
-
-/* domClear(); */
-token1 = CEL.domToElement("<div><p>1</p><p>2</p><p>3</p>div>");
-CEL.domClear(token1);
-CUT.isEqual("domClear();", 0, token1.children.length);
 
 
 /* assertFail(); */
@@ -1072,7 +839,7 @@ CUT.isEqual("assertNotTypeOf(); 07", token2,
   CEL.assertNotTypeOf(token2, "number")
 );
 CUT.isError("assertNotTypeOf(); 08", () => CEL.assertNotTypeOf(token3, Map));
-CUT.isError("assertNotTypeOf(); 09", 
+CUT.isError("assertNotTypeOf(); 09",
   () => CEL.assertNotTypeOf(token3, Map, new Error("ipsum"))
 );
 
@@ -1228,7 +995,7 @@ CUT.isError("assertNotStrictEqual(); 04 error",
   () => CEL.assertNotStrictEqual(42, 42, "assertNotStrictEqual(); 04 error")
 );
 CUT.isTrue("assertNotStrictEqual(); 05", CEL.assertNotStrictEqual(42, "42"));
-CUT.isTrue("assertNotStrictEqual(); 05", 
+CUT.isTrue("assertNotStrictEqual(); 05",
   CEL.assertNotStrictEqual(42, "42", new Error("ipsum"))
 );
 
@@ -4677,9 +4444,6 @@ CUT.isEqual("forEach(); 01", "246", token1);
 token1 = "";
 CEL.forEach("cat, dog, pig", function (e) { token1 += e.toUpperCase(); });
 CUT.isEqual("forEach(); 02", "CAT, DOG, PIG", token1);
-token1 = 0;
-CEL.forEach(document.querySelectorAll("h3"), function (e) { token1++; });
-CUT.isEqual("forEach(); 03", token1, document.querySelectorAll("h3").length);
 token1 = "";
 CEL.forEach(new Map([ ["foo", 3.14], ["bar", 42], ["baz", "Wilson"] ]),
   function (e,i) { token1 += i + "-" + e + "-"; }
@@ -4703,10 +4467,6 @@ CUT.isEqual("forEachRight();", "642", token1);
 CUT.isEqual("map(); 01", "2 4 6", CUT.join(CEL.map([1, 2, 3], (e) => e * 2)));
 CUT.isEqual("map(); 02", "CAT, DOG, PIG",
   CUT.join(CEL.map("cat, dog, pig", (e) => e.toUpperCase()), "")
-);
-token1 = [...CEL.map(document.querySelectorAll("h3"), (e) => e)];
-CUT.isTrue("map(); 03",
-  Array.isArray(token1) && token1.every((e) => CEL.isElement(e))
 );
 token1 = "";
 for (let item of CEL.map(
@@ -5294,68 +5054,6 @@ CUT.isEqual("arrayMerge();", token4,
 );
 
 
-/* getCookie(); */
-/* hasCookie(); */
-/* setcookie(); */
-/* removeCookie(); */
-CEL.setCookie("ctest3", "cookieUnitTestStr");
-CUT.isTrue("setcookie(); + hasCookie(); true", CEL.hasCookie("ctest3"));
-CUT.isEqual("getCookie(name) value", "cookieUnitTestStr",
-  CEL.getCookie("ctest3"));
-CUT.isEqual("getCookie();", "cookieUnitTestStr", CEL.getCookie()["ctest3"]);
-CUT.isTrue("removeCookie(); true", CEL.removeCookie("ctest3"));
-CUT.isFalse("removeCookie(); false", CEL.removeCookie("ctest3"));
-CUT.isFalse("hasCookie(); false", CEL.hasCookie("ctest3"));
-CUT.isEqual("getCookie(name) null", null, CEL.getCookie("ctest3"));
-CUT.isEqual("getCookie(); undefined", undefined, CEL.getCookie()["ctest3"]);
-
-CEL.setCookie("ctest4", "cookieUnitTestStr");
-CEL.setCookie("ctest5", "cookieUnitTestStr");
-token1 = String(+CEL.hasCookie("ctest4"));
-token1 += " " + +CEL.hasCookie("ctest5");
-CEL.clearCookies();
-token1 += " " + +CEL.hasCookie("ctest4");
-token1 += " " + +CEL.hasCookie("ctest5");
-CUT.isEqual("clearCookies();", "1 1 0 0", token1);
-
-
-CEL.setCookie({"name": "ctest3", "value":"cookieUnitTestStr","SameSite":"Lax"});
-CUT.isTrue("setcookie(); + hasCookie(); true <i>(settings object)</i>",
-  CEL.hasCookie("ctest3")
-);
-CUT.isEqual("getCookie(name) value <i>(settings object)</i>",
-  "cookieUnitTestStr", CEL.getCookie("ctest3")
-);
-CUT.isEqual("getCookie(); <i>(settings object)</i>", "cookieUnitTestStr",
-  CEL.getCookie()["ctest3"]
-);
-CUT.isTrue("removeCookie(); true <i>(settings object)</i>",
-  CEL.removeCookie({"name": "ctest3", "SameSite": "Lax"})
-);
-CUT.isFalse("removeCookie(); false <i>(settings object)</i>",
-  CEL.removeCookie({"name": "ctest3", "SameSite": "Lax"})
-);
-CUT.isFalse("hasCookie(); false <i>(settings object)</i>",
-  CEL.hasCookie("ctest3")
-);
-CUT.isEqual("getCookie(name) null <i>(settings object)</i>", null,
-  CEL.getCookie("ctest3")
-);
-CUT.isEqual("getCookie(); undefined <i>(settings object)</i>", undefined,
-  CEL.getCookie()["ctest3"]
-);
-
-CEL.setCookie({"name":"ctest4", "value":"cookieUnitTestStr", "SameSite":"Lax"});
-CEL.setCookie({"name":"ctest5", "value":"cookieUnitTestStr", "SameSite":"Lax"});
-token1 = String(+CEL.hasCookie("ctest4"));
-token1 += " " + +CEL.hasCookie("ctest5");
-CEL.clearCookies({"SameSite": "Lax"});
-token1 += " " + +CEL.hasCookie("ctest4");
-token1 += " " + +CEL.hasCookie("ctest5");
-CUT.isEqual("clearCookies(); <i>(settings object)</i>", "1 1 0 0", token1);
-/** cookie with settings object end **/
-
-
 /* Math.sumPrecise(); begin */
 CUT.isEqual("Math.sumPrecise(); 01", Math.sumPrecise([]), -0);
 CUT.isEqual("Math.sumPrecise(); 02", Math.sumPrecise([Infinity]), Infinity);
@@ -5440,33 +5138,6 @@ CUT.isError("Math.sumPrecise(); 36",
   () => Math.sumPrecise([-Infinity, "1", 0.2])
 );
 /* Math.sumPrecise(); end */
-
-
-/* Error.isError(); */
-document.body.appendChild(document.createElement("iframe"));
-token1 = CUT.join([
-  /* true */
-  +(Error.isError(new globalThis.frames[globalThis.frames.length - 1].Error())),
-  +(Error.isError(new Error())),
-  +(Error.isError(new TypeError())),
-  +(Error.isError(new DOMException())),
-  /* false */
-  +(Error.isError({ __proto__: Error.prototype })),
-  +(Error.isError({})),
-  +(Error.isError(null)),
-  +(Error.isError(undefined)),
-  +(Error.isError(17)),
-  +(Error.isError(3.14)),
-  +(Error.isError("Error")),
-  +(Error.isError(true)),
-  +(Error.isError(false))
-]);
-CEL.qs("iframe").remove();
-CUT.isEqual("Error.isError();", "1 1 1 1 0 0 0 0 0 0 0 0 0", token1);
-CUT.logCode(token1);
-CUT.log(
-  "In Safari 18.3-18.x and 26 with the DOMException returns false. (4th value)"
-);
 
 
 /* Array.prototype.toReversed(); */
@@ -5847,7 +5518,6 @@ CUT.isTrue("isCallable();",
 /* isArraylike(); */
 CUT.isTrue("isArraylike();",
       CEL.isArraylike([])
-  &&  CEL.isArraylike(document.querySelectorAll("p"))
   &&  CEL.isArraylike({0: 4, 1: 5, length: 2})
   &&  CEL.isArraylike("Pillangó")
   &&  CEL.isArraylike("")
@@ -5890,13 +5560,7 @@ CUT.isTrue("isRegexp();",
 
 
 /* isElement(); */
-CUT.isTrue("isElement();",
-      CEL.isElement(document.body)
-  &&  CEL.isElement(CEL.qs("div"))
-  && !CEL.isElement(document.createTextNode("sample text"))
-  && !CEL.isElement(document.createComment("sample comment"))
-  && !CEL.isElement([])
-);
+CUT.isFalse("isElement();", CEL.isElement([]));
 
 
 /* isNumeric(); begin */
@@ -5972,7 +5636,6 @@ CUT.isTrue("isIterator();",
       CEL.isIterator([4, 5, 6].values())
   &&  CEL.isIterator(new Set([4, 5, 7]).values())
   &&  CEL.isIterator(new Map([[4, 5], [5, 6]]).values())
-  &&  CEL.isIterator(document.querySelectorAll("h3").values())
   && !CEL.isIterator([4, 5, 7])
 );
 
@@ -6686,32 +6349,17 @@ CUT.isTrue("isBigUInt64();",
 
 
 /** Async **/
-CUT.addElement("hr");
-CUT.addElement("h3", "Async testcases");
+CUT.log("Async testcases");
 
-
-CUT.addElement("p", "Here have to be these results:");
-CUT.addElement("ul", "<li>1x domReady(); is working</li>"
-  + "<li>2x importScript(); (core api) - first script loaded</li>"
-  + "<li>2x importScript(); (core api) - second script loaded</li>"
-  + "<li>1x importScript(); (core api) - with more scripts"
-  + "<li>1x importScript(); (core api) - with error</li>"
-  + "<li>1x getJson()</li>"
-  + "<li>1x getText()</li>"
-  + "<li>12x ajax()</li>"
-  + "<li>8x Array.fromAsync()</li>"
-  + "<li>1x asyncNoop(); is working</li>"
-  + "<li>1x asyncT(); is working</li>"
-  + "<li>1x asyncF(); is working</li>"
-  + "<li>1x asyncConstant(); is working</li>"
-  + "<li>1x asyncIdentity(); is working</li>"
-);
-
-
-/* domReady(); */
-CEL.domReady(function () {
-  CUT.isTrue("domReady(); is working", true);
-});
+/*
+CUT.log("Here have to be these results:");
+CUT.log("8x Array.fromAsync();");
+CUT.log("1x asyncNoop(); is working");
+CUT.log("1x asyncT(); is working");
+CUT.log("1x asyncF(); is working</li>");
+CUT.log("1x asyncConstant(); is working</li>");
+CUT.log("1x asyncIdentity(); is working</li>");
+*/
 
 
 /* asyncNoop(); */
@@ -6742,18 +6390,6 @@ CEL.asyncF().then(function(result) {
 CEL.asyncIdentity(true).then(function(result) {
   CUT.isTrue("asyncIdentity(); is working", true);
 });
-
-
-/* importScript(); */
-CEL.importScript("unittest-notExist.js");
-CEL.importScript("unittest-is1.js", "unittest-is2.js", "unittest-is3.js");
-CEL.importScript("unittest-is1.js");
-CEL.importScript("unittest-is2.js");
-/*
-Uncaught URIError: Loading failed for the script with source unittest-notExist.js
-The error cannot be caught here, because not happens here.
-In the adding of the HTML script tag causes the error.
-*/
 
 
 /* Array.fromAsync(); */
@@ -6789,159 +6425,14 @@ Array.fromAsync({"0": 3, "1": 4, "2": 5, length: 3}, (x) => x * 2).then((res) =>
 );
 
 
-/* AJAX API */
-/*
-XML Parsing Error: not well-formed
-Location: testdata.json
-Line Number 1, Column 1:
--> MIME Content-Type: application/json can fix it
-*/
-
-
-token1 = "img/app-app-catalog/app-bricks.png";
-token2 = "<p><span class=\"big\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</span> Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. <small>In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</small></p>";
-
-
-/* getText(); */
-CEL.getText("testdata.txt",
-  function(r){ CUT.isEqual("getText();", token2, r); }
-);
-
-
-/* getJson(); */
-CEL.getJson("testdata.json",
-  function (r) { CUT.isEqual("getJson();", token1, r.testArray[0].image); }
-);
-
-
-/* ajax begin */
-CEL.ajax({
-  queryType: "ajax", type: "get", url: "testdata.txt", format: "text",
-  success: function(r){ CUT.isEqual("ajax(); ajax get text", token2, r); },
-  error: function (e) {
-    CUT.isTrue("ajax(); ajax 1 get text: " + JSON.stringify(e), false);
-  }
-});
-CEL.ajax({
-  queryType: "ajax", type: "get", url: "testdata.json", format: "json",
-  success: function (r) {
-    CUT.isEqual("ajax(); ajax get json", token1, r.testArray[0].image);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); ajax get json: " + JSON.stringify(e), false);
-  }
-});
-CEL.ajax({
-  queryType: "ajax", type: "get", url: "testdata.xml", format: "xml",
-  success: function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    CUT.isEqual("ajax(); ajax get xml", "Vapelyfe", xb);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); ajax get xml: " + JSON.stringify(e), false);
-  }
-});
-
-CEL.ajax({
-  queryType: "ajax", type: "post", url: "testdata.txt", format: "text",
-  data: "a=foo&b=bar baz",
-  success: function (r) { CUT.isEqual("ajax(); ajax post text", token2, r);},
-  error: function (e) {
-    CUT.isTrue("ajax(); ajax post text: " + JSON.stringify(e), false);
-  }
-});
-CEL.ajax({
-  queryType: "ajax", type: "post", url: "testdata.json", format: "json",
-  data: "a=foo&b=bar baz",
-  success: function (r) {
-    CUT.isEqual("ajax(); ajax post json", token1, r.testArray[0].image);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); ajax post json: " + JSON.stringify(e), false);
-  }
-});
-CEL.ajax({
-  queryType: "ajax", type: "post", url: "testdata.xml", format: "xml",
-  data: "a=foo&b=bar baz",
-  success: function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    CUT.isEqual("ajax(); ajax post xml", "Vapelyfe", xb);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); ajax post xml: " + JSON.stringify(e), false);
-  }
-});
-
-CEL.ajax({
-  queryType: "cors", type: "get", url: "testdata.txt", format: "text",
-  success: function (r) { CUT.isEqual("ajax(); cors get text", token2, r);},
-  error: function (e) {
-    CUT.isTrue("ajax(); cors get text: " + JSON.stringify(e), false);
-  }
-});
-CEL.ajax({
-  queryType: "cors", type: "get", url: "testdata.json", format: "json",
-  success: function (r) {
-    CUT.isEqual("ajax(); cors get json", token1, r.testArray[0].image);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); cors get json: " + JSON.stringify(e), false);
-  }
-});
-CEL.ajax({
-  queryType: "cors", type: "get", url: "testdata.xml", format: "xml",
-  success: function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    CUT.isEqual("ajax(); cors get xml", "Vapelyfe", xb);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); cors get xml: " + JSON.stringify(e), false);
-  }
-});
-
-CEL.ajax({
-  queryType: "cors", type: "post", url: "testdata.txt", format: "text",
-  data: "a=foo&b=bar baz",
-  success: function (r) {
-    CUT.isEqual("ajax(); cors post text", token2, r);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); cors post text: " + JSON.stringify(e), false);
-  }
-});
-CEL.ajax({
-  queryType: "cors", type: "post", url: "testdata.json", format: "json",
-  data: "a=foo&b=bar baz",
-  success: function (r) {
-    CUT.isEqual("ajax(); cors post json", token1, r.testArray[0].image);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); cors post json: " + JSON.stringify(e), false);
-  }
-});
-CEL.ajax({
-  queryType: "cors", type: "post", url: "testdata.xml", format: "xml",
-  data: "a=foo&b=bar baz",
-  success: function (r) {
-    var xa = r.getElementsByTagName("picture");
-    var xb = xa[0].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-    CUT.isEqual("ajax(); cors post xml", "Vapelyfe", xb);
-  },
-  error: function (e) {
-    CUT.isTrue("ajax(); cors post xml: " + JSON.stringify(e), false);
-  }
-});
-/* ajax end */
+CUT.log("End of the test.")
 
 
 }());
 
 
 } catch (e) {
-  CUT.isTrue("<span class=\"failed\">[CUT global try-catch]</span>"
+  CUT.isTrue("<span class=\"failed\">[CUT global try-catch]"
     + "<pre>" + CUT.getHumanReadableJSON(e, " ") + "</pre>"
     + "<pre>" + CUT.getHumanReadableJSON(e) + "</pre>",
     false

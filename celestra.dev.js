@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 5.9.0 dev
+ * @version 6.0.0 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -296,7 +296,7 @@ const BASE32 = "234567ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-const WORDSAFEALPHABET= "23456789CFGHJMPQRVWXcfghjmpqvwx";
+const WORDSAFEALPHABET= "23456789CFGHJMPQRVWXcfghjmpqvwx"; /* 31 */
 
 
 /* asyncNoop (): Promise - do nothing */
@@ -3237,7 +3237,7 @@ const inRange = (v, min, max) => (v >= min && v <= max);
 /** object header **/
 
 
-const VERSION = "Celestra v5.9.0 dev";
+const VERSION = "Celestra v6.0.0 dev";
 
 
 /* celestra.noConflict(): celestra object */

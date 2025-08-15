@@ -9,7 +9,21 @@
 # Celestra version history
 
 
-## Celestra v5.9.0
+## Celestra v6.0.0 David
+
+1. Documentation and pdf fixes.
+
+2. Remove the documentation of the functions, which have been marked with __Stability: 0 - Removed in v5.8.0__.
+
+3. Remove the documentation of the functions, which have been marked with __Stability: 0 - Removed in v5.9.0__.
+
+4. Same API as in v5.9.0, but add __Node.js and Deno support__ and these files:
+- __celestra.node.mjs__
+- __unittest.node.cmd__
+- __unittest.node.js__
+
+
+## Celestra v5.9.0 Final five
 
 1. Documentation and pdf fixes.
 

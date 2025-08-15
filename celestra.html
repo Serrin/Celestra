@@ -95,14 +95,12 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <h2 id="download">Download</h2>
 
-<p><strong>A helper JavaScript library with useful functions and polyfills and zero dependencies.</strong></p>
+<p><b>A helper JavaScript library with useful functions and polyfills and zero dependencies.</b></p>
 
-<p>This library is working in the Node.js, but there are functions, that don't work. Examples: DOM functions.</p>
+<p>Latest version: 6.0.0</p>
+<p>Date: 2025-08-14T23:27:03.482Z</p>
 
-<p>Latest version: 5.9.0</p>
-<p>Date: 2025-08-10T20:40:20.693Z</p>
-
-<p><b>Tested on these browsers:</b></p>
+<p><b>Tested on these:</b></p>
 
  <ul>
   <li>Windows Firefox</li>
@@ -116,9 +114,11 @@ nav a, nav a:visited, nav a:active, nav a:hover {
   <li>Android Chrome</li>
   <li>Android Samsung Internet</li>
   <li>Android Edge</li>
+  <li>Node.js (latest current, not LTS)</li>
+  <li>Deno (latest current, not LTS)</li>
 </ul>
 
-<p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object.</p>
+<p>The functions are available in the <code>celestra</code> and/or <code>CEL</code> object or any function can be imported.</p>
 
 <table class="table-responsive-sm table-striped">
   <tr>
@@ -138,7 +138,11 @@ nav a, nav a:visited, nav a:active, nav a:hover {
     <td><a href="celestra.esm.js" target="_blank">celestra.esm.js</a></td>
   </tr>
   <tr>
-    <td class="center">CUT testpage<br/>Celestra Unit Tester</td>
+    <td>Node.js and Deno module</td>
+    <td><a href="celestra.node.mjs" target="_blank">celestra.node.mjs</a></td>
+  </tr>
+  <tr>
+    <td class="center">Celestra Unit Tester (CUT)</td>
     <td><a href="unittest.html" target="_blank">unittest.html</a></td>
   </tr>
   <tr>
@@ -272,6 +276,61 @@ globalThis.classof = classof;
 
 <pre>&#60;script type="module" import "./celestra.min.js"; /script&#62;</pre>
 
+
+<h3>How to import the Node.js edition</h3>
+
+<pre>
+// import the defaultExport object
+import defaultExport from "./celestra.nodejs.mjs";
+globalThis.celestra = defaultExport;
+globalThis.CEL = defaultExport;
+
+// import with default with name
+import { default as celestra } from "./celestra.nodejs.mjs";
+globalThis.celestra = celestra;
+globalThis.CEL = celestra;
+
+// import all into a new celestra object
+import * as celestra from "./celestra.nodejs.mjs";
+globalThis.celestra = celestra;
+globalThis.CEL = celestra;
+
+// import some functions
+import { first, classof } from "./celestra.nodejs.mjs";
+globalThis.first = first;
+globalThis.classof = classof;
+
+// dynamic import
+const celestra = await import("./celestra.node.mjs");
+globalThis.celestra = celestra;
+globalThis.CEL = celestra;
+</pre>
+
+
+<h3>Removed functions in the Node.js edition</h3>
+
+<div>
+  <table class="table-responsive table-striped">
+    <tr>
+      <td style="width: auto;"><b>API</b></td>
+      <td><b>Function</b></td>
+    </tr>
+    <tr>
+      <td style="width: auto;"><b>DOM API</b></td>
+      <td><code>qsa();</code><br/><code>qs();</code><br/><code>domReady();</code><br/><code>domClear();</code><br/><code>domCreate();</code><br/><code>domToElement();</code><br/><code>domGetCSS();</code><br/><code>domSetCSS();</code><br/><code>domFadeIn();</code><br/><code>domFadeOut();</code><br/><code>domFadeToggle();</code><br/><code>domShow();</code><br/><code>domHide();</code><br/><code>domToggle();</code><br/><code>domIsHidden();</code><br/><code>domScrollToTop();</code><br/><code>domScrollToBottom();</code><br/><code>domScrollToElement();</code><br/><code>domSiblings();</code><br/><code>domSiblingsPrev();</code><br/><code>domSiblingsLeft();</code><br/><code>domSiblingsNext();</code><br/><code>domSiblingsRight();</code><br/><code>domGetCSSVar();</code><br/><code>domSetCSSVar();</code><br/><code>importScript();</code><br/><code>importStyle();</code><br/><code>setFullscreenOn();</code><br/><code>setFullscreenOn();</code><br/><code>setFullscreenOff();</code><br/><code>getFullscreen();</code><br/><code>form2array(form);</code><br/><code>form2string(form);</code><br/><code>getDoNotTrack();</code><br/><code>getLocation();</code><br/><code>createFile();</code></td>
+    </tr>
+    <tr>
+      <td style="width: auto;"><b>AJAX and CORS API</b></td>
+      <td><code>getText();</code><br/><code>getJson();</code><br/><code>ajax();</code></td>
+    </tr>
+    <tr>
+      <td style="width: auto;"><b>Cookie API</b></td>
+      <td><code>getCookie();</code><br/><code>hasCookie();</code><br/><code>setCookie();</code><br/><code>removeCookie();</code><br/><code>clearCookies();</code></td>
+    </tr>
+  </table>
+</div>
+
+
 <h3>Celestra v3.0.0 (Hera) changes</h3>
 
 <ul>
@@ -304,7 +363,7 @@ globalThis.classof = classof;
 <h3>Celestra v5.6.0 (Razorback) changes</h3>
 
 <ul>
-  <li>Many polyfills have been removed.</li>
+  <li>21 polyfills have been removed.</li>
 </ul>
 
 <h3>Celestra v5.7.0 (Nostromo) changes</h3>
@@ -319,6 +378,18 @@ globalThis.classof = classof;
 
 <ul>
   <li>50 functions have been removed.</li>
+</ul>
+
+<h3>Celestra v5.9.0 (Final five) changes</h3>
+
+<ul>
+  <li>12 functions and a polyfill have been removed.</li>
+</ul>
+
+<h3>Celestra v6.0.0 (David) changes</h3>
+
+<ul>
+  <li>The Node.js and Deno support has been added.</li>
 </ul>
 
 
@@ -447,23 +518,6 @@ CEL.delay(5000)
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns false.</td>
     </tr>
     <tr>
-      <td><code>filterIn(object,callback);</code></td>
-      <td>
-        <span class="removed">Stability: 0 - Removed in v5.9.0</span><br/>
-        <p>The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.</p>
-        <p><b>Example:</b><pre>var o1 = {"a": 1, "b": 2, "c": 3};
-console.log(o1);
-// Object { a: 1, b: 2, c: 3 }
-var o2 = CEL.filterIn(o1, (v, p, o) => (v > 1));
-console.log(o2);
-// Object { b: 2, c: 3 }</pre>
-      </td>
-    </tr>
-    <tr>
-      <td><code>forIn(object,callback);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/>The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.</td>
-    </tr>
-    <tr>
       <td><code>getUrlVars([str=location.search]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Get the values of the url variables in an object from the <code>location.search</code> <b>(default value)</b> or another given url. The str parameter name is optional and can be a string.
       <br/>Example: <code>"?showall=true&amp;order_by=updated&amp;o=asc"</code> -> <code>Object { showall: "true", order_by: "updated", o: "asc" }</code></td>
@@ -471,10 +525,6 @@ console.log(o2);
     <tr>
       <td><code>identity(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Return the given value. (In math: <code>f(x)=x</code>)</td>
-    </tr>
-    <tr>
-      <td><code>javaHash(data[,hexa=false]);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/>Java <code>String.hashCode()</code> implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.</td>
     </tr>
     <tr>
       <td><code>nanoid([size=21[, alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"]]);</code></td>
@@ -499,14 +549,6 @@ console.log(o2);
     <tr>
       <td><code>sizeIn(object);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Returns the count of the owned properties and symbols of the given object. The object parameter is mandatory. The return value is an integer.</td>
-    </tr>
-    <tr>
-      <td><code>popIn(object, property);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/>The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.</td>
-    </tr>
-    <tr>
-      <td><code>sleep(ms).then(callback);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/>This is an alias of the <code>delay(ms).then(callback);</code>.</td>
     </tr>
     <tr>
       <td><code>T();</code></td>
@@ -997,10 +1039,6 @@ console.log(o2);
       <td><span class="info">Stability: 4 - Stable.</span><br/>This is an alias of the <code>classof(value[,class[,throw=false]]);</code>.</td>
     </tr>
     <tr>
-      <td><code>isArrayBuffer(value);</td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an arraybuffer. The return value is boolean.</td>
-    </tr>
-    <tr>
       <td><code>isArraylike(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is an iterable object. The return value is boolean.</td>
     </tr>
@@ -1011,14 +1049,6 @@ console.log(o2);
     <tr>
       <td><code>isAsyncGeneratorFn(value);</td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is an async generator function. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isBigInt(value);</td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a BigInt. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isBoolean(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a boolean. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isCallable(value);</code></td>
@@ -1037,18 +1067,6 @@ console.log(o2);
       <td><span class="info">Stability: 4 - Stable.</span><br/>If the given object is a coerced object (Number, BigInt, String, Boolean), then the return value is the constructor function. In any other cases retuns false. The object parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>isConstructorFn(value);</td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/>This function determines whether the provided value is a constructable function. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isDataView(value);</td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an DataView object. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isDate(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a date. The return value is boolean.</td>
-    </tr>
-    <tr>
       <td><code>isDeepStrictEqual(value1, value2);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided values are deep equals. (<i>Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer</i>) The return value is boolean.</td>
     </tr>
@@ -1064,32 +1082,8 @@ console.log(o2);
       </td>
     </tr>
     <tr>
-      <td><code>isEmptyArray(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty array (without values). The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isEmptyIterator(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty iterator (without values). The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isEmptyMap(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty map (without properties). The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isEmptyObject(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty object (without properties). The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isEmptySet(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is an empty set (without values). The return value is boolean.</td>
-    </tr>
-    <tr>
       <td><code>isEmptyValue(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is an empty value. Returns true in these cases: null, undefined, NaN, array, typedarray, arraybuffer, dataview, object, arraylike object, map, set, iterator, iterable. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isFalsy(value);</td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is falsy. The return value is boolean. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Falsy" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>isFunction(value);</code></td>
@@ -1116,24 +1110,12 @@ console.log(o2);
       <td><span class="info">Stability: 4 - Stable.</span><br/>Alias of <code>isIndex(value);</code>.</td>
     </tr>
     <tr>
-      <td><code>isMap(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a map. The return value is boolean.</td>
-    </tr>
-    <tr>
       <td><code>isNil(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is null or undefined. The return value is boolean.</code>.</td>
     </tr>
     <tr>
       <td><code>isNull(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is null. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isNullOrUndefined(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is null or undefined. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isNumber(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a number. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>isNumeric(value);</code></td>
@@ -1152,10 +1134,6 @@ console.log(o2);
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is not null, not object and not function. The return value is boolean.</td>
     </tr>
     <tr>
-      <td><code>isPromise(value);</td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a promise object. The return value is boolean.</td>
-    </tr>
-    <tr>
       <td><code>isPropertyKey(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is a valid propertx key (string or symbol). The return value is boolean.</td>
     </tr>
@@ -1168,10 +1146,6 @@ console.log(o2);
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is a regexp. The return value is boolean.</td>
     </tr>
     <tr>
-      <td><code>isSameArray(array1,array2);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.</td>
-    </tr>
-    <tr>
       <td><code>isSameClass(value1, value2);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns true if the values are same class and uses the <code>Object.prototype.toString();</code> method. The parameters are mandatory. The return value is boolean.</td>
     </tr>
@@ -1180,40 +1154,8 @@ console.log(o2);
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns true if the values are same class and uses the <code>instanceof</code> operator. The parameters are mandatory. The return value is boolean.</td>
     </tr>
     <tr>
-      <td><code>isSameIterator(iter1,iter2);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the value equality of the given iterator. The return value is boolean and both of the parameters are mandatory and have to be an iterator or iterable object.</td>
-    </tr>
-    <tr>
-      <td><code>isSameMap(map1,map2);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the property and value equality of the given maps. The return value is boolean and both of the parameters are mandatory and have to be a map.</td>
-    </tr>
-    <tr>
-      <td><code>isSameObject(object1,object2);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the property and value equality of the given objects. The return value is boolean and both of the parameters are mandatory and have to be an object.</td>
-    </tr>
-    <tr>
-      <td><code>isSameSet(set1,set2);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function checks the value equality of the given sets. The return value is boolean and both of the parameters are mandatory and have to be a set.</td>
-    </tr>
-    <tr>
       <td><code>isSameType(value1, value2);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns true if the values are same type or both are null or both are undefined. The parameters are mandatory. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isSet(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a set. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isString(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a string. This function is unicode compatible. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isSymbol(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a symbol. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isTruthy(value);</td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is truthy. The return value is boolean. For more information please read the <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy" target="_blank">MDN Article</a>!</td>
     </tr>
     <tr>
       <td><code>isTypedArray(value);</td>
@@ -1222,14 +1164,6 @@ console.log(o2);
     <tr>
       <td><code>isUndefined(value);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether the provided value is undefined. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isWeakMap(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a weakmap. The return value is boolean.</td>
-    </tr>
-    <tr>
-      <td><code>isWeakSet(value);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/>This function determines whether the provided value is a weakset. The return value is boolean.</td>
     </tr>
     <tr>
       <td><code>toIndex(value);</code></td>
@@ -1372,24 +1306,12 @@ console.log(o2);
       <td><span class="info">Stability: 4 - Stable.</span><br/>Clear the array and returns the empty array. The array parameter is mandatory.</td>
     </tr>
     <tr>
-      <td><code>arrayCreate([length=0]);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/>This function returns an array with the given length. If the length is -0, then the length will be 0. If The length parameter out of the array size range, then a rangeerror will be thrown.</td>
-    </tr>
-    <tr>
       <td><code>arrayCycle(iterator[,n=100]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Cycle the given iterator and returns an array with these elements. The iterator parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 100.</td>
     </tr>
     <tr>
       <td><code>arrayDeepClone(array);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function deeply (recursively) clones an array. The return value is the cloned array.</td>
-    </tr>
-    <tr>
-      <td><code>arrayDifference(iterator1, iterator2);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/><span class="info">Can be replaced with <code>Set.prototype.difference();</code>.</span><br/>Returns the array of unique values that are in the iterator1, excluding the values that are also in the iterator2. All of the parameters are mandatory. The return value is an Array.</td>
-    </tr>
-    <tr>
-      <td><code>arrayIntersection(iterator1, iterator2);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/><span class="info">Can be replaced with <code>Set.prototype.intersection();</code>.</span><br/>Returns the array of unique values that are in both of the given iterators. All of the parameters are mandatory. The return value is an Array.</td>
     </tr>
     <tr>
       <td><code>arrayMerge(target,source1[,sourceN]);</code></td>
@@ -1413,18 +1335,6 @@ console.log(o2);
     <tr>
       <td><code>arrayRepeat(value[,step=100]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.</td>
-    </tr>
-    <tr>
-      <td><code>arraySymmetricDifference(iterator1, iterator2);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/><span class="info">Can be replaced with <code>Set.prototype.symmetricDifference();</code>.</span><br/>Returns the array of unique values that are only in one of given iterators. All of the parameters are mandatory. The return value is an Array.</td>
-    </tr>
-    <tr>
-      <td><code>arrayUnion(iterator1[,iteratorN]);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/><span class="info">Can be replaced with <code>Set.prototype.union();</code>.</span><br/>Returns the array of unique values including all values from the given iterators. The first parameter is mandatory. The return value is an Array.</td>
-    </tr>
-    <tr>
-      <td><code>arrayUnique(iterator);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.8.0</span><br/><span class="info">Can be replaced with <code>unique(iterator[, resolver]);</code>.</span><br/>This function returns a new array with unique values. The value parameter is mandatory and can be an iterator. In modern browsers you can use ES6 types too (Map, Set and iterators).</td>
     </tr>
     <tr>
       <td><code>concat(iterator1[,iteratorN]);</code></td>
@@ -1453,10 +1363,6 @@ console.log(o2);
     <tr>
       <td><code>dropWhile(iterator,callback);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Drop the elements of an iterator while the callback (filter) function returns true and yield the remained elements. The callback function will be called with the actual element of the iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a function.</td>
-    </tr>
-    <tr>
-      <td><code>entries(iterator[,offset=0]);</code></td>
-      <td><span class="removed">Stability: 0 - Removed in v5.9.0</span><br/>An alias of the <code>enumerate(iterator);</code>.</td>
     </tr>
     <tr>
       <td><code>enumerate(iterator[,offset=0]);</code></td>

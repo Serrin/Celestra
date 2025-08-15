@@ -13,13 +13,11 @@
 
 __A helper JavaScript library with useful functions and polyfills and zero dependencies.__
 
-This library is working in the Node.js, but there are functions, that don't work. Examples: DOM functions.
+Latest version: 6.0.0
 
-Latest version: 5.9.0
+Date: 2025-08-14T23:27:03.482Z
 
-Date: 2025-08-10T20:40:20.693Z
-
-__Tested on these browsers:__
+__Tested on these:__
 
 - Windows Firefox
 - Windows Chrome
@@ -32,15 +30,18 @@ __Tested on these browsers:__
 - Android Chrome
 - Android Samsung Internet
 - Android Edge
+- Node.js (latest current, not LTS)
+- Deno (latest current, not LTS)
 
-The functions are available in the `celestra` and/or `CEL` object.
+The functions are available in the `celestra` and/or `CEL` object or any function can be imported.
 
 Edition|Filename
 -------|--------
 developer|__celestra.dev.js__
 minified|__celestra.min.js__
 ES6 module|__celestra.esm.js__
-CUT testpage<BR>Celestra Unit Tester|__unittest.html__
+Node.js and Deno module|__celestra.node.mjs__
+Celestra Unit Tester (CUT)|__unittest.html__
 Version history|__CHANGELOG.md__
 
 DEV and MIN editions: If the `CEL` global variable is used before the loading of the library, then the value of the variable is saved and you can restore with the `noConflict();` function.
@@ -118,6 +119,46 @@ __Another way to import__
 <script type="module"> import "./celestra.min.js"; </script>
 ````
 
+
+### How to import the Node.js edition
+
+````javascript
+// import the defaultExport object
+import defaultExport from "./celestra.nodejs.mjs";
+globalThis.celestra = defaultExport;
+globalThis.CEL = defaultExport;
+
+// import with default with name
+import { default as celestra } from "./celestra.nodejs.mjs";
+globalThis.celestra = celestra;
+globalThis.CEL = celestra;
+
+// import all into a new celestra object
+import * as celestra from "./celestra.nodejs.mjs";
+globalThis.celestra = celestra;
+globalThis.CEL = celestra;
+
+// import some functions
+import { first, classof } from "./celestra.nodejs.mjs";
+globalThis.first = first;
+globalThis.classof = classof;
+
+// dynamic import
+const celestra = await import("./celestra.node.mjs");
+globalThis.celestra = celestra;
+globalThis.CEL = celestra;
+````
+
+
+### Removed functions in the Node.js edition
+
+API | Function
+---- | -----------
+__DOM API__ | `qsa();`<BR>`qs();`<BR>`domReady();`<BR>`domClear();`<BR>`domCreate();`<BR>`domToElement();`<BR>`domGetCSS();`<BR>`domSetCSS();`<BR>`domFadeIn();`<BR>`domFadeOut();`<BR>`domFadeToggle();`<BR>`domShow();`<BR>`domHide();`<BR>`domToggle();`<BR>`domIsHidden();`<BR>`domScrollToTop();`<BR>`domScrollToBottom();`<BR>`domScrollToElement();`<BR>`domSiblings();`<BR>`domSiblingsPrev();`<BR>`domSiblingsLeft();`<BR>`domSiblingsNext();`<BR>`domSiblingsRight();`<BR>`domGetCSSVar();`<BR>`domSetCSSVar();`<BR>`importScript();`<BR>`importStyle();`<BR>`setFullscreenOn();`<BR>`setFullscreenOn();`<BR>`setFullscreenOff();`<BR>`getFullscreen();`<BR>`form2array(form);`<BR>`form2string(form);`<BR>`getDoNotTrack();`<BR>`getLocation();`<BR>`createFile();`
+__AJAX and CORS API__ | `getText();`<BR>`getJson();`<BR>`ajax();`
+__Cookie API__ | `getCookie();`<BR>`hasCookie();`<BR>`setCookie();`<BR>`removeCookie();`<BR>`clearCookies();`
+
+
 ### Celestra v3.0.0 (Hera) changes
 
 - Only modern browsers (ES6+) are supported. The Internet Explorer 11 and W10M Edge have been removed from the supported browsers.
@@ -150,7 +191,7 @@ __Another way to import__
 
 ### Celestra v5.6.0 (Razorback) changes
 
-- Many polyfills have been removed.
+- 21 polyfills have been removed.
 
 
 ### Celestra v5.7.0 (Nostromo) changes
@@ -163,6 +204,18 @@ __Another way to import__
 ### Celestra v5.8.0 (Uhura) changes
 
 - 50 functions have been removed.
+
+
+
+### Celestra v5.9.0 (Final five) changes
+
+- 12 functions and a polyfill have been removed.
+
+
+
+### Celestra v6.0.0 (David) changes
+
+- The Node.js and Deno support has been added.
 
 
 -----
@@ -213,19 +266,14 @@ Name | Description
 `deleteOwnProperty(object,property[,Throw = false]);`| __Stability: 4 - Stable.__<BR>This function deletes an own property in the given object. If Throw is true and the deleting was unsuccessful, then an error will be thrown.<BR>__Return values:__<BR>1 - The property was own and the delete was successful.<BR>0 - The property is own and the delete was unsuccessful.<BR>-1 - The property is not own or not exists.
 `extend([deep,]target,source1[,sourceN]);` | __Stability: 4 - Stable.__<BR>This is an enhanced version of the `Object.assign` method. The deep parameter (boolean) is optional and sets the deep copy (recursive) of the sources.
 `F();` | __Stability: 4 - Stable.__<BR>This function returns false.
-`filterIn(object,callback);` | __Stability: 0 - Removed in v5.9.0.__<BR>The filterIn() function executes a provided function once for each object property and returns a new object with the properties which were be filtered. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.<BR>__Example:__<BR>`var o1 = {"a": 1, "b": 2, "c": 3};`<BR>`console.log(o1);`<BR>`// Object { a: 1, b: 2, c: 3 }`<BR>`var o2 = CEL.filterIn(o1, (v, p, o) => (v > 1));`<BR>`console.log(o2);`<BR>`// Object { b: 2, c: 3 }`
-`forIn(object,callback);` | __Stability: 0 - Removed in v5.9.0.__<BR>The forIn() function executes a provided function once for each object property. The object parameter is mandatory and has to be an object. The callback parameter is mandatory and has to be a function. The parameter function will be called with these arguments: key value, key, object.
 `getUrlVars([str=location.search]);` | __Stability: 4 - Stable.__<BR>Get the values of the url variables in an object from the `location.search` _(default value)_ or another given url. The str parameter name is optional and can be a string. Example: `"?showall=true&order_by=updated&o=asc"` -> `Object { showall: "true", order_by: "updated", o: "asc" }`
 `identity(value);` | __Stability: 4 - Stable.__<BR>Return the given value. (In math: `f(x)=x`)
-`javaHash(data[,hexa=false]);` | __Stability: 0 - Removed in v5.9.0.__<BR>Java `String.hashCode()` implementation in Javascript - this is a non-cryptographic hash function. The data parameter is mandatory and can be any type. The hexa parameter is optional and can be a boolean and sets the hexadecimal conversion of the return value and the default value is false. Return the generated integer hash.
 `nanoid([size=21[,alphabet= "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"]]);` | __Stability: 4 - Stable.__<BR>Generate a nanoid. The size parameter is optional and the default value is 21. The alphabet parameter is optional and the default value is "A-Za-z0-9_-". The return value is the generated nanoid (string).
 `noop();` | __Stability: 4 - Stable.__<BR>It's an empty function (no operation) that returns undefined and usable for optional callback arguments.
 `obj2string(object);` | __Stability: 4 - Stable.__<BR>Convert object to a querystring. The return value is the string. The object parameter is mandatory.
 `randomBoolean();` | __Stability: 4 - Stable.__<BR>Get a random boolean value. The return value is `true` or `false`.
 `randomUUIDv7();` | __Stability: 4 - Stable.__<BR>This function returns a UUID v7, which cointains a timestamp too. For more information please read the [this page](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7)!<BR>Example result: `"0195d74b-b8c8-7302-a7d3-919df45087f3"`
 `sizeIn(object);` | __Stability: 4 - Stable.__<BR>Returns the count of the owned properties and symbols of the given object. The object parameter is mandatory. The return value is an integer.
-`popIn(object,property);` | __Stability: 0 - Removed in v5.9.0.__<BR>The popIn() function deletes the property in the object and returns the value of the deleted property. If the property doesn't exist in the object, then the return value is undefined. The object parameter is mandatory and has to be an object. The property parameter is mandatory.
-`sleep(ms).then(callback);` | __Stability: 0 - Removed in v5.9.0.__<BR>his is an alias of the `delay(ms).then(callback);`.
 `T();` | __Stability: 4 - Stable.__<BR>This function returns true.
 `timestampID([size=21[,alphabet= "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"]]);` | __Stability: 4 - Stable.__<BR>Generate a timestamp based sortable ID. The size parameter is optional and the default value is 21, but if the given value smaller than 12, then the value will be 12. The alphabet parameter is optional and the default value is `"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"`, same as BASE58. The return value is the generated id (string).<BR>Example ID:`"00lirtqi4e-wgGn8vGPyY"`
 `toObject(value);`| __Stability: 4 - Stable.__<BR>If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a `TypeError()` will be throwned.<BR>If the given value is an object, function or symbol, then the original value will return.
@@ -375,64 +423,36 @@ Name | Description
 ---- | -----------
 `classof(value[,class[,throw=false]]);` | __Stability: 4 - Stable.__<BR>Get the real type of a value. If this is an object, then the return value is the detailed object type (e.g.: array). If the class (string) parameter is given, then the return value (boolean) is the equality of the type of the value and the second parameter. If the third parameter (boolean) is true and the type of the value and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
 `getType(value[,class[,throw=false]]);` | __Stability: 4 - Stable.__<BR>This is an alias of the `classof(variable[,class[,throw=false]]);`.
-`isArrayBuffer(value);` |__Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is an arraybuffer. The return value is boolean.
 `isArraylike(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an iterable object. The return value is boolean.
 `isAsyncFn(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async function. The return value is boolean.
 `isAsyncGeneratorFn(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async generator function. The return value is boolean.
-`isBigInt(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a BigInt. The return value is boolean.
-`isBoolean(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a boolean. The return value is boolean.
 `isCallable(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided object has a call method. The return value is boolean.
 `isChar(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a string with length 1 character. This function is unicode compatible. The return value is boolean.
 `isClass(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a constructable function. The return value is boolean.
 `isCoercedObject(object);` | __Stability: 4 - Stable.__<BR>If the given object is a coerced object (Number, BigInt, String, Boolean), then the return value is the constructor function. In any other cases retuns false. The object parameter is mandatory.
-`isConstructorFn(value);` | __Stability: 0 - Removed in v5.9.0.__<BR>This function determines whether the provided value is a constructable function. The return value is boolean.
-`isDataView(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is an DataView object. The return value is boolean.
-`isDate(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a date. The return value is boolean.
 `isDeepStrictEqual(value1, value2);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided values are deep equals. (_Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date_) The return value is boolean.
 `isElement(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a HTML element. The return value is boolean.
-`isEmptyArray(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is an empty array (without values). The return value is boolean.
-`isEmptyIterator(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is an iterator array (without values). The return value is boolean.
-`isEmptyMap(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is an empty map (without properties). The return value is boolean.
-`isEmptyObject(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is an empty object (without properties). The return value is boolean.
-`isEmptySet(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is an empty set (without values). The return value is boolean.
-`isEmptySet(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is an empty set (without values). The return value is boolean.
 `isEmptyValue(value1, value2);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an empty value. Returns true in these cases: null, undefined, NaN, array, typedarray, arraybuffer, dataview, object, arraylike object, map, set, iterator, iterable. The return value is boolean.
-`isFalsy(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is falsy. The return value is boolean. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)!
 `isFunction(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a function. The return value is boolean.
 `isGeneratorFn(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a generator function. The return value is boolean.
 `isIndex(value);`| __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a valid arraylike index number. The return value is boolean.
 `isIterable(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an iterable object. The return value is boolean.
 `isIterator(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an iterator. The return value is boolean.
 `isLength(value);`| __Stability: 4 - Stable.__<BR>Alias of `isIndex(value);`.
-`isMap(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a map. The return value is boolean.
 `isNil(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is null or undefined. The return value is boolean.
 `isNull(value);` |__Stability: 4 - Stable.__<BR> This function determines whether the provided value is null. The return value is boolean.
-`isNullOrUndefined(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is null or undefined. The return value is boolean.
-`isNumber(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a number. The return value is boolean.
 `isNumeric(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a number or can be converted to number. The return value is boolean.
 `isObject(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an object or function and not null. The return value is boolean.
 `isPlainObject(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an object, which own prototype is the Object.prototype or null. The return value is boolean.
 `isPrimitive(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is not null, not object and not function. The return value is boolean.
-`isPromise(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a promise object. The return value is boolean.
 `isPropertyKey(value);`| __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a valid propertx key (string or symbol). The return value is boolean.
 `isProxy(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a proxy object. The return value is boolean.
 `isRegexp(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a regexp. The return value is boolean.
-`isSameArray(array1,array2);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function checks the value equality of the given arrays. The return value is boolean and both of the parameters are mandatory and have to be an array.
 `isSameClass(value1, value2);`| __Stability: 4 - Stable.__<BR>This function returns true if the values are same class and uses the `Object.prototype.toString();` method. The parameters are mandatory. The return value is boolean.
 `isSameInstance(value1, value2,Contructor);` | __Stability: 4 - Stable.__<BR>This function returns true if the values are same class and uses the `instanceof` operator. The parameters are mandatory. The return value is boolean.
-`isSameIterator(iterable1,iterable2);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function checks the value equality of the given iterator. The return value is boolean and both of the parameters are mandatory and have to be an iterator or iterable object.
-`isSameMap(map1,map2);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function checks the property and value equality of the given maps. The return value is boolean and both of the parameters are mandatory and have to be a map.
-`isSameObject(object1,object2);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function checks the property and value equality of the given objects. The return value is boolean and both of the parameters are mandatory and have to be an object.
-`isSameSet(set1,set2);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function checks the value equality of the given sets. The return value is boolean and both of the parameters are mandatory and have to be a set.
 `isSameType(value1, value2);`| __Stability: 4 - Stable.__<BR>This function returns true if the values are same type or both are null or both are undefined. The parameters are mandatory. The return value is boolean.
-`isSet(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a set. The return value is boolean.
-`isString(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a string. This function is unicode compatible. The return value is boolean.
-`isSymbol(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a symbol. The return value is boolean.
-`isTruthy(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is truthy. The return value is boolean. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Glossary/Truthy)!
 `isTypedArray(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an typedarray. The return value is boolean.
 `isUndefined(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is undefined. The return value is boolean.
-`isWeakMap(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a weakmap. The return value is boolean.
-`isWeakSet(value);` | __Stability: 0 - Removed in v5.8.0.__<BR>This function determines whether the provided value is a weakset. The return value is boolean.
 `toIndex(value);`| __Stability: 4 - Stable.__<BR>This function converts the provided value to a valid arraylike index number. The return value is an unsigned integer (number). If the value is out of integer range, then a RangeError will be thrown.
 `toLength(value);`| __Stability: 4 - Stable.__<BR>This function converts the provided value to a valid arraylike length number. The return value is an unsigned integer (number).
 `toPrimitiveValue(value);`| __Stability: 4 - Stable.__<BR>If the given value is null or undefined, then a `TypeError()` will be throwned.<BR>If the given value is an object, which can be converted to a primitive variable, then the return value is a primitive variable.<BR>If the given value is a not convertable object (array, map, set, etc.), function or symbol, then the original value will return.
@@ -470,19 +490,13 @@ Name | Description
 ---- | -----------
 `arrayAdd(array,value);` | __Stability: 4 - Stable.__<BR>Push the value to the array if the array doesn't contain the value. The return value is true, when the value is added and false, when not added.
 `arrayClear(array);` | __Stability: 4 - Stable.__<BR>Clear the array and returns the empty array. The array parameter is mandatory.
-`arrayCreate([length=0]);`| __Stability: 0 - Removed in v5.9.0.__<BR>This function returns an array with the given length. If the length is -0, then the length will be 0. If The length parameter out of the array size range, then a rangeerror will be thrown.
 `arrayCycle(iterator[,n=100]);` | __Stability: 4 - Stable.__<BR>Cycle the given iterator and returns an array with these elements. The iterator parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 100.
 `arrayDeepClone(array);`| __Stability: 4 - Stable.__<BR>This function deeply (recursively) clones an array. The return value is the cloned array.
-`arrayDifference(iterator1, iterator2);` | __Stability: 0 - Removed in v5.9.0.__<BR>__Can be replaced with `Set.prototype.difference();`.__<BR>Returns the array of unique values that are in the iterator1, excluding the values that are also in the iterator2. All of the parameters are mandatory. The return value is an Array.
-`arrayIntersection(iterator1, iterator2);` | __Stability: 0 - Removed in v5.9.0.__<BR>__Can be replaced with `Set.prototype.intersection();`.__<BR>Returns the array of unique values that are in both of the given iterators. All of the parameters are mandatory. The return value is an Array.
 `arrayMerge(target,source1[,sourceN]);` | __Stability: 4 - Stable.__<BR>Merge two or more arrays or push any values in the target array. The return value is the target array.
 `arrayRange([start=0[,end=99[,step=1]]]);` | __Stability: 4 - Stable.__<BR>Returns the array of values between the start and end parameters. All of the parameters are mandatory and have to be a number. Default parameter values: start = 0, end = 99, step = 1.<BR>__Example:__<BR>`CEL.arrayRange("A".codePointAt(0),"Z".codePointAt(0)).map((v)=>String.fromCodePoint(v));`<BR>-><BR>`Array(26) [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]`
 `arrayRemove(array,value[,all=false]);` | __Stability: 4 - Stable.__<BR>Remove the first or all equivalent values from the array. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayRemoveBy(array,callback[,all=false]);` | __Stability: 4 - Stable.__<BR>Remove the first or all values from the array with which the given function returns true. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayRepeat(value[,n=100]);` | __Stability: 4 - Stable.__<BR>Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
-`arraySymmetricDifference(iterator1, iterator2);` | __Stability: 0 - Removed in v5.9.0.__<BR>__Can be replaced with `Set.prototype.symmetricDifference();`.__<BR>Returns the array of unique values that are only in one of given iterators. All of the parameters are mandatory. The return value is an Array.
-`arrayUnion(iterator1[,iteratorN]);` | __Stability: 0 - Removed in v5.9.0.__<BR>__Can be replaced with `Set.prototype.union();`.__<BR>Returns the array of unique values including all values from the given iterators. The first parameter is mandatory. The return value is an Array.
-`arrayUnique(iterator);` | __Stability: 0 - Removed in v5.8.0.__<BR>__Can be replaced with `unique(iterator[, resolver]);`.__<BR>This function returns a new array with unique values. The value parameter is mandatory and can be an iterator. In modern browsers you can use ES6 types too (Map, Set and iterators).
 `concat(iterator1[,iteratorN]);` | __Stability: 4 - Stable.__<BR>This function merges the iterators and yields the elements of the merged iterator. At least one iterator has to been given.
 `count(iterator,callback);` | __Stability: 4 - Stable.__<BR>This function executes a counter function (that you provide) on each element of the iterator, returning in a single output value. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `contains(iterator,value);` | __Stability: 4 - Stable.__<BR>This is an alias of the `includes(iterator,value);`.
@@ -490,7 +504,6 @@ Name | Description
 `dropRight(iterator[,n=1]);` | __Stability: 4 - Stable.__<BR>Drop the last N elements of an iterator and return the remained elements in an array. The iterator parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1.
 `dropRightWhile(iterator,callback);` | __Stability: 4 - Stable.__<BR>Drop the elements from the end of an iterator while the callback (filter) function returns true and yield the remained elements. The callback function will be called with the actual element of the iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `dropWhile(iterator,callback);` | __Stability: 4 - Stable.__<BR>Drop the elements of an iterator while the callback (filter) function returns true and yield the remained elements. The callback function will be called with the actual element of the iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a function.
-`entries(iterator[,offset=0]);` | __Stability: 0 - Removed in v5.9.0.__<BR>An alias of the `enumerate(iterator);`.
 `enumerate(iterator[,offset=0]);` | __Stability: 4 - Stable.__<BR>Yield generated pairs (arrays) from the elements of an iterator and a counter. The iterator parameter is mandatory. The offset parameter is optional and can be an integer and it's default value is 0. <BR>__Example:__<BR> `CEL.enumerate(["Picard", "Riker", "Data"], 2);` -> `[2, "Picard"]`, `[3, "Riker"]`, `[4, "Data"]`
 `every(iterator,callback);` | __Stability: 3 - Legacy and can get only fixes.__<BR>__Can be replaced with `Iterator.from(iterable/iterator).every();`__<BR>This function whether all elements in the iterator pass the test implemented by the provided function. It returns a Boolean value and all of the parameters are mandatory. If the iterator is empty, then the return value is false.
 `filter(iterator,callback);` | __Stability: 3 - Legacy and can get only fixes.__<BR>__Can be replaced with `Iterator.from(iterable/iterator).filter();`__<BR>Filter and yield elements of an iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a function and called with two parameters: the item and the index of the item (only a counter).
