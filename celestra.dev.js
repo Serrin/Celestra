@@ -1,6 +1,6 @@
 /**
  * @name Celestra
- * @version 6.0.0 dev
+ * @version 6.0.1 dev
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
@@ -297,6 +297,54 @@ const BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const WORDSAFEALPHABET= "23456789CFGHJMPQRVWXcfghjmpqvwx"; /* 31 */
+
+
+/* tap(function: function): function(v) */
+const tap = (fn) => function (v) { fn(v); return v; };
+
+
+/* once(function: function): function */
+function once (fn) {
+  let called = false, res;
+  return function (...a) {
+    if (!called) {
+      called = true;
+      res = fn(...a);
+    }
+    return res;
+  };
+}
+
+
+/* curry (function: function): function */
+const curry = (fn) => (...a) =>
+  a.length >= fn.length ? fn(...a) : (...rest) => r(...a, ...rest);
+
+
+/* pipe (function1:function [, functionN: function]): function */
+const pipe = (...fns) => (x) => fns.reduce((v, f) => f(v), x);
+
+
+/* compose (function1: function [, functionN: function]): function */
+const compose = (...fns) => (x) => fns.reduceRight((v, f) => f(v), x);
+
+
+/* pick (object: object, keys: array): object */
+const pick = (O, keys) => keys.reduce(function (acc, key) {
+  if (key in O) { acc[key] = O[key]; }
+  return acc;
+}, {});
+
+
+/* omit (object: object, keys: array): object */
+const omit = (O, keys) => Object.keys(O).reduce(function (acc, key) {
+  if (!keys.includes(key)) { acc[key] = O[key]; }
+  return acc;
+}, {});
+
+
+/* assoc (object: object, key: string, value: any): object */
+const assoc = (O, P, V) => ({...O, [P]: V});
 
 
 /* asyncNoop (): Promise - do nothing */
@@ -2267,10 +2315,9 @@ const isChar = (v) =>
 
 
 /* isNumeric(value: any): boolean */
-const isNumeric = (v) => (
-  ((typeof v === "number" || typeof v === "bigint") && v === v)
-    ? true : (!isNaN(parseFloat(v)) && isFinite(v))
-);
+const isNumeric = (v) =>
+  (((typeof v === "number" || typeof v === "bigint") && v === v)
+    ? true : (!isNaN(parseFloat(v)) && isFinite(v)));
 
 
 /* isObject(value: any): boolean */
@@ -2322,15 +2369,13 @@ const isRegexp = (v) => (v instanceof RegExp);
 
 
 /* isElement(value: any): boolean */
-const isElement = (v) => (
-  v != null && typeof v === "object" && v.nodeType === 1
-);
+const isElement = (v) =>
+  (v != null && typeof v === "object" && v.nodeType === 1);
 
 
 /* isIterable(value: any): boolean */
-const isIterable = (v) => (
-  v != null && typeof v[Symbol.iterator] === "function"
-);
+const isIterable = (v) =>
+  (v != null && typeof v[Symbol.iterator] === "function");
 
 
 /* isTypedArray(value: any): boolean */
@@ -2409,9 +2454,8 @@ function getCookie (name) {
 
 
 /* hasCookie(name: string): boolean */
-const hasCookie = (n) => (
-  document.cookie.includes(encodeURIComponent(n) + "=")
-);
+const hasCookie = (n) =>
+  (document.cookie.includes(encodeURIComponent(n) + "="));
 
 
 /* removeCookie(Options object);: boolean */
@@ -3237,7 +3281,7 @@ const inRange = (v, min, max) => (v >= min && v <= max);
 /** object header **/
 
 
-const VERSION = "Celestra v6.0.0 dev";
+const VERSION = "Celestra v6.0.1 dev";
 
 
 /* celestra.noConflict(): celestra object */
@@ -3255,6 +3299,14 @@ const celestra = {
   BASE58,
   BASE62,
   WORDSAFEALPHABET,
+  tap,
+  once,
+  curry,
+  pipe,
+  compose,
+  pick,
+  omit,
+  assoc,
   asyncNoop,
   asyncT,
   asyncF,
