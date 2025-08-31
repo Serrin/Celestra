@@ -13,9 +13,9 @@
 
 __A helper JavaScript library with useful functions and polyfills and zero dependencies.__
 
-Latest version: 6.0.2
+Latest version: 6.0.3
 
-Date: 2025-08-24T18:42:54.355Z
+Date: 2025-08-31T17:21:59.326Z
 
 __Tested on these:__
 
@@ -224,15 +224,11 @@ __Cookie API__ | `getCookie();`<BR>`hasCookie();`<BR>`setCookie();`<BR>`removeCo
 
 ### Stabilities
 
-__Stability: 0 - Removed.__
-
-__Stability: 1 - Deprecated and will be removed.__
-
-__Stability: 2 - Deprecated.__
-
-__Stability: 3 - Legacy and can get only fixes.__
-
-__Stability: 4 - Stable.__
+- __Stability: 0 - Removed.__
+- __Stability: 1 - Deprecated and will be removed.__
+- __Stability: 2 - Deprecated.__
+- __Stability: 3 - Legacy and can get only fixes.__
+- __Stability: 4 - Stable.__
 
 <BR>__Removed__ and __Deprecated__: Don't use these in production.<BR>
 
@@ -284,7 +280,6 @@ Name | Description
 `T();` | __Stability: 4 - Stable.__<BR>This function returns true.
 `tap(function): function(value);` | __Stability: 4 - Stable.__<BR>This functions returns a new function, which runs the given function with the value parameter, then returns the value. Usable for testing and logging. All of the parameters are mandatory.
 `timestampID([size=21[,alphabet= "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"]]);` | __Stability: 4 - Stable.__<BR>Generate a timestamp based sortable ID. The size parameter is optional and the default value is 21, but if the given value smaller than 12, then the value will be 12. The alphabet parameter is optional and the default value is `"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"`, same as BASE58. The return value is the generated id (string).<BR>Example ID:`"00lirtqi4e-wgGn8vGPyY"`
-`toObject(value);`| __Stability: 4 - Stable.__<BR>If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a `TypeError()` will be throwned.<BR>If the given value is an object, function or symbol, then the original value will return.
 `unBind(function);` | __Stability: 4 - Stable.__<BR> __Old name before v5.4.1:__ `toFunction`.<BR>Returns an unbinded function from an object method. The function parameter is mandatory.
 
 
@@ -331,20 +326,22 @@ Name | Description
 `assertEqual(value1, value2 [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error with the message if the value1 and value2 aren't equals. (_Loose equality + NaN equality_) The message parameter is optional. The return value is `true`, when the test was success.
 `assertFail(message \| error);` | __Stability: 4 - Stable.__<BR>his function always throws an error. If the argument is an error, then this error will be thrown, else a new error with the message.
 `assertFalse(condition [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error with the message if the condition is truthy. The message parameter is optional. The return value is `true`, when the test was success.
-`assertInstanceOf(value, constructor [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error if the constructor of the value in not the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
+`assertInstanceOf(value, constructor [, message \| error]);` | __Stability: 1 - Deprecated and will be removed.__<BR>This function throws an error if the constructor of the value in not the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
+`assertIs(value, expectedType [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value type or class is the given expectedType. The expectedType can be a type string, constructor function or an array of the type strings and constructors. If the value is not matched with the expectedType, then a TypeError will be thrown with detailed error message. If these conditions are passed, then the given value is the return value.
 `assertIsNil(value [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error with the message if the value is not null or undefined, else the given value is the return value. The message parameter is optional.
+`assertIsNot(value, expectedType [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value type or class is not the given expectedType. The expectedType can be a type string, constructor function or an array of the type strings and constructors. If the value is matched with the expectedType, then a TypeError will be thrown with detailed error message. If these conditions are passed, then the given value is the return value.
 `assertIsNotNil(value [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error with the message if the value is null or undefined, else the given value is the return value. The message parameter is optional.
 `assertMatch(string, regexp [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error with the message if the string doesn't match with the regexp. The message parameter is optional. The return value is `true`, when the test was success.
 `assertNotDeepEqual(value1, value2 [, message \| error]);`| __Stability: 4 - Stable.__<BR>This function throws an error with the message if the value1 and value2 are deep equals. (_Deep loose equality + NaN equality: primitives (loose equality + NaN equality), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer_) The message parameter is optional. The return value is `true`, when the test was success.<BR>__This function may give unexpected results. It is safer to use the `assertNotDeepStrictEqual();` function.__
 `assertNotDeepStrictEqual(value1, value2 [, message \| error]);`| __Stability: 4 - Stable.__<BR>This function throws an error with the message if the value1 and value2 are deep equals. (_Deep strict equality + NaN equality: primitives (SameValue - Object.is()), Array, TypedArray, Plain Object, Map, Set, WeakMap (only reference), WeakSet (only reference), Object wrappers (primitives), Function (only reference), RegExp, Error, Date, DataView, ArrayBuffer_) The message parameter is optional. The return value is `true`, when the test was success.
 `assertNotEqual(value1, value2 [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error with the message if the value1 and value2 are equals. (_Loose equality + NaN equality_) The message parameter is optional. The return value is `true`, when the test was success.
-`assertNotInstanceOf(value, constructor [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error if the constructor of the value is the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
+`assertNotInstanceOf(value, constructor [, message \| error]);` | __Stability: 1 - Deprecated and will be removed.__<BR>This function throws an error if the constructor of the value is the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
 `assertNotStrictEqual(value1, value2 [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error with the message if the value1 and value2 are equals. (_SameValue equality_) The message parameter is optional. The return value is `true`, when the test was success.
-`assertNotTypeOf(value, type [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error if the type of the value is the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
+`assertNotTypeOf(value, type [, message \| error]);` | __Stability: 1 - Deprecated and will be removed.__<BR>This function throws an error if the type of the value is the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
 `assertStrictEqual(value1, value2 [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error with the message if the value1 and value2 aren't equals. (_SameValue equality_) The message parameter is optional. The return value is `true`, when the test was success.
 `assertTrue(condition [, message \| error]);` | __Stability: 4 - Stable.__<BR> This is an alias of the `assert(condition [, message \| error]);`.
 `assertThrows(callback [, message \| error]);` | __Stability: 4 - Stable.__<BR> This function catches and returns the error, if the callback throws an error. In other cases throws an error with the message. The message parameter is optional.
-`assertTypeOf(value, type [, message \| error]);` | __Stability: 4 - Stable.__<BR>This function throws an error if the type of the value in not the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
+`assertTypeOf(value, type [, message \| error]);` | __Stability: 1 - Deprecated and will be removed.__<BR>This function throws an error if the type of the value in not the same as the second parameter. If the second parameter is not a string, then an error will throw. The message parameter is optional. If these conditions are passed, then the given value is the return value.
 
 
 ### DOM API
@@ -429,8 +426,9 @@ Example: `CEL.isUndefined();`
 
 Name | Description
 ---- | -----------
-`classof(value[,class[,throw=false]]);` | __Stability: 4 - Stable.__<BR>Get the real type of a value. If this is an object, then the return value is the detailed object type (e.g.: array). If the class (string) parameter is given, then the return value (boolean) is the equality of the type of the value and the second parameter. If the third parameter (boolean) is true and the type of the value and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
-`getType(value[,class[,throw=false]]);` | __Stability: 4 - Stable.__<BR>This is an alias of the `classof(variable[,class[,throw=false]]);`.
+`classof(value[,class[,throw=false]]);` | __Stability: 1 - Deprecated and will be removed.__<BR>Get the real type of a value. If this is an object, then the return value is the detailed object type (e.g.: array). If the class (string) parameter is given, then the return value (boolean) is the equality of the type of the value and the second parameter. If the third parameter (boolean) is true and the type of the value and the second parameter aren't equals, then the function is throwing a `TypeError();`, else the return value is true.
+`getType(value[,class[,throw=false]]);` | __Stability: 1 - Deprecated and will be removed.__<BR>This is an alias of the `classof(variable[,class[,throw=false]]);`.
+`is(value[,expectedType[,Throw=false]];` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value type or class is the given expectedType. The expectedType can be a type string, constructor function or an array of the type strings and constructors. If the Throw is true and the value is not matched with the expectedType, then a TypeError will be thrown with detailed error message. The return value is boolean or the type or constructor of the value.
 `isArraylike(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an iterable object. The return value is boolean.
 `isAsyncFn(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async function. The return value is boolean.
 `isAsyncGeneratorFn(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async generator function. The return value is boolean.
@@ -456,13 +454,14 @@ Name | Description
 `isPropertyKey(value);`| __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a valid propertx key (string or symbol). The return value is boolean.
 `isProxy(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a proxy object. The return value is boolean.
 `isRegexp(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is a regexp. The return value is boolean.
-`isSameClass(value1, value2);`| __Stability: 4 - Stable.__<BR>This function returns true if the values are same class and uses the `Object.prototype.toString();` method. The parameters are mandatory. The return value is boolean.
+`isSameClass(value1, value2);`| __Stability: 1 - Deprecated and will be removed.__<BR>This function returns true if the values are same class and uses the `Object.prototype.toString();` method. The parameters are mandatory. The return value is boolean.
 `isSameInstance(value1, value2,Contructor);` | __Stability: 4 - Stable.__<BR>This function returns true if the values are same class and uses the `instanceof` operator. The parameters are mandatory. The return value is boolean.
 `isSameType(value1, value2);`| __Stability: 4 - Stable.__<BR>This function returns true if the values are same type or both are null or both are undefined. The parameters are mandatory. The return value is boolean.
 `isTypedArray(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is an typedarray. The return value is boolean.
 `isUndefined(value);` | __Stability: 4 - Stable.__<BR>This function determines whether the provided value is undefined. The return value is boolean.
 `toIndex(value);`| __Stability: 4 - Stable.__<BR>This function converts the provided value to a valid arraylike index number. The return value is an unsigned integer (number). If the value is out of integer range, then a RangeError will be thrown.
 `toLength(value);`| __Stability: 4 - Stable.__<BR>This function converts the provided value to a valid arraylike length number. The return value is an unsigned integer (number).
+`toObject(value);`| __Stability: 4 - Stable.__<BR>If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a `TypeError()` will be throwned.<BR>If the given value is an object, function or symbol, then the original value will return.
 `toPrimitiveValue(value);`| __Stability: 4 - Stable.__<BR>If the given value is null or undefined, then a `TypeError()` will be throwned.<BR>If the given value is an object, which can be converted to a primitive variable, then the return value is a primitive variable.<BR>If the given value is a not convertable object (array, map, set, etc.), function or symbol, then the original value will return.
 `toPropertyKey(value);`|__Stability: 4 - Stable.__<BR>This function convert the given value to a valid property key. If the value is not symbol, then will be converted to string, else the symbol will be returned.
 `type(value);`| __Stability: 4 - Stable.__<BR>This function returns the typeof operator result of the given value, except the null object (`"null"` instead of `"object"`).
