@@ -1,13 +1,15 @@
 // @ts-check
 "use strict";
 
-/* import method 1 - defaultExport */
+console.log("\x1b[40m\x1b[37m"); /* black - white */
+
+// /* import method 1 - defaultExport */
 // /*
 console.log("import method 1 - defaultExport");
 import defaultExport from "./celestra.node.mjs";
 globalThis.celestra = defaultExport;
 globalThis.CEL = defaultExport;
-//*/
+// */
 
 /* import method 2 - default as celestra */
 /*
@@ -46,10 +48,49 @@ CUT.__addTest__ = function __addTest__ (
     console.log(resultStr);
     */
   } else {
-    let resultStr = "[" + Date.now().toString(36) + "] [failed] " + step;
+    let resultStr = "" + "\x1b[40m\x1b[31m❌\x1b[40m\x1b[37m [" + Date.now().toString(36)
+      + "] \x1b[41m\x1b[37m[failed]\x1b[40m\x1b[37m " + step; //
     console.error(resultStr);
+    /* black - red */
   }
 };
+
+
+/*
+https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
+https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+
+ANSI escape codes:
+
+Reset = "\x1b[0m"
+Bright = "\x1b[1m"
+Dim = "\x1b[2m"
+Underscore = "\x1b[4m"
+Blink = "\x1b[5m"
+Reverse = "\x1b[7m"
+Hidden = "\x1b[8m"
+
+FgBlack = "\x1b[30m"
+FgRed = "\x1b[31m"
+FgGreen = "\x1b[32m"
+FgYellow = "\x1b[33m"
+FgBlue = "\x1b[34m"
+FgMagenta = "\x1b[35m"
+FgCyan = "\x1b[36m"
+FgWhite = "\x1b[37m"
+FgGray = "\x1b[90m"
+
+BgBlack = "\x1b[40m"
+BgRed = "\x1b[41m"
+BgGreen = "\x1b[42m"
+BgYellow = "\x1b[43m"
+BgBlue = "\x1b[44m"
+BgMagenta = "\x1b[45m"
+BgCyan = "\x1b[46m"
+BgWhite = "\x1b[47m"
+BgGray = "\x1b[100m"
+*/
+
 
 /* isTrue(<step: string>, <expression>[, strict: boolean]); */
 CUT.isTrue = function isTrue (
@@ -103,13 +144,20 @@ CUT.isError = function (
 
 /* log(<innerHTML>); */
 CUT.log = function log (/** @type {any} */ str) {
-  console.log("[" + Date.now().toString(36) + "] [info] " + str);
+  console.log(
+    "\x1b[40m\x1b[36m" + "\u2139\x1b[40m\x1b[37m"
+      + "  [" + Date.now().toString(36) + "] \x1b[44m\x1b[37m[info]\x1b[40m\x1b[37m " + str
+    /* black - cyan */
+  );
 };
 
 /* logCode(<innerHTML>); */
 CUT.logCode = function log (/** @type {any} */ str) {
   console.log(
-    "[" + Date.now().toString(36) + "] [code] " + "`" + str + "`"
+    "\x1b[40m\x1b[36m" + "\uD83D\uDEC8"
+      + "  [" + Date.now().toString(36) + "] [code] "
+      + "`" + "\x1b[40m\x1b[37m" + str + "`"
+    /* black - cyan */
   );
 };
 
@@ -193,34 +241,33 @@ try {
 /** Selftest **/
 CUT.log("CUT Selftest");
 
-CUT.__addTest__("[Selftest] - __addTest__(); success", 1, 1);
-CUT.__addTest__("[Selftest] - __addTest__(); failed", 1, 2);
-CUT.__addTest__("[Selftest] - __addTest__(); success non-strict",
+CUT.__addTest__("[Selftest] ✅ - __addTest__(); success", 1, 1);
+CUT.__addTest__("[Selftest] ✅ - __addTest__(); failed", 1, 2);
+CUT.__addTest__("[Selftest] ✅ - __addTest__(); success non-strict",
   0, false, false
 );
-CUT.__addTest__("[Selftest] - __addTest__(); failed strict", 0, false, true);
+CUT.__addTest__("[Selftest] ✅ - __addTest__(); failed strict", 0, false, true);
 
-CUT.isTrue("[Selftest] - isTrue(); success", true);
-CUT.isTrue("[Selftest] - isTrue(); failed", false);
+CUT.isTrue("[Selftest] ✅ - isTrue(); success", true);
+CUT.isTrue("[Selftest] ✅ - isTrue(); failed", false);
 
-CUT.isFalse("[Selftest] - isFalse(); success", false);
-CUT.isFalse("[Selftest] - isFalse(); failed", true);
+CUT.isFalse("[Selftest] ✅ - isFalse(); success", false);
+CUT.isFalse("[Selftest] ✅ - isFalse(); failed", true);
 
-CUT.isEqual("[Selftest] - isEqual(); success", 1, 1);
-CUT.isEqual("[Selftest] - isEqual(); failed", 1, 2);
+CUT.isEqual("[Selftest] ✅ - isEqual(); success", 1, 1);
+CUT.isEqual("[Selftest] ✅ - isEqual(); failed", 1, 2);
 CUT.isEqual(
-  "[Selftest] - isEqual(); success non-strict",
-  0, false, false
+  "[Selftest] ✅ - isEqual(); success non-strict", 0, false, false
 );
-CUT.isEqual("[Selftest] - isEqual(); failed strict", 0, false, true);
+CUT.isEqual("[Selftest] ✅ - isEqual(); failed strict", 0, false, true);
 
-CUT.isNotEqual("[Selftest] - isNotEqual(); success", 1, 2);
-CUT.isNotEqual("[Selftest] - isNotEqual(); failed", 1, 1);
+CUT.isNotEqual("[Selftest] ✅ - isNotEqual(); success", 1, 2);
+CUT.isNotEqual("[Selftest] ✅ - isNotEqual(); failed", 1, 1);
 CUT.isNotEqual(
-  "[Selftest] - isNotEqual(); success strict", 0, false, true
+  "[Selftest] ✅ - isNotEqual(); success strict", 0, false, true
 );
 CUT.isNotEqual(
-  "[Selftest] - isNotEqual(); failed non-strict", 0, false, false
+  "[Selftest] ✅ - isNotEqual(); failed non-strict", 0, false, false
 );
 
 } catch (e) {
@@ -253,7 +300,7 @@ var /** @type any */ token12, /** @type any */ token13;
 var /** @type any */ token14, /** @type any */ token15;
 
 
-/* Celestra v6.0.4 testcases */
+/* Celestra v6.0.5 testcases */
 
 
 /** Not auto tested functions **/
@@ -375,6 +422,13 @@ CUT.isError("is(); error 6", () => CEL.is("dsgds", "string", 42));
 CUT.isError("is(); error 7", () => CEL.is("fsdds", "number", true));
 CUT.isError("is(); error 8", () => CEL.is("fsdds", Map, true));
 /* is(); end */
+
+
+/* toSafeString(); */
+CUT.isEqual("toSafeString(); 01", CEL.toSafeString({"a": 1}), '{"a":1}');
+CUT.isEqual("toSafeString(); 02", CEL.toSafeString(Symbol("a")), '"Symbol(a)"');
+CUT.isEqual("toSafeString(); 03", CEL.toSafeString(null), "null");
+CUT.isEqual("toSafeString(); 04", CEL.toSafeString(undefined), "undefined");
 
 
 /* tap(); */
@@ -4976,7 +5030,7 @@ CUT.isFalse("shuffle();", CEL.isDeepStrictEqual(CEL.shuffle(token1), token1));
 
 /* includes(); */
 CUT.isTrue("includes(); 01",
-      CEL.includes([4, 5, 6, 7, 8, 9], 9) 
+      CEL.includes([4, 5, 6, 7, 8, 9], 9)
   && !CEL.includes([4, 5, 6, 7, 8, 9], 10)
   &&  CEL.includes([4, 5, 6, 7, 8, 0], 0)
   && !CEL.includes([4, 5, 6, 7, 8, -0], 0, Object.is)
@@ -5180,6 +5234,35 @@ CUT.isEqual("arrayCycle(); 04",
   "[[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5],[3,4],[4,5]]"
 );
 /* arrayCycle(); end */
+
+
+/* castArray(); */
+CUT.isEqual("castArray(); 01",
+  JSON.stringify(CEL.castArray("abc")),
+  "[\"abc\"]"
+);
+CUT.isEqual("castArray(); 02",
+  JSON.stringify(CEL.castArray(3)),
+  "[3]"
+);
+CUT.isEqual("castArray(); 03",
+  JSON.stringify(CEL.castArray([3, 4, 5])),
+  "[3,4,5]"
+);
+CUT.isEqual("castArray(); 04", JSON.stringify(CEL.castArray()), "[]");
+CUT.isEqual("castArray(); 05", JSON.stringify(CEL.castArray(null)), "[null]");
+
+
+/* compact(); */
+CUT.isEqual("compact(); 01", JSON.stringify(CEL.compact([])), "[]");
+CUT.isEqual("compact(); 02",
+  JSON.stringify(
+    CEL.compact(
+      [0, 1, false, 2, "", 3, null, 4, undefined, 5, NaN, "dsfsd", true]
+    )
+  ),
+  "[0,1,2,3,4,5,\"dsfsd\",true]"
+);
 
 
 /* arrayRepeat(); */
