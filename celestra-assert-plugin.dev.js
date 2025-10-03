@@ -1,12 +1,12 @@
-// @ts-check
+// @ts-nocheck
 "use strict";
 
 /**
  * @name Celestra Assert plugin
- * @version 6.0.5 dev
+ * @version 6.1.0 dev
  * @see https://github.com/Serrin/Celestra
  * @license MIT https://opensource.org/licenses/MIT
- * Required Celestra version: 6.0.5
+ * Required Celestra version: 6.1.0
  */
 
 (function(globalThis, celestra){
@@ -52,9 +52,9 @@ assert.is = (v, et, m) => celestra.assertIs(v, et, m);
 
 assert.isNot = (v, et, m) => celestra.assertIsNot(v, et, m);
 
-assert.isNil = (v, m) => celestra.assertIsNil(v, m);
+assert.isNullish = (v, m) => celestra.assertIsNullish(v, m);
 
-assert.isNotNil = (v, m) => celestra.assertIsNotNil(v, m);
+assert.isNotNullish = (v, m) => celestra.assertIsNotNullish(v, m);
 
 assert.Throws = (cb, m) => celestra.assertThrows(cb, m);
 
