@@ -1,4 +1,7 @@
-declare const VERSION = "Celestra v6.1.1 browser";
+declare const VERSION = "Celestra v6.1.2 browser";
+type MapLike = {
+    [key: string | symbol]: any;
+};
 type ArrayLike = {
     length: number;
     [n: number]: any;
@@ -6,8 +9,22 @@ type ArrayLike = {
 type IterableAndIterator = Iterable<any> | Iterator<any> | IterableIterator<any>;
 type IterableAndIteratorAndArrayLike = Iterable<any> | Iterator<any> | IterableIterator<any> | ArrayLike;
 type IteratorReturn = Iterable<any> | IteratorResult<any> | Generator<number, void, unknown>;
+type Nullish = undefined | null;
+type NonNullablePrimitive = number | boolean | string | symbol;
+type Primitive = null | undefined | number | bigint | boolean | string | symbol;
 type Comparable = number | bigint | string | boolean;
 type PropertyKey = string | symbol;
+type TypeOfTag = "null" | "undefined" | "number" | "bigint" | "boolean" | "string" | "symbol" | "object" | "function";
+type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array | (typeof globalThis extends {
+    Float16Array: infer F;
+} ? F : never);
+type ClearCookiesOptions = {
+    path?: string | undefined;
+    domain?: string | undefined;
+    secure?: boolean | undefined;
+    SameSite?: string | undefined;
+    HttpOnly?: boolean | undefined;
+};
 declare const BASE16 = "0123456789ABCDEF";
 declare const BASE32 = "234567ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 declare const BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -15,7 +32,6 @@ declare const BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwx
 declare const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 declare const WORDSAFEALPHABET = "23456789CFGHJMPQRVWXcfghjmpqvwx";
 declare const isNonNullable: (value: unknown) => value is NonNullable<unknown>;
-type NonNullablePrimitive = number | boolean | string | symbol;
 declare const isNonNullablePrimitive: (value: unknown) => value is NonNullablePrimitive;
 declare const eq: (value1: unknown, value2: unknown) => boolean;
 declare function gt(value1: Comparable, value2: Comparable): boolean;
@@ -27,9 +43,9 @@ declare function once(fn: Function): Function;
 declare function curry(fn: Function): Function;
 declare const pipe: (...functions: Function[]) => Function;
 declare const compose: (...functions: Function[]) => Function;
-declare const pick: (obj: object, keys: string[]) => object;
-declare const omit: (obj: object, keys: string[]) => object;
-declare const assoc: (obj: object, property: string, value: unknown) => object;
+declare const pick: (obj: MapLike, keys: string[]) => MapLike;
+declare const omit: (obj: MapLike, keys: string[]) => MapLike;
+declare const assoc: (obj: MapLike, property: string, value: unknown) => MapLike;
 declare function asyncNoop(): Promise<void>;
 declare function asyncT(): Promise<boolean>;
 declare function asyncF(): Promise<boolean>;
@@ -92,9 +108,7 @@ declare const strHTMLUnEscape: (str: string) => string;
 declare const qsa: (str: string, context?: Document | HTMLElement) => any[];
 declare const qs: (str: string, context?: Document | Element) => HTMLElement | null;
 declare function domReady(fn: Function): void;
-declare function domCreate(elementType: string | {
-    [key: string]: any;
-}, properties: object, innerHTML: string): HTMLElement;
+declare function domCreate(elementType: string | MapLike, properties: object, innerHTML: string): HTMLElement;
 declare function domToElement(str: string): Element | null;
 declare const domGetCSS: (element: Element, property: string | number) => string | CSSStyleDeclaration;
 declare function domSetCSS(element: HTMLElement, property: string | object, value: string): void;
@@ -128,9 +142,7 @@ declare const domScrollToElement: (element: Element, top?: boolean) => void;
 declare const domClear: (element: Element) => void;
 declare function getText(url: string, successFn: Function): void;
 declare function getJson(url: string, successFn: Function): void;
-declare function ajax(options: {
-    [key: string]: any;
-}): void;
+declare function ajax(options: MapLike): void;
 declare function isTypedCollection(iter: IterableAndIterator, expectedType: string | Function | Array<string | Function>, Throw?: boolean): boolean;
 declare function is(value: any, expectedType?: string | Function | Array<string | Function> | undefined, Throw?: boolean): string | Function | boolean;
 declare function toObject(value: unknown): Object | symbol | Function;
@@ -142,7 +154,6 @@ declare const isIndex: (value: unknown) => value is number;
 declare const isLength: (value: unknown) => value is number;
 declare function toIndex(value: any): number;
 declare function toLength(value: any): number;
-type TypeOfTag = "null" | "undefined" | "number" | "bigint" | "boolean" | "string" | "symbol" | "object" | "function";
 declare const typeOf: (value: unknown) => TypeOfTag;
 declare const isSameType: (value1: any, value2: any) => boolean;
 declare const isSameInstance: (value1: any, value2: any, Contructor: Function) => boolean;
@@ -161,38 +172,22 @@ declare const isCallable: (value: any) => boolean;
 declare function isArraylike(value: unknown): value is ArrayLike;
 declare const isNull: (value: unknown) => value is null;
 declare const isUndefined: (value: unknown) => value is undefined;
-type Nullish = undefined | null;
 declare const isNullish: (value: unknown) => value is Nullish;
-type Primitive = null | undefined | number | bigint | boolean | string | symbol;
 declare const isPrimitive: (value: unknown) => value is Primitive;
-declare const isIterator: (value: any) => boolean;
+declare const isIterator: (value: unknown) => value is Iterator<any>;
 declare const isRegexp: (value: unknown) => value is RegExp;
 declare const isElement: (value: any) => boolean;
-declare const isIterable: (value: any) => boolean;
+declare const isIterable: (value: unknown) => value is Iterable<any>;
 declare const isAsyncIterable: (value: unknown) => boolean;
-type TypedArray = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array | (typeof globalThis extends {
-    Float16Array: infer F;
-} ? F : never);
 declare function isTypedArray(value: unknown): value is TypedArray;
 declare const isGeneratorFn: (value: unknown) => boolean;
 declare const isAsyncFn: (value: unknown) => boolean;
-declare function setCookie(name: string | {
-    [key: string]: any;
-}, value: string, hours: number | undefined, path: string | undefined, domain: string, secure: boolean, SameSite: string | undefined, HttpOnly: boolean): void;
+declare function setCookie(name: string | MapLike, value: string, hours: number | undefined, path: string | undefined, domain: string, secure: boolean, SameSite: string | undefined, HttpOnly: boolean): void;
 declare function getCookie(name?: string | undefined): {
     [key: string]: string;
 } | string | null;
 declare const hasCookie: (name: string) => boolean;
-declare function removeCookie(name: string | {
-    [key: string]: any;
-}, path: string | undefined, domain: string, secure: boolean, SameSite: string | undefined, HttpOnly: boolean): boolean;
-type ClearCookiesOptions = {
-    path?: string | undefined;
-    domain?: string | undefined;
-    secure?: boolean | undefined;
-    SameSite?: string | undefined;
-    HttpOnly?: boolean | undefined;
-};
+declare function removeCookie(name: string | MapLike, path: string | undefined, domain: string, secure: boolean, SameSite: string | undefined, HttpOnly: boolean): boolean;
 declare function clearCookies(path?: string | ClearCookiesOptions, domain?: string, secure?: boolean, SameSite?: string | undefined, HttpOnly?: boolean): void;
 declare function castArray<T>(...args: [T] | []): T[];
 declare const compact: (iter: IterableAndIteratorAndArrayLike) => any[];
@@ -214,9 +209,7 @@ declare const arrayCycle: ([...array]: Iterable<any, void, undefined>, num?: num
 declare const arrayRange: (start?: number, end?: number, step?: number) => any[];
 declare function zip(...args: any[]): any[];
 declare const unzip: ([...array]: Iterable<any, void, undefined>) => any[];
-declare function zipObj([...array1]: Iterable<any, void, undefined>, [...array2]: Iterable<any, void, undefined>): {
-    [key: string]: any;
-};
+declare function zipObj([...array1]: Iterable<any, void, undefined>, [...array2]: Iterable<any, void, undefined>): MapLike;
 declare const arrayAdd: (array: any[], value: unknown) => boolean;
 declare function arrayClear(array: any[]): any[];
 declare function arrayRemove(array: any[], value: unknown, all?: boolean): boolean;
@@ -238,7 +231,7 @@ declare function slice(iter: IterableAndIterator, begin?: number, end?: number):
 declare function tail(iter: IterableAndIterator): IteratorReturn;
 declare function item(iter: IterableAndIterator, pos: number): any;
 declare function nth(iter: IterableAndIterator, pos: number): any;
-declare function size(iter: IterableAndIterator): number;
+declare function size(value: any): number;
 declare function first(iter: IterableAndIterator): any;
 declare function head(iter: IterableAndIterator): any;
 declare const last: ([...array]: Iterable<any, void, undefined>) => any;
@@ -260,6 +253,10 @@ declare function enumerate(iter: IterableAndIterator, offset?: number): Iterator
 declare function flat(iter: IterableAndIterator): IteratorReturn;
 declare function join(iter: IterableAndIterator, separator?: string): string;
 declare const withOut: ([...array]: Iterable<any, void, undefined>, [...filterValues]: Iterable<any, void, undefined>) => any[];
+declare function mod(dividend: number, divisor: number): number;
+declare function mod(dividend: bigint, divisor: bigint): bigint;
+declare function rem(dividend: number, divisor: number): number;
+declare function rem(dividend: bigint, divisor: bigint): bigint;
 declare const isFloat: (value: unknown) => boolean;
 declare function toInteger(value: any): number;
 declare const toIntegerOrInfinity: (value: unknown) => number;
@@ -313,9 +310,9 @@ declare const _default: {
     curry: typeof curry;
     pipe: (...functions: Function[]) => Function;
     compose: (...functions: Function[]) => Function;
-    pick: (obj: object, keys: string[]) => object;
-    omit: (obj: object, keys: string[]) => object;
-    assoc: (obj: object, property: string, value: unknown) => object;
+    pick: (obj: MapLike, keys: string[]) => MapLike;
+    omit: (obj: MapLike, keys: string[]) => MapLike;
+    assoc: (obj: MapLike, property: string, value: unknown) => MapLike;
     asyncNoop: typeof asyncNoop;
     asyncT: typeof asyncT;
     asyncF: typeof asyncF;
@@ -444,10 +441,10 @@ declare const _default: {
     isUndefined: (value: unknown) => value is undefined;
     isNullish: (value: unknown) => value is Nullish;
     isPrimitive: (value: unknown) => value is Primitive;
-    isIterator: (value: any) => boolean;
+    isIterator: (value: unknown) => value is Iterator<any>;
     isRegexp: (value: unknown) => value is RegExp;
     isElement: (value: any) => boolean;
-    isIterable: (value: any) => boolean;
+    isIterable: (value: unknown) => value is Iterable<any>;
     isAsyncIterable: (value: unknown) => boolean;
     isTypedArray: typeof isTypedArray;
     isGeneratorFn: (value: unknown) => boolean;
@@ -521,6 +518,8 @@ declare const _default: {
     flat: typeof flat;
     join: typeof join;
     withOut: ([...array]: Iterable<any, void, undefined>, [...filterValues]: Iterable<any, void, undefined>) => any[];
+    mod: typeof mod;
+    rem: typeof rem;
     isFloat: (value: unknown) => boolean;
     toInteger: typeof toInteger;
     toIntegerOrInfinity: (value: unknown) => number;
@@ -556,5 +555,5 @@ declare const _default: {
     inRange: (value: number, min: number, max: number) => boolean;
 };
 export default _default;
-export { VERSION, BASE16, BASE32, BASE36, BASE58, BASE62, WORDSAFEALPHABET, isNonNullable, isNonNullablePrimitive, eq, gt, gte, lt, lte, tap, once, curry, pipe, compose, pick, omit, assoc, asyncNoop, asyncT, asyncF, asyncConstant, asyncIdentity, deleteOwnProperty, createPolyfillMethod, createPolyfillProperty, randomUUIDv7, delay, randomBoolean, getUrlVars, obj2string, extend, sizeIn, unBind, bind, constant, identity, noop, T, F, nanoid, timestampID, assertIs, assertIsNot, assertFail, assertMatch, assertDoesNotMatch, assertThrows, assertIsNotNullish, assertIsNullish, assert, assertTrue, assertFalse, assertEqual, assertStrictEqual, assertNotEqual, assertNotStrictEqual, assertDeepEqual, assertNotDeepStrictEqual, assertNotDeepEqual, assertDeepStrictEqual, b64Encode, b64Decode, strTruncate, strPropercase, strTitlecase, strCapitalize, strUpFirst, strDownFirst, strReverse, strCodePoints, strFromCodePoints, strAt, strSplice, strHTMLRemoveTags, strHTMLEscape, strHTMLUnEscape, qsa, qs, domReady, domCreate, domToElement, domGetCSS, domSetCSS, domFadeIn, domFadeOut, domFadeToggle, domHide, domShow, domToggle, domIsHidden, domSiblings, domSiblingsPrev, domSiblingsLeft, domSiblingsNext, domSiblingsRight, importScript, importStyle, form2array, form2string, getDoNotTrack, getLocation, createFile, getFullscreen, setFullscreenOn, setFullscreenOff, domGetCSSVar, domSetCSSVar, domScrollToTop, domScrollToBottom, domScrollToElement, domClear, getText, getJson, ajax, isTypedCollection, is, toObject, toPrimitiveValue, toSafeString, isPropertyKey, toPropertyKey, isIndex, isLength, toIndex, toLength, typeOf, isSameType, isSameInstance, isCoercedObject, isDeepStrictEqual, isEmptyValue, isProxy, isAsyncGeneratorFn, isClass, isPlainObject, isChar, isNumeric, isObject, isFunction, isCallable, isArraylike, isNull, isUndefined, isNullish, isPrimitive, isIterator, isRegexp, isElement, isIterable, isAsyncIterable, isTypedArray, isGeneratorFn, isAsyncFn, setCookie, getCookie, hasCookie, removeCookie, clearCookies, castArray, compact, unique, count, arrayDeepClone, initial, shuffle, partition, setUnion, setIntersection, setDifference, setSymmetricDifference, isSuperset, min, max, arrayRepeat, arrayCycle, arrayRange, zip, unzip, zipObj, arrayAdd, arrayClear, arrayRemove, arrayRemoveBy, arrayMerge, iterRange, iterCycle, iterRepeat, takeWhile, dropWhile, take, drop, forEach, forEachRight, map, filter, reject, slice, tail, item, nth, size, first, head, last, reverse, sort, includes, find, findLast, every, some, none, takeRight, takeRightWhile, dropRight, dropRightWhile, concat, reduce, enumerate, flat, join, withOut, isFloat, toInteger, toIntegerOrInfinity, sum, avg, product, clamp, minmax, isEven, isOdd, toInt8, toUInt8, toInt16, toUInt16, toInt32, toUInt32, toBigInt64, toBigUInt64, toFloat32, isInt8, isUInt8, isInt16, isUInt16, isInt32, isUInt32, isBigInt64, isBigUInt64, toFloat16, isFloat16, signbit, randomInt, randomFloat, inRange };
+export { VERSION, BASE16, BASE32, BASE36, BASE58, BASE62, WORDSAFEALPHABET, isNonNullable, isNonNullablePrimitive, eq, gt, gte, lt, lte, tap, once, curry, pipe, compose, pick, omit, assoc, asyncNoop, asyncT, asyncF, asyncConstant, asyncIdentity, deleteOwnProperty, createPolyfillMethod, createPolyfillProperty, randomUUIDv7, delay, randomBoolean, getUrlVars, obj2string, extend, sizeIn, unBind, bind, constant, identity, noop, T, F, nanoid, timestampID, assertIs, assertIsNot, assertFail, assertMatch, assertDoesNotMatch, assertThrows, assertIsNotNullish, assertIsNullish, assert, assertTrue, assertFalse, assertEqual, assertStrictEqual, assertNotEqual, assertNotStrictEqual, assertDeepEqual, assertNotDeepStrictEqual, assertNotDeepEqual, assertDeepStrictEqual, b64Encode, b64Decode, strTruncate, strPropercase, strTitlecase, strCapitalize, strUpFirst, strDownFirst, strReverse, strCodePoints, strFromCodePoints, strAt, strSplice, strHTMLRemoveTags, strHTMLEscape, strHTMLUnEscape, qsa, qs, domReady, domCreate, domToElement, domGetCSS, domSetCSS, domFadeIn, domFadeOut, domFadeToggle, domHide, domShow, domToggle, domIsHidden, domSiblings, domSiblingsPrev, domSiblingsLeft, domSiblingsNext, domSiblingsRight, importScript, importStyle, form2array, form2string, getDoNotTrack, getLocation, createFile, getFullscreen, setFullscreenOn, setFullscreenOff, domGetCSSVar, domSetCSSVar, domScrollToTop, domScrollToBottom, domScrollToElement, domClear, getText, getJson, ajax, isTypedCollection, is, toObject, toPrimitiveValue, toSafeString, isPropertyKey, toPropertyKey, isIndex, isLength, toIndex, toLength, typeOf, isSameType, isSameInstance, isCoercedObject, isDeepStrictEqual, isEmptyValue, isProxy, isAsyncGeneratorFn, isClass, isPlainObject, isChar, isNumeric, isObject, isFunction, isCallable, isArraylike, isNull, isUndefined, isNullish, isPrimitive, isIterator, isRegexp, isElement, isIterable, isAsyncIterable, isTypedArray, isGeneratorFn, isAsyncFn, setCookie, getCookie, hasCookie, removeCookie, clearCookies, castArray, compact, unique, count, arrayDeepClone, initial, shuffle, partition, setUnion, setIntersection, setDifference, setSymmetricDifference, isSuperset, min, max, arrayRepeat, arrayCycle, arrayRange, zip, unzip, zipObj, arrayAdd, arrayClear, arrayRemove, arrayRemoveBy, arrayMerge, iterRange, iterCycle, iterRepeat, takeWhile, dropWhile, take, drop, forEach, forEachRight, map, filter, reject, slice, tail, item, nth, size, first, head, last, reverse, sort, includes, find, findLast, every, some, none, takeRight, takeRightWhile, dropRight, dropRightWhile, concat, reduce, enumerate, flat, join, withOut, mod, rem, isFloat, toInteger, toIntegerOrInfinity, sum, avg, product, clamp, minmax, isEven, isOdd, toInt8, toUInt8, toInt16, toUInt16, toInt32, toUInt32, toBigInt64, toBigUInt64, toFloat32, isInt8, isUInt8, isInt16, isUInt16, isInt32, isUInt32, isBigInt64, isBigUInt64, toFloat16, isFloat16, signbit, randomInt, randomFloat, inRange };
 //# sourceMappingURL=celestra.browser.d.ts.map

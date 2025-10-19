@@ -10,34 +10,102 @@
 
 /**
  * @name Celestra
- * @version 6.1.1 node
+ * @version 6.1.2 node
  * @author Ferenc Czigler
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 
 
-const VERSION = "Celestra v6.1.1 node";
+const VERSION = "Celestra v6.1.2 node";
 
 
 /** TS types */
 
 
-/** @internal */
+/**
+ * @description Map-like object with string or symbol keys.
+ *
+ * @internal
+ * */
+type MapLike = { [key: string | symbol]: any };
+
+/**
+ * @description Array-like object.
+ *
+ * @internal
+ * */
 type ArrayLike = { length: number; [n: number]: any; };
 /* interface ArrayLike<T> { length: number; [n: number]: T; }; */
 
-/** @internal */
+/**
+ * @description Set-like object.
+ *
+ * @internal
+ * */
+/*
+type SetLike<T> ={
+  readonly size: number;
+  has(value: T): boolean;
+};
+*/
+
+/**
+ * @description Number-like object.
+ *
+ * @internal
+ * */
+type NumberLike = number | bigint;
+
+/**
+ * @description Iterable and Iterator types.
+ *
+ * @internal
+ */
 type IterableAndIterator =
   Iterable<any> | Iterator<any> | IterableIterator<any>;
 
-/** @internal */
+/**
+ * @description Iterable and Iterator and Array-like types.
+ *
+ * @internal
+ */
 type IterableAndIteratorAndArrayLike =
   Iterable<any> | Iterator<any> | IterableIterator<any> | ArrayLike;
 
-/** @internal */
+/**
+ * @description Iterable and Iterator and Generator types.
+ *
+ * @internal
+ */
 type IteratorReturn =
   Iterable<any> | IteratorResult<any> | Generator<number, void, unknown>;
+
+/**
+ * @description Type for undefined and null values.
+ *
+ * @internal
+ */
+type Nullish = undefined | null;
+
+/*
+built-in type:
+type NonNullable = number | boolean | string | symbol | object | Function;
+*/
+
+/**
+ * @description Not null or undefined or object or function.
+ *
+ * @internal
+ */
+type NonNullablePrimitive = number | boolean | string | symbol;
+
+/**
+ * @description Not object or function.
+ *
+ * @internal
+ */
+type Primitive = null | undefined | number | bigint | boolean | string | symbol;
 
 /**
  * Generic comparable types.
@@ -46,11 +114,37 @@ type IteratorReturn =
  */
 type Comparable = number | bigint | string | boolean;
 
-/** @internal */
+/**
+ * @description Object key type.
+ *
+ * @internal
+ */
 type PropertyKey = string | symbol;
 
+/**
+ * @description Primitive types.
+ *
+ * @internal
+ */
+type TypeOfTag =
+  | "null" | "undefined"
+  | "number" | "bigint" | "boolean" | "string" | "symbol"
+  | "object" | "function";
 
+/**
+ * @description TypedArray types.
+ *
+ * @internal
+ */
+type TypedArray =
+  | Int8Array | Uint8Array | Uint8ClampedArray
+  | Int16Array | Uint16Array
+  | Int32Array | Uint32Array
+  | Float32Array | Float64Array
+  | BigInt64Array | BigUint64Array
+  | (typeof globalThis extends { Float16Array: infer F } ? F : never);
 
+  
 /** polyfills **/
 
 
@@ -356,10 +450,6 @@ const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const WORDSAFEALPHABET = "23456789CFGHJMPQRVWXcfghjmpqvwx"; /* 31 */
 
 
-/*
-built-in type:
-type NonNullable = number | boolean | string | symbol | object | Function;
-*/
 /* isNonNullable (value: unknown): boolean */
 /**
  * @description Checks if the given value is NonNullable (not null or undefined).
@@ -371,8 +461,6 @@ const isNonNullable = (value: unknown): value is NonNullable<unknown> =>
   value != null;
 
 
-/** @internal */
-type NonNullablePrimitive = number | boolean | string | symbol;
 /* isNonNullablePrimitive (value: unknown): boolean */
 /**
  * @description Checks if the given value is NonNullablePrimitive.
@@ -505,17 +593,16 @@ const compose = (...functions: Function[]): Function =>
 
 
 /* pick (object: object, keys: array): object */
-const pick = (obj: object, keys: string[]): object =>
-  keys.reduce(function (acc: { [key: string]: any }, key: string) {
-    // @ts-ignore
+const pick = (obj: MapLike, keys: string[]): MapLike =>
+  keys.reduce(function (acc: MapLike, key: string) {
     if (key in obj) { acc[key] = obj[key]; }
     return acc;
   }, {});
 
 
 /* omit (object: object, keys: array): object */
-const omit = (obj: object, keys: string[]): object =>
-  Object.keys(obj).reduce(function (acc: { [key: string]: any }, key: string) {
+const omit = (obj: MapLike, keys: string[]): MapLike =>
+  Object.keys(obj).reduce(function (acc: MapLike, key: string) {
     // @ts-ignore
     if (!keys.includes(key)) { acc[key] = obj[key]; }
     return acc;
@@ -523,7 +610,7 @@ const omit = (obj: object, keys: string[]): object =>
 
 
 /* assoc (object: object, key: string, value: unknown): object */
-const assoc = (obj: object, property: string, value: unknown): object =>
+const assoc = (obj: MapLike, property: string, value: unknown): MapLike =>
   ({...obj, [property]: value});
 
 
@@ -562,7 +649,7 @@ function deleteOwnProperty (
     delete obj[property];
     let result = Object.hasOwn(obj, property);
     if (result && Throw) {
-      throw new Error("Celestra.deleteOwnProperty(); error");
+      throw new Error("[deleteOwnProperty] error");
     }
     return +!result;
   }
@@ -755,7 +842,7 @@ function timestampID (
 }
 
 
-/** Assertion API **/
+/** Legacy Assertion API **/
 
 
 /* assertIs (
@@ -763,6 +850,7 @@ function timestampID (
     expected: string | Function | Array<string | Function> | undefined,
     message: string | error
   ): any | throw TypeError */
+/** @deprecated */
 function assertIs (
   value: any,
   expected: string | Function | Array<string | Function> | undefined,
@@ -815,7 +903,8 @@ function assertIs (
     expected: string | Function | Array<string | Function> | undefined,
     message: string | error
   ): any | throw TypeError */
-function assertIsNot (
+/** @deprecated */
+  function assertIsNot (
   value: any,
   expected: string | Function | Array<string | Function> | undefined,
   message?: any): any {
@@ -866,6 +955,7 @@ function assertIsNot (
 
 
 /* assertFail(message | error): thrown error */
+/** @deprecated */
 function assertFail (message?: any): void {
   if (Error.isError(message)) {
     throw message;
@@ -878,6 +968,7 @@ function assertFail (message?: any): void {
 
 
 /* assertMatch(string, regexp [, message | error]): true | thrown error */
+/** @deprecated */
 function assertMatch (string: string, regexp: RegExp, message?: any): boolean {
   if (typeof string !== "string") {
     if (Error.isError(message)) { throw message; }
@@ -905,6 +996,7 @@ function assertMatch (string: string, regexp: RegExp, message?: any): boolean {
 
 /* assertDoesNotMatch(string, regexp [, message | error]):
   true | thrown error */
+/** @deprecated */
 function assertDoesNotMatch(
   string: string,
   regexp: RegExp,
@@ -934,6 +1026,7 @@ function assertDoesNotMatch(
 
 
 /* assertThrows(callback: function [, message | error]): error | thrown error */
+/** @deprecated */
 function assertThrows (callback: Function, message?: any): any  {
   if (typeof callback !== "function") {
     throw new TypeError(
@@ -950,6 +1043,7 @@ function assertThrows (callback: Function, message?: any): any  {
 
 
 /* assertIsNotNullish(value: unknown [, message | error]): value | thrown error */
+/** @deprecated */
 function assertIsNotNullish (value: unknown, message?: any) {
   if (value == null) {
     if (Error.isError(message)) { throw message; }
@@ -963,6 +1057,7 @@ function assertIsNotNullish (value: unknown, message?: any) {
 
 
 /* assertIsNullish(value: unknown [, message | error]): value | thrown error */
+/** @deprecated */
 function assertIsNullish (value: unknown, message?: any): any  {
   if (value != null) {
     if (Error.isError(message)) { throw message; }
@@ -976,6 +1071,7 @@ function assertIsNullish (value: unknown, message?: any): any  {
 
 
 /* assert(value: unknown [, message | error]): true | thrown error */
+/** @deprecated */
 function assert (condition: any, message?: any): boolean {
   if (!condition) {
     if (Error.isError(message)) { throw message; }
@@ -988,6 +1084,7 @@ function assert (condition: any, message?: any): boolean {
 
 
 /* assertTrue(value: unknown [, message]): true | thrown error */
+/** @deprecated */
 function assertTrue (condition: any, message?: any): boolean {
   if (!condition) {
     if (Error.isError(message)) { throw message; }
@@ -1000,6 +1097,7 @@ function assertTrue (condition: any, message?: any): boolean {
 
 
 /* assertFalse(value: unknown [, message] | error): true | thrown error */
+/** @deprecated */
 function assertFalse (condition: any, message?: any): boolean {
   if (condition) {
     if (Error.isError(message)) { throw message; }
@@ -1013,6 +1111,7 @@ function assertFalse (condition: any, message?: any): boolean {
 
 /* assertEqual(value1: any, value2: any [, message | error]): true | thrown error */
 /* loose equality + NaN equality */
+/** @deprecated */
 function assertEqual (value1: any, value2: any, message?: any): boolean {
   if (!(value1 == value2 || (value1 !== value1 && value2 !== value2))) {
     if (Error.isError(message)) { throw message; }
@@ -1026,6 +1125,7 @@ function assertEqual (value1: any, value2: any, message?: any): boolean {
 
 /* assertStrictEqual(value1: any, value2: any [, message | error]): true | thrown error */
 /* SameValue equality */
+/** @deprecated */
 function assertStrictEqual (value1: any, value2: any, message?: any): boolean {
   if (!((value1 === value2)
     ? (value1 !== 0 || 1/value1 === 1/value2)
@@ -1041,6 +1141,7 @@ function assertStrictEqual (value1: any, value2: any, message?: any): boolean {
 
 /* assertNotEqual(value1: any, value2: any [, message | error]): true | thrown error */
 /* loose equality + NaN equality */
+/** @deprecated */
 function assertNotEqual (value1: any, value2: any, message?: any): boolean {
   if (value1 == value2 || (value1 !== value1 && value2 !== value2)) {
     if (Error.isError(message)) { throw message; }
@@ -1055,6 +1156,7 @@ function assertNotEqual (value1: any, value2: any, message?: any): boolean {
 /* assertNotStrictEqual(value1: any, value2: any [, message | error]):
   true | thrown error */
 /* SameValue equality */
+/** @deprecated */
 function assertNotStrictEqual (value1: any, value2: any, message?: any): boolean {
   if ((value1 === value2)
     ? (value1 !== 0 || 1/value1 === 1/value2)
@@ -1069,6 +1171,7 @@ function assertNotStrictEqual (value1: any, value2: any, message?: any): boolean
 
 
 /* assertDeepEqual(value1: any, value2: any [, message | error]): true | thrown error */
+/** @deprecated */
 function assertDeepEqual (value1: any, value2: any, message?: any): boolean {
   function _isDeepEqual (value1: any, value2: any): boolean {
     /* helper functions */
@@ -1083,9 +1186,7 @@ function assertDeepEqual (value1: any, value2: any, message?: any): boolean {
     /*const _classof = (value: any): string =>
       Object.prototype.toString.call(value).slice(8, -1).toLowerCase();*/
     const _ownKeys = (value: object): any[] =>
-      Object.getOwnPropertyNames(value)
-        // @ts-ignore
-        .concat(Object.getOwnPropertySymbols(value));
+      [...Object.getOwnPropertyNames(value), ...Object.getOwnPropertySymbols(value)];
     /* strict equality helper function */
     /* const _isEqual = (value1: any, value2: any): boolean => Object.is(value1, value2); */
     /* not strict equality helper function */
@@ -1219,6 +1320,7 @@ function assertDeepEqual (value1: any, value2: any, message?: any): boolean {
 
 /* assertNotDeepStrictEqual(value1: any, value2: any [, message | error]):
   true | throw error */
+/** @deprecated */
 function assertNotDeepStrictEqual (
   value1: any,
   value2: any,
@@ -1236,10 +1338,8 @@ function assertNotDeepStrictEqual (
       (value1 instanceof Class) && (value2 instanceof Class);
     const _classof = (value: any): string =>
       Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
-    const _ownKeys = (value: object): any[] =>
-      Object.getOwnPropertyNames(value)
-        // @ts-ignore
-        .concat(Object.getOwnPropertySymbols(value));
+     const _ownKeys = (value: object): any[] =>
+      [...Object.getOwnPropertyNames(value), ...Object.getOwnPropertySymbols(value)];
     /* strict equality helper function */
     const _isEqual = (value1: any, value2: any): boolean =>
       Object.is(value1, value2);
@@ -1398,6 +1498,7 @@ function assertNotDeepStrictEqual (
 
 /* assertNotDeepEqual(value1: any, value2: any [, message | error]):
   true | thrown error */
+/** @deprecated */
 function assertNotDeepEqual (
   value1: any,
   value2: any,
@@ -1415,9 +1516,7 @@ function assertNotDeepEqual (
     /*const _classof = (value: any): string =>
       Object.prototype.toString.call(value).slice(8, -1).toLowerCase();*/
     const _ownKeys = (value: object): any[] =>
-      Object.getOwnPropertyNames(value)
-        // @ts-ignore
-        .concat(Object.getOwnPropertySymbols(value));
+      [...Object.getOwnPropertyNames(value), ...Object.getOwnPropertySymbols(value)];
     /* strict equality helper function */
     /* const _isEqual = (value1, value2): boolean => Object.is(value1, value2); */
     /* not strict equality helper function */
@@ -1551,6 +1650,7 @@ function assertNotDeepEqual (
 
 /* assertDeepStrictEqual(value1: any, value2: any [, message | error]):
   true | thrown error */
+/** @deprecated */
 function assertDeepStrictEqual (
   value1: any,
   value2: any,
@@ -1571,9 +1671,7 @@ function assertDeepStrictEqual (
     const _classof = (value: any): string =>
       Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
     const _ownKeys = (value: object): any[] =>
-      Object.getOwnPropertyNames(value)
-        // @ts-ignore
-        .concat(Object.getOwnPropertySymbols(value));
+      [...Object.getOwnPropertyNames(value), ...Object.getOwnPropertySymbols(value)];
     /* strict equality helper function */
     const _isEqual = (value1: any, value2: any): boolean =>
       Object.is(value1, value2);
@@ -1762,7 +1860,7 @@ function strTruncate (
 
 /* strPropercase(s: any): string */
 const strPropercase = (str: any): string =>
-  String(str).split(" ").map(function (value: string) {
+  String(str).trim().split(" ").map(function (value: string) {
     let chars = Array.from(value).map( (c: string): string => c.toLowerCase() );
     if (chars.length) { chars[0] = chars[0].toUpperCase(); }
     return chars.join("");
@@ -1771,7 +1869,7 @@ const strPropercase = (str: any): string =>
 
 /* strTitlecase(s: any): string */
 const strTitlecase = (str: any): string =>
-  String(str).split(" ").map(function (value: string) {
+  String(str).trim().split(" ").map(function (value: string) {
     let chars = Array.from(value).map( (c: string): string => c.toLowerCase() );
     if (chars.length) { chars[0] = chars[0].toUpperCase(); }
     return chars.join("");
@@ -1780,7 +1878,7 @@ const strTitlecase = (str: any): string =>
 
 /* strCapitalize(s: any): string */
 function strCapitalize (str: any): string {
-  let chars = [...String(str).toLowerCase()];
+  let chars = [...String(str).trim().toLowerCase()];
   if (chars.length) { chars[0] = chars[0].toUpperCase(); }
   return chars.join("");
 }
@@ -1788,7 +1886,7 @@ function strCapitalize (str: any): string {
 
 /* strUpFirst(s: any): string */
 function strUpFirst (str: any): string {
-  let chars = [...String(str)];
+  let chars = [...String(str).trim()];
   if (chars.length) { chars[0] = chars[0].toUpperCase(); }
   return chars.join("");
 }
@@ -1796,7 +1894,7 @@ function strUpFirst (str: any): string {
 
 /* strDownFirst(s: any): string */
 function strDownFirst (str: any): string {
-  let chars = [...String(str)];
+  let chars = [...String(str).trim()];
   if (chars.length) { chars[0] = chars[0].toLowerCase(); }
   return chars.join("");
 }
@@ -1837,19 +1935,22 @@ const strSplice = (str: string, index: number,count: number, ...add: any[]): str
 
 /* strHTMLRemoveTags(s: any): string */
 const strHTMLRemoveTags = (str: any): string =>
-  String(str).replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
+  String(str).trim().replace(/<[^>]*>/g, " ").replace(/\s{2,}/g, " ").trim();
 
 
 /* strHTMLEscape(str: any): string */
 const strHTMLEscape = (str: any): string =>
-  String(str).replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+  String(str).trim()
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 
 
 /* strHTMLUnEscape(s: any): string */
 const strHTMLUnEscape = (str: string): string =>
-  String(str)
+  String(str).trim()
     .replace(/&amp;/g, "&").replace(/&#38;/g, "&")
     .replace(/&lt;/g, "<").replace(/&#60;/g, "<")
     .replace(/&gt;/g, ">").replace(/&#62;/g, ">")
@@ -1992,7 +2093,7 @@ function is (
 /* toObject(value: unknown): object | symbol | Function | thrown error */
 function toObject (value: unknown): Object | symbol | Function {
   if (value == null) {
-    throw new TypeError("celestra.toObject(); error: " + value);
+    throw new TypeError("[toObject] error: " + value);
   }
   return (["object", "function"].includes(typeof value))
     ? value
@@ -2110,17 +2211,6 @@ function toLength (value: any): number {
 }
 
 
-/** @internal */
-type TypeOfTag =
-  | "null"
-  | "undefined"
-  | "number"
-  | "bigint"
-  | "boolean"
-  | "string"
-  | "symbol"
-  | "object"
-  | "function";
 /* typeOf(value: unknown): string */
 /**
  * Extended typeof operator with "null" type as string.
@@ -2178,10 +2268,8 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
     value1 instanceof Class && value2 instanceof Class;
   const _classof = (value: any): string =>
     Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
-  const _ownKeys = (value: object): any[] =>
-    Object.getOwnPropertyNames(value)
-      // @ts-ignore
-      .concat(Object.getOwnPropertySymbols(value));
+    const _ownKeys = (value: object): any[] =>
+      [...Object.getOwnPropertyNames(value), ...Object.getOwnPropertySymbols(value)];
   /* strict equality helper function */
   const _isEqual = (value1: any, value2: any): boolean =>
     Object.is(value1, value2);
@@ -2333,6 +2421,8 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
  * @returns boolean
  */
 function isEmptyValue (value: any): boolean {
+  const _isObject = (value: unknown): value is object =>
+    value != null && (typeof value === "object" || typeof value === "function");
   /**
    * Checks if a value is a TypedArray (Int8Array, etc.).
    *
@@ -2382,7 +2472,7 @@ function isEmptyValue (value: any): boolean {
     } catch { /* Not iterable */ }
   }
   /* Other objects - check own properties (including symbols) */
-  if (isObject(value)) {
+  if (_isObject(value)) {
     const keys: any[] = [
       ...Object.getOwnPropertyNames(value),
       ...Object.getOwnPropertySymbols(value)
@@ -2453,7 +2543,7 @@ const isObject = (value: unknown): value is object =>
  * @description Checks if the given value is a Function.
  *
  * @param {unknown} value - The value to check.
- * @returns True if the value is a string, false otherwise.
+ * @returns True if the value is a function, false otherwise.
  */
 const isFunction = (value: unknown): value is Function =>
   typeof value === "function";
@@ -2507,8 +2597,6 @@ const isUndefined = (value: unknown): value is undefined =>
 
 
 /* isNullish(value: unknown): boolean */
-/** @internal */
-type Nullish = undefined | null;
 /**
  * @description Checks if the given value is Nullish (null or undefined).
  * From MDN: The values null and undefined are nullish.
@@ -2520,8 +2608,6 @@ const isNullish = (value: unknown): value is Nullish => value == null;
 
 
 /* isPrimitive(value: unknown): boolean */
-/** @internal */
-type Primitive = null | undefined | number | bigint | boolean | string | symbol;
 /**
  * @description Checks if the given value is Primitive.
  *
@@ -2533,11 +2619,18 @@ const isPrimitive = (value: unknown): value is Primitive =>
 
 
 /* isIterator(value: unknown): boolean */
-const isIterator = (value: any): boolean =>
+/**
+ * Tests whether a value is an Iterator.
+ *
+ * @param {unknown} value The value to check.
+ * @return {boolean} Return true if value is an Iterator, false if not.
+ * @internal
+ */
+const isIterator = (value: unknown): value is Iterator<any> =>
   "Iterator" in globalThis
     ? value instanceof Iterator
     : (value != null && typeof value === "object"
-        && typeof value.next === "function");
+        && typeof (value as any).next === "function");
 
 
 /* isRegexp(value: unknown): boolean */
@@ -2550,24 +2643,22 @@ const isElement = (value: any): boolean =>
 
 
 /* isIterable(value: unknown): boolean */
-const isIterable = (value: any): boolean =>
-  value != null && typeof value[Symbol.iterator] === "function";
+/**
+ * Tests whether a value is an Iterable.
+ *
+ * @param {unknown} value The value to check.
+ * @return {boolean} Return true if value is an Iterable, false if not.
+ * @internal
+ */
+const isIterable = (value: unknown): value is Iterable<any> =>
+  value != null && typeof (value as any)[Symbol.iterator] === "function";
 
 
 /* isAsyncIterable(value: unknown): boolean */
 const isAsyncIterable = (value: unknown): boolean =>
-  // @ts-ignore
-  value != null && typeof value[Symbol.asyncIterator] === "function";
+  value != null && typeof (value as any)[Symbol.asyncIterator] === "function";
 
 
-/** @internal */
-type TypedArray =
-  | Int8Array | Uint8Array | Uint8ClampedArray
-  | Int16Array | Uint16Array
-  | Int32Array | Uint32Array
-  | Float32Array | Float64Array
-  | BigInt64Array | BigUint64Array
-  | (typeof globalThis extends { Float16Array: infer F } ? F : never);
 /* isTypedArray(value: unknown): boolean */
 /**
  * @description Checks if the given value is a TypedArray (Int8Array, etc.).
@@ -2782,8 +2873,8 @@ const unzip = ([...array]): any[] =>
 /* zipObj(iterator1: iterator, iterator2: iterator): object */
 function zipObj (
   [...array1],
-  [...array2]): { [key: string]: any } {
-  let result: { [key: string]: any } = {};
+  [...array2]): MapLike {
+  let result: MapLike = {};
   let length: number = Math.min(array1.length, array2.length);
   for (let index = 0; index < length; index++) {
     result[array1[index]] = array2[index];
@@ -3018,9 +3109,16 @@ function nth (iter: IterableAndIterator, pos: number): any {
 
 
 /* size(iterator: iterator): integer */
-function size (iter: IterableAndIterator): number {
+/**
+ * @description Return the size of the given value.
+ *
+ * @param {unknown} value - The value to check.
+ * @returns {number} The size of the given value.
+ */
+function size (value: any): number {
+  if (typeof value.size === "number") { return value.size; }
   let index: number = 0;
-  for (let _item of iter as Iterable<any>) { index++; }
+  for (let _item of value as Iterable<any>) { index++; }
   return index;
 }
 
@@ -3297,6 +3395,83 @@ const withOut = ([...array], [...filterValues]): any[] =>
 /** Math API **/
 
 
+/* function mod(dividend: number | bigint, divisor: number | bigint): number | bigint; */
+/**
+ * @description Performs integer division type safely. Works for both `number` and `bigint` values.
+ * `dividend / divisor = quotient + remainder`
+ *
+ * @throws {TypeError} If types mismatch.
+ * @throws {TypeError} If arguments are not both `number` or both `bigint`.
+ * @throws {RangeError} If divisor is zero.
+ * @returns {number | bigint} The result of the integer division.
+ */
+function mod(dividend: number, divisor: number): number;
+function mod(dividend: bigint, divisor: bigint): bigint;
+function mod(dividend: NumberLike, divisor: NumberLike): NumberLike {
+  const dividendType = typeof dividend;
+  /* Ensure both are the same primitive type */
+  if (dividendType !== typeof divisor) {
+    throw new TypeError(
+      "[mod] divisor and dividend must be the same type (both number or both bigint)"
+    );
+  }
+  /* Ensure both are number or bigint */
+  if (dividendType !== "number" && dividendType !== "bigint") {
+    throw new TypeError(
+      "[mod] divisor and dividend must be either both number or both bigint"
+    );
+  }
+  // Handle division by zero safely
+  if ((dividendType === "number" && divisor === 0)
+    || (dividendType === "bigint" && divisor === 0n)) {
+    throw new RangeError("[mod] divisor must not be zero");
+  }
+  /* Perform integer division depending on type */
+  return dividendType === "number"
+    ? Math.trunc((dividend as number) / (divisor as number))
+    /* bigint division automatically truncates */
+    : (dividend as bigint) / (divisor as bigint);
+}
+
+
+/* function rem(dividend: number | bigint, divisor: number | bigint): number | bigint; */
+/**
+ * @description Computes the integer remainder (modulus) type safely. Works for both `number` and `bigint` values.
+ * `dividend = divisor * quotient + remainder`
+ *
+ * @throws {TypeError} If types mismatch.
+ * @throws {TypeError} If arguments are not both `number` or both `bigint`.
+ * @throws {RangeError} If divisor is zero.
+ * @returns {number | bigint} The remainder of the integer division.
+ */
+function rem(dividend: number, divisor: number): number;
+function rem(dividend: bigint, divisor: bigint): bigint;
+function rem(dividend: NumberLike, divisor: NumberLike): NumberLike {
+  const dividendType = typeof dividend;
+  /* Ensure both are the same primitive type */
+  if (dividendType !== typeof divisor) {
+    throw new TypeError(
+      "[rem] divisor and dividend must be the same type (both number or both bigint)"
+    );
+  }
+  /* Ensure both are number or bigint */
+  if (dividendType !== "number" && dividendType !== "bigint") {
+    throw new TypeError(
+      "[rem] divisor and dividend must be either both number or both bigint"
+    );
+  }
+  // Handle division by zero safely
+  if ((dividendType === "number" && divisor === 0)
+    || (dividendType === "bigint" && divisor === 0n)) {
+    throw new RangeError("[rem] divisor must not be zero");
+  }
+  /* Perform remainder operation depending on type */
+  return dividendType === "number"
+    ? (dividend as number) % (divisor as number)
+    : (dividend as bigint) % (divisor as bigint);
+}
+
+
 /* isFloat(value: unknown): boolean */
 const isFloat = (value: unknown): boolean =>
   typeof value === "number" && value === value && !!(value % 1);
@@ -3357,13 +3532,13 @@ function clamp(
   if (value !== value) { return value; }
   if (min !== min || max !== max) {
     throw new RangeError(
-      "clamp(); RangeError: minimum and maximum should not to be NaN"
+      "[clamp] RangeError: minimum and maximum should not to be NaN"
     );
   }
   /* min > max -> throw RangeError */
   if (min > max) {
     throw new RangeError(
-      "clamp(); RangeError: minimum should be lower than maximum"
+      "[clamp] RangeError: minimum should be lower than maximum"
     );
   }
   /* clamp */
@@ -3393,13 +3568,13 @@ function minmax(
   if (value !== value) { return value; }
   if (min !== min || max !== max) {
     throw new RangeError(
-      "clamp(); RangeError: minimum and maximum should not to be NaN"
+      "[minmax] RangeError: minimum and maximum should not to be NaN"
     );
   }
   /* min > max -> throw RangeError */
   if (min > max) {
     throw new RangeError(
-      "clamp(); RangeError: minimum should be lower than maximum"
+      "[minmax] RangeError: minimum should be lower than maximum"
     );
   }
   /* clamp */
@@ -3626,7 +3801,7 @@ export default {
   F,
   nanoid,
   timestampID,
-  /** Assertion API **/
+  /** Legacy Assertion API **/
   assertIs,
   assertIsNot,
   assertFail,
@@ -3769,6 +3944,8 @@ export default {
   join,
   withOut,
   /** Math API **/
+  mod,
+  rem,
   isFloat,
   toInteger,
   toIntegerOrInfinity,
@@ -3854,7 +4031,7 @@ export {
   F,
   nanoid,
   timestampID,
-  /** Assertion API **/
+  /** Legacy Assertion API **/
   assertIs,
   assertIsNot,
   assertFail,
@@ -3997,6 +4174,8 @@ export {
   join,
   withOut,
   /** Math API **/
+  mod,
+  rem,
   isFloat,
   toInteger,
   toIntegerOrInfinity,
