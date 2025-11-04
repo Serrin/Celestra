@@ -10,14 +10,14 @@
 
 /**
  * @name Celestra
- * @version 6.1.2 node
+ * @version 6.2.0 node
  * @author Ferenc Czigler
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 
 
-const VERSION = "Celestra v6.1.2 node";
+const VERSION = "Celestra v6.2.0 node";
 
 
 /** TS types */
@@ -98,7 +98,7 @@ type NonNullable = number | boolean | string | symbol | object | Function;
  *
  * @internal
  */
-type NonNullablePrimitive = number | boolean | string | symbol;
+type NonNullablePrimitive = number | bigint | boolean | string | symbol;
 
 /**
  * @description Not object or function.
@@ -450,6 +450,25 @@ const BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const WORDSAFEALPHABET = "23456789CFGHJMPQRVWXcfghjmpqvwx"; /* 31 */
 
 
+/* assert(value: unknown [, message | error]): thrown error */
+/**
+ * @description Ensures that `condition` is truthy. Throws an `Error` if falsy.
+ *
+ * @param {unknown} condition The value to check.
+ * @param {unknown} [message] - Optional message or Error to throw.
+ * @throws {Error} If assertion is failed.
+ */
+function assert (condition: unknown, message?: unknown): asserts condition {
+  if (!condition) {
+    // @ts-ignore
+    if (Error.isError(message)) { throw message; }
+    let errorMessage =
+      `[assert] Assertion failed: ${condition} should be truly${message ? " - " + message : ""}`;
+    throw new Error(errorMessage, {cause: errorMessage});
+  }
+}
+
+
 /* isNonNullable (value: unknown): boolean */
 /**
  * @description Checks if the given value is NonNullable (not null or undefined).
@@ -648,9 +667,7 @@ function deleteOwnProperty (
     // @ts-ignore
     delete obj[property];
     let result = Object.hasOwn(obj, property);
-    if (result && Throw) {
-      throw new Error("[deleteOwnProperty] error");
-    }
+    if (result && Throw) { throw new Error("[deleteOwnProperty] error"); }
     return +!result;
   }
   return -1;
@@ -780,23 +797,50 @@ const unBind = (fn: Function): Function => Function.prototype.call.bind(fn);
 const bind = Function.prototype.call.bind(Function.prototype.bind);
 
 
-/* constant(value: unknown): any */
-const constant = (value: unknown): Function => (): any => value;
+/* constant(value: unknown): unknown */
+/**
+ * @description Returns a function that always returns the same value.
+ *
+ * @param {unknown} value
+ * @returns {unknown}
+ */
+const constant = <T,>(value: T): (() => T) => () => value;
 
 
 /* identity(value: unknown): any */
-const identity = (value: unknown): any => value;
+/**
+ * @description Returns value unchanged.
+ *
+ * @param {unknown} value
+ * @returns {unknown}
+ */
+const identity = <T,>(value: T): T => value;
 
 
 /* noop(): undefined */
+/**
+ * @description A function that does nothing.
+ *
+ * @returns {void}
+ */
 function noop (): void {}
 
 
 /* T(): true */
+/**
+ * @description Always returns true.
+ *
+ * @returns {true}
+ */
 const T = (): boolean => true;
 
 
 /* F(): false */
+/**
+ * @description Always returns false.
+ *
+ * @returns {false}
+ */
 const F = (): boolean => false;
 
 
@@ -1070,19 +1114,6 @@ function assertIsNullish (value: unknown, message?: any): any  {
 }
 
 
-/* assert(value: unknown [, message | error]): true | thrown error */
-/** @deprecated */
-function assert (condition: any, message?: any): boolean {
-  if (!condition) {
-    if (Error.isError(message)) { throw message; }
-    throw new Error(
-      "[assert] Assertion failed" + (message ? ": " + message : "")
-    );
-  }
-  return true;
-}
-
-
 /* assertTrue(value: unknown [, message]): true | thrown error */
 /** @deprecated */
 function assertTrue (condition: any, message?: any): boolean {
@@ -1228,7 +1259,7 @@ function assertDeepEqual (value1: any, value2: any, message?: any): boolean {
         || _isSameInstance(value1, value2, Uint32Array)
         || ("Float16Array" in globalThis ?
             _isSameInstance(value1, value2, Float16Array) : false
-           )
+          )
         || _isSameInstance(value1, value2, Float32Array)
         || _isSameInstance(value1, value2, Float64Array)
         || _isSameInstance(value1, value2, BigInt64Array)
@@ -1283,7 +1314,7 @@ function assertDeepEqual (value1: any, value2: any, message?: any): boolean {
           Object.getOwnPropertyNames(value1)
             .reduce((acc: Record<string, any>, k: string): object =>
               { acc[k] = value1[k]; return acc; }, {}
-           ),
+          ),
           Object.getOwnPropertyNames(value2)
             .reduce((acc: Record<string, any>, k: string): object =>
               { acc[k] = value2[k]; return acc; }, {}
@@ -1401,7 +1432,7 @@ function assertNotDeepStrictEqual (
         || _isSameInstance(value1, value2, Uint32Array)
         || ("Float16Array" in globalThis ?
             _isSameInstance(value1, value2, Float16Array) : false
-           )
+          )
         || _isSameInstance(value1, value2, Float32Array)
         || _isSameInstance(value1, value2, Float64Array)
         || _isSameInstance(value1, value2, BigInt64Array)
@@ -1558,7 +1589,7 @@ function assertNotDeepEqual (
         || _isSameInstance(value1, value2, Uint32Array)
         || ("Float16Array" in globalThis ?
             _isSameInstance(value1, value2, Float16Array) : false
-           )
+          )
         || _isSameInstance(value1, value2, Float32Array)
         || _isSameInstance(value1, value2, Float64Array)
         || _isSameInstance(value1, value2, BigInt64Array)
@@ -1675,9 +1706,6 @@ function assertDeepStrictEqual (
     /* strict equality helper function */
     const _isEqual = (value1: any, value2: any): boolean =>
       Object.is(value1, value2);
-    /* not strict equality helper function */
-    /* const _isEqual = (value1, value2): boolean =>
-      value1 == value2 || (value1 !== value1 && value2 !== value2); */
     /* primitives: Boolean, Number, BigInt, String + Function + Symbol */
     if (_isEqual(value1, value2)) { return true; }
     /* Object Wrappers (Boolean, Number, BigInt, String) */
@@ -1730,7 +1758,7 @@ function assertDeepStrictEqual (
         || _isSameInstance(value1, value2, Uint32Array)
         || ("Float16Array" in globalThis ?
             _isSameInstance(value1, value2, Float16Array) : false
-           )
+          )
         || _isSameInstance(value1, value2, Float32Array)
         || _isSameInstance(value1, value2, Float64Array)
         || _isSameInstance(value1, value2, BigInt64Array)
@@ -3474,7 +3502,7 @@ function rem(dividend: NumberLike, divisor: NumberLike): NumberLike {
 
 /* isFloat(value: unknown): boolean */
 const isFloat = (value: unknown): boolean =>
-  typeof value === "number" && value === value && !!(value % 1);
+  typeof value === "number" && value === value && Boolean(value % 1);
 
 
 /* toInteger(value: unknown): integer */
@@ -3762,6 +3790,7 @@ export default {
   BASE58,
   BASE62,
   WORDSAFEALPHABET,
+  assert,
   isNonNullable,
   isNonNullablePrimitive,
   eq,
@@ -3810,7 +3839,6 @@ export default {
   assertThrows,
   assertIsNotNullish,
   assertIsNullish,
-  assert,
   assertTrue,
   assertFalse,
   assertEqual,
@@ -3992,6 +4020,7 @@ export {
   BASE58,
   BASE62,
   WORDSAFEALPHABET,
+  assert,
   isNonNullable,
   isNonNullablePrimitive,
   eq,
@@ -4040,7 +4069,6 @@ export {
   assertThrows,
   assertIsNotNullish,
   assertIsNullish,
-  assert,
   assertTrue,
   assertFalse,
   assertEqual,
