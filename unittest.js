@@ -293,7 +293,7 @@ var /** @type any */ token12, /** @type any */ token13;
 var /** @type any */ token14, /** @type any */ token15;
 
 
-/* Celestra v6.3.0 testcases */
+/* Celestra v6.4.0 testcases */
 
 
 /** Not auto tested functions **/
@@ -1475,13 +1475,13 @@ CUT.isEqual("takeWhile(); 03", token2, 72);
 /* dropWhile(); */
 token1 = [0, 2, 4, 6, 8, 10, 12, 14, 16];
 token2 = 0;
-for (let item of CEL.dropWhile(token1, (e) => (e<10))) { token2 += item; }
+for (let item of CEL.dropWhile(token1, (e) => e < 10)) { token2 += item; }
 CUT.isEqual("dropWhile(); 01", token2, 52);
 token2 = 0;
-for (let item of CEL.dropWhile(token1, (e) => (e<30))) { token2 += item; }
+for (let item of CEL.dropWhile(token1, (e) => e < 30)) { token2 += item; }
 CUT.isEqual("dropWhile(); 02", token2, 0);
 token2 = 0;
-for (let item of CEL.dropWhile(token1, (e) => (e< 0))) { token2 += item; }
+for (let item of CEL.dropWhile(token1, (e) => e < 0)) { token2 += item; }
 CUT.isEqual("dropWhile(); 03", token2, 72);
 
 
@@ -1635,28 +1635,23 @@ CUT.isTrue("findLast();",
 
 
 /* every(); */
-CUT.isTrue("every();",
-      CEL.every([2, 9, 3, 5, 8], (v) => v > 1)
-  && !CEL.every([2, 9, 3, 5, 8], (v)=> v > 3)
-  && !CEL.every([2, 9, 3, 5, 8], (v) =>v < 0)
-  && !CEL.every([], (v) => v > 3)
-);
+CUT.isTrue("every(); 01", CEL.every([2, 9, 3, 5, 8], (v) => v > 1));
+CUT.isFalse("every(); 02", CEL.every([2, 9, 3, 5, 8], (v)=> v > 3));
+CUT.isFalse("every(); 03", CEL.every([2, 9, 3, 5, 8], (v) =>v < 0));
+CUT.isFalse("every(); 04",CEL.every([], (v) => v > 3));
+
 
 /* some(); */
-CUT.isTrue("some();",
-      CEL.some([2, 9, 3, 5, 8], (v) => v > 3)
-  && !CEL.some([2, 9, 3, 5, 8], (v) => v < 0)
-  && !CEL.some([], (v) => v < 0)
-);
+CUT.isTrue("some(); 01", CEL.some([2, 9, 3, 5, 8], (v) => v > 3));
+CUT.isFalse("some(); 02", CEL.some([2, 9, 3, 5, 8], (v) => v < 0));
+CUT.isFalse("some(); 03", CEL.some([], (v) => v < 0));
 
 
 /* none(); */
-CUT.isTrue("none();",
-      CEL.none([2, 9, 3, 5, 8], (v) => v < 0)
-  && !CEL.none([2, 9, 3, 5, 8], (v) => v > 1)
-  && !CEL.none([2, 9, 3, 5, 8], (v) => v > 3)
-  && !CEL.none([], (v) => v > 3)
-);
+CUT.isTrue("none(); 01", CEL.none([2, 9, 3, 5, 8], (v) => v < 0));
+CUT.isFalse("none(); 02", CEL.none([2, 9, 3, 5, 8], (v) => v > 1));
+CUT.isFalse("none(); 03", CEL.none([2, 9, 3, 5, 8], (v) => v > 3));
+CUT.isTrue("none(); 04", CEL.none([], (v) => v > 3));
 
 
 /* takeRight(); */
@@ -3682,13 +3677,28 @@ CUT.isTrue("signbit();",
 );
 
 
+/* divMod(); */
+CUT.isEqual("divMod(); 01", CEL.divMod(7, 3), 2);
+CUT.isEqual("divMod(); 02", CEL.divMod(-7, 3), -2);
+CUT.isEqual("divMod(); 03", CEL.divMod(-7, -3), 2);
+CUT.isEqual("divMod(); 04", CEL.divMod(7n, 3n), 2n);
+CUT.isEqual("divMod(); 05", CEL.divMod(-7n, 3n), -2n);
+CUT.isEqual("divMod(); 06", CEL.divMod(-7n, -3n), 2n);
+// @ts-ignore
+CUT.isError("divMod(); 07", () => CEL.divMod(10, 3n));
+// @ts-ignore
+CUT.isError("divMod(); 08", () => CEL.divMod(false, true));
+CUT.isError("divMod(); 09", () => CEL.divMod(3, 0));
+CUT.isError("divMod(); 10", () => CEL.divMod(3n, 0n));
+
+
 /* mod(); */
-CUT.isEqual("mod(); 01", CEL.mod(7, 3), 2);
-CUT.isEqual("mod(); 02", CEL.mod(-7, 3), -2);
-CUT.isEqual("mod(); 03", CEL.mod(-7, -3), 2);
-CUT.isEqual("mod(); 04", CEL.mod(7n, 3n), 2n);
-CUT.isEqual("mod(); 05", CEL.mod(-7n, 3n), -2n);
-CUT.isEqual("mod(); 06", CEL.mod(-7n, -3n), 2n);
+CUT.isEqual("mod(); 01", CEL.mod(7, 3), 1);
+CUT.isEqual("mod(); 02", CEL.mod(-7, 3), -1);
+CUT.isEqual("mod(); 03", CEL.mod(-7, -3), -1);
+CUT.isEqual("mod(); 04", CEL.mod(7n, 3n), 1n);
+CUT.isEqual("mod(); 05", CEL.mod(-7n, 3n), -1n);
+CUT.isEqual("mod(); 06", CEL.mod(-7n, -3n), -1n);
 // @ts-ignore
 CUT.isError("mod(); 07", () => CEL.mod(10, 3n));
 // @ts-ignore
@@ -3697,19 +3707,48 @@ CUT.isError("mod(); 09", () => CEL.mod(3, 0));
 CUT.isError("mod(); 10", () => CEL.mod(3n, 0n));
 
 
-/* rem(); */
-CUT.isEqual("rem(); 01", CEL.rem(7, 3), 1);
-CUT.isEqual("rem(); 02", CEL.rem(-7, 3), -1);
-CUT.isEqual("rem(); 03", CEL.rem(-7, -3), -1);
-CUT.isEqual("rem(); 04", CEL.rem(7n, 3n), 1n);
-CUT.isEqual("rem(); 05", CEL.rem(-7n, 3n), -1n);
-CUT.isEqual("rem(); 06", CEL.rem(-7n, -3n), -1n);
+/* add(); */
+CUT.isEqual("add(); 01", CEL.add(10, 5), 15);
+CUT.isEqual("add(); 02", CEL.add(-10, 5), -5);
+CUT.isEqual("add(); 03", CEL.add(10n, 5n), 15n);
+CUT.isEqual("add(); 04", CEL.add(-10n, 5n), -5n);
 // @ts-ignore
-CUT.isError("rem(); 07", () => CEL.rem(10, 3n));
+CUT.isError("add(); 05", () => CEL.add(10, 3n));
 // @ts-ignore
-CUT.isError("rem(); 08", () => CEL.rem(false, true));
-CUT.isError("rem(); 09", () => CEL.rem(3, 0));
-CUT.isError("rem(); 10", () => CEL.rem(3n, 0n));
+CUT.isError("add(); 06", () => CEL.add(false, true));
+
+
+/* sub(); */
+CUT.isEqual("sub(); 01", CEL.sub(10, 5), 5);
+CUT.isEqual("sub(); 02", CEL.sub(-10, 5), -15);
+CUT.isEqual("sub(); 03", CEL.sub(10n, 5n), 5n);
+CUT.isEqual("sub(); 04", CEL.sub(-10n, 5n), -15n);
+// @ts-ignore
+CUT.isError("sub(); 05", () => CEL.sub(10, 3n));
+// @ts-ignore
+CUT.isError("sub(); 06", () => CEL.sub(false, true));
+
+
+/* mul(); */
+CUT.isEqual("mul(); 01", CEL.mul(10, 5), 50);
+CUT.isEqual("mul(); 02", CEL.mul(-10, 5), -50);
+CUT.isEqual("mul(); 03", CEL.mul(10n, 5n), 50n);
+CUT.isEqual("mul(); 04", CEL.mul(-10n, 5n), -50n);
+// @ts-ignore
+CUT.isError("mul(); 05", () => CEL.mul(10, 3n));
+// @ts-ignore
+CUT.isError("mul(); 06", () => CEL.mul(false, true));
+
+
+/* div(); */
+CUT.isEqual("div(); 01", CEL.div(10, 5), 2);
+CUT.isEqual("div(); 02", CEL.div(-10, 5), -2);
+CUT.isEqual("div(); 03", CEL.div(10n, 5n), 2n);
+CUT.isEqual("div(); 04", CEL.div(-10n, 5n), -2n);
+// @ts-ignore
+CUT.isError("div(); 05", () => CEL.div(10, 3n));
+// @ts-ignore
+CUT.isError("div(); 06", () => CEL.div(false, true));
 
 
 /* clamp(); */

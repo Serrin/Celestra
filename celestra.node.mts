@@ -10,25 +10,26 @@
 
 /**
  * @name Celestra
- * @version 6.3.0 node
+ * @version 6.4.0 node
  * @author Ferenc Czigler
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 
 
-const VERSION = "Celestra v6.3.0 node";
+const VERSION = "Celestra v6.4.0 node";
 
 
 /** TS types */
 
 
 /**
- * @description Map-like object with string or symbol keys.
+ * @description Map-like object with string or number or symbol keys.
  *
  * @internal
  * */
-type MapLike = { [key: string | symbol]: any };
+type MapLike = {[key: string]: any; [key: number]: any; [key: symbol]: any; };
+
 
 /**
  * @description Array-like object.
@@ -144,7 +145,7 @@ type TypedArray =
   | BigInt64Array | BigUint64Array
   | (typeof globalThis extends { Float16Array: infer F } ? F : never);
 
-  
+
 /** polyfills **/
 
 
@@ -442,6 +443,7 @@ if (!globalThis.AsyncGeneratorFunction) {
 /** Core API **/
 
 
+/* Alphabet constans */
 const BASE16 = "0123456789ABCDEF";
 const BASE32 = "234567ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -629,8 +631,8 @@ const omit = (obj: MapLike, keys: string[]): MapLike =>
 
 
 /* assoc (object: object, key: string, value: unknown): object */
-const assoc = (obj: MapLike, property: string, value: unknown): MapLike =>
-  ({...obj, [property]: value});
+const assoc = (obj: MapLike, key: string, value: unknown): MapLike =>
+  ({...obj, [key]: value});
 
 
 /* asyncNoop (): Promise - do nothing */
@@ -748,37 +750,96 @@ const obj2string = (obj: object): string => Object.keys(obj).reduce(
 
 
 /* extend([deep: boolean,] target: object, source1: object[, sourceN]): object*/
-function extend (...args: Array<object | boolean>): object {
-  function _EXT (...args: Array<object | boolean>): object {
-    let targetObject: {};
-    let deep: boolean;
-    let start: number;
-    if (typeof args[0] === "boolean") {
-      targetObject = args[1], deep = args[0], start = 2;
-    } else {
-      targetObject = args[0], deep = false, start = 1;
-    }
-    for (let i: number = start, length: number = args.length,
-      sourceObject: object; i < length; i++) {
-      sourceObject = args[i] as object;
-      if (sourceObject != null) {
-        for (let key in sourceObject) {
-          if (Object.hasOwn(sourceObject, key)) {
-            // @ts-ignore
-            if (typeof sourceObject[key] === "object" && deep) {
-              // @ts-ignore
-              targetObject[key] = _EXT(true, {}, sourceObject[key]);
-            } else {
-              // @ts-ignore
-              targetObject[key] = sourceObject[key];
-            }
-          }
-        }
-      }
-    }
-    return targetObject;
+/**
+ * @description Deep assign of an object (Object, Array, etc.)
+ *
+ * @returns any
+ */
+function extend <T extends object, U extends object>(target: T, source: U): T & U;
+function extend <T extends object, U extends object, V extends object>(target: T, s1: U, s2: V): T & U & V;
+function extend <T extends object>(deep: true, target: T, ...sources: any[]): T;
+function extend <T extends object>(deep: false, target: T, ...sources: any[]): T;
+function extend (target: object, ...sources: any[]): object;
+function extend (...args: any[]): any {
+  /* Arguments checking */
+  let deep: boolean = false;
+  let target: any;
+  let i = 0;
+  if (args[0] === true) {
+    deep = true;
+    target = args[1] || {};
+    i = 2;
+  } else {
+    target = args[0] || {};
+    i = 1;
   }
-  return _EXT(...args);
+  /* Helper functions */
+  const _isPlainObject = (obj: any): obj is Record<string, any> =>
+    obj != null
+      && typeof obj === "object"
+      && (obj.constructor === Object || obj.constructor == null);
+  const _isDate = (value: any): value is Date => value instanceof Date;
+  const _isRegExp = (value: any): value is RegExp => value instanceof RegExp;
+  const _isMap = (value: any): value is Map<any, any> => value instanceof Map;
+  const _isSet = (value: any): value is Set<any> => value instanceof Set;
+  /*  */
+  function merge(target: any, source: any): any {
+    /* Identical or non-object -> direct assign */
+    if (Object.is(source, target) || source == null || typeof source !== "object") {
+      return source;
+    }
+    /* Date -> clone */
+    if (_isDate(source)) { return new Date(source.getTime()); }
+    /* RegExp -> clone */
+    if (_isRegExp(source)) { return new RegExp(source); }
+    /* Map -> deep merge entries */
+    if (_isMap(source)) {
+      if (!_isMap(target)) { target = new Map(); }
+      for (let [key, value] of source) {
+        const tv = target.get(key);
+        target.set(key, deep ? merge(tv, value) : value);
+      }
+      return target;
+    }
+    /* Set -> deep union */
+    if (_isSet(source)) {
+      if (!_isSet(target)) { target = new Set(); }
+      for (let item of source) {
+        if (deep) {
+          if (target.has(item)) { continue; }
+        }
+        target.add(item);
+      }
+      return target;
+    }
+    /* Array -> deep merge by index */
+    if (Array.isArray(source)) {
+      if (!Array.isArray(target)) { target = []; }
+      const srcLength = source.length;
+      for (let i = 0; i < srcLength; i++) {
+        let sv = source[i];
+        let tv = target[i];
+        target[i] = deep ? merge(tv, sv) : sv;
+      }
+      return target;
+    }
+    /* Plain object -> deep merge keys */
+    if (_isPlainObject(source)) {
+      if (!_isPlainObject(target)) { target = {}; }
+      for (let key in source) {
+        let sv = source[key];
+        let tv = target[key];
+        target[key] = deep ? merge(tv, sv) : sv;
+      }
+      return target;
+    }
+    /* Fallback: copy by reference */
+    return source;
+  }
+  /* Clone all sources */
+  const length = args.length;
+  for (; i < length; i++) { merge(target, args[i]); }
+  return target;
 }
 
 
@@ -1185,7 +1246,7 @@ function toPrimitiveValue (value: unknown): any {
  */
 function toSafeString (value: unknown): string {
   const seen = new WeakSet<object>();
-  const replacer = (_key: string, value: unknown): any => {
+  function replacer (_key: string, value: unknown): any {
     if (typeof value === "function") {
       return `[Function: ${value.name || "anonymous"}]`;
     }
@@ -1199,7 +1260,7 @@ function toSafeString (value: unknown): string {
       seen.add(value);
     }
     return value;
-  };
+  }
   if (["undefined", "null", "string", "number", "boolean", "bigint"]
     .includes(value === null ? "null" : typeof value)) {
     return String(value);
@@ -1334,7 +1395,8 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
   const _classof = (value: any): string =>
     Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
     const _ownKeys = (value: object): any[] =>
-      [...Object.getOwnPropertyNames(value), ...Object.getOwnPropertySymbols(value)];
+      [...Object.getOwnPropertyNames(value),
+        ...Object.getOwnPropertySymbols(value)];
   /* strict equality helper function */
   const _isEqual = (value1: any, value2: any): boolean =>
     Object.is(value1, value2);
@@ -1344,10 +1406,14 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
   /* primitives: Boolean, Number, BigInt, String + Function + Symbol */
   if (_isEqual(value1, value2)) { return true; }
   /* Object Wrappers (Boolean, Number, BigInt, String) */
-  if (_isObject(value1) && _isPrimitive(value2) && _classof(value1) === typeof value2) {
+  if (_isObject(value1)
+    && _isPrimitive(value2)
+    && _classof(value1) === typeof value2) {
     return _isEqual(value1.valueOf(), value2);
   }
-  if (_isPrimitive(value1) && _isObject(value2) && typeof value1 === _classof(value2)) {
+  if (_isPrimitive(value1)
+    && _isObject(value2)
+    && typeof value1 === _classof(value2)) {
     return _isEqual(value1, value2.valueOf());
   }
   /* type (primitives, object, null, NaN) */
@@ -1393,7 +1459,7 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
       || _isSameInstance(value1, value2, Uint32Array)
       || ("Float16Array" in globalThis ?
           _isSameInstance(value1, value2, Float16Array) : false
-         )
+        )
       || _isSameInstance(value1, value2, Float32Array)
       || _isSameInstance(value1, value2, Float64Array)
       || _isSameInstance(value1, value2, BigInt64Array)
@@ -1447,9 +1513,15 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
     if (_isSameInstance(value1, value2, Error)) {
       return isDeepStrictEqual(
         Object.getOwnPropertyNames(value1)
-          .reduce((acc: any, k: any): object => { acc[k] = value1[k]; return acc; }, {}),
+          .reduce(
+            (acc: any, k: any): object => { acc[k] = value1[k]; return acc; },
+            {}
+          ),
         Object.getOwnPropertyNames(value2)
-          .reduce((acc: any, k: any): object => { acc[k] = value2[k]; return acc; }, {})
+          .reduce(
+            (acc: any, k: any): object => { acc[k] = value2[k]; return acc; },
+            {}
+          )
       );
     }
     /* objects / Date */
@@ -1532,7 +1604,7 @@ function isEmptyValue (value: any): boolean {
       && typeof value.next === "function")) {
     try {
       /* Has at least one element */
-      for (const _ of value) { return false; }
+      for (let _ of value) { return false; }
       return true;
     } catch { /* Not iterable */ }
   }
@@ -1582,14 +1654,14 @@ const isPlainObject = (value: unknown): boolean =>
 
 /* isChar(value: unknown): boolean */
 const isChar = (value: unknown): boolean =>
-  typeof value === "string"
-    && (value.length === 1 || Array.from(value).length === 1);
+  typeof value === "string" && (value.length === 1 || [...value].length === 1);
 
 
 /* isNumeric(value: unknown): boolean */
 const isNumeric = (value: any): boolean =>
   ((typeof value === "number" || typeof value === "bigint") && value === value)
-    ? true : (!isNaN(parseFloat(value)) && isFinite(value));
+    ? true
+    : (!isNaN(parseFloat(value)) && isFinite(value));
 
 
 /* isObject(value: unknown): boolean */
@@ -1829,11 +1901,11 @@ function arrayDeepClone ([...array]): any[] {
 
 
 /* initial(iterator: iterator): array */
-const initial = ([...array]): any[] => array.slice(0, -1);
+const initial = ([...array]): unknown[] => array.slice(0, -1);
 
 
 /* shuffle(iterator: iterator): array */
-function shuffle([...array]): any[] {
+function shuffle ([...array]): unknown[] {
   for (let index = array.length - 1; index > 0; index--) {
     let pos = Math.floor(Math.random() * (index + 1));
     [array[index], array[pos]] = [array[pos], array[index]];
@@ -2021,66 +2093,119 @@ function* iterRange (
 /* iterCycle(iterator: iterator [, num = Infinity]): iterator */
 function* iterCycle ([...array], num: number = Infinity): IteratorReturn {
   let index: number = 0;
-  while (index < num) {
-    yield* array;
-    index++;
-  }
+  while (index++ < num) { yield* array; }
 }
 
 
 /* iterRepeat(value: unknown [, num: number = Infinity]): iterator */
 function* iterRepeat (value: unknown, num: number = Infinity): IteratorReturn {
   let index: number = 0;
-  while (index < num) {
-    yield value;
-    index++;
-  }
+  while (index++ < num) { yield value; }
 }
 
 
 /* takeWhile(iterator: iterator, callback: function): iterator */
-function* takeWhile (
-  iter: IterableAndIterator,
-  fn: Function): IteratorReturn {
-  for (let item of iter as Iterable<any>) {
-    if (!fn(item)) { break; }
-    yield item;
+/**
+ * Takes the elements from an iterable or iterator and returns a new iterator while the checking function returns true.
+ * @param iter - An iterable or iterator to take elements from.
+ * @param fn - Number of elements to take (default: 1).
+ */
+function* takeWhile <T>(iter: Iterable<T> | Iterator<T>, fn: Function): IterableIterator<T> {
+  let iterator: Iterator<T>;
+  // Normalize: if input is an iterator, use it directly; otherwise get an iterator
+  if (typeof (iter as Iterator<T>).next === 'function') {
+    iterator = iter as Iterator<T>;
+  } else {
+    iterator = (iter as Iterable<T>)[Symbol.iterator]();
+  }
+  /* Yield the elements */
+  while (true) {
+    const { value, done } = iterator.next();
+    if (done || !fn(value)) { break; }
+    yield value;
   }
 }
 
 
 /* dropWhile(iterator: iterator, callback: function): iterator */
-function* dropWhile (
-  iter: IterableAndIterator,
-  fn: Function): IteratorReturn {
-  let dropping: boolean = true;
-  for (let item of iter as Iterable<any>) {
-    if (dropping && !fn(item)) { dropping = false; }
-    if (!dropping) { yield item; }
+/**
+ * Take the elements from an iterable or iterator and returns a new iterator after the checking function returns false.
+ * @param iter - An iterable or iterator to take elements from.
+ * @param fn - Number of elements to take (default: 1).
+ */
+function* dropWhile <T>(iter: Iterable<T> | Iterator<T>, fn: Function): IterableIterator<T> {
+  let iterator: Iterator<T>;
+  // Normalize: if input is an iterator, use it directly; otherwise get an iterator
+  if (typeof (iter as Iterator<T>).next === 'function') {
+    iterator = iter as Iterator<T>;
+  } else {
+    iterator = (iter as Iterable<T>)[Symbol.iterator]();
+  }
+  /* Yield the elements */
+  let skip = true;
+  while (true) {
+    const { value, done } = iterator.next();
+    if (done) { break; }
+    if (skip) { skip = fn(value); }
+    if (!skip) { yield value; }
   }
 }
 
 
 /* take(iterator: iterator [, num: number = 1]): iterator */
-function* take (iter: IterableAndIterator, num: number = 1): IteratorReturn {
-  let index: number = num;
-  for (let item of iter as Iterable<any>) {
-    if (index <= 0) { break; }
-    yield item;
-    index--;
+/**
+ * Takes up to `num` elements from an iterable or iterator and returns a new iterator.
+ * @param iter - An iterable or iterator to take elements from.
+ * @param num - Number of elements to take (default: 1).
+ */
+function* take <T>(iter: Iterable<T> | Iterator<T>, num: number = 1): IterableIterator<T> {
+  if (num <= 0) return;
+  let iterator: Iterator<T>;
+  // Normalize: if input is an iterator, use it directly; otherwise get an iterator
+  if (typeof (iter as Iterator<T>).next === 'function') {
+    iterator = iter as Iterator<T>;
+  } else {
+    iterator = (iter as Iterable<T>)[Symbol.iterator]();
+  }
+  for (let i = 0; i < num; i++) {
+    const { value, done } = iterator.next();
+    if (done) { break };
+    yield value;
   }
 }
 
 
 /* drop(iterator: iterator [, num: number =1 ]): iterator */
-function* drop (iter: IterableAndIterator, num: number = 1): IteratorReturn {
-  let index: number = num;
-  for (let item of iter as Iterable<any>) {
-    if (index < 1) {
-      yield item;
-    } else {
-      index--;
-    }
+/**
+ * Skips the first `num` elements from an iterable or iterator and yields the rest.
+ * @param iter - An iterable or iterator to drop elements from.
+ * @param num - Number of elements to skip (default: 1).
+ */
+function* drop <T>(iter: Iterable<T> | Iterator<T>, num: number = 1): IterableIterator<T> {
+  if (num <= 0) {
+    /* If nothing to drop, just yield everything */
+    yield* (typeof (iter as Iterator<T>).next === 'function'
+      ? { [Symbol.iterator]: () => iter as Iterator<T> }
+      : (iter as Iterable<T>));
+    return;
+  }
+  let iterator: Iterator<T>;
+  /* Normalize: if input is an iterator, use it directly; otherwise get an iterator */
+  if (typeof (iter as Iterator<T>).next === 'function') {
+    iterator = iter as Iterator<T>;
+  } else {
+    iterator = (iter as Iterable<T>)[Symbol.iterator]();
+  }
+  /* Drop the first `num` elements */
+  for (let i = 0; i < num; i++) {
+    const { done } = iterator.next();
+    if (done) { return };
+  }
+  /* Yield the rest */
+  while (true) {
+    const { value, done } = iterator.next();
+    if (done) { break };
+    yield value;
   }
 }
 
@@ -2126,49 +2251,112 @@ function* reject (iter: IterableAndIterator, fn: Function): IteratorReturn {
 
 /* slice(iterator: iterator [, begin: number = 0 [, end: number = Infinity]]):
   iterator */
-function* slice (
-  iter: IterableAndIterator,
+/**
+ * Yields elements from `begin` (inclusive) up to `end` (exclusive) from an iterable or iterator.
+ * Works similarly to Array.prototype.slice.
+ * @param iter - Iterable or iterator to slice.
+ * @param begin - Start index (inclusive, default: 0).
+ * @param end - End index (exclusive, default: Infinity).
+ */
+function* slice <T>(
+  iter: Iterable<T> | Iterator<T>,
   begin: number = 0,
-  end: number = Infinity): IteratorReturn {
-  let index: number = 0;
-  for (let item of iter as Iterable<any>) {
-    if (index >= begin && index <= end) {
-      yield item;
-    } else if (index > end) {
-      return;
-    }
+  end: number = Infinity
+): IterableIterator<T> {
+  if (begin < 0) begin = 0;
+  if (end <= begin) { return; }
+  let iterator: Iterator<T>;
+  /* Normalize input: use iterator directly, or get one from iterable */
+  if (typeof (iter as Iterator<T>).next === 'function') {
+    iterator = iter as Iterator<T>;
+  } else {
+    iterator = (iter as Iterable<T>)[Symbol.iterator]();
+  }
+  let index = 0;
+  while (true) {
+    const { value, done } = iterator.next();
+    if (done) { break };
+    if (index >= begin && index <= end) { yield value; }
+    if (index > end - 1) break;
     index++;
   }
 }
 
 
 /* tail(iterator: iterator): iterator */
-function* tail (iter: IterableAndIterator): IteratorReturn {
-  let first: boolean = true;
-  for (let item of iter as Iterable<any>) {
-    if (!first) {
-      yield item;
-    } else {
-      first = false;
-    }
+/**
+ * Yields all elements of an iterable or iterator except the first one.
+ * Similar to Array.prototype.slice(1).
+ * @param input - Iterable or iterator to process.
+ */
+function* tail <T>(input: Iterable<T> | Iterator<T>): IterableIterator<T> {
+  let iterator: Iterator<T>;
+  /* Normalize: if input is already an iterator, use it directly */
+  if (typeof (input as Iterator<T>).next === 'function') {
+    iterator = input as Iterator<T>;
+  } else {
+    iterator = (input as Iterable<T>)[Symbol.iterator]();
+  }
+  /* Skip the first element */
+  const first = iterator.next();
+  if (first.done) { return; }
+  /* Yield the rest */
+  while (true) {
+    const { value, done } = iterator.next();
+    if (done) { break; }
+    yield value;
   }
 }
 
 
 /* item(iterator: iterator, index: integer): any */
-function item (iter: IterableAndIterator, pos: number): any {
-  let i: number = 0;
-  for (let item of iter as Iterable<any>) {
-    if (i++ === pos) { return item; }
+/**
+ * Returns the element at a specific position from an iterable or iterator.
+ * If the position is out of range, returns undefined.
+ * @param iter - Iterable or iterator to extract from.
+ * @param pos - Zero-based index of the desired element.
+ */
+function item <T>(iter: Iterable<T> | Iterator<T>, pos: number): T | undefined {
+  if (pos < 0) { return undefined; }
+  let iterator: Iterator<T>;
+  /* Normalize input: use iterator directly or create one from iterable */
+  if (typeof (iter as Iterator<T>).next === "function") {
+    iterator = iter as Iterator<T>;
+  } else {
+    iterator = (iter as Iterable<T>)[Symbol.iterator]();
+  }
+  let index = 0;
+  while (true) {
+    const { value, done } = iterator.next();
+    if (done) { return undefined; }
+    if (index === pos) { return value; }
+    index++;
   }
 }
 
 
 /* nth(iterator: iterator, index: integer): any */
-function nth (iter: IterableAndIterator, pos: number): any {
-  let i: number = 0;
-  for (let item of iter as Iterable<any>) {
-    if (i++ === pos) { return item; }
+/**
+ * Returns the element at a specific position from an iterable or iterator.
+ * If the position is out of range, returns undefined.
+ * @param iter - Iterable or iterator to extract from.
+ * @param pos - Zero-based index of the desired element.
+ */
+function nth <T>(iter: Iterable<T> | Iterator<T>, pos: number): T | undefined {
+  if (pos < 0) { return undefined; }
+  let iterator: Iterator<T>;
+  /* Normalize input: use iterator directly or create one from iterable */
+  if (typeof (iter as Iterator<T>).next === "function") {
+    iterator = iter as Iterator<T>;
+  } else {
+    iterator = (iter as Iterable<T>)[Symbol.iterator]();
+  }
+  let index = 0;
+  while (true) {
+    const { value, done } = iterator.next();
+    if (done) { return undefined; }
+    if (index === pos) { return value; }
+    index++;
   }
 }
 
@@ -2181,27 +2369,67 @@ function nth (iter: IterableAndIterator, pos: number): any {
  * @returns {number} The size of the given value.
  */
 function size (value: any): number {
+  /* Check Array */
+  if (Array.isArray(value)) { return value.length; }
+  /* Check Map and Set */
+  if (value instanceof Map || value instanceof Set) { return value.size; }
+  /* Check ArrayBuffer and DataView */
+  if (value instanceof ArrayBuffer || value instanceof DataView) {
+    return value.byteLength;
+  }
+  /* Other objects with size property */
   if (typeof value.size === "number") { return value.size; }
+  /* Check Iterable objects */
+  let iterator: IterableAndIterator;
+  /* Normalize input: use iterator directly or create one from iterable */
+  if (typeof (value as Iterator<unknown>).next === "function") {
+    iterator = value as Iterator<unknown>;
+  } else {
+    iterator = (value as Iterable<unknown>)[Symbol.iterator]();
+  }
   let index: number = 0;
-  for (let _item of value as Iterable<any>) { index++; }
+  for (let _item of iterator as any) { index++; }
   return index;
 }
 
 
 /* first(iterator: iterator): any */
+/*
 function first (iter: IterableAndIterator): any {
   for (let item of iter as Iterable<any>) { return item; }
+}
+*/
+function first <T>(input: Iterable<T> | Iterator<T>): T | undefined {
+  let iterator: Iterator<T>;
+  /* If input is already an iterator, use it directly */
+  if (typeof (input as Iterator<T>).next === 'function') {
+    iterator = input as Iterator<T>;
+  } else {
+    /* Otherwise, get an iterator from the iterable */
+    iterator = (input as Iterable<T>)[Symbol.iterator]();
+  }
+  const result = iterator.next();
+  return result.done ? undefined : result.value;
 }
 
 
 /* head(iterator: iterator): any */
-function head (iter: IterableAndIterator): any {
-  for (let item of iter as Iterable<any>) { return item; }
+function head <T>(input: Iterable<T> | Iterator<T>): T | undefined {
+  let iterator: Iterator<T>;
+  /* If input is already an iterator, use it directly */
+  if (typeof (input as Iterator<T>).next === 'function') {
+    iterator = input as Iterator<T>;
+  } else {
+    /* Otherwise, get an iterator from the iterable */
+    iterator = (input as Iterable<T>)[Symbol.iterator]();
+  }
+  const result = iterator.next();
+  return result.done ? undefined : result.value;
 }
 
 
 /* last(iterator: iterator): any */
-const last = ([...array]): any => array[array.length - 1];
+const last = ([...array]): unknown => array[array.length - 1];
 
 
 /* reverse(iterator: iterator): iterator */
@@ -2261,31 +2489,32 @@ function includes (
   }
   /* Map */
   if (collection instanceof Map) {
-    for (const item of collection.keys()) {
-      if (_isEqual(item, value)) { return true; }
+    if ([...collection.keys()].findIndex((item) => _isEqual(item, value)) > -1) {
+      return true;
     }
-    for (const item of collection.values()) {
-      if (_isEqual(item, value)) { return true; }
+    if ([...collection.values()].findIndex((item) => _isEqual(item, value)) > -1) {
+      return true;
     }
     return false;
   }
   /* Iterator or Iterables (Array, Set, TypedArrays, other Iterables, etc.) */
   if (_isIterator(collection) || _isIterable(collection)) {
-    for (const item of collection) {
-      if (_isEqual(item, value)) { return true; }
+    if ([...collection].findIndex((item) => _isEqual(item, value)) > -1) {
+      return true;
     }
     return false;
   }
   /* Plain object or function */
   if (["object", "function"].includes(cType)) {
-    for (const item of Object.keys(collection)) {
-      if (_isEqual(item, value)) { return true; }
+    if (Object.keys(collection).findIndex((item) => _isEqual(item, value)) > -1) {
+      return true;
     }
-    for (const item of Object.values(collection)) {
-      if (_isEqual(item, value)) { return true; }
+    if (Object.values(collection).findIndex((item) => _isEqual(item, value)) > -1) {
+      return true;
     }
-    for (const item of Object.getOwnPropertySymbols(collection)) {
-      if (_isEqual(item, value)) { return true; }
+    if (Object.getOwnPropertySymbols(collection)
+      .findIndex((item) => _isEqual(item, value)) > -1) {
+      return true;
     }
     return false;
   }
@@ -2295,57 +2524,30 @@ function includes (
 
 
 /* find(iterator: iterator, callback: function): any */
-function find (iter: IterableAndIterator, fn: Function): any {
-  let index: number = 0;
-  for (let item of iter as Iterable<any>) {
-    if (fn(item, index++)) { return item; }
-  }
-}
+const find = ([...array], fn: Function): unknown =>
+  array.find((value, index) => fn(value, index));
 
 
 /* findLast(iterator: iterator, callback: function): any */
-function findLast (
-  iter: IterableAndIterator,
-  fn: Function): any {
-  let index: number = 0;
-  let result: any;
-  for (let item of iter as Iterable<any>) {
-    if (fn(item, index++)) { result = item; }
-  }
-  return result;
-}
+const findLast = ([...array], fn: Function): unknown =>
+  array.findLast((value, index) => fn(value, index));
 
 
 /* every(iterator: iterator, callback: function): boolean */
-function every (iter: IterableAndIterator, fn: Function): boolean {
-  let index: number = 0;
-  for (let item of iter as Iterable<any>) {
-    if (!fn(item, index++)) { return false; }
-  }
-  if (index === 0) { return false; }
-  return true;
-}
+const every = ([...array], fn: Function): boolean => array.length
+  ? array.every((value, index) => fn(value, index))
+  : false;
 
 
 /* some(iterator: iterator, callback: function): boolean */
-function some (iter: IterableAndIterator, fn: Function): boolean {
-  let index: number = 0;
-  for (let item of iter as Iterable<any>) {
-    if (fn(item, index++)) { return true; }
-  }
-  return false;
-}
+const some = ([...array], fn: Function): boolean => array.length
+  ? array.some((value, index) => fn(value, index))
+  : false;
 
 
 /* none(iterator: iterator, callback: function): boolean */
-function none (iter: IterableAndIterator, fn: Function): boolean {
-  let index: number = 0;
-  for (let item of iter as Iterable<any>) {
-    if (fn(item, index++)) { return false; }
-  }
-  if (index === 0) { return false; }
-  return true;
-}
+const none = ([...array], fn: Function): boolean =>
+  !array.some((value, index) => fn(value, index));
 
 
 /* takeRight(iterator: iterator [, num: number = 1]): array */
@@ -2355,13 +2557,12 @@ const takeRight = ([...array], num: number = 1): any[] =>
 
 /* takeRightWhile(iterator: iterator, callback: function): iterator */
 function* takeRightWhile ([...array], fn: Function): IteratorReturn {
-  let index: number = 0;
-  for (let item of array.reverse()) {
-    if (fn(item, index++)) {
-      yield item;
-    } else {
-      break;
-    }
+  if (!array.length) { return; }
+  let index = array.length;
+  while (index--) {
+    let item = array[index];
+    if (!fn(item, index)) { break; }
+    yield item;
   }
 }
 
@@ -2373,11 +2574,13 @@ const dropRight = ([...array], num: number = 1): any[] =>
 
 /* dropRightWhile(iterator: iterator, callback: function): iterator */
 function* dropRightWhile ([...array], fn: Function): IteratorReturn {
-  let dropping: boolean = true;
-  let index: number = 0;
-  for (let item of array.reverse()) {
-    if (dropping && !fn(item, index++)) { dropping = false; }
-    if (!dropping) { yield item; }
+  if (!array.length) { return; }
+  let index = array.length;
+  let skip = true;
+  while (index--) {
+    let item = array[index];
+    if (skip) { skip = fn(item, index); }
+    if (!skip) { yield item; }
   }
 }
 
@@ -2460,80 +2663,165 @@ const withOut = ([...array], [...filterValues]): any[] =>
 /** Math API **/
 
 
-/* function mod(dividend: number | bigint, divisor: number | bigint): number | bigint; */
 /**
- * @description Performs integer division type safely. Works for both `number` and `bigint` values.
- * `dividend / divisor = quotient + remainder`
+ * @description Adds two numbers or bigints.
  *
- * @throws {TypeError} If types mismatch.
- * @throws {TypeError} If arguments are not both `number` or both `bigint`.
- * @throws {RangeError} If divisor is zero.
- * @returns {number | bigint} The result of the integer division.
+ * @param {number | bigint} value1
+ * @param {number | bigint} value2
+ * @returns {number | bigint} The result of the operation.
+ * @throws {TypeError} If x and y are of mixed types.
  */
-function mod(dividend: number, divisor: number): number;
-function mod(dividend: bigint, divisor: bigint): bigint;
-function mod(dividend: NumberLike, divisor: NumberLike): NumberLike {
-  const dividendType = typeof dividend;
-  /* Ensure both are the same primitive type */
-  if (dividendType !== typeof divisor) {
+function add(value1: number, value2: number): number;
+function add(value1: bigint, value2: bigint): bigint;
+function add(value1: NumberLike, value2: NumberLike): NumberLike {
+  if (typeof value1 !== typeof value2
+    || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
-      "[mod] divisor and dividend must be the same type (both number or both bigint)"
+      `[add] Value1 and Value2 must be of the same type and either number or bigint. Got: ${typeof value1} and ${typeof value2}`
     );
   }
-  /* Ensure both are number or bigint */
-  if (dividendType !== "number" && dividendType !== "bigint") {
-    throw new TypeError(
-      "[mod] divisor and dividend must be either both number or both bigint"
-    );
+  if (typeof value1 === "number" && typeof value2 === "number") {
+    // @ts-ignore
+    return Math.sumPrecise([value1, value2]);
   }
-  // Handle division by zero safely
-  if ((dividendType === "number" && divisor === 0)
-    || (dividendType === "bigint" && divisor === 0n)) {
-    throw new RangeError("[mod] divisor must not be zero");
-  }
-  /* Perform integer division depending on type */
-  return dividendType === "number"
-    ? Math.trunc((dividend as number) / (divisor as number))
-    /* bigint division automatically truncates */
-    : (dividend as bigint) / (divisor as bigint);
+  return (value1 as bigint) + (value2 as bigint);
 }
 
 
-/* function rem(dividend: number | bigint, divisor: number | bigint): number | bigint; */
 /**
- * @description Computes the integer remainder (modulus) type safely. Works for both `number` and `bigint` values.
- * `dividend = divisor * quotient + remainder`
+ * @description Subtract two numbers or bigints.
  *
- * @throws {TypeError} If types mismatch.
- * @throws {TypeError} If arguments are not both `number` or both `bigint`.
- * @throws {RangeError} If divisor is zero.
- * @returns {number | bigint} The remainder of the integer division.
+ * @param {number | bigint} value1
+ * @param {number | bigint} value2
+ * @returns {number | bigint} The result of the operation.
+ * @throws {TypeError} If x and y are of mixed types.
  */
-function rem(dividend: number, divisor: number): number;
-function rem(dividend: bigint, divisor: bigint): bigint;
-function rem(dividend: NumberLike, divisor: NumberLike): NumberLike {
-  const dividendType = typeof dividend;
-  /* Ensure both are the same primitive type */
-  if (dividendType !== typeof divisor) {
+function sub(value1: number, value2: number): number;
+function sub(value1: bigint, value2: bigint): bigint;
+function sub(value1: NumberLike, value2: NumberLike): NumberLike {
+  if (typeof value1 !== typeof value2
+    || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
-      "[rem] divisor and dividend must be the same type (both number or both bigint)"
+      `[sub] Value1 and Value2 must be of the same type and either number or bigint. Got: ${typeof value1} and ${typeof value2}`
     );
   }
-  /* Ensure both are number or bigint */
-  if (dividendType !== "number" && dividendType !== "bigint") {
+  if (typeof value1 === "number" && typeof value2 === "number") {
+    // @ts-ignore
+    Math.sumPrecise([value1, -value2]);
+  }
+  return (value1 as bigint) - (value2 as bigint);
+}
+
+
+/**
+ * @description Multiply two numbers or bigints.
+ *
+ * @param {number | bigint} value1
+ * @param {number | bigint} value2
+ * @returns {number | bigint} The result of the operation.
+ * @throws {TypeError} If x and y are of mixed types.
+ */
+function mul(value1: number, value2: number): number;
+function mul(value1: bigint, value2: bigint): bigint;
+function mul(value1: NumberLike, value2: NumberLike): NumberLike {
+  if (typeof value1 !== typeof value2
+    || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
-      "[rem] divisor and dividend must be either both number or both bigint"
+      `[mul] Value1 and Value2 must be of the same type and either number or bigint. Got: ${typeof value1} and ${typeof value2}`
     );
   }
-  // Handle division by zero safely
-  if ((dividendType === "number" && divisor === 0)
-    || (dividendType === "bigint" && divisor === 0n)) {
-    throw new RangeError("[rem] divisor must not be zero");
+  if (typeof value1 === "number" && typeof value2 === "number") {
+    return value1 * value2;
   }
-  /* Perform remainder operation depending on type */
-  return dividendType === "number"
-    ? (dividend as number) % (divisor as number)
-    : (dividend as bigint) % (divisor as bigint);
+  return (value1 as bigint) * (value2 as bigint);
+}
+
+
+/**
+ * @description Divide two numbers or bigints.
+ *
+ * @param {number | bigint} value1
+ * @param {number | bigint} y
+ * @returns {number | bigint} The result of the operation.
+ * @throws {RangeError} If y is zero.
+ * @throws {TypeError} If x and y are of mixed types.
+ */
+function div(value1: number, value2: number): number;
+function div(value1: bigint, value2: bigint): bigint;
+function div(value1: NumberLike, value2: NumberLike): NumberLike {
+  if (typeof value1 !== typeof value2
+    || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
+    throw new TypeError(
+      `[div] Value1 and Value2 must be of the same type and either number or bigint. Got: ${typeof value1} and ${typeof value2}`
+    );
+  }
+  if (value2 === 0 || value2 === 0n) {
+    throw new RangeError("[div] Cannot divide by zero");
+  }
+  if (typeof value1 === "number" && typeof value2 === "number") {
+    return value1 / value2;
+  }
+  return (value1 as bigint) / (value2 as bigint);
+}
+
+
+/**
+ * @description Performs integer division of two numbers or bigints.
+ *
+ * @param {number | bigint} value1
+ * @param {number | bigint} value2
+ * @returns {number | bigint} The result of the operation.
+ * @throws {RangeError} If y is zero.
+ * @throws {TypeError} If x and y are of mixed types.
+ */
+function divMod(value1: number, value2: number): number;
+function divMod(value1: bigint, value2: bigint): bigint;
+function divMod(value1: NumberLike, value2: NumberLike): NumberLike {
+  if (typeof value1 !== typeof value2
+    || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
+    throw new TypeError(
+      `[divMod] Value1 and Value2 must be of the same type and either number or bigint. Got: ${typeof value1} and ${typeof value2}`
+    );
+  }
+  if (value2 === 0 || value2 === 0n) {
+    throw new RangeError("[divMod] Cannot divide by zero");
+  }
+  if (typeof value1 === "number" && typeof value2 === "number") {
+    return Math.trunc(value1 / value2);
+  }
+  return (value1 as bigint) / (value2 as bigint);
+}
+
+
+/*
+https://www.w3schools.com/js/js_arithmetic.asp
+% -> Modulus (Remainder)
+*/
+/**
+ * @description Remainder of division (modulus) of two numbers or bigints.
+ *
+ * @param {number | bigint} value1
+ * @param {number | bigint} value2
+ * @returns {number | bigint} The result of the operation.
+ * @throws {RangeError} If y is zero.
+ * @throws {TypeError} If x and y are of mixed types.
+ */
+function mod(value1: number, value2: number): number;
+function mod(value1: bigint, value2: bigint): bigint;
+function mod(value1: NumberLike, value2: NumberLike): NumberLike {
+  if (typeof value1 !== typeof value2
+    || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
+    throw new TypeError(
+      `[mod] Value1 and Value2 must be of the same type and either number or bigint. Got: ${typeof value1} and ${typeof value2}`
+    );
+  }
+  if (value2 === 0 || value2 === 0n) {
+    throw new RangeError("[mod] Cannot divide by zero");
+  }
+  if (typeof value1 === "number" && typeof value2 === "number") {
+    return Math.trunc(value1 % value2);
+  }
+  return (value1 as bigint) % (value2 as bigint);
 }
 
 
@@ -2828,8 +3116,6 @@ export default {
   BASE62,
   WORDSAFEALPHABET,
   assert,
-  isNonNullable,
-  isNonNullablePrimitive,
   eq,
   gt,
   gte,
@@ -2885,6 +3171,8 @@ export default {
   strHTMLEscape,
   strHTMLUnEscape,
   /** Type API **/
+  isNonNullable,
+  isNonNullablePrimitive,
   isTypedCollection,
   is,
   toObject,
@@ -2990,8 +3278,12 @@ export default {
   join,
   withOut,
   /** Math API **/
+  add,
+  sub,
+  mul,
+  div,
+  divMod,
   mod,
-  rem,
   isFloat,
   toInteger,
   toIntegerOrInfinity,
@@ -3039,8 +3331,6 @@ export {
   BASE62,
   WORDSAFEALPHABET,
   assert,
-  isNonNullable,
-  isNonNullablePrimitive,
   eq,
   gt,
   gte,
@@ -3096,6 +3386,8 @@ export {
   strHTMLEscape,
   strHTMLUnEscape,
   /** Type API **/
+  isNonNullable,
+  isNonNullablePrimitive,
   isTypedCollection,
   is,
   toObject,
@@ -3201,8 +3493,12 @@ export {
   join,
   withOut,
   /** Math API **/
+  add,
+  sub,
+  mul,
+  div,
+  divMod,
   mod,
-  rem,
   isFloat,
   toInteger,
   toIntegerOrInfinity,

@@ -12,9 +12,9 @@
 
 __A helper JavaScript library with useful functions and polyfills and zero dependencies.__
 
-Latest version: 6.3.0
+Latest version: 6.4.0
 
-Date: 2025-11-06T18:08:50.125Z
+Date: 2025-11-24T19:19:26.074Z
 
 __Tested on these environments:__
 
@@ -422,7 +422,7 @@ Name|Description
 `includes(iterator,value);`|__Stability: 4 - Stable.__<BR>This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. The collection and the value of the parameters are mandatory and the comparator is optional.<BR>The default comparasion is SameValueZero algorithm, but with the comparator (function) can be other solution. (e.g.: Object.is, which uses the SameValue algorithm).<BR>The collection can be: _String_ (uses the String#includes method), _String object_ (uses the String#includes method), _Map_, _Iterables_ (Array, Set, TypedArrays, other Iterables), _plain objects_, _functions_ (as object).<BR>The own keys, values, symbols are compared, example: `CEL.includes({"lorem": "ipsum","1": 0}, -0);` returns true.
 `initial(iterator);`|__Stability: 4 - Stable.__<BR>Returns an array with the values of the given iterator, but without the last value.<BR>__Example:__<BR>`CEL.initial([-5, 2, -9, 7, 34]);`<BR>-><BR>`[-5, 2, -9, 7]`
 `isSuperset(superCollection,subCollection);`|__Stability: 3 - Legacy and can get only fixes.__<BR>__Can be replaced with `Set.prototype.isSupersetOf();`.__<BR>This function determines whether the first provided iterator is superset of the second iterator. The parameters are mandatory. The return value is a boolean.
-`item(iterator,index);`|__Stability: 4 - Stable.__<BR>This function returns the item from the given iterator on the given index. the iterator parameter is mandatory. The index is mandatory and can be positive number (examples: 0 = the first item, 1 = the second item, 2 = the third item, etc.) Compatible with the Unicode strings.
+`item(iterator,index);`|__Stability: 4 - Stable.__<BR>TThis function returns the item from the given iterator on the given index. The iterator parameter is mandatory and has to be an iterator/iterable. The index is mandatory and can be a positive integer (examples: 0 = the first item, 1 = the second item, 2 = the third item, etc.) Compatible with the Unicode strings.
 `iterCycle(iter[,n=Infinity]);`|__Stability: 4 - Stable.__<BR>Yield the items of an iterator over and over. The iter parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity __Note: PLease don't use with infinite iterators!__
 `iterRange([start=0[,step=1[,end=Infinity]]]);`|__Stability: 4 - Stable.__<BR>Yield a range (counter) iterator. All of the parameters are optional. Default parameter values: start = 0, step = 1, end = Infinity.
 `iterRepeat(value[,n=Infinity]);`|__Stability: 4 - Stable.__<BR>Yield a value over and over. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = Infinity
@@ -466,8 +466,11 @@ The Ecmascript abstract functions are available in the [Zephyr library](https://
 
 Name|Description
 ----|-----------
+`add(value1,value2);`|__Stability: 4 - Stable.__<BR>Performs addition type safely. Works for both `number` and `bigint` values. All of the parameter is mandatory and can be both number or both bigint. The return value is `number` or `bigint`.
 `avg(value1[,valueN]);`|__Stability: 4 - Stable.__<BR>This function returns the average value from the parameter values.
-`clamp(value,min,max);`|__Stability: 4 - Stable.__<BR>If the given value is between the min and max values, then this function returns the value. If smaller then the min value, then the return value is the min. If greater then the max value, then the return value is the max. All of the parameters are mandatory and can be number or bigint and if not these types, then will be converted to number. The return value is number or bigint or throw a rangeerror, if the parameters are invalid.
+`clamp(value,min,max);`|__Stability: 4 - Stable.__<BR>If the given value is between the min and max values, then this function returns the value. If smaller then the min value, then the return value is the min. If greater then the max value, then the return value is the max. All of the parameters are mandatory and can be `number` or `bigint` and if not these types, then will be converted to number. The return value is `number` or `bigint` or throw a rangeerror, if the parameters are invalid.
+`div(value1,value2);`|__Stability: 4 - Stable.__<BR>Performs integer division type safely. Works for both `number` and `bigint` values. All of the parameter is mandatory and can be both number or both bigint. The return value is `number` or `bigint`.
+`divMod(value1,value2);`|__Stability: 4 - Stable.__<BR>Performs integer division type safely. Works for both `number` and `bigint` values. All of the parameter is mandatory and can be both number or both bigint. The return value is `number` or `bigint`.
 `inRange(value,min,max);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is between the min and max values. All of the parameters are mandatory and have to be number. The return value is boolean.
 `isEven(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an even number. The return value is boolean.
 `isBigInt64(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is a BigInt (Int64) value between -2^63 and 2^63 - 1. The return value is boolean.
@@ -482,14 +485,15 @@ Name|Description
 `isUInt32(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an integer between 0 and 4294967295. The return value is boolean.
 `isFloat16(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is a number between -65504 and 65504. The return value is boolean.
 `minmax(value,min,max);`|__Stability: 4 - Stable.__<BR>This is an alias of the `clamp(value,min,max);`.
-`mod(value1,value2);(value1[,valueN]);`|__Stability: 4 - Stable.__<BR>Performs integer division type safely. Works for both `number` and `bigint` values. All fof the parameter is mandatory and can be both number or both bigint. The return value is number or bigint.
+`mod(value1,value2);`|__Stability: 4 - Stable.__<BR>Computes the integer remainder (modulus) type safely. Works for both `number` and `bigint` values. All of the parameter is mandatory and can be both number or both bigint. The return value is `number` or `bigint`.
+`mul(value1,value2);`|__Stability: 4 - Stable.__<BR>Performs multiplication type safely. Works for both `number` and `bigint` values. All of the parameter is mandatory and can be both number or both bigint. The return value is `number` or `bigint`.
 `product(value1[,valueN]);`|__Stability: 4 - Stable.__<BR>This function returns the product value from the parameter values.
 `randomFloat([max]);`|__Stability: 4 - Stable.__<BR>Get a random float number value within 0 and max value. Without parameter the maximum value is 100.
 `randomFloat(min,max);`|__Stability: 4 - Stable.__<BR>Get a random float number value within min and max value.
 `randomInt([max]);`|__Stability: 4 - Stable.__<BR>Get a random integer number value within 0 and max value. Without parameter the maximum value is 100.
 `randomInt(min,max);`|__Stability: 4 - Stable.__<BR>Get a random integer number value within min and max value.
-`rem(value1,value2);`|__Stability: 4 - Stable.__<BR>Computes the integer remainder (modulus) type safely. Works for both `number` and `bigint` values. All fof the parameter is mandatory and can be both number or both bigint. The return value is number or bigint.
 `signbit(value);`|__Stability: 4 - Stable.__<BR>This function is based on this proposal:<BR>[https://github.com/tc39/proposal-Math.signbit](https://github.com/tc39/proposal-Math.signbit)<BR>`Returns whether the sign bit of x is set.`<BR>`If n is NaN, the result is false.`<BR>`If n is -0, the result is true.`<BR>`If n is negative, the result is true.`<BR>`Otherwise, the result is false.`<BR>The value parameter is mandatory.
+`sub(value1,value2);`|__Stability: 4 - Stable.__<BR>Performs subtraction type safely. Works for both `number` and `bigint` values. All of the parameter is mandatory and can be both number or both bigint. The return value is `number` or `bigint`. `bigint` values.
 `sum(value1>[,valueN]);`|__Stability: 4 - Stable.__<BR>This function returns the sum value from the parameter values.
 `toBigInt64(value);`|__Stability: 4 - Stable.__<BR>This function clamps ("minmax") the given value to BigInt (Int64) value (-2^63 to 2^63 - 1).
 `toBigUInt64(value);`|__Stability: 4 - Stable.__<BR>This function clamps ("minmax") the given value to unsigned BigInt (Int64) value (0 to 2^64 - 1).
