@@ -12,7 +12,7 @@
 
 __A helper JavaScript library with useful functions and polyfills and zero dependencies.__
 
-Latest version: 6.4.0
+Latest version: 6.4.1
 
 Date: 2025-11-24T19:19:26.074Z
 
