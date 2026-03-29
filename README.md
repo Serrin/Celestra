@@ -12,23 +12,24 @@
 
 __A helper JavaScript library with useful functions and polyfills and zero dependencies.__
 
-Latest version: 6.4.1
+Latest version: 6.4.2
 
-Date: 2025-11-24T19:19:26.074Z
+Date: 2026-03-29T15:18:23.853Z
 
 __Tested on these environments:__
 
 - Windows Firefox
 - Windows Chrome
 - Windows Edge
+- Windows Samsung Browser
 - iOS Safari
 - iOS Firefox
 - iOS Chrome
 - iOS Edge
 - Android Firefox
 - Android Chrome
-- Android Samsung Internet
 - Android Edge
+- Android Samsung Browser
 - Node.js (latest current, not LTS)
 - Deno (latest current, not LTS)
 
@@ -264,6 +265,7 @@ Name|Description
 `strAt(string,index[,newChar]);`|__Stability: 4 - Stable.__<BR>If the newchar is undefined, then returns the unicode character, which has to be on the given index in the string. The index can be negative value (`-1 -> last`). If the index is out of the string length, then the return value is an empty string. All of the parameters are mandatory and index has to be an integer.<BR>If the newChar is not undefined, then the indexed character will be replaced with the newChar and returns the modified string.
 `strCapitalize(string);`|__Stability: 4 - Stable.__<BR>This function is unicode compatible and converts the first character to uppercase and the other characters to lowercase. The string parameter is mandatory. The return value is a string.
 `strCodePoints(string);`|__Stability: 4 - Stable.__<BR>Returns the array of the unicode codepoints of characters of the given string. The string parameter is mandatory.
+`strCount(string, substring);`|__Stability: 4 - Stable.__<BR>Counts the occurrences of a substring in a string. All of the parameters are mandatory and have to be string.
 `strDownFirst(string);`|__Stability: 4 - Stable.__<BR>This function is unicode compatible and converts the first character to lowercase. The string parameter is mandatory. The return value is a string.
 `strFromCodePoints(iterable);`|__Stability: 4 - Stable.__<BR>Returns the joined string of the given unicode codepoints. The iterator parameter is mandatory.
 `strHTMLEscape(string);`|__Stability: 4 - Stable.__<BR>This function escapes these characters: `<`, `>`, `&`, `"`, `'`. The String parameter is mandatory. The return value is the escaped string.
@@ -333,7 +335,9 @@ Name|Description
 `is(value[,expectedType[,Throw=false]];`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value type or class is the given expectedType. The expectedType can be a type string, constructor function or an array of the type strings and constructors. If the Throw is true and the value is not matched with the expectedType, then a TypeError will be thrown with detailed error message. The return value is boolean or the type or constructor of the value.
 `isTypedCollection(iter, expectedType, Throw = false);`|__Stability: 4 - Stable.__<BR>This function determines whether values of the provided iterable or iterator are the given expectedType. The expectedType is mandatory and can be a type string, constructor function or an array of the type strings and constructors. If the Throw is true and the values are not matched with the expectedType, then a TypeError will be thrown with detailed error message. The return value is boolean.
 `isArraylike(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an arraylike object. The return value is boolean.
+`isArrowFn(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an arrow function. The return value is boolean.
 `isAsyncIterable(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async iterable object. The return value is boolean.
+`isAsyncIterator(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async iterator object. The return value is boolean.
 `isAsyncFn(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async function. The return value is boolean.
 `isAsyncGeneratorFn(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async generator function. The return value is boolean.
 `isCallable(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided object has a call method. The return value is boolean.
