@@ -1,6 +1,33 @@
 
 # Celestra version history
 
+## Celestra v6.5.0 Andromeda
+
+1. Documentation, pdf and code fixes.
+2. From this version the version of the CUT is same as the Celestra version.
+3. Firefox 115 (Windows 7 and 8.1) and iOS 16 support has been removed.
+4. Rename these functions:
+
+- `isGeneratorFn();` -> `isGeneratorFunction();`
+- `isAsyncFn();` -> `isAsyncFunction();`
+- `isAsyncGeneratorFn();` -> `isAsyncGeneratorFunction();`
+- `isArrowFn();` -> `isArrowFunction();`
+- `toPrimitiveValue()` -> `toPrimitive();`
+
+5. These polyfills have been moved to __celestra-polyfills.dev.js__ and __celestra-polyfills.min.js__:
+
+- `Array.fromAsync();`
+- `Array.prototype.toReversed();`
+- `Array.prototype.toSorted();`
+- `Array.prototype.toSpliced();`
+- `Array.prototype.with();`
+- `Map.groupBy();`
+- `Object.groupBy();`
+- `Object.hasOwn();`
+- `TypedArray.prototype.toReversed();`
+- `TypedArray.prototype.toSorted();`
+- `TypedArray.prototype.with();`
+
 ## Celestra v6.4.2
 
 1. Documentation, pdf and code fixes.
@@ -26,7 +53,7 @@
 - Fix the function `mod();`
 - Remove the function `rem();`
 
-## Celestra v6.3.0
+## Celestra v6.3.0 Bishop
 
 1. Documentation, pdf and code fixes.
 2. Remove the __Legacy AJAX API__

@@ -12,9 +12,9 @@
 
 __A helper JavaScript library with useful functions and polyfills and zero dependencies.__
 
-Latest version: 6.4.2
+Latest version: 6.5.0
 
-Date: 2026-03-29T15:18:23.853Z
+Date: 2026-04-04T14:40:12.862Z
 
 __Tested on these environments:__
 
@@ -191,6 +191,14 @@ __Cookie API__|`getCookie();`<BR>`hasCookie();`<BR>`setCookie();`<BR>`removeCook
 - The __Legacy AJAX API__ has been removed.
 - The __Legacy Assertion API (Assert API v3)__ has been removed.
 
+### Celestra v6.5.0 (Andromeda) changes
+
+1. Documentation, pdf and code fixes.
+2. From this version the version of the CUT is same as the Celestra version.
+3. Firefox 115 (Windows 7 and 8.1) and iOS 16 support has been removed.
+4. Many functions have been renamed.
+5. Many polyfills have been moved to __celestra-polyfills.dev.js__ and __celestra-polyfills.min.js__.
+
 -----
 
 ## Functions
@@ -335,11 +343,11 @@ Name|Description
 `is(value[,expectedType[,Throw=false]];`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value type or class is the given expectedType. The expectedType can be a type string, constructor function or an array of the type strings and constructors. If the Throw is true and the value is not matched with the expectedType, then a TypeError will be thrown with detailed error message. The return value is boolean or the type or constructor of the value.
 `isTypedCollection(iter, expectedType, Throw = false);`|__Stability: 4 - Stable.__<BR>This function determines whether values of the provided iterable or iterator are the given expectedType. The expectedType is mandatory and can be a type string, constructor function or an array of the type strings and constructors. If the Throw is true and the values are not matched with the expectedType, then a TypeError will be thrown with detailed error message. The return value is boolean.
 `isArraylike(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an arraylike object. The return value is boolean.
-`isArrowFn(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an arrow function. The return value is boolean.
+`isArrowFunction(value);`|__Stability: 4 - Stable.__<BR>__Old name before v6.5.0: `isArrowFn();`.__<BR>This function determines whether the provided value is an arrow function. The return value is boolean.
 `isAsyncIterable(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async iterable object. The return value is boolean.
 `isAsyncIterator(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async iterator object. The return value is boolean.
-`isAsyncFn(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async function. The return value is boolean.
-`isAsyncGeneratorFn(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an async generator function. The return value is boolean.
+`isAsyncFunction(value);`|__Stability: 4 - Stable.__<BR>__Old name before v6.5.0: `isAsyncFn();`.__<BR>This function determines whether the provided value is an async function. The return value is boolean.
+`isAsyncGeneratorFunction(value);`|__Stability: 4 - Stable.__<BR>__Old name before v6.5.0: `isAsyncGeneratorFn();`.__<BR>This function determines whether the provided value is an async generator function. The return value is boolean.
 `isCallable(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided object has a call method. The return value is boolean.
 `isChar(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is a string with length 1 character. This function is unicode compatible. The return value is boolean.
 `isCoercedObject(object);`|__Stability: 4 - Stable.__<BR>If the given object is a coerced object (Number, BigInt, String, Boolean), then the return value is the constructor function. In any other cases retuns false. The object parameter is mandatory.
@@ -347,7 +355,7 @@ Name|Description
 `isElement(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is a HTML element. The return value is boolean.
 `isEmptyValue(value1, value2);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an empty value. Returns true in these cases: null, undefined, NaN, array, typedarray, arraybuffer, dataview, object, arraylike object, map, set, iterator, iterable. The return value is boolean.
 `isFunction(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is a function. The return value is boolean.
-`isGeneratorFn(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is a generator function. The return value is boolean.
+`isGeneratorFunction(value);`|__Stability: 4 - Stable.__<BR>__Old name before v6.5.0: `isGeneratorFn();`.__<BR>This function determines whether the provided value is a generator function. The return value is boolean.
 `isIndex(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is a valid arraylike index number. The return value is boolean.
 `isIterable(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an iterable object. The return value is boolean.
 `isIterator(value);`|__Stability: 4 - Stable.__<BR>This function determines whether the provided value is an iterator. The return value is boolean.
@@ -370,7 +378,7 @@ Name|Description
 `toIndex(value);`|__Stability: 4 - Stable.__<BR>This function converts the provided value to a valid arraylike index number. The return value is an unsigned integer (number). If the value is out of integer range, then a RangeError will be thrown.
 `toLength(value);`|__Stability: 4 - Stable.__<BR>This function converts the provided value to a valid arraylike length number. The return value is an unsigned integer (number).
 `toObject(value);`|__Stability: 4 - Stable.__<BR>If the given value is not null or undefined, then the return value is an object, which has been converted from the value, else a `TypeError()` will be throwned.<BR>If the given value is an object, function or symbol, then the original value will return.
-`toPrimitiveValue(value);`|__Stability: 4 - Stable.__<BR>If the given value is null or undefined, then a `TypeError()` will be throwned.<BR>If the given value is an object, which can be converted to a primitive variable, then the return value is a primitive variable.<BR>If the given value is a not convertable object (array, map, set, etc.), function or symbol, then the original value will return.
+`toPrimitive(value);`|__Stability: 4 - Stable.__<BR>__Old name before v6.5.0: `toPrimitiveValue();`.__<BR>If the given value is a primitive value (null, undefined, string, number, bigint, boolean, symbol), then the original value will return.<BR>If the given value is an object, which can be converted to a primitive variable, then the return value is a primitive variable.<BR>If the given value is a not convertable object (array, map, set, etc.), function or symbol, then the original value will return.
 `toPropertyKey(value);`|__Stability: 4 - Stable.__<BR>This function convert the given value to a valid property key. If the value is not symbol, then will be converted to string, else the symbol will be returned.
 `toSafeString(value);`|__Stability: 4 - Stable.__<BR>This function is a general purpose, type safe, predictable stringifier. The value parameter is mandatory and can be any type. The return value is a string.
 `typeOf(value);`|__Stability: 4 - Stable.__<BR>__Old name before v6.1.0: `type();`.__<BR>This function returns the typeof operator result of the given value, except the null object (`"null"` instead of `"object"`).
@@ -407,7 +415,7 @@ Name|Description
 `arrayRemoveBy(array,callback[,all=false]);`|__Stability: 4 - Stable.__<BR>Remove the first or all values from the array with which the given function returns true. Returns true, when the value was found and false when not found. The array and value parameters are mandatory. The all parameter is optional and has to be a boolean.
 `arrayRepeat(value);`|__Stability: 4 - Stable.__<BR>Returns an array with same repeatedly elements. The value parameter is mandatory and the n parameter is optional and can be an integer. Default parameter value: n = 100.
 `castArray([value]);`|__Stability: 4 - Stable.__<BR>This function returns the original value if this is an array or value a new array. If there is no given value, then the return value is an empty array.
-`compact(iterator);`|__Stability: 4 - Stable.__<BR>This function merges the iterators and yields the elements of the merged iterator. At least one iterator has to been given.
+`compact(iterator);`|__Stability: 4 - Stable.__<BR>This Returns an array with truthy values (but keeps `0` and `0n`) from the given Iterable or ArrayLike object. The iterator parameter is mandatory.
 `concat(iterator1[,iteratorN]);`|__Stability: 4 - Stable.__<BR>This function merges the iterators and yields the elements of the merged iterator. At least one iterator has to been given.
 `count(iterator,callback);`|__Stability: 4 - Stable.__<BR>This function executes a counter function (that you provide) on each element of the iterator, returning in a single output value. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a function.
 `drop(iterator[,n=1]);`|__Stability: 3 - Legacy and can get only fixes.__<BR>__Can be replaced with `Iterator.from(iterable/iterator).drop();`__<BR>Drop the first N elements of an iterator and yield the remained elements. The iterator parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1
@@ -514,23 +522,13 @@ Name|Description
 
 ### Polyfills
 
+
 Name|Description
 ----|-----------
-`Array.fromAsync();`|The Array.fromAsync() static method creates a new, shallow-copied Array instance from an async iterable, iterable, or array-like object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fromAsync)!
-`Array.prototype.toReversed();`|The toReversed() method of an Array instance is the copying counterpart of the reverse() method. It returns a new array with the elements in reversed order. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toReversed)!
-`Array.prototype.toSorted();`|The toSorted() method of an Array instance is the copying version of the sort() method. It returns a new array with the elements sorted in ascending order. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted)!
-`Array.prototype.toSpliced();`|The toSpliced() method of an Array instance is the copying version of the splice() method. It returns a new array with some elements removed and/or replaced at a given index. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSpliced)!
-`Array.prototype.with();`|The with() method of an Array instance is the copying version of using the bracket notation to change the value of a given index. It returns a new array with the element at the given index replaced with the given value. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/with)!
 `crypto.randomUUID();`|The randomUUID() method of the Crypto interface is used to generate a v4 UUID using a cryptographically secure random number generator. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID)!
 `Error.isError();`|The Error.isError() static method determines whether the passed value is an Error or DOMException. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/isError)!
 `globalThis;`|The globalThis global property contains the global `this`</code>` value, which is usually akin to the global object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/globalThis)!
-`Map.groupBy();`|The Map.groupBy() static method groups the elements of a given iterable using the values returned by a provided callback function. The final returned Map uses the unique values from the test function as keys, which can be used to get the array of elements in each group. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/groupBy)!
 `Math.sumPrecise();`|The Math.sumPrecise() static method takes an iterable of numbers and returns the sum of them. It is more precise than summing them up in a loop, because it avoids floating point precision loss in intermediate results. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sumPrecise)!
-`Object.groupBy();`|The Object.groupBy() static method groups the elements of a given iterable according to the string values returned by a provided callback function. The returned object has separate properties for each group, containing arrays with the elements in the group. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/groupBy)!
-`Object.hasOwn();`|The Object.hasOwn() static method returns true if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns false. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn)!
-`TypedArray.prototype.toReversed();`|The toReversed() method is the copying counterpart of the reverse() method. It returns a new array with the elements in reversed order. This method has the same algorithm as Array.prototype.reverse(). For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/toReversed)!
-`TypedArray.prototype.toSorted();`|The toSorted() method is the copying version of the sort() method. It returns a new array with the elements sorted in ascending order. This method has the same algorithm as Array.prototype.toSorted(), except that it sorts the values numerically instead of as strings by default. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/toSorted)!
-`TypedArray.prototype.with();`|The with() method is the copying version of using the bracket notation to change the value of a given index. It returns a new array with the element at the given index replaced with the given value. This method has the same algorithm as Array.prototype.with(). For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/with)!
 `globalThis.AsyncFunction();`|The AsyncFunction constructor creates a new async function object. In JavaScript, every asynchronous function is actually an AsyncFunction object. Note that AsyncFunction is not a global object, but in the Celestra this is available in the `globalThis` object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncFunction)!
 `globalthis.AsyncGeneratorFunction();`|The AsyncGeneratorFunction() constructor creates AsyncGeneratorFunction objects. Note that AsyncGeneratorFunction is not a global object, but in the Celestra this is available in the `globalThis` object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncGeneratorFunction/AsyncGeneratorFunction)!
 `globalThis.GeneratorFunction();`|The GeneratorFunction constructor creates a new generator function object. In JavaScript every generator function is actually a GeneratorFunction object. Note that GeneratorFunction is not a global object, but in the Celestra this is available in the `globalThis` object. For more information please read the [MDN Article](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction)!
@@ -538,6 +536,7 @@ REMOVED polyfills in v3.1.0|`Array.from();`<BR>`Array.of();`<BR>`Array.prototype
 REMOVED polyfills in v3.8.0|`Array.prototype.values();`<BR>`Array.prototype.includes();`<BR>`String.prototype.includes();`<BR>`String.prototype.repeat();`<BR>`String.prototype[Symbol.iterator]();`<BR>`Object.assign();`<BR>`Object.entries();`<BR>`Object.values();`<BR>`Object.getOwnPropertyDescriptors();`<BR>`RegExp.prototype.flags;`<BR>`NodeList.prototype.forEach();`<BR>`ChildNode.after();`<BR>`ChildNode.before();`<BR>`ChildNode.remove();`<BR>`ChildNode.replaceWith();`<BR>`ParentNode.append();`<BR>`ParentNode.prepend();`<BR>`Element.prototype.matches();`<BR>`Element.prototype.closest();`<BR>`Element.prototype.toggleAttribute();`<BR>`Element.prototype.getAttributeNames();`<BR>`window.screenLeft;`<BR>`window.screenTop;`
 REMOVED polyfills in v5.6.0|`Array.prototype.at();`<BR>`Array.prototype.findLast();`<BR>`Array.prototype.findLastIndex();`<BR>`Array.prototype.flat();`<BR>`Array.prototype.flatMap();`<BR>`Number.MIN_SAFE_INTEGER;`<BR>`Number.MAX_SAFE_INTEGER;`<BR>`Object.fromEntries();`<BR>`Object.is();`<BR>`String.prototype.at();`<BR>`String.prototype.matchAll();`<BR>`String.prototype.padStart();`<BR>`String.prototype.padEnd();`<BR>`String.prototype.replaceAll();`<BR>`String.prototype.trimStart();`<BR>`String.prototype.trimLeft();`<BR>`String.prototype.trimEnd();`<BR>`String.prototype.trimRight();`<BR>`Typedarray.prototype.at();`<BR>`TypedArray.prototype.findLast();`<BR>`TypedArray.prototype.findLastIndex();`
 REMOVED polyfills in v5.9.0|`BigInt.prototype.toJSON();`
+REMOVED polyfills in v6.5.0|`Array.fromAsync();`<BR>`Array.prototype.toReversed();`<BR>`Array.prototype.toSorted();`<BR>`Array.prototype.toSpliced();`<BR>`Array.prototype.with();`<BR>`Map.groupBy();`<BR>`Object.groupBy();`<BR>`Object.hasOwn();`<BR>`TypedArray.prototype.toReversed();`<BR>`TypedArray.prototype.toSorted();`<BR>`TypedArray.prototype.with();`
 
 -----
 
