@@ -10,14 +10,14 @@
 
 /**
  * @name Celestra
- * @version 6.5.0 browser
+ * @version 6.5.1 browser
  * @author Ferenc Czigler
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 
 
-const VERSION = "Celestra v6.5.0 browser";
+const VERSION = "Celestra v6.5.1 browser";
 
 
 /** TS types */
@@ -26,54 +26,46 @@ const VERSION = "Celestra v6.5.0 browser";
 /**
  * @description Map-like object with string or number or symbol keys.
  *
- * @internal
+ * @private
  * */
 type MapLike = Record<PropertyKey, any>;
 
 /**
- * @description Set-like object.
- *
- * @internal
- * */
-/*
-type SetLike<T> ={
-  readonly size: number;
-  has(value: T): boolean;
-};
-*/
-
-/**
  * @description Number-like object.
  *
- * @internal
+ * @private
  * */
 type NumberLike = number | bigint;
 
 /**
- * @description Any iterable or iterator. Includes: `Iterable<any>`, `Iterator<any>`, `IterableIterator<any>``
+ * @description Any iterable or iterator. Includes: `Iterable<any>`, `Iterator<any>`, `IterableIterator<any>`
+ *
+ * @private
  */
 type IterableLike = Iterable<any> | Iterator<any> | IterableIterator<any>;
 
 /**
  * @description Any iterable, iterator, or array-like structure for type `T`. Broadly useful for generic functions that accept "sequence-like" inputs.
+ *
+ * @private
  */
 type IterableLikeAndArrayLike =
   | Iterable<any>
   | Iterator<any>
   | IterableIterator<any>
-  | ArrayLike<any>; /* built-in */
+  | ArrayLike<any>;
 
 /**
  * @description Iterable and Iterator and Generator types.
  *
- * @internal
+ * @private
  */
-type IteratorReturn = Iterable<any> | Generator<number, void, unknown>;
+type IteratorReturn = Iterable<any> | Generator<any, void, unknown>;
 
 /**
  * @description Type for undefined and null values.
  *
- * @internal
+ * @private
  */
 type Nullish = undefined | null;
 
@@ -85,40 +77,50 @@ type NonNullable = number | boolean | string | symbol | object | Function;
 /**
  * @description Not null or undefined or object or function.
  *
- * @internal
+ * @private
  */
 type NonNullablePrimitive = number | bigint | boolean | string | symbol;
 
 /**
  * @description Not object or function.
  *
- * @internal
+ * @private
  */
 type Primitive = null | undefined | number | bigint | boolean | string | symbol;
 
 /**
  * Generic comparable types.
  *
- * @internal
+ * @private
  */
 type Comparable = number | bigint | string | boolean | Date;
 
 /**
  * @description Object key type.
  *
- * @internal
+ * @private
  */
 type PropertyKey = string | symbol;
 
 /**
  * @description Type AsyncFunction.
+ *
+ * @private
  */
-type AsyncFunction = (...args: any[]) => Promise<any>;
+type AsyncFunction<T> = (...args: ReadonlyArray<any>) => Promise<T>;
+
+/**
+ * @description Type ArrowFunction.
+ *
+ * @private
+ */
+type ArrowFunction<Args extends any[] = any[], R = any> =
+  (this: void, ...args: Args) => R;
 
 /**
  * @description Primitive types.
  *
- * @internal
+ * @private
  */
 type TypeOfTag =
   | "null" | "undefined"
@@ -128,14 +130,14 @@ type TypeOfTag =
 /**
  * @description TypedArray types.
  *
- * @internal
+ * @private
  */
 type TypedArray = Exclude<ArrayBufferView, DataView>;
 
 /**
  * @description ClearCookiesOptions object type.
  *
- * @internal
+ * @private
  */
 type ClearCookiesOptions = {
   path?: string | undefined;
@@ -1774,17 +1776,17 @@ const isNonNullablePrimitive =
 
 /**
  * @description Checks if a value is an arrow function.
+ * @note There is no built-in type for ArrowFunction
  *
  * @param {unknown} value
  * @returns {boolean} true if the value is an arrow function, false otherwise.
  */
-function isArrowFunction (value: unknown): value is Function {
+function isArrowFunction (value: unknown): value is ArrowFunction {
   if (typeof value !== "function"
     || ("prototype" in value && value.prototype !== undefined)
     || !(value.toString().includes("=>"))
   ) { return false; }
-  // Arrow functions cannot be used as constructors,
-  // so this will throw an error if it's an arrow function
+  /* Arrow functions cannot be used as constructors, so this will throw an error if it's an arrow function */
   try {
     // @ts-expect-error
     new value();
@@ -2075,8 +2077,8 @@ const isLength = (value: unknown): value is number =>
  */
 function toIndex (value: any): number {
   value = ((value = Math.trunc(+value)) !== value || value === 0) ? 0 : value;
-  if (value < 0 || value > (Math.pow(2, 53) - 1)) {
-    throw new RangeError("toIndex(); RangeError: " + value);
+  if (value < 0 || value > Number.MAX_SAFE_INTEGER) {
+    throw new RangeError("[toIndex] RangeError: " + value);
   }
   return value;
 }
@@ -2090,7 +2092,7 @@ function toIndex (value: any): number {
  */
 function toLength (value: any): number {
   value = ((value = Math.trunc(+value)) !== value || value === 0) ? 0 : value;
-  return Math.min(Math.max(value, 0), Math.pow(2, 53) - 1);
+  return Math.min(Math.max(value, 0), Number.MAX_SAFE_INTEGER);
 }
 
 
@@ -2356,7 +2358,7 @@ function isEmptyValue (value: any): boolean {
   /* Check Iterable objects */
   if (typeof value[Symbol.iterator] === "function") {
     const it = value[Symbol.iterator]();
-    return it.next().done; // avoids consuming entire iterator
+    return it.next().done; /* avoids consuming entire iterator */
   }
   /* Check Iterator objects */
   if ("Iterator" in globalThis ? (value instanceof Iterator)
@@ -2399,11 +2401,12 @@ const isProxy = (value: any): boolean =>
 
 /**
  * @description Checks if the given value is an Async Generator Function.
+ * @note AsyncGeneratorFunction -> builtin TS type  in lib.es2018.asyncgenerator.ts
  *
  * @param {unknown} value - The value to check.
  * @returns True if the value is an Async Generator Function, false otherwise.
  */
-const isAsyncGeneratorFunction = (value: unknown): boolean =>
+const isAsyncGeneratorFunction = (value: unknown): value is AsyncGeneratorFunction =>
   Object.getPrototypeOf(value).constructor ===
     Object.getPrototypeOf(async function*() {}).constructor;
 
@@ -2455,6 +2458,7 @@ const isObject = (value: unknown): value is object =>
 
 /**
  * @description Checks if the given value is a Function.
+ * @note type Function -> built-in TS type in lib.es5.d.ts
  *
  * @param {unknown} value - The value to check.
  * @returns True if the value is a function, false otherwise.
@@ -2596,11 +2600,12 @@ const isTypedArray = (value: unknown): value is TypedArray =>
 
 /**
  * @description Checks if the given value is a Generator Function.
+ * @note GeneratorFunction -> built-in TS type in lib.es2015.generator.d.ts
  *
  * @param {unknown} value - The value to check.
  * @returns True if the value is a Generator Function, false otherwise.
  */
-const isGeneratorFunction = (value: unknown): boolean =>
+const isGeneratorFunction = (value: unknown): value is GeneratorFunction =>
   Object.getPrototypeOf(value).constructor ===
     Object.getPrototypeOf(function*(){}).constructor;
 
@@ -2611,7 +2616,7 @@ const isGeneratorFunction = (value: unknown): boolean =>
  * @param {unknown} value - The value to check.
  * @returns True if the value is an Async Function, false otherwise.
  */
-const isAsyncFunction = (value: unknown): value is AsyncFunction =>
+const isAsyncFunction = <T,>(value: unknown): value is AsyncFunction<T> =>
   Object.getPrototypeOf(value).constructor ===
     Object.getPrototypeOf(async function(){}).constructor;
 
@@ -3226,7 +3231,7 @@ function* iterRepeat (value: unknown, num: number = Infinity): IteratorReturn {
  */
 function* takeWhile <T>(iter: Iterable<T> | Iterator<T>, callback: Function): IterableIterator<T> {
   let iterator: Iterator<T>;
-  // Normalize: if input is an iterator, use it directly; otherwise get an iterator
+  /* Normalize: if input is an iterator, use it directly; otherwise get an iterator */
   if (typeof (iter as Iterator<T>).next === "function") {
     iterator = iter as Iterator<T>;
   } else {
@@ -3250,7 +3255,7 @@ function* takeWhile <T>(iter: Iterable<T> | Iterator<T>, callback: Function): It
  */
 function* dropWhile <T>(iter: Iterable<T> | Iterator<T>, callback: Function): IterableIterator<T> {
   let iterator: Iterator<T>;
-  // Normalize: if input is an iterator, use it directly; otherwise get an iterator
+  /* Normalize: if input is an iterator, use it directly; otherwise get an iterator */
   if (typeof (iter as Iterator<T>).next === "function") {
     iterator = iter as Iterator<T>;
   } else {
@@ -3277,7 +3282,7 @@ function* dropWhile <T>(iter: Iterable<T> | Iterator<T>, callback: Function): It
 function* take <T>(iter: Iterable<T> | Iterator<T>, num: number = 1): IterableIterator<T> {
   if (num <= 0) return;
   let iterator: Iterator<T>;
-  // Normalize: if input is an iterator, use it directly; otherwise get an iterator
+  /* Normalize: if input is an iterator, use it directly; otherwise get an iterator */
   if (typeof (iter as Iterator<T>).next === "function") {
     iterator = iter as Iterator<T>;
   } else {
@@ -3637,7 +3642,7 @@ function includes (
   const _isEqual = comparator ||
     ((value1: any, value2: any): boolean =>
       value1 === value2 || (value1 !== value1 && value2 !== value2));
-    // SameValueZero
+    /* SameValueZero */
   /* Collection: Primitives, WeakMap, WeakSet */
   const cType = (collection === null ? "null" : typeof collection);
   if (collection == null
@@ -4043,10 +4048,6 @@ function divMod(value1: NumberLike, value2: NumberLike): NumberLike {
 }
 
 
-/*
-https://www.w3schools.com/js/js_arithmetic.asp
-% -> Modulus (Remainder)
-*/
 /**
  * @description Remainder of division (modulus) of two numbers or bigints.
  *
@@ -4093,7 +4094,10 @@ const isFloat = (value: unknown): boolean =>
  */
 function toInteger (value: any): number {
   value = ((value = Math.trunc(Number(value))) !== value || value === 0) ? 0 : value;
-  return Math.min(Math.max(value, -(Math.pow(2, 53) - 1)), Math.pow(2, 53) - 1);
+  return Math.min(
+    Math.max(value, Number.MIN_SAFE_INTEGER),
+    Number.MAX_SAFE_INTEGER
+  );
 }
 
 
@@ -4157,7 +4161,7 @@ function clamp(
   min: number | bigint = Number.MIN_SAFE_INTEGER,
   max: number | bigint = Number.MAX_SAFE_INTEGER): number | bigint {
   /* normalize */
-  function _normalize (value: any): number | bigint {
+  function _numberNormalize (value: any): number | bigint {
     if (typeof value !== "bigint" && typeof value !== "number") {
       value = Number(value);
     }
@@ -4166,9 +4170,13 @@ function clamp(
     if (value === 0) { return 0; }
     return value;
   }
-  value = _normalize(value);
-  min = _normalize(min);
-  max = _normalize(max);
+  if (typeof value !== "bigint"
+    && typeof min !== "bigint"
+    && typeof min !== "bigint") {
+    value = _numberNormalize(value);
+    min = _numberNormalize(min);
+    max = _numberNormalize(max);
+  }
   /* NaN: val, min, max */
   if (value !== value) { return value; }
   if (min !== min || max !== max) {
@@ -4201,7 +4209,7 @@ function minmax(
   min: number | bigint = Number.MIN_SAFE_INTEGER,
   max: number | bigint = Number.MAX_SAFE_INTEGER): number | bigint {
   /* normalize */
-  function _normalize (value: any): number | bigint {
+  function _numberNormalize (value: any): number | bigint {
     if (typeof value !== "bigint" && typeof value !== "number") {
       value = Number(value);
     }
@@ -4210,9 +4218,13 @@ function minmax(
     if (value === 0) { return 0; }
     return value;
   }
-  value = _normalize(value);
-  min = _normalize(min);
-  max = _normalize(max);
+  if (typeof value !== "bigint"
+    && typeof min !== "bigint"
+    && typeof min !== "bigint") {
+    value = _numberNormalize(value);
+    min = _numberNormalize(min);
+    max = _numberNormalize(max);
+  }
   /* NaN: val, min, max */
   if (value !== value) { return value; }
   if (min !== min || max !== max) {
@@ -4232,27 +4244,31 @@ function minmax(
 
 
 /**
- * @description Checks if a number is even.
+ * @description Checks if a number is safe integer and even.
  *
- * @param {number} value - The number to check.
+ * @param {unknown} value - The number to check.
  * @returns {boolean} True if the number is even, false otherwise.
  */
-function isEven (value: number): boolean {
-  let result: number = value % 2;
-  if (result === result) { return result === 0; }
+function isEven (value: unknown): boolean {
+  if (typeof value === "number" && Number.isSafeInteger(value)) {
+    return value % 2 === 0;
+  }
+  if (typeof value === "bigint") { return value % 2n === 0n; }
   return false;
 }
 
 
 /**
- * @description Checks if a number is odd.
+ * @description Checks if a number is safe integer and odd.
  *
- * @param {number} value - The number to check.
+ * @param {unknown} value - The number to check.
  * @returns {boolean} True if the number is odd, false otherwise.
  */
-function isOdd (value: number): boolean {
-  let result: number = value % 2;
-  if (result === result) { return result !== 0; }
+function isOdd (value: unknown): boolean {
+  if (typeof value === "number" && Number.isSafeInteger(value)) {
+    return value % 2 !== 0;
+  }
+  if (typeof value === "bigint") { return value % 2n !== 0n; }
   return false;
 }
 
@@ -4448,7 +4464,7 @@ const isBigInt64 = (value: unknown): boolean =>
  * @returns {boolean} True if the value is a 64-bit unsigned integer, false otherwise.
  */
 const isBigUInt64 = (value: unknown | number | bigint): boolean =>
-  typeof value === "bigint" && value >= 0 && value <= Math.pow(2,64) - 1;
+  typeof value === "bigint" && value >= 0 && value <= Math.pow(2, 64) - 1;
 
 
 /**
