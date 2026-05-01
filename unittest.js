@@ -15,7 +15,7 @@ try {
 
 /* Celestra unit tester */
 
-CUT.VERSION = "Celestra Unit Tester (CUT) v6.6.0 for browser (ESM)";
+CUT.VERSION = "Celestra Unit Tester (CUT) v6.7.0 for browser (ESM)";
 
 CUT.__results__ = document.querySelector("#results");
 CUT.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -299,15 +299,14 @@ var /** @type any */ token12, /** @type any */ token13;
 var /** @type any */ token14, /** @type any */ token15;
 
 
-/* Celestra v6.6.0 testcases */
+/* Celestra v6.7.0 testcases */
 
 
 /** Not auto tested functions **/
 CUT.addElement("hr");
 CUT.addElement("h3", "Not auto tested functions");
 CUT.addElement("ul",
-  "<li>getUrlVars(); no str parameter</li>"
-    +"<li>getLocation(&#60;success&#62;[,error]);</li>"
+  "<li>getLocation(&#60;success&#62;[,error]);</li>"
     +"<li>getFullscreen();</li>"
     +"<li>setFullscreenOn(&#60;selector&#62; or &#60;element&#62;);</li>"
     +"<li>setFullscreenOff();</li>"
@@ -757,32 +756,60 @@ CUT.isTrue("qsa(); 04",
 );
 
 
-/* extend(); */
+/* deepAssign(); begin */
 token1 = {a: "1", b: "2"};
 token2 = {c: "3", d: "4", baz: {e: 5, fn: function (n) {return n * n; }}};
-token3 = CEL.extend(true, {} , token1, token2);
-CUT.isEqual("extend(); 01", "12345121",
+token3 = CEL.deepAssign({} , token1, token2);
+CUT.isEqual("deepAssign(); 01", "12345121",
   token3.a + token3.b + token3.c + token3.d + token3.baz.e + token3.baz.fn(11)
 );
-token3 = CEL.extend(false, {}, token1, token2);
-CUT.isEqual("extend(); 2", "12345121",
-  token3.a + token3.b + token3.c + token3.d + token3.baz.e + token3.baz.fn(11)
-);
-token3 = CEL.extend({}, token1, token2);
-CUT.isEqual("extend(); 3", "12345121",
-  token3.a + token3.b + token3.c + token3.d + token3.baz.e + token3.baz.fn(11)
-);
+token1 = { a: 2, b: { c: [new Set([3, 4]), { d: 4 }] } };
+token2 = CEL.deepAssign({}, token1, {e: 42});
+CUT.isFalse("deepAssign(); 02", token1.b === token2.b);
+CUT.isFalse("deepAssign(); 03", token1 === token2);
+CUT.isTrue("deepAssign(); 04", token1.a === token2.a);
+CUT.isFalse("deepAssign(); 05", token1.b === token2.b);
+CUT.isTrue("deepAssign(); 06", Array.isArray(token2.b.c));
+CUT.isFalse("deepAssign(); 07", token1.b.c === token2.b.c);
+CUT.isTrue("deepAssign(); 08", token2.b.c[0] instanceof Set);
+CUT.isFalse("deepAssign(); 09", token1.b.c[0] === token2.b.c[0]);
+CUT.isTrue("deepAssign(); 10a", token2.b.c[0].has(3));
+CUT.isTrue("deepAssign(); 11b", token2.b.c[0].has(4));
+CUT.isTrue("deepAssign(); 11", token2.b.c[0].size === 2);
+CUT.isFalse("deepAssign(); 12", token1.b.c[1] === token2.b.c[1]);
+CUT.isTrue("deepAssign(); 13", token1.b.c[1].d === token2.b.c[1].d);
+CUT.isTrue("deepAssign(); 14", token2.e === 42);
+token1 = [ {a: 2, b: { c: [new Set([3, 4]), { d: 4 }] } }, 5 ];
+token2 = CEL.deepAssign([], token1);
+CUT.isTrue("deepAssign(); 15", Array.isArray(token1));
+CUT.isTrue("deepAssign(); 16", Array.isArray(token2));
+CUT.isFalse("deepAssign(); 17", token1 === token2);
+CUT.isFalse("deepAssign(); 18", token1[0] === token2[1]);
+CUT.isTrue("deepAssign(); 19", token1[1] === token2[1]);
+CUT.isFalse("deepAssign(); 20", token1[0].b === token2[0].b);
+CUT.isFalse("deepAssign(); 21", token1[0] === token2[0]);
+CUT.isTrue("deepAssign(); 22", token1[0].a === token2[0].a);
+CUT.isFalse("deepAssign(); 23", token1[0].b === token2[0].b);
+CUT.isTrue("deepAssign(); 24", Array.isArray(token2[0].b.c));
+CUT.isFalse("deepAssign(); 25", token1[0].b.c === token2[0].b.c);
+CUT.isTrue("deepAssign(); 26", token2[0].b.c[0] instanceof Set);
+CUT.isFalse("deepAssign(); 27", token1[0].b.c[0] === token2[0].b.c[0]);
+CUT.isTrue("deepAssign(); 28", token2[0].b.c[0].has(3));
+CUT.isTrue("deepAssign(); 29", token2[0].b.c[0].has(4));
+CUT.isTrue("deepAssign(); 30", token2[0].b.c[0].size === 2);
+CUT.isFalse("deepAssign(); 31", token1[0].b.c[1] === token2[0].b.c[1]);
+CUT.isTrue("deepAssign(); 32", token1[0].b.c[1].d === token2[0].b.c[1].d);
+/* deepAssign(); end */
 
 
-/* obj2string(); */
+/* obj2string(); deprecated */
 CUT.isEqual("obj2string();",
   CEL.obj2string({str:"éáűőúöüóíÉÁŰŐÚÖÜÓÍ", bool:true, pi:3.141592653589793}),
   "str=%C3%A9%C3%A1%C5%B1%C5%91%C3%BA%C3%B6%C3%BC%C3%B3%C3%AD%C3%89%C3%81%C5%B0%C5%90%C3%9A%C3%96%C3%9C%C3%93%C3%8D&bool=true&pi=3.141592653589793"
 );
 
 
-
-/*getUrlVars(); */
+/* getUrlVars(); deprecated */
 CUT.isEqual(
   'getUrlVars(); prop order_by from <code>"?showall=true&order_by=updated&o=asc"</code>',
   "updated", CEL.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"]
@@ -1799,9 +1826,8 @@ CUT.isEqual("compact(); 02",
     ),
     (_, v) => typeof v === "bigint" ? v.toString()+"n" : v
   ),
-  "[0,1,2,3,4,5,\"dsfsd\",true,\"0n\"]"
+  "[0,1,false,2,\"\",3,4,5,null,\"dsfsd\",true,\"0n\"]"
 );
-
 
 
 /* arrayCycle(); begin */
@@ -2995,8 +3021,8 @@ CUT.isTrue("isFloat();",
 CUT.isTrue("isObject();",
       CEL.isObject({"a": 1})
   &&  CEL.isObject(Object(42))
-  &&  CEL.isObject(function () {})
   &&  CEL.isObject([])
+  && !CEL.isObject(function () {})
   && !CEL.isObject(null)
   && !CEL.isObject(undefined)
   && !CEL.isObject(42)
@@ -3187,24 +3213,6 @@ CUT.isTrue("toPrimitive();",
     && Array.isArray(CEL.toPrimitive([]))
     && CEL.toPrimitive(new Map()) instanceof Map
     && CEL.toPrimitive(new Set()) instanceof Set
-);
-
-
-/* createPolyfillMethod(); */
-token1 = {"a": 1, "b": 2};
-CUT.isTrue("createPolyfillMethod(); - <code>"
-    + JSON.stringify(token1) + "</code>",
-  CEL.createPolyfillMethod(token1, "c", () => {}) &&
-  !(Object.keys(token1).includes("c")) && ("c" in token1)
-);
-
-
-/* createPolyfillProperty(); */
-token1 = {"a": 1, "b": 2};
-CUT.isTrue(
-  "createPolyfillProperty(); - <code>" + JSON.stringify(token1) + "</code>",
-  CEL.createPolyfillProperty(token1, "c", 3)
-    && Object.keys(token1).includes("c") && ("c" in token1)
 );
 
 

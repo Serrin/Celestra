@@ -10,128 +10,112 @@
 
 /**
  * @name Celestra
- * @version 6.6.0 browser
+ * @version 6.7.0 browser
  * @author Ferenc Czigler
  * @see https://github.com/Serrin/Celestra/
  * @license MIT https://opensource.org/licenses/MIT
  */
 
 
-const VERSION = "Celestra v6.6.0 browser";
+const VERSION = "Celestra v6.7.0 browser";
 
 
-/** TS types */
+/** TS browser and NodeJS common types **/
 
 
 /**
- * @description Map-like object with string or number or symbol keys.
- *
- * @private
- * */
-type MapLike = Record<PropertyKey, any>;
-
-/**
- * @description Number-like object.
- *
- * @private
- * */
-type NumberLike = number | bigint;
-
-/**
- * @description Any iterable or iterator.
+ * @description False like values.
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Falsy
+ * @note Missing values: NaN and document.all
  *
  * @private
  */
+type Falsy = null | undefined | false | 0 | -0 | 0n | "";
+
+/** * @description Truthy like values. * @private */
+/* @ts-ignore */
+type Truthy<T> = Exclude<T, Falsy>;
+
+/** * @description Object key type. Built-in type. * @private */
+/* type PropertyKey = string | number | symbol; */
+
+/** * @description Object with string, number or symbol keys. * @private */
+type ObjectLike = Record<PropertyKey, any>;
+
+/** * @description String-like object. * @private */
+type BooleanLike = boolean | Boolean;
+
+/** * @description Number-like object. * @private */
+type NumberLike = number | Number;
+
+/** * @description BigInt-like object. * @private */
+type BigIntLike = bigint | BigInt;
+
+/** * @description Number-like object. * @private */
+type Numeric = number | bigint;
+
+/** * @description Number and BigInt-like object. * @private */
+type NumericLike = NumberLike | BigIntLike;
+
+/** * @description String-like object. * @private */
+type StringLike = string | String;
+
+/** * @description String-like object. * @private */
+type SymbolLike = symbol | Symbol;
+
+/** * @description Any iterable or iterator. * @private */
 type IterableLike = Iterable<any> | Iterator<any> | IterableIterator<any>;
 
-/**
- * @description Any iterable, iterator, or array-like structure.
- *
- * @private
- */
+/** * @description Any iterable, iterator or array-like objects. * @private */
 type IterableLikeAndArrayLike =
-  | Iterable<any>
-  | Iterator<any>
-  | IterableIterator<any>
-  | ArrayLike<any>;
+  Iterable<any> | Iterator<any> | IterableIterator<any> | ArrayLike<any>;
 
-/**
- * @description Iterable and Iterator and Generator types.
- *
- * @private
- */
-type IteratorReturn =
-  | Iterable<any>
-  | Iterator<any>
-  | Generator<any, void, unknown>;
+/** * @description Iterable and Iterator and Generator types. * @private */
+type GeneratorLike =
+  Iterable<any> | Iterator<any> | Generator<any, void, unknown>;
 
-/**
- * @description Type for undefined and null values.
- *
- * @private
- */
+/** * @description Type for undefined and null values. * @private */
 type Nullish = undefined | null;
 
-/*
-built-in type:
-type NonNullable = number | boolean | string | symbol | object | Function;
-*/
+/** * @description Not null or undefined. Built-in type. * @private */
+/* type NonNullable = number | boolean | string | symbol | object | Function; */
 
-/**
- * @description Not null or undefined or object or function.
- *
- * @private
- */
-type NonNullablePrimitive = number | bigint | boolean | string | symbol;
+/** * @description Not null or undefined or object or function. * @private */
+type NonNullablePrimitive = boolean | number | bigint | string | symbol;
 
-/**
- * @description Not object or function.
- *
- * @private
- */
-type Primitive = null | undefined | number | bigint | boolean | string | symbol;
+/** * @description NonNullablePrimitiveLike object. * @private */
+type NonNullablePrimitiveLike =
+  BooleanLike | NumericLike | StringLike | SymbolLike;
 
-/**
- * Generic comparable types.
- *
- * @private
- */
+/** * @description Not object or function. * @private */
+type Primitive = Nullish | NonNullablePrimitive;
+
+/** * @description Primitive-like object. * @private */
+/* @ts-ignore */
+type PrimitiveLike = Nullish | NonNullablePrimitiveLike;
+
+/** * @description Object or function. * @private */
+/* @ts-ignore */
+type NonPrimitive = object | Function;
+
+/** * @description Generic comparable types. * @private */
 type Comparable = number | bigint | string | boolean | Date;
 
-/**
- * @description Object key type.
- *
- * @private
- */
-type PropertyKey = string | symbol;
-
-/**
- * @description Type AsyncFunction.
- *
- * @private
- */
+/** * @description AsyncFunction. * @private */
 type AsyncFunction<T> = (...args: ReadonlyArray<any>) => Promise<T>;
 
-/**
- * @description Type ArrowFunction.
- *
- * @private
- */
+/** * @description ArrowFunction. * @private */
 type ArrowFunction<Args extends any[] = any[], R = any> =
   (this: void, ...args: Args) => R;
 
-/**
- * @description TypedArray types.
- *
- * @private
- */
+/** * @description TypedArray types. * @private */
 type TypedArray = Exclude<ArrayBufferView, DataView>;
 
-/**
- * @description ClearCookiesOptions object type.
- *
- * @private
- */
+
+/** TS browser only types **/
+
+
+/** * @description ClearCookiesOptions object type. * @private */
 type ClearCookiesOptions = {
   path?: string | undefined;
   domain?: string | undefined;
@@ -160,7 +144,7 @@ type ClearCookiesOptions = {
 
 /* Math.sumPrecise(); */
 if (!("sumPrecise" in Math)) {
-  // @ts-ignore
+  /* @ts-ignore */
   Math.sumPrecise = function sumPrecise ([...array]): number {
     /* empty iterator */
     if (array.length === 0) { return -0; }
@@ -208,7 +192,7 @@ if (!("sumPrecise" in Math)) {
 
 /* Error.isError(); */
 if (!("isError" in Error)) {
-  // @ts-ignore
+  /* @ts-ignore */
   Error.isError = function isError (value: unknown) {
     let className =
       Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
@@ -219,9 +203,9 @@ if (!("isError" in Error)) {
 
 /* crypto.randomUUID(); */
 if (("crypto" in globalThis) && !("randomUUID" in globalThis.crypto)) {
-  // @ts-ignore
+  /* @ts-ignore */
   globalThis.crypto.randomUUID = function randomUUID () {
-    // @ts-ignore
+    /* @ts-ignore */
     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
       (c: any): any =>
         (c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4).toString(16)
@@ -231,27 +215,27 @@ if (("crypto" in globalThis) && !("randomUUID" in globalThis.crypto)) {
 
 
 /* globalThis.GeneratorFunction; */
-// @ts-ignore
+/* @ts-ignore */
 if (!globalThis.GeneratorFunction) {
-  // @ts-ignore
+  /* @ts-ignore */
   globalThis.GeneratorFunction =
     Object.getPrototypeOf(function*(){}).constructor;
 }
 
 
 /* globalThis.AsyncFunction; */
-// @ts-ignore
+/* @ts-ignore */
 if (!globalThis.AsyncFunction) {
-  // @ts-ignore
+  /* @ts-ignore */
   globalThis.AsyncFunction =
     Object.getPrototypeOf(async function(){}).constructor;
 }
 
 
 /* globalThis.AsyncGeneratorFunction; */
-// @ts-ignore
+/* @ts-ignore */
 if (!globalThis.AsyncGeneratorFunction) {
-  // @ts-ignore
+  /* @ts-ignore */
   globalThis.AsyncGeneratorFunction =
     Object.getPrototypeOf(async function* () {}).constructor;
 }
@@ -278,7 +262,6 @@ const WORDSAFEALPHABET = "23456789CFGHJMPQRVWXcfghjmpqvwx"; /* 31 characters */
  */
 function assert (condition: unknown, message?: unknown): asserts condition {
   if (!condition) {
-    // @ts-ignore
     if (Error.isError(message)) { throw message; }
     let errorMessage =
       `[assert] Assertion failed: ${condition} should be truly${message ? ` - ${message}` : ""}`;
@@ -305,11 +288,8 @@ const eq = (value1: unknown, value2: unknown): boolean =>
  * @param {any} value2
  * @returns {boolean}
  */
-function gt (value1: Comparable, value2: Comparable): boolean {
-  const _typeOf = (value: unknown): string =>
-    value === null ? "null" : typeof value;
-  return _typeOf(value1) === _typeOf(value2) && value1 > value2;
-}
+const gt = (value1: Comparable, value2: Comparable): boolean =>
+  typeOf(value1) === typeOf(value2) && value1 > value2;
 
 
 /**
@@ -319,14 +299,8 @@ function gt (value1: Comparable, value2: Comparable): boolean {
  * @param {any} value2
  * @returns {boolean}
  */
-function gte (value1: Comparable, value2: Comparable): boolean {
-  const _typeOf = (value: unknown): string =>
-    value === null ? "null" : typeof value;
-  return _typeOf(value1) === _typeOf(value2)
-    && (value1 > value2
-      || value1 === value2
-      || (value1 !== value1 && value2 !== value2));
-}
+const gte = (value1: Comparable, value2: Comparable): boolean =>
+  gt(value1, value2) || eq(value1, value2);
 
 
 /**
@@ -336,11 +310,8 @@ function gte (value1: Comparable, value2: Comparable): boolean {
  * @param {any} value2
  * @returns {boolean}
  */
-function lt (value1: Comparable, value2: Comparable): boolean {
-  const _typeOf = (value: unknown): string =>
-    value === null ? "null" : typeof value;
-  return _typeOf(value1) === _typeOf(value2) && value1 < value2;
-}
+const lt = (value1: Comparable, value2: Comparable): boolean =>
+  typeOf(value1) === typeOf(value2) && value1 < value2;
 
 
 /**
@@ -350,14 +321,8 @@ function lt (value1: Comparable, value2: Comparable): boolean {
  * @param {any} value2
  * @returns {boolean}
  */
-function lte (value1: Comparable, value2: Comparable): boolean {
-  const _typeOf = (value: unknown): string =>
-    value === null ? "null" : typeof value;
-  return _typeOf(value1) === _typeOf(value2)
-    && (value1 < value2
-      || value1 === value2
-      || (value1 !== value1 && value2 !== value2));
-}
+const lte = (value1: Comparable, value2: Comparable): boolean =>
+  lt(value1, value2) || eq(value1, value2);
 
 
 /**
@@ -366,9 +331,8 @@ function lte (value1: Comparable, value2: Comparable): boolean {
  * @param {Function} callback
  * @returns {Function}
  */
-function tap (callback: Function): any {
-  return function (value: unknown): any { callback(value); return value; };
-}
+const tap = (callback: Function): any =>
+  function (value: unknown): any { callback(value); return value; };
 
 
 /**
@@ -397,10 +361,9 @@ function once (callback: Function): Function {
  * @returns {Function}
  */
 function curry (callback: Function): Function {
-  const curried = (...args: any[]): any =>
-    args.length >= callback.length
-      ? callback(...args)
-      : (...rest: any[]): any => curried(...args, ...rest);
+  const curried = (...args: any[]): any => args.length >= callback.length
+    ? callback(...args)
+    : (...rest: any[]): any => curried(...args, ...rest);
   return curried;
 }
 
@@ -436,8 +399,8 @@ const compose = (...functions: Function[]): Function =>
  * @param {object} obj
  * @param {string[]} keys
  */
-const pick = (obj: MapLike, keys: string[]): MapLike =>
-  keys.reduce(function (acc: MapLike, key: string) {
+const pick = (obj: ObjectLike, keys: string[]): ObjectLike =>
+  keys.reduce(function (acc: ObjectLike, key: string) {
     if (key in obj) { acc[key] = obj[key]; }
     return acc;
   }, {});
@@ -450,9 +413,9 @@ const pick = (obj: MapLike, keys: string[]): MapLike =>
  * @param {string[]} keys
  * @returns {object}
  */
-const omit = (obj: MapLike, keys: string[]): MapLike =>
-  Object.keys(obj).reduce(function (acc: MapLike, key: string) {
-    // @ts-ignore
+const omit = (obj: ObjectLike, keys: string[]): ObjectLike =>
+  Object.keys(obj).reduce(function (acc: ObjectLike, key: string) {
+    /* @ts-ignore */
     if (!keys.includes(key)) { acc[key] = obj[key]; }
     return acc;
   }, {});
@@ -465,7 +428,7 @@ const omit = (obj: MapLike, keys: string[]): MapLike =>
  * @param {string} key
  * @param {object} value
  */
-const assoc = (obj: MapLike, key: string, value: unknown): MapLike =>
+const assoc = (obj: ObjectLike, key: string, value: unknown): ObjectLike =>
   ({...obj, [key]: value});
 
 
@@ -474,8 +437,8 @@ const assoc = (obj: MapLike, key: string, value: unknown): MapLike =>
  *
  * @returns {Promise<void>}
  */
-// @ts-ignore
-function asyncNoop (): Promise<void> {
+/* @ts-ignore */
+async function asyncNoop (): Promise<void> {
   return new Promise(function (resolve: Function) { resolve(); });
 }
 
@@ -502,8 +465,8 @@ async function asyncF (): Promise<boolean> { return false; }
  * @param {unknown} value
  * @returns {Function}
  */
-function asyncConstant (value: unknown): Function {
-  return async function() { return value; };
+function asyncConstant <T>(value: T): AsyncFunction<T> {
+  return async function () { return value; };
 }
 
 
@@ -517,50 +480,6 @@ async function asyncIdentity (value: unknown): Promise<any> { return value; }
 
 
 /**
- * @description Creates a polyfill method on an object if it does not already exist.
- *
- * @param {Object} obj - The object on which to create the method.
- * @param {string} property - The name of the method to create.
- * @param {Function} value - The function to assign as the method.
- * @returns {boolean} - Returns true if the method was created or already exists with the same value.
- */
-function createPolyfillMethod (
-  obj: Object,
-  property: string,
-  value: Function): boolean {
-  if (!(Object.hasOwn(obj, property))) {
-    Object.defineProperty(obj, property, {
-      writable: true, enumerable: false, configurable: true, value: value
-    });
-  }
-  // @ts-ignore
-  return (obj[property] === value);
-}
-
-
-/**
- * @description Creates a polyfill property on an object if it does not already exist.
- *
- * @param {Object} obj - The object on which to create the property.
- * @param {string} property - The name of the property to create.
- * @param {unknown} value - The value to assign to the property.
- * @returns {boolean} - Returns true if the property was created or already exists with the same value.
- */
-function createPolyfillProperty (
-  obj: object,
-  property: string,
-  value: unknown): boolean {
-  if (!(Object.hasOwn(obj, property))) {
-    Object.defineProperty(obj, property, {
-      writable: true, enumerable: true, configurable: true, value: value
-    });
-  }
-  // @ts-ignore
-  return (obj[property] === value);
-}
-
-
-/**
  * @description Generates a random UUID version 7 or UUID version 7 with version 4 ID.
  *
  * @param {boolean} [v4=false] - If true, generates a UUID version 4; otherwise, generates version 7.
@@ -568,7 +487,7 @@ function createPolyfillProperty (
  */
 function randomUUIDv7 (v4: boolean = false): string {
   let ts = Date.now().toString(16).padStart(12,"0") + (v4 ? "4" : "7");
-  // @ts-ignore
+  /* @ts-ignore */
   let uuid = Array.from(([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,
     (c: number): any =>
       (c^crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -611,7 +530,7 @@ const randomBoolean = (): boolean => !Math.round(Math.random());
  */
 const getUrlVars = (str: string = location.search): Object =>
   [...new URLSearchParams(str).entries()]
-    // @ts-ignore
+    /* @ts-ignore */
     .reduce(function (obj, item) { obj[item[0]] = item[1]; return obj; }, {});
 
 
@@ -628,90 +547,21 @@ const obj2string = (obj: any): string => Object.keys(obj).reduce(
   ).slice(0, -1);
 
 
-/**
- * @description Deep assign of an object (Object, Array, etc.)
- *
- * @returns any
- */
-function extend <T extends object, U extends object>(target: T, source: U): T & U;
-function extend <T extends object, U extends object, V extends object>(target: T, s1: U, s2: V): T & U & V;
-function extend <T extends object>(deep: true, target: T, ...sources: any[]): T;
-function extend <T extends object>(deep: false, target: T, ...sources: any[]): T;
-function extend (target: object, ...sources: any[]): object;
-function extend (...args: any[]): any {
-  /* Arguments checking */
-  let deep: boolean = false;
-  let target: any;
-  let i = 0;
-  if (args[0] === true) {
-    deep = true;
-    target = args[1] || {};
-    i = 2;
-  } else {
-    target = args[0] || {};
-    i = 1;
+function deepAssign <T extends object, U extends object>(target: T, source: U): T & U;
+function deepAssign <T extends object, U extends object, V extends object>(target: T, s1: U, s2: V): T & U & V;
+function deepAssign <T extends object>(target: T, ...sources: any[]): T;
+function deepAssign <T extends object>(target: T, ...sources: any[]): T;
+function deepAssign (target: object, ...sources: any[]): object;
+function deepAssign(target: any, ...sources: any): any {
+  function _deepClone(value: any) {
+    try { return structuredClone(value); } catch { return value; }
   }
-  /* Helper functions */
-  const _isPlainObject = (obj: any): obj is Record<string, any> =>
-    obj != null
-      && typeof obj === "object"
-      && (obj.constructor === Object || obj.constructor == null);
-  function merge(target: any, source: any): any {
-    /* Identical or non-object -> direct assign */
-    if (Object.is(source, target) || source == null || typeof source !== "object") {
-      return source;
-    }
-    /* Date -> clone */
-    if (source instanceof Date) { return new Date(source.getTime()); }
-    /* RegExp -> clone */
-    if (source instanceof RegExp) { return new RegExp(source); }
-    /* Map -> deep merge entries */
-    if (source instanceof Map) {
-      if (target instanceof Map) { target = new Map(); }
-      for (let [key, value] of source) {
-        const tv = target.get(key);
-        target.set(key, deep ? merge(tv, value) : value);
-      }
-      return target;
-    }
-    /* Set -> deep union */
-    if (source instanceof Set) {
-      if (target instanceof Set) { target = new Set(); }
-      for (let item of source) {
-        if (deep) {
-          if (target.has(item)) { continue; }
-        }
-        target.add(item);
-      }
-      return target;
-    }
-    /* Array -> deep merge by index */
-    if (Array.isArray(source)) {
-      if (!Array.isArray(target)) { target = []; }
-      const srcLength = source.length;
-      for (let i = 0; i < srcLength; i++) {
-        let sv = source[i];
-        let tv = target[i];
-        target[i] = deep ? merge(tv, sv) : sv;
-      }
-      return target;
-    }
-    /* Plain object -> deep merge keys */
-    if (_isPlainObject(source)) {
-      if (!_isPlainObject(target)) { target = {}; }
-      for (let key in source) {
-        let sv = source[key];
-        let tv = target[key];
-        target[key] = deep ? merge(tv, sv) : sv;
-      }
-      return target;
-    }
-    /* Fallback: copy by reference */
-    return source;
+  if (!sources.length) {
+    return target == null ? target : _deepClone(target);
   }
-  /* Clone all sources */
-  const length = args.length;
-  for (; i < length; i++) { merge(target, args[i]); }
+  for (let source of sources) {
+    Object.assign(target, _deepClone(source));
+  }
   return target;
 }
 
@@ -849,7 +699,7 @@ function timestampID (
 function b64Encode (str: any): string {
   return btoa(encodeURIComponent(String(str)).replace(/%([0-9A-F]{2})/g,
     function toSolidBytes (_match, p1): string {
-       // @ts-ignore
+      /* @ts-ignore */
       return String.fromCharCode("0x" + p1);
     }
   ));
@@ -898,7 +748,7 @@ function strTruncate (
   omission = String(omission);
   let strUC = Array.from(str);
   if (newLength >= strUC.length) { return str; }
-  return strUC.slice(0, newLength-Array.from(omission).length).join("")
+  return strUC.slice(0, newLength - Array.from(omission).length).join("")
     + omission;
 }
 
@@ -1081,7 +931,7 @@ const strHTMLUnEscape = (str: string): string =>
  * @returns {any[]} An array of matching elements.
  */
 const qsa = (str: string, context: Document | HTMLElement = document): any[] =>
-    Array.from(context.querySelectorAll(str));
+  Array.from(context.querySelectorAll(str));
 
 
 /**
@@ -1122,28 +972,25 @@ function domReady (callback: Function): void {
  * @returns {HTMLElement} The newly created DOM element.
  */
 function domCreate (
-  elementType: string | MapLike,
+  elementType: string | ObjectLike,
   properties: object,
   innerHTML: string): HTMLElement {
   if (arguments.length === 1 && typeof elementType === "object") {
     let obj = elementType;
     elementType = obj.elementType;
     properties = {};
-    for (let key in obj) {
-      // @ts-ignore
-      if (key !== "elementType") { properties[key] = obj[key]; }
+    for (const [key, value] of Object.entries(obj)) {
+      /* @ts-ignore */
+      if (key !== "elementType") { properties[key] = value; }
     }
   }
   let element: HTMLElement = document.createElement(elementType as string);
   if (properties) {
-    for (let key in properties) {
-      // @ts-ignore
-      if (key !== "style" || typeof properties[key] === "string") {
-        // @ts-ignore
-        element[key] = properties[key];
+    for (let [key, value] of Object.entries(properties)) {
+      if (key !== "style" || typeof value === "string") {
+        (element as ObjectLike)[key] = value;
       } else {
-        // @ts-ignore
-        Object.assign(element.style, properties[key]);
+        Object.assign(element.style, value);
       }
     }
   }
@@ -1173,7 +1020,7 @@ function domToElement (str: string): Element | null {
  * @returns {string | CSSStyleDeclaration} The computed CSS property value or the full CSSStyleDeclaration.
  */
 const domGetCSS = (element: Element, property: string | number): string | CSSStyleDeclaration =>
-  // @ts-ignore
+  /* @ts-ignore */
   (property ? globalThis.getComputedStyle(element, null)[property] :
     globalThis.getComputedStyle(element, null));
 
@@ -1193,11 +1040,11 @@ function domSetCSS (
   property: string | object,
   value: string): void {
   if (typeof property === "string") {
-    // @ts-ignore
+    /* @ts-ignore */
     element.style[property] = value;
   } else if (typeof property === "object") {
     Object.keys(property).forEach((key: string): void =>
-      // @ts-ignore
+      /* @ts-ignore */
       element.style[key] = property[key]
     );
   }
@@ -1221,7 +1068,7 @@ function domFadeIn (
   s.opacity = (s.opacity ?? 0);
   s.display = (display || "");
   (function fade () {
-    // @ts-ignore
+    /* @ts-ignore */
     (s.opacity=parseFloat(s.opacity)+step)>1 ? s.opacity=1 :setTimeout(fade,25);
   })();
 }
@@ -1238,10 +1085,10 @@ function domFadeOut (
   element: HTMLElement, duration: number): void {
   let style = element.style;
   let step: number = 25/(duration || 500);
-  // @ts-ignore
+  /* @ts-ignore */
   style.opacity = (style.opacity || 1);
   (function fade () {
-     // @ts-ignore
+     /* @ts-ignore */
     (style.opacity -= step) < 0 ? style.display = "none" : setTimeout(fade, 25);
   })();
 }
@@ -1264,7 +1111,7 @@ function domFadeToggle (
     style.opacity = (style.opacity ?? 0);
     style.display = (display || "");
     (function fade () {
-      // @ts-ignore
+      /* @ts-ignore */
       (style.opacity = parseFloat(style.opacity) + step) > 1 ? style.opacity = 1 :
         setTimeout(fade, 25);
     })();
@@ -1274,7 +1121,7 @@ function domFadeToggle (
     let step: number = 25/(duration || 500);
     style.opacity = (style.opacity ?? 1);
     (function fade () {
-      // @ts-ignore
+      /* @ts-ignore */
       (style.opacity -= step) < 0 ? style.display = "none" : setTimeout(fade, 25);
     })();
   }
@@ -1324,7 +1171,7 @@ function domToggle (element: HTMLElement, display: string = ""): void {
  * @returns {boolean} True if the element is hidden, false otherwise.
  */
 const domIsHidden = (element: Element): boolean =>
-  (globalThis.getComputedStyle(element,null).display === "none");
+  globalThis.getComputedStyle(element, null).display === "none";
 
 
 /**
@@ -1334,7 +1181,7 @@ const domIsHidden = (element: Element): boolean =>
  * @returns {Element[]} An array of sibling elements.
  */
 const domSiblings = (element: Element): Element[] =>
-  // @ts-ignore
+  /* @ts-ignore */
   Array.prototype.filter.call(element.parentNode.children,
     (item: Element): boolean => (item !== element)
   );
@@ -1348,10 +1195,10 @@ const domSiblings = (element: Element): Element[] =>
  */
 const domSiblingsPrev = (element: Element): Element[] =>
   Array.prototype.slice.call(
-    // @ts-ignore
+    /* @ts-ignore */
     element.parentNode.children,
     0,
-    // @ts-ignore
+    /* @ts-ignore */
     Array.prototype.indexOf.call(element.parentNode.children, element)
   );
 
@@ -1364,10 +1211,10 @@ const domSiblingsPrev = (element: Element): Element[] =>
  */
 const domSiblingsLeft = (element: Element): Element[] =>
   Array.prototype.slice.call(
-    // @ts-ignore
+    /* @ts-ignore */
     element.parentNode.children,
     0,
-    // @ts-ignore
+    /* @ts-ignore */
     Array.prototype.indexOf.call(element.parentNode.children, element)
   );
 
@@ -1380,11 +1227,11 @@ const domSiblingsLeft = (element: Element): Element[] =>
  */
 const domSiblingsNext = (element: Element): Element[] =>
   Array.prototype.slice.call(
-    // @ts-ignore
+    /* @ts-ignore */
     element.parentNode.children,
-    // @ts-ignore
+    /* @ts-ignore */
     Array.prototype.indexOf.call(element.parentNode.children, element) + 1,
-    // @ts-ignore
+    /* @ts-ignore */
     element.parentNode.children.length
   );
 
@@ -1397,11 +1244,11 @@ const domSiblingsNext = (element: Element): Element[] =>
  */
 const domSiblingsRight = (element: HTMLElement): Element[] =>
   Array.prototype.slice.call(
-    // @ts-ignore
+    /* @ts-ignore */
     element.parentNode.children,
-    // @ts-ignore
+    /* @ts-ignore */
     Array.prototype.indexOf.call(element.parentNode.children, element) + 1,
-    // @ts-ignore
+    /* @ts-ignore */
     element.parentNode.children.length
   );
 
@@ -1417,11 +1264,11 @@ function importScript (...scripts: string[]): void {
     let element: HTMLScriptElement = document.createElement("script");
     element.type = "text\/javascript";
     element.src = item;
-    // @ts-ignore
+    /* @ts-ignore */
     element.onerror = function (error: Error): void {
       throw new URIError(
-        // @ts-ignore
-        `Loading failed for the script with source ${error.target.src}`
+        /* @ts-ignore */
+        `[importScript] Loading failed for the script with source ${error.target.src}`
       );
     };
     (document.head||document.getElementsByTagName("head")[0])
@@ -1444,8 +1291,8 @@ function importStyle (...styles: string[]): void {
     element.href = item;
     element.onerror = function (error) {
       throw new URIError(
-        // @ts-ignore
-        `Loading failed for the style with source ${error.target.href}`
+        /* @ts-ignore */
+        `[importStyle] Loading failed for the style with source ${error.target.href}`
       );
     };
     (document.head ||document.getElementsByTagName("head")[0])
@@ -1464,16 +1311,16 @@ function form2array (form: HTMLFormElement): object[] {
   let field: any;
   let result = Array<object>();
   if (typeof form === "object" && form.nodeName.toLowerCase() === "form") {
-    for (let i = 0, len = form.elements.length; i < len; i++) {
-      field = form.elements[i];
+    for (let index = 0, length = form.elements.length; index < length; index++) {
+      field = form.elements[index];
       if (field.name && !field.disabled
         && field.type !== "file"
         && field.type !== "reset"
         && field.type !== "submit"
         && field.type !== "button") {
         if (field.type === "select-multiple") {
-          // @ts-ignore
-          for (let j = 0, l = form.elements[i].options.length; j < l; j++) {
+          /* @ts-ignore */
+          for (let j = 0, l = form.elements[index].options.length; j < l; j++) {
             if(field.options[j].selected) {
               result.push({
                 "name": encodeURIComponent(field.name),
@@ -1506,16 +1353,16 @@ function form2string (form: HTMLFormElement): string {
   let field: any;
   let result: string[] = [];
   if (typeof form === "object" && form.nodeName.toLowerCase() === "form") {
-    for (let i = 0, len = form.elements.length; i < len; i++) {
-      field = form.elements[i];
+    for (let index = 0, length = form.elements.length; index < length; index++) {
+      field = form.elements[index];
       if (field.name && !field.disabled
         && field.type !== "file"
         && field.type !== "reset"
         && field.type !== "submit"
         && field.type !== "button") {
         if (field.type === "select-multiple") {
-          // @ts-ignore
-          for (let j = 0, l = form.elements[i].options.length; j < l; j++) {
+          /* @ts-ignore */
+          for (let j = 0, l = form.elements[index].options.length; j < l; j++) {
             if(field.options[j].selected) {
               result.push(encodeURIComponent(field.name)
                 + "=" + encodeURIComponent(field.options[j].value));
@@ -1540,7 +1387,7 @@ function form2string (form: HTMLFormElement): string {
  * @returns {boolean} True if Do Not Track is enabled, false otherwise.
  */
 const getDoNotTrack = (): boolean =>
-   // @ts-ignore
+  /* @ts-ignore */
   [navigator.doNotTrack, globalThis.doNotTrack, navigator.msDoNotTrack]
     .some((item: any): boolean => item === true || item === 1 || item === "1");
 
@@ -1554,16 +1401,15 @@ const getDoNotTrack = (): boolean =>
  */
 function getLocation (
   successCallback: Function,
-  errorCallback: Function): void {
-  if (!errorCallback) { errorCallback = function () {}; }
-  function getE (error: any) {
+  errorCallback: Function = console.error): void {
+  function getError (error: any) {
     errorCallback(`ERROR(${error.code}): ${error.message}`);
   }
   if (navigator.geolocation) {
-     // @ts-ignore
-    navigator.geolocation.getCurrentPosition(successCallback, getE);
+    /* @ts-ignore */
+    navigator.geolocation.getCurrentPosition(successCallback, getError);
   } else {
-    getE("Geolocation is not supported in this browser.");
+    getError("Geolocation is not supported in this browser.");
   }
 }
 
@@ -1604,11 +1450,11 @@ function createFile (
  */
 const getFullscreen = (): Document | HTMLElement | undefined => (
   document.fullscreenElement
-   // @ts-ignore
+  /* @ts-ignore */
   || document.mozFullScreenElement
-   // @ts-ignore
+  /* @ts-ignore */
   || document.webkitFullscreenElement
-   // @ts-ignore
+  /* @ts-ignore */
   || document.msFullscreenElement
   || undefined
 );
@@ -1624,13 +1470,13 @@ function setFullscreenOn (element: HTMLElement | string): void {
   let elem: HTMLElement | null;
   if (typeof element === "string") { elem = document.querySelector(element); }
     else if (typeof element === "object") { elem = element; }
-  // @ts-ignore
+  /* @ts-ignore */
   if (elem.requestFullscreen) { elem.requestFullscreen(); }
-    // @ts-ignore
+    /* @ts-ignore */
     else if (elem.mozRequestFullScreen) { elem.mozRequestFullScreen(); }
-    // @ts-ignore
+    /* @ts-ignore */
     else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
-    // @ts-ignore
+    /* @ts-ignore */
     else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
 }
 
@@ -1642,11 +1488,11 @@ function setFullscreenOn (element: HTMLElement | string): void {
  */
 function setFullscreenOff (): void {
   if (document.exitFullscreen) { document.exitFullscreen(); }
-   // @ts-ignore
+    /* @ts-ignore */
     else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); }
-    // @ts-ignore
+    /* @ts-ignore */
     else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-    // @ts-ignore
+    /* @ts-ignore */
     else if (document.msExitFullscreen) { document.msExitFullscreen(); }
 }
 
@@ -1659,7 +1505,7 @@ function setFullscreenOff (): void {
  */
 const domGetCSSVar = (name: string): string =>
   getComputedStyle(document.documentElement)
-    .getPropertyValue( name[0] === "-" ? name : "--" + name );
+    .getPropertyValue(name[0] === "-" ? name : "--" + name);
 
 
 /**
@@ -1710,7 +1556,7 @@ const domScrollToElement = (element: Element, top: boolean = true): void =>
  * @param {Element} element - The DOM element to clear.
  * @returns {void}
  */
-// @ts-ignore
+/* @ts-ignore */
 const domClear = (element: Element): void =>
   Array.from(element.children).forEach((item: Element): void => item.remove());
 
@@ -1787,31 +1633,23 @@ function isTypedCollection (
   iter: IterableLike,
   expectedType: string | Function | Array<string | Function>,
   Throw: boolean = false): boolean {
-  /* helper functions */
-  const _typeOf = (value: any): string =>
-    value === null ? "null" : typeof value;
-  const _isIterator = (value: any): boolean =>
-    value != null && typeof value === "object"
-      && typeof value.next === "function";
-  const _isIterable = (value: any): boolean =>
-    value != null && typeof value[Symbol.iterator] === "function";
   /* Validate `iter` */
-  if (!_isIterator(iter) && !_isIterable(iter)) {
+  if (!isIterator(iter) && !isIterable(iter)) {
     throw new TypeError(
-      `[isTypedCollection] TypeError: iter must be iterable or iterator. Got ${_typeOf(iter)}`
+      `[isTypedCollection] TypeError: iter must be iterable or iterator. Got ${typeOf(iter)}`
     );
   }
   /* Validate `expected` */
   if (!(["string", "function"].includes(typeof expectedType))
     && !Array.isArray(expectedType)) {
     throw new TypeError(
-      `[isTypedCollection] TypeError: expectedType must be string, function, array. Got ${_typeOf(expectedType)}`
+      `[isTypedCollection] TypeError: expectedType must be string, function, array. Got ${typeOf(expectedType)}`
     );
   }
   /* Validate `Throw` */
   if (typeof Throw !== "boolean") {
     throw new TypeError(
-      `[isTypedCollection] TypeError: Throw has to be a boolean. Got ${typeof Throw}`
+      `[isTypedCollection] TypeError: Throw has to be a boolean. Got ${typeOf(Throw)}`
     );
   }
   /* Normalize expected to an array */
@@ -1820,7 +1658,7 @@ function isTypedCollection (
   /* Check values of iter against expected types or constructors */
   let matched: boolean = true;
   for (let value of iter as Iterable<any>) {
-    const valueType: string = _typeOf(value);
+    const valueType: string = typeOf(value);
     matched = expectedArray.some(
       function (item: string | Function): boolean {
         if (typeof item === "string") { return valueType === item; }
@@ -1864,17 +1702,17 @@ function is (
   if (!(["string", "function", "undefined"].includes(typeof expectedType))
     && !Array.isArray(expectedType)) {
     throw new TypeError(
-      `[is] TypeError: expectedType must be string, function, array or undefined. Got ${typeof expectedType}`
+      `[is] TypeError: expectedType must be string, function, array or undefined. Got ${typeOf(expectedType)}`
     );
   }
   /* Validate `Throw` */
   if (typeof Throw !== "boolean") {
     throw new TypeError(
-      `[is] TypeError: Throw has to be a boolean. Got ${typeof Throw}`
+      `[is] TypeError: Throw has to be a boolean. Got ${typeOf(Throw)}`
     );
   }
   /* Determine the type of `value` */
-  const vType: string = (value === null ? "null" : typeof value);
+  const vType: string = typeOf(value);
   /* If no expected type provided, return type or constructor */
   if (expectedType == null) {
     return vType === "object"
@@ -1893,7 +1731,7 @@ function is (
       }
       /* validate expected array elements */
       throw new TypeError(
-        `[is] TypeError: expectedType array elements have to be a string or function. Got ${typeof item}`
+        `[is] TypeError: expectedType array elements have to be a string or function. Got ${typeOf(item)}`
       );
     }
   );
@@ -1904,7 +1742,9 @@ function is (
     let eNames: string = expectedArray.map((item: any): string =>
       (typeof item === "string" ? item.toString() : item.name ?? "anonymous")
     ).join(", ");
-    throw new TypeError(`[is] TypeError: ${vName} is not a ${eNames}`);
+    throw new TypeError(
+      `[is] TypeError: ${vName} is not one of these: ${eNames}`
+    );
   }
   return matched;
 }
@@ -1968,11 +1808,14 @@ function toSafeString (value: unknown): string {
     return value;
   }
   if (["undefined", "null", "string", "number", "boolean", "bigint"]
-    .includes(value === null ? "null" : typeof value)) {
+    .includes(typeOf(value))) {
     return String(value);
   }
   if (Array.isArray(value)) {
     return `[${value.map(v => toSafeString(v)).join(", ")}]`;
+  }
+  if (ArrayBuffer.isView(value) && !(value instanceof DataView)) {
+    return `[${[...(value as any)].map(v => toSafeString(v)).join(", ")}]`;
   }
   if (value instanceof Map) {
     return `Map(${value.size}){${Array.from(value.entries()).map(([k, v]): string => `${toSafeString(k)} => ${toSafeString(v)}`).join(", ")}}`;
@@ -2067,24 +1910,19 @@ function toLength (value: any): number {
  * @param {unknown} value
  * @returns string
  */
-const typeOf = (value: unknown):
-  | "null" | "undefined"
-  | "number" | "bigint" | "boolean" | "string" | "symbol"
-  | "object" | "function" =>
+const typeOf = (value: unknown): string =>
   value === null ? "null" : typeof value;
 
 
 /**
- * @description Checks if two values are of the same type.
+ * @description Checks if two values are the same type.
  *
  * @param {any} value1 - The first value to compare.
  * @param {any} value2 - The second value to compare.
  * @returns {boolean} True if both values are of the same type, false otherwise.
  */
 const isSameType = (value1: any, value2: any): boolean =>
-  (value1 == null || value2 == null)
-    ? (value1 === value2)
-    : (typeof value1 === typeof value2);
+  typeOf(value1) === typeOf(value2);
 
 
 /**
@@ -2106,12 +1944,12 @@ const isSameInstance = (value1: any, value2: any, Contructor: Function): boolean
  * @returns False if the value is not a coerced object, otherwise the constructor function.
  */
 function isCoercedObject (value: unknown): Function | boolean {
-  if (value != null && typeof value === "object") {
+  if (typeOf(value) === "object") {
     if (value instanceof Number) { return Number; }
     if (value instanceof String) { return String; }
     if (value instanceof Boolean) { return Boolean; }
     if (value instanceof BigInt) { return BigInt; }
-    if (typeof value.valueOf?.() === "symbol") { return Symbol; }
+    if (typeof (value as symbol).valueOf?.() === "symbol") { return Symbol; }
   }
   return false;
 }
@@ -2126,42 +1964,29 @@ function isCoercedObject (value: unknown): Function | boolean {
  */
 function isDeepStrictEqual (value1: any, value2: any): boolean {
   /* helper functions */
-  const _deepType = (value: any): string =>
+  const _deepTypeOf = (value: any): string =>
     (value === null) ? "null" : (value !== value) ? "NaN" : (typeof value);
-  const _isPrimitive = (value: any): boolean =>
-    value == null
-      || (typeof value !== "object" && typeof value !== "function");
-  const _isObject = (value: any): boolean =>
-    value != null && typeof value === "object";
-  const _isSameInstance = (value1: any, value2: any, Class: Function): boolean =>
-    value1 instanceof Class && value2 instanceof Class;
-  const _classof = (value: any): string =>
+  const _classOf = (value: any): string =>
     Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
-    const _ownKeys = (value: object): any[] =>
-      [...Object.getOwnPropertyNames(value),
-        ...Object.getOwnPropertySymbols(value)];
-  /* strict equality helper function */
-  const _isEqual = (value1: any, value2: any): boolean =>
-    Object.is(value1, value2);
   /* primitives: Boolean, Number, BigInt, String + Function + Symbol */
-  if (_isEqual(value1, value2)) { return true; }
+  if (Object.is(value1, value2)) { return true; }
   /* Object Wrappers (Boolean, Number, BigInt, String) */
-  if (_isObject(value1)
-    && _isPrimitive(value2)
-    && _classof(value1) === typeof value2) {
-    return _isEqual(value1.valueOf(), value2);
+  if (_deepTypeOf(value1) === "object"
+    && isPrimitive(value2)
+    && _classOf(value1) === typeof value2) {
+    return Object.is(value1.valueOf(), value2);
   }
-  if (_isPrimitive(value1)
-    && _isObject(value2)
-    && typeof value1 === _classof(value2)) {
-    return _isEqual(value1, value2.valueOf());
+  if (isPrimitive(value1)
+    && _deepTypeOf(value2) === "object"
+    && typeof value1 === _classOf(value2)) {
+    return Object.is(value1, value2.valueOf());
   }
   /* type (primitives, object, null, NaN) */
-  if (_deepType(value1) !== _deepType(value2)) { return false; }
+  if (_deepTypeOf(value1) !== _deepTypeOf(value2)) { return false; }
   /* objects */
-  if (_isObject(value1) && _isObject(value2)) {
+  if (_deepTypeOf(value1) === "object" && _deepTypeOf(value2) === "object") {
     /* objects / same memory adress */
-    if (_isEqual(value1, value2)) { return true; }
+    if (Object.is(value1, value2)) { return true; }
     /* objects / not same constructor */
     if (Object.getPrototypeOf(value1).constructor !==
       Object.getPrototypeOf(value2).constructor
@@ -2169,17 +1994,17 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
       return false;
     }
     /* objects / WeakMap + WeakSet */
-    if (_isSameInstance(value1, value2, WeakMap)
-      || _isSameInstance(value1, value2, WeakSet)) {
-      return _isEqual(value1, value2);
+    if (isSameInstance(value1, value2, WeakMap)
+      || isSameInstance(value1, value2, WeakSet)) {
+      return Object.is(value1, value2);
     }
     /* objects / Wrapper objects: Number, Boolean, String, BigInt */
-    if (_isSameInstance(value1, value2, Number)
-      || _isSameInstance(value1, value2, Boolean)
-      || _isSameInstance(value1, value2, String)
-      || _isSameInstance(value1, value2, BigInt)
+    if (isSameInstance(value1, value2, Number)
+      || isSameInstance(value1, value2, Boolean)
+      || isSameInstance(value1, value2, String)
+      || isSameInstance(value1, value2, BigInt)
     ) {
-      return _isEqual(value1.valueOf(), value2.valueOf());
+      return Object.is(value1.valueOf(), value2.valueOf());
     }
     /* objects / Array */
     if (Array.isArray(value1) && Array.isArray(value2)) {
@@ -2190,55 +2015,44 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
       );
     }
     /* objects / TypedArrays */
-    if ( _isSameInstance(value1, value2, Int8Array)
-      || _isSameInstance(value1, value2, Uint8Array)
-      || _isSameInstance(value1, value2, Uint8ClampedArray)
-      || _isSameInstance(value1, value2, Int16Array)
-      || _isSameInstance(value1, value2, Uint16Array)
-      || _isSameInstance(value1, value2, Int32Array)
-      || _isSameInstance(value1, value2, Uint32Array)
-      || ("Float16Array" in globalThis ?
-          _isSameInstance(value1, value2, Float16Array) : false
-        )
-      || _isSameInstance(value1, value2, Float32Array)
-      || _isSameInstance(value1, value2, Float64Array)
-      || _isSameInstance(value1, value2, BigInt64Array)
-      || _isSameInstance(value1, value2, BigUint64Array)
+    if ((ArrayBuffer.isView(value1) && !(value1 instanceof DataView))
+      && (ArrayBuffer.isView(value2) && !(value2 instanceof DataView))
+      && _classOf(value1) === _classOf(value2)
     ) {
-      if (value1.length !== value2.length) { return false; }
-      if (value1.length === 0) { return true; }
-      return value1.every(
-        (value: unknown, index: any): boolean => _isEqual(value, value2[index])
+      if ((value1 as any).length !== (value2 as any).length) { return false; }
+      if ((value1 as any).length === 0) { return true; }
+      return (value1 as any).every((value: unknown, index: any): boolean =>
+        Object.is(value, (value2 as any)[index])
       );
     }
     /* objects / ArrayBuffer */
-    if (_isSameInstance(value1, value2, ArrayBuffer)) {
+    if (isSameInstance(value1, value2, ArrayBuffer)) {
       if (value1.byteLength !== value2.byteLength) { return false; }
       if (value1.byteLength === 0) { return true; }
       let xTA = new Int8Array(value1), yTA = new Int8Array(value2);
       return xTA.every((value: unknown, index: any): boolean =>
-        _isEqual(value, yTA[index]));
+        Object.is(value, yTA[index]));
     }
     /* objects / DataView */
-    if (_isSameInstance(value1, value2, DataView)) {
+    if (isSameInstance(value1, value2, DataView)) {
       if (value1.byteLength !== value2.byteLength) { return false; }
       if (value1.byteLength === 0) { return true; }
       for (let index = 0; index < value1.byteLength; index++) {
-        if (!_isEqual(value1.getUint8(index), value2.getUint8(index))) {
+        if (!Object.is(value1.getUint8(index), value2.getUint8(index))) {
           return false;
         }
       }
       return true;
     }
     /* objects / Map */
-    if (_isSameInstance(value1, value2, Map)) {
+    if (isSameInstance(value1, value2, Map)) {
       if (value1.size !== value2.size) { return false; }
       if (value1.size === 0) { return true; }
       return [...value1.keys()].every((value: unknown): boolean =>
         isDeepStrictEqual(value1.get(value), value2.get(value)));
     }
     /* objects / Set */
-    if (_isSameInstance(value1, value2, Set)) {
+    if (isSameInstance(value1, value2, Set)) {
       if (value1.size !== value2.size) { return false; }
       if (value1.size === 0) { return true; }
       return [...value1.keys()].every(
@@ -2246,38 +2060,44 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
       );
     }
     /* objects / RegExp */
-    if (_isSameInstance(value1, value2, RegExp)) {
-      return _isEqual(value1.lastIndex, value2.lastIndex)
-        && _isEqual(value1.flags, value2.flags)
-        && _isEqual(value1.source, value2.source);
+    if (isSameInstance(value1, value2, RegExp)) {
+      return Object.is(value1.lastIndex, value2.lastIndex)
+        && Object.is(value1.flags, value2.flags)
+        && Object.is(value1.source, value2.source);
     }
     /* objects / Error */
-    if (_isSameInstance(value1, value2, Error)) {
+    if (isSameInstance(value1, value2, Error)) {
       return isDeepStrictEqual(
         Object.getOwnPropertyNames(value1)
           .reduce(
-            function (acc: any, k: any): object { acc[k] = value1[k]; return acc; },
+            function (acc: any, k: any): object {
+              acc[k] = value1[k];
+              return acc;
+            },
             {}
           ),
         Object.getOwnPropertyNames(value2)
           .reduce(
-            function (acc: any, k: any): object { acc[k] = value2[k]; return acc; },
+            function (acc: any, k: any): object {
+              acc[k] = value2[k];
+              return acc; },
             {}
           )
       );
     }
     /* objects / Date */
-    if (_isSameInstance(value1, value2, Date)) {
-      return _isEqual(+value1, +value2);
+    if (isSameInstance(value1, value2, Date)) {
+      return Object.is(+value1, +value2);
     }
     /* objects / Proxy -> not detectable */
     /* objects / Objects */
-    let value1Keys: any[] = _ownKeys(value1);
-    let value2Keys: any[] = _ownKeys(value2);
+    let value1Keys: any[] = Reflect.ownKeys(value1);
+    let value2Keys: any[] = Reflect.ownKeys(value2);
     if (value1Keys.length !== value2Keys.length) { return false; }
     if (value1Keys.length === 0) { return true; }
     return value1Keys.every((key: any): boolean =>
-      isDeepStrictEqual(value1[key], value2[key]));
+      isDeepStrictEqual(value1[key], value2[key])
+    );
   }
   /* default return false */
   return false;
@@ -2298,21 +2118,11 @@ function isDeepStrictEqual (value1: any, value2: any): boolean {
  * @returns boolean
  */
 function isEmpty (value: any): boolean {
-  const _isObject = (value: unknown): value is object =>
-    value != null && (typeof value === "object" || typeof value === "function");
-  /**
-   * Checks if a value is a TypedArray (Int8Array, etc.).
-   *
-   * @param {any} value The value to check.
-   * @returns boolean
-   */
-  const _isTypedArray = (value: unknown): value is TypedArray =>
-    ArrayBuffer.isView(value) && !(value instanceof DataView);
   /* Check undefined, null, NaN */
   if (value == null || Number.isNaN(value)) { return true; }
   /* Check Array, TypedArrays, string, String */
   if (Array.isArray(value)
-    || _isTypedArray(value)
+    || (ArrayBuffer.isView(value) && !(value instanceof DataView))
     || typeof value === "string"
     || value instanceof String) {
     return (value as any).length === 0;
@@ -2330,8 +2140,7 @@ function isEmpty (value: any): boolean {
   }
   /* Check Iterator objects */
   if ("Iterator" in globalThis ? (value instanceof Iterator)
-    : (value != null && typeof value === "object"
-      && typeof value.next === "function")) {
+    : (typeOf(value) === "object" && typeof value.next === "function")) {
     try {
       /* Has at least one element */
       for (let _item of value) { return false; }
@@ -2339,11 +2148,8 @@ function isEmpty (value: any): boolean {
     } catch { /* Not iterable */ }
   }
   /* Other objects - check own properties (including symbols) */
-  if (_isObject(value)) {
-    const keys: any[] = [
-      ...Object.getOwnPropertyNames(value),
-      ...Object.getOwnPropertySymbols(value)
-    ];
+  if (typeOf(value) === "object") {
+    const keys: any[] = Reflect.ownKeys(value);
     if (keys.length === 0) { return true; }
     /* Special case: object with single "length" property that is 0 */
     if (keys.length === 1
@@ -2385,11 +2191,11 @@ const isAsyncGeneratorFunction = (value: unknown): value is AsyncGeneratorFuncti
  * @param {unknown} value - The value to check.
  * @returns True if the value is a plain object, false otherwise.
  */
-const isPlainObject = (value: unknown): boolean =>
-  value != null
-    && typeof value === "object"
-    && (Object.getPrototypeOf(value) === Object.prototype
-      || Object.getPrototypeOf(value) === null);
+function isPlainObject (value: unknown): boolean {
+  if (value === null || typeof value !== "object") { return false; }
+  const proto = Object.getPrototypeOf(value);
+  return proto === Object.prototype || proto === null;
+}
 
 
 /**
@@ -2399,7 +2205,7 @@ const isPlainObject = (value: unknown): boolean =>
  * @returns True if the value is a object, false otherwise.
  */
 const isObject = (value: unknown): value is object =>
-  value != null && (typeof value === "object" || typeof value === "function");
+  value !== null && typeof value === "object";
 
 
 /**
@@ -2479,8 +2285,7 @@ const isPrimitive = (value: unknown): value is Primitive =>
 const isIterator = <T>(value: unknown): value is Iterator<T> =>
   "Iterator" in globalThis
     ? value instanceof Iterator
-    : (value != null && typeof value === "object"
-        && typeof (value as any).next === "function");
+    : (typeOf(value) === "object" && typeof (value as any).next === "function");
 
 
 /**
@@ -2499,7 +2304,7 @@ const isRegexp = (value: unknown): value is RegExp => value instanceof RegExp;
  * @returns {boolean} Return true if value is a HTML element, false if not.
  */
 const isElement = (value: any): boolean =>
-  value != null && typeof value === "object" && value.nodeType === 1;
+  typeOf(value) === "object" && value.nodeType === 1;
 
 
 /**
@@ -2564,7 +2369,7 @@ const isAsyncFunction = <T,>(value: unknown): value is AsyncFunction<T> =>
 /**
  * @description Set a cookie.
  *
- * @param {string | MapLike} name - The name of the cookie or an options object.
+ * @param {string | ObjectLike} name - The name of the cookie or an options object.
  * @param {string} value - The value of the cookie.
  * @param {number} [hours=8760] - The expiration time in hours (default is 1 year).
  * @param {string} [path="/"] - The path where the cookie is valid.
@@ -2575,7 +2380,7 @@ const isAsyncFunction = <T,>(value: unknown): value is AsyncFunction<T> =>
  * @returns {void}
  */
 function setCookie (
-  name: string | MapLike,
+  name: string | ObjectLike,
   value: string,
   hours: number = 8760,
   path: string = "/",
@@ -2583,16 +2388,16 @@ function setCookie (
   secure: boolean,
   SameSite: string = "Lax",
   HttpOnly: boolean): void {
-  if (typeof name === "object") {
+  if (typeOf(name) === "object") {
     let settings = name;
-    name = settings.name;
-    value = settings.value;
-    hours = settings.hours || 8760;
-    path = settings.path || "/";
-    domain = settings.domain;
-    secure = settings.secure;
-    SameSite = settings.SameSite || "Lax";
-    HttpOnly = settings.HttpOnly;
+    name = (settings as ObjectLike).name;
+    value = (settings as ObjectLike).value;
+    hours = (settings as ObjectLike).hours || 8760;
+    path = (settings as ObjectLike).path || "/";
+    domain = (settings as ObjectLike).domain;
+    secure = (settings as ObjectLike).secure;
+    SameSite = (settings as ObjectLike).SameSite || "Lax";
+    HttpOnly = (settings as ObjectLike).HttpOnly;
   }
   let expire = new Date();
   expire.setTime(expire.getTime() + (Math.round(hours * 60 * 60 * 1000)));
@@ -2616,18 +2421,17 @@ function setCookie (
  * @param {string} [name] - The name of the cookie to retrieve.
  * @returns {object | string | null} An object with all cookies, the value of the specified cookie, or null if not found.
  */
-function getCookie (name?: string | undefined):
-  { [key: string]: string } | string | null {
-  if (document.cookie.length !== 0) {
-    let result: { [key: string]: string } = {};
-    let array: string[] = document.cookie.split(";");
-    for(let index = 0, length = array.length; index < length; index++) {
-      let record = array[index].trim().split("=");
-      result[decodeURIComponent(record[0])] = decodeURIComponent(record[1]);
-    }
-    return (name ? (result[name] ? result[name] : null) : result);
+function getCookie (name: string): string | null | ObjectLike {
+  /* if no cookies -> return null or empty object */
+  if (!document.cookie.length) { return typeof name === "string" ? null : {}; }
+   /* create cookieObject with names and values */
+  const cookieObject: ObjectLike = {};
+  for (let cookie of document.cookie.split(";")) {
+    const [cookieName, value] = cookie.trim().split("=");
+    cookieObject[decodeURIComponent(cookieName)] = decodeURIComponent(value);
   }
-  return (name ? null : {});
+  /* return the value of a cookie or the cookieObject */
+  return typeof name === "string" ? (cookieObject[name] ?? null) : cookieObject;
 }
 
 
@@ -2637,8 +2441,17 @@ function getCookie (name?: string | undefined):
  * @param {string} name - The name of the cookie to check.
  * @returns {boolean} True if the cookie exists, false otherwise.
  */
-const hasCookie = (name: string): boolean =>
-  (document.cookie.includes(encodeURIComponent(name) + "="));
+function hasCookie (name: string): boolean {
+  /* if no cookies -> return false */
+  if (!document.cookie.length) { return false; }
+  /* check the existing of the cookie with name */
+  for (let cookie of document.cookie.split(";")) {
+    if (decodeURIComponent(cookie.trim().split("=")[0]) === name) {
+      return true;
+    }
+  }
+  return false;
+}
 
 
 /* removeCookie(Options object);: boolean */
@@ -2647,7 +2460,7 @@ const hasCookie = (name: string): boolean =>
 /**
  * @description Removes a cookie by name.
  *
- * @param {string | MapLike} name - The name of the cookie to remove or an options object.
+ * @param {string | ObjectLike} name - The name of the cookie to remove or an options object.
  * @param {string} [path="/"] - The path where the cookie is valid.
  * @param {string} [domain] - The domain where the cookie is valid.
  * @param {boolean} [secure] - Whether the cookie is only sent over secure connections.
@@ -2656,12 +2469,14 @@ const hasCookie = (name: string): boolean =>
  * @returns {boolean} True if the cookie existed and was removed, false otherwise.
  */
 function removeCookie (
-  name: string | MapLike,
+  name: string | ObjectLike,
   path: string = "/",
   domain: string,
   secure: boolean,
   SameSite: string = "Lax",
   HttpOnly: boolean): boolean {
+  /* if no cookies -> return false */
+  if (!document.cookie.length) { return false; }
   if (typeof name === "object") {
     let settings = name;
     name = settings.name;
@@ -2671,17 +2486,26 @@ function removeCookie (
     SameSite = settings.SameSite || "Lax";
     HttpOnly = settings.HttpOnly;
   }
-  let result =
-    (document.cookie.includes(encodeURIComponent(name as string) + "="));
-  document.cookie = encodeURIComponent(name as string)
-    + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
-    + "; path=" + path
-    + (domain ? "; domain=" + domain : "")
-    + (secure ? "; secure" : "")
-    + (typeof SameSite === "string" && SameSite.length ? "; SameSite="
-      + SameSite : "")
-    + (HttpOnly ? "; HttpOnly" : "")
-    + ";";
+  /* check the existing of the cookie with name */
+  let result: boolean = false;
+  for (let cookie of document.cookie.split(";")) {
+    if (decodeURIComponent(cookie.trim().split("=")[0]) === name) {
+      result = true;
+      break;
+    }
+  }
+  /* if cookie doesn't exists -> return false */
+  if (result) {
+    document.cookie = encodeURIComponent(name as string)
+      + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
+      + "; path=" + path
+      + (domain ? "; domain=" + domain : "")
+      + (secure ? "; secure" : "")
+      + (typeof SameSite === "string" && SameSite.length ?
+        "; SameSite=" + SameSite : "")
+      + (HttpOnly ? "; HttpOnly" : "")
+      + ";";
+  }
   return result;
 }
 
@@ -2713,10 +2537,10 @@ function clearCookies (
     SameSite = settings.SameSite ?? "Lax";
     HttpOnly = settings.HttpOnly;
   }
-  if (document.cookie.length !== 0) {
-    let array = document.cookie.split(";");
-    for(let index = 0, length = array.length; index < length; index++) {
-      document.cookie = encodeURIComponent(array[index].trim().split("=")[0])
+  if (document.cookie.length) {
+    /* get the cookie names */
+    for(let item of document.cookie.split(";")) {
+      document.cookie = encodeURIComponent(item.trim().split("=")[0])
         + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT"
         + "; path=" + path
         + (domain ? "; domain=" + domain : "")
@@ -2744,14 +2568,14 @@ const castArray = (value: unknown): any[] =>
 
 
 /**
- * @description Returns an array with truthy values (but keeps `0`) from the given Iterable or ArrayLike object.
+ * @description Returns an array with not `null` and `undefined` values from the given Iterable or ArrayLike object.
  *
  * @param {IterableAndIteratorAndArrayLike} iter
  * @returns any[]
  */
 const compact = (iter: IterableLikeAndArrayLike): any[] =>
   Array.from(iter as Iterable<any> | ArrayLike<any>).filter(
-    (value: unknown): boolean => Boolean(value) || value === 0 || value === 0n
+    (value: unknown): boolean => value != null
   );
 
 
@@ -2846,7 +2670,7 @@ function shuffle ([...array]: any[]): unknown[] {
  * @returns {any[][]} An array containing two arrays: the first with elements that satisfy the predicate, and the second with elements that do not.
  */
 const partition = ([...array]: any[], callback: Function): any[] =>
-   // @ts-ignore
+  /* @ts-ignore */
   [array.filter(callback), array.filter((value, index, a): boolean => !(callback(value, index, a)))];
 
 
@@ -2870,8 +2694,8 @@ const min = (...args: any[]): any =>
  * @returns {any} The maximum value among the provided arguments.
  */
 const max = (...args: any[]): any =>
-  args.reduce((acc: any, value: any): any =>
-    (value > acc ? value : acc),
+  args.reduce(
+    (acc: any, value: any): any => (value > acc ? value : acc),
     args[0]
   );
 
@@ -2908,8 +2732,7 @@ const arrayCycle = ([...array]: any[], num: number = 100): any[] =>
 const arrayRange = (
   start: number = 0,
   end: number = 99,
-  step: number = 1): any[] =>
-  Array.from(
+  step: number = 1): any[] => Array.from(
     {length: (end - start) / step + 1},
     (_v, i: number): number => start + (i * step)
   );
@@ -2953,8 +2776,8 @@ const unzip = ([...array]: any[]): any[] =>
  * @param {IterableLike} array2 - The iterable to use as values.
  * @returns {object} An object containing key-value pairs from the input iterables.
  */
-function zipObj ([...array1]: any[], [...array2]: any[]): MapLike {
-  let result: MapLike = {};
+function zipObj ([...array1]: any[], [...array2]: any[]): ObjectLike {
+  let result: ObjectLike = {};
   let length: number = Math.min(array1.length, array2.length);
   for (let index = 0; index < length; index++) {
     result[array1[index]] = array2[index];
@@ -3021,15 +2844,15 @@ function arrayRemoveBy (
   array: any[],
   callback: Function,
   all: boolean = false): boolean {
-  // @ts-ignore
+  /* @ts-ignore */
   let found: boolean = array.findIndex(callback) > -1;
   if (!all) {
-    // @ts-ignore
+    /* @ts-ignore */
     let pos = array.findIndex(callback);
     if (pos > -1) { array.splice(pos, 1); }
   } else {
     let pos = -1;
-    // @ts-ignore
+    /* @ts-ignore */
     while ((pos = array.findIndex(callback)) > -1) { array.splice(pos, 1); }
   }
   return found;
@@ -3076,7 +2899,7 @@ function* iterRange (
  * @param {number} [num=Infinity] - The number of times to cycle through the iterable.
  * @yields The next element in the cycled iterable.
  */
-function* iterCycle ([...array]: any[], num: number = Infinity): IteratorReturn {
+function* iterCycle ([...array]: any[], num: number = Infinity): GeneratorLike {
   let index: number = 0;
   while (index++ < num) { yield* array; }
 }
@@ -3089,7 +2912,7 @@ function* iterCycle ([...array]: any[], num: number = Infinity): IteratorReturn 
  * @param {number} [num=Infinity] - The number of times to repeat the value.
  * @yields The next repeated value.
  */
-function* iterRepeat (value: unknown, num: number = Infinity): IteratorReturn {
+function* iterRepeat (value: unknown, num: number = Infinity): GeneratorLike {
   let index: number = 0;
   while (index++ < num) { yield value; }
 }
@@ -3102,7 +2925,7 @@ function* iterRepeat (value: unknown, num: number = Infinity): IteratorReturn {
  * @param callback - Number of elements to take (default: 1).
  * @yields The next element in the taken iterator.
  */
-function* takeWhile <T>(iter: IterableLike, callback: Function): IteratorReturn {
+function* takeWhile <T>(iter: IterableLike, callback: Function): GeneratorLike {
   let iterator: Iterator<T>;
   /* Normalize: if input is an iterator, use it directly; otherwise get an iterator */
   if (typeof (iter as Iterator<T>).next === "function") {
@@ -3126,7 +2949,7 @@ function* takeWhile <T>(iter: IterableLike, callback: Function): IteratorReturn 
  * @param callback - Number of elements to take (default: 1).
  * @yields The next element in the dropped iterator.
  */
-function* dropWhile <T>(iter: IterableLike, callback: Function): IteratorReturn {
+function* dropWhile <T>(iter: IterableLike, callback: Function): GeneratorLike {
   let iterator: Iterator<T>;
   /* Normalize: if input is an iterator, use it directly; otherwise get an iterator */
   if (typeof (iter as Iterator<T>).next === "function") {
@@ -3152,7 +2975,7 @@ function* dropWhile <T>(iter: IterableLike, callback: Function): IteratorReturn 
  * @param num - Number of elements to take (default: 1).
  * @yields The next element in the taken iterator.
  */
-function* take <T>(iter: IterableLike, num: number = 1): IteratorReturn {
+function* take <T>(iter: IterableLike, num: number = 1): GeneratorLike {
   if (num <= 0) { return; }
   let iterator: Iterator<T>;
   /* Normalize: if input is an iterator, use it directly; otherwise get an iterator */
@@ -3161,7 +2984,7 @@ function* take <T>(iter: IterableLike, num: number = 1): IteratorReturn {
   } else {
     iterator = (iter as Iterable<T>)[Symbol.iterator]();
   }
-  for (let i = 0; i < num; i++) {
+  for (let index = 0; index < num; index++) {
     const { value, done } = iterator.next();
     if (done) { break; }
     yield value;
@@ -3176,7 +2999,7 @@ function* take <T>(iter: IterableLike, num: number = 1): IteratorReturn {
  * @param num - Number of elements to skip (default: 1).
  * @yields The next element in the dropped iterator.
  */
-function* drop <T>(iter: IterableLike, num: number = 1): IteratorReturn {
+function* drop <T>(iter: IterableLike, num: number = 1): GeneratorLike {
   if (num <= 0) {
     /* If nothing to drop, just yield everything */
     yield* (typeof (iter as Iterator<T>).next === "function"
@@ -3192,7 +3015,7 @@ function* drop <T>(iter: IterableLike, num: number = 1): IteratorReturn {
     iterator = (iter as Iterable<T>)[Symbol.iterator]();
   }
   /* Drop the first `num` elements */
-  for (let i = 0; i < num; i++) {
+  for (let index = 0; index < num; index++) {
     const { done } = iterator.next();
     if (done) { return; }
   }
@@ -3238,7 +3061,7 @@ function forEachRight ([...array]: any[], callback: Function): void {
  * @param {Function} callback - The function to call for each element.
  * @returns {Iterator} A new iterator with the mapped values.
  */
-function* map (iter: IterableLike, callback: Function): IteratorReturn {
+function* map (iter: IterableLike, callback: Function): GeneratorLike {
   let index: number = 0;
   for (let item of iter as Iterable<any>) { yield callback(item, index++); }
 }
@@ -3251,7 +3074,7 @@ function* map (iter: IterableLike, callback: Function): IteratorReturn {
  * @param {Function} callback - The function to test each element.
  * @returns {Iterator} A new iterator with the filtered values.
  */
-function* filter (iter: IterableLike, callback: Function): IteratorReturn {
+function* filter (iter: IterableLike, callback: Function): GeneratorLike {
   let index: number = 0;
   for (let item of iter as Iterable<any>) {
     if (callback(item, index++)) { yield item; }
@@ -3266,7 +3089,7 @@ function* filter (iter: IterableLike, callback: Function): IteratorReturn {
  * @param {Function} callback - The function to test each element.
  * @returns {Iterator} A new iterator with the rejected values.
  */
-function* reject (iter: IterableLike, callback: Function): IteratorReturn {
+function* reject (iter: IterableLike, callback: Function): GeneratorLike {
   let index: number = 0;
   for (let item of iter as Iterable<any>) {
     if (!callback(item, index++)) { yield item; }
@@ -3285,7 +3108,7 @@ function* reject (iter: IterableLike, callback: Function): IteratorReturn {
 function* slice <T>(
   iter: IterableLike,
   begin: number = 0,
-  end: number = Infinity): IteratorReturn {
+  end: number = Infinity): GeneratorLike {
   if (begin < 0) { begin = 0; }
   if (end <= begin) { return; }
   let iterator: Iterator<T>;
@@ -3312,7 +3135,7 @@ function* slice <T>(
  * @param input - Iterable or iterator to process.
  * @yields The elements of the input iterable or iterator, excluding the first one.
  */
-function* tail <T>(input: IterableLike): IteratorReturn {
+function* tail <T>(input: IterableLike): GeneratorLike {
   let iterator: Iterator<T>;
   /* Normalize: if input is already an iterator, use it directly */
   if (typeof (input as Iterator<T>).next === "function") {
@@ -3470,7 +3293,7 @@ const last = ([...array]: any[]): any => array[array.length - 1];
  * @param {any[]} array - Iterable or iterator to reverse.
  * @yields The elements of the input iterable or iterator in reverse order.
  */
-function* reverse ([...array]: any[]): IteratorReturn {
+function* reverse ([...array]: any[]): GeneratorLike {
   let index: number = array.length;
   while (index--) { yield array[index]; }
 }
@@ -3506,17 +3329,12 @@ function includes (
     );
   }
   /* helper functions */
-  const _isIterator = (value: any): boolean =>
-    value != null && typeof value === "object"
-      && typeof value.next === "function";
-  const _isIterable = (value: unknown): boolean =>
-    value != null && typeof (value as any)[Symbol.iterator] === "function";
-  const _isEqual = comparator ||
+  const _isEqual = comparator ??
     ((value1: unknown, value2: unknown): boolean =>
       value1 === value2 || (value1 !== value1 && value2 !== value2));
     /* SameValueZero */
   /* Collection: Primitives, WeakMap, WeakSet */
-  const cType = (collection === null ? "null" : typeof collection);
+  const cType = typeOf(collection);
   if (collection == null
     || !(["object", "function", "string"].includes(cType))
     || collection instanceof WeakMap
@@ -3538,18 +3356,20 @@ function includes (
     return false;
   }
   /* Iterator or Iterables (Array, Set, TypedArrays, other Iterables, etc.) */
-  if (_isIterator(collection) || _isIterable(collection)) {
-    if ([...collection].findIndex((item) => _isEqual(item, value)) > -1) {
+  if (isIterator(collection) || isIterable(collection)) {
+    if ([...(collection as any)].findIndex((item) => _isEqual(item, value)) > -1) {
       return true;
     }
     return false;
   }
   /* Plain object or function */
   if (["object", "function"].includes(cType)) {
-    if (Object.keys(collection).findIndex((item) => _isEqual(item, value)) > -1) {
+    if (Object.keys(collection).findIndex((item) =>
+      _isEqual(item, value)) > -1) {
       return true;
     }
-    if (Object.values(collection).findIndex((item) => _isEqual(item, value)) > -1) {
+    if (Object.values(collection).findIndex((item) =>
+      _isEqual(item, value)) > -1) {
       return true;
     }
     if (Object.getOwnPropertySymbols(collection)
@@ -3638,7 +3458,9 @@ const takeRight = ([...array]: any[], num: number = 1): any[] =>
  * @param {Function} callback - The function to test each element.
  * @yields The elements from the end of the iterable that satisfy the testing function.
  */
-function* takeRightWhile ([...array]: any[], callback: Function): IteratorReturn {
+function* takeRightWhile (
+  [...array]: any[],
+  callback: Function): GeneratorLike {
   if (!array.length) { return; }
   let index = array.length;
   while (index--) {
@@ -3667,7 +3489,9 @@ const dropRight = ([...array]: any[], num: number = 1): any[] =>
  * @param {Function} callback - The function to test each element.
  * @yields The elements from the end of the iterable after the testing function returns false.
  */
-function* dropRightWhile ([...array]: any[], callback: Function): IteratorReturn {
+function* dropRightWhile (
+  [...array]: any[],
+  callback: Function): GeneratorLike {
   if (!array.length) { return; }
   let index = array.length;
   let skip = true;
@@ -3685,7 +3509,7 @@ function* dropRightWhile ([...array]: any[], callback: Function): IteratorReturn
  * @param {any[]} args - The iterables or values to concatenate.
  * @yields The elements from the concatenated iterables or values.
  */
-function* concat (...args: any[]): IteratorReturn {
+function* concat (...args: any[]): GeneratorLike {
   for (let item of args) {
     if (typeof item[Symbol.iterator] === "function" ||
       ("Iterator" in globalThis ? (item instanceof Iterator)
@@ -3732,9 +3556,7 @@ function reduce (
  * @param {number} [offset=0] - The starting index for enumeration.
  * @yields {[number, any]} Pairs of index and element from the iterable.
  */
-function* enumerate (
-  iter: IterableLike,
-  offset: number = 0): IteratorReturn {
+function* enumerate (iter: IterableLike, offset: number = 0): GeneratorLike {
   let index: number = offset;
   for (let item of iter as Iterable<any>) { yield [index++, item]; }
 }
@@ -3746,12 +3568,12 @@ function* enumerate (
  * @param {IterableLike} iter - The nested iterable to flatten.
  * @yields The elements from the flattened iterable.
  */
-function* flat (iter: IterableLike): IteratorReturn {
+function* flat (iter: IterableLike): GeneratorLike {
   for (let item of iter as Iterable<any>) {
     if (typeof item[Symbol.iterator] === "function" ||
       ("Iterator" in globalThis
         ? (item instanceof Iterator)
-        : (typeof item === "object" && typeof item.next === "function")
+        : (typeOf(item) === "object" && typeof item.next === "function")
       )
     ) {
       yield* item;
@@ -3794,14 +3616,14 @@ const withOut = ([...array]: any[], [...filterValues]: any[]): any[] =>
 /**
  * @description Adds two numbers or bigints.
  *
- * @param {NumberLike} value1
- * @param {NumberLike} value2
- * @returns {NumberLike} The result of the operation.
+ * @param {Numeric} value1
+ * @param {Numeric} value2
+ * @returns {Numeric} The result of the operation.
  * @throws {TypeError} If x and y are of mixed types.
  */
 function add (value1: number, value2: number): number;
 function add (value1: bigint, value2: bigint): bigint;
-function add (value1: NumberLike, value2: NumberLike): NumberLike {
+function add (value1: Numeric, value2: Numeric): Numeric {
   if (typeof value1 !== typeof value2
     || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
@@ -3809,7 +3631,7 @@ function add (value1: NumberLike, value2: NumberLike): NumberLike {
     );
   }
   if (typeof value1 === "number" && typeof value2 === "number") {
-    // @ts-ignore
+    /* @ts-ignore */
     return Math.sumPrecise([value1, value2]);
   }
   return (value1 as bigint) + (value2 as bigint);
@@ -3819,14 +3641,14 @@ function add (value1: NumberLike, value2: NumberLike): NumberLike {
 /**
  * @description Subtract two numbers or bigints.
  *
- * @param {NumberLike} value1
- * @param {NumberLike} value2
- * @returns {NumberLike} The result of the operation.
+ * @param {Numeric} value1
+ * @param {Numeric} value2
+ * @returns {Numeric} The result of the operation.
  * @throws {TypeError} If x and y are of mixed types.
  */
 function sub (value1: number, value2: number): number;
 function sub (value1: bigint, value2: bigint): bigint;
-function sub (value1: NumberLike, value2: NumberLike): NumberLike {
+function sub (value1: Numeric, value2: Numeric): Numeric {
   if (typeof value1 !== typeof value2
     || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
@@ -3834,7 +3656,7 @@ function sub (value1: NumberLike, value2: NumberLike): NumberLike {
     );
   }
   if (typeof value1 === "number" && typeof value2 === "number") {
-    // @ts-ignore
+    /* @ts-ignore */
     Math.sumPrecise([value1, -value2]);
   }
   return (value1 as bigint) - (value2 as bigint);
@@ -3844,14 +3666,14 @@ function sub (value1: NumberLike, value2: NumberLike): NumberLike {
 /**
  * @description Multiply two numbers or bigints.
  *
- * @param {NumberLike} value1
- * @param {NumberLike} value2
- * @returns {NumberLike} The result of the operation.
+ * @param {Numeric} value1
+ * @param {Numeric} value2
+ * @returns {Numeric} The result of the operation.
  * @throws {TypeError} If x and y are of mixed types.
  */
 function mul (value1: number, value2: number): number;
 function mul (value1: bigint, value2: bigint): bigint;
-function mul(value1: NumberLike, value2: NumberLike): NumberLike {
+function mul(value1: Numeric, value2: Numeric): Numeric {
   if (typeof value1 !== typeof value2
     || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
@@ -3868,15 +3690,15 @@ function mul(value1: NumberLike, value2: NumberLike): NumberLike {
 /**
  * @description Divide two numbers or bigints.
  *
- * @param {NumberLike} value1
- * @param {NumberLike} value2
- * @returns {NumberLike} The result of the operation.
+ * @param {Numeric} value1
+ * @param {Numeric} value2
+ * @returns {Numeric} The result of the operation.
  * @throws {RangeError} If y is zero.
  * @throws {TypeError} If x and y are of mixed types.
  */
 function div (value1: number, value2: number): number;
 function div (value1: bigint, value2: bigint): bigint;
-function div (value1: NumberLike, value2: NumberLike): NumberLike {
+function div (value1: Numeric, value2: Numeric): Numeric {
   if (typeof value1 !== typeof value2
     || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
@@ -3896,15 +3718,15 @@ function div (value1: NumberLike, value2: NumberLike): NumberLike {
 /**
  * @description Performs integer division of two numbers or bigints.
  *
- * @param {NumberLike} value1
- * @param {NumberLike} value2
- * @returns {NumberLike} The result of the operation.
+ * @param {Numeric} value1
+ * @param {Numeric} value2
+ * @returns {Numeric} The result of the operation.
  * @throws {RangeError} If y is zero.
  * @throws {TypeError} If x and y are of mixed types.
  */
 function divMod (value1: number, value2: number): number;
 function divMod (value1: bigint, value2: bigint): bigint;
-function divMod (value1: NumberLike, value2: NumberLike): NumberLike {
+function divMod (value1: Numeric, value2: Numeric): Numeric {
   if (typeof value1 !== typeof value2
     || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
@@ -3924,15 +3746,15 @@ function divMod (value1: NumberLike, value2: NumberLike): NumberLike {
 /**
  * @description Remainder of division (modulus) of two numbers or bigints.
  *
- * @param {NumberLike} value1
- * @param {NumberLike} value2
- * @returns {NumberLike} The result of the operation.
+ * @param {Numeric} value1
+ * @param {Numeric} value2
+ * @returns {Numeric} The result of the operation.
  * @throws {RangeError} If y is zero.
  * @throws {TypeError} If x and y are of mixed types.
  */
 function mod (value1: number, value2: number): number;
 function mod (value1: bigint, value2: bigint): bigint;
-function mod (value1: NumberLike, value2: NumberLike): NumberLike {
+function mod (value1: Numeric, value2: Numeric): Numeric {
   if (typeof value1 !== typeof value2
     || (typeof value1 !== "number" && typeof value1 !== "bigint")) {
     throw new TypeError(
@@ -3966,7 +3788,9 @@ const isFloat = (value: unknown): boolean =>
  * @returns {number} The converted integer.
  */
 function toInteger (value: any): number {
-  value = ((value = Math.trunc(Number(value))) !== value || value === 0) ? 0 : value;
+  value = ((value = Math.trunc(Number(value))) !== value || value === 0)
+    ? 0
+    : value;
   return Math.min(
     Math.max(value, Number.MIN_SAFE_INTEGER),
     Number.MAX_SAFE_INTEGER
@@ -4003,7 +3827,7 @@ function sum (...args: any[]): any {
     );
   }
   return args.every((value: unknown): boolean => typeof value === "number")
-    // @ts-ignore
+    /* @ts-ignore */
     ? Math.sumPrecise(args)
     : args.slice(1).reduce((acc: any, value: any): any => acc + value, args[0]);
 }
@@ -4015,37 +3839,39 @@ function sum (...args: any[]): any {
  * @param {...number} args - The numbers to average.
  * @returns {number} The average of the numbers.
  */
-// @ts-ignore
+/* @ts-ignore */
 const avg = (...args: number[]): number => Math.sumPrecise(args) / args.length;
 
 
 /**
  * @description Calculates the product of multiple numbers and bigints.
  *
- * @param {...NumberLike} args - The numbers to multiply.
- * @returns {NumberLike} The product of the numbers.
+ * @param {...Numeric} args - The numbers to multiply.
+ * @returns {Numeric} The product of the numbers.
  */
 function product (first: number, ...args: number[]): number;
 function product (first: bigint, ...args: bigint[]): bigint;
-function product (first: NumberLike, ...args: NumberLike[]): NumberLike {
+function product (first: Numeric, ...args: Numeric[]): Numeric {
   if (typeof first === "bigint") {
-    return (args as bigint[]).reduce((acc: bigint, v: bigint): bigint => acc * v, first as bigint);
+    return (args as bigint[])
+      .reduce((acc: bigint, v: bigint): bigint => acc * v, first as bigint);
   }
-  return (args as number[]).reduce((acc: number, v: number): number => acc * v, first as number);
+  return (args as number[])
+    .reduce((acc: number, v: number): number => acc * v, first as number);
 }
 
 
 /**
  * @description Returns the value of a base raised to a power.
  *
- * @param {NumberLike} base - The base value.
- * @param {NumberLike} power - The power value.
- * @returns {NumberLike} The product of the numbers.
+ * @param {Numeric} base - The base value.
+ * @param {Numeric} power - The power value.
+ * @returns {Numeric} The product of the numbers.
  * @throws {TypeError} if base and power are of mixed types or not number or bigint.
  */
 function pow (base: number, power: number): number;
 function pow (base: bigint, power: bigint): bigint;
-function pow (base: NumberLike, power: NumberLike): NumberLike {
+function pow (base: Numeric, power: Numeric): Numeric {
   if (typeof base !== typeof power
     || (typeof base !== "number" && typeof base !== "bigint")
   ) {
@@ -4063,19 +3889,19 @@ function pow (base: NumberLike, power: NumberLike): NumberLike {
 /**
  * @description Clamps a value between a minimum and maximum.
  *
- * @param {NumberLike} value - The value to clamp.
- * @param {NumberLike} min - The minimum value.
- * @param {NumberLike} max - The maximum value.
- * @returns {NumberLike} The clamped value.
+ * @param {Numeric} value - The value to clamp.
+ * @param {Numeric} min - The minimum value.
+ * @param {Numeric} max - The maximum value.
+ * @returns {Numeric} The clamped value.
  */
 function clamp (value: number, min: number, max: number): number;
 function clamp (value: bigint, min: bigint, max: bigint): bigint;
 function clamp (
-  value: NumberLike,
-  min: NumberLike = Number.MIN_SAFE_INTEGER,
-  max: NumberLike = Number.MAX_SAFE_INTEGER): NumberLike {
+  value: Numeric,
+  min: Numeric = Number.MIN_SAFE_INTEGER,
+  max: Numeric = Number.MAX_SAFE_INTEGER): Numeric {
   /* normalize */
-  function _numberNormalize (value: any): NumberLike {
+  function _numberNormalize (value: any): Numeric {
     if (typeof value !== "bigint" && typeof value !== "number") {
       value = Number(value);
     }
@@ -4113,19 +3939,19 @@ function clamp (
 /**
  * @description Clamps a value between a minimum and maximum.
  *
- * @param {NumberLike} value - The value to clamp.
- * @param {NumberLike} min - The minimum value.
- * @param {NumberLike} max - The maximum value.
- * @returns {NumberLike} The clamped value.
+ * @param {Numeric} value - The value to clamp.
+ * @param {Numeric} min - The minimum value.
+ * @param {Numeric} max - The maximum value.
+ * @returns {Numeric} The clamped value.
  */
 function minmax (value: number, min: number, max: number): number;
 function minmax (value: bigint, min: bigint, max: bigint): bigint;
 function minmax (
-  value: NumberLike,
-  min: NumberLike = Number.MIN_SAFE_INTEGER,
-  max: NumberLike = Number.MAX_SAFE_INTEGER): NumberLike {
+  value: Numeric,
+  min: Numeric = Number.MIN_SAFE_INTEGER,
+  max: Numeric = Number.MAX_SAFE_INTEGER): Numeric {
   /* normalize */
-  function _numberNormalize (value: any): NumberLike {
+  function _numberNormalize (value: any): Numeric {
     if (typeof value !== "bigint" && typeof value !== "number") {
       value = Number(value);
     }
@@ -4325,9 +4151,9 @@ const isUInt8 = (value: unknown | number): boolean =>
  * @param {unknown} value - The value to check.
  * @returns {boolean} True if the value is a 16-bit signed integer, false otherwise.
  */
-const isInt16 = (value: unknown): boolean =>
-  Number.isInteger(value) && value as number >= -32768
-    && value as number <= 32767;
+const isInt16 = (value: unknown): boolean => Number.isInteger(value)
+  && value as number >= -32768
+  && value as number <= 32767;
 
 
 /**
@@ -4346,9 +4172,9 @@ const isUInt16 = (value: unknown): boolean =>
  * @param {unknown} value - The value to check.
  * @returns {boolean} True if the value is a 32-bit signed integer, false otherwise.
  */
-const isInt32 = (value: unknown): boolean =>
-  Number.isInteger(value) && value as number >= -2147483648
-    && value as number <= 2147483647;
+const isInt32 = (value: unknown): boolean => Number.isInteger(value)
+  && value as number >= -2147483648
+  && value as number <= 2147483647;
 
 
 /**
@@ -4357,9 +4183,9 @@ const isInt32 = (value: unknown): boolean =>
  * @param {unknown} value - The value to check.
  * @returns {boolean} True if the value is a 32-bit unsigned integer, false otherwise.
  */
-const isUInt32 = (value: unknown | number): boolean =>
-  Number.isInteger(value) && value as number >= 0
-    && value as number <= 4294967295;
+const isUInt32 = (value: unknown | number): boolean => Number.isInteger(value)
+  && value as number >= 0
+  && value as number <= 4294967295;
 
 
 /**
@@ -4368,9 +4194,9 @@ const isUInt32 = (value: unknown | number): boolean =>
  * @param {unknown} value - The value to check.
  * @returns {boolean} True if the value is a 64-bit signed integer, false otherwise.
  */
-const isBigInt64 = (value: unknown): boolean =>
-  typeof value === "bigint"
-    && value >= Math.pow(-2, 63) && value <= Math.pow(2, 63) - 1;
+const isBigInt64 = (value: unknown): boolean => typeof value === "bigint"
+  && value >= Math.pow(-2, 63)
+  && value <= Math.pow(2, 63) - 1;
 
 
 /**
@@ -4379,7 +4205,7 @@ const isBigInt64 = (value: unknown): boolean =>
  * @param {unknown} value - The value to check.
  * @returns {boolean} True if the value is a 64-bit unsigned integer, false otherwise.
  */
-const isBigUInt64 = (value: unknown | NumberLike): boolean =>
+const isBigUInt64 = (value: unknown | Numeric): boolean =>
   typeof value === "bigint" && value >= 0 && value <= Math.pow(2, 64) - 1;
 
 
@@ -4399,18 +4225,20 @@ const toFloat16 = (value: unknown): number =>
  * @param {unknown} value - The value to check.
  * @returns {boolean} True if the value is a 16-bit floating-point number, false otherwise.
  */
-const isFloat16 = (value: unknown | NumberLike): boolean =>
-  typeof value === "number" && value === value && value >= -65504
+const isFloat16 = (value: unknown | Numeric): boolean =>
+  typeof value === "number"
+    && value === value
+    && value >= -65504
     && value <= 65504;
 
 
 /**
  * @description Checks if the sign bit of a number or bigint is set (i.e., if the value is negative).
  *
- * @param {unknown | NumberLike} value - The value to check.
+ * @param {unknown | Numeric} value - The value to check.
  * @returns {boolean} True if the sign bit is set, false otherwise.
  */
-const signbit = (value: unknown | NumberLike): boolean =>
+const signbit = (value: unknown | Numeric): boolean =>
   ((value = Number(value)) !== value)
     ? false
     : (Object.is(value, -0) || (
@@ -4465,14 +4293,14 @@ function randomFloat (
 /**
  * @description Checks if a number is within a specified range (inclusive).
  *
- * @param {NumberLike} value - The number to check.
- * @param {NumberLike} min - The minimum value of the range.
- * @param {NumberLike} max - The maximum value of the range.
+ * @param {Numeric} value - The number to check.
+ * @param {Numeric} min - The minimum value of the range.
+ * @param {Numeric} max - The maximum value of the range.
  * @returns {boolean} True if the number is within the range, false otherwise.
  */
 function inRange (value: number, min: number, max: number): boolean;
 function inRange (value: bigint, min: bigint, max: number): boolean;
-function inRange (value: NumberLike, min: NumberLike, max: NumberLike): boolean {
+function inRange (value: Numeric, min: Numeric, max: Numeric): boolean {
   if (
     (typeof value === "number"
       && typeof min === "number"
@@ -4516,14 +4344,12 @@ export default {
   asyncF,
   asyncConstant,
   asyncIdentity,
-  createPolyfillMethod,
-  createPolyfillProperty,
   randomUUIDv7,
   delay,
   randomBoolean,
   getUrlVars,
   obj2string,
-  extend,
+  deepAssign,
   sizeIn,
   unBind,
   bind,
@@ -4767,14 +4593,12 @@ export {
   asyncF,
   asyncConstant,
   asyncIdentity,
-  createPolyfillMethod,
-  createPolyfillProperty,
   randomUUIDv7,
   delay,
   randomBoolean,
   getUrlVars,
   obj2string,
-  extend,
+  deepAssign,
   sizeIn,
   unBind,
   bind,
