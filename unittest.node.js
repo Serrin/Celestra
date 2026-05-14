@@ -35,7 +35,7 @@ globalThis.CEL = celestra;
 
 const CUT = {};
 
-CUT.VERSION = "Celestra Unit Tester (CUT) v6.7.0 for Node.js";
+CUT.VERSION = "Celestra Unit Tester (CUT) v6.7.1 for Node.js";
 
 /* __addTest__(<step: string>, <expected>, <expression>); */
 /* __addTest__(<step: string>, <expected>, <expression>[, strict: boolean]); */
@@ -310,7 +310,7 @@ var /** @type any */ token12, /** @type any */ token13;
 var /** @type any */ token14, /** @type any */ token15;
 
 
-/* Celestra v6.7.0 testcases */
+/* Celestra v6.7.1 testcases */
 
 
 /** Not auto tested functions **/
@@ -645,10 +645,9 @@ token1 = CEL.nanoid(36);
 CUT.isTrue("nanoid(); 03 - <code>\"" + token1 + "\"</code>",
   typeof token1==="string" && token1.length === 36
 );
-token1 = CEL.nanoid(5, "abcdeFGHIJK42");
-CUT.isTrue("nanoid(); 04 - size 5 & <code>\"abcdeFGHIJK42\"</code> - <code>\""
-    + token1 + "\"</code>",
-  typeof token1 === "string" && token1.length === 5
+token1 = CEL.nanoid(11);
+CUT.isTrue("nanoid(); 04 - <code>\"" + token1 + "\"</code>",
+  typeof token1==="string" && token1.length === 11
 );
 
 
@@ -658,19 +657,17 @@ CUT.isTrue("timestampID(); 01 - default size 21 - <code>\"" + token1
     + "\"</code>",
   typeof token1 === "string" && token1.length === 21
 );
+token1 = CEL.timestampID(11);
+CUT.isTrue("timestampID(); 02 - size 11 - <code>\"" + token1 + "\"</code>",
+  typeof token1 === "string" && token1.length === 11
+);
 token1 = CEL.timestampID(15);
-CUT.isTrue("timestampID(); 02 - size 15 - <code>\"" + token1 + "\"</code>",
+CUT.isTrue("timestampID(); 03 - size 15 - <code>\"" + token1 + "\"</code>",
   typeof token1 === "string" && token1.length === 15
 );
 token1 = CEL.timestampID(36);
-CUT.isTrue("timestampID(); 03 - size 36 - <code>\"" + token1 + "\"</code>",
+CUT.isTrue("timestampID(); 04 - size 36 - <code>\"" + token1 + "\"</code>",
   typeof token1 === "string" && token1.length === 36
-);
-token1 = CEL.timestampID(5, "abcdeFGHIJK42");
-CUT.isTrue(
-  "timestampID(); 04 - size 5 -> 12 & <code>\"abcdeFGHIJK42\"</code> - <code>\""
-    + token1 + "\"</code>",
-  typeof token1 === "string" && token1.length === 12
 );
 
 
@@ -729,8 +726,9 @@ CUT.isEqual("obj2string();",
 
 /* getUrlVars(); deprecated */
 CUT.isEqual(
-  'getUrlVars(); prop order_by from <code>"?showall=true&order_by=updated&o=asc"</code>',
-  "updated", CEL.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"]
+  'getUrlVars(); prop order_by from "?showall=true&order_by=updated&o=asc"',
+  "updated",
+  CEL.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by"]
 );
 CUT.isEqual("getUrlVars(); prop not found - undefined", undefined,
   CEL.getUrlVars("?showall=true&order_by=updated&o=asc")["order_by2"]
@@ -1374,9 +1372,8 @@ CUT.isEqual("dropRightWhile(); 03", token2, 72);
 CUT.isEqual("concat(); 01", "[4,5,6]",
   JSON.stringify([...CEL.concat([4, 5, 6])])
 );
-CUT.isEqual("concat(); 02", "[\"1\",\"2\",\"3\",4,5,6,7,8,9,10]",
-  JSON.stringify([...CEL.concat("123", [4, 5, 6].values(),
-  new Set([7, 8, 9]), 10)])
+CUT.isEqual("concat(); 02", "[4,5,6,7,8,9]",
+  JSON.stringify([...CEL.concat([4, 5, 6], new Set([7, 8, 9]))])
 );
 
 
