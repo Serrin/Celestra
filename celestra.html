@@ -264,18 +264,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
       <p><a href="#FN-compact();">compact();</a></p>
       <p><a href="#FN-concat();">concat();</a></p>
       <p><a href="#FN-count();">count();</a></p>
-      <p><a href="#FN-drop();">drop();</a></p>
-      <p><a href="#FN-dropRight();">dropRight();</a></p>
-      <p><a href="#FN-dropRightWhile();">dropRightWhile();</a></p>
-      <p><a href="#FN-dropWhile();">dropWhile();</a></p>
-      <p><a href="#FN-enumerate();">enumerate();</a></p>
-      <p><a href="#FN-every();">every();</a></p>
-      <p><a href="#FN-filter();">filter();</a></p>
-      <p><a href="#FN-find();">find();</a></p>
       <p><a href="#FN-findLast();">findLast();</a></p>
       <p><a href="#FN-first();">first();</a></p>
-      <p><a href="#FN-forEach();">forEach();</a></p>
-      <p><a href="#FN-forEachRight();">forEachRight();</a></p>
       <p><a href="#FN-head();">head();</a></p>
       <p><a href="#FN-includes();">includes();</a></p>
       <p><a href="#FN-initial();">initial();</a></p>
@@ -284,30 +274,18 @@ nav a, nav a:visited, nav a:active, nav a:hover {
       <p><a href="#FN-iterRange();">iterRange();</a></p>
       <p><a href="#FN-iterRepeat();">iterRepeat();</a></p>
       <p><a href="#FN-join();">join();</a></p>
-      <p><a href="#FN-flat();">flat();</a></p>
       <p><a href="#FN-last();">last();</a></p>
-      <p><a href="#FN-map();">map();</a></p>
       <p><a href="#FN-max();">max();</a></p>
       <p><a href="#FN-min();">min();</a></p>
-      <p><a href="#FN-none();">none();</a></p>
       <p><a href="#FN-nth();">nth();</a></p>
-      <p><a href="#FN-partition();">partition();</a></p>
-      <p><a href="#FN-reduce();">reduce();</a></p>
-      <p><a href="#FN-reject();">reject();</a></p>
       <p><a href="#FN-reverse();">reverse();</a></p>
       <p><a href="#FN-size();">size();</a></p>
       <p><a href="#FN-shuffle();">shuffle();</a></p>
       <p><a href="#FN-slice();">slice();</a></p>
-      <p><a href="#FN-some();">some();</a></p>
       <p><a href="#FN-sort();">sort();</a></p>
       <p><a href="#FN-tail();">tail();</a></p>
-      <p><a href="#FN-take();">take();</a></p>
-      <p><a href="#FN-takeRight();">takeRight();</a></p>
-      <p><a href="#FN-takeRightWhile();">takeRightWhile();</a></p>
-      <p><a href="#FN-takeWhile();">takeWhile();</a></p>
       <p><a href="#FN-unique();">unique();</a></p>
       <p><a href="#FN-unzip();">unzip();</a></p>
-      <p><a href="#FN-withOut();">withOut();</a></p>
       <p><a href="#FN-zip();">zip();</a></p>
       <p><a href="#FN-zipObj();">zipObj();</a></p>
     </details>
@@ -382,8 +360,8 @@ nav a, nav a:visited, nav a:active, nav a:hover {
 
 <p><strong>A helper JavaScript library with useful functions and polyfills and zero dependencies.</strong></p>
 
-<p>Latest version: 6.8.0.1</p>
-<p>Date:  2026-06-06T12:51:58.795Z</p>
+<p>Latest version: 6.9.0</p>
+<p>Date: 2026-06-14T17:36:41.957Z</p>
 
 <p><strong>Tested on these environments:</strong></p>
 
@@ -516,9 +494,9 @@ globalThis.CEL = celestra;
 
 &#60;script type="module"&#62;
 // import some functions
-import { first, map } from "./celestra.browser.js";
+import { first, last } from "./celestra.browser.js";
 globalThis.first = first;
-globalThis.map = map;
+globalThis.last = last;
 &#60;/script&#62;
 
 &#60;script type="module"&#62;
@@ -549,9 +527,9 @@ globalThis.celestra = celestra;
 globalThis.CEL = celestra;
 
 // import some functions
-import { first, map } from "./celestra.nodejs.js";
+import { first, last } from "./celestra.nodejs.js";
 globalThis.first = first;
-globalThis.map = map;
+globalThis.last = last;
 
 // dynamic import
 const celestra = await import("./celestra.node.js");
@@ -583,18 +561,7 @@ globalThis.CEL = celestra;
 <h3>Celestra v3.0.0 (Hera) changes</h3>
 
 <ul>
-  <li>Only modern browsers (ES6+) are supported. The Internet Explorer 11 and W10M Edge have been removed from the supported browsers.</li>
-  <li>If you would like to use Celestra with older browsers, then you can download the latest v2.x version here: <a href="https://github.com/Serrin/Celestra/releases" target="_blank">https://github.com/Serrin/Celestra/releases</a></li>
-  <li>The library sources have been merged and all of the ES6E functions are available in the <strong>celestra.dev.js</strong> and <strong>celestra.min.js</strong></li>
-  <li>Many functions have been deprecated or removed.</li>
-</ul>
-
-<h3>Celestra v3.6.0 (Galactica) changes</h3>
-
-<ul>
-  <li>CommonJS and AMD module compatibility have been removed.</li>
-  <li>In the ESM (ECMAScript 6 module) edition only the whole celestra object is exported as default export and as standalone object.</li>
-  <li>Many functions have been deprecated or removed.</li>
+  <li>Only modern browsers (ES6+) are supported. The Internet Explorer 11 and W10M Edge have been removed from the supported browsers. If you would like to use Celestra with older browsers, then you can download the last v2.x version here: <a href="https://github.com/Serrin/Celestra/releases" target="_blank">https://github.com/Serrin/Celestra/releases</a></li>
 </ul>
 
 <h3>Celestra v5.0.0 (Defiant) changes</h3>
@@ -603,57 +570,16 @@ globalThis.CEL = celestra;
   <li>The underscore <code>_</code> short object name has been changed to <code>CEL</code> to avoid the compatibility issues.</li>
 </ul>
 
-<h3>Celestra v5.5.0 changes</h3>
-
-<ul>
-  <li>The Math functions are available in the main code files (dev, min, esm) instead of the Math plugins.</li>
-</ul>
-
-<h3>Celestra v5.6.0 (Razorback) changes</h3>
-
-<ul>
-  <li>21 polyfills have been removed.</li>
-</ul>
-
-<h3>Celestra v5.7.0 (Nostromo) changes</h3>
-
-<ul>
-  <li>The module edition (<strong>celestra.esm.js</strong>) import has been changed.</li>
-  <li>Added <strong>Assert API v3</strong> and the old assert functions have been removed.</li>
-  <li>The <code>getText();</code> and <code>getJson();</code> functions have been modified to standalone function.</li>
-</ul>
-
-<h3>Celestra v5.8.0 (Uhura) changes</h3>
-
-<ul>
-  <li>50 functions have been removed.</li>
-</ul>
-
-<h3>Celestra v5.9.0 (Final five) changes</h3>
-
-<ul>
-  <li>12 functions and a polyfill have been removed.</li>
-</ul>
-
 <h3>Celestra v6.0.0 (David) changes</h3>
 
 <ul>
-  <li>The Node.js and Deno support has been added.</li>
+  <li>Node.js and Deno support has been added.</li>
 </ul>
 
 <h3>Celestra v6.1.0 (Sulaco) changes</h3>
 
 <ul>
-  <li>Please read in the documentation about the new files and import methods for the browser edition!</li>
-  <li>The <strong>celestra.dev.js</strong> has been replaced with the <strong>celestra.browser.ts</strong>.</li>
-  <li>The <strong>celestra.min.js</strong> has been replaced with the <strong>celestra.browser.js</strong>.</li>
-  <li>The <strong>celestra.node.mjs</strong> has been remained and added the <strong>celestra.node.mts</strong>.</li>
-  <li>The <code>isNil();</code> function has been renamed to <code>isNullish();</code>.</li>
-  <li>The <code>assertIsNil();</code> function has been renamed to <code>assertIsNullish();</code>.</li>
-  <li>The <code>assertIsNotNil();</code> function has been renamed to <code>assertIsNotNullish();</code>.</li>
-  <li>The <code>type();</code> function has been renamed to <code>typeOf();</code>.</li>
-  <li>The <code>celestra.noConflict();</code> function has been removed.</li>
-  <li>Some deprecated functions have been removed.</li>
+  <li>TypeScript source files have been added.</li>
 </ul>
 
 <h3>Celestra v6.3.0 (Bishop) changes</h3>
@@ -666,17 +592,19 @@ globalThis.CEL = celestra;
 <h3>Celestra v6.5.0 (Andromeda) changes</h3>
 
 <ul>
-  <li>Documentation, pdf and code fixes.</li>
-  <li>From this version the version of the CUT is same as the Celestra version.</li>
   <li>Firefox 115 (Windows 7 and 8.1) and iOS 16 support has been removed.</li>
-  <li>Many functions have been renamed.</li>
-  <li>Many polyfills have been moved to <strong>celestra-polyfills.dev.js</strong> and <strong>celestra-polyfills.min.js</strong>.</li>
 </ul>
 
 <h3>Celestra v6.8.0 changes</h3>
 
 <ul>
   <li>These files have been renamed: <strong>celestra.node.mts</strong> to <strong>celestra.node.ts</strong> and <strong>celestra.node.mjs</strong> to <strong>celestra.node.js</strong>.</li>
+</ul>
+
+<h3>Celestra v6.9.0 (McCoy) changes</h3>
+
+<ul>
+  <li>Many functions from the <strong>Collections API</strong> have been removed.</li>
 </ul>
 
 <hr/>
@@ -700,7 +628,7 @@ globalThis.CEL = celestra;
 <div>
   <table class="table-responsive table-striped">
     <tr>
-      <td style="width: auto; min-width: 33%;"><strong>Name</strong></td>
+      <td style="width: auto; min-width: 30%;"><strong>Name</strong></td>
       <td><strong>Description</strong></td>
     </tr>
     <tr id="FN-VERSION">
@@ -793,7 +721,7 @@ CEL.delay(5000)
   .then(() => alert("5 seconds"))
   .catch(console.log.bind(console))
   .finally(() => alert("done"));</pre>
-	    </td>
+      </td>
     </tr>
     <tr id="FN-eq();">
       <td><code>eq(value1, value2);</code></td>
@@ -884,7 +812,7 @@ CEL.delay(5000)
 <div>
   <table class="table-responsive table-striped">
     <tr>
-      <td style="width: auto; min-width: 33%;"><strong>Name</strong></td>
+      <td style="width: auto; min-width: 30%;"><strong>Name</strong></td>
       <td><strong>Description</strong></td>
     </tr>
     <tr id="FN-b64Decode();">
@@ -978,7 +906,7 @@ CEL.delay(5000)
 <div>
   <table class="table-responsive table-striped">
     <tr>
-      <td style="width: auto; min-width: 33%;"><strong>Name</strong></td>
+      <td style="width: auto; min-width: 30%;"><strong>Name</strong></td>
       <td><strong>Description</strong></td>
     </tr>
     <tr id="FN-createFile();">
@@ -1159,16 +1087,12 @@ CEL.delay(5000)
   </table>
 </div>
 
-<h3 id="FNajaxAPI">Legacy AJAX API</h3>
-
-<p class="info">These functions have been removed in v6.3.0. It's recommend to use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">Fetch API</a>, because this is <a href="https://caniuse.com/?search=fetch" target="_blank">supported</a> in every modern browsers.</p>
-
 <h3 id="FNtypecheckingAPI">Type API</h3>
 
 <div>
   <table class="table-responsive table-striped">
     <tr>
-      <td style="width: auto; min-width: 33%;"><strong>Name</strong></td>
+      <td style="width: auto; min-width: 30%;"><strong>Name</strong></td>
       <td><strong>Description</strong></td>
     </tr>
     <tr id="FN-constructorOf();">
@@ -1299,8 +1223,8 @@ CEL.delay(5000)
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns true if the values are same class and uses the <code>instanceof</code> operator. The parameters are mandatory. The return value is <code>boolean</code>.</td>
     </tr>
     <tr id="FN-isSameType();">
-      <td><code>isSameType(value1, value2);</code></td>
-      <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns true if the values are same type or both are <code>null</code> or both are <code>undefined</code>. The parameters are mandatory. The return value is <code>boolean</code>.</td>
+      <td><code>isSameType(value1, value2 [,type]);</code></td>
+      <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns true if the values are same type or both are <code>null</code> or both are <code>undefined</code>. The value1 and value2 parameters are mandatory. The return value is <code>boolean</code>.</td>
     </tr>
     <tr id="FN-isTypedArray();">
       <td><code>isTypedArray(value);</td>
@@ -1356,7 +1280,7 @@ CEL.delay(5000)
 <div>
   <table class="table-responsive table-striped">
     <tr">
-      <td style="width: auto; min-width: 33%;"><strong>Name</strong></td>
+      <td style="width: auto; min-width: 30%;"><strong>Name</strong></td>
       <td><strong>Description</strong></td>
     </tr>
     <tr id="FN-clearCookies();">
@@ -1441,7 +1365,7 @@ CEL.delay(5000)
 <div>
   <table class="table-responsive table-striped">
     <tr">
-      <td style="width: auto; min-width: 33%;"><strong>Name</strong></td>
+      <td style="width: auto; min-width: 30%;"><strong>Name</strong></td>
       <td><strong>Description</strong></td>
     </tr>
     <tr id="FN-arrayAdd();">
@@ -1499,42 +1423,6 @@ CEL.delay(5000)
       <td><code>count((iterator,callback););</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function executes a counter function (that you provide) on each element of the iterator, returning in a single output value. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code>.</td>
     </tr>
-    <tr id="FN-drop();">
-      <td><code>drop(iterator[,n=1]);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Drop the first N elements of an iterator and yield the remained elements. The iterator parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
-    </tr>
-    <tr id="FN-dropRight();">
-      <td><code>dropRight(iterator[,n=1]);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Drop the last N elements of an iterator and return the remained elements in an array. The iterator parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1.</td>
-    </tr>
-    <tr id="FN-dropRightWhile();">
-      <td><code>dropRightWhile(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Drop the elements from the end of an iterator while the callback (filter) function returns true and yield the remained elements. The callback function will be called with the actual element of the iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code>.</td>
-    </tr>
-    <tr id="FN-dropWhile();">
-      <td><code>dropWhile(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Drop the elements of an iterator while the callback (filter) function returns true and yield the remained elements. The callback function will be called with the actual element of the iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code>.</td>
-    </tr>
-    <tr id="FN-enumerate();">
-      <td><code>enumerate(iterator[,offset=0]);</code></td>
-      <td>
-        <span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">
-        <p>Yield generated pairs (arrays) from the elements of a iterator and a counter. The iterator parameter is mandatory. The offset parameter is optional and can be an integer and it's default value is 0.</p>
-        <p>Example: <code>CEL.enumerate(["Picard", "Riker", "Data"], 2);</code> -> <code>[2, "Picard"]</code>, <code>[3, "Riker"]</code>, <code>[4, "Data"]</code></p>
-      </td>
-    </tr>
-    <tr id="FN-every();">
-      <td><code>every(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This function whether all elements in the iterator pass the test implemented by the provided function. It returns a <code>boolean</code> value and all of the parameters are mandatory. If the iterator is empty, then the return value is false.</td>
-    </tr>
-    <tr id="FN-filter();">
-      <td><code>filter(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Filter and yield elements of an iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code> and called with two parameters: the item and the index of the item (only a counter).</td>
-    </tr>
-    <tr id="FN-find();">
-      <td><code>find(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This function returns the value of the first element in the iterator that satisfies the provided testing function. Otherwise <code>undefined</code> is returned. All of the parameters are mandatory.</td>
-    </tr>
     <tr id="FN-findLast();">
       <td><code>findLast(iterator,callback);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns the value of the last element in the iterator that satisfies the provided testing function. Otherwise <code>undefined</code> is returned. All of the parameters are mandatory.</td>
@@ -1543,20 +1431,12 @@ CEL.delay(5000)
       <td><code>first(iterator);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns the first element of the given iterator. The iterator parameter is mandatory.</td>
     </tr>
-    <tr id="FN-forEach();">
-      <td><code>forEach(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This function executes a provided function once for each iterator items. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code> and called with two parameters: the item and the index of the item (only a counter).</td>
-    </tr>
-    <tr id="FN-forEachRight();">
-      <td><code>forEachRight(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This function executes a provided function once for each iterator items in reversed order. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code> and called with two parameters: the item and the index of the item (only a reversed counter).</td>
-    </tr>
     <tr id="FN-head();">
       <td><code>head(iterator);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This is an alias of the <code>first(iterator);</code>.</td>
     </tr>
     <tr id="FN-includes();">
-      <td><code>includes(iterator,value);</code></td>
+      <td><code>includes(iterator,value[,comparator]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function determines whether a collection includes a certain value among its entries, returning true or false as appropriate. The collection and the value of the parameters are mandatory and the comparator is optional.<BR>The default comparasion is SameValueZero algorithm, but with the comparator (function) can be other solution. (e.g.: Object.is, which uses the SameValue algorithm).<br/>The collection can be: <i>String</i> (uses the String#includes method), <i>String object</i> (uses the String#includes method), <i>Map</i>, <i>Iterables</i> (Array, Set, TypedArrays, other Iterables), <i>plain objects</i>, <i>functions</i> (as object).<br/>The own keys, values, symbols are compared, example: <code>CEL.includes({"lorem": "ipsum","1": 0}, -0);</code> returns true.</td>
     </tr>
     <tr id="FN-initial();">
@@ -1596,17 +1476,9 @@ CEL.delay(5000)
       <td><code>join(iterator[,separator=","]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function creates and returns a new <code>string</code> by concatenating all of the elements in an iterator, separated by commas or a specified separator <code>string</code>. The separator is converted to a <code>string</code> if necessary. If the iterator has only one item, then that item will be returned without using the separator. The iterator parameter is mandatory.</td>
     </tr>
-    <tr id="FN-flat();">
-      <td><code>flat(iterator);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Yield the subelements of the elements of the given iterator. the iterator parameter is mandatory and all of the elements have to be an iterator or iterable.</td>
-    </tr>
     <tr id="FN-last();">
       <td><code>last(iterator);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function returns the last element of the given iterator. The iterator parameter is mandatory.</td>
-    </tr>
-    <tr id="FN-map();">
-      <td><code>map(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This function creates a new iterator with the results of calling a provided function on every element. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code> and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr id="FN-max();">
       <td><code>max(value1[,valueN]);</code></td>
@@ -1616,34 +1488,9 @@ CEL.delay(5000)
       <td><code>min(value1[,valueN]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Returns the minimum value of the given values. The first value parameter is mandatory and can be any type. Works with any type of values, not only with numbers.</td>
     </tr>
-    <tr id="FN-none();">
-      <td><code>none(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This function whether all elements in the iterator do not pass the test implemented by the provided function. It returns a <code>boolean</code> value and all of the parameters are mandatory. If the iterator is empty, then the return value is false.</td>
-    </tr>
     <tr id="FN-nth();">
       <td><code>nth(iterator,index);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This is an alias of the <code>item(iterator,index);</code>.<td>
-    </tr>
-    <tr id="FN-partition();">
-      <td><code>partition(iterator,callback);</code></td>
-      <td>
-        <span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>
-        <p>Returns an array, with filtered and negative filtered groups of the elements of the original iterator. All of the parameters are mandatory.</p>
-        <p>
-          <strong>Example:</strong>
-          <br/><code>CEL.partition([-5, 2, -9, 7, 34], (e) => (e > 0) );</code>
-          <br/>->
-          <br/><code>[[2, 7, 34], [-5, -9]]</code>
-        </p>
-      </td>
-    </tr>
-    <tr id="FN-reduce();">
-      <td><code>reduce(iterator,callback[,initialvalue]);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This function executes a reducer function (that you provide) on each element of the iterator, returning in a single output value. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code>. The initialvalue parameter is optional and can be any variable type of the Javascript.</td>
-    </tr>
-    <tr id="FN-reject();">
-      <td><code>reject(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This is the opposite of the function <code>filter(iterator,callback);</code>. The elements to which the given callback gives a false will be yield. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code> and called with two parameters: the item and the index of the item (only a counter).</td>
     </tr>
     <tr id="FN-reverse();">
       <td><code>reverse(iterator);</code></td>
@@ -1670,10 +1517,6 @@ CEL.delay(5000)
       <td><code>slice(iterator[,begin=0[,end=Infinity]]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Take a slice of an iterator and yield the elements. The iterator parameter is mandatory. The begin parameter is optional and can be a <code>number</code> and the default value is 0. The end parameter is optional and can be a <code>number</code> and the default value is Infinity.</td>
     </tr>
-    <tr id="FN-some();">
-      <td><code>some(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>This function tests whether at least one element in the array passes the test implemented by the provided function. It returns a <code>boolean</code> value and all of the parameters are mandatory. If the iterator is empty, then the return value is false.</td>
-    </tr>
     <tr id="FN-sort();">
       <td><code>sort(iterator[,numbers=false]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>This function sorts the values of the given iterator. The iterator parameter is mandatory. The numbers paramater is optional (boolean) and set true, if the iterator contains only numbers. The return value is an array.</td>
@@ -1681,22 +1524,6 @@ CEL.delay(5000)
     <tr id="FN-tail();">
       <td><code>tail(iterator);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Yield the values of an iterator but without the first value. The iterator parameter is mandatory.</td>
-    </tr>
-    <tr id="FN-take();">
-      <td><code>take(iterator[,n=1]);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Yield the first N elements of an iterator. The iterator parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1</td>
-    </tr>
-    <tr id="FN-takeRight();">
-      <td><code>takeRight(iterator[,n=1]);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Take the last N elements of an iterator. The iterator parameter is mandatory. The n parameter is optional and can be an integer. Default parameter value: n = 1. The return value is an array.</td>
-    </tr>
-    <tr id="FN-takeRightWhile();">
-      <td><code>takeRightWhile(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Yield the elements from the end of an iterator while the callback (filter) function returns true. The callback function will be called with the actual element of the iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code>.</td>
-    </tr>
-    <tr id="FN-takeWhile();">
-      <td><code>takeWhile(iterator,callback);</code></td>
-      <td><span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>Yield the elements of an iterator while the callback (filter) function returns true. The callback function will be called with the actual element of the iterator. The iterator parameter is mandatory. The callback parameter is mandatory and has to be a <code>function</code>.</td>
     </tr>
     <tr id="FN-unique();">
       <td><code>unique(iterator[, resolver]);</code></td>
@@ -1733,19 +1560,6 @@ JSON.stringify( CEL.unique(array, (v) => v.rank) );
       <td><code>unzip(iterator);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Returns the array of arrays of unpaired values. In the modern browsers compatible with finite iterators. <br/><strong>Example:</strong><br/><code>CEL.unzip([ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]);</code><br/>-><br/><code>Array (2) [ ["a","b","c","d"], [3,4,5,6] ]</code></td>
     </tr>
-    <tr id="FN-withOut();">
-      <td><code>withOut(iterator,filterIterator);</code></td>
-      <td>
-        <span class="deprecated">Stability: 1 - Deprecated and will be removed.</span><br/><span class="info">Please use the new <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator" target="_blank">Iterator methods</a>!</span><br/>
-        <p>Returns an array with the values of the first iterator, but without the values of the filterIterator. All of the parameters are mandatory.</p>
-        <p>
-          <strong>Example:</strong>
-          <br/><code>CEL.withOut(["a","b","c","d"], ["b","d"]);</code>
-          <br/>->
-          <br/><code>["a","c"]</code>
-        </p>
-      </td>
-    </tr>
     <tr id="FN-zip();">
       <td><code>zip(iterator1[,iteratorN]);</code></td>
       <td><span class="info">Stability: 4 - Stable.</span><br/>Returns the array of paired values of the given iterators. In the modern browsers compatible with finite iterators. <br/><strong>Example:</strong><br/><code>CEL.zip(["a","b","c","d"], [3,4,5,6,7,8,9]);</code><br/>-><br/><code>Array (4) [ [ "a", 3 ], [ "b", 4 ], [ "c", 5 ], [ "d", 6 ] ]</code></td>
@@ -1757,18 +1571,12 @@ JSON.stringify( CEL.unique(array, (v) => v.rank) );
   </table>
 </div>
 
-
-<h3 id="FNabstractAPI">Abstract API</h3>
-
-<p>The Ecmascript abstract functions are available in the <a href="https://github.com/Serrin/Zephyr" target="_blank">Zephyr library</a>.</p>
-
-
 <h3 id="FNmathAPI">Math API</h3>
 
 <div>
   <table class="table-responsive table-striped">
     <tr>
-      <td style="width: auto; min-width: 33%;"><strong>Name</strong></td>
+      <td style="width: auto; min-width: 30%;"><strong>Name</strong></td>
       <td><strong>Description</strong></td>
     </tr>
     <tr id="FN-add();">
@@ -1955,7 +1763,7 @@ Otherwise, the result is false.</pre>
 <div>
   <table class="table-responsive table-striped">
     <tr>
-      <td style="width: auto; min-width: 33%;"><strong>Name</strong></td>
+      <td style="width: auto; min-width: 30%;"><strong>Name</strong></td>
       <td><strong>Description</strong></td>
     </tr>
     <tr id="FN-crypto.randomUUID();">
