@@ -1,9 +1,45 @@
 
 # Celestra version history
 
+## Celestra v7.0.1
+
+1. Documentation, pdf and code fixes.
+2. TypeScript 7.0 compatibility
+3. Fix these functions:
+
+- `compact();`
+- `count();`
+- `findLast();`
+- `initial();`
+- `last();`
+- `randomUUIDv7();`
+
+4. Deprecate _(stability 1)_ these functions:
+
+- `isInt8(value);`
+- `isInt16(value);`
+- `isInt32(value);`
+- `isUInt32(value);`
+- `isUInt8(value);`
+- `isUInt16(value);`
+- `isBigInt64(value);`
+- `isBigUInt64(value);`
+- `isFloat16(value);`
+- `nanoid();`
+- `toInt8(value);`
+- `toInt16(value);`
+- `toInt32(value);`
+- `toUInt8(value);`
+- `toUInt16(value);`
+- `toUInt32(value;`
+- `toBigInt64(value);`
+- `toBigUInt64(value);`
+- `toFloat16(value);`
+- `toFloat32(value);`
+
 ## Celestra v7.0.0 Spock
 
-1. No API changes. 
+1. No API changes.
 2. The 2 editions (Browser and Node.js) have been merged into new files: __celestra.ts__ and __celestra.js__.
 3. The import methods of the library have been changed.
 
