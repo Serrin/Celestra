@@ -15,7 +15,7 @@ try {
 
 /* Celestra unit tester */
 
-CUT.VERSION = "Celestra Unit Tester (CUT) v7.0.1 for browser (ESM)";
+CUT.VERSION = "Celestra Unit Tester (CUT) v7.1.0 for browser (ESM)";
 
 CUT.__results__ = document.querySelector("#results");
 CUT.__resultsFailed__ = document.querySelector("#resultsFailed");
@@ -299,7 +299,7 @@ var /** @type any */ token12, /** @type any */ token13;
 var /** @type any */ token14, /** @type any */ token15;
 
 
-/* Celestra v7.0.1 testcases */
+/* Celestra v7.1.0 testcases */
 
 
 /** Not auto tested functions **/
@@ -356,140 +356,55 @@ CUT.isEqual("WORDSAFEALPHABET;", CEL.WORDSAFEALPHABET,
 
 
 /* isTypedCollection(); begin */
-CUT.isTrue("is(); 01 true",
+CUT.isTrue("isTypedCollection(); 01 true",
   CEL.isTypedCollection([1,2,3], "number")
     && CEL.isTypedCollection([1,2,3], ["number"])
     && CEL.isTypedCollection([1,2,3], [Array, "number", Number])
     && CEL.isTypedCollection([1,{},3], [Array, "number", Object])
 );
-CUT.isFalse("is(); 02 false",
+CUT.isFalse("isTypedCollection(); 02 false",
   CEL.isTypedCollection([1,2,3], "string", false)
     && CEL.isTypedCollection([1,2,3], ["string"])
     && CEL.isTypedCollection([1,2,3], [Array, "string", Number], false)
     && CEL.isTypedCollection([1,{},3], [Array, "string", Map])
 );
-CUT.isError("is(); 03 error",
+CUT.isError("isTypedCollection(); 03 error",
   () => CEL.isTypedCollection([1,2,3], "string", true)
 );
-CUT.isError("is(); 04 error",
+CUT.isError("isTypedCollection(); 04 error",
   () => CEL.isTypedCollection([1,2,3], ["string"], true)
 );
-CUT.isError("is(); 05 error",
+CUT.isError("isTypedCollection(); 05 error",
   () => CEL.isTypedCollection([1,2,3], [Array, "string", Number], true)
 );
-CUT.isError("is(); 06 error",
+CUT.isError("isTypedCollection(); 06 error",
   () => CEL.isTypedCollection([1,{},3], [Array, "string", Map], true)
 );
-CUT.isError("is(); 07 parameter error - iter",
+CUT.isError("isTypedCollection(); 07 parameter error - iter",
   // @ts-ignore
   () => CEL.isTypedCollection(42, [Array, "number", Number])
 );
-CUT.isError("is(); 08 parameter error - expected",
+CUT.isError("isTypedCollection(); 08 parameter error - expected",
   // @ts-ignore
   () => CEL.isTypedCollection([1,2,3], 42)
 );
-CUT.isError("is(); 09 parameter error - Throw",
+CUT.isError("isTypedCollection(); 09 parameter error - Throw",
   // @ts-ignore
   () => CEL.isTypedCollection([1,2,3], [Array, "number", Number], 42)
 );
 /* isTypedCollection(); end */
 
 
-/* is(); begin */
-CUT.isTrue("is(); ES5 values",
-  // @ts-ignore
-  CEL.is([1, 2, 3]) === Array
-    && CEL.is(1998) === "number"
-    && CEL.is("hello world") === "string"
-    && CEL.is({a:1,b:2}) === Object
-    && CEL.is(document) === HTMLDocument
-    && CEL.is(true) === "boolean"
-    && CEL.is(document.querySelectorAll("p")) === NodeList
-    // @ts-ignore
-    && CEL.is(CEL.qs("p")) === HTMLParagraphElement
-    && CEL.is(null) === "null"
-    && CEL.is(undefined) === "undefined"
-    && CEL.is(function () {}) === "function"
-    && CEL.is(new Date()) === Date
-    && CEL.is(/^\[object (.+)\]$/g) === RegExp
-);
-CUT.isTrue("is(); ES5 true",
-  CEL.is([1, 2, 3], "array")
-    || CEL.is(1998, "number")
-    || CEL.is("hello world", "string")
-    || CEL.is({ a: 1, b: 2}, Object)
-    || CEL.is(document, HTMLDocument)
-    || CEL.is(true, "boolean")
-    || CEL.is(document.querySelectorAll("p"), NodeList)
-    // @ts-ignore
-    || CEL.is(CEL.qs("p"), HTMLParagraphElement)
-    || CEL.is(null, "null")
-    || CEL.is(undefined, "undefined")
-    || CEL.is(function () {}, "function")
-    || CEL.is(new Date(), Date)
-    || CEL.is(/^\[object (.+)\]$/g, RegExp)
-);
-CUT.isFalse("is(); ES5 false",
-  CEL.is([1, 2, 3], "number")
-    || CEL.is(1998, "array")
-    || CEL.is("hello world", "object")
-    || CEL.is({ a: 1 , b: 2}, "string")
-    || CEL.is(document, "boolean")
-    || CEL.is(true, HTMLDocument)
-    || CEL.is(document.querySelectorAll("p"), HTMLDocument)
-    // @ts-ignore
-    || CEL.is(CEL.qs("p"), NodeList)
-    || CEL.is(null, "undefined")
-    || CEL.is(undefined, "null")
-    || CEL.is(function(){}, Array)
-    || CEL.is(new Date(), "array")
-    || CEL.is(/^\[object (.+)\]$/g, "string")
-);
-CUT.isTrue("is(); ES6 values",
-  CEL.is(new Map()) === Map
-    && CEL.is(new Set()) === Set
-    && CEL.is(new WeakMap()) === WeakMap
-    && CEL.is(new WeakSet()) === WeakSet
-);
-CUT.isTrue("is(); ES6 true",
-  CEL.is(new Map(), Map)
-    && CEL.is(new Set(), Set)
-    && CEL.is(new WeakMap(), WeakMap)
-    && CEL.is(new WeakSet(), WeakSet)
-);
-CUT.isTrue("is(); ES6 true object",
-  CEL.is(new Map(), "object")
-    || CEL.is(new Set(), "object")
-    || CEL.is(new WeakMap(), "object")
-    || CEL.is(new WeakSet(), "object")
-);
-// @ts-ignore
-if (globalThis.BigInt) {
-  CUT.isTrue("is(); ES6 bigint",
-    CEL.is(BigInt(456)) === "bigint"
-      &&  CEL.is(456n, "bigint")
-      && !CEL.is(456n, "object")
-  );
-}
-CUT.isTrue("is(); expectedTypes array",
-  CEL.is(BigInt(456), [Object, "bigint"])
-    &&  CEL.is([], ["string", Map, Array])
-    && !CEL.is([], ["string", Map])
-    &&  CEL.is(Object.create(null), [Object, "object"])
-    && !CEL.is(Object.create(null), [Object, "string"])
-);
-CUT.isError("is(); error 1", () => CEL.is(Object.create(null), Object, true));
-CUT.isError("is(); error 2", () => CEL.is([], ["number", Map], true));
-CUT.isError("is(); error 3", () => CEL.is({}, ["string", Map, Array], true));
-// @ts-ignore
-CUT.isError("is(); error 4", () => CEL.is({}, ["string", Map, 42], true));
-// @ts-ignore
-CUT.isError("is(); error 5", () => CEL.is("dsgds", 42));
-// @ts-ignore
-CUT.isError("is(); error 6", () => CEL.is("dsgds", "string", 42));
-CUT.isError("is(); error 7", () => CEL.is("fsdds", "number", true));
-CUT.isError("is(); error 8", () => CEL.is("fsdds", Map, true));
-/* is(); end */
+/* is(); */
+CUT.isTrue("is(); 01", CEL.is(42, "number"));
+CUT.isFalse("is(); 02", CEL.is(42, "Number"));
+CUT.isTrue("is(); 03", CEL.is(Object(42), Number));
+CUT.isFalse("is(); 04", CEL.is(Object(42), "Number"));
+CUT.isTrue("is(); 05", CEL.is(42, [Array, "string", "number"]));
+CUT.isFalse("is(); 06", CEL.is(42, [Array, "string", Number]));
+CUT.isError("is(); 07", () => CEL.is(42, 84));
+CUT.isError("is(); 08", () => CEL.is(42, []));
+CUT.isError("is(); 09", () => CEL.is(42, [Array, "string", "Number", 84]));
 
 
 /* toSafeString(); */
@@ -645,25 +560,6 @@ CUT.isTrue("randomUUIDv7(); 03 - <code>\"" + token1 + "\"</code>",
       .test(token1)
     && token1[14] === "4"
     && "89ab".includes(token1[19])
-);
-
-
-/* nanoid(); */
-token1 = CEL.nanoid();
-CUT.isTrue("nanoid(); 01 - <code>\"" + token1 + "\"</code>",
-  typeof token1 === "string" && token1.length === 21
-);
-token1 = CEL.nanoid(15);
-CUT.isTrue("nanoid(); 02 - <code>\"" + token1 + "\"</code>",
-  typeof token1==="string" && token1.length === 15
-);
-token1 = CEL.nanoid(36);
-CUT.isTrue("nanoid(); 03 - <code>\"" + token1 + "\"</code>",
-  typeof token1==="string" && token1.length === 36
-);
-token1 = CEL.nanoid(11);
-CUT.isTrue("nanoid(); 04 - <code>\"" + token1 + "\"</code>",
-  typeof token1==="string" && token1.length === 11
 );
 
 
@@ -1990,7 +1886,7 @@ CUT.isError("Math.sumPrecise(); 32",
 CUT.isError("Math.sumPrecise(); 33",
   // @ts-ignore
   () => Math.sumPrecise(
-    [0.1,0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, BigInt(5)]
+    [0.1,0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 5n]
   )
 );
 CUT.isError("Math.sumPrecise(); 34",
@@ -3195,49 +3091,6 @@ token1 = CEL.randomFloat(51, 55);
 CUT.isTrue("randomFloat(min,max);", token1 >= 51 && token1 <= 55);
 
 
-/* toFloat16(); */
-CUT.isEqual("toFloat16();",
-  "0 0 0 65504 -65504 3.14 -3.14 65504 -65504 65504 -65504 65504 -65504 65504 -65504 0",
-  CUT.join([
-    CEL.toFloat16(0),
-    CEL.toFloat16(+0),
-    CEL.toFloat16(-0),
-    CEL.toFloat16(Number.POSITIVE_INFINITY),
-    CEL.toFloat16(Number.NEGATIVE_INFINITY),
-    CEL.toFloat16(3.14),
-    CEL.toFloat16(-3.14),
-    CEL.toFloat16(65504),
-    CEL.toFloat16(-65504),
-    CEL.toFloat16(65504.0),
-    CEL.toFloat16(-65504.0),
-    CEL.toFloat16(65504.1),
-    CEL.toFloat16(-65504.1),
-    CEL.toFloat16(65505),
-    CEL.toFloat16(-65505),
-    CEL.toFloat16("lorem")
-  ])
-);
-
-
-/* isFloat16(); */
-CUT.isTrue("isFloat16();",
-      CEL.isFloat16(0)
-  &&  CEL.isFloat16(+0)
-  &&  CEL.isFloat16(-0)
-  &&  CEL.isFloat16(65504)
-  &&  CEL.isFloat16(-65504)
-  &&  CEL.isFloat16(3.14)
-  &&  CEL.isFloat16(-3.14)
-  && !CEL.isFloat16(65504.1)
-  && !CEL.isFloat16(-65504.1)
-  && !CEL.isFloat16(65505)
-  && !CEL.isFloat16(-65505)
-  && !CEL.isFloat16("lorem")
-  && !CEL.isFloat16(true)
-  && !CEL.isFloat16([])
-);
-
-
 /* signbit(); */
 CUT.isTrue("signbit();",
       CEL.signbit("-5")
@@ -3443,270 +3296,6 @@ CUT.isTrue("isOdd();",
     && !CEL.isOdd("foo")
     && !CEL.isOdd(8n)
     &&  CEL.isOdd(9n)
-);
-
-
-/* toInt8(); */
-CUT.isEqual("toInt8(); 01", CEL.toInt8(9), 9);
-CUT.isEqual("toInt8(); 02", CEL.toInt8(-5), -5);
-CUT.isEqual("toInt8(); 03", CEL.toInt8(8.5), 8);
-CUT.isEqual("toInt8(); 04", CEL.toInt8(-8.5), -8);
-CUT.isEqual("toInt8(); 05", CEL.toInt8(130), 127);
-CUT.isEqual("toInt8(); 06", CEL.toInt8(-130), -128);
-CUT.isEqual("toInt8(); 07", CEL.toInt8("Arthur Dent"), 0);
-CUT.isEqual("toInt8(); 08", CEL.toInt8(Infinity), 127);
-CUT.isEqual("toInt8(); 09", CEL.toInt8("-Infinity"), -128);
-
-
-/* toUInt8(); */
-CUT.isEqual("toUInt8(); 01", CEL.toUInt8(9), 9);
-CUT.isEqual("toUInt8(); 02", CEL.toUInt8(-5), 0);
-CUT.isEqual("toUInt8(); 03", CEL.toUInt8(8.5), 8);
-CUT.isEqual("toUInt8(); 04", CEL.toUInt8(-8.5), 0);
-CUT.isEqual("toUInt8(); 05", CEL.toUInt8(1130), 255);
-CUT.isEqual("toUInt8(); 06", CEL.toUInt8("Arthur Dent"), 0);
-CUT.isEqual("toUInt8(); 07", CEL.toUInt8(Infinity), 255);
-CUT.isEqual("toUInt8(); 08", CEL.toUInt8("-Infinity"), 0);
-
-
-/* toInt16(); */
-CUT.isEqual("toInt16(); 01", CEL.toInt16(199), 199);
-CUT.isEqual("toInt16(); 02", CEL.toInt16(-1845), -1845);
-CUT.isEqual("toInt16(); 03", CEL.toInt16(8.5), 8);
-CUT.isEqual("toInt16(); 04", CEL.toInt16(-8.5), -8);
-CUT.isEqual("toInt16(); 05", CEL.toInt16(111130), 32767);
-CUT.isEqual("toInt16(); 06", CEL.toInt16(-111130), -32768);
-CUT.isEqual("toInt16(); 07", CEL.toInt16("Arthur Dent"), 0);
-CUT.isEqual("toInt16(); 08", CEL.toInt16(Infinity), 32767);
-CUT.isEqual("toInt16(); 09", CEL.toInt16("-Infinity"), -32768);
-
-
-/* toUInt16(); */
-CUT.isEqual("toUInt16(); 01", CEL.toUInt16(199), 199);
-CUT.isEqual("toUInt16(); 02", CEL.toUInt16(-1845), 0);
-CUT.isEqual("toUInt16(); 03", CEL.toUInt16(8.5), 8);
-CUT.isEqual("toUInt16(); 04", CEL.toUInt16(-8.5), 0);
-CUT.isEqual("toUInt16(); 05", CEL.toUInt16(111130), 65535);
-CUT.isEqual("toUInt16(); 06", CEL.toUInt16("Arthur Dent"), 0);
-CUT.isEqual("toUInt16(); 07", CEL.toUInt16(Infinity), 65535);
-CUT.isEqual("toUInt16(); 08", CEL.toUInt16("-Infinity"), 0);
-
-
-/* toInt32(); */
-CUT.isEqual("toInt32(); 01", CEL.toInt32(199), 199);
-CUT.isEqual("toInt32(); 02", CEL.toInt32(-1845), -1845);
-CUT.isEqual("toInt32(); 03", CEL.toInt32(8.5), 8);
-CUT.isEqual("toInt32(); 04", CEL.toInt32(-8.5), -8);
-CUT.isEqual("toInt32(); 05", CEL.toInt32(2147483649), 2147483647);
-CUT.isEqual("toInt32(); 06", CEL.toInt32(-3147483649), -2147483648);
-CUT.isEqual("toInt32(); 07", CEL.toInt32("Arthur Dent"), 0);
-CUT.isEqual("toInt32(); 08", CEL.toInt32(Infinity), 2147483647);
-CUT.isEqual("toInt32(); 09", CEL.toInt32("-Infinity"), -2147483648);
-
-
-/* toUInt32(); */
-CUT.isEqual("toUInt32(); 01", CEL.toUInt32(199), 199);
-CUT.isEqual("toUInt32(); 02", CEL.toUInt32(-1845), 0);
-CUT.isEqual("toUInt32(); 03", CEL.toUInt32(8.5), 8);
-CUT.isEqual("toUInt32(); 04", CEL.toUInt32(-8.5), 0);
-CUT.isEqual("toUInt32(); 05", CEL.toUInt32(4294967297), 4294967295);
-CUT.isEqual("toUInt32(); 06", CEL.toUInt32("Arthur Dent"), 0);
-CUT.isEqual("toUInt32(); 07", CEL.toUInt32(Infinity), 4294967295);
-CUT.isEqual("toUInt32(); 08", CEL.toUInt32("-Infinity"), 0);
-
-
-/* toBigInt64(); */
-CUT.isEqual("toBigInt64(); 01", CEL.toBigInt64(199), 199n);
-CUT.isEqual("toBigInt64(); 02", CEL.toBigInt64(-1845), -1845n);
-CUT.isEqual("toBigInt64(); 03", CEL.toBigInt64(8.5), 8n);
-CUT.isEqual("toBigInt64(); 04", CEL.toBigInt64(-8.5), -8n);
-CUT.isEqual("toBigInt64(); 05", CEL.toBigInt64(9223372036854775809),
-  9223372036854775808n
-);
-CUT.isEqual("toBigInt64(); 06", CEL.toBigInt64("Arthur Dent"), 0n);
-CUT.isEqual("toBigInt64(); 07", CEL.toBigInt64(Infinity),
-  9223372036854775808n
-);
-CUT.isEqual("toBigInt64(); 08", CEL.toBigInt64("-Infinity"),
-  -9223372036854775808n
-);
-CUT.isEqual("toBigInt64(); 09", CEL.toBigInt64(18446744073709551617),
-  9223372036854775808n
-);
-CUT.isEqual("toBigInt64(); 10", CEL.toBigInt64(-18446744073709551617),
-  -9223372036854775808n
-);
-
-
-/* toBigUInt64(); */
-CUT.isEqual("toBigUInt64(); 01", CEL.toBigUInt64(199), 199n);
-CUT.isEqual("toBigUInt64(); 02", CEL.toBigUInt64(-1845), 0n);
-CUT.isEqual("toBigUInt64(); 03", CEL.toBigUInt64(8.5), 8n);
-CUT.isEqual("toBigUInt64(); 04", CEL.toBigUInt64(-8.5), 0n);
-CUT.isEqual("toBigUInt64(); 05", CEL.toBigUInt64(18446744073709551617),
-  18446744073709551616n
-);
-CUT.isEqual("toBigUInt64(); 06", CEL.toBigUInt64("Arthur Dent"), 0n);
-CUT.isEqual("toBigUInt64(); 07", CEL.toBigUInt64(Infinity),
-  18446744073709551616n
-);
-CUT.isEqual("toBigUInt64(); 08", CEL.toBigUInt64("-Infinity"), 0n);
-CUT.isEqual("toBigUInt64(); 09", CEL.toBigUInt64(-9223372036854775808n), 0n);
-
-
-/* toFloat32(); */
-CUT.isEqual("toFloat32(); 01", CEL.toFloat32(199), 199);
-CUT.isEqual("toFloat32(); 02", CEL.toFloat32(-1845), -1845);
-CUT.isEqual("toFloat32(); 03", CEL.toFloat32(8.5), 8.5);
-CUT.isEqual("toFloat32(); 04", CEL.toFloat32(-8.5), -8.5);
-CUT.isEqual("toFloat32(); 05", CEL.toFloat32(-3.4e39), -3.4e+38);
-CUT.isEqual("toFloat32(); 06", CEL.toFloat32(3.4e39), +3.4e38);
-CUT.isEqual("toFloat32(); 07", CEL.toFloat32("Arthur Dent"), 0);
-CUT.isEqual("toFloat32(); 08", CEL.toFloat32(Infinity), 3.4e+38);
-CUT.isEqual("toFloat32(); 09", CEL.toFloat32("-Infinity"), -3.4e+38);
-
-
-/* isInt8(); */
-CUT.isTrue("isInt8();",
-      CEL.isInt8(34)
-  &&  CEL.isInt8(-34)
-  && !CEL.isInt8(-129)
-  && !CEL.isInt8(128)
-  && !CEL.isInt8(34.5)
-  && !CEL.isInt8(-34.5)
-  && !CEL.isInt8("Arthur Dent")
-  && !CEL.isInt8(true)
-  && !CEL.isInt8(false)
-  && !CEL.isInt8(Infinity)
-  && !CEL.isInt8(-Infinity)
-  && !CEL.isInt8([])
-  && !CEL.isInt8({})
-);
-
-
-/* isUInt8(); */
-CUT.isTrue("isUInt8();",
-      CEL.isUInt8(34)
-  && !CEL.isUInt8(-34)
-  && !CEL.isUInt8(-1)
-  && !CEL.isUInt8(256)
-  && !CEL.isUInt8(34.5)
-  && !CEL.isUInt8(-34.5)
-  && !CEL.isUInt8("Arthur Dent")
-  && !CEL.isUInt8(true)
-  && !CEL.isUInt8(false)
-  && !CEL.isUInt8(Infinity)
-  && !CEL.isUInt8(-Infinity)
-  && !CEL.isUInt8([])
-  && !CEL.isUInt8({})
-);
-
-
-/* isInt16(); */
-CUT.isTrue("isInt16();",
-      CEL.isInt16(34)
-  &&  CEL.isInt16(-34)
-  && !CEL.isInt16(-32769)
-  && !CEL.isInt16(32768)
-  && !CEL.isInt16(34.5)
-  && !CEL.isInt16(-34.5)
-  && !CEL.isInt16("Arthur Dent")
-  && !CEL.isInt16(true)
-  && !CEL.isInt16(false)
-  && !CEL.isInt16(Infinity)
-  && !CEL.isInt16(-Infinity)
-  && !CEL.isInt16([])
-  && !CEL.isInt16({})
-);
-
-
-/* isUInt16(); */
-CUT.isTrue("isUInt16();",
-      CEL.isUInt16(34)
-  && !CEL.isUInt16(-34)
-  && !CEL.isUInt16(-1)
-  && !CEL.isUInt16(65536)
-  && !CEL.isUInt16(34.5)
-  && !CEL.isUInt16(-34.5)
-  && !CEL.isUInt16("Arthur Dent")
-  && !CEL.isUInt16(true)
-  && !CEL.isUInt16(false)
-  && !CEL.isUInt16(Infinity)
-  && !CEL.isUInt16(-Infinity)
-  && !CEL.isUInt16([])
-  && !CEL.isUInt16({})
-);
-
-
-/* isInt32(); */
-CUT.isTrue("isInt32();",
-      CEL.isInt32(34)
-  &&  CEL.isInt32(-34)
-  && !CEL.isInt32(-2147483649)
-  && !CEL.isInt32(2147483648)
-  && !CEL.isInt32(34.5)
-  && !CEL.isInt32(-34.5)
-  && !CEL.isInt32("Arthur Dent")
-  && !CEL.isInt32(true)
-  && !CEL.isInt32(false)
-  && !CEL.isInt32(Infinity)
-  && !CEL.isInt32(-Infinity)
-  && !CEL.isInt32([])
-  && !CEL.isInt32({})
-);
-
-
-/* isUInt32(); */
-CUT.isTrue("isUInt32();",
-      CEL.isUInt32(34)
-  && !CEL.isUInt32(-34)
-  && !CEL.isUInt32(-1)
-  && !CEL.isUInt32(4294967296)
-  && !CEL.isUInt32(34.5)
-  && !CEL.isUInt32(-34.5)
-  && !CEL.isUInt32("Arthur Dent")
-  && !CEL.isUInt32(true)
-  && !CEL.isUInt32(false)
-  && !CEL.isUInt32(Infinity)
-  && !CEL.isUInt32(-Infinity)
-  && !CEL.isUInt32([])
-  && !CEL.isUInt32({})
-);
-
-
-/* isBigInt64(); */
-CUT.isTrue("isBigInt64();",
-      CEL.isBigInt64(34n)
-  &&  CEL.isBigInt64(-34n)
-  && !CEL.isBigInt64(-9223372036854775809n)
-  && !CEL.isBigInt64(9223372036854775809n)
-  && !CEL.isBigInt64(34.5)
-  && !CEL.isBigInt64(-34.5)
-  && !CEL.isBigInt64("Arthur Dent")
-  && !CEL.isBigInt64(true)
-  && !CEL.isBigInt64(false)
-  && !CEL.isBigInt64(Infinity)
-  && !CEL.isBigInt64(-Infinity)
-  && !CEL.isBigInt64([])
-  && !CEL.isBigInt64({})
-);
-
-
-/* isBigUInt64(); */
-CUT.isTrue("isBigUInt64();",
-      CEL.isBigUInt64(34n)
-  && !CEL.isBigUInt64(-34n)
-  && !CEL.isBigUInt64(-1n)
-  && !CEL.isBigUInt64(18446744073709551617n)
-  && !CEL.isBigUInt64(34.5)
-  && !CEL.isBigUInt64(-34.5)
-  && !CEL.isBigUInt64("Arthur Dent")
-  && !CEL.isBigUInt64(true)
-  && !CEL.isBigUInt64(false)
-  && !CEL.isBigUInt64(Infinity)
-  && !CEL.isBigUInt64(-Infinity)
-  && !CEL.isBigUInt64([])
-  && !CEL.isBigUInt64({})
 );
 
 
